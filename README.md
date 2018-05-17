@@ -4,12 +4,12 @@
 
 - __Create a new maven Project of archetype webapps__
 
- ![alt text](../docs/mavenType.PNG/ "Logo Title Text 1")
+ ![alt text](/docs/mavenType.PNG/ "Logo Title Text 1")
 
 
 - __Set the archetype and group id as shown below__
 
- ![alt text](../docs/mavenProject.PNG/ "Logo Title Text 1")
+ ![alt text](/docs/mavenProject.PNG/ "Logo Title Text 1")
 
 
 - *If you see error “The superclass “javax.servlet.http.HttpServlet”, add this portion to the dependency in pom.xml or Add apache tomcat to Targeted runtime*
