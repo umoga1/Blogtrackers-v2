@@ -20,14 +20,14 @@ public class DbConnection {
 	/**
 	 * loadConstant() - For loading the configuration file from a remote repository	
 	 */
-	private HashMap<String, String> hm = new HashMap<String, String>();				//Hashmap that will contain the key-value pair from the config file
+	private HashMap<String, String> hm = new HashMap<String, String>();				// Hashmap that will contain the key-value pair from the config file
 	private void loadContant() {
 		BufferedReader br = null;	
 		try {
-			br = new BufferedReader(new FileReader("C:\blogtrackers.config"));  	//Read the config file
+			br = new BufferedReader(new FileReader("C:\blogtrackers.config"));  	// Read the config file
 			String temp = "";
 			while((temp = br.readLine()) != null) {
-				temp = temp.trim();  											 	//Strip the whitespaces 
+				temp = temp.trim();  											 	// Strip the whitespaces 
 				if(temp.isEmpty() || temp.startsWith("//")) { 						
 					continue;														// Skip the comments, for example the author, created on and document type
 				}
@@ -42,4 +42,8 @@ public class DbConnection {
 			Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, "Encounter error while loading config file", ex);
 		}
 	}
+	
+	/**
+	 * query() - For loading the configuration file from a remote repository	
+	 */
 }
