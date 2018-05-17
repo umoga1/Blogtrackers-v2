@@ -1,4 +1,4 @@
-### Blogtracker Readme<h1></center>
+# Blogtracker Readme<h1></center>
 
 
 
@@ -9,7 +9,7 @@
 
 - __Set the archetype and group id as shown below__
 
- ![alt text](/docs/mavenProject.PNG/ "Archetype")
+ ![alt text](/docs/MavenProject.PNG/ "Archetype")
 
 
 - *If you see error “The superclass “javax.servlet.http.HttpServlet”, add this portion to the dependency in pom.xml or Add apache tomcat to Targeted runtime*
@@ -42,7 +42,7 @@
 
   - __To contribute__
 
-   ```
+```
 git init
 git clone https://github.com/baodium/Blogtrackers-v2.git
 git remote add origin git@github.com:User/UserRepo.git
