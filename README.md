@@ -14,7 +14,7 @@
 
 - *If you see error “The superclass “javax.servlet.http.HttpServlet”, add this portion to the dependency in pom.xml or Add apache tomcat to Targeted runtime*
 
- ![alt text](../docs/HttpServletError.PNG/ "Logo Title Text 1")
+ ![alt text](docs/HttpServletError.PNG/ "Logo Title Text 1")
 
 
 		<dependency>
