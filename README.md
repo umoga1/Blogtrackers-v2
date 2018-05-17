@@ -4,17 +4,17 @@
 
 - __Create a new maven Project of archetype webapps__
 
- ![alt text](/docs/mavenType.PNG/ "Logo Title Text 1")
+ ![alt text](/docs/mavenType.PNG/ "Maven project")
 
 
 - __Set the archetype and group id as shown below__
 
- ![alt text](/docs/mavenProject.PNG/ "Logo Title Text 1")
+ ![alt text](/docs/mavenProject.PNG/ "Archetype")
 
 
 - *If you see error “The superclass “javax.servlet.http.HttpServlet”, add this portion to the dependency in pom.xml or Add apache tomcat to Targeted runtime*
 
- ![alt text](../docs/HttpServletError.PNG/ "Logo Title Text 1")
+ ![alt text](/docs/HttpServletError.PNG/ "Servlet config")
 
 
 		<dependency>
@@ -34,11 +34,11 @@
 
 - __Configure your build path using JRE 1.8.0__
 
- ![alt text](../docs/JRE.PNG/ "Logo Title Text 1")
+ ![alt text](/docs/JRE.PNG/ "Build path")
 
 - __Configure tomcat__
 
-  ![alt text](../docs/tomcat.PNG/ "Logo Title Text 1")
+  ![alt text](/docs/tomcat.PNG/ "Tomcat")
 
   - __To contribute__
 
