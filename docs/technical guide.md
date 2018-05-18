@@ -25,11 +25,13 @@
 
 - *For MySQL Connector, add this dependency*
 
-         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.30</version>
-         </dependency>
+
+    <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>6.0.6</version>
+    </dependency>
+
 
 
 - __Configure your build path using JRE 1.8.0__

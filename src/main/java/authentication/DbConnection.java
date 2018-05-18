@@ -11,6 +11,9 @@ package authentication;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,26 +27,51 @@ public class DbConnection {
 	private void loadContant() {
 		BufferedReader br = null;	
 		try {
-			br = new BufferedReader(new FileReader("C:\blogtrackers.config"));  	// Read the config file
-			String temp = "";
+			br = new BufferedReader(new FileReader("C:/blogtrackers.config"));  	// Read the config file
+			String temp = "";														// Temporary variable to loop through the content of the file
+			String[] arr;
 			while((temp = br.readLine()) != null) {
 				temp = temp.trim();  											 	// Strip the whitespaces 
 				if(temp.isEmpty() || temp.startsWith("//")) { 						
 					continue;														// Skip the comments, for example the author, created on and document type
 				}
 				else {
-					String[] arr = temp.split("##");								// Split it by ##, for example, if you have name##wale, then arr[0] = name and arr[1] = wale and arr.length = 2 since it contains 2 elements
+					arr = temp.split("##");											// Split it by ##, for example, if you have name##wale, then arr[0] = name and arr[1] = wale and arr.length = 2 since it contains 2 elements
 					if(arr.length == 2) {
 						hm.put(arr[0].trim(), arr[1].trim());						// Save the element as a key value pair. Using example above, the Hashmap will be [user, wale], where user is the key and wale is the value
 					}
-				}
+				}	
 			}
 		} catch(IOException ex) {
-			Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, "Encounter error while loading config file", ex);
+			Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, "Encounter error while loading config file", ex);	//To log the error for this specific class
 		}
 	}
-	
+
 	/**
-	 * query() - For loading the configuration file from a remote repository	
+	 * getConnection() - For getting the connection parameter from the Hashmap and connecting to the database driver
 	 */
+
+	protected Connection getConnection() {
+		try{
+			loadContant();															//load the connection parameter so we can fetch appropriate parameters like username, password, etc
+			String connectionURL = hm.get("dbConnection");								
+			String driver = hm.get("driver"); 
+			String username = hm.get("dbUserName");
+			String password = hm.get("dbPassword");
+
+			if(connectionURL != null && username != null && password != null) {		//check to see if the connection parameter was successfully loaded
+				try {
+					Class.forName(driver);											//load the connection driver
+				}catch(ClassNotFoundException ex) {									//since this class can throw ClassNotFoundException so we are catching it
+					ex.printStackTrace();											//if there is an exception, give us a stacktrace of it
+				}
+			}
+			Connection conn = DriverManager.getConnection(connectionURL, username, password);
+			System.out.println(conn);
+			return conn;
+		} catch(SQLException ex) {
+			Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, "Encounter error while connecting to the database", ex);	//To log the error for this specific class
+		}
+		return null;
+	}
 }

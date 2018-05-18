@@ -68,7 +68,7 @@
 
     <p class="text-center"><button type="submit" class="btn btn-primary loginformbutton" style="background:#28a745;">Register</button>&nbsp;&nbsp; or Register with &nbsp;&nbsp;<button class="btn btn-rounded big-btn2"><i class="fab fa-google icon-small text-primary"></i></button></p>
         <!-- <p class="pt20 text-primary"><small >Forgot your <b>Password?</b></small></p> -->
-        <p class="pb20 text-primary text-center">Already have an account yet? <a href="login"><b>Login Now</b></a></small></p>
+        <p class="pb20 text-primary text-center">Already have an account yet? <a href="login.jsp"><b>Login Now</b></a></small></p>
         </form>
 
       </div>
