@@ -69,7 +69,7 @@
 					<p class="text-primary mb30" style="font-size: 26px;">
 						Login or <b>Register</b>
 					</p>
-					<form class="needs-validation" novalidate action="#">
+					<form id="login_form" class="needs-validation" action="#">
 						<div class="form-group">
 
 							<input type="email"
