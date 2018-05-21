@@ -44,6 +44,7 @@
 	console.log(app_url);
 </script>
 
+<script type="text/javascript" src="js/login_validation.js"></script>
 </head>
 
 <body>
