@@ -204,7 +204,9 @@
       <div class="card-body  p30 pt5 pb5">
         <div><p class="text-primary mt10">Blogger in Tracker Activity Vs Influence</p></div>
         <div style="min-height: 420px;">
-
+          <div class="chart-container">
+            <div class="chart" id="scatterplot"></div>
+          </div>
         </div>
           </div>
     </div>
@@ -572,7 +574,7 @@
          var yAxis = d3.svg.axis()
              .scale(y)
              .orient("left")
-             .ticks(15);
+             .ticks(6);
 
 
 
@@ -828,7 +830,7 @@
                               // .enter()
                               .append("circle")
                               .attr("class","circle-point")
-                              .attr("r",4.5)
+                              .attr("r",3.4)
                               .style("stroke", "#4CAF50")
                               .style("fill","#4CAF50")
                               .attr("cx",function(d) { return x(d.date); })
@@ -854,7 +856,7 @@
                                   .attr("class", "d3-line d3-line-medium")
                                   .attr("d", line)
                                   // .style("fill", "rgba(0,0,0,0.54)")
-                                  .style("stroke-width", 3.2)
+                                  .style("stroke-width", 2)
                                   .style("stroke", function(d,i) { return color(i);})
                                   .attr("transform", "translate("+margin.left/4.7+",0)");
 
@@ -879,7 +881,7 @@
                                        // .enter()
                                        .append("circle")
                                        .attr("class","circle-point")
-                                       .attr("r",4.5)
+                                       .attr("r",3.4)
                                        .style("stroke", "#4CAF50")
                                        .style("fill","#4CAF50")
                                        .attr("cx",function(d) { return x(d.date)})
@@ -923,6 +925,7 @@
                      svg.append("g")
                          .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
                          .attr("transform", "translate(0," + height + ")")
+                         .attr("transform", "translate(0," + y(0) + ")")
                          .call(xAxis);
 
                      // Vertical
@@ -962,41 +965,493 @@
          // be updated on window resize
          function resize() {
 
-             // Layout variables
-             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
+           // Layout variables
+           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
+           //
+           //
+           // // Layout
+           // // -------------------------
+           //
+           // // Main svg width
+           container.attr("width", width + margin.left + margin.right);
+           //
+           // // Width of appended group
+           svg.attr("width", width + margin.left + margin.right);
+           //
+           //
+           // // Axes
+           // // -------------------------
+           //
+           // // Horizontal range
+           x.rangeRoundBands([0, width],.72,.5);
+           //
+           // // Horizontal axis
+           svg.selectAll('.d3-axis-horizontal').call(xAxis);
+           //
+           //
+           // // Chart elements
+           // // -------------------------
+           //
+           // // Line path
+           svg.selectAll('.d3-line').attr("d", line);
 
 
-             // Layout
-             // -------------------------
-
-             // Main svg width
-             container.attr("width", width + margin.left + margin.right);
-
-             // Width of appended group
-             svg.attr("width", width + margin.left + margin.right);
-
-
-             // Axes
-             // -------------------------
-
-             // Horizontal range
-             x.range([0, width]);
-
-             // Horizontal axis
-             svg.selectAll('.d3-axis-horizontal').call(xAxis);
-
-
-             // Chart elements
-             // -------------------------
-
-             // Line path
-             svg.selectAll('.d3-line').attr("d", line);
-
-             // Crosshair
-             svg.selectAll('.d3-crosshair-overlay').attr("width", width);
+           if(data.length == 1)
+           {
+             svg.selectAll(".circle-point").attr("circle",circles)
+             .attr("cx",function(d) { return x(d.date);})
+             .attr("cy", function(d){return y(d.close)});
+           }
+           else if(data.length > 1)
+           {
+             svg.selectAll(".circle-point").attr("circle",circles)
+             .attr("cx",function(d) { return x(d.date);})
+             .attr("cy", function(d){return y(d.close)});
+           }
          }
      }
  });
+ </script>
+
+ <!-- Scattert Plot -->
+ <script>
+
+ $(function () {
+
+     // Initialize chart
+     lineBasic('#scatterplot', 400);
+
+     // Chart setup
+     function lineBasic(element, height) {
+
+
+         // Basic setup
+         // ------------------------------
+
+         // Define main variables
+         var d3Container = d3.select(element),
+             margin = {top: 5, right: 20, bottom: 20, left: 50},
+             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
+             height = height - margin.top - margin.bottom;
+
+
+         var formatPercent = d3.format("");
+         // Format data
+         // var parseDate = d3.time.format("%d-%b-%y").parse,
+         //     bisectDate = d3.bisector(function(d) { return d.date; }).left,
+         //     formatValue = d3.format(",.0f"),
+         //     formatCurrency = function(d) { return formatValue(d); }
+
+
+
+         // Construct scales
+         // ------------------------------
+
+         // Horizontal
+         var x = d3.scale.linear()
+             .range([0, width],.72,.5);
+
+         // Vertical
+         var y = d3.scale.linear()
+                .range([height, 0]);
+
+
+
+         // Create axes
+         // ------------------------------
+
+         // Horizontal
+         var xAxis = d3.svg.axis()
+             .scale(x)
+             .orient("bottom")
+            .ticks(6);
+
+           // .tickFormat(formatPercent);
+
+
+         // Vertical
+         var yAxis = d3.svg.axis()
+             .scale(y)
+             .orient("left")
+             .ticks(6);
+
+
+
+         // Create chart
+         // ------------------------------
+
+         // Add SVG element
+         var container = d3Container.append("svg");
+
+         // Add SVG group
+         var svg = container
+             .attr("width", width + margin.left + margin.right)
+             .attr("height", height + margin.top + margin.bottom)
+             .append("g")
+             // .attr("transform", "translate(0," + y(0) + ")");
+                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+         // Construct chart layout
+         // ------------------------------
+
+         // Line
+
+
+         // Load data
+         // ------------------------------
+         //
+         data = [
+           [{"x":12,"y":40},{"x":15,"y":30},{"x":18,"y":12.5},{"x":11,"y":22},{"x":5,"y":19}],
+           [{"x":8,"y":35},{"x":14,"y":22},{"x":27,"y":33},{"x":11.5,"y":-16},{"x":-12,"y":-11}]
+         ];
+
+         //console.log(data);
+         // data = [];
+
+
+         // data = [
+         //   [{"x":12,"y":40},{"x":15,"y":30},{"x":18,"y":12.5},{"x":11,"y":22},{"x":5,"y":19},{"x":8,"y":35},{"x":14,"y":22},{"x":27,"y":33},{"x":11.5,"y":-16},{"x":-12,"y":-11}]
+         // ];
+
+
+
+         // Create tooltip
+         var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+                .html(function(d) {
+                if(d === null)
+                {
+                  return "No Information Available";
+                }
+                else if(d !== null) {
+                 return "("+d.x+","+d.y+")<br/> Click for more information";
+                  }
+
+                });
+
+
+
+
+
+
+                   // Vertical
+         // extract max value from list of json object
+         // console.log(data.length)
+             var maxYvalue =
+             data.map(function(d){
+               var mvalue = [];
+               if(data.length > 1)
+             {
+               d.forEach(function(f,i){
+               mvalue[i] = f.y;
+
+               })
+             return d3.max(mvalue);
+             }
+
+             //console.log(mvalue);
+             });
+
+
+             var minYvalue =
+             data.map(function(d){
+               var mvalue = [];
+               if(data.length > 1)
+             {
+               d.forEach(function(f,i){
+               mvalue[i] = f.y;
+
+               })
+               if(d3.min(mvalue) < 0 )
+               {
+                 return d3.min(mvalue);
+               }
+               else{
+                 return 0;
+               }
+
+             }
+
+             //console.log(mvalue);
+             });
+
+
+             var maxXvalue =
+             data.map(function(d){
+               var mvalue = [];
+               if(data.length > 1)
+             {
+               d.forEach(function(f,i){
+               mvalue[i] = f.x;
+
+               })
+             return d3.max(mvalue);
+             }
+
+             //console.log(mvalue);
+             });
+
+
+             var minXvalue =
+             data.map(function(d){
+               var mvalue = [];
+               if(data.length > 1)
+             {
+               d.forEach(function(f,i){
+               mvalue[i] = f.x;
+
+               })
+
+             if(d3.min(mvalue) < 0)
+             {
+               return d3.min(mvalue);
+             }
+             else
+             {
+               return 0;
+             }
+
+             }
+
+             //console.log(mvalue);
+             });
+
+
+             // color = d3.scale.linear()
+             //          .domain([0,1,2,3,4,5,6,10,15,20,80])
+             //          .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+                         var color = d3.scale.category20();
+
+
+         ////console.log(data)
+         if(data.length == 1)
+         {
+           // var returnedvalue = data[0].map(function(e){
+           // return e.date
+           // });
+
+           var maxXvalue2 =
+           data.map(function(d){
+           return d3.max(d,function(t){return t.x});
+           });
+
+           var minXvalue2 =
+           data.map(function(d){
+           return d3.min(d,function(t){return t.x});
+           });
+
+         // for single json data
+         x.domain([minXvalue2,maxXvalue2]);
+         // rewrite x domain
+
+         var maxYvalue2 =
+         data.map(function(d){
+         return d3.max(d,function(t){return t.y});
+         });
+
+         var minYvalue2 =
+         data.map(function(d){
+         return d3.min(d,function(t){return t.y});
+         });
+
+         y.domain([minYvalue2,maxYvalue2]);
+         }
+         else if(data.length > 1)
+         {
+
+          x.domain([d3.min(minXvalue), d3.max(maxXvalue)]);
+         y.domain([d3.min(minYvalue), d3.max(maxYvalue)]);
+          }
+
+
+
+
+                     //
+                     // Append chart elements
+                     //
+
+
+
+
+                    // svg.call(tip);
+                      // data.map(function(d){})
+                      if(data.length == 1)
+                      {
+
+                         // add scatter points
+                        var circles = svg.selectAll(".circle-point")
+                                  .data(data[0])
+                                  .enter();
+
+
+                              circles
+                              // .enter()
+                              .append("circle")
+                              .attr("class","circle-point")
+                              .attr("r",3.4)
+                              // .style("stroke", "#4CAF50")
+                              .style("fill",function(e,i){return color(i)})
+                              .attr("cx",function(d) { return x(d.x); })
+                              .attr("cy", function(d){return y(d.y)})
+
+                              .attr("transform", "translate("+margin.left/4.7+",0)");
+
+                              svg.selectAll(".circle-point").data(data[0])
+                              .on("mouseover",tip.attr('class', 'tooltip-inner in').show)
+                              .on("mouseout",tip.hide)
+                              .on("click",function(d){
+                                // console.log(d.date)
+                              });
+                                                 svg.call(tip)
+                      }
+                      // handles multiple json parameter
+                      else if(data.length > 1)
+                      {
+
+                              var mergedarray = [].concat(...data);
+                               // console.log(mergedarray)
+                                 circles = svg.selectAll(".circle-point")
+                                     .data(mergedarray)
+                                     .enter();
+
+                                       circles
+                                       // .enter()
+                                       .append("circle")
+                                       .attr("class","circle-point")
+                                       .attr("r",3.4)
+                                       // .style("stroke", "#4CAF50")
+                                       .style("fill",function(d,i){return color(i);})
+                                       .attr("cx",function(d) { return x(d.x)})
+                                       .attr("cy", function(d){return y(d.y)})
+
+                                       .attr("transform", "translate("+margin.left/4.7+",0)");
+                                       svg.selectAll(".circle-point").data(mergedarray)
+                                      .on("mouseover",tip.attr('class', 'tooltip-inner in').show)
+                                      .on("mouseout",tip.hide)
+                                      .on("click",function(d){console.log(d.date)});
+                                 //                         svg.call(tip)
+
+                               //console.log(newi);
+
+
+                                     svg.selectAll(".circle-point").data(mergedarray)
+                                     .on("mouseover",tip.attr('class', 'tooltip-inner in').show)
+                                     .on("mouseout",tip.hide)
+                                     .on("click",function(d){console.log(d.date)});
+                                                        svg.call(tip)
+
+
+
+
+
+
+
+
+
+
+                      }
+
+
+         // show data tip
+
+
+                     // Append axes
+                     // ------------------------------
+
+                     // Horizontal
+                     svg.append("g")
+                         .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
+                         // .attr("transform", "translate(0," + height + ")")
+                         .attr("transform", "translate(0," + y(0) + ")")
+                         .call(xAxis);
+
+                     // Vertical
+                     var verticalAxis = svg.append("g")
+                         .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
+                          .attr("transform", "translate("+ x(0) + "," + "0)")
+                         .call(yAxis);
+
+
+
+
+
+                     // Add text label
+                     verticalAxis.append("text")
+                         .attr("transform", "rotate(-90)")
+                         .attr("y", 10)
+                         .attr("dy", ".71em")
+                         .style("text-anchor", "end")
+                         .style("fill", "#999")
+                         .style("font-size", 12)
+                         // .text("Frequency")
+                         ;
+
+
+         // Resize chart
+         // ------------------------------
+
+         // Call function on window resize
+         $(window).on('resize', resize);
+
+         // Call function on sidebar width change
+         $('.sidebar-control').on('click', resize);
+
+         // Resize function
+         //
+         // Since D3 doesn't support SVG resize by default,
+         // we need to manually specify parts of the graph that need to
+         // be updated on window resize
+         function resize() {
+
+           // Layout variables
+           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
+           //
+           //
+           // // Layout
+           // // -------------------------
+           //
+           // // Main svg width
+           container.attr("width", width + margin.left + margin.right);
+           //
+           // // Width of appended group
+           svg.attr("width", width + margin.left + margin.right);
+           //
+           //
+           // // Axes
+           // // -------------------------
+           //
+           // // Horizontal range
+           x.range([0, width],.72,.5);
+           //
+           // // Horizontal axis
+           svg.selectAll('.d3-axis-horizontal').call(xAxis);
+           //
+           //
+           // // Chart elements
+           // // -------------------------
+           //
+
+
+
+           if(data.length == 1)
+           {
+             svg.selectAll(".circle-point").attr("circle",circles)
+             .attr("cx",function(d) { return x(d.x);})
+             .attr("cy", function(d){return y(d.y)});
+           }
+           else if(data.length > 1)
+           {
+             svg.selectAll(".circle-point").attr("circle",circles)
+             .attr("cx",function(d) { return x(d.x);})
+             .attr("cy", function(d){return y(d.y)});
+           }
+         }
+     }
+ });
+
  </script>
 
 <!--word cloud  -->
