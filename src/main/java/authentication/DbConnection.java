@@ -11,9 +11,15 @@ package authentication;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,8 +29,8 @@ public class DbConnection {
 	/**
 	 * loadConstant() - For loading the configuration file from a remote repository	
 	 */
-	private HashMap<String, String> hm = new HashMap<String, String>();				// Hashmap that will contain the key-value pair from the config file
-	private void loadContant() {
+	private static HashMap<String, String> hm = new HashMap<String, String>();				// Hashmap that will contain the key-value pair from the config file
+	private static void loadContant() {
 		BufferedReader br = null;	
 		try {
 			br = new BufferedReader(new FileReader("C:/blogtrackers.config"));  	// Read the config file
@@ -48,10 +54,10 @@ public class DbConnection {
 	}
 
 	/**
-	 * getConnection() - For getting the connection parameter from the Hashmap and connecting to the database driver
+	 * getConnection() - For getting the connection parameter and connecting to the database driver
 	 */
 
-	protected Connection getConnection() {
+	public static Connection getConnection() {
 		try{
 			loadContant();															//load the connection parameter so we can fetch appropriate parameters like username, password, etc
 			String connectionURL = hm.get("dbConnection");								
@@ -67,10 +73,123 @@ public class DbConnection {
 				}
 			}
 			Connection conn = DriverManager.getConnection(connectionURL, username, password);
-			System.out.println(conn);
 			return conn;
 		} catch(SQLException ex) {
 			Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, "Encounter error while connecting to the database", ex);	//To log the error for this specific class
+		}
+		return null;
+	}
+
+	public boolean isUserExists(String iUserName)
+	{
+		try{
+
+			String queryStr = "SELECT UserName FROM UserCredentials where Username = ?";
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(queryStr);
+			pstmt.setString(1, iUserName);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next())
+			{
+				rs.close();
+				pstmt.close();
+				conn.close();
+				return true;
+			}
+			else
+			{
+				rs.close();
+				pstmt.close();
+				conn.close();
+				return false;
+			}
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public boolean removeUser(String iUserName)
+	{
+		try{
+
+			String queryStr = "Delete FROM UserCredentials where UserName = ?";
+			Connection conn = getConnection();//DriverManager.getConnection(sysres.databaseConnectionString,sysres.getUsername(),sysres.getPassword());
+			PreparedStatement pstmt = conn.prepareStatement(queryStr);
+			pstmt.setString(1, iUserName);
+
+			if(pstmt.execute())
+			{
+				pstmt.close();
+				conn.close();
+				return true;
+			}
+			else
+			{
+				pstmt.close();
+				conn.close();
+				return false;
+			}
+
+		}catch(SQLException e)
+		{
+
+			e.printStackTrace();
+			return false;
+		}
+		//remove a user also cleanup watchlists
+	}
+
+	public void addUser(String iUserName,String iPassword,String iEmail)
+	{
+		if(isUserExists(iUserName))
+		{
+			System.out.println("User already exists");
+		}
+		else
+		{
+			String queryStr = "INSERT INTO UserCredentials VALUES(?,?,?)";
+			String queryStr1 = "INSERT INTO User_Watches VALUES(?,?,?,?)";
+			try{
+				Connection conn = getConnection();//DriverManager.getConnection(sysres.databaseConnectionString,sysres.getUsername(),sysres.getPassword());
+				PreparedStatement stmt = conn.prepareStatement(queryStr);
+				stmt.setString(1, iUserName);
+				stmt.setString(2, iPassword);
+				stmt.setString(3, iEmail);
+				stmt.execute();
+				stmt = conn.prepareStatement(queryStr1);
+				stmt.setString(1, iUserName);
+				stmt.setString(2, "");
+				stmt.setString(3, iEmail);
+				stmt.setInt(4, 0);
+				stmt.execute();
+				stmt.close();
+				conn.close();
+			}catch(SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+
+	public String md5Funct(String userNamePass) {
+		try {
+
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(userNamePass.getBytes());
+			byte byteData[] = md.digest();
+			StringBuilder hexString = new StringBuilder();
+			for (int i = 0; i < byteData.length; i++) {
+				String hex = Integer.toHexString(0xff & byteData[i]);
+				if (hex.length() == 1)
+					hexString.append('0');
+				hexString.append(hex);
+			}
+			return hexString.toString();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

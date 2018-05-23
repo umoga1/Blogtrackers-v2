@@ -39,11 +39,8 @@
 <script src="assets/js/popper.min.js"></script>
 
 <!-- JavaScript to be reviewed thouroughly by me -->
-<script>
-	var app_url = '${pageContext.request.contextPath}/'
-	console.log(app_url);
-</script>
-
+<script type="text/javascript" src="assets/js/validate.min.js"></script>
+	<script type="text/javascript" src="assets/js/uniform.min.js"></script>
 <script type="text/javascript" src="js/login_validation.js"></script>
 </head>
 
@@ -70,7 +67,7 @@
 					<p class="text-primary mb30" style="font-size: 26px;">
 						Login or <b>Register</b>
 					</p>
-					<form id="login_form" class="needs-validation" action="#">
+					<form id="login_form" action="#" method="post">
 						<div class="form-group">
 
 							<input type="email"
@@ -100,7 +97,7 @@
 							<small>Forgot your <b>Password?</b></small>
 						</p>
 						<p class="pb20 text-primary">
-							Dont have an account yet? <a href="register.jsp"><b>Register
+							Dont have an account yet? <a href="${pageContext.request.contextPath}/register"><b>Register
 									Now</b></a></small>
 						</p>
 					</form>
