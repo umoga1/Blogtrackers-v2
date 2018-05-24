@@ -8,7 +8,7 @@
  *  Latest update: Aug 1, 2015
  *
  * ---------------------------------------------------------------------------- */
-var app_url = "${pageContext.request.contextPath}/"; 
+
 console.log(app_url);
 var baseurl=app_url;//"http://localhost:8080/Blogtrackers/";
 

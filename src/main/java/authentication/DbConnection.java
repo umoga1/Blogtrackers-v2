@@ -25,7 +25,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DbConnection {
-
 	/**
 	 * loadConstant() - For loading the configuration file from a remote repository	
 	 */
@@ -109,6 +108,7 @@ public class DbConnection {
 			return false;
 		}
 	}
+	
 	public boolean removeUser(String iUserName)
 	{
 		try{
@@ -173,6 +173,56 @@ public class DbConnection {
 	}
 	
 	
+	public ArrayList query(String query){
+		ArrayList result=new ArrayList(); 
+		
+		try{
+			//String queryStr = "SELECT UserName FROM UserCredentials where Username = ?";			
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();
+			java.sql.Statement stmt = null;
+			if(rs.next())
+			{
+				
+				stmt = conn.prepareStatement(query);
+				rs = stmt.executeQuery(query); 
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int column_size = rsmd.getColumnCount();
+				int i=0;
+				while(rs.next()){
+					ArrayList output=new ArrayList();
+					int total=column_size;
+				
+					for(int j=1;j<=(total); j++ ){
+						output.add((j-1), rs.getString(j));
+					}
+					result.add(i,output);
+					i++;
+				}
+				
+				
+				rs.close();
+				pstmt.close();
+				conn.close();
+				//return true;
+			}
+			else
+			{
+				rs.close();
+				pstmt.close();
+				conn.close();
+				//return false;
+			}
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+			//return false;
+		}
+		
+		return result;
+	}
+
 
 	public String md5Funct(String userNamePass) {
 		try {
@@ -193,4 +243,6 @@ public class DbConnection {
 		}
 		return null;
 	}
+	
+	
 }
