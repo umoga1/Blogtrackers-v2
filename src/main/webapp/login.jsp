@@ -32,6 +32,7 @@
 
 <link rel="stylesheet" href="assets/css/style.css" />
 
+<link rel="stylesheet" href="assets/css/toastr.css">
 <!--end of bootsrap -->
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/popper.min.js"></script>
@@ -39,6 +40,8 @@
 <!-- JavaScript to be reviewed thouroughly by me -->
 <script type="text/javascript" src="assets/js/validate.min.js"></script>
 	<script type="text/javascript" src="assets/js/uniform.min.js"></script>
+	
+<script type="text/javascript" src="assets/js/toastr.js"></script>
 <script>
            var app_url ='http://localhost:8080/Blogtrackers/'; 
  </script>

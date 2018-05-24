@@ -76,13 +76,12 @@ $(function() {
 		}
 
 	});
-
+//
 
 	$('#login_form').submit( function(e) {
 		e.preventDefault();
 		console.log("clicked");
 		
-
 			$.ajax({
 				url: baseurl+'login',
 				method: 'POST',
@@ -107,6 +106,7 @@ $(function() {
 					if(login_status === "invalid"){
 						$("#error_message-box").html('Invalid username/password');
 					}else if(login_status == "success"){
+						toastr.success('Login successfull!','Success');
 						window.location.href = baseurl+"trackerlist.jsp";
 					}else if(login_status == "confirmed"){
 						window.location.href = baseurl+"setup_tracker.jsp";
