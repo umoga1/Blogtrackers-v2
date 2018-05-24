@@ -124,7 +124,7 @@ public class DbConnection {
 	
 	public boolean login(String iEmail, String iPass)										//This method returns True/False depending on whether the user is in our database					
 	{
-			String queryStr = "SELECT UserName FROM UserCredentials where Username = "+iEmail+" AND Password = "+iPass+"";	//Bind the variable to prevent SQL injection
+			String queryStr = "SELECT UserName FROM UserCredentials where Email = "+iEmail+" AND Password = "+iPass+"";	//Bind the variable to prevent SQL injection
 			ArrayList<?> resp = this.query(queryStr);
 			return resp.size()>0?true:false;
 	}
