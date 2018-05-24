@@ -15,10 +15,11 @@ import javax.servlet.http.HttpSession;
 import authentication.DbConnection;
 
 /**
+ * 
  * Servlet implementation class Login
  * @author mukti
+ * 
  */
-@SuppressWarnings("unused")
 @WebServlet("/login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;

@@ -72,26 +72,33 @@ public class DbConnection {
 					ex.printStackTrace();											//if there is an exception, give us a stacktrace of it
 				}
 			}
-			Connection conn = DriverManager.getConnection(connectionURL, username, password);
+			Connection conn = DriverManager.getConnection(connectionURL, username, password);  //create an instance of the connection using the JDBC driver
 			return conn;
 		} catch(SQLException ex) {
-			Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, "Encounter error while connecting to the database", ex);	//To log the error for this specific class
+			Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, "Encounter error while connecting to the database", ex);	//Log the error for this specific class
 		}
-		return null;
+		return null;																//Returns nothing if the connection is not successful
 	}
 
-	public boolean isUserExists(String iUserName)
+	
+	/*
+	 * This method checks to see if the username is already in the database
+	 * We use this method to verify if a user already has an account in our database
+	 * 
+	 * @param: iUsername: The username of the user
+	 * 
+	 */
+	public boolean isUserExists(String iUserName)										//This method returns True/False depending on whether the user is in our database					
 	{
 		try{
-
-			String queryStr = "SELECT UserName FROM UserCredentials where Username = ?";
-			Connection conn = getConnection();
-			PreparedStatement pstmt = conn.prepareStatement(queryStr);
-			pstmt.setString(1, iUserName);
-			ResultSet rs = pstmt.executeQuery();
-			if(rs.next())
+			String queryStr = "SELECT UserName FROM UserCredentials where Username = ?";	//Bind the variable to prevent SQL injection
+			Connection conn = getConnection();												//Get a connection to the database
+			PreparedStatement pstmt = conn.prepareStatement(queryStr);						//Prepared statement to perform parametized query
+			pstmt.setString(1, iUserName);													
+			ResultSet rs = pstmt.executeQuery();											//executeQuery because we are retrieving data; could have used execute but not executeUpdate since we are not altering the database
+			if(rs.next())																	//This statement will evaluate to false since there won't any row after the update, hence close the database connection to avoid memory leaking 
 			{
-				rs.close();
+				rs.close();																	
 				pstmt.close();
 				conn.close();
 				return true;
@@ -111,12 +118,12 @@ public class DbConnection {
 	}
 	
 	
-	public boolean removeUser(String iUserName)
+	public boolean removeUser(String iUserName)											//same as user
 	{
 		try{
 
 			String queryStr = "Delete FROM UserCredentials where UserName = ?";
-			Connection conn = getConnection();//DriverManager.getConnection(sysres.databaseConnectionString,sysres.getUsername(),sysres.getPassword());
+			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(queryStr);
 			pstmt.setString(1, iUserName);
 
@@ -194,7 +201,7 @@ public class DbConnection {
 					for(int j=1;j<=(total); j++ ){
 						output.add((j-1), rs.getString(j));
 					}
-					result.add(i,output);
+					result.add(i, output);
 					i++;
 				}
 				
