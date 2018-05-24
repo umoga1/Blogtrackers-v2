@@ -19,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -109,6 +110,7 @@ public class DbConnection {
 		}
 	}
 	
+	
 	public boolean removeUser(String iUserName)
 	{
 		try{
@@ -137,7 +139,6 @@ public class DbConnection {
 			e.printStackTrace();
 			return false;
 		}
-		//remove a user also cleanup watchlists
 	}
 
 	public void addUser(String iUserName,String iPassword,String iEmail)
@@ -151,7 +152,7 @@ public class DbConnection {
 			String queryStr = "INSERT INTO UserCredentials VALUES(?,?,?)";
 			String queryStr1 = "INSERT INTO User_Watches VALUES(?,?,?,?)";
 			try{
-				Connection conn = getConnection();//DriverManager.getConnection(sysres.databaseConnectionString,sysres.getUsername(),sysres.getPassword());
+				Connection conn = getConnection();
 				PreparedStatement stmt = conn.prepareStatement(queryStr);
 				stmt.setString(1, iUserName);
 				stmt.setString(2, iPassword);
@@ -175,16 +176,13 @@ public class DbConnection {
 	
 	public ArrayList query(String query){
 		ArrayList result=new ArrayList(); 
-		
 		try{
-			//String queryStr = "SELECT UserName FROM UserCredentials where Username = ?";			
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();
-			java.sql.Statement stmt = null;
+			Statement stmt = null;
 			if(rs.next())
 			{
-				
 				stmt = conn.prepareStatement(query);
 				rs = stmt.executeQuery(query); 
 				ResultSetMetaData rsmd = rs.getMetaData();
@@ -193,7 +191,6 @@ public class DbConnection {
 				while(rs.next()){
 					ArrayList output=new ArrayList();
 					int total=column_size;
-				
 					for(int j=1;j<=(total); j++ ){
 						output.add((j-1), rs.getString(j));
 					}
@@ -205,19 +202,16 @@ public class DbConnection {
 				rs.close();
 				pstmt.close();
 				conn.close();
-				//return true;
 			}
 			else
 			{
 				rs.close();
 				pstmt.close();
 				conn.close();
-				//return false;
 			}
 		}catch(SQLException e)
 		{
 			e.printStackTrace();
-			//return false;
 		}
 		
 		return result;
@@ -226,7 +220,6 @@ public class DbConnection {
 
 	public String md5Funct(String userNamePass) {
 		try {
-
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(userNamePass.getBytes());
 			byte byteData[] = md.digest();
@@ -243,6 +236,4 @@ public class DbConnection {
 		}
 		return null;
 	}
-	
-	
 }

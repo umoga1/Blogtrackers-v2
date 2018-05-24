@@ -8,6 +8,6 @@ public class DbConnectionTest {
 		
 		testConnection.addUser("abcabc", "pass", "baodium@gmail.com");
 		//testConnection.removeUser("ax");
-		
+		System.out.println(testConnection.query("SELECT * FROM usercredentials"));
 	}
 }
