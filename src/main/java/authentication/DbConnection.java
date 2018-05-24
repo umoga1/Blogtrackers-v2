@@ -64,6 +64,8 @@ public class DbConnection {
 			String driver = hm.get("driver"); 
 			String username = hm.get("dbUserName");
 			String password = hm.get("dbPassword");
+			
+			
 
 			if(connectionURL != null && username != null && password != null) {		//check to see if the connection parameter was successfully loaded
 				try {
@@ -90,23 +92,25 @@ public class DbConnection {
 	 */
 	public boolean isUserExists(String iUserName)										//This method returns True/False depending on whether the user is in our database					
 	{
+		java.sql.Statement stmt = null;
 		try{
 			String queryStr = "SELECT UserName FROM UserCredentials where Username = ?";	//Bind the variable to prevent SQL injection
 			Connection conn = getConnection();												//Get a connection to the database
-			PreparedStatement pstmt = conn.prepareStatement(queryStr);						//Prepared statement to perform parametized query
-			pstmt.setString(1, iUserName);													
-			ResultSet rs = pstmt.executeQuery();											//executeQuery because we are retrieving data; could have used execute but not executeUpdate since we are not altering the database
+			stmt = conn.prepareStatement(queryStr);
+			//PreparedStatement pstmt = conn.prepareStatement(queryStr);						//Prepared statement to perform parametized query
+			//stmt.setString(1, iUserName);													
+			ResultSet rs = stmt.executeQuery(queryStr);											//executeQuery because we are retrieving data; could have used execute but not executeUpdate since we are not altering the database
 			if(rs.next())																	//This statement will evaluate to false since there won't any row after the update, hence close the database connection to avoid memory leaking 
 			{
 				rs.close();																	
-				pstmt.close();
+				stmt.close();
 				conn.close();
 				return true;
 			}
 			else
 			{
 				rs.close();
-				pstmt.close();
+				stmt.close();
 				conn.close();
 				return false;
 			}
@@ -115,6 +119,14 @@ public class DbConnection {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	
+	public boolean login(String iEmail, String iPass)										//This method returns True/False depending on whether the user is in our database					
+	{
+			String queryStr = "SELECT UserName FROM UserCredentials where Username = "+iEmail+" AND Password = "+iPass+"";	//Bind the variable to prevent SQL injection
+			ArrayList<?> resp = this.query(queryStr);
+			return resp.size()>0?true:false;
 	}
 	
 	
@@ -223,8 +235,7 @@ public class DbConnection {
 		
 		return result;
 	}
-
-
+	
 	public String md5Funct(String userNamePass) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");

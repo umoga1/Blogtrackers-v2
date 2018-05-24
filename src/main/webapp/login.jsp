@@ -33,15 +33,15 @@
 <link rel="stylesheet" href="assets/css/style.css" />
 
 <!--end of bootsrap -->
-<script src="assets/js/jquery-3.2.1.slim.min.js"></script>
+<script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/popper.min.js"></script>
 
 <!-- JavaScript to be reviewed thouroughly by me -->
 <script type="text/javascript" src="assets/js/validate.min.js"></script>
 	<script type="text/javascript" src="assets/js/uniform.min.js"></script>
-	<script>
-	var app_url = "${pageContext.request.contextPath}/"; 
-	</script>
+<script>
+           var app_url ='http://localhost:8080/Blogtrackers/'; 
+ </script>
 <script type="text/javascript" src="js/login_validation.js"></script>
 </head>
 
@@ -68,14 +68,14 @@
 					<p class="text-primary mb30" style="font-size: 26px;">
 						Login or <b>Register</b>
 					</p>
-					<form id="login_form" action="#" method="post">
+					<form id="login_form"  class="form-validate"  method="post">
 						<div class="form-group">
 							<div class="form-login-error">
                                 <p id="error_message-box" style="color:red"></p>
 							</div>
 							<input type="email"
 								class="form-control curved-form-login text-primary"
-								 id="username" aria-describedby="emailHelp"
+								 id="username" required="required" aria-describedby="emailHelp"
 								placeholder="Email">
 							 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> 
 						</div>
@@ -83,7 +83,7 @@
 						<div class="form-group">
 							<input type="password"
 								class="form-control curved-form-login text-primary"
-								id="validationCustom01" id="password" placeholder="Password" required>
+								id="validationCustom01"  required="required" id="password" placeholder="Password" >
 							<div class="invalid-feedback">Please enter your password</div>
 							<div class="valid-feedback">Looks Good</div>
 						</div>
