@@ -127,7 +127,7 @@ public class DbConnection {
 			PreparedStatement pstmt = conn.prepareStatement(queryStr);
 			pstmt.setString(1, iUserName);
 
-			if(pstmt.execute())
+			if(pstmt.execute())															
 			{
 				pstmt.close();
 				conn.close();
