@@ -42,9 +42,8 @@
 	<script type="text/javascript" src="assets/js/uniform.min.js"></script>
 	
 <script type="text/javascript" src="assets/js/toastr.js"></script>
-<script>
-           var app_url ='http://localhost:8080/Blogtrackers/'; 
- </script>
+ <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id" content="600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com">
 <script type="text/javascript" src="js/login_validation.js"></script>
 </head>
 
@@ -91,14 +90,28 @@
 							<div class="valid-feedback">Looks Good</div>
 						</div>
 						<br />
-						<p>
+						
+						<div class="">
 							<button type="submit" class="btn btn-primary loginformbutton"
 								style="background: #28a745;">Login</button>
-							&nbsp;&nbsp;or Login with &nbsp;&nbsp;
-							<button class="btn btn-rounded big-btn2">
-								<i class="fab fa-google icon-small text-primary"></i>
-							</button>
-						</p>
+							&nbsp;&nbsp; <div class="g-signin2" data-onsuccess="onSignIn" id="myP"></div>
+      <img id="myImg" /><br>
+      <p id="name"></p>
+      <div id="status"></div>
+ 					</div>
+ 					 <script type="text/javascript">
+      function onSignIn(googleUser) {
+      // window.location.href='success.jsp';
+      var profile = googleUser.getBasicProfile();
+      var imagurl=profile.getImageUrl();
+      var name=profile.getName();
+      var email=profile.getEmail();
+      document.getElementById("myImg").src = imagurl;
+      document.getElementById("name").innerHTML = name;
+      document.getElementById("myP").style.visibility = "hidden";
+      document.getElementById("status").innerHTML = 'Welcome '+name+' <a href=dashboard.jsp?email='+email+'&name='+name+'/>Continue with Google login</a></p>'
+   }
+   </script>
 						<p class="pt20 text-primary">
 							<small>Forgot your <b>Password?</b></small>
 						</p>
@@ -107,6 +120,12 @@
 									Now</b></a></small>
 						</p>
 					</form>
+
+
+ 
+  
+
+
 
 				</div>
 
