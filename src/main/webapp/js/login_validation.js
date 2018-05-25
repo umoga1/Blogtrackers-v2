@@ -64,7 +64,7 @@ $(function() {
 		},
 		validClass: "validation-valid-label",
 		success: function(label) {
-			label.addClass("validation-valid-label").text("Successfully")
+			label.addClass("validation-valid-label").text("")
 		},
 		rules: {
 			password: {
@@ -76,72 +76,12 @@ $(function() {
 		}
 
 	});
+//
 
-
-	// Login form validation
-	$("#form_login").validate({
-		ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields
-		errorClass: 'validation-error-label',
-		successClass: 'validation-valid-label',
-		highlight: function(element, errorClass) {
-			$(element).removeClass(errorClass);
-		},
-		unhighlight: function(element, errorClass) {
-			$(element).removeClass(errorClass);
-		},
-
-		// Different components require proper error label placement
-		errorPlacement: function(error, element) {
-
-			// Styled checkboxes, radios, bootstrap switch
-			if (element.parents('div').hasClass("checker") || element.parents('div').hasClass("choice") || element.parent().hasClass('bootstrap-switch-container') ) {
-				if(element.parents('label').hasClass('checkbox-inline') || element.parents('label').hasClass('radio-inline')) {
-					error.appendTo( element.parent().parent().parent().parent() );
-				}
-				else {
-					error.appendTo( element.parent().parent().parent().parent().parent() );
-				}
-			}
-
-			// Unstyled checkboxes, radios
-			else if (element.parents('div').hasClass('checkbox') || element.parents('div').hasClass('radio')) {
-				error.appendTo( element.parent().parent().parent() );
-			}
-
-			// Input with icons and Select2
-			else if (element.parents('div').hasClass('has-feedback') || element.hasClass('select2-hidden-accessible')) {
-				error.appendTo( element.parent() );
-			}
-
-			// Inline checkboxes, radios
-			else if (element.parents('label').hasClass('checkbox-inline') || element.parents('label').hasClass('radio-inline')) {
-				error.appendTo( element.parent().parent() );
-			}
-
-			// Input group, styled file input
-			else if (element.parent().hasClass('uploader') || element.parents().hasClass('input-group')) {
-				error.appendTo( element.parent().parent() );
-			}
-
-			else {
-				error.insertAfter(element);
-			}
-		},
-		validClass: "validation-valid-label",
-		messages: {
-			username: "Enter your email",
-			password: {
-				required: "Enter your password",
-				minlength: jQuery.validator.format("At least {0} characters required")
-			}
-
-		},
-
-		submitHandler: function(ev)
-		{
-			//console.log("submitted");
-			$("#error_message-box").html('<img src="assets/images/loading.gif" >');
-			// return false;
+	$('#login_form').submit( function(e) {
+		e.preventDefault();
+		console.log("clicked");
+		
 			$.ajax({
 				url: baseurl+'login',
 				method: 'POST',
@@ -166,17 +106,20 @@ $(function() {
 					if(login_status === "invalid"){
 						$("#error_message-box").html('Invalid username/password');
 					}else if(login_status == "success"){
+						toastr.success('Login successfull!','Success');
 						window.location.href = baseurl+"trackerlist.jsp";
 					}else if(login_status == "confirmed"){
 						window.location.href = baseurl+"setup_tracker.jsp";
 					}
+					return false;
 				}
 			});
-
-
-		}
+		
+		return false;
+		
 	});
-
+	
+	
 });
 
 
@@ -267,7 +210,7 @@ function verifypassword(element){
 }
 
 
-
+/*
 
 // Login form validation
 $("#change_password").validate({
@@ -364,3 +307,4 @@ $("#change_password").validate({
 
 	}
 });
+*/

@@ -46,7 +46,7 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		//authentication.Login auth = new authentication.Login();
+		
 		System.out.println("post request");
 		String username = request.getParameter("email");
 		String pass = request.getParameter("password");
@@ -57,16 +57,14 @@ public class Login extends HttpServlet {
 
 		if(submitted.equals("yes"))
 		{			
-			//blogtracker.util.sysResource s = auth.loginVerify(username,pass);
-			String queryStr="SELECT * FROM usercredentials WHERE Email ='"+username+"' AND Password ='"+pass+"'";
-			ArrayList<?> login = new DbConnection().query(queryStr);
-			if(login.size()>0)
+			boolean login = new DbConnection().login(username, pass);
+			if(login)
 			{
 				HttpSession session = request.getSession();
 				//session.setAttribute("user",username);
-				session.setAttribute("user",login.get(0));               
-                session.setAttribute("username",login.get(0));
-                session.setAttribute("email",login.get(2));
+				//session.setAttribute("user",login.get(0));               
+               // session.setAttribute("username",login.get(0));
+                session.setAttribute("email",username);
                 
 				/*
                 Object selected = (null == session.getAttribute("pre-selected-blogs")) ? "" : session.getAttribute("pre-selected-blogs");
