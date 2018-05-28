@@ -74,18 +74,18 @@
 		<div class="form-login-error">
              <p id="error_message-box" style="color:red"></p>
 		</div>
-        <input type="text" id="name" class="form-control curved-form-login text-primary"   placeholder="* Full Name">
+        <input type="text" id="name" required="required" class="form-control curved-form-login text-primary"   placeholder="* Full Name">
         <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
       </div>
       <div class="form-group">
-        <input type="email" id="email" class="form-control curved-form-login text-primary"  placeholder="* Email">
+        <input type="email" id="email" required="required" class="form-control curved-form-login text-primary"  placeholder="* Email">
       </div>
 
       <div class="form-group">
-        <input type="password" id="password" class="form-control curved-form-login text-primary"  placeholder="* Password">
+        <input type="password" id="password" required="required" class="form-control curved-form-login text-primary"  placeholder="* Password">
       </div>
       <div class="form-group">
-        <input type="password" id="password2" class="form-control curved-form-login text-primary"  placeholder="* Re-type Password">
+        <input type="password" id="password2" required="required" class="form-control curved-form-login text-primary"  placeholder="* Re-type Password">
       </div>
 
     <p class="text-center"><button type="submit" class="btn btn-primary loginformbutton" style="background:#28a745;">Register</button>&nbsp;&nbsp; or Register with &nbsp;&nbsp;<button class="btn btn-rounded big-btn2"><i class="fab fa-google icon-small text-primary"></i></button></p>

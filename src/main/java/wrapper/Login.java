@@ -48,8 +48,8 @@ public class Login extends HttpServlet {
 	{
 		
 		//System.out.println("post request");
-		String username = request.getParameter("email");
-		String pass = request.getParameter("password");
+		String username = request.getParameter("email").replaceAll("\\<.*?\\>", "");
+		String pass = request.getParameter("password").replaceAll("\\<.*?\\>", "");
         String submitted = request.getParameter("login");
 
                  

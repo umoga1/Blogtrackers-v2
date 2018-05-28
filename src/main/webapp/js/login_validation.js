@@ -80,6 +80,12 @@ $(function() {
 
 	$('#login_form').submit( function(e) {
 		e.preventDefault();
+		var email = $("input#username").val();
+		var password= $("input#password").val();
+		if(email=="" || password=="" ){
+			return false;
+		}
+		
 		console.log("clicked");
 		var password = $("#password").val();
 			$.ajax({
@@ -125,6 +131,12 @@ $(function() {
 		var password1 =  $("input#password").val();
 		 var password2 = $("input#password2").val();
 		 
+		 var email = $("input#email").val();
+			var name= $("input#name").val();
+			if(email=="" || password=="" || name=="" ){
+				return false;
+			}
+		 
 		 if(password1!=password2){
 			 $("#error_message-box").html('Passord does not match');
 			 return false;
@@ -134,10 +146,9 @@ $(function() {
 				method: 'POST',
 				//dataType: 'json',
 				data: {
-					email: $("input#username").val(),
+					email: $("input#email").val(),
 					password: $("input#password").val(),
 					name: $("input#name").val(),
-					password: $("input#password").val(),
 					register: "yes",
 				},
 				error: function(response)
@@ -157,6 +168,8 @@ $(function() {
 					}else if(login_status == "success"){
 						toastr.success('Registration successfull!','Success');
 						window.location.href = baseurl+"login.jsp";
+					}else{
+						$("#error_message-box").html('Error adding record');
 					}
 					return false;
 				}

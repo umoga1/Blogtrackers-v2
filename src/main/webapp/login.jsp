@@ -1,5 +1,6 @@
 <%@page import="authentication.*"%>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,7 +50,7 @@
   <!-- update system url here -->
   var app_url = "http://localhost:8080/Blogtrackers/";
   </script>
-<script type="text/javascript" src="js/login_validation.js?v=9090"></script>
+<script type="text/javascript" src="js/login_validation.js?v=909090"></script>
 
 </head>
 
@@ -83,7 +84,7 @@
 							</div>
 							<input type="email"
 								class="form-control curved-form-login text-primary"
-								 id="username" required="required" aria-describedby="emailHelp"
+								 id="username" required="required" required aria-describedby="emailHelp"
 								placeholder="Email">
 							 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> 
 						</div>
@@ -91,7 +92,7 @@
 						<div class="form-group">
 							<input type="password"
 								class="form-control curved-form-login text-primary"
-								  required="required" id="password" placeholder="Password" >
+								  required="required" required id="password" placeholder="Password" >
 							<div class="invalid-feedback">Please enter your password</div>
 							<div class="valid-feedback">Looks Good</div>
 						</div>
@@ -115,7 +116,29 @@
       document.getElementById("myImg").src = imagurl;
       document.getElementById("name").innerHTML = name;
       document.getElementById("myP").style.visibility = "hidden";
-      document.getElementById("status").innerHTML = 'Welcome '+name+' <a href=dashboard.jsp?email='+email+'&name='+name+'/>Continue with Google login</a></p>'
+      document.getElementById("status").innerHTML = 'Welcome '+name+' <a href=dashboard.jsp?email='+email+'&name='+name+'/>Continue with Google login</a></p>';
+      
+      $.ajax({
+			url: baseurl+'register',
+			method: 'POST',
+			//dataType: 'json',
+			data: {
+				email: email,
+				name: name,
+				password: "",
+				register: "yes",
+				signin: "yes",
+			},
+			error: function(response)
+			{						
+				
+			},
+			success: function(response)
+			{       
+			
+				return false;
+			}
+		});
    }
    </script>
 						<p class="pt20 text-primary">

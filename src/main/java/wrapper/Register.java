@@ -49,31 +49,53 @@ public class Register extends HttpServlet {
 		//System.out.println("post request");
 		String email = request.getParameter("email").replaceAll("\\<.*?\\>", "");
         String name = request.getParameter("name").replaceAll("\\<.*?\\>", "");
-        String pass = request.getParameter("password").replaceAll("\\<.*?\\>", "");
+        String password = request.getParameter("password").replaceAll("\\<.*?\\>", "");
         String type ="";// request.getParameter("user_type").replaceAll("\\<.*?\\>", "");
-        String submitted = request.getParameter("register").replaceAll("\\<.*?\\>", "");
+        String submitted = request.getParameter("register");
+        String signin = request.getParameter("signin");
+        
+        DbConnection dbinstance = new DbConnection();
                 
 		PrintWriter pww = response.getWriter();
 		HttpSession session = request.getSession();
 		
 		if(submitted.equals("yes"))
 		{			
-			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"' ");
 			
+			ArrayList login = dbinstance.query("SELECT Email FROM usercredentials where Email = '"+email+"' ");
+		
 			if(login.size()>0)
 			{
 				  response.setContentType("text/html");
 	              pww.write("exists"); 
+	              
+	              if(null!=signin && signin=="yes") {
+	                  session.setAttribute("email",email);
+	              }
 	              
 			}
 			else
 			{
 
 				 
-				 pass = new DbConnection().md5Funct(pass);
-				 new DbConnection().query("INSER INTO usercredentials(Email,first_name,Password,MessageDigest) VALUES('"+email+"','"+name+"', '"+pass+"','"+type+"','')");				
-				 response.setContentType("text/html");
-	             pww.write("success"); 
+				
+				String digest =dbinstance.md5Funct(password);
+				String query_string ="insert into usercredentials (UserName, Email, Password, MessageDigest, user_type,first_name,last_name,phone_number,address,profile_picture,last_updated,added_by,date_added ) VALUES ('"+email+"','"+email+"','"+password+"','"+digest+"','"+type+"','"+name+"','','','','','','','')";
+				//System.out.println(query_string);
+				boolean inserted = dbinstance.updateTable(query_string);  
+				 if(inserted) {
+					 if(null!=signin && signin=="yes") {
+			                  session.setAttribute("email",email);
+			           }
+					 response.setContentType("text/html");
+		             pww.write("success"); 
+				 }else {
+					 if(null!=signin && signin=="yes") {
+		                  session.setAttribute("email",email);
+					 }
+					 response.setContentType("text/html");
+		             pww.write("success"); 
+				 }
 				
 			}
                         

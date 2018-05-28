@@ -185,6 +185,28 @@ public class DbConnection {
 		}
 	}
 	
+	
+	public boolean updateTable(String query){
+		      
+		boolean donee =false;
+		try {
+			
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			
+		    int done = pstmt.executeUpdate(query);
+			//rs = stmt.executeQuery(query);
+			donee=true;
+			pstmt.close();
+			conn.close();
+
+		} catch (SQLException ex) {
+			//donee=false;    
+		} 
+		return donee;
+	}
+	
+	
 	/* Query Database*/
 	public ArrayList query(String query){
 		ArrayList result=new ArrayList(); 
