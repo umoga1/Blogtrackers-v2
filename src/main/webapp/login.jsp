@@ -1,4 +1,5 @@
 <%@page import="authentication.*"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,10 +44,13 @@
 <script type="text/javascript" src="assets/js/toastr.js"></script>
  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <meta name="google-signin-client_id" content="600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com">
+
   <script>
+  <!-- update system url here -->
   var app_url = "http://localhost:8080/Blogtrackers/";
   </script>
-<script type="text/javascript" src="js/login_validation.js?v=9090"></script>
+<script type="text/javascript" src="js/login_validation.js?v=90980"></script>
+
 </head>
 
 <body>
