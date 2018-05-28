@@ -59,6 +59,17 @@
   </a>
 
    </li>
+   
+   <!-- To logout of Google --> 
+    <button onclick="myFunction()">Sign Out</button>
+   <script>
+      function myFunction() {
+      gapi.auth2.getAuthInstance().disconnect();
+      location.reload();
+   }
+   </script>
+   
+   
         </ul>
       <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
       <div class="collapse" id="navbarToggleExternalContent">

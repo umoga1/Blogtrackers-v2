@@ -57,8 +57,9 @@ public class Login extends HttpServlet {
 
 		if(submitted.equals("yes"))
 		{			
-			boolean login = new DbConnection().login(username, pass);
-			if(login)
+			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+username+"' AND Password = '"+pass+"'");
+			
+			if(login.size()>0)
 			{
 				HttpSession session = request.getSession();
 				//session.setAttribute("user",username);

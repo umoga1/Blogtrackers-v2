@@ -69,7 +69,7 @@ public class DbConnection {
 
 			if(connectionURL != null && username != null && password != null) {		//check to see if the connection parameter was successfully loaded
 				try {
-					Class.forName(driver);											//load the connection driver
+					Class.forName("com.mysql.jdbc.Driver");											//load the connection driver
 				}catch(ClassNotFoundException ex) {									//since this class can throw ClassNotFoundException so we are catching it
 					ex.printStackTrace();											//if there is an exception, give us a stacktrace of it
 				}
@@ -124,7 +124,7 @@ public class DbConnection {
 	
 	public boolean login(String iEmail, String iPass)										//This method returns True/False depending on whether the user is in our database					
 	{
-			String queryStr = "SELECT UserName FROM UserCredentials where Email = "+iEmail+" AND Password = "+iPass+"";	//Bind the variable to prevent SQL injection
+			String queryStr = "SELECT * FROM usercredentials where Email = '"+iEmail+"' AND Password = '"+iPass+"'";	//Bind the variable to prevent SQL injection
 			ArrayList<?> resp = this.query(queryStr);
 			return resp.size()>0?true:false;
 	}
@@ -139,7 +139,7 @@ public class DbConnection {
 			PreparedStatement pstmt = conn.prepareStatement(queryStr);
 			pstmt.setString(1, iUserName);
 
-			if(pstmt.execute())
+			if(pstmt.execute())															
 			{
 				pstmt.close();
 				conn.close();

@@ -81,7 +81,7 @@ $(function() {
 	$('#login_form').submit( function(e) {
 		e.preventDefault();
 		console.log("clicked");
-		
+		var password = $("#password").val();
 			$.ajax({
 				url: baseurl+'login',
 				method: 'POST',
@@ -95,7 +95,7 @@ $(function() {
 				{						
 					console.log(response);
 					$("#error_message-box").html('Invalid username/password');
-					alert("An error occoured!");
+					//alert("An error occoured!");
 				},
 				success: function(response)
 				{       
