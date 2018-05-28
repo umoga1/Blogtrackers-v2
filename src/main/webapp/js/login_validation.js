@@ -120,6 +120,53 @@ $(function() {
 	});
 	
 	
+	$('#register_form').submit( function(e) {
+		e.preventDefault();
+		var password1 =  $("input#password").val();
+		 var password2 = $("input#password2").val();
+		 
+		 if(password1!=password2){
+			 $("#error_message-box").html('Passord does not match');
+			 return false;
+		 }
+			$.ajax({
+				url: baseurl+'register',
+				method: 'POST',
+				//dataType: 'json',
+				data: {
+					email: $("input#username").val(),
+					password: $("input#password").val(),
+					name: $("input#name").val(),
+					password: $("input#password").val(),
+					register: "yes",
+				},
+				error: function(response)
+				{						
+					console.log(response);
+					$("#error_message-box").html('Email is in use');
+					//alert("An error occoured!");
+				},
+				success: function(response)
+				{       
+					console.log(response);
+					//alert("An error occoured!");
+					var login_status = response;//.responseText;
+					// console.log(login_status);
+					if(login_status === "exists"){
+						$("#error_message-box").html('Email is in use');
+					}else if(login_status == "success"){
+						toastr.success('Registration successfull!','Success');
+						window.location.href = baseurl+"login.jsp";
+					}
+					return false;
+				}
+			});
+		
+		return false;
+		
+	});
+	
+	
 });
 
 

@@ -20,11 +20,31 @@
  <link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" href="assets/vendors/DataTables/Buttons-1.5.1/css/buttons.dataTables.min.css" />
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
+
+<link rel="stylesheet" href="assets/css/toastr.css">
+<!--end of bootsrap -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+
+<!-- JavaScript to be reviewed thouroughly by me -->
+<script type="text/javascript" src="assets/js/validate.min.js"></script>
+	<script type="text/javascript" src="assets/js/uniform.min.js"></script>
+	
+<script type="text/javascript" src="assets/js/toastr.js"></script>
+ <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id" content="600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com">
+
+  <script>
+  <!-- update system url here -->
+  var app_url = "http://localhost:8080/Blogtrackers/";
+  </script>
+<script type="text/javascript" src="js/login_validation.js?v=9090"></script>
 
   <link rel="stylesheet" href="assets/css/style.css" />
 
   <!--end of bootsrap -->
-  <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
+ <!--   <script src="assets/js/jquery-3.2.1.slim.min.js"></script>-->
 <script src="assets/js/popper.min.js" ></script>
 </head>
 
@@ -49,21 +69,23 @@
       <div class="col-md-8 card m0 p0 borderradiusround nobordertopright noborderbottomright">
           <div class="card-body p40 pt40 pb5 borderradiusround nobordertopright noborderbottomright" style="background-color:#f4f5f6;">
           <p class="text-primary text-center mb30" style="font-size:26px;">Welcome to Blogtrackers</p>
-          <form>
+          <form id="register_form"  class="form-validate"  method="post">
       <div class="form-group">
-
-        <input type="text" class="form-control curved-form-login text-primary"   placeholder="* Full Name">
+		<div class="form-login-error">
+             <p id="error_message-box" style="color:red"></p>
+		</div>
+        <input type="text" id="name" class="form-control curved-form-login text-primary"   placeholder="* Full Name">
         <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
       </div>
       <div class="form-group">
-        <input type="email" class="form-control curved-form-login text-primary"  placeholder="* Email">
+        <input type="email" id="email" class="form-control curved-form-login text-primary"  placeholder="* Email">
       </div>
 
       <div class="form-group">
-        <input type="password" class="form-control curved-form-login text-primary"  placeholder="* Password">
+        <input type="password" id="password" class="form-control curved-form-login text-primary"  placeholder="* Password">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control curved-form-login text-primary"  placeholder="* Re-type Password">
+        <input type="password" id="password2" class="form-control curved-form-login text-primary"  placeholder="* Re-type Password">
       </div>
 
     <p class="text-center"><button type="submit" class="btn btn-primary loginformbutton" style="background:#28a745;">Register</button>&nbsp;&nbsp; or Register with &nbsp;&nbsp;<button class="btn btn-rounded big-btn2"><i class="fab fa-google icon-small text-primary"></i></button></p>

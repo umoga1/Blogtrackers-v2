@@ -17,7 +17,7 @@ import authentication.DbConnection;
 /**
  * 
  * Servlet implementation class Login
- * @author mukti
+ * @author Ayodele
  * 
  */
 @WebServlet("/login")

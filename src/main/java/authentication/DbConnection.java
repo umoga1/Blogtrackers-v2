@@ -121,14 +121,7 @@ public class DbConnection {
 		}
 	}
 	
-	
-	public boolean login(String iEmail, String iPass)										//This method returns True/False depending on whether the user is in our database					
-	{
-			String queryStr = "SELECT * FROM usercredentials where Email = '"+iEmail+"' AND Password = '"+iPass+"'";	//Bind the variable to prevent SQL injection
-			ArrayList<?> resp = this.query(queryStr);
-			return resp.size()>0?true:false;
-	}
-	
+
 	
 	public boolean removeUser(String iUserName)											//same as user
 	{
@@ -192,7 +185,7 @@ public class DbConnection {
 		}
 	}
 	
-	
+	/* Query Database*/
 	public ArrayList query(String query){
 		ArrayList result=new ArrayList(); 
 		try{
@@ -254,4 +247,5 @@ public class DbConnection {
 		}
 		return null;
 	}
+	
 }
