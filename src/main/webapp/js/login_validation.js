@@ -100,16 +100,16 @@ $(function() {
 				success: function(response)
 				{       
 					console.log(response);
-					alert("An error occoured!");
+					//alert("An error occoured!");
 					var login_status = response;//.responseText;
 					// console.log(login_status);
 					if(login_status === "invalid"){
 						$("#error_message-box").html('Invalid username/password');
 					}else if(login_status == "success"){
 						toastr.success('Login successfull!','Success');
-						window.location.href = baseurl+"trackerlist.jsp";
+						window.location.href = baseurl+"dashboard.jsp";
 					}else if(login_status == "confirmed"){
-						window.location.href = baseurl+"setup_tracker.jsp";
+						window.location.href = baseurl+"dashboard.jsp";
 					}
 					return false;
 				}

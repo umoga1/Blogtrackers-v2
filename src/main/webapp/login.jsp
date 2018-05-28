@@ -49,7 +49,7 @@
   <!-- update system url here -->
   var app_url = "http://localhost:8080/Blogtrackers/";
   </script>
-<script type="text/javascript" src="js/login_validation.js?v=90980"></script>
+<script type="text/javascript" src="js/login_validation.js?v=9090"></script>
 
 </head>
 
