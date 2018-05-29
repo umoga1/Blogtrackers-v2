@@ -395,14 +395,14 @@
 
 
 <!-- Start for tables  -->
-<script type="text/javascript" src="assets/vendors/DataTables/dataTables.min.js"></script>
+<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
 <script type="text/javascript" src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
-<script src="assets/vendors/DataTables/buttons-1.5.1/js/buttons.flash.min.js"></script>
+<script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
 <script src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
 <script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
 <script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
-<script src="assets/vendors/DataTables/buttons-1.5.1/js/buttons.html5.min.js"></script>
-<script src="assets/vendors/DataTables/buttons-1.5.1/js/buttons.print.min.js"></script>
+<script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
+<script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
 <script>
 $(document).ready(function() {
@@ -628,7 +628,7 @@ $(function () {
             // -------------------------
 
             // Horizontal range
-            x.rangeRoundBands([0, width], .1, .5);
+            x.rangeRoundBands([0, width], .72, .5);
 
             // Horizontal axis
             svg.selectAll('.d3-axis-horizontal').call(xAxis);
@@ -638,7 +638,7 @@ $(function () {
             // -------------------------
 
             // Line path
-            svg.selectAll('.d3-bar').attr("x", function(d) { return x(d.letter); }).attr("width", x.rangeBand());
+            svg.selectAll('.d3-bar').attr("x", function(d) { return x(d.letter); }).attr("width", 16);
         }
     }
 });

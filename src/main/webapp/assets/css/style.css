@@ -108,15 +108,47 @@ border-bottom:3px solid #0080CC;
 {
 font-size:20px;
 }
-.text-xsmall
+.text-blog-content
 {
 font-size:16px;
+  line-height: 2.8rem;
 }
+.text-light-color
+{
+color:#CCCCCC;
+}
+.tagcloudcontainer svg{
+width:100% !important;
+}
+
 .noborder
 {
 border:none;
 }
-
+.extra-light-text
+{
+font-weight: 100;
+}
+.ultra-light-text
+{
+font-weight: 200;
+}
+.light-text
+{
+font-weight: 300;
+}
+.bold-text
+{
+font-weight: 400;
+}
+.semi-bold-text
+{
+font-weight: 500;
+}
+.super-bold-text
+{
+font-weight: 600;
+}
 /*  */
 
 /* svg {
@@ -346,7 +378,7 @@ color:#ffffff;
 {
   color:#0080CC;
 }
-.profilemenulink h1:hover
+.profilemenulink h3:hover
 {
 opacity: 0.53!important;
 }
@@ -356,11 +388,11 @@ position:absolute;
 background: #ffffff;
 border-radius: 100px;
 right:45px;
-top:25px;
+top:10px;
 }
 #closeicon i
 {
-  font-size: 50px;
+  font-size: 40px;
   color:#FF7E7E;
 }
 
@@ -381,7 +413,7 @@ width:100%;
 height:100%;
 position:fixed;
 z-index:999;
-background: rgba(226,231, 233,0.87);
+background: rgba(0,0,0,0.10);
 transform: translate(8500px,0px);
 transition:  1.35s ease-in-out;
 }
@@ -1198,7 +1230,17 @@ z-index: 1;
     color: #fff;
     padding: 8px 16px;
 }
-
+.profilenavbar
+{
+min-height:100px;
+}
+.profilepageimg
+{
+  position:relative;
+  margin-top:-90px;
+  border-radius:100px !important;
+  border:3px solid #ffffff;
+}
 /* Mobile Reponsive Section */
 @media (min-width:300px) and (max-width:860px){
   /* LogIn Section  */
