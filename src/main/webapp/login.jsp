@@ -55,7 +55,7 @@ if (email != null && email != "") {
   <!-- update system url here -->
   var app_url = "http://localhost:8080/Blogtrackers/";
   </script>
-<script type="text/javascript" src="js/login_validation.js?v=909090"></script>
+<script type="text/javascript" src="js/login_validation.js?v=123"></script>
 
 </head>
 
