@@ -1,6 +1,11 @@
 <%@page import="authentication.*"%>
+<%
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 
-
+if (email != null && email != "") {
+	response.sendRedirect("dashboard.jsp");
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,9 +48,9 @@
 	<script type="text/javascript" src="assets/js/uniform.min.js"></script>
 	
 <script type="text/javascript" src="assets/js/toastr.js"></script>
- <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <meta name="google-signin-client_id" content="600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com">
 
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com"/>
   <script>
   <!-- update system url here -->
   var app_url = "http://localhost:8080/Blogtrackers/";
@@ -98,15 +103,16 @@
 						</div>
 						<br />
 						
-						<div class="">
+						<div class=""  id="loggin">
 							<button type="submit" class="btn btn-primary loginformbutton"
 								style="background: #28a745;">Login</button>
-							&nbsp;&nbsp; <div class="g-signin2" data-onsuccess="onSignIn" id="myP"></div>
-      <img id="myImg" /><br>
-      <p id="name"></p>
-      <div id="status"></div>
+							&nbsp;&nbsp;or Login with &nbsp;&nbsp;
+							<button type="button" class="btn btn-rounded big-btn2 " id="glogin" >
+								<i class="fab fa-google icon-small text-primary" ></i>
+							</button><span></span>
  					</div>
- 					 <script type="text/javascript">
+ 	<script type="text/javascript">
+ 	/*
       function onSignIn(googleUser) {
       // window.location.href='success.jsp';
       var profile = googleUser.getBasicProfile();
@@ -140,6 +146,7 @@
 			}
 		});
    }
+ 	*/
    </script>
 						<p class="pt20 text-primary">
 							<small>Forgot your <b>Password?</b></small>
@@ -169,6 +176,73 @@
 
 		</div>
 	</div>
+<script>
+/*
+client id: 600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com
+secret: fxBw8tsZsREjMZ6VNC2HQ7O8
 
+*/
+var googleUser = {};
+var startApp = function() {
+  gapi.load('auth2', function(){
+    // Retrieve the singleton for the GoogleAuth library and set up the client.
+    auth2 = gapi.auth2.init({
+      client_id: '600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com',
+      cookiepolicy: 'single_host_origin',
+      // Request scopes in addition to 'profile' and 'email'
+      //scope: 'additional_scope'
+    });
+    attachSignin(document.getElementById('glogin'));
+  });
+};
+
+function attachSignin(element) {
+  console.log(element.id);
+  auth2.attachClickHandler(element, {},
+      function(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log(profile+"Here");
+       	register(profile.getEmail(),profile.getName()); 
+       
+      }, function(error) {
+        
+      });
+}
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log(profile);
+  register(profile.getEmail(),profile.getName());
+  
+}
+
+function register(email,name){
+	$("#loggin").html('<button type="submit" class="btn btn-primary loginformbutton" style="background: #28a745;">Loggin in ...</button>');
+	  $.ajax({
+			url: baseurl+'register',
+			method: 'POST',
+			//dataType: 'json',
+			data: {
+				email: email,
+				name: name,
+				password: "",
+				register: "yes",
+				signin: "yes",
+			},
+			error: function(response)
+			{						
+				
+			},
+			success: function(response)
+			{       			
+				toastr.success('Login successfull!','Success');
+				window.location.href = baseurl+"dashboard.jsp";
+			}
+		});
+}
+
+
+ startApp();
+</script>
 </body>
 </html>
