@@ -69,7 +69,7 @@ public class Register extends HttpServlet {
 				  response.setContentType("text/html");
 	              pww.write("exists"); 
 	              
-	              if(null!=signin && signin=="yes") {
+	              if(signin.equals("yes")) {
 	                  session.setAttribute("email",email);
 	              }
 	              
@@ -84,15 +84,17 @@ public class Register extends HttpServlet {
 				//System.out.println(query_string);
 				boolean inserted = dbinstance.updateTable(query_string);  
 				 if(inserted) {
-					 if(null!=signin && signin=="yes") {
-			                  session.setAttribute("email",email);
-			           }
+					 if(signin.equals("yes")) {
+		                  session.setAttribute("email",email);
+		              }
+		              
 					 response.setContentType("text/html");
 		             pww.write("success"); 
 				 }else {
-					 if(null!=signin && signin=="yes") {
+					 if(signin.equals("yes")) {
 		                  session.setAttribute("email",email);
-					 }
+		              }
+		              
 					 response.setContentType("text/html");
 		             pww.write("success"); 
 				 }
