@@ -27,28 +27,34 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Add this portion to fix the javax.servlet.http.Servlet error or Add apache tomcat to Targeted runtime -->
+		<!-- Add this portion to fix the javax.servlet.http.Servlet error or Add 
+			apache tomcat to Targeted runtime -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-<dependency>
-    <groupId>mysql</groupId>
-    <artifactId>mysql-connector-java</artifactId>
-    <version>6.0.6</version>
-</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>6.0.6</version>
+		</dependency>
 
-<!-- https://mvnrepository.com/artifact/jstl/jstl -->
-<dependency>
-    <groupId>jstl</groupId>
-    <artifactId>jstl</artifactId>
-    <version>1.2</version>
-</dependency>
+		<!-- https://mvnrepository.com/artifact/jstl/jstl -->
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
 
-
+		<!-- https://developers.google.com/api-client-library/java/apis/gmail/v1 -->
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-gmail</artifactId>
+			<version>v1-rev89-1.23.0</version>
+		</dependency>
 
 	</dependencies>
 
