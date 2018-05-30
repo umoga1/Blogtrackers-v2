@@ -9,6 +9,9 @@ if (email != null && email != "") {
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com"/>
+
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,8 +52,6 @@ if (email != null && email != "") {
 	
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id" content="600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com"/>
   <script>
   <!-- update system url here -->
   var app_url = "http://localhost:8080/Blogtrackers/";
