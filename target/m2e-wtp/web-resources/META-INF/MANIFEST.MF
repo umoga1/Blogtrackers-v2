@@ -1,10 +1,5 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
 Built-By: Omnibus_03
 Build-Jdk: 1.8.0_131
-=======
-Built-By: amobadimu
-Build-Jdk: 1.8.0_161
->>>>>>> 653dabc830cf8edfd775d105083dc0c80395ab9e
 Created-By: Maven Integration for Eclipse
 
