@@ -6,6 +6,7 @@ if (email != null && email != "") {
 	response.sendRedirect("dashboard.jsp");
 }
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
