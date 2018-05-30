@@ -123,7 +123,7 @@ public class DbConnection {
 	
 
 	
-	public boolean removeUser(String iUserName)											//same as user
+	public boolean removeUser(String iUserName)											//same as isUserExists
 	{
 		try{
 
