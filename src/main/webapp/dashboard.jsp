@@ -54,7 +54,7 @@
               <li><a href="#"> My profile</a></li>
               <li><a href="#"> Features</a></li>
               <li><a href="#"> Help</a></li>
-              <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+              <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
   </ul>
   </a>
 

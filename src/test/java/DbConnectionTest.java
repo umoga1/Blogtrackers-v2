@@ -1,5 +1,6 @@
 import authentication.*;
 
+
 public class DbConnectionTest {
 	public static void main(String[] args) {
 		DbConnection testConnection = new DbConnection();
@@ -9,5 +10,6 @@ public class DbConnectionTest {
 		testConnection.addUser("abcabc", "pass", "baodium@gmail.com");
 		//testConnection.removeUser("ax");
 		System.out.println(testConnection.query("SELECT * FROM usercredentials"));
+	
 	}
 }

@@ -7,11 +7,10 @@
 	<groupId>com.blogtrackers2</groupId>
 	<artifactId>Blogtrackers-v2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
 
 	<name>Blogtrackers-v2</name>
 	<!-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
+	<url>http://locahost:8080/Blogtrackers</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -57,12 +56,7 @@
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>
-		
-		<dependency>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-war-plugin</artifactId>
-    <version>2.6</version>
-</dependency>
+
 
 	</dependencies>
 
@@ -88,10 +82,7 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.20.1</version>
 				</plugin>
-				<plugin>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>3.2.0</version>
-				</plugin>
+
 				<plugin>
 					<artifactId>maven-install-plugin</artifactId>
 					<version>2.5.2</version>
