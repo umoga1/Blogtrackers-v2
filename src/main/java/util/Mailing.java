@@ -5,7 +5,6 @@
 
 package util;
 import javax.mail.*;
-import com.google.api.services.gmail.*;
 import javax.mail.internet.*;
 import java.util.*;
 import java.util.logging.Level;
