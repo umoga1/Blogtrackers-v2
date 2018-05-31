@@ -46,51 +46,32 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		
-		//System.out.println("post request");
+
 		String username = request.getParameter("email").replaceAll("\\<.*?\\>", "");
 		String pass = request.getParameter("password").replaceAll("\\<.*?\\>", "");
-        String submitted = request.getParameter("login");
+		String submitted = request.getParameter("login");
 
-                 
+
 		PrintWriter pww = response.getWriter();
 
 		if(submitted.equals("yes"))
 		{			
 			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+username+"' AND Password = '"+pass+"'");
-			
+
 			if(login.size()>0)
 			{
 				HttpSession session = request.getSession();
-				//session.setAttribute("user",username);
-				//session.setAttribute("user",login.get(0));               
-               // session.setAttribute("username",login.get(0));
-                session.setAttribute("email",username);
-                
-                
-				/*
-                Object selected = (null == session.getAttribute("pre-selected-blogs")) ? "" : session.getAttribute("pre-selected-blogs");
-                
-                Common c = new Common();
-                try{
-                	ArrayList trackers = new DBConnector().query("SELECT * FROM trackers WHERE userid='"+login.get(0)+"'");
-                	session.setAttribute("trackers", trackers);
-                }catch(Exception ex){}
-                */
-                
-                response.setContentType("text/html");
-                //if(selected!="") {
-                	//pww.write("confirmed");
-                //}else {
-                	pww.write("success");
-                //}                              
+
+				session.setAttribute("email",username);
+				pww.write("success");
+
 			}
 			else
 			{
 				response.setContentType("text/html");
 				pww.write("invalid");
 			}
-                        
+
 		}
 
 

@@ -50,10 +50,11 @@
 		</dependency>
 
 		<!-- https://developers.google.com/api-client-library/java/apis/gmail/v1 -->
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
 		<dependency>
-			<groupId>com.google.apis</groupId>
-			<artifactId>google-api-services-gmail</artifactId>
-			<version>v1-rev89-1.23.0</version>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
 		</dependency>
 		
 		<dependency>

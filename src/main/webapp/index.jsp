@@ -23,7 +23,6 @@
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
 
   <link rel="stylesheet" href="assets/css/style.css" />
-
   <!--end of bootstrap -->
   <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
@@ -70,8 +69,8 @@
 </nav>
 
 <div class="text-center mt60 offset-lg-3 col-lg-6 col-md-12" style="font-size:20px;">
-<h1 class="text-white text-center">Tracker Internet Blogs</h1>
-<p class="text-white text-center">Monitor and suggest valueable insights in a drilled-down fashion using content analysis and social network anaysis</p>
+<h1 class="text-white text-center">Track Internet Blogs</h1>
+<p class="text-white text-center">Monitor and suggest valuable insights in a drilled-down fashion using content analysis and social network analysis</p>
 <button class="btn btn-success homebutton mt30 p40 pt10 pb10 mb50"><b>Start Tracking</b></button>
 </div>
 

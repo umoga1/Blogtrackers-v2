@@ -84,19 +84,7 @@ if(f.exists() && !f.isDirectory()) {
 
    </li>
    
-   <!-- To logout of Google 
-    <button onclick="myFunction()">Sign Out</button>
-    -->
-   <script>
-   /*
-      function myFunction() {
-      gapi.auth2.getAuthInstance().disconnect();
-      location.reload();
-   }
-   */
-   </script>
-   
-   
+
         </ul>
       <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
       <div class="collapse" id="navbarToggleExternalContent">
@@ -614,7 +602,7 @@ $(function () {
                     .attr("y", function(d) { return y(d.frequency); })
                     .attr("height", function(d) { return height - y(d.frequency); })
                     .style("fill", function(d) { return "#58707E"; })
-                    .on('mouseover', tip.attr('class', 'tooltip-inner in').show)
+                    .on('mouseover', tip.show)
                     .on('mouseout', tip.hide);
 
 
@@ -795,7 +783,7 @@ $(function () {
                 //.text(function(d) { return d.data.language; });
 
                 svg.selectAll(".d3-arc").data(data)
-                .on("mouseover",tip.attr('class', 'tooltip-inner in').show)
+                .on("mouseover",tip.show)
                 .on("mouseout",tip.hide)
                 //.on("click",function(d){console.log(d.date)});
 
@@ -926,7 +914,7 @@ $(function () {
                 //.text(function(d) { return d.data.language; });
 
                 svg.selectAll(".d3-arc").data(data)
-                .on("mouseover",tip.attr('class', 'tooltip-inner in').show)
+                .on("mouseover",tip.show)
                 .on("mouseout",tip.hide)
                 //.on("click",function(d){console.log(d.date)});
 
@@ -1069,7 +1057,7 @@ $(function () {
                 //.text(function(d) { return d.data.language; });
 
                 svg.selectAll(".d3-arc").data(data)
-                .on("mouseover",tip.attr('class', 'tooltip-inner in').show)
+                .on("mouseover",tip.show)
                 .on("mouseout",tip.hide)
                 //.on("click",function(d){console.log(d.date)});
 
@@ -1211,7 +1199,7 @@ $(function () {
                 //.text(function(d) { return d.data.language; });
 
                 svg.selectAll(".d3-arc").data(data)
-                .on("mouseover",tip.attr('class', 'tooltip-inner in').show)
+                .on("mouseover",tip.show)
                 .on("mouseout",tip.hide)
                 //.on("click",function(d){console.log(d.date)});
 
