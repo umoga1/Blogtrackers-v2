@@ -67,6 +67,7 @@ public class Login extends HttpServlet {
                // session.setAttribute("username",login.get(0));
                 session.setAttribute("email",username);
                 
+                
 				/*
                 Object selected = (null == session.getAttribute("pre-selected-blogs")) ? "" : session.getAttribute("pre-selected-blogs");
                 

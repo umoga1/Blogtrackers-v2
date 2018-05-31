@@ -1,3 +1,27 @@
+<%@page import="authentication.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.File"%>
+<%
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+if (email == "") {
+	response.sendRedirect("dashboard.jsp");
+}
+
+ArrayList<?> userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+userinfo = (ArrayList<?>)userinfo.get(0);
+
+String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+String filename = path+userinfo.get(3).toString()+".jpg";
+String profileimage = "images/default-avatar.png";
+
+File f = new File(filename);
+if(f.exists() && !f.isDirectory()) { 
+	profileimage = "images/profile_images/"+userinfo.get(3).toString()+".jpg";
+}
+
+//pimage = pimage.replace("build/", "");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,25 +72,28 @@
   <ul class="nav navbar-nav">
   <li class="dropdown dropdown-user cursor-pointer">
   <a class="dropdown-toggle" data-toggle="dropdown">
-  <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="50" height="50" alt="" class="border-white" />
-  <span>Hayder</span>
+  <img src="<%=profileimage%>" width="50" height="50" alt="" class="border-white" />
+  <span><%=userinfo.get(0).toString()%></span>
   <ul class="profilemenu dropdown-menu dropdown-menu-left">
-              <li><a href="#"> My profile</a></li>
+              <li><a href="<%=request.getContextPath()%>/profile.jsp"> My profile</a></li>
               <li><a href="#"> Features</a></li>
               <li><a href="#"> Help</a></li>
-              <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+              <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
   </ul>
   </a>
 
    </li>
    
-   <!-- To logout of Google --> 
+   <!-- To logout of Google 
     <button onclick="myFunction()">Sign Out</button>
+    -->
    <script>
+   /*
       function myFunction() {
       gapi.auth2.getAuthInstance().disconnect();
       location.reload();
    }
+   */
    </script>
    
    
