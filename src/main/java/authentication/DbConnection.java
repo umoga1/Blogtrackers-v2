@@ -60,10 +60,10 @@ public class DbConnection {
 	public static Connection getConnection() {
 		try{
 			loadContant();															//load the connection parameter so we can fetch appropriate parameters like username, password, etc
-			String connectionURL = "jdbc:mysql://localhost:3306/blogtrackers";// hm.get("dbConnection");	//"jdbc:mysql://localhost:3306/blogtrackers";							
+			String connectionURL =  hm.get("dbConnection");	//"jdbc:mysql://localhost:3306/blogtrackers";							
 			String driver = hm.get("driver"); 
-			String username = "root";//hm.get("dbUserName");
-			String password = "";//hm.get("dbPassword");//"";//
+			String username = hm.get("dbUserName");//"root";
+			String password = hm.get("dbPassword");//"";//
 			
 			
 

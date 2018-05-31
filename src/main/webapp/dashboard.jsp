@@ -64,7 +64,7 @@ if(f.exists() && !f.isDirectory()) {
 <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid">
       <ul class="nav d-none d-lg-inline-flex d-xl-inline-flex  main-menu">
-        <li><a href="./"><i class="icon-user-plus"></i>Home</a></li>
+        <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="icon-user-plus"></i>Home</a></li>
         <li><a href="trackerlist.html"><i class="icon-cog5"></i> Trackers</a></li>
         <li><a href="#"><i class="icon-help"></i> Favorites</a></li>
 
