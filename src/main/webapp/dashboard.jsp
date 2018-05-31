@@ -4,22 +4,30 @@
 <%@page import="java.io.File"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
-if (email == "") {
-	response.sendRedirect("dashboard.jsp");
+
+if (email == null || email == "") {
+	response.sendRedirect("index.jsp");
 }
 
-ArrayList<?> userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+ArrayList<?> userinfo = null;
+String profileimage= "";
+String username ="";
+try{
+ userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
 userinfo = (ArrayList<?>)userinfo.get(0);
+
+username = userinfo.get(0).toString();
 
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = path+userinfo.get(3).toString()+".jpg";
-String profileimage = "images/default-avatar.png";
+profileimage = "images/default-avatar.png";
 
 File f = new File(filename);
 if(f.exists() && !f.isDirectory()) { 
 	profileimage = "images/profile_images/"+userinfo.get(3).toString()+".jpg";
 }
 
+}catch(Exception x){}
 //pimage = pimage.replace("build/", "");
 %>
 <!DOCTYPE html>
@@ -53,7 +61,7 @@ if(f.exists() && !f.isDirectory()) {
 </head>
 <body>
 
-  <nav class="navbar navbar-inverse bg-primary">
+<nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid">
       <ul class="nav d-none d-lg-inline-flex d-xl-inline-flex  main-menu">
         <li><a href="./"><i class="icon-user-plus"></i>Home</a></li>
@@ -73,9 +81,9 @@ if(f.exists() && !f.isDirectory()) {
   <li class="dropdown dropdown-user cursor-pointer">
   <a class="dropdown-toggle" data-toggle="dropdown">
   <img src="<%=profileimage%>" width="50" height="50" alt="" class="border-white" />
-  <span><%=userinfo.get(0).toString()%></span>
+  <span><%=username%></span>
   <ul class="profilemenu dropdown-menu dropdown-menu-left">
-              <li><a href="<%=request.getContextPath()%>/profile.jsp"> My profile</a></li>
+   <li><a href="<%=request.getContextPath()%>/profile.jsp"> My profile</a></li>
               <li><a href="#"> Features</a></li>
               <li><a href="#"> Help</a></li>
               <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
@@ -102,6 +110,8 @@ if(f.exists() && !f.isDirectory()) {
     </div>
       </div>
     </nav>
+ 
+
 <div class="container">
 <div class="row">
 <div class="col-md-6 paddi">

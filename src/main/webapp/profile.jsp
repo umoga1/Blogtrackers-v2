@@ -4,22 +4,38 @@
 <%@page import="java.io.File"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
-if (email == "") {
-	response.sendRedirect("dashboard.jsp");
+
+if (email == null || email == "") {
+	response.sendRedirect("index.jsp");
 }
 
-ArrayList<?> userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+ArrayList<?> userinfo = null;
+String profileimage= "";
+String username ="";
+String name="";
+String phone="";
+String date_modified = "";
+try{
+ userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
 userinfo = (ArrayList<?>)userinfo.get(0);
+
+username = userinfo.get(0).toString();
+name = userinfo.get(4).toString()+" "+userinfo.get(5).toString();
+email = userinfo.get(2).toString();
+phone = userinfo.get(6).toString();
+date_modified = userinfo.get(11).toString();
+
 
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = path+userinfo.get(3).toString()+".jpg";
-String profileimage = "images/default-avatar.png";
+profileimage = "images/default-avatar.png";
 
 File f = new File(filename);
 if(f.exists() && !f.isDirectory()) { 
 	profileimage = "images/profile_images/"+userinfo.get(3).toString()+".jpg";
 }
 
+}catch(Exception x){}
 //pimage = pimage.replace("build/", "");
 %>
 <!DOCTYPE html>
@@ -59,8 +75,8 @@ if(f.exists() && !f.isDirectory()) {
   <div class="profilesection col-md-12 mt50">
     <img src="<%=profileimage%>" width="60" height="60" alt="" class="float-left" />
     <div class="float-left" style="margin-left:20px;">
-      <h4 class="text-primary m0 bolder"><%=userinfo.get(4)%> <%=userinfo.get(5)%></h4>
-      <p class="text-primary"><%=userinfo.get(2)%></p>
+      <h4 class="text-primary m0 bolder"><%=name%></h4>
+      <p class="text-primary"><%=email%></p>
     </div>
 
   </div>
@@ -143,10 +159,10 @@ if(f.exists() && !f.isDirectory()) {
 <div class="row mt10">
 <div class="col-md-12">
 <img class="rounded mx-auto d-block profilepageimg" src="<%=profileimage%>" width="150" height="150" alt="" />
-<h1 class="text-center pt20 pb0 text-primary super-bold-text"><%=userinfo.get(4)%> <%=userinfo.get(5)%></h1>
-<h6 class="text-center text-primary mb0 pb10">Email: <%=userinfo.get(2)%></h6>
-<h6 class="text-center text-primary mb0 pb10">Phone: <%=userinfo.get(6)%> </h6>
-<p class="text-center "><button class="btn btn-primary stylebutton2"><%=userinfo.get(11)%></button></p>
+<h1 class="text-center pt20 pb0 text-primary super-bold-text"><%=name%></h1>
+<h6 class="text-center text-primary mb0 pb10">Email: <%=email%></h6>
+<h6 class="text-center text-primary mb0 pb10">Phone: <%=phone%> </h6>
+<p class="text-center "><button class="btn btn-primary stylebutton2"><%=date_modified%></button></p>
 
 
 </div>
