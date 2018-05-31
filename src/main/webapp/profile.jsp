@@ -1,3 +1,27 @@
+<%@page import="authentication.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.File"%>
+<%
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+if (email == "") {
+	response.sendRedirect("dashboard.jsp");
+}
+
+ArrayList<?> userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+userinfo = (ArrayList<?>)userinfo.get(0);
+
+String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+String filename = path+userinfo.get(3).toString()+".jpg";
+String profileimage = "images/default-avatar.png";
+
+File f = new File(filename);
+if(f.exists() && !f.isDirectory()) { 
+	profileimage = "images/profile_images/"+userinfo.get(3).toString()+".jpg";
+}
+
+//pimage = pimage.replace("build/", "");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,10 +57,10 @@
   <div class="offset-lg-9 col-lg-3 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
-    <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="60" height="60" alt="" class="float-left" />
+    <img src="<%=profileimage%>" width="60" height="60" alt="" class="float-left" />
     <div class="float-left" style="margin-left:20px;">
-      <h4 class="text-primary m0 bolder">Adigun Adekunle</h4>
-      <p class="text-primary">adigon2006@gmail.com</p>
+      <h4 class="text-primary m0 bolder"><%=userinfo.get(4)%> <%=userinfo.get(5)%></h4>
+      <p class="text-primary"><%=userinfo.get(2)%></p>
     </div>
 
   </div>
@@ -77,8 +101,8 @@
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
-  <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="50" height="50" alt="" class="" />
-  <span>Hayder</span>
+  <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
+  <span><%=userinfo.get(0)%></span>
   <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
               <li><a href="#"> Features</a></li>
@@ -118,11 +142,11 @@
 
 <div class="row mt10">
 <div class="col-md-12">
-<img class="rounded mx-auto d-block profilepageimg" src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="150" height="150" alt="" />
-<h1 class="text-center pt20 pb0 text-primary super-bold-text">Adekunle Adigun</h1>
-<h6 class="text-center text-primary mb0 pb10">Email: adekunleadigun@yahoo.com</h6>
-<h6 class="text-center text-primary mb0 pb10">Phone: +1-512-567-2783</h6>
-<p class="text-center "><button class="btn btn-primary stylebutton2">02-01-2018&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;5:30pm</button></p>
+<img class="rounded mx-auto d-block profilepageimg" src="<%=profileimage%>" width="150" height="150" alt="" />
+<h1 class="text-center pt20 pb0 text-primary super-bold-text"><%=userinfo.get(4)%> <%=userinfo.get(5)%></h1>
+<h6 class="text-center text-primary mb0 pb10">Email: <%=userinfo.get(2)%></h6>
+<h6 class="text-center text-primary mb0 pb10">Phone: <%=userinfo.get(6)%> </h6>
+<p class="text-center "><button class="btn btn-primary stylebutton2"><%=userinfo.get(11)%></button></p>
 
 
 </div>
