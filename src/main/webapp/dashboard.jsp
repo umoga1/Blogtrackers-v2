@@ -577,7 +577,7 @@ $(function () {
                     .attr("y", function(d) { return y(d.frequency); })
                     .attr("height", function(d) { return height - y(d.frequency); })
                     .style("fill", function(d) { return "#58707E"; })
-                    .on('mouseover', tip.attr('class', 'tooltip-inner in').show)
+                    .on('mouseover', tip.show)
                     .on('mouseout', tip.hide);
 
 
@@ -758,7 +758,7 @@ $(function () {
                 //.text(function(d) { return d.data.language; });
 
                 svg.selectAll(".d3-arc").data(data)
-                .on("mouseover",tip.attr('class', 'tooltip-inner in').show)
+                .on("mouseover",tip.show)
                 .on("mouseout",tip.hide)
                 //.on("click",function(d){console.log(d.date)});
 
@@ -889,7 +889,7 @@ $(function () {
                 //.text(function(d) { return d.data.language; });
 
                 svg.selectAll(".d3-arc").data(data)
-                .on("mouseover",tip.attr('class', 'tooltip-inner in').show)
+                .on("mouseover",tip.show)
                 .on("mouseout",tip.hide)
                 //.on("click",function(d){console.log(d.date)});
 
@@ -1032,7 +1032,7 @@ $(function () {
                 //.text(function(d) { return d.data.language; });
 
                 svg.selectAll(".d3-arc").data(data)
-                .on("mouseover",tip.attr('class', 'tooltip-inner in').show)
+                .on("mouseover",tip.show)
                 .on("mouseout",tip.hide)
                 //.on("click",function(d){console.log(d.date)});
 
@@ -1174,7 +1174,7 @@ $(function () {
                 //.text(function(d) { return d.data.language; });
 
                 svg.selectAll(".d3-arc").data(data)
-                .on("mouseover",tip.attr('class', 'tooltip-inner in').show)
+                .on("mouseover",tip.show)
                 .on("mouseout",tip.hide)
                 //.on("click",function(d){console.log(d.date)});
 

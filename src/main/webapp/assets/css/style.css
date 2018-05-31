@@ -6,6 +6,53 @@ body{
   background-color: #F3F4F5  ;
 
 }
+/* .carousel-control-prev, .carousel-control-next
+{
+color:blue;
+} */
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 40px;
+  width: 40px;
+  outline: black;
+  background-size: 100%, 100%;
+  border-radius: 50%;
+  border: 2px solid #17394C;
+  background-image: none;
+}
+.carousel-indicators .active
+{
+background-color: #17394C;
+}
+.carousel-indicators li
+{
+background-color: rgba(0,0,0,0.5);
+}
+circle text{
+  fill:black;   /* <== Set the fill */
+text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+cursor: move;
+}
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 22px;
+  font-weight: bolder;
+  color: red;
+}
+
+.carousel-control-prev-icon:before {
+  content: '<';
+  font-size: 22px;
+  font-weight: bolder;
+  color: red;
+}
+
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
 .text-blue
 {
 color:#0080CC;
@@ -378,6 +425,10 @@ color:#ffffff;
 {
   color:#0080CC;
 }
+.bg-blue
+{
+background: #1F90D0;
+}
 .profilemenulink h3:hover
 {
 opacity: 0.53!important;
@@ -544,6 +595,15 @@ border-radius: 10px;
 padding: 0.19rem 0.75rem;
 font-weight: 700;
 }
+.stylebuttonblue
+{
+font-size: 0.7rem;
+border-radius: 10px;
+padding: 0.19rem 0.75rem;
+font-weight: 700;
+background: #1F90D0;
+color:#ffffff;
+}
 .stylebutton5
 {
 font-size: 0.9rem;
@@ -589,6 +649,10 @@ font-size: 20px;
 .light-text
 {
 color:#c1c1c1;
+}
+.favorites-text
+{
+color:#ff7D7D;  
 }
 ul.profilemenu
 {
