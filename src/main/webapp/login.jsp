@@ -113,43 +113,6 @@ if (email != null && email != "") {
 								<i class="fab fa-google icon-small text-primary" ></i>
 							</button><span></span>
  					</div>
- 	<script type="text/javascript">
- 	/*
-      function onSignIn(googleUser) {
-      // window.location.href='success.jsp';
-      var profile = googleUser.getBasicProfile();
-      var imagurl=profile.getImageUrl();
-      var name=profile.getName();
-      var email=profile.getEmail();
-      document.getElementById("myImg").src = imagurl;
-      document.getElementById("name").innerHTML = name;
-      document.getElementById("myP").style.visibility = "hidden";
-      document.getElementById("status").innerHTML = 'Welcome '+name+' <a href=dashboard.jsp?email='+email+'&name='+name+'/>Continue with Google login</a></p>';
-      
-      $.ajax({
-			url: baseurl+'register',
-			method: 'POST',
-			//dataType: 'json',
-			data: {
-				email: email,
-				name: name,
-				password: "",
-				register: "yes",
-				signin: "yes",
-			},
-			error: function(response)
-			{						
-				
-			},
-			success: function(response)
-			{       
-			
-				return false;
-			}
-		});
-   }
- 	*/
-   </script>
 						<p class="pt20 text-primary">
 							<small>Forgot your <b>Password?</b></small>
 						</p>
