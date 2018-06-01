@@ -86,7 +86,7 @@ $(function() {
 		}
 		
 		console.log("clicked");
-		$("#loggin").html('<button type="button" class="btn btn-primary loginformbutton" style="background: #28a745;">Loggin in ...</button>');
+		$("#loggin").html('<button type="button" class="btn btn-primary loginformbutton" style="background: #28a745;">Logging in ...</button>');
 		
 		var password = $("#password").val();
 			$.ajax({
@@ -102,7 +102,6 @@ $(function() {
 				{						
 					console.log(response);
 					$("#error_message-box").html('Invalid username/password');
-					//alert("An error occoured!");
 				},
 				success: function(response)
 				{       

@@ -1,6 +1,3 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <%@page import="authentication.*"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
@@ -60,7 +57,9 @@ if (email != null && email != "") {
   <!-- update system url here -->
   var app_url = "http://localhost:8080/Blogtrackers/";
   </script>
-<script type="text/javascript" src="js/login_validation.js?v=123"></script>
+  <script src="https://apis.google.com/js/platform.js"></script>
+  
+<script type="text/javascript" src="js/login_validation.js?v=12345"></script>
 
 </head>
 

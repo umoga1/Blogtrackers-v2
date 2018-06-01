@@ -157,27 +157,18 @@ if(f.exists() && !f.isDirectory()) {
 
 
 <div class="row mt10">
-<<<<<<< HEAD:src/main/webapp/profile.jsp
-<div class="col-md-12">
-<img class="rounded mx-auto d-block profilepageimg" src="<%=profileimage%>" width="150" height="150" alt="" />
-<h1 class="text-center pt20 pb0 text-primary super-bold-text"><%=name%></h1>
-<h6 class="text-center text-primary mb0 pb10">Email: <%=email%></h6>
-<h6 class="text-center text-primary mb0 pb10">Phone: <%=phone%> </h6>
-<p class="text-center "><button class="btn btn-primary stylebutton2"><%=date_modified%></button></p>
 
-=======
 <div class="col-md-12 text-center">
   <div class="custom-file profileimgupload">
   <input type="file" class="custom-file-input" id="customFileLang" lang="es">
   <label class="custom-file-label" for="customFileLang">
- <img class="rounded mx-auto d-block profilepageimg" src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="150" height="150" alt="" />
+ <img class="rounded mx-auto d-block profilepageimg" src="<%=profileimage%>" width="150" height="150" alt="" />
   </label>
 </div>
 <form class="">
-
-<div class="mt10 form-group col-md-12 "><input class="text-center mt20 mb0 text-primary super-bold-text fullname inputnobg profileinput" type="text" id="fullname" readonly value="Adekunle Adigun" /></div>
+<div class="mt10 form-group col-md-12 "><input class="text-center mt20 mb0 text-primary super-bold-text fullname inputnobg profileinput" type="text" id="fullname" readonly value="<%=name%>" /></div>
 <!-- <h6 class="text-center text-primary mb0 pb10">Email: adekunleadigun@yahoo.com</h6> -->
-<div class="mb0 pb10 form-group  col-md-12"><label class="text-center text-primary mb0 labelprofile">Email: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile profileinput" type="email" id="email" readonly value="adigon2006@gmail.com" /></div>
+<div class="mb0 pb10 form-group  col-md-12"><label class="text-center text-primary mb0 labelprofile">Email: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile profileinput" type="email" id="email" readonly value="<%=email%>" /></div>
 <div class="mb0 pb10 form-group  col-md-12"><label class="text-center text-primary mb0 labelprofile">Phone: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile profileinput" type="text" id="phone" readonly value="+1-512-567-2783" /></div>
 <!-- <h6 class="text-center text-primary mb0 pb10">Phone: +1-512-567-2783</h6> -->
 <p class="text-center"><button class="btn btn-primary stylebutton2" id="changepassword">Change Password <i class="fas fa-lock"></i></button></p>
@@ -186,18 +177,11 @@ if(f.exists() && !f.isDirectory()) {
   <div class="mb0 pb10"><label class="text-center text-primary mb0 labelprofile">New Password: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile passinput" type="password" id="newpassword" readonly value="" /></div>
   <div class="mb0 pb10"><label class="text-center text-primary mb0 labelprofile">Confirm Password: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile passinput" type="password" id="confirmpassword" readonly value="" /></div>
 </div>
->>>>>>> 5bfa3b135234ff135f86310120ddb1afc6b4d8db:src/main/webapp/profile.html
 
 </div>
 </div>
 
 <div class="text-center mt50 mb50"><button class="btn btn-primary profilebtn" id="editaccount">Edit Account</button>&nbsp;&nbsp; <button class="btn btn-danger profilebtn">Delete Account</button></div>
-
-
-
-
-
-
 
 </div>
 
