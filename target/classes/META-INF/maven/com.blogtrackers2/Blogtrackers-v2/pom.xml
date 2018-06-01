@@ -34,6 +34,12 @@
 			<version>3.1.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
@@ -48,6 +54,14 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.searchbox/jest -->
+		<dependency>
+			<groupId>io.searchbox</groupId>
+			<artifactId>jest</artifactId>
+			<version>5.3.3</version>
+		</dependency>
+
 
 		<!-- https://developers.google.com/api-client-library/java/apis/gmail/v1 -->
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
