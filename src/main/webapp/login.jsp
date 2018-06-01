@@ -1,3 +1,6 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <%@page import="authentication.*"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
@@ -117,7 +120,7 @@ if (email != null && email != "") {
 							<small>Forgot your <b>Password?</b></small>
 						</p>
 						<p class="pb20 text-primary">
-							Dont have an account yet? <a href="${pageContext.request.contextPath}/register"><b>Register
+							Dont have an account yet? <a href="${req.contextPath}/register"><b>Register
 									Now</b></a></small>
 						</p>
 					</form>
@@ -182,8 +185,9 @@ function onSignIn(googleUser) {
 }
 
 function register(email,name){
-	$("#loggin").html('<button type="submit" class="btn btn-primary loginformbutton" style="background: #28a745;">Loggin in ...</button>');
-	  $.ajax({
+	$("#loggin").html('<button type="button" class="btn btn-primary loginformbutton" style="background: #28a745;">Loggin in ...</button>');
+	
+	$.ajax({
 			url: baseurl+'register',
 			method: 'POST',
 			//dataType: 'json',

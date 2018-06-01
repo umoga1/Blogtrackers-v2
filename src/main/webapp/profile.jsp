@@ -1,3 +1,43 @@
+<%@page import="authentication.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.File"%>
+<%
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+
+if (email == null || email == "") {
+	response.sendRedirect("index.jsp");
+}
+
+ArrayList<?> userinfo = null;
+String profileimage= "";
+String username ="";
+String name="";
+String phone="";
+String date_modified = "";
+try{
+ userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+userinfo = (ArrayList<?>)userinfo.get(0);
+
+username = userinfo.get(0).toString();
+name = userinfo.get(4).toString()+" "+userinfo.get(5).toString();
+email = userinfo.get(2).toString();
+phone = userinfo.get(6).toString();
+date_modified = userinfo.get(11).toString();
+
+
+String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+String filename = path+userinfo.get(3).toString()+".jpg";
+profileimage = "images/default-avatar.png";
+
+File f = new File(filename);
+if(f.exists() && !f.isDirectory()) { 
+	profileimage = "images/profile_images/"+userinfo.get(3).toString()+".jpg";
+}
+
+}catch(Exception x){}
+//pimage = pimage.replace("build/", "");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,17 +73,17 @@
   <div class="offset-lg-9 col-lg-3 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
-    <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="60" height="60" alt="" class="float-left" />
+    <img src="<%=profileimage%>" width="60" height="60" alt="" class="float-left" />
     <div class="float-left" style="margin-left:20px;">
-      <h4 class="text-primary m0 bolder">Adigun Adekunle</h4>
-      <p class="text-primary">adigon2006@gmail.com</p>
+      <h4 class="text-primary m0 bolder"><%=name%></h4>
+      <p class="text-primary"><%=email%></p>
     </div>
 
   </div>
   <div id="othersection" class="col-md-12 mt100" style="clear:both">
   <a class="cursor-pointer profilemenulink" href="notifications.html"><h3 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h3> </a>
-  <a class="cursor-pointer profilemenulink" href="profile.html"><h3  class="text-primary">Profile</h3></a>
-  <a class="cursor-pointer profilemenulink" href="#"><h3 class="text-primary">Log Out</h3></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h3  class="text-primary">Profile</h3></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h3 class="text-primary">Log Out</h3></a>
   </div>
   </div>
 </div>
@@ -66,7 +106,7 @@
       <!-- Mobile menu  -->
       <div class="col-lg-4 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="./"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
           <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
@@ -77,8 +117,8 @@
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
-  <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="50" height="50" alt="" class="" />
-  <span>Hayder</span>
+  <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
+  <span><%=userinfo.get(0)%></span>
   <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
               <li><a href="#"> Features</a></li>
@@ -118,11 +158,11 @@
 
 <div class="row mt10">
 <div class="col-md-12">
-<img class="rounded mx-auto d-block profilepageimg" src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="150" height="150" alt="" />
-<h1 class="text-center pt20 pb0 text-primary super-bold-text">Adekunle Adigun</h1>
-<h6 class="text-center text-primary mb0 pb10">Email: adekunleadigun@yahoo.com</h6>
-<h6 class="text-center text-primary mb0 pb10">Phone: +1-512-567-2783</h6>
-<p class="text-center "><button class="btn btn-primary stylebutton2">02-01-2018&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;5:30pm</button></p>
+<img class="rounded mx-auto d-block profilepageimg" src="<%=profileimage%>" width="150" height="150" alt="" />
+<h1 class="text-center pt20 pb0 text-primary super-bold-text"><%=name%></h1>
+<h6 class="text-center text-primary mb0 pb10">Email: <%=email%></h6>
+<h6 class="text-center text-primary mb0 pb10">Phone: <%=phone%> </h6>
+<p class="text-center "><button class="btn btn-primary stylebutton2"><%=date_modified%></button></p>
 
 
 </div>

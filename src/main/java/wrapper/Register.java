@@ -71,6 +71,7 @@ public class Register extends HttpServlet {
 	              
 	              if(signin.equals("yes")) {
 	                  session.setAttribute("email",email);
+	                  session.setAttribute("username",login.get(0));
 	              }
 	              
 			}
@@ -82,7 +83,8 @@ public class Register extends HttpServlet {
 				String digest =dbinstance.md5Funct(password);
 				String query_string ="insert into usercredentials (UserName, Email, Password, MessageDigest, user_type,first_name,last_name,phone_number,address,profile_picture,last_updated,added_by,date_added ) VALUES ('"+email+"','"+email+"','"+password+"','"+digest+"','"+type+"','"+name+"','','','','','','','')";
 				//System.out.println(query_string);
-				boolean inserted = dbinstance.updateTable(query_string);  
+				boolean inserted = dbinstance.updateTable(query_string); 
+				 session.setAttribute("username",email);
 				 if(inserted) {
 					 if(signin.equals("yes")) {
 		                  session.setAttribute("email",email);
