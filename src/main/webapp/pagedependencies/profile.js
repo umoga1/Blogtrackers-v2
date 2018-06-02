@@ -17,6 +17,8 @@ fullname.removeAttr("readonly").focus();
 email.removeAttr("readonly");
 phone.removeAttr("readonly");
 $('.profileinput').css("border","1px solid #dedede");
+
+
 }
 else if(valueintext === "Update Account")
 {
@@ -41,6 +43,29 @@ if(oldpassword !== "" && oldpassword !== newpassword && newpassword === confirmp
 changedpassword = newpassword;
 // changed password
 }
+
+//console.log(name);
+	$.ajax({
+		url: baseurl+'register',
+		method: 'POST',
+		data: {
+			name: fullnameval,
+			email: emailval,			
+			phone: phoneval,
+			password:newpassword,
+			action: "update_profile",
+		},
+		error: function(response)
+		{						
+			console.log(response);		
+		},
+		success: function(response)
+		{       
+			console.log(response);
+			toastr.success('Profile successfully updated!','Success');
+			return false;
+		}
+	});
 //create a data array
 
 // perform a check to make sure password has been changed
@@ -108,8 +133,13 @@ function UpdateTextfiled(ElementID)
 {
 ElementID.on("input",function(){
 updatedInput = this.value;
-console.log(updatedInput);
+//console.log(updatedInput);
 ElementID.attr("value",updatedInput);
+
+name = ElementID.attr("name");
+
+	
+
 });
 }
 

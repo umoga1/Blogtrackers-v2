@@ -47,12 +47,15 @@ public class Register extends HttpServlet {
 	{
 		
 		//System.out.println("post request");
-		String email = request.getParameter("email").replaceAll("\\<.*?\\>", "");
-        String name = request.getParameter("name").replaceAll("\\<.*?\\>", "");
-        String password = request.getParameter("password").replaceAll("\\<.*?\\>", "");
+		String email = (null==request.getParameter("email"))?"":request.getParameter("email").replaceAll("\\<.*?\\>", "");
+        String name = (null==request.getParameter("name"))?"":request.getParameter("name").replaceAll("\\<.*?\\>", "");
+        String password = (null==request.getParameter("password"))?"":request.getParameter("password").replaceAll("\\<.*?\\>", "");
+		
+        String phone = (null==request.getParameter("phone"))?"":request.getParameter("phone").replaceAll("\\<.*?\\>", "");
         String type ="";// request.getParameter("user_type").replaceAll("\\<.*?\\>", "");
-        String submitted = request.getParameter("register");
-        String signin = request.getParameter("signin");
+        String submitted = (null==request.getParameter("register"))?"":request.getParameter("register");
+        String signin = (null==request.getParameter("signin"))?"":request.getParameter("signin");
+        String action = (null==request.getParameter("action"))?"":request.getParameter("action");
         
         DbConnection dbinstance = new DbConnection();
                 
@@ -103,8 +106,39 @@ public class Register extends HttpServlet {
 				
 			}
                         
+		}else if(action.equals("update_profile")) {
+			String username =session.getAttribute("email").toString();
+			String keys = "UPDATE usercredentials SET ";
+			String vals = "";
+			if(!name.equals("")) {
+				String[] namee = name.split(" ");
+				vals+="first_name = '"+namee[0]+"',";
+				
+				if(namee.length>1){
+					vals+="last_name = '"+namee[1]+"',";
+				}
+			}
+			if(!email.equals("")) {
+				vals+="Email = '"+email+"',";
+			}
+			if(!phone.equals("")) {
+				vals+="phone_number = '"+phone+"',";
+			}
+			if(!password.equals("")) {
+				vals+="Password = '"+password+"',";
+			}
+			
+			vals = vals.replaceAll(",$", "");
+			
+			String query_string=  keys+""+vals+" WHERE Email = '"+username+"'";
+			//System.out.println(query_string);
+			boolean updated = dbinstance.updateTable(query_string); 
+			if(updated && !email.equals("")) {
+				session.setAttribute("email",email);
+			}
 		}
-
 
 	}
 }
+
+

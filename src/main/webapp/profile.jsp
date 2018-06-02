@@ -15,8 +15,12 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
-try{
+
  userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+ 
+if (userinfo.size()<1) {
+	response.sendRedirect("index.jsp");
+}else{
 userinfo = (ArrayList<?>)userinfo.get(0);
 
 username = userinfo.get(0).toString();
@@ -35,7 +39,7 @@ if(f.exists() && !f.isDirectory()) {
 	profileimage = "images/profile_images/"+userinfo.get(3).toString()+".jpg";
 }
 
-}catch(Exception x){}
+
 //pimage = pimage.replace("build/", "");
 %>
 <!DOCTYPE html>
@@ -63,9 +67,22 @@ if(f.exists() && !f.isDirectory()) {
 
   <link rel="stylesheet" href="assets/css/style.css" />
 
-  <!--end of bootsrap -->
-  <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
-<script src="assets/js/popper.min.js" ></script>
+
+<link rel="stylesheet" href="assets/css/toastr.css">
+<!--end of bootsrap -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+
+<!-- JavaScript to be reviewed thouroughly by me -->
+<script type="text/javascript" src="assets/js/validate.min.js"></script>
+	<script type="text/javascript" src="assets/js/uniform.min.js"></script>
+	
+<script type="text/javascript" src="assets/js/toastr.js"></script>
+
+  <script>
+  <!-- update system url here -->
+  var baseurl = "http://localhost:8080/Blogtrackers/";
+  </script>
 </head>
 <body>
 <div class="modal-notifications">
@@ -166,15 +183,15 @@ if(f.exists() && !f.isDirectory()) {
   </label>
 </div>
 <form class="">
-<div class="mt10 form-group col-md-12 "><input class="text-center mt20 mb0 text-primary super-bold-text fullname inputnobg profileinput" type="text" id="fullname" readonly value="<%=name%>" /></div>
+<div class="mt10 form-group col-md-12 "><input class="text-center mt20 mb0 text-primary super-bold-text fullname inputnobg profileinput" name="name" type="text" id="fullname" readonly value="<%=name%>" /></div>
 <!-- <h6 class="text-center text-primary mb0 pb10">Email: adekunleadigun@yahoo.com</h6> -->
-<div class="mb0 pb10 form-group  col-md-12"><label class="text-center text-primary mb0 labelprofile">Email: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile profileinput" type="email" id="email" readonly value="<%=email%>" /></div>
-<div class="mb0 pb10 form-group  col-md-12"><label class="text-center text-primary mb0 labelprofile">Phone: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile profileinput" type="text" id="phone" readonly value="+1-512-567-2783" /></div>
+<div class="mb0 pb10 form-group  col-md-12"><label class="text-center text-primary mb0 labelprofile">Email: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile profileinput" type="email" name="Email" id="email" readonly value="<%=email%>" /></div>
+<div class="mb0 pb10 form-group  col-md-12"><label class="text-center text-primary mb0 labelprofile">Phone: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile profileinput" type="text" name="phone" id="phone" readonly value="<%=phone%>" /></div>
 <!-- <h6 class="text-center text-primary mb0 pb10">Phone: +1-512-567-2783</h6> -->
 <p class="text-center"><button class="btn btn-primary stylebutton2" id="changepassword">Change Password <i class="fas fa-lock"></i></button></p>
 <div class="passwordsection">
   <div class="mb0 pb10"><label class="text-center text-primary mb0 labelprofile">Old Password: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile passinput" type="password" id="password" readonly value="" /></div>
-  <div class="mb0 pb10"><label class="text-center text-primary mb0 labelprofile">New Password: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile passinput" type="password" id="newpassword" readonly value="" /></div>
+  <div class="mb0 pb10"><label class="text-center text-primary mb0 labelprofile" name="Password">New Password: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile passinput" type="password" id="newpassword" readonly value="" /></div>
   <div class="mb0 pb10"><label class="text-center text-primary mb0 labelprofile">Confirm Password: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile passinput" type="password" id="confirmpassword" readonly value="" /></div>
 </div>
 
@@ -202,7 +219,7 @@ if(f.exists() && !f.isDirectory()) {
 
 
 
-<script src="pagedependencies/profile.js">
+<script src="pagedependencies/profile.js?v=569901">
 
 </script>
 <!--end for table  -->
@@ -213,3 +230,4 @@ if(f.exists() && !f.isDirectory()) {
 
 </body>
 </html>
+<% } %>

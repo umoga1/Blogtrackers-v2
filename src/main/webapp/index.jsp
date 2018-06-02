@@ -1,3 +1,8 @@
+<%@page import="java.util.*"%>
+<%@page import="java.io.File"%>
+<%
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,9 +64,19 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Sponsors</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="login.jsp">Login</a>
-          </li>
+         <% if(email == "") { %>
+			  <li class="nav-item">
+				<a class="nav-link" href="login.jsp">Login</a>
+			  </li>
+          <% }else{ %>
+           
+			  <li class="nav-item">
+	            <a class="nav-link" href="<%=request.getContextPath()%>/profile.jsp">My Profile</a>
+	         </li>
+	 		<li class="nav-item">
+	            <a class="nav-link" href="<%=request.getContextPath()%>/logout">Logout</a>
+	         </li>
+          <% } %>
         </ul>
 </div>
   </div>
