@@ -17,17 +17,18 @@ String phone="";
 String date_modified = "";
 
  userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
- 
+ System.out.println(userinfo);
 if (userinfo.size()<1) {
 	response.sendRedirect("index.jsp");
 }else{
 userinfo = (ArrayList<?>)userinfo.get(0);
-
-username = userinfo.get(0).toString();
-name = userinfo.get(4).toString()+" "+userinfo.get(5).toString();
-email = userinfo.get(2).toString();
-phone = userinfo.get(6).toString();
-date_modified = userinfo.get(11).toString();
+try{
+username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+String lastname = (null==userinfo.get(5))?"":userinfo.get(5).toString();
+name = (null==userinfo.get(4))?"":(userinfo.get(4).toString()+" "+lastname);
+email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
+phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
+//date_modified = userinfo.get(11).toString();
 
 
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
@@ -38,7 +39,7 @@ File f = new File(filename);
 if(f.exists() && !f.isDirectory()) { 
 	profileimage = "images/profile_images/"+userinfo.get(3).toString()+".jpg";
 }
-
+}catch(Exception e){}
 
 //pimage = pimage.replace("build/", "");
 %>
@@ -135,7 +136,7 @@ if(f.exists() && !f.isDirectory()) {
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
   <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
-  <span><%=userinfo.get(0)%></span>
+  <span><%=name%></span>
   <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
               <li><a href="#"> Features</a></li>

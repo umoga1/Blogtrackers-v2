@@ -86,7 +86,7 @@ $(function() {
 		}
 		
 		console.log("clicked");
-		//$("#loggin").html('<button type="button" class="btn btn-primary loginformbutton" style="background: #28a745;">Logging in ...</button>');
+		$("#loggin2").html('<button type="button" class="btn btn-primary loginformbutton" style="background: #28a745;">Logging in ...</button>');
 		
 		var password = $("#password").val();
 			$.ajax({
