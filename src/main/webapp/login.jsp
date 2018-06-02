@@ -106,7 +106,7 @@ if (email != null && email != "") {
 							<div class="valid-feedback">Looks Good</div>
 						</div>
 						<br />
-						
+						<div class=""  id="loggin2"></div>
 						<div class=""  id="loggin">
 							<button type="submit" class="btn btn-primary loginformbutton"
 								style="background: #28a745;">Login</button>
