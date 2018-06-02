@@ -53,6 +53,8 @@ public class Register extends HttpServlet {
 		
         String phone = (null==request.getParameter("phone"))?"":request.getParameter("phone").replaceAll("\\<.*?\\>", "");
         String type ="";// request.getParameter("user_type").replaceAll("\\<.*?\\>", "");
+		String picture = (null==request.getParameter("profile_picture"))?"":request.getParameter("profile_picture").replaceAll("\\<.*?\\>", "");
+        
         String submitted = (null==request.getParameter("register"))?"":request.getParameter("register");
         String signin = (null==request.getParameter("signin"))?"":request.getParameter("signin");
         String action = (null==request.getParameter("action"))?"":request.getParameter("action");
@@ -73,6 +75,7 @@ public class Register extends HttpServlet {
 	              pww.write("exists"); 
 	              
 	              if(signin.equals("yes")) {
+					  dbinstance.updateTable("UPDATE usercredentials SET profile_picture='"+picture+"', first_name='"+name+"' WHERE Email ='"+email+"'"); 
 	                  session.setAttribute("email",email);
 	                  session.setAttribute("username",login.get(0));
 	              }
@@ -111,12 +114,9 @@ public class Register extends HttpServlet {
 			String keys = "UPDATE usercredentials SET ";
 			String vals = "";
 			if(!name.equals("")) {
-				String[] namee = name.split(" ");
-				vals+="first_name = '"+namee[0]+"',";
 				
-				if(namee.length>1){
-					vals+="last_name = '"+namee[1]+"',";
-				}
+				vals+="first_name = '"+name+"',";
+				
 			}
 			if(!email.equals("")) {
 				vals+="Email = '"+email+"',";
@@ -136,6 +136,14 @@ public class Register extends HttpServlet {
 			if(updated && !email.equals("")) {
 				session.setAttribute("email",email);
 			}
+			
+		}else if(action.equals("delete_account")) {
+			
+			boolean updatedd = dbinstance.updateTable("DELETE FROM usercredentials WHERE Email = '"+email+"'"); 
+			if(updatedd){
+				session.invalidate();
+			}
+			
 		}
 
 	}

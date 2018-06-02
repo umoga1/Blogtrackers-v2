@@ -1,6 +1,32 @@
 $(document).ready(function() {
 
 // editing the account handler
+$('#deleteaccount').click(function(e){
+e.preventDefault();
+var opt = prompt("Are you sure you want to delete this account");
+
+if(opt==true){
+	$.ajax({
+		url: baseurl+'register',
+		method: 'POST',
+		data: {
+			action: "delete_account",
+		},
+		error: function(response)
+		{						
+			console.log(response);		
+		},
+		success: function(response)
+		{       
+			toastr.success('Account successfully deleted!','Success');
+			window.location.href = baseurl+"login";
+		}
+	});
+}
+return false;
+});
+
+
 $('#editaccount').click(function(e){
 e.preventDefault();
 valueintext = $('#editaccount').html()
