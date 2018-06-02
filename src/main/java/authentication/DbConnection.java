@@ -69,7 +69,7 @@ public class DbConnection {
 
 			if(connectionURL != null && username != null && password != null) {		//check to see if the connection parameter was successfully loaded
 				try {
-					Class.forName("com.mysql.jdbc.Driver");											//load the connection driver
+					Class.forName(driver);	//com.mysql.jdbc.Driver										//load the connection driver
 				}catch(ClassNotFoundException ex) {									//since this class can throw ClassNotFoundException so we are catching it
 					ex.printStackTrace();											//if there is an exception, give us a stacktrace of it
 				}
