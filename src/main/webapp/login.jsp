@@ -116,10 +116,10 @@ if (email != null && email != "") {
 							</button><span></span>
  					</div>
 						<p class="pt20 text-primary">
-							<small>Forgot your <b>Password?</b></small>
+							<small>Forgot your <a href="<%=request.getContextPath()%>/forgotpassword.jsp"><b>Password?</b></a></small>
 						</p>
 						<p class="pb20 text-primary">
-							Dont have an account yet? <a href="${req.contextPath}/register"><b>Register
+							Dont have an account yet? <a href="<%=request.getContextPath()%>/register"><b>Register
 									Now</b></a></small>
 						</p>
 					</form>
