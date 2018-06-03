@@ -138,8 +138,8 @@ public class Register extends HttpServlet {
 			}
 			
 		}else if(action.equals("delete_account")) {
-			
-			boolean updatedd = dbinstance.updateTable("DELETE FROM usercredentials WHERE Email = '"+email+"'"); 
+			String idd =session.getAttribute("email").toString();
+			boolean updatedd = dbinstance.updateTable("DELETE FROM usercredentials WHERE Email = '"+idd+"'"); 
 			if(updatedd){
 				session.invalidate();
 			}
