@@ -102,6 +102,8 @@ $(function() {
 				{						
 					console.log(response);
 					$("#error_message-box").html('Invalid username/password');
+					$("#loggin2").html('');
+		
 				},
 				success: function(response)
 				{       
@@ -111,6 +113,7 @@ $(function() {
 					// console.log(login_status);
 					if(login_status === "invalid"){
 						$("#error_message-box").html('Invalid username/password');
+						$("#loggin2").html('');
 					}else if(login_status == "success"){
 						toastr.success('Login successfull!','Success');
 						window.location.href = baseurl+"dashboard.jsp";
