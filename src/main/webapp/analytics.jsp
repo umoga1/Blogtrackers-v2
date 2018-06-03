@@ -18,13 +18,13 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 username = userinfo.get(0).toString();
 
+String userpic = userinfo.get(9).toString();
+
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = path+userinfo.get(3).toString()+".jpg";
 profileimage = "images/default-avatar.png";
-
-File f = new File(filename);
-if(f.exists() && !f.isDirectory()) { 
-	profileimage = "images/profile_images/"+userinfo.get(3).toString()+".jpg";
+if(userpic.indexOf("http")>-1){
+	profileimage = userpic;
 }
 
 }catch(Exception x){}

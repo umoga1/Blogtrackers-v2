@@ -116,10 +116,10 @@ if (email != null && email != "") {
 							</button><span></span>
  					</div>
 						<p class="pt20 text-primary">
-							<small>Forgot your <b>Password?</b></small>
+							<small>Forgot your <a href="<%=request.getContextPath()%>/forgotpassword.jsp"><b>Password?</b></a></small>
 						</p>
 						<p class="pb20 text-primary">
-							Dont have an account yet? <a href="${req.contextPath}/register"><b>Register
+							Dont have an account yet? <a href="<%=request.getContextPath()%>/register"><b>Register
 									Now</b></a></small>
 						</p>
 					</form>
@@ -169,7 +169,9 @@ function attachSignin(element) {
       function(googleUser) {
         var profile = googleUser.getBasicProfile();
         console.log(profile+"Here");
-       	register(profile.getEmail(),profile.getName()); 
+	console.log(profile.getImageUrl());
+  
+       	register(profile.getEmail(),profile.getName(),profile.getImageUrl()); 
        
       }, function(error) {
         
@@ -178,12 +180,11 @@ function attachSignin(element) {
 
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
-  console.log(profile);
-  register(profile.getEmail(),profile.getName());
-  
+  console.log(profile.getImageUrl());
+  register(profile.getEmail(),profile.getName(),profile.getImageUrl()); 
 }
 
-function register(email,name){
+function register(email,name,pic){
 	$("#loggin").html('<button type="button" class="btn btn-primary loginformbutton" style="background: #28a745;">Loggin in ...</button>');
 	
 	$.ajax({
@@ -193,6 +194,7 @@ function register(email,name){
 			data: {
 				email: email,
 				name: name,
+				profile_picture: pic,
 				password: "",
 				register: "yes",
 				signin: "yes",

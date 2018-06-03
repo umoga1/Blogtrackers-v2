@@ -17,7 +17,7 @@ String phone="";
 String date_modified = "";
 
  userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
- System.out.println(userinfo);
+ //System.out.println(userinfo);
 if (userinfo.size()<1) {
 	response.sendRedirect("index.jsp");
 }else{
@@ -30,10 +30,16 @@ email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
 //date_modified = userinfo.get(11).toString();
 
+String userpic = userinfo.get(9).toString();
 
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = path+userinfo.get(3).toString()+".jpg";
 profileimage = "images/default-avatar.png";
+if(userpic.indexOf("http")>-1){
+	profileimage = userpic;
+}
+
+
 
 File f = new File(filename);
 if(f.exists() && !f.isDirectory()) { 
@@ -199,7 +205,7 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 </div>
 
-<div class="text-center mt50 mb50"><button class="btn btn-primary profilebtn" id="editaccount">Edit Account</button>&nbsp;&nbsp; <button class="btn btn-danger profilebtn">Delete Account</button></div>
+<div class="text-center mt50 mb50"><button type="button" class="btn btn-primary profilebtn" id="editaccount">Edit Account</button>&nbsp;&nbsp; <button class="btn btn-danger profilebtn" id="deleteaccount">Delete Account</button></div>
 
 </div>
 
@@ -220,7 +226,7 @@ if(f.exists() && !f.isDirectory()) {
 
 
 
-<script src="pagedependencies/profile.js?v=569901">
+<script src="pagedependencies/profile.js?v=99901">
 
 </script>
 <!--end for table  -->

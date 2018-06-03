@@ -1,6 +1,32 @@
 $(document).ready(function() {
 
 // editing the account handler
+$('#deleteaccount').click(function(e){
+e.preventDefault();
+var opt = confirm("Are you sure you want to delete this account");
+
+if(opt==true){
+	$.ajax({
+		url: baseurl+'register',
+		method: 'POST',
+		data: {
+			action: "delete_account",
+		},
+		error: function(response)
+		{						
+			console.log(response);		
+		},
+		success: function(response)
+		{       
+			toastr.success('Account successfully deleted!','Success');
+			window.location.href = baseurl+"login";
+		}
+	});
+}
+return false;
+});
+
+
 $('#editaccount').click(function(e){
 e.preventDefault();
 valueintext = $('#editaccount').html()
@@ -40,10 +66,15 @@ phoneval  = $('#phone').val();
 
 if(oldpassword !== "" && oldpassword !== newpassword && newpassword === confirmpassword)
 {
+	
 changedpassword = newpassword;
 // changed password
 }
 
+if(oldpassword !== newpassword && newpassword !== confirmpassword){
+	toastr.error('Your password did not match!','Invalid');
+	return false;
+}else{
 //console.log(name);
 	$.ajax({
 		url: baseurl+'register',
@@ -66,6 +97,9 @@ changedpassword = newpassword;
 			return false;
 		}
 	});
+	
+	
+}
 //create a data array
 
 // perform a check to make sure password has been changed
