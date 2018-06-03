@@ -12,23 +12,42 @@ if (email == null || email == "") {
 ArrayList<?> userinfo = null;
 String profileimage= "";
 String username ="";
-try{
+String name="";
+String phone="";
+String date_modified = "";
+
  userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+ //System.out.println(userinfo);
+if (userinfo.size()<1) {
+	response.sendRedirect("index.jsp");
+}else{
 userinfo = (ArrayList<?>)userinfo.get(0);
+try{
+username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
 
-username = userinfo.get(0).toString();
-
+name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
+email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
+phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
+//date_modified = userinfo.get(11).toString();
 
 String userpic = userinfo.get(9).toString();
 
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
-String filename = path+userinfo.get(3).toString()+".jpg";
+String filename = userinfo.get(9).toString();
+
 profileimage = "images/default-avatar.png";
 if(userpic.indexOf("http")>-1){
 	profileimage = userpic;
 }
 
-}catch(Exception x){}
+
+
+File f = new File(filename);
+if(f.exists() && !f.isDirectory()) { 
+	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+}
+}catch(Exception e){}
+
 //pimage = pimage.replace("build/", "");
 %>
 <!DOCTYPE html>
@@ -1485,3 +1504,4 @@ var mymarker = [
 <script type="text/javascript" src="assets/vendors/maps/vector_maps_demo.js"></script>
 </body>
 </html>
+<% } %>

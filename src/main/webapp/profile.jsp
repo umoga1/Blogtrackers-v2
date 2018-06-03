@@ -24,8 +24,8 @@ if (userinfo.size()<1) {
 userinfo = (ArrayList<?>)userinfo.get(0);
 try{
 username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
-String lastname = (null==userinfo.get(5))?"":userinfo.get(5).toString();
-name = (null==userinfo.get(4))?"":(userinfo.get(4).toString()+" "+lastname);
+
+name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
 email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
 //date_modified = userinfo.get(11).toString();
@@ -33,7 +33,8 @@ phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
 String userpic = userinfo.get(9).toString();
 
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
-String filename = path+userinfo.get(3).toString()+".jpg";
+String filename = userinfo.get(9).toString();
+
 profileimage = "images/default-avatar.png";
 if(userpic.indexOf("http")>-1){
 	profileimage = userpic;
@@ -43,7 +44,7 @@ if(userpic.indexOf("http")>-1){
 
 File f = new File(filename);
 if(f.exists() && !f.isDirectory()) { 
-	profileimage = "images/profile_images/"+userinfo.get(3).toString()+".jpg";
+	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
 }
 }catch(Exception e){}
 
@@ -183,12 +184,18 @@ if(f.exists() && !f.isDirectory()) {
 <div class="row mt10">
 
 <div class="col-md-12 text-center">
+<form class="form-horizontal" id="image-form" name="upload_form" enctype="multipart/form-data" action="fileupload.jsp" method="POST">
+						
   <div class="custom-file profileimgupload">
-  <input type="file" class="custom-file-input" id="customFileLang" lang="es">
+  <input type="file" name="userfile" accept="image/*" class="custom-file-input" id="customFileLang" lang="es">
   <label class="custom-file-label" for="customFileLang">
- <img class="rounded mx-auto d-block profilepageimg" src="<%=profileimage%>" width="150" height="150" alt="" />
+ <img class="rounded mx-auto d-block profilepageimg" src="<%=profileimage%>?v=6" width="150" height="150" alt="" />
   </label>
 </div>
+
+<!--  <button type="submit" class="btn btn-primary profilebtn" >Submit</button> -->
+</form>
+
 <form class="">
 <div class="mt10 form-group col-md-12 "><input class="text-center mt20 mb0 text-primary super-bold-text fullname inputnobg profileinput" name="name" type="text" id="fullname" readonly value="<%=name%>" /></div>
 <!-- <h6 class="text-center text-primary mb0 pb10">Email: adekunleadigun@yahoo.com</h6> -->
@@ -226,7 +233,7 @@ if(f.exists() && !f.isDirectory()) {
 
 
 
-<script src="pagedependencies/profile.js?v=99901">
+<script src="pagedependencies/profile.js?v=799089809999901">
 
 </script>
 <!--end for table  -->

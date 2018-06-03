@@ -59,6 +59,7 @@ public static void postMail( String[] recipients, String subject, String message
     // set the from and to address
     InternetAddress addressFrom = new InternetAddress("blogtrackers@gmail.com");
     msg.setFrom(addressFrom);
+    //
 
     InternetAddress[] addressTo = new InternetAddress[recipients.length]; 
     for (int i = 0; i < recipients.length; i++)

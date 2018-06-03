@@ -27,6 +27,26 @@ return false;
 });
 
 
+$('#customFileLang').change(function(evt){	
+	var tgt = evt.target || window.event.srcElement,
+        files = tgt.files;
+
+    // FileReader support
+    if (FileReader && files && files.length) {
+        var fr = new FileReader();
+        fr.onload = function () {
+            $(".profilepageimg").attr("src",fr.result);
+
+						
+        }
+        fr.readAsDataURL(files[0]);
+    }else {
+        // fallback -- perhaps submit the input to an iframe and temporarily store
+        // them on the server until the user's session ends.
+    }
+	
+});
+
 $('#editaccount').click(function(e){
 e.preventDefault();
 valueintext = $('#editaccount').html()
@@ -64,6 +84,9 @@ fullnameval = $('#fullname').val();
 emailval  = $('#email').val();
 phoneval  = $('#phone').val();
 
+file = $("#customFileLang").val();
+console.log(file);
+
 if(oldpassword !== "" && oldpassword !== newpassword && newpassword === confirmpassword)
 {
 	
@@ -84,6 +107,7 @@ if(oldpassword !== newpassword && newpassword !== confirmpassword){
 			email: emailval,			
 			phone: phoneval,
 			password:newpassword,
+			oldpassword:oldpassword,
 			action: "update_profile",
 		},
 		error: function(response)
@@ -92,9 +116,20 @@ if(oldpassword !== newpassword && newpassword !== confirmpassword){
 		},
 		success: function(response)
 		{       
-			console.log(response);
-			toastr.success('Profile successfully updated!','Success');
-			return false;
+		console.log(response);
+			var statuss = response;//.responseText;
+					// console.log(login_status);
+					if(statuss === "success"){
+						toastr.success('Profile successfully updated!','Success');
+						if(file!=""){
+							$("#image-form").submit();
+						}
+						return false;
+					}else{
+						toastr.error('Old password is not valid!','Invalid');
+						return false;
+					}
+						
 		}
 	});
 	
