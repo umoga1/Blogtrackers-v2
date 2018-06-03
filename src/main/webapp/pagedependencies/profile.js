@@ -71,6 +71,10 @@ changedpassword = newpassword;
 // changed password
 }
 
+if(oldpassword !== newpassword && newpassword !== confirmpassword){
+	toastr.error('Your password did not match!','Invalid');
+	return false;
+}else{
 //console.log(name);
 	$.ajax({
 		url: baseurl+'register',
@@ -93,6 +97,9 @@ changedpassword = newpassword;
 			return false;
 		}
 	});
+	
+	
+}
 //create a data array
 
 // perform a check to make sure password has been changed
