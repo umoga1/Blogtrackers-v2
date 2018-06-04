@@ -50,6 +50,8 @@ public class Register extends HttpServlet {
 		String email = (null==request.getParameter("email"))?"":request.getParameter("email").replaceAll("\\<.*?\\>", "");
         String name = (null==request.getParameter("name"))?"":request.getParameter("name").replaceAll("\\<.*?\\>", "");
         String password = (null==request.getParameter("password"))?"":request.getParameter("password").replaceAll("\\<.*?\\>", "");
+		String oldpassword = (null==request.getParameter("oldpassword"))?"":request.getParameter("oldpassword").replaceAll("\\<.*?\\>", "");
+		
 		
         String phone = (null==request.getParameter("phone"))?"":request.getParameter("phone").replaceAll("\\<.*?\\>", "");
         String type ="";// request.getParameter("user_type").replaceAll("\\<.*?\\>", "");
@@ -111,30 +113,41 @@ public class Register extends HttpServlet {
                         
 		}else if(action.equals("update_profile")) {
 			String username =session.getAttribute("email").toString();
-			String keys = "UPDATE usercredentials SET ";
-			String vals = "";
-			if(!name.equals("")) {
-				
-				vals+="first_name = '"+name+"',";
-				
-			}
-			if(!email.equals("")) {
-				vals+="Email = '"+email+"',";
-			}
-			if(!phone.equals("")) {
-				vals+="phone_number = '"+phone+"',";
-			}
-			if(!password.equals("")) {
-				vals+="Password = '"+password+"',";
+			boolean exi = false;
+			if(!password.equals("") && !oldpassword.equals("")){
+				ArrayList ex = dbinstance.query("SELECT Email FROM usercredentials where Email = '"+username+"' AND password ='"+oldpassword+"' ");
+				if(ex.size()<1){
+					exi = true;
+					response.setContentType("text/html");
+		            pww.write("nomatch"); 
+				}
 			}
 			
-			vals = vals.replaceAll(",$", "");
-			
-			String query_string=  keys+""+vals+" WHERE Email = '"+username+"'";
-			//System.out.println(query_string);
-			boolean updated = dbinstance.updateTable(query_string); 
-			if(updated && !email.equals("")) {
-				session.setAttribute("email",email);
+			if(!exi){
+				String keys = "UPDATE usercredentials SET ";
+				String vals = "";
+				if(!name.equals("")) {			
+					vals+="first_name = '"+name+"',";			
+				}
+				if(!email.equals("")) {
+					vals+="Email = '"+email+"',";
+				}
+				if(!phone.equals("")) {
+					vals+="phone_number = '"+phone+"',";
+				}
+				if(!password.equals("")) {
+					vals+="Password = '"+password+"',";
+				}
+				
+				vals = vals.replaceAll(",$", "");
+				
+				String query_string=  keys+""+vals+" WHERE Email = '"+username+"'";
+				boolean updated = dbinstance.updateTable(query_string); 
+				if(updated && !email.equals("")) {
+					session.setAttribute("email",email);
+					response.setContentType("text/html");
+		            pww.write("success"); 
+				}
 			}
 			
 		}else if(action.equals("delete_account")) {
