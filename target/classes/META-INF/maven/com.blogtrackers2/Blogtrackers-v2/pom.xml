@@ -28,6 +28,7 @@
 
 		<!-- Add this portion to fix the javax.servlet.http.Servlet error or Add 
 			apache tomcat to Targeted runtime -->
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>

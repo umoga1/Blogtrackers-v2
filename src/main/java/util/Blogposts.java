@@ -75,7 +75,8 @@ public ArrayList _list(String order) throws Exception {
      in.close();
      
      JSONObject myResponse = new JSONObject(response.toString());
-     ArrayList<String> list = new ArrayList<String>();    
+     ArrayList<String> list = new ArrayList<String>(); 
+     System.out.println(myResponse.getString("hits"));
      if(null!=myResponse.getString("hits")) {
 	     String res = myResponse.getString("hits");
 	     JSONObject myRes1 = new JSONObject(res);
