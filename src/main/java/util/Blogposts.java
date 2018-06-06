@@ -44,7 +44,8 @@ public ArrayList _list(String order) throws Exception {
 	 
 	 System.out.println(query.toString());
 	 
-     String url = base_url+"_search/";
+	 
+     String url = base_url+"_search?size=50";
      URL obj = new URL(url);
      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
      
@@ -76,17 +77,17 @@ public ArrayList _list(String order) throws Exception {
      
      JSONObject myResponse = new JSONObject(response.toString());
      ArrayList<String> list = new ArrayList<String>(); 
-     System.out.println(myResponse.getString("hits"));
-     if(null!=myResponse.getString("hits")) {
-	     String res = myResponse.getString("hits");
+     System.out.println(myResponse.get("hits"));
+     if(null!=myResponse.get("hits")) {
+	     String res = myResponse.get("hits").toString();
 	     JSONObject myRes1 = new JSONObject(res);
 	     
 	
 	     
-	      String total = myRes1.getString("total");
+	      String total = myRes1.get("total").toString();
 	      this.totalpost = total;
 	    
-	     JSONArray jsonArray = new JSONArray(myRes1.getString("hits")); 
+	     JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
 	     
 	     if (jsonArray != null) { 
 	        int len = jsonArray.length();
@@ -142,34 +143,34 @@ public ArrayList _search(String term) throws Exception {
          new InputStreamReader(con.getInputStream()));
     String inputLine;
     StringBuffer response = new StringBuffer();
+    
     while ((inputLine = in.readLine()) != null) {
-    	response.append(inputLine);
-    }
-    in.close();
-    
-    JSONObject myResponse = new JSONObject(response.toString());
-    ArrayList<String> list = new ArrayList<String>();  
-    
-    if(null!=myResponse.getString("hits")) {
-	    String res = myResponse.getString("hits");
-	    JSONObject myRes1 = new JSONObject(res);
-	    
-	
-	    
-	     String total = myRes1.getString("total");
+     	response.append(inputLine);
+     }
+     in.close();
+     
+     JSONObject myResponse = new JSONObject(response.toString());
+     ArrayList<String> list = new ArrayList<String>(); 
+     //System.out.println(myResponse.get("hits"));
+     if(null!=myResponse.get("hits")) {
+	     String res = myResponse.get("hits").toString();
+	     JSONObject myRes1 = new JSONObject(res);
 	     
-	     this.totalpost = total;
-	       
-	    JSONArray jsonArray = new JSONArray(myRes1.getString("hits")); 
+	
+	     
+	      String total = myRes1.get("total").toString();
+	      this.totalpost = total;
 	    
-	    if (jsonArray != null) { 
-	       int len = jsonArray.length();
-	       for (int i=0;i<len;i++){ 
-	        list.add(jsonArray.get(i).toString());
-	       } 
-	    }
-    }
-   return  list;
+	     JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
+	     
+	     if (jsonArray != null) { 
+	        int len = jsonArray.length();
+	        for (int i=0;i<len;i++){ 
+	         list.add(jsonArray.get(i).toString());
+	        } 
+	     }
+     }
+    return  list;
 }
 
 

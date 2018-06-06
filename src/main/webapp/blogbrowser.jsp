@@ -209,10 +209,10 @@ String total = post._getTotal();
 			String res = results.get(i).toString();
 			
 			JSONObject resp = new JSONObject(res);
-		    String resu = resp.getString("_source");
+		    String resu = resp.get("_source").toString();
 		     JSONObject obj = new JSONObject(resu);
 		     
-		     String pst = obj.getString("post");
+		     String pst = obj.get("post").toString();
 		     if(pst.length()>120){
 		    	 pst = pst.substring(0,120);
 		     }
