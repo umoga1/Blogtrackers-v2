@@ -29,6 +29,7 @@ background-color: #17394C;
 {
 background-color: rgba(0,0,0,0.5);
 }
+
 circle text{
   fill:black;   /* <== Set the fill */
 text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
@@ -41,7 +42,28 @@ cursor: move;
   font-weight: bolder;
   color: red;
 }
-
+.buttonportfolio
+{
+background: #fafafa;
+color:#17384B;
+border: 1px solid #EFEFEF;
+border-radius: 30px;
+padding:4px 15px;
+font-size: 1.25rem;
+min-width:190px;
+-webkit-box-shadow: 0px 7px 0px -2px rgba(233,233,233,1);
+-moz-box-shadow: 0px 7px 0px -2px rgba(233,233,233,1);
+box-shadow: 0px 7px 0px -2px rgba(233,233,233,1);
+}
+.iconportfolio
+{
+padding-top: 5px;
+}
+.buttonportfolio:hover{
+background: none;
+border: none;
+color:#17384B;
+}
 .carousel-control-prev-icon:before {
   content: '<';
   font-size: 22px;
@@ -56,6 +78,10 @@ cursor: move;
 .text-blue
 {
 color:#0080CC;
+}
+.text-green
+{
+color:#44AF69;
 }
 .notificationsfont
 {
@@ -212,27 +238,35 @@ border:none;
 }
 .extra-light-text
 {
-font-weight: 100;
+font-weight: 100 !important;
 }
 .ultra-light-text
 {
-font-weight: 200;
+font-weight: 200 !important;
 }
 .light-text
 {
-font-weight: 300;
+font-weight: 300 !important;
 }
 .bold-text
 {
-font-weight: 400;
+font-weight: 400 !important;
 }
 .semi-bold-text
 {
-font-weight: 500;
+font-weight: 500 !important;
 }
 .super-bold-text
 {
-font-weight: 600;
+font-weight: 600 !important;
+}
+.ultra-bold-text
+{
+font-weight: 700 !important;
+}
+.blogcontenticon
+{
+  font-size: 14px;
 }
 /*  */
 
@@ -291,7 +325,18 @@ border-radius: 50%;
 {
 cursor: pointer;
 }
-
+.searchiconinput
+{
+color:#E0E2E4;
+position:absolute !important;
+font-size: 18px;
+top:35px !important;
+left:25px;
+}
+.inputportfolio
+{
+padding-left: 30px;
+}
 .dropdown-menu
 {
 position: absolute !important;
@@ -453,7 +498,8 @@ background: black;
 }
 .activebar
 {
-  background:#0080CC;
+  background:#44AF69;
+  border:1px solid #44AF69;
 }
 .activebar h6, .activebar h2
 {
@@ -641,6 +687,7 @@ padding: 0.19rem 0.75rem;
 font-weight: 700;
 background: #1F90D0;
 color:#ffffff;
+min-width: 130px;
 }
 .stylebuttonnocolor
 {
@@ -659,6 +706,7 @@ padding: 0.19rem 0.75rem;
 font-weight: 700;
 background: #FBAB0F;
 color:#17384B;
+min-width: 130px;
 }
 .stylebutton5
 {
@@ -1219,8 +1267,8 @@ background-color: #45606f;
 .d3-axis-solid .tick text {
   fill: #999999;
 }
-.d3-axis-strong path,
-.d3-axis-strong line {
+.d3-axis-strong path
+,.d3-axis-strong line {
   stroke: #ccc;
 }
 .d3-axis-strong .tick {

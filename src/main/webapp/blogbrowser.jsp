@@ -1,17 +1,72 @@
+<%@page import="authentication.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.File"%>
 <%@page import="util.Blogposts"%>
 <%@page import="java.util.ArrayList"%>
-
 <%@page import="org.json.JSONObject"%>
-
 <%
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+
+if (email == null || email == "") {
+	response.sendRedirect("index.jsp");
+}else{
+
+ArrayList<?> userinfo = null;
+String profileimage= "";
+String username ="";
+String name="";
+String phone="";
+String date_modified = "";
+
+ userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+ //System.out.println(userinfo);
+if (userinfo.size()<1) {
+	response.sendRedirect("index.jsp");
+}else{
+userinfo = (ArrayList<?>)userinfo.get(0);
+try{
+username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+
+name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
+
+
+email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
+phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
+//date_modified = userinfo.get(11).toString();
+
+String userpic = userinfo.get(9).toString();
+
+String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+String filename = userinfo.get(9).toString();
+
+profileimage = "images/default-avatar.png";
+if(userpic.indexOf("http")>-1){
+	profileimage = userpic;
+}
+
+
+
+File f = new File(filename);
+if(f.exists() && !f.isDirectory()) { 
+	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+}
+}catch(Exception e){}
+
+String[] user_name = name.split(" ");
+
 Blogposts post  = new Blogposts();
-ArrayList results = post._list("DESC");
-
+String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
+ArrayList results = null;
+if(term.equals("")){
+	results = post._list("DESC");
+}else{
+	results = post._search(term);
+}
 String total = post._getTotal();
-
-ArrayList res2 = post._search("Afganistan");
-System.out.println(res2);
+//pimage = pimage.replace("build/", "");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,23 +102,25 @@ System.out.println(res2);
   <div class="offset-lg-9 col-lg-3 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
-    <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="60" height="60" alt="" class="float-left" />
+    <img src="<%=profileimage%>" width="60" height="60" alt="" class="float-left" />
     <div class="float-left" style="margin-left:20px;">
-      <h4 class="text-primary m0 bolder">Adigun Adekunle</h4>
-      <p class="text-primary">adigon2006@gmail.com</p>
+      <h4 class="text-primary m0 bolder"><%=name%></h4>
+      <p class="text-primary"><%=email%></p>
     </div>
 
   </div>
   <div id="othersection" class="col-md-12 mt100" style="clear:both">
   <a class="cursor-pointer profilemenulink" href="notifications.html"><h3 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h3> </a>
-  <a class="cursor-pointer profilemenulink" href="profile.html"><h3  class="text-primary">Profile</h3></a>
-  <a class="cursor-pointer profilemenulink" href="#"><h3 class="text-primary">Log Out</h3></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h3  class="text-primary">Profile</h3></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h3 class="text-primary">Log Out</h3></a>
   </div>
   </div>
 </div>
 </div>
+  
+  
   <nav class="navbar navbar-inverse bg-primary">
-    <div class="container-fluid mt10">
+    <div class="container-fluid mt10 mb10">
 
       <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
       <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
@@ -73,7 +130,6 @@ System.out.println(res2);
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
       </button>
-
       </nav>
       <!-- <div class="navbar-header ">
       <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
@@ -81,7 +137,7 @@ System.out.println(res2);
       <!-- Mobile menu  -->
       <div class="col-lg-4 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="./"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
           <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
@@ -92,8 +148,8 @@ System.out.println(res2);
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
-  <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="50" height="50" alt="" class="" />
-  <span>Hayder</span>
+  <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
+  <span><%=user_name[0]%></span>
   <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
               <li><a href="#"> Features</a></li>
@@ -122,18 +178,25 @@ System.out.println(res2);
             </ul>
     </div>
       </div>
-
-      <div class="col-md-12 mt0">
-      <input type="search" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" placeholder="Search Posts" />
+<div class="profilenavbar" style="visibility:hidden;">></div>
+	   <div class="col-md-12 mt0">
+      <form name="serach-form" method="post" action=""><input type="search" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" placeholder="Search Posts" /></form>
       </div>
 
     </nav>
+	
+	
 <div class="container">
 
 
 <div class="row mt50">
 <div class="col-md-12 ">
+<% if(!term.equals("")){ %>
+<h6 class="float-left text-primary"><%=total%> posts found for "<%=term%>"</h6>
+<%}else{%>
 <h6 class="float-left text-primary"><%=total%> posts in our knowlede database</h6>
+
+<%}%>
 <h6 class="float-right text-primary">Recent <i class="fas fa-chevron-down"></i><h6/>
 </div>
 </div>
@@ -213,3 +276,4 @@ $(document).ready(function() {
 
 </body>
 </html>
+<% }} %>
