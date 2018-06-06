@@ -108,24 +108,18 @@ public ArrayList _search(String term) throws Exception {
 	 ArrayList result = new ArrayList();
 	 
 	 JSONObject query = new JSONObject();
-	
-	 
-	 
 	 JSONObject qstr = new JSONObject();
 	 JSONObject fields =new JSONObject();
+	 JSONObject qry = new JSONObject();
 	
 	
 	 fields.put("fields", "['blogger','blogger','post']");
-	
-	
-	 qstr.put("fields", fields);
-	 qstr.put("query", term);
+	 
+	 qry.put("query", term); 
+	 qstr.put("query_string", fields);
+	 qstr.put("query_string", qry);
 	 
 	 query.put("query", qstr);
-	
-	 
-	 //auth.put("passwordCredentials", cred);
-	 //parent.put("auth", auth);
 	 
 	 System.out.println(query.toString());
 	 

@@ -6,7 +6,11 @@
 <%
 Blogposts post  = new Blogposts();
 ArrayList results = post._list("DESC");
+
 String total = post._getTotal();
+
+ArrayList res2 = post._search("Afganistan");
+System.out.println(res2);
 %>
 <!DOCTYPE html>
 <html>
