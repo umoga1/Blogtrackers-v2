@@ -213,6 +213,9 @@ String total = post._getTotal();
 		     JSONObject obj = new JSONObject(resu);
 		     
 		     String pst = obj.getString("post");
+		     if(pst.length()>120){
+		    	 pst = pst.substring(0,120);
+		     }
 			
 %>
 <div class="card noborder curved-card mb30" >
@@ -220,7 +223,7 @@ String total = post._getTotal();
 <h4 class="text-primary text-center pt20"><%=obj.getString("title") %></h4>
 <div class="text-center"><button class="btn btn-primary stylebutton3">TRACKING</button> <button class="btn btn-primary stylebutton2">0 Tracks</button></div>
   <div class="card-body">
-    <a href="blogpostpage"><h4 class="card-title text-primary text-center pb20"><%=pst.substring(0,120)+"..."%></h4></a>
+    <a href="blogpostpage"><h4 class="card-title text-primary text-center pb20"><%=pst+"..."%></h4></a>
     <p class="card-text text-center author mb0 light-text"><%=obj.getString("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=obj.getString("date") %></p>
   </div>

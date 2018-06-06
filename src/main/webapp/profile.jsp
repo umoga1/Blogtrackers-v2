@@ -48,6 +48,7 @@ if(f.exists() && !f.isDirectory()) {
 }
 }catch(Exception e){}
 
+String[] user_name = name.split(" ");
 //pimage = pimage.replace("build/", "");
 %>
 <!DOCTYPE html>
