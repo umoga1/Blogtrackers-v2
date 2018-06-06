@@ -75,27 +75,25 @@ public ArrayList _list(String order) throws Exception {
      in.close();
      
      JSONObject myResponse = new JSONObject(response.toString());
-     String res = myResponse.getString("hits");
-     JSONObject myRes1 = new JSONObject(res);
-     
-
-     
-      String total = myRes1.getString("total");
-      this.totalpost = total;
-    // System.out.println(total);
-     //System.out.println("Hits- "+myRes1.getString("hits"));
-         
-     //JSONArray jsonArray = (JSONArray)myRes1.getString("hits"); 
-     ArrayList<String> list = new ArrayList<String>();     
-     JSONArray jsonArray = new JSONArray(myRes1.getString("hits")); 
-     
-     if (jsonArray != null) { 
-        int len = jsonArray.length();
-        for (int i=0;i<len;i++){ 
-         list.add(jsonArray.get(i).toString());
-        } 
+     ArrayList<String> list = new ArrayList<String>();    
+     if(null!=myResponse.getString("hits")) {
+	     String res = myResponse.getString("hits");
+	     JSONObject myRes1 = new JSONObject(res);
+	     
+	
+	     
+	      String total = myRes1.getString("total");
+	      this.totalpost = total;
+	    
+	     JSONArray jsonArray = new JSONArray(myRes1.getString("hits")); 
+	     
+	     if (jsonArray != null) { 
+	        int len = jsonArray.length();
+	        for (int i=0;i<len;i++){ 
+	         list.add(jsonArray.get(i).toString());
+	        } 
+	     }
      }
-     
     return  list;
    
    }
@@ -107,27 +105,18 @@ public String _getTotal() {
 public ArrayList _search(String term) throws Exception {
 	 ArrayList result = new ArrayList();
 	 
-	 JSONObject query = new JSONObject();
-	
+	 JSONObject query = new JSONObject(); 
+	 JSONObject jsonObj = new JSONObject("{\r\n" + 
+	 		"  \"query\": {\r\n" + 
+	 		"        \"query_string\" : {\r\n" + 
+	 		"            \"fields\" : [\"title\",\"blogger\",\"post\"],\r\n" + 
+	 		"            \"query\" : "+term+"\r\n" + 
+	 		"        }\r\n" + 
+	 		"  }\r\n" + 
+	 		"}");
 	 
 	 
-	 JSONObject qstr = new JSONObject();
-	 JSONObject fields =new JSONObject();
 	
-	
-	 fields.put("fields", "['blogger','blogger','post']");
-	
-	
-	 qstr.put("fields", fields);
-	 qstr.put("query", term);
-	 
-	 query.put("query", qstr);
-	
-	 
-	 //auth.put("passwordCredentials", cred);
-	 //parent.put("auth", auth);
-	 
-	 System.out.println(query.toString());
 	 
     String url = base_url+"_search/";
     URL obj = new URL(url);
@@ -135,15 +124,13 @@ public ArrayList _search(String term) throws Exception {
     
     con.setDoOutput(true);
     con.setDoInput(true);
-    // optional default is GET
-    //con.setRequestMethod("GET");
-    
+   
     con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
     con.setRequestProperty("Accept", "application/json");
     con.setRequestMethod("POST");
     
     OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-    wr.write(query.toString());
+    wr.write(jsonObj.toString());
     wr.flush();
     
     //add request header
@@ -160,26 +147,27 @@ public ArrayList _search(String term) throws Exception {
     in.close();
     
     JSONObject myResponse = new JSONObject(response.toString());
-    String res = myResponse.getString("hits");
-    JSONObject myRes1 = new JSONObject(res);
+    ArrayList<String> list = new ArrayList<String>();  
     
-
-    
-     String total = myRes1.getString("total");
-   // System.out.println(total);
-    //System.out.println("Hits- "+myRes1.getString("hits"));
-        
-    //JSONArray jsonArray = (JSONArray)myRes1.getString("hits"); 
-    ArrayList<String> list = new ArrayList<String>();     
-    JSONArray jsonArray = new JSONArray(myRes1.getString("hits")); 
-    
-    if (jsonArray != null) { 
-       int len = jsonArray.length();
-       for (int i=0;i<len;i++){ 
-        list.add(jsonArray.get(i).toString());
-       } 
+    if(null!=myResponse.getString("hits")) {
+	    String res = myResponse.getString("hits");
+	    JSONObject myRes1 = new JSONObject(res);
+	    
+	
+	    
+	     String total = myRes1.getString("total");
+	     
+	     this.totalpost = total;
+	       
+	    JSONArray jsonArray = new JSONArray(myRes1.getString("hits")); 
+	    
+	    if (jsonArray != null) { 
+	       int len = jsonArray.length();
+	       for (int i=0;i<len;i++){ 
+	        list.add(jsonArray.get(i).toString());
+	       } 
+	    }
     }
-    
    return  list;
 }
 
