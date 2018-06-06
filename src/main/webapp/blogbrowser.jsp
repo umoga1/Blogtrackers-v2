@@ -222,19 +222,19 @@ String total = post._getTotal();
   <div class="card-body">
     <a href="blogpostpage"><h4 class="card-title text-primary text-center pb20"><%=pst.substring(0,120)+"..."%></h4></a>
     <p class="card-text text-center author mb0 light-text"><%=obj.getString("blogger") %></p>
-    <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
+    <p class="card-text text-center postdate light-text"><%=obj.getString("date") %></p>
   </div>
   <img class="card-img-top pt30 pb30" src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" alt="Card image cap">
   <div class="text-center"><i class="far fa-heart text-medium pb30  light-text icon-big"></i></div>
 </div>
 
 <% }
-} %>
+}else{ %>
+
+<div >No post found</div>
 
 
-
-
-
+<% } %>
 </div>
 
 
