@@ -183,5 +183,9 @@ public ArrayList _search(String term) throws Exception {
    return  list;
 }
 
+public static void main(String[] args) throws Exception {
+	Blogposts blog = new Blogposts();
+	blog._list("DESC");
+}
 
 }
