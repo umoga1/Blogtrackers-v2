@@ -41,6 +41,7 @@ public class Login extends HttpServlet {
 		response.sendRedirect("login.jsp");
 	}
 
+	//hello there
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -61,9 +62,8 @@ public class Login extends HttpServlet {
 			if(login.size()>0)
 			{
 				HttpSession session = request.getSession();
+
 				session.setAttribute("email",username);
-
-
 				pww.write("success");
 
 			}

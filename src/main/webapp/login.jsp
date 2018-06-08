@@ -57,7 +57,9 @@ if (email != null && email != "") {
   <!-- update system url here -->
   var app_url = "http://localhost:8080/Blogtrackers/";
   </script>
-<script type="text/javascript" src="js/login_validation.js?v=123"></script>
+  <script src="https://apis.google.com/js/platform.js"></script>
+  
+<script type="text/javascript" src="js/login_validation.js?v=12345"></script>
 
 </head>
 
@@ -104,7 +106,7 @@ if (email != null && email != "") {
 							<div class="valid-feedback">Looks Good</div>
 						</div>
 						<br />
-						
+						<div class=""  id="loggin2"></div>
 						<div class=""  id="loggin">
 							<button type="submit" class="btn btn-primary loginformbutton"
 								style="background: #28a745;">Login</button>
@@ -114,10 +116,10 @@ if (email != null && email != "") {
 							</button><span></span>
  					</div>
 						<p class="pt20 text-primary">
-							<small>Forgot your <b>Password?</b></small>
+							<small>Forgot your <a href="<%=request.getContextPath()%>/forgotpassword.jsp"><b>Password?</b></a></small>
 						</p>
 						<p class="pb20 text-primary">
-							Dont have an account yet? <a href="${pageContext.request.contextPath}/register"><b>Register
+							Dont have an account yet? <a href="<%=request.getContextPath()%>/register"><b>Register
 									Now</b></a></small>
 						</p>
 					</form>
@@ -167,7 +169,9 @@ function attachSignin(element) {
       function(googleUser) {
         var profile = googleUser.getBasicProfile();
         console.log(profile+"Here");
-       	register(profile.getEmail(),profile.getName()); 
+	console.log(profile.getImageUrl());
+  
+       	register(profile.getEmail(),profile.getName(),profile.getImageUrl()); 
        
       }, function(error) {
         
@@ -176,20 +180,21 @@ function attachSignin(element) {
 
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
-  console.log(profile);
-  register(profile.getEmail(),profile.getName());
-  
+  console.log(profile.getImageUrl());
+  register(profile.getEmail(),profile.getName(),profile.getImageUrl()); 
 }
 
-function register(email,name){
-	$("#loggin").html('<button type="submit" class="btn btn-primary loginformbutton" style="background: #28a745;">Loggin in ...</button>');
-	  $.ajax({
+function register(email,name,pic){
+	$("#loggin").html('<button type="button" class="btn btn-primary loginformbutton" style="background: #28a745;">Loggin in ...</button>');
+	
+	$.ajax({
 			url: baseurl+'register',
 			method: 'POST',
 			//dataType: 'json',
 			data: {
 				email: email,
 				name: name,
+				profile_picture: pic,
 				password: "",
 				register: "yes",
 				signin: "yes",

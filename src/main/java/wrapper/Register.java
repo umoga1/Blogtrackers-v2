@@ -47,12 +47,19 @@ public class Register extends HttpServlet {
 	{
 		
 		//System.out.println("post request");
-		String email = request.getParameter("email").replaceAll("\\<.*?\\>", "");
-        String name = request.getParameter("name").replaceAll("\\<.*?\\>", "");
-        String password = request.getParameter("password").replaceAll("\\<.*?\\>", "");
+		String email = (null==request.getParameter("email"))?"":request.getParameter("email").replaceAll("\\<.*?\\>", "");
+        String name = (null==request.getParameter("name"))?"":request.getParameter("name").replaceAll("\\<.*?\\>", "");
+        String password = (null==request.getParameter("password"))?"":request.getParameter("password").replaceAll("\\<.*?\\>", "");
+		String oldpassword = (null==request.getParameter("oldpassword"))?"":request.getParameter("oldpassword").replaceAll("\\<.*?\\>", "");
+		
+		
+        String phone = (null==request.getParameter("phone"))?"":request.getParameter("phone").replaceAll("\\<.*?\\>", "");
         String type ="";// request.getParameter("user_type").replaceAll("\\<.*?\\>", "");
-        String submitted = request.getParameter("register");
-        String signin = request.getParameter("signin");
+		String picture = (null==request.getParameter("profile_picture"))?"":request.getParameter("profile_picture").replaceAll("\\<.*?\\>", "");
+        
+        String submitted = (null==request.getParameter("register"))?"":request.getParameter("register");
+        String signin = (null==request.getParameter("signin"))?"":request.getParameter("signin");
+        String action = (null==request.getParameter("action"))?"":request.getParameter("action");
         
         DbConnection dbinstance = new DbConnection();
                 
@@ -70,7 +77,9 @@ public class Register extends HttpServlet {
 	              pww.write("exists"); 
 	              
 	              if(signin.equals("yes")) {
+					  dbinstance.updateTable("UPDATE usercredentials SET profile_picture='"+picture+"', first_name='"+name+"' WHERE Email ='"+email+"'"); 
 	                  session.setAttribute("email",email);
+	                  session.setAttribute("username",login.get(0));
 	              }
 	              
 			}
@@ -80,9 +89,10 @@ public class Register extends HttpServlet {
 				 
 				
 				String digest =dbinstance.md5Funct(password);
-				String query_string ="insert into usercredentials (UserName, Email, Password, MessageDigest, user_type,first_name,last_name,phone_number,address,profile_picture,last_updated,added_by,date_added ) VALUES ('"+email+"','"+email+"','"+password+"','"+digest+"','"+type+"','"+name+"','','','','','','','')";
+				String query_string ="insert into usercredentials (UserName, Email, Password, MessageDigest, user_type,first_name,last_name,phone_number,address,profile_picture,last_updated,added_by,date_added ) VALUES ('"+email+"','"+email+"','"+password+"','"+digest+"','"+type+"','"+name+"','','','','"+picture+"','','','')";
 				//System.out.println(query_string);
-				boolean inserted = dbinstance.updateTable(query_string);  
+				boolean inserted = dbinstance.updateTable(query_string); 
+				 session.setAttribute("username",email);
 				 if(inserted) {
 					 if(signin.equals("yes")) {
 		                  session.setAttribute("email",email);
@@ -101,8 +111,55 @@ public class Register extends HttpServlet {
 				
 			}
                         
+		}else if(action.equals("update_profile")) {
+			String username =session.getAttribute("email").toString();
+			boolean exi = false;
+			if(!password.equals("") && !oldpassword.equals("")){
+				ArrayList ex = dbinstance.query("SELECT Email FROM usercredentials where Email = '"+username+"' AND password ='"+oldpassword+"' ");
+				if(ex.size()<1){
+					exi = true;
+					response.setContentType("text/html");
+		            pww.write("nomatch"); 
+				}
+			}
+			
+			if(!exi){
+				String keys = "UPDATE usercredentials SET ";
+				String vals = "";
+				if(!name.equals("")) {			
+					vals+="first_name = '"+name+"',";			
+				}
+				if(!email.equals("")) {
+					vals+="Email = '"+email+"',";
+				}
+				if(!phone.equals("")) {
+					vals+="phone_number = '"+phone+"',";
+				}
+				if(!password.equals("")) {
+					vals+="Password = '"+password+"',";
+				}
+				
+				vals = vals.replaceAll(",$", "");
+				
+				String query_string=  keys+""+vals+" WHERE Email = '"+username+"'";
+				boolean updated = dbinstance.updateTable(query_string); 
+				if(updated && !email.equals("")) {
+					session.setAttribute("email",email);
+					response.setContentType("text/html");
+		            pww.write("success"); 
+				}
+			}
+			
+		}else if(action.equals("delete_account")) {
+			String idd =session.getAttribute("email").toString();
+			boolean updatedd = dbinstance.updateTable("DELETE FROM usercredentials WHERE Email = '"+idd+"'"); 
+			if(updatedd){
+				session.invalidate();
+			}
+			
 		}
-
 
 	}
 }
+
+

@@ -1,3 +1,55 @@
+<%@page import="authentication.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.File"%>
+<%
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+
+if (email == null || email == "") {
+	response.sendRedirect("index.jsp");
+}
+
+ArrayList<?> userinfo = null;
+String profileimage= "";
+String username ="";
+String name="";
+String phone="";
+String date_modified = "";
+
+ userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+ //System.out.println(userinfo);
+if (userinfo.size()<1) {
+	response.sendRedirect("index.jsp");
+}else{
+userinfo = (ArrayList<?>)userinfo.get(0);
+try{
+username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+
+name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
+email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
+phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
+//date_modified = userinfo.get(11).toString();
+
+String userpic = userinfo.get(9).toString();
+
+String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+String filename = userinfo.get(9).toString();
+
+profileimage = "images/default-avatar.png";
+if(userpic.indexOf("http")>-1){
+	profileimage = userpic;
+}
+
+
+
+File f = new File(filename);
+if(f.exists() && !f.isDirectory()) { 
+	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+}
+}catch(Exception e){}
+
+//pimage = pimage.replace("build/", "");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,10 +80,10 @@
 <script src="assets/js/popper.min.js" ></script>
 </head>
 <body>
-  <nav class="navbar navbar-inverse bg-primary">
+   <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid">
       <ul class="nav d-none d-lg-inline-flex d-xl-inline-flex  main-menu">
-        <li><a href="./"><i class="icon-user-plus"></i>Home</a></li>
+        <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="icon-user-plus"></i>Home</a></li>
         <li><a href="trackerlist.html"><i class="icon-cog5"></i> Trackers</a></li>
         <li><a href="#"><i class="icon-help"></i> Favorites</a></li>
 
@@ -47,17 +99,19 @@
   <ul class="nav navbar-nav">
   <li class="dropdown dropdown-user cursor-pointer">
   <a class="dropdown-toggle" data-toggle="dropdown">
-  <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="50" height="50" alt="" class="border-white" />
-  <span>Hayder</span>
+  <img src="<%=profileimage%>" width="50" height="50" alt="" class="border-white" />
+  <span><%=username%></span>
   <ul class="profilemenu dropdown-menu dropdown-menu-left">
-              <li><a href="#"> My profile</a></li>
+  <li><a href="<%=request.getContextPath()%>/profile.jsp"> My profile</a></li>
               <li><a href="#"> Features</a></li>
               <li><a href="#"> Help</a></li>
-              <li><a href="#">Logout</a></li>
+              <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
   </ul>
   </a>
 
    </li>
+   
+
         </ul>
       <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
       <div class="collapse" id="navbarToggleExternalContent">
@@ -75,7 +129,8 @@
     </div>
       </div>
     </nav>
-
+ 
+ 
 <div class="container">
 
 
@@ -552,3 +607,4 @@ $('.gridcontainer').css("display","none");
 
 </body>
 </html>
+<% } %>

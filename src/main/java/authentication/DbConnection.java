@@ -56,20 +56,20 @@ public class DbConnection {
 	/**
 	 * getConnection() - For getting the connection parameter and connecting to the database driver
 	 */
-
+// hello
 	public static Connection getConnection() {
 		try{
 			loadContant();															//load the connection parameter so we can fetch appropriate parameters like username, password, etc
-			String connectionURL = hm.get("dbConnection");								
+			String connectionURL =  hm.get("dbConnection");	//"jdbc:mysql://localhost:3306/blogtrackers";						
 			String driver = hm.get("driver"); 
-			String username = hm.get("dbUserName");
+			String username = hm.get("dbUserName");//"root";//
 			String password = hm.get("dbPassword");
 			
 			
 
 			if(connectionURL != null && username != null && password != null) {		//check to see if the connection parameter was successfully loaded
 				try {
-					Class.forName("com.mysql.jdbc.Driver");											//load the connection driver
+					Class.forName(driver);	//com.mysql.jdbc.Driver										//load the connection driver
 				}catch(ClassNotFoundException ex) {									//since this class can throw ClassNotFoundException so we are catching it
 					ex.printStackTrace();											//if there is an exception, give us a stacktrace of it
 				}

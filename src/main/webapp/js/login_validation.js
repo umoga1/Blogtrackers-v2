@@ -86,6 +86,8 @@ $(function() {
 		}
 		
 		console.log("clicked");
+		//$("#loggin2").html('<div >Logging in ...</div>');
+		
 		var password = $("#password").val();
 			$.ajax({
 				url: baseurl+'login',
@@ -100,7 +102,8 @@ $(function() {
 				{						
 					console.log(response);
 					$("#error_message-box").html('Invalid username/password');
-					//alert("An error occoured!");
+					$("#loggin2").html('');
+		
 				},
 				success: function(response)
 				{       
@@ -110,6 +113,7 @@ $(function() {
 					// console.log(login_status);
 					if(login_status === "invalid"){
 						$("#error_message-box").html('Invalid username/password');
+						$("#loggin2").html('');
 					}else if(login_status == "success"){
 						toastr.success('Login successfull!','Success');
 						window.location.href = baseurl+"dashboard.jsp";

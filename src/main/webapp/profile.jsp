@@ -1,3 +1,55 @@
+<%@page import="authentication.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.File"%>
+<%
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+
+if (email == null || email == "") {
+	response.sendRedirect("index.jsp");
+}
+
+ArrayList<?> userinfo = null;
+String profileimage= "";
+String username ="";
+String name="";
+String phone="";
+String date_modified = "";
+
+ userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+ //System.out.println(userinfo);
+if (userinfo.size()<1) {
+	response.sendRedirect("index.jsp");
+}else{
+userinfo = (ArrayList<?>)userinfo.get(0);
+try{
+username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+
+name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
+email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
+phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
+//date_modified = userinfo.get(11).toString();
+
+String userpic = userinfo.get(9).toString();
+
+String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+String filename = userinfo.get(9).toString();
+
+profileimage = "images/default-avatar.png";
+if(userpic.indexOf("http")>-1){
+	profileimage = userpic;
+}
+
+
+
+File f = new File(filename);
+if(f.exists() && !f.isDirectory()) { 
+	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+}
+}catch(Exception e){}
+
+//pimage = pimage.replace("build/", "");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,9 +75,22 @@
 
   <link rel="stylesheet" href="assets/css/style.css" />
 
-  <!--end of bootsrap -->
-  <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
-<script src="assets/js/popper.min.js" ></script>
+
+<link rel="stylesheet" href="assets/css/toastr.css">
+<!--end of bootsrap -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+
+<!-- JavaScript to be reviewed thouroughly by me -->
+<script type="text/javascript" src="assets/js/validate.min.js"></script>
+	<script type="text/javascript" src="assets/js/uniform.min.js"></script>
+	
+<script type="text/javascript" src="assets/js/toastr.js"></script>
+
+  <script>
+  <!-- update system url here -->
+  var baseurl = "http://localhost:8080/Blogtrackers/";
+  </script>
 </head>
 <body>
 <div class="modal-notifications">
@@ -33,17 +98,17 @@
   <div class="offset-lg-9 col-lg-3 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
-    <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="60" height="60" alt="" class="float-left" />
+    <img src="<%=profileimage%>" width="60" height="60" alt="" class="float-left" />
     <div class="float-left" style="margin-left:20px;">
-      <h4 class="text-primary m0 bolder">Adigun Adekunle</h4>
-      <p class="text-primary">adigon2006@gmail.com</p>
+      <h4 class="text-primary m0 bolder"><%=name%></h4>
+      <p class="text-primary"><%=email%></p>
     </div>
 
   </div>
   <div id="othersection" class="col-md-12 mt100" style="clear:both">
   <a class="cursor-pointer profilemenulink" href="notifications.html"><h3 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h3> </a>
-  <a class="cursor-pointer profilemenulink" href="profile.html"><h3  class="text-primary">Profile</h3></a>
-  <a class="cursor-pointer profilemenulink" href="#"><h3 class="text-primary">Log Out</h3></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h3  class="text-primary">Profile</h3></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h3 class="text-primary">Log Out</h3></a>
   </div>
   </div>
 </div>
@@ -66,7 +131,7 @@
       <!-- Mobile menu  -->
       <div class="col-lg-4 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="./"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
           <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
@@ -77,8 +142,8 @@
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
-  <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="50" height="50" alt="" class="" />
-  <span>Hayder</span>
+  <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
+  <span><%=name%></span>
   <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
               <li><a href="#"> Features</a></li>
@@ -117,37 +182,37 @@
 
 
 <div class="row mt10">
+
 <div class="col-md-12 text-center">
+<form class="form-horizontal" id="image-form" name="upload_form" enctype="multipart/form-data" action="fileupload.jsp" method="POST">
+						
   <div class="custom-file profileimgupload">
-  <input type="file" class="custom-file-input" id="customFileLang" lang="es">
+  <input type="file" name="userfile" accept="image/*" class="custom-file-input" id="customFileLang" lang="es">
   <label class="custom-file-label" for="customFileLang">
- <img class="rounded mx-auto d-block profilepageimg" src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="150" height="150" alt="" />
+ <img class="rounded mx-auto d-block profilepageimg" src="<%=profileimage%>?v=6" width="150" height="150" alt="" />
   </label>
 </div>
-<form class="">
 
-<div class="mt10 form-group col-md-12 "><input class="text-center mt20 mb0 text-primary super-bold-text fullname inputnobg profileinput" type="text" id="fullname" readonly value="Adekunle Adigun" /></div>
+<!--  <button type="submit" class="btn btn-primary profilebtn" >Submit</button> -->
+</form>
+
+<form class="">
+<div class="mt10 form-group col-md-12 "><input class="text-center mt20 mb0 text-primary super-bold-text fullname inputnobg profileinput" name="name" type="text" id="fullname" readonly value="<%=name%>" /></div>
 <!-- <h6 class="text-center text-primary mb0 pb10">Email: adekunleadigun@yahoo.com</h6> -->
-<div class="mb0 pb10 form-group  col-md-12"><label class="text-center text-primary mb0 labelprofile">Email: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile profileinput" type="email" id="email" readonly value="adigon2006@gmail.com" /></div>
-<div class="mb0 pb10 form-group  col-md-12"><label class="text-center text-primary mb0 labelprofile">Phone: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile profileinput" type="text" id="phone" readonly value="+1-512-567-2783" /></div>
+<div class="mb0 pb10 form-group  col-md-12"><label class="text-center text-primary mb0 labelprofile">Email: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile profileinput" type="email" name="Email" id="email" readonly value="<%=email%>" /></div>
+<div class="mb0 pb10 form-group  col-md-12"><label class="text-center text-primary mb0 labelprofile">Phone: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile profileinput" type="text" name="phone" id="phone" readonly value="<%=phone%>" /></div>
 <!-- <h6 class="text-center text-primary mb0 pb10">Phone: +1-512-567-2783</h6> -->
 <p class="text-center"><button class="btn btn-primary stylebutton2" id="changepassword">Change Password <i class="fas fa-lock"></i></button></p>
 <div class="passwordsection">
   <div class="mb0 pb10"><label class="text-center text-primary mb0 labelprofile">Old Password: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile passinput" type="password" id="password" readonly value="" /></div>
-  <div class="mb0 pb10"><label class="text-center text-primary mb0 labelprofile">New Password: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile passinput" type="password" id="newpassword" readonly value="" /></div>
+  <div class="mb0 pb10"><label class="text-center text-primary mb0 labelprofile" name="Password">New Password: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile passinput" type="password" id="newpassword" readonly value="" /></div>
   <div class="mb0 pb10"><label class="text-center text-primary mb0 labelprofile">Confirm Password: &nbsp;</label><input class="mt0 mb0 text-primary inputnobg inputprofile passinput" type="password" id="confirmpassword" readonly value="" /></div>
 </div>
 
 </div>
 </div>
 
-<div class="text-center mt50 mb50"><button class="btn btn-primary profilebtn" id="editaccount">Edit Account</button>&nbsp;&nbsp; <button class="btn btn-danger profilebtn">Delete Account</button></div>
-
-
-
-
-
-
+<div class="text-center mt50 mb50"><button type="button" class="btn btn-primary profilebtn" id="editaccount">Edit Account</button>&nbsp;&nbsp; <button class="btn btn-danger profilebtn" id="deleteaccount">Delete Account</button></div>
 
 </div>
 
@@ -168,7 +233,7 @@
 
 
 
-<script src="pagedependencies/profile.js">
+<script src="pagedependencies/profile.js?v=799089809999901">
 
 </script>
 <!--end for table  -->
@@ -179,3 +244,4 @@
 
 </body>
 </html>
+<% } %>
