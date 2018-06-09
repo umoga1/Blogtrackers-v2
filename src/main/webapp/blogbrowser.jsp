@@ -59,9 +59,9 @@ Blogposts post  = new Blogposts();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
 ArrayList results = null;
 if(term.equals("")){
-	results = post._list("DESC");
+	results = post._list("DESC","");
 }else{
-	results = post._search(term);
+	results = post._search(term,"");
 }
 String total = post._getTotal();
 //pimage = pimage.replace("build/", "");
@@ -93,8 +93,15 @@ String total = post._getTotal();
   <link rel="stylesheet" href="assets/css/style.css" />
 
   <!--end of bootsrap -->
-  <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
+  
+<link rel="stylesheet" href="assets/css/toastr.css">
+<!--end of bootsrap -->
+<script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
+  <script>
+  <!-- update system url here -->
+  var app_url = "http://localhost:8080/Blogtrackers/";
+  </script>
 </head>
 <body >
 <div class="modal-notifications">
@@ -202,7 +209,7 @@ String total = post._getTotal();
 </div>
 
 
-<div class="card-columns pt0 pb10  mt20 mb50 ">
+<div class="card-columns pt0 pb10  mt20 mb50 " id="appendee">
 
 <% if(results.size()>0){
 		for(int i=0; i< results.size(); i++){
@@ -227,7 +234,7 @@ String total = post._getTotal();
     <p class="card-text text-center author mb0 light-text"><%=obj.getString("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=obj.getString("date") %></p>
   </div>
-  <img class="card-img-top pt30 pb30" src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" alt="Card image cap">
+  <img class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" onerror="this.src'https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg'" alt="<%=obj.getString("permalink") %>">
   <div class="text-center"><i class="far fa-heart text-medium pb30  light-text icon-big"></i></div>
 </div>
 
@@ -240,8 +247,9 @@ String total = post._getTotal();
 <% } %>
 </div>
 
-
-
+<% if(results.size()>0){ %>
+<div class="loadmoreimg" id="loading-img" style="text-align:center"><img src='images/preloader.gif' /><br/></div>	
+<% } %>
 
 
 
@@ -250,7 +258,13 @@ String total = post._getTotal();
 
 </div>
 
-
+<form name="page_form" id="page_form" method="post" action="">
+    <input type="hidden" id="page_id" name="page_id" value="0" />
+	<input type="hidden" name="negative_page" id="negative_page" value="1" />
+	<input type="hidden" id="hasmore" name="hasmore" value="1" />
+	<input type="hidden" id="current_page" name="current_page" value="blogbrowser" />
+	<input type="hidden" id="term" name="term" value="<%=term%>" />
+ </form>
 
 
 
@@ -261,15 +275,10 @@ String total = post._getTotal();
   </footer> -->
 
 
- <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
 
-<script>
-$(document).ready(function() {
-
-} );
-</script>
 <!--end for table  -->
 
 
@@ -277,6 +286,16 @@ $(document).ready(function() {
 
 </script>
 
+<script src="pagedependencies/imageloader.js?v=8789898"></script>
+<script src="js/functions.js?v=90"></script>
+<script>
+$(window).scroll(function() {
+	if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {
+		loadMoreResult();
+	}
+});
+
+</script>
 </body>
 </html>
 <% }} %>
