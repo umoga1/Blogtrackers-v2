@@ -201,7 +201,7 @@ String total = post._getTotal();
 <% if(!term.equals("")){ %>
 <h6 class="float-left text-primary"><%=total%> posts found for "<%=term%>"</h6>
 <%}else{%>
-<h6 class="float-left text-primary"><%=total%> posts in our knowlede database</h6>
+<h6 class="float-left text-primary"><%=total%> posts in our knowledge database</h6>
 
 <%}%>
 <h6 class="float-right text-primary">Recent <i class="fas fa-chevron-down"></i><h6/>
@@ -230,7 +230,7 @@ String total = post._getTotal();
 <h4 class="text-primary text-center pt20"><%=obj.getString("title") %></h4>
 <div class="text-center"><button class="btn btn-primary stylebutton3">TRACKING</button> <button class="btn btn-primary stylebutton2">0 Tracks</button></div>
   <div class="card-body">
-    <a href="blogpostpage"><h4 class="card-title text-primary text-center pb20"><%=pst+"..."%></h4></a>
+    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.getString("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20"><%=pst+"..."%></h4></a>
     <p class="card-text text-center author mb0 light-text"><%=obj.getString("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=obj.getString("date") %></p>
   </div>

@@ -1,3 +1,61 @@
+<%@page import="authentication.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.File"%>
+<%@page import="util.Blogposts"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="org.json.JSONObject"%>
+<%
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+Object id = (null == request.getParameter("p")) ? "" : request.getParameter("p");
+
+if (email == null || email == "" || id == "") {
+	response.sendRedirect("index.jsp");
+}
+
+Blogposts post  = new Blogposts();
+ArrayList<?> userinfo = null;
+String profileimage= "";
+String username ="";
+String name="";
+String phone="";
+String date_modified = "";
+
+ userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+ ArrayList detail = post._fetch(id.toString());
+ //System.out.println(userinfo);
+if (userinfo.size()<1 || detail.size()<1 ) {
+	response.sendRedirect("index.jsp");
+}else{
+userinfo = (ArrayList<?>)userinfo.get(0);
+try{
+username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+
+name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
+email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
+phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
+//date_modified = userinfo.get(11).toString();
+
+String userpic = userinfo.get(9).toString();
+
+String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+String filename = userinfo.get(9).toString();
+
+profileimage = "images/default-avatar.png";
+if(userpic.indexOf("http")>-1){
+	profileimage = userpic;
+}
+
+
+
+File f = new File(filename);
+if(f.exists() && !f.isDirectory()) { 
+	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+}
+}catch(Exception e){}
+
+String[] user_name = name.split(" ");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +89,7 @@
   <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid">
       <ul class="nav d-none d-lg-inline-flex d-xl-inline-flex  main-menu">
-        <li><a href="./"><i class="icon-user-plus"></i>Home</a></li>
+        <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="icon-user-plus"></i>Home</a></li>
         <li><a href="trackerlist.html"><i class="icon-cog5"></i> Trackers</a></li>
         <li><a href="#"><i class="icon-help"></i> Favorites</a></li>
 
@@ -44,16 +102,16 @@
   <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex ">
   <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
   </div>
-  <ul class="nav navbar-nav">
+  	<ul class="nav navbar-nav">
   <li class="dropdown dropdown-user cursor-pointer">
   <a class="dropdown-toggle" data-toggle="dropdown">
-  <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="50" height="50" alt="" class="border-white" />
-  <span>Hayder</span>
+  <img src="<%=profileimage%>" width="50" height="50" alt="" class="border-white" />
+  <span><%=user_name[0]%></span>
   <ul class="profilemenu dropdown-menu dropdown-menu-left">
-              <li><a href="#"> My profile</a></li>
+   <li><a href="<%=request.getContextPath()%>/profile.jsp"> My profile</a></li>
               <li><a href="#"> Features</a></li>
               <li><a href="#"> Help</a></li>
-              <li><a href="#">Logout</a></li>
+              <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
   </ul>
   </a>
 
@@ -77,23 +135,32 @@
     </nav>
 
 <div class="container">
-
-
+<% if(detail.size()>0){
+		
+			String res = detail.get(0).toString();
+			
+			JSONObject resp = new JSONObject(res);
+		    String resu = resp.get("_source").toString();
+		     JSONObject obj = new JSONObject(resu);
+		     
+		     String pst = obj.get("post").toString();
+		     
+ %>
 <!--For small and medium devices  -->
 <div class="row pt50 pb50 mt0 mb0 d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
 <div class="col-md-12 d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
-<a href="blogpostpage.html"><h3 class="text-center text-primary">Apple employees forces to phone 911 for workers injured after walking into glass walls</h3></a>
+<a href="blogpostpage.html"><h3 class="text-center text-primary"><%=obj.getString("title") %></h3></a>
 <div class="text-center mt20">
  <button class="btn btn-rounded"><i class="far fa-dot-circle icon-small text-primary"></i></button>
   <button class="btn btn-rounded"><i class="far fa-heart icon-small text-primary"></i></button>
    <!-- <button class="btn btn-rounded"><i class="fas fa-map-marker-alt icon-small text-primary"></i></button> -->
 </div>
-<div class="text-center mt30 mb50"><button class="btn btn-primary stylebutton2">Michael J Fox</button> <button class="btn btn-primary stylebutton2">02-01-2018, 5:30pm</button></div>
-<p class="text-primary">Some of the 13,000 employees at the “Spaceship” campus in Cupertino have repeatedly injured themselves by walking into the nearly invisible walls — and on at
-  least three occasions, staff phoned 911 for their injured colleagues, according to transcripts obtained by the San Francisco Chronicle.</p>
-<img class="card-img-top pt30 pb30" src="http://assets.nydailynews.com/polopoly_fs/1.3852998.1520106098!/img/httpImage/image.jpg_gen/derivatives/article_1200/apple-park-visitor-center.jpg" alt="Card image cap">
-<p class="text-primary">Dispatchers on January 2 received two separate calls about male workers who crashed into one of the 3,000 glass panes making up the massive facility. A third call came in several days later regarding another male employee who similarly injured himself slamming into the walls.</p>
-<p class="text-primary">“We did recognize this was going to be an issue, especially when they clean the glass,” Salvador told the Chronicle. “When you clean the windows, you can’t even tell some of them are there.”</p>
+<div class="text-center mt30 mb50"><button class="btn btn-primary stylebutton2"><%=obj.getString("blogger") %></button> <button class="btn btn-primary stylebutton2">02-01-2018, 5:30pm</button></div>
+<img class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src="http://assets.nydailynews.com/polopoly_fs/1.3852998.1520106098!/img/httpImage/image.jpg_gen/derivatives/article_1200/apple-park-visitor-center.jpg" alt="Card image cap">
+<p class="text-primary"><%=obj.getString("post") %></p>
+
+<p class="text-primary"></p>
+<p class="text-primary">�</p>
 <div class="text-center mt50 mt50"><button class="btn btn-primary stylebutton2">National Public Radio</button> <button class="btn btn-primary stylebutton2">32 comments</button></div>
 
 </div>
@@ -108,20 +175,21 @@
   <button class="btn btn-rounded"><i title="Add to Favorites" class="far fa-heart icon-small text-primary"></i></button>
    <!-- <button class="btn btn-rounded"><i class="fas fa-map-marker-alt icon-small text-primary"></i></button> -->
 </div>
-<h3 class="text-center text-primary">Apple employees forces to phone 911 for workers injured after walking into glass walls</h3>
-<div class="text-center mt30 mb50"><button class="btn btn-primary stylebutton2">Michael J Fox</button> <button class="btn btn-primary stylebutton2">02-01-2018, 5:30pm</button></div>
-<p class="text-primary">Some of the 13,000 employees at the “Spaceship” campus in Cupertino have repeatedly injured themselves by walking into the nearly invisible walls — and on at
-  least three occasions, staff phoned 911 for their injured colleagues, according to transcripts obtained by the San Francisco Chronicle.</p>
-<img class="card-img-top pt30 pb30" src="http://assets.nydailynews.com/polopoly_fs/1.3852998.1520106098!/img/httpImage/image.jpg_gen/derivatives/article_1200/apple-park-visitor-center.jpg" alt="Card image cap">
-<p class="text-primary">Dispatchers on January 2 received two separate calls about male workers who crashed into one of the 3,000 glass panes making up the massive facility. A third call came in several days later regarding another male employee who similarly injured himself slamming into the walls.</p>
-<p class="text-primary">“We did recognize this was going to be an issue, especially when they clean the glass,” Salvador told the Chronicle. “When you clean the windows, you can’t even tell some of them are there.”</p>
+<h3 class="text-center text-primary"><%=obj.getString("title") %></h3>
+<div class="text-center mt30 mb50"><button class="btn btn-primary stylebutton2"><%=obj.getString("blogger") %></button> <button class="btn btn-primary stylebutton2">02-01-2018, 5:30pm</button></div>
+<img  class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src="http://assets.nydailynews.com/polopoly_fs/1.3852998.1520106098!/img/httpImage/image.jpg_gen/derivatives/article_1200/apple-park-visitor-center.jpg" alt="Card image cap">
+<p class="text-primary"><%=obj.getString("post") %></p>
+
+<p class="text-primary"></p>
+<p class="text-primary">�</p>
 <div class="text-center mt50 mt50"><button class="btn btn-primary stylebutton2">National Public Radio</button> <button class="btn btn-primary stylebutton2">32 comments</button></div>
 
 </div>
 </div>
 <!--end  -->
-
-
+<% 
+}
+%>
 
 
 
@@ -148,7 +216,9 @@
  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
+<script src="pagedependencies/imageloader.js?v=8789898"></script>
 
 
 </body>
 </html>
+<% } %>
