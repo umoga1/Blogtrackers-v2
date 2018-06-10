@@ -156,7 +156,7 @@ String[] user_name = name.split(" ");
    <!-- <button class="btn btn-rounded"><i class="fas fa-map-marker-alt icon-small text-primary"></i></button> -->
 </div>
 <div class="text-center mt30 mb50"><button class="btn btn-primary stylebutton2"><%=obj.getString("blogger") %></button> <button class="btn btn-primary stylebutton2">02-01-2018, 5:30pm</button></div>
-<img class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src="" alt="Card image cap">
+<img class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>a" src="" alt="<%=obj.getString("permalink") %>" />
 <p class="text-primary"><%=obj.getString("post") %></p>
 
 <p class="text-primary"></p>
