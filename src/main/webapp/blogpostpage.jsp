@@ -80,6 +80,10 @@ String[] user_name = name.split(" ");
   <!--end of bootsrap -->
   <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
+ <script>
+  <!-- update system url here -->
+  var app_url = "http://localhost:8080/Blogtrackers/";
+  </script>
 </head>
 <body style="background-color:#ffffff;">
   <nav class="navbar navbar-inverse bg-primary">
@@ -173,7 +177,7 @@ String[] user_name = name.split(" ");
 </div>
 <h3 class="text-center text-primary"><%=obj.getString("title") %></h3>
 <div class="text-center mt30 mb50"><button class="btn btn-primary stylebutton2"><%=obj.getString("blogger") %></button> <button class="btn btn-primary stylebutton2">02-01-2018, 5:30pm</button></div>
-<img  class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src="" alt="Card image cap">
+<img  class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src="" alt="<%=obj.getString("permalink") %>">
 <p class="text-primary"><%=obj.getString("post") %></p>
 
 <p class="text-primary"></p>
@@ -212,8 +216,7 @@ String[] user_name = name.split(" ");
  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
-<script src="pagedependencies/imageloader.js?v=8789898"></script>
-
+<script src="pagedependencies/imageloader.js?v=8978989898"></script>
 
 </body>
 </html>
