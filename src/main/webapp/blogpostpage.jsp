@@ -9,10 +9,6 @@
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 Object id = (null == request.getParameter("p")) ? "" : request.getParameter("p");
 
-if (email == null || email == "" || id == "") {
-	response.sendRedirect("index.jsp");
-}
-
 Blogposts post  = new Blogposts();
 ArrayList<?> userinfo = null;
 String profileimage= "";
@@ -105,7 +101,7 @@ String[] user_name = name.split(" ");
   	<ul class="nav navbar-nav">
   <li class="dropdown dropdown-user cursor-pointer">
   <a class="dropdown-toggle" data-toggle="dropdown">
-  <img src="<%=profileimage%>" width="50" height="50" alt="" class="border-white" />
+  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="border-white" />
   <span><%=user_name[0]%></span>
   <ul class="profilemenu dropdown-menu dropdown-menu-left">
    <li><a href="<%=request.getContextPath()%>/profile.jsp"> My profile</a></li>
@@ -156,12 +152,12 @@ String[] user_name = name.split(" ");
    <!-- <button class="btn btn-rounded"><i class="fas fa-map-marker-alt icon-small text-primary"></i></button> -->
 </div>
 <div class="text-center mt30 mb50"><button class="btn btn-primary stylebutton2"><%=obj.getString("blogger") %></button> <button class="btn btn-primary stylebutton2">02-01-2018, 5:30pm</button></div>
-<img class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src="http://assets.nydailynews.com/polopoly_fs/1.3852998.1520106098!/img/httpImage/image.jpg_gen/derivatives/article_1200/apple-park-visitor-center.jpg" alt="Card image cap">
+<img class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src="" alt="Card image cap">
 <p class="text-primary"><%=obj.getString("post") %></p>
 
 <p class="text-primary"></p>
 <p class="text-primary">ù</p>
-<div class="text-center mt50 mt50"><button class="btn btn-primary stylebutton2">National Public Radio</button> <button class="btn btn-primary stylebutton2">32 comments</button></div>
+<div class="text-center mt50 mt50"><button class="btn btn-primary stylebutton2">National Public Radio</button> <button class="btn btn-primary stylebutton2"><%=obj.getString("num_comments") %> comment(s)</button></div>
 
 </div>
 </div>
@@ -177,12 +173,12 @@ String[] user_name = name.split(" ");
 </div>
 <h3 class="text-center text-primary"><%=obj.getString("title") %></h3>
 <div class="text-center mt30 mb50"><button class="btn btn-primary stylebutton2"><%=obj.getString("blogger") %></button> <button class="btn btn-primary stylebutton2">02-01-2018, 5:30pm</button></div>
-<img  class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src="http://assets.nydailynews.com/polopoly_fs/1.3852998.1520106098!/img/httpImage/image.jpg_gen/derivatives/article_1200/apple-park-visitor-center.jpg" alt="Card image cap">
+<img  class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src="" alt="Card image cap">
 <p class="text-primary"><%=obj.getString("post") %></p>
 
 <p class="text-primary"></p>
 <p class="text-primary">ù</p>
-<div class="text-center mt50 mt50"><button class="btn btn-primary stylebutton2">National Public Radio</button> <button class="btn btn-primary stylebutton2">32 comments</button></div>
+<div class="text-center mt50 mt50"><button class="btn btn-primary stylebutton2">National Public Radio</button> <button class="btn btn-primary stylebutton2"><%=obj.getString("num_comments") %> comment(s)</button></div>
 
 </div>
 </div>
