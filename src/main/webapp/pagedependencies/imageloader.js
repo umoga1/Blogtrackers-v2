@@ -18,8 +18,12 @@ $(document).ready(function() {
 
 
 function getImage(image_id,url){
-	z++;
+	
 	var urll=baseurl+'subpages/imageloader.jsp?url='+url;
+	var prev = $("#"+image_id).attr('src');
+	if(prev==""){
+		$("#"+image_id).attr('src','https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg');
+		z++;
 		requests[z] = $.ajax({ type: "GET",
 		url:urll,
 		async: true,
@@ -38,7 +42,8 @@ function getImage(image_id,url){
 					if(og>-1){
 						var con = html.split("content=");
 						if(con.length>1){
-							content =  con[1].split('"');						
+							content =  con[1].split('"');	
+							
 							$("#"+image_id).attr('src',content[1]);
 							return false;
 						}
@@ -66,10 +71,12 @@ function getImage(image_id,url){
 		
 		}
 	});
+}
 	return false;
 }
 
 function scrapeImage(image_id, url){	
+
 	z++;
 	var urll=baseurl+'subpages/imageloader.jsp?url='+url;
 		requests[z] = $.ajax({ type: "GET",
@@ -100,6 +107,7 @@ function scrapeImage(image_id, url){
 		
 		}
 	});
+
 	return false;		
 }
 

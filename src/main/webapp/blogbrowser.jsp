@@ -234,7 +234,7 @@ String total = post._getTotal();
     <p class="card-text text-center author mb0 light-text"><%=obj.getString("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=obj.getString("date") %></p>
   </div>
-  <img class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" onerror="this.src'https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg'" alt="<%=obj.getString("permalink") %>">
+  <img class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src=""  alt="<%=obj.getString("permalink") %>">
   <div class="text-center"><i class="far fa-heart text-medium pb30  light-text icon-big"></i></div>
 </div>
 
@@ -286,7 +286,7 @@ String total = post._getTotal();
 
 </script>
 
-<script src="pagedependencies/imageloader.js?v=8978989898"></script>
+<script src="pagedependencies/imageloader.js?v=889908998"></script>
 <script src="js/functions.js?v=90"></script>
 <script>
 $(window).scroll(function() {
