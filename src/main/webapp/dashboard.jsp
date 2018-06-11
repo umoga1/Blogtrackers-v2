@@ -48,6 +48,7 @@ if(f.exists() && !f.isDirectory()) {
 }
 }catch(Exception e){}
 
+String[] user_name = name.split(" ");
 //pimage = pimage.replace("build/", "");
 %>
 <!DOCTYPE html>
@@ -101,7 +102,7 @@ if(f.exists() && !f.isDirectory()) {
   <li class="dropdown dropdown-user cursor-pointer">
   <a class="dropdown-toggle" data-toggle="dropdown">
   <img src="<%=profileimage%>" width="50" height="50" alt="" class="border-white" />
-  <span><%=username%></span>
+  <span><%=user_name[0]%></span>
   <ul class="profilemenu dropdown-menu dropdown-menu-left">
    <li><a href="<%=request.getContextPath()%>/profile.jsp"> My profile</a></li>
               <li><a href="#"> Features</a></li>

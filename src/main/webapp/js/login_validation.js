@@ -85,8 +85,12 @@ $(function() {
 			return false;
 		}
 		
-		console.log("clicked");
-		//$("#loggin2").html('<div >Logging in ...</div>');
+		//console.log("clicked");
+		$("#loggin").html('<button type="submit" class="btn btn-primary loginformbutton" disabled style="background: #28a745;">Loging in ...</button>');
+		
+		var btntext = '<button type="submit" class="btn btn-primary loginformbutton"  style="background: #28a745;">Login</button>2';
+		btntext+='&nbsp;&nbsp;or Login with &nbsp;&nbsp;<button type="button" class="btn btn-rounded big-btn2 " id="glogin" >';
+		btntext+='<i class="fab fa-google icon-small text-primary" ></i></button><span></span>';
 		
 		var password = $("#password").val();
 			$.ajax({
@@ -102,7 +106,7 @@ $(function() {
 				{						
 					console.log(response);
 					$("#error_message-box").html('Invalid username/password');
-					$("#loggin2").html('');
+					$("#loggin").html(btntext);
 		
 				},
 				success: function(response)
@@ -113,7 +117,7 @@ $(function() {
 					// console.log(login_status);
 					if(login_status === "invalid"){
 						$("#error_message-box").html('Invalid username/password');
-						$("#loggin2").html('');
+						$("#loggin").html(btntext);
 					}else if(login_status == "success"){
 						toastr.success('Login successfull!','Success');
 						window.location.href = baseurl+"dashboard.jsp";

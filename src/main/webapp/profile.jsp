@@ -1,6 +1,5 @@
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
-<%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
@@ -48,6 +47,7 @@ if(f.exists() && !f.isDirectory()) {
 }
 }catch(Exception e){}
 
+String[] user_name = name.split(" ");
 //pimage = pimage.replace("build/", "");
 %>
 <!DOCTYPE html>
