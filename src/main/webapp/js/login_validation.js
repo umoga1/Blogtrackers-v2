@@ -86,7 +86,7 @@ $(function() {
 		}
 		
 		//console.log("clicked");
-		$("#loggin").html('<button type="submit" class="btn btn-primary loginformbutton" disabled style="background: #28a745;">Loging in ...</button>');
+		$("#loggin").html('<button type="submit" class="btn btn-primary loginformbutton" disabled style="background: #28a745;">Logging in ...</button>');
 		
 		var btntext = '<button type="submit" class="btn btn-primary loginformbutton"  style="background: #28a745;">Login</button>2';
 		btntext+='&nbsp;&nbsp;or Login with &nbsp;&nbsp;<button type="button" class="btn btn-rounded big-btn2 " id="glogin" >';

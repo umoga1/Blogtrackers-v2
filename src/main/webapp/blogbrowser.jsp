@@ -109,7 +109,7 @@ String total = post._getTotal();
   <div class="offset-lg-9 col-lg-3 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
-    <img src="<%=profileimage%>" width="60" height="60" alt="" class="float-left" />
+    <img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" class="float-left" />
     <div class="float-left" style="margin-left:20px;">
       <h4 class="text-primary m0 bolder"><%=name%></h4>
       <p class="text-primary"><%=email%></p>
@@ -155,7 +155,7 @@ String total = post._getTotal();
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
-  <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
+  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
   <span><%=user_name[0]%></span>
   <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
@@ -227,14 +227,14 @@ String total = post._getTotal();
 %>
 <div class="card noborder curved-card mb30" >
 <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center pt20"><%=obj.getString("title") %></h4>
+<h4 class="text-primary text-center pt20"><a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.getString("blogpost_id")%>"><%=obj.getString("title") %></a></h4>
 <div class="text-center"><button class="btn btn-primary stylebutton3">TRACKING</button> <button class="btn btn-primary stylebutton2">0 Tracks</button></div>
   <div class="card-body">
     <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.getString("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20"><%=pst+"..."%></h4></a>
     <p class="card-text text-center author mb0 light-text"><%=obj.getString("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=obj.getString("date") %></p>
   </div>
-  <img class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" onerror="this.src'https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg'" alt="<%=obj.getString("permalink") %>">
+  <img class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src=""  alt="<%=obj.getString("permalink") %>">
   <div class="text-center"><i class="far fa-heart text-medium pb30  light-text icon-big"></i></div>
 </div>
 
@@ -286,7 +286,7 @@ String total = post._getTotal();
 
 </script>
 
-<script src="pagedependencies/imageloader.js?v=8789898"></script>
+<script src="pagedependencies/imageloader.js?v=908998"></script>
 <script src="js/functions.js?v=90"></script>
 <script>
 $(window).scroll(function() {

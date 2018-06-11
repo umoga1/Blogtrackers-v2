@@ -101,7 +101,7 @@ String[] user_name = name.split(" ");
   <ul class="nav navbar-nav">
   <li class="dropdown dropdown-user cursor-pointer">
   <a class="dropdown-toggle" data-toggle="dropdown">
-  <img src="<%=profileimage%>" width="50" height="50" alt="" class="border-white" />
+  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="border-white" />
   <span><%=user_name[0]%></span>
   <ul class="profilemenu dropdown-menu dropdown-menu-left">
    <li><a href="<%=request.getContextPath()%>/profile.jsp"> My profile</a></li>

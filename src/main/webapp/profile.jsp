@@ -98,7 +98,7 @@ String[] user_name = name.split(" ");
   <div class="offset-lg-9 col-lg-3 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
-    <img src="<%=profileimage%>" width="60" height="60" alt="" class="float-left" />
+    <img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" class="float-left" />
     <div class="float-left" style="margin-left:20px;">
       <h4 class="text-primary m0 bolder"><%=name%></h4>
       <p class="text-primary"><%=email%></p>
@@ -142,7 +142,7 @@ String[] user_name = name.split(" ");
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
-  <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
+  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
   <span><%=name%></span>
   <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
@@ -189,7 +189,7 @@ String[] user_name = name.split(" ");
   <div class="custom-file profileimgupload">
   <input type="file" name="userfile" accept="image/*" class="custom-file-input" id="customFileLang" lang="es">
   <label class="custom-file-label" for="customFileLang">
- <img class="rounded mx-auto d-block profilepageimg" src="<%=profileimage%>?v=6" width="150" height="150" alt="" />
+ <img class="rounded mx-auto d-block profilepageimg" src="<%=profileimage%>?v=6" onerror="this.src='images/default-avatar.png'" width="150" height="150" alt="" />
   </label>
 </div>
 
