@@ -46,14 +46,14 @@ if (email == null || email == "") {
 		%>
 		<div class="card noborder curved-card mb30" >
 		<div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer" title="Select to Track Blog"></i></div>
-		<h4 class="text-primary text-center pt20"><a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.getString("blogpost_id")%>"><%=obj.getString("title") %></a></h4>
+		<h4 class="text-primary text-center pt20"><a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title") %></a></h4>
 		<div class="text-center"><button class="btn btn-primary stylebutton3">TRACKING</button> <button class="btn btn-primary stylebutton2">0 Tracks</button></div>
 		  <div class="card-body">
-		    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.getString("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20"><%=pst+"..."%></h4></a>
-		    <p class="card-text text-center author mb0 light-text"><%=obj.getString("blogger") %></p>
-		    <p class="card-text text-center postdate light-text"><%=obj.getString("date") %></p>
+		    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20"><%=pst+"..."%></h4></a>
+		    <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
+		    <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
 		  </div>
-		 <img class="postimage card-img-top pt30 pb30" id="<%=obj.getString("blogpost_id")%>" src=""  alt="<%=obj.getString("permalink") %>">
+		 <img class="postimage card-img-top pt30 pb30" id="<%=obj.get("blogpost_id")%>" src=""  alt="<%=obj.get("permalink") %>">
   
 		 <div class="text-center"><i class="far fa-heart text-medium pb30  light-text icon-big"></i></div>
 		</div>
