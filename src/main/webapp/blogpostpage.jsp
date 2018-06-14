@@ -226,7 +226,7 @@ String[] user_name = name.split(" ");
 		     
  %>
 <div class="container">
-        <div class="row pt80 pb80 m20 mt0 mb0 d-none d-lg-block d-xl-block">
+        <div class="row pt30 pb30 m20 mt0 mb0 d-none d-lg-block d-xl-block">
         <div class="col-lg-12 d-none d-lg-block d-xl-block">
         <div class="stickyoptions">
          <button class="btn btn-rounded"><i title="Track Blogsite" class="far fa-dot-circle icon-small text-primary"></i></button>
