@@ -118,6 +118,7 @@ String[] user_name = name.split(" ");
       <div class="collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav mr-auto mobile-menu">
               <li class="nav-item active">
+              
                 <a class="" href="./">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
