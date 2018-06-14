@@ -185,9 +185,17 @@ String total = post._getTotal();
             </ul>
     </div>
       </div>
-<div class="profilenavbar" style="visibility:hidden;">></div>
+<!-- <div class="profilenavbar" style="visibility:hidden;"></div> -->
 	   <div class="col-md-12 mt0">
-      <form name="serach-form" method="post" action=""><input type="search" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" placeholder="Search Posts" /></form>
+      <form name="serach-form" method="post" action=""><input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" 
+     <% if(!term.equals("")){ %>
+      placeholder="Searching for <%=term%>" 
+     <% } else { %>
+     placeholder="Search Posts"
+     <% } %>
+      />
+      
+      </form>
       </div>
 
     </nav>
@@ -226,16 +234,16 @@ String total = post._getTotal();
 			
 %>
 <div class="card noborder curved-card mb30" >
-<div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center pt20"><a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title") %></a></h4>
-<div class="text-center"><button class="btn btn-primary stylebutton3">TRACKING</button> <button class="btn btn-primary stylebutton2">0 Tracks</button></div>
+  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
+<h4 class="text-primary text-center p10 pt20"><a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title") %></a></h4>
+<div class="text-center"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
   <div class="card-body">
     <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20"><%=pst+"..."%></h4></a>
     <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
   </div>
   <img class="postimage card-img-top pt30 pb30" id="<%=obj.get("blogpost_id")%>" src=""  alt="<%=obj.get("permalink") %>">
-  <div class="text-center"><i class="far fa-heart text-medium pb30  light-text icon-big"></i></div>
+  <div class="text-center"><i class="far fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Add to Favorites"></i></div>
 </div>
 
 <% }
@@ -279,8 +287,61 @@ String total = post._getTotal();
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
 
-<!--end for table  -->
+<!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
+<script>
+$(document).ready(function() {
+
+//  show tooltip
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+
+// handler for each favorites
+$('.favoritestoggle').on("click",function(e){
+// check if it has been favorites
+isFavorites = $(this).hasClass('fas');
+if(isFavorites) // if it is favorites
+{
+$(this).removeClass("fas fa-heart").addClass("far fa-heart");
+$(this).attr("data-original-title","Add to Favorite");
+// add an jax to favorites the post
+}
+if(!isFavorites) // if it does not have favorites
+{
+$(this).removeClass("far fa-heart").addClass("fas fa-heart");
+$(this).attr("data-original-title","Remove from Favorite");
+// add an jax to unfavorite the post
+}
+
+})
+// end of handler for favorites
+
+
+//select a blog to track
+$('.trackblog').on("click",function(e){
+// check the status if the blog is tracked
+trackingblog = $(this).hasClass("text-success");
+if(trackingblog)
+{
+// if the blog is being tracked
+$(this).removeClass("text-success");
+$(this).attr("data-original-title","Add Blog from Tracker");
+// add an ajax to removed blog from tracker
+}
+else if(!trackingblog)
+{
+// if the blog is being tracked
+$(this).addClass("text-success");
+$(this).attr("data-original-title","Remove Blog from Tracker");
+// add an ajax to add blog from tracker
+}
+});
+
+
+});
+</script>
+<!-- Added for interactivity for selecting tracker and favorites actions -->
 
 <script src="assets/js/generic.js">
 
@@ -294,8 +355,9 @@ $(window).scroll(function() {
 		loadMoreResult();
 	}
 });
-
 </script>
+
+
 </body>
 </html>
 <% }} %>
