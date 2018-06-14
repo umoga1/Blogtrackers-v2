@@ -136,7 +136,7 @@ if (email != null && email != "") {
 			<div
 				class="col-md-4 card m0 p0 bg-primary borderradiusround nobordertopleft noborderbottomleft othersection">
 				<div
-					class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 ">
+					class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 robotcontainer2">
 
 				</div>
 			</div>
