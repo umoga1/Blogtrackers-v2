@@ -43,8 +43,13 @@ function getImage(image_id,url){
 						var con = html.split("content=");
 						if(con.length>1){
 							content =  con[1].split('"');	
-							
+			
+						
 							$("#"+image_id).attr('src',content[1]);
+//							if ($("#"+image_id).attr('src') == "unknown")
+//								{
+//								$("#"+image_id).addClass("hidden");
+//								}
 							return false;
 						}
 					}else{
@@ -76,10 +81,11 @@ function getImage(image_id,url){
 }
 
 function scrapeImage(image_id, url){	
-	var prev = $("#"+image_id).attr('src');
+	var prev = $("#"+image_id).attr('src')
+	console.log(prev);
 	if(prev==""){
-		$("#"+image_id).attr('src','https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg');
-		
+	$("#"+image_id).attr('src','https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg');
+//	$("#"+image_id).addClass("hidden");
 	z++;
 	var urll=baseurl+'subpages/imageloader.jsp?url='+url;
 		requests[z] = $.ajax({ type: "GET",
@@ -90,7 +96,7 @@ function scrapeImage(image_id, url){
 			
 			var meta = $(data).find('meta');//.attr("content");
 			for(i=0; i<meta.length; i++){
-				if(meta[i].name=="twitter:image" ){
+				if(meta[i].name=="twitter:image" ){ 	
 					$("#"+image_id).attr('src',meta[i].content);
 					return false;
 				}else{
