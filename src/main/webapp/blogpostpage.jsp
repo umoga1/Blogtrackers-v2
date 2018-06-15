@@ -231,7 +231,7 @@ String[] user_name = name.split(" ");
         <div class="stickyoptions">
          <button class="btn btn-rounded"><i title="Track Blogsite" class="far fa-dot-circle icon-small text-primary"></i></button>
           <button class="btn btn-rounded"><i title="Add to Favorites" class="far fa-heart icon-small text-primary"></i></button>
-           <!-- <button class="btn btn-rounded"><i class="fas fa-map-marker-alt icon-small text-primary"></i></button> -->
+           <a href="<%=obj.get("permalink") %>" target="_blank"> <button class="btn btn-rounded"><i title="View Post" class="fas fa-external-link-alt icon-small text-primary"></i></button></a>
         </div>
         <h1 class="text-center text-white post-title-font"><%=obj.get("title") %></h1>
         <p class="p10 pt40 pb10 text-center"><button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=obj.get("blogger") %></button>
