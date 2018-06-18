@@ -243,7 +243,7 @@ String total = post._getTotal();
     <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
   </div>
-  <img class="postimage card-img-top pt30 pb30" id="<%=obj.get("blogpost_id")%>" src=""  alt="<%=obj.get("permalink") %>">
+  <img class="postimage card-img-top pt30 pb30" id="<%=obj.get("blogpost_id")%>" src="" alt="<%=obj.get("permalink") %>">
   <div class="text-center"><i class="far fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Add to Favorites"></i></div>
 </div>
 
