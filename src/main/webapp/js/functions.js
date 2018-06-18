@@ -49,6 +49,12 @@ function loadMoreResult(){
 				}else{
 					
 					$("#appendee").append(data);
+				//  show tooltip
+					  $(function () {
+					    $('[data-toggle="tooltip"]').tooltip()
+					  })
+					  
+					  	
 					try{
 						
 					}catch(err){}
@@ -70,6 +76,11 @@ function loadMoreResult(){
 					*/
 					
 				}
+			
+
+			
+			  
+			  
 			}
 	});
 	return false;

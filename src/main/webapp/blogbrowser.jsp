@@ -290,57 +290,8 @@ String total = post._getTotal();
 
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script>
-$(document).ready(function() {
+<script src="pagedependencies/blogbrowser.js">
 
-//  show tooltip
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
-
-// handler for each favorites
-$('.favoritestoggle').on("click",function(e){
-// check if it has been favorites
-isFavorites = $(this).hasClass('fas');
-if(isFavorites) // if it is favorites
-{
-$(this).removeClass("fas fa-heart").addClass("far fa-heart");
-$(this).attr("data-original-title","Add to Favorite");
-// add an jax to favorites the post
-}
-if(!isFavorites) // if it does not have favorites
-{
-$(this).removeClass("far fa-heart").addClass("fas fa-heart");
-$(this).attr("data-original-title","Remove from Favorite");
-// add an jax to unfavorite the post
-}
-
-})
-// end of handler for favorites
-
-
-//select a blog to track
-$('.trackblog').on("click",function(e){
-// check the status if the blog is tracked
-trackingblog = $(this).hasClass("text-success");
-if(trackingblog)
-{
-// if the blog is being tracked
-$(this).removeClass("text-success");
-$(this).attr("data-original-title","Add Blog from Tracker");
-// add an ajax to removed blog from tracker
-}
-else if(!trackingblog)
-{
-// if the blog is being tracked
-$(this).addClass("text-success");
-$(this).attr("data-original-title","Remove Blog from Tracker");
-// add an ajax to add blog from tracker
-}
-});
-
-
-});
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
