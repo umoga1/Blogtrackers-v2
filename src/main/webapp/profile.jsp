@@ -95,20 +95,20 @@ String[] user_name = name.split(" ");
 <body>
 <div class="modal-notifications">
 <div class="row">
-  <div class="offset-lg-9 col-lg-3 col-md-12 notificationpanel">
+  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
-    <img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" class="float-left" />
-    <div class="float-left" style="margin-left:20px;">
-      <h4 class="text-primary m0 bolder"><%=name%></h4>
-      <p class="text-primary"><%=email%></p>
+    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
+    <div class="text-center" style="margin-left:0px;">
+      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+      <p class="text-primary profiletext"><%=email%></p>
     </div>
 
   </div>
-  <div id="othersection" class="col-md-12 mt100" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="notifications.html"><h3 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h3> </a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h3  class="text-primary">Profile</h3></a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h3 class="text-primary">Log Out</h3></a>
+  <div id="othersection" class="col-md-12 mt10" style="clear:both">
+  <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6  class="text-primary">Profile</h6></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
   </div>
 </div>

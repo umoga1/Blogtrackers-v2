@@ -106,25 +106,26 @@ String total = post._getTotal();
 <body >
 <div class="modal-notifications">
 <div class="row">
-  <div class="offset-lg-9 col-lg-3 col-md-12 notificationpanel">
+  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
-    <img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" class="float-left" />
-    <div class="float-left" style="margin-left:20px;">
-      <h4 class="text-primary m0 bolder"><%=name%></h4>
-      <p class="text-primary"><%=email%></p>
+    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
+    <div class="text-center" style="margin-left:0px;">
+      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+      <p class="text-primary profiletext"><%=email%></p>
     </div>
 
   </div>
-  <div id="othersection" class="col-md-12 mt100" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="notifications.html"><h3 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h3> </a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h3  class="text-primary">Profile</h3></a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h3 class="text-primary">Log Out</h3></a>
+  <div id="othersection" class="col-md-12 mt10" style="clear:both">
+  <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6  class="text-primary">Profile</h6></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
   </div>
 </div>
 </div>
   
+ 
   
   <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid mt10 mb10">
@@ -244,12 +245,16 @@ String total = post._getTotal();
 <div class="text-center"><button class="btn btn-primary stylebutton3">TRACKING</button> <button class="btn btn-primary stylebutton2">0 Tracks</button></div>
 >>>>>>> 09ea9da38e469bb31dc4a57fea44a3eefa464bed
   <div class="card-body">
-    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20"><%=pst+"..."%></h4></a>
+    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h5 class="card-title text-primary text-center pb20"><%=pst+"..."%></h5></a>
     <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
   </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <img class="postimage card-img-top pt30 pb30" id="<%=obj.get("blogpost_id")%>" src=""  alt="<%=obj.get("permalink") %>">
+=======
+  <img class="postimage card-img-top pt30 pb30" id="<%=obj.get("blogpost_id")%>" src="" alt="<%=obj.get("permalink") %>">
+>>>>>>> 9ab73edeb977c6230b74ef4a6733fa213781af40
   <div class="text-center"><i class="far fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Add to Favorites"></i></div>
 =======
   <div class="<%=obj.get("blogpost_id")%>">
@@ -302,57 +307,8 @@ String total = post._getTotal();
 
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script>
-$(document).ready(function() {
+<script src="pagedependencies/blogbrowser.js">
 
-//  show tooltip
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
-
-// handler for each favorites
-$('.favoritestoggle').on("click",function(e){
-// check if it has been favorites
-isFavorites = $(this).hasClass('fas');
-if(isFavorites) // if it is favorites
-{
-$(this).removeClass("fas fa-heart").addClass("far fa-heart");
-$(this).attr("data-original-title","Add to Favorite");
-// add an jax to favorites the post
-}
-if(!isFavorites) // if it does not have favorites
-{
-$(this).removeClass("far fa-heart").addClass("fas fa-heart");
-$(this).attr("data-original-title","Remove from Favorite");
-// add an jax to unfavorite the post
-}
-
-})
-// end of handler for favorites
-
-
-//select a blog to track
-$('.trackblog').on("click",function(e){
-// check the status if the blog is tracked
-trackingblog = $(this).hasClass("text-success");
-if(trackingblog)
-{
-// if the blog is being tracked
-$(this).removeClass("text-success");
-$(this).attr("data-original-title","Add Blog from Tracker");
-// add an ajax to removed blog from tracker
-}
-else if(!trackingblog)
-{
-// if the blog is being tracked
-$(this).addClass("text-success");
-$(this).attr("data-original-title","Remove Blog from Tracker");
-// add an ajax to add blog from tracker
-}
-});
-
-
-});
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
