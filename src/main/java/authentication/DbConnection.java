@@ -56,7 +56,7 @@ public class DbConnection {
 	/**
 	 * getConnection() - For getting the connection parameter and connecting to the database driver
 	 */
-// hello
+
 	public static Connection getConnection() {
 		try{
 			loadContant();															//load the connection parameter so we can fetch appropriate parameters like username, password, etc

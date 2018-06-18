@@ -18,8 +18,8 @@ String base_url = "http://144.167.115.218:9200/test-migrate/";
 String totalpost;		    
 	   
 public ArrayList _list(String order, String from) throws Exception {
-	 ArrayList result = new ArrayList();
-	 
+	// ArrayList result = new ArrayList();
+	 /*
 	 JSONObject query = new JSONObject();
 	 JSONObject param = new JSONObject();
 	 
@@ -39,18 +39,54 @@ public ArrayList _list(String order, String from) throws Exception {
 	 
 	 
 	 query.put("sort", sortby);
+	 */
 	 //auth.put("passwordCredentials", cred);
 	 //parent.put("auth", auth);
 	 
 	 //System.out.println(query.toString());
 	 
 	 
+	 JSONObject jsonObj = new JSONObject("{\r\n" + 
+		 		"    \"query\": {\r\n" + 
+		 		"        \"match_all\": {}\r\n" + 
+		 		"    },\r\n" + 
+		 		"	\"sort\":{\r\n" + 
+		 		"		\"blogpost_id\":{\r\n" + 
+		 		"			\"order\":\""+order+"\"\r\n" + 
+		 		"			}\r\n" + 
+		 		"		}\r\n" + 
+		 		"}");
+	 
+	 if(!from.equals("")) {
+		  jsonObj = new JSONObject("{\r\n" + 
+		  		"    \"query\": {\r\n" + 
+		  		"        \"match_all\": {}\r\n" + 
+		  		"    },\r\n" + 
+		  		"	\"sort\":{\r\n" + 
+		  		"		\"blogpost_id\":{\r\n" + 
+		  		"			\"order\":\"DESC\"\r\n" + 
+		  		"			}\r\n" + 
+		  		"		},\r\n" + 
+		  		"	\"range\":{\r\n" + 
+		  		"		\"blogpost_id\":{\r\n" + 
+		  		"			\"lte\":\""+from+"\",\r\n" + 
+		  		"			\"gte\":\""+0+"\"\r\n" + 
+		  		"			}\r\n" + 
+		  		"		}\r\n" + 
+		  		"}");
+		 
+	 }
+	 
+	 
      String url = base_url+"_search?size=10";
-     
+     /*
      if(!from.equals("")) {
     	 int fr = (Integer.parseInt(from)-10);
-    	 url = base_url+"_search?size=10&from="+from;
+    	 url = base_url+"_search?size=10";
      }
+     */
+     
+     
      URL obj = new URL(url);
      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
      
@@ -64,7 +100,7 @@ public ArrayList _list(String order, String from) throws Exception {
      con.setRequestMethod("POST");
      
      OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-     wr.write(query.toString());
+     wr.write(jsonObj.toString());
      wr.flush();
      
      //add request header
@@ -110,9 +146,10 @@ public String _getTotal() {
 }
 	
 public ArrayList _search(String term,String from) throws Exception {
-	 ArrayList result = new ArrayList();
+	// ArrayList result = new ArrayList();
 	 
-	 JSONObject query = new JSONObject(); 
+	 //JSONObject query = new JSONObject(); 
+	 /*
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
 	 		"        \"query_string\" : {\r\n" + 
@@ -122,12 +159,43 @@ public ArrayList _search(String term,String from) throws Exception {
 	 		"  }\r\n" + 
 	 		"}");
 	 
-	 
+	 */
+	 JSONObject jsonObj = new JSONObject("{\r\n" + 
+	 		"  \"query\": {\r\n" + 
+	 		"        \"query_string\" : {\r\n" + 
+	 		"            \"fields\" : [\"title\",\"blogger\",\"post\"],\r\n" + 
+	 		"            \"query\" : \""+term+"\"\r\n" + 
+	 		"        }\r\n" + 
+	 		"  },\r\n" + 
+	 		"   \"sort\":{\r\n" + 
+	 		"		\"blogpost_id\":{\r\n" + 
+	 		"			\"order\":\"DESC\"\r\n" + 
+	 		"			}\r\n" + 
+	 		"		}\r\n" + 
+	 		"}");
 	
 	 
-    String url = base_url+"_search/";
+    String url = base_url+"_search?size=10";
     if(!from.equals("")) {
-   	 url = base_url+"_search?size=10&from="+from;
+    	jsonObj = new JSONObject("{\r\n" + 
+    			"  \"query\": {\r\n" + 
+    			"        \"query_string\" : {\r\n" + 
+    			"            \"fields\" : [\"title\",\"blogger\",\"post\"],\r\n" + 
+    			"            \"query\" : \""+term+"\"\r\n" + 
+    			"        }\r\n" + 
+    			"  },\r\n" + 
+    			"   \"sort\":{\r\n" + 
+    			"		\"blogpost_id\":{\r\n" + 
+    			"			\"order\":\"DESC\"\r\n" + 
+    			"			}\r\n" + 
+    			"		},\r\n" + 
+    			" \"range\":{\r\n" + 
+    			"		\"blogpost_id\":{\r\n" + 
+    			"			\"lte\":\""+from+"\",\r\n" + 
+		  		"			\"gte\":\""+0+"\"\r\n" + 
+    			"			}\r\n" + 
+    			"		}\r\n" + 
+    			"}");
     }
     
     URL obj = new URL(url);
