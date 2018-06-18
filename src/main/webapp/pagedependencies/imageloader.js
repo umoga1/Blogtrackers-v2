@@ -8,7 +8,7 @@ $(document).ready(function() {
     var img = $('.postimage');
     for(i=0; i<img.length; i++){
     	var id = img[i].id;
-		var url = img[i].alt;
+		var url = img[i].value;
 		//scrapeImage(id, "https://www.oodaloop.com/");
 		getImage(id,url);
 				
@@ -20,9 +20,6 @@ $(document).ready(function() {
 function getImage(image_id,url){
 	
 	var urll=baseurl+'subpages/imageloader.jsp?url='+url;
-	var prev = $("#"+image_id).attr('src');
-	if(prev==""){
-		$("#"+image_id).attr('src','https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg');
 		z++;
 		requests[z] = $.ajax({ type: "GET",
 		url:urll,
@@ -44,7 +41,9 @@ function getImage(image_id,url){
 						if(con.length>1){
 							content =  con[1].split('"');	
 							
-							$("#"+image_id).attr('src',content[1]);
+							content =  con[1].split('"');						
+							$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+content[1]+'"  />');
+							$("#"+image_id).remove();
 							return false;
 						}
 					}else{
@@ -71,14 +70,11 @@ function getImage(image_id,url){
 		
 		}
 	});
-}
+
 	return false;
 }
 
 function scrapeImage(image_id, url){	
-	var prev = $("#"+image_id).attr('src');
-	if(prev==""){
-		$("#"+image_id).attr('src','https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg');
 		
 	z++;
 	var urll=baseurl+'subpages/imageloader.jsp?url='+url;
@@ -101,7 +97,8 @@ function scrapeImage(image_id, url){
 						var con = html.split("content=");
 						if(con.length>1){
 							content =  con[1].split('"');						
-							$("#"+image_id).attr('src',content[1]);
+							$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+content[1]+'"  />');
+							$("#"+image_id).remove();
 							return false;
 						}
 					}
@@ -110,7 +107,7 @@ function scrapeImage(image_id, url){
 		
 		}
 	});
-	}
+	
 	return false;		
 }
 

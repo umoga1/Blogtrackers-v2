@@ -15,6 +15,7 @@ function loadMoreResult(){
 	//var url=back_url;
      var img = $('.postimage');
      var from = img[img.length-1].id;
+      console.log("from:"+from);
       
       
 	var url = app_url+'subpages/blogpostloader.jsp'
@@ -22,7 +23,7 @@ function loadMoreResult(){
 		page_no = $form.find( "input[name='page_id']" ).val();
 	var	hasmore= document.forms["page_form"].hasmore.value;
 	var	term= $("#term").val();
-	
+	//console.log("term:"+term);
 	if(hasmore=="0" || hasmore==""){
 		$("#loading-img").addClass("hidden");
 		return false;
@@ -36,7 +37,7 @@ function loadMoreResult(){
 			requests[z] = $.ajax({ type: "POST",
 				url:url,
 				async: true,
-				data:{from:page_no,term:term,load:"yes"},
+				data:{from:from,term:term,load:"yes"},
 				async: true,
 				success : function(data){	
 				isRunning = false;

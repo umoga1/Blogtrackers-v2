@@ -222,7 +222,8 @@ String[] user_name = name.split(" ");
 		    String resu = resp.get("_source").toString();
 		     JSONObject obj = new JSONObject(resu);
 		     
-		     String pst = obj.get("post").toString();
+		     
+		     String pst = obj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
 		     
  %>
 <div class="container">
@@ -265,11 +266,12 @@ String[] user_name = name.split(" ");
   </div>
     </div>
 <div class="col-md-12 d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
-<a href="blogpostpage.html"><h3 class="text-center text-primary"><%=obj.get("title") %></h3></a>
+<a href="blogpostpage.html"><h3 class="text-center text-primary"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ")%></h3></a>
 <div class="text-center mt20">
  <button class="btn btn-rounded"><i class="far fa-dot-circle icon-small text-primary"></i></button>
   <button class="btn btn-rounded"><i class="far fa-heart icon-small text-primary"></i></button>
 </div>
+<<<<<<< HEAD
 <p class="text-center">
   <button class="btn btn-primary stylebuttonpostpage mr10 mt10"><%=obj.get("blogger") %></button>
   <button class="btn btn-primary stylebuttonpostpage mr10 mt10">02-01-2018, 5:30pm</button>
@@ -277,6 +279,14 @@ String[] user_name = name.split(" ");
   <button class="btn btn-primary stylebuttonposttracking mr10 mt10">TRACKING</button>
   <button class="btn btn-primary stylebuttonposttracks mt10">553 Tracks</button></p>
 <p class="text-primary"><%=obj.get("post") %></p>
+=======
+<div class="text-center mt30 mb50"><button class="btn btn-primary stylebutton2"><%=obj.get("blogger") %></button> <button class="btn btn-primary stylebutton2">02-01-2018, 5:30pm</button></div>
+
+<div class="<%=obj.get("blogpost_id")%>">
+  <input type="hidden" class="postimage" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
+</div>
+<p class="text-primary"><%=pst %></p>
+>>>>>>> 09ea9da38e469bb31dc4a57fea44a3eefa464bed
 
 <p class="text-primary"></p>
 <p class="text-primary">ù</p>
