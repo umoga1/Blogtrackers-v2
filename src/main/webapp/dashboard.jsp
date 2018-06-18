@@ -475,10 +475,10 @@ String[] user_name = name.split(" ");
           </div> -->
 
 <div class="dropdown show text-primary p15 pb20 pt0">List of Top URLs of
-  <b class="dropdown-toggle cursor-pointer" href="#" role="button" id="blogbloggermenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Blogs</b> of Past <b class="dropdown-toggle cursor-pointer" href="#" role="button" id="timerange1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Week</b>
+  <b class="dropdown-toggle cursor-pointer" href="#" role="button" id="blogbloggermenu1" data-toggle="dropdown" data-target=".blogblogger" aria-haspopup="true" aria-expanded="false">
+    Blogs</b> of Past <b class="dropdown-toggle cursor-pointer" href="#" role="button" id="timerange1" data-target=".timerange" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Week</b>
 
-  <div class="dropdown-menu submenudashwidth" aria-labelledby="blogbloggermenu1">
+  <div class="dropdown-menu submenudashwidth blogblogger timerange" aria-labelledby="blogbloggermenu1">
     <a class="dropdown-item" href="#">Blog</a>
     <a class="dropdown-item" href="#">Bloggers</a>
   </div>
