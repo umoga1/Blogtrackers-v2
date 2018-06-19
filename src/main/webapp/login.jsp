@@ -164,12 +164,12 @@ var startApp = function() {
 };
 
 function attachSignin(element) {
-  console.log(element.id);
+ // console.log(element.id);
   auth2.attachClickHandler(element, {},
       function(googleUser) {
         var profile = googleUser.getBasicProfile();
-        console.log(profile+"Here");
-	console.log(profile.getImageUrl());
+   //     console.log(profile+"Here");
+	//console.log(profile.getImageUrl());
   
        	register(profile.getEmail(),profile.getName(),profile.getImageUrl()); 
        
@@ -180,7 +180,7 @@ function attachSignin(element) {
 
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
-  console.log(profile.getImageUrl());
+  //console.log(profile.getImageUrl());
   register(profile.getEmail(),profile.getName(),profile.getImageUrl()); 
 }
 
