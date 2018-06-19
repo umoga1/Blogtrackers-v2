@@ -2,7 +2,7 @@
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
-<%@page import="util.Blogposts"%>
+<%@page import="util.Trackers"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%
@@ -55,25 +55,24 @@ if(f.exists() && !f.isDirectory()) {
 
 String[] user_name = name.split(" ");
 
-Blogposts post  = new Blogposts();
+Trackers tracker  = new Trackers();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
 ArrayList results = null;
 if(term.equals("")){
-	results = post._list("DESC","");
+	results = tracker._list("DESC","",username);
 }else{
-	results = post._search(term,"");
+	results = tracker._search(term,"");
 }
-String total = post._getTotal();
+String total = tracker._getTotal();
 //pimage = pimage.replace("build/", "");
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers - Blog Browser</title>
+	<title>Blogtrackers</title>
   <link rel="shortcut icon" href="images/favicons/favicon.ico">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
@@ -93,41 +92,32 @@ String total = post._getTotal();
   <link rel="stylesheet" href="assets/css/style.css" />
 
   <!--end of bootsrap -->
-  
-<link rel="stylesheet" href="assets/css/toastr.css">
-<!--end of bootsrap -->
-<script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
-  <script>
-  <!-- update system url here -->
-  var app_url = "http://localhost:8080/Blogtrackers/";
-  </script>
 </head>
-<body >
+<body>
 <div class="modal-notifications">
 <div class="row">
-  <div class="offset-lg-9 col-lg-3 col-md-12 notificationpanel">
-    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
-  <div class="profilesection col-md-12 mt50">
-    <img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" class="float-left" />
-    <div class="float-left" style="margin-left:20px;">
-      <h4 class="text-primary m0 bolder"><%=name%></h4>
-      <p class="text-primary"><%=email%></p>
-    </div>
+<div class="offset-lg-9 col-lg-3 col-md-12 notificationpanel">
+  <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
+<div class="profilesection col-md-12 mt50">
+  <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="60" height="60" alt="" class="float-left" />
+  <div class="float-left" style="margin-left:20px;">
+    <h4 class="text-primary m0 bolder"><%=name%></h4>
+    <p class="text-primary"><%=email%></p>
+  </div>
 
-  </div>
-  <div id="othersection" class="col-md-12 mt100" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="notifications.html"><h3 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h3> </a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h3  class="text-primary">Profile</h3></a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h3 class="text-primary">Log Out</h3></a>
-  </div>
-  </div>
+</div>
+<div id="othersection" class="col-md-12 mt100" style="clear:both">
+<a class="cursor-pointer profilemenulink" href="notifications.html"><h3 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h3> </a>
+<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h3  class="text-primary">Profile</h3></a>
+<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h3 class="text-primary">Log Out</h3></a>
 </div>
 </div>
-  
-  
+</div>
+</div>
   <nav class="navbar navbar-inverse bg-primary">
-    <div class="container-fluid mt10 mb10">
+    <div class="container-fluid mt10">
 
       <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
       <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
@@ -144,7 +134,7 @@ String total = post._getTotal();
       <!-- Mobile menu  -->
       <div class="col-lg-4 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="./"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
           <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
@@ -185,90 +175,76 @@ String total = post._getTotal();
             </ul>
     </div>
       </div>
-<div class="profilenavbar" style="visibility:hidden;">></div>
-	   <div class="col-md-12 mt0">
-      <form name="serach-form" method="post" action=""><input type="search" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" placeholder="Search Posts" /></form>
+
+      <div class="col-md-12 mt0">
+      <input type="search" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" placeholder="Search Trackers" />
       </div>
 
     </nav>
-	
-	
 <div class="container">
 
 
-<div class="row mt50">
+<div class="row mt30">
 <div class="col-md-12 ">
-<% if(!term.equals("")){ %>
-<h6 class="float-left text-primary"><%=total%> posts found for "<%=term%>"</h6>
-<%}else{%>
-<h6 class="float-left text-primary"><%=total%> posts in our knowledge database</h6>
-
-<%}%>
+<h6 class="float-left text-primary"><%=total%> Trackers</h6>
 <h6 class="float-right text-primary">Recent <i class="fas fa-chevron-down"></i><h6/>
 </div>
 </div>
 
 
-<div class="card-columns pt0 pb10  mt20 mb50 " id="appendee">
-
+<div class="card-columns pt0 pb10  mt10 mb50 ">
 <% if(results.size()>0){
 		for(int i=0; i< results.size(); i++){
-			String res = results.get(i).toString();
-			
+			String res = results.get(i).toString();			
 			JSONObject resp = new JSONObject(res);
 		    String resu = resp.get("_source").toString();
 		     JSONObject obj = new JSONObject(resu);
-		     
-		     String pst = obj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
-		     if(pst.length()>120){
-		    	 pst = pst.substring(0,120);
-		     }
-			
+
 %>
-<div class="card noborder curved-card mb30" >
-<div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center pt20"><a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></a></h4>
-<div class="text-center"><button class="btn btn-primary stylebutton3">TRACKING</button> <button class="btn btn-primary stylebutton2">0 Tracks</button></div>
-  <div class="card-body">
-    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20"><%=pst+"..."%></h4></a>
-    <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
-    <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
-  </div>
-  <div class="<%=obj.get("blogpost_id")%>">
-  <input type="hidden" class="postimage" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
-  </div>
-  <div class="text-center"><i class="far fa-heart text-medium pb30  light-text icon-big"></i></div>
-</div>
+				<div class="card noborder curved-card mb30" >
+				<div class="text-center"><i class="fas fa-ellipsis-h pt40 text-light-color icon-big3 cursor-pointer fa-2x" class="options" title="Options"></i></div>
+				<a href="analytics.html"><h1 class="text-primary text-center pt20"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ") %></h1></a>
 
-<% }
-}else{ %>
+				  <div class="card-body">
+					<p class="card-text text-center postdate text-primary"><%=obj.get("date_created").toString()%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;5:30 PM</p>
+					<div class="text-center">
+					<button class="btn btn-default stylebutton5 text-primary p30 pt5 pb5" style="width:100%;">Sports&nbsp;&nbsp;.&nbsp;&nbsp;Science&nbsp;&nbsp;.&nbsp;&nbsp;Art</button>
+					</div>
+					<p class="mt20 text-primary text-center">
+						<%=obj.get("description").toString()%>
+					</p>
+					<div class="text-center mt20">
+					<button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">
+					<h1 class="text-success mb0"><%=obj.get("blogsites_num").toString()%></h1>
+					<h5 class="text-primary">Blogs</h5>
+					</button>
 
-<div >No post found</div>
+					</div>
 
+					<div class="text-center mt10">
+					<button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">
+					<h1 class="text-success mb0">4,000,232</h1>
+					<h5 class="text-primary">Posts</h5>
+					</button>
 
+					</div>
+					<div class="text-center mt10">
+					<button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">
+					<h1 class="text-success mb0">120</h1>
+					<h5 class="text-primary">Comments</h5>
+					</button>
+
+					</div>
+				  </div>
+
+				</div>
 <% } %>
-</div>
-
-<% if(results.size()>0){ %>
-<div class="loadmoreimg" id="loading-img" style="text-align:center"><img src='images/preloader.gif' /><br/></div>	
+<%}else{ %>
+<div >No tracker found</div>
 <% } %>
 
-
-
-
-
-
 </div>
-
-<form name="page_form" id="page_form" method="post" action="">
-    <input type="hidden" id="page_id" name="page_id" value="0" />
-	<input type="hidden" name="negative_page" id="negative_page" value="1" />
-	<input type="hidden" id="hasmore" name="hasmore" value="1" />
-	<input type="hidden" id="current_page" name="current_page" value="blogbrowser" />
-	<input type="hidden" id="term" name="term" value="<%=term%>" />
- </form>
-
-
+</div>
 
 <!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
@@ -277,27 +253,22 @@ String total = post._getTotal();
   </footer> -->
 
 
-<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+ <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
 
+
+<script>
+$(document).ready(function() {
+
+} );
+</script>
 <!--end for table  -->
 
 
 <script src="assets/js/generic.js">
-
 </script>
 
-<script src="pagedependencies/imageloader.js?v=49908998"></script>
-<script src="js/functions.js?v=9090"></script>
-<script>
-$(window).scroll(function() {
-	if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {
-		loadMoreResult();
-	}
-});
-
-</script>
 </body>
 </html>
 <% }} %>
