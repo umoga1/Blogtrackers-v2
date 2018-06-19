@@ -86,15 +86,10 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
 <div class="text-center mt60 offset-lg-3 col-lg-6 col-md-12" style="font-size:20px;">
 <h1 class="text-white text-center">Track Internet Blogs</h1>
 <p class="text-white text-center">Monitor and suggest valuable insights in a drilled-down fashion using content analysis and social network analysis</p>
-<<<<<<< HEAD
 <form method="search">
 <input type="search" placeholder="Search Post" class="form-control searchhome"/>
-<button type="submit" class="btn btn-success homebutton mt30 p40 pt10 pb10 mb50"><b>Start Tracking</b></button>
-</form>
-=======
 <a href="<%=request.getContextPath()%>/blogbrowser.jsp"><button class="btn btn-success homebutton mt30 p40 pt10 pb10 mb50"><b>Start Tracking</b></button></a>
->>>>>>> 155f0857327e029ef73971974472034260b32831
-</div>
+</form>
 
 <div class="robotcontainer">
 
