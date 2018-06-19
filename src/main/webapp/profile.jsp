@@ -133,7 +133,7 @@ String[] user_name = name.split(" ");
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
           <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a href="favorites.html"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
@@ -167,7 +167,7 @@ String[] user_name = name.split(" ");
                 <a class="nav-link" href="trackerlist.html">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Favorites</a>
+                <a class="nav-link" href="favorites.html">Favorites</a>
               </li>
             </ul>
     </div>

@@ -11,10 +11,8 @@ body{
 color:blue;
 } */
 
-.profiletext
-{
-font-size: 14px;
-}
+
+
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   height: 40px;
@@ -132,7 +130,7 @@ box-shadow: 0px 7px 0px -2px rgba(233,233,233,1);
 {
 width:100px;
 }
-.trackername
+.newtrackername
 {
 border:none;
 border-bottom:2px solid #E7EbEC;
@@ -140,13 +138,69 @@ font-size: 2.5rem !important;
 font-family: inherit;
 font-weight: 500 !important;
 line-height: 1.2 !important;
- height:4.0rem;
+ /* height:4.0rem; */
 resize:none;
 }
-.trackername[placeholder]
+.newtrackername:focus
+{
+box-shadow:none;
+color:#17394C;
+}
+.createtrackerbtn
+{
+
+}
+.newtrackername[placeholder]
 {
 font-size: 20px;
 font-weight:600;
+}
+.newtrackerdescription
+{
+border:none;
+border-bottom:2px solid #E7EbEC;
+font-size: 1.0rem !important;
+font-family: inherit;
+font-weight: 500 !important;
+line-height: 1.2 !important;
+ /* height:4.0rem; */
+resize:none;
+}
+.newtrackerdescription:focus
+{
+box-shadow:none;
+color:#17394C;
+}
+.newtrackerdescription[placeholder]
+{
+font-size: 20px;
+font-weight:600;
+}
+.trackerclose
+{
+position: absolute;
+top:15px;
+right:25px;
+z-index:9999;
+}
+.trackerpage .bg-default
+{
+background-color: transparent;
+}
+.trackerpage .tokenfield .token
+{
+border:2px solid #17394C;
+border-radius:5px;
+}
+.trackerpage .tokenfield .token .token-label
+{
+  padding: 4px 8px;
+  padding-right: 28px;
+  font-size: 14px;
+}
+.closetracker
+{
+font-size:35px;
 }
 .iconportfolio
 {
@@ -572,7 +626,8 @@ font-weight: 600;
 a:hover
 {
 text-decoration: none;
-color:blue;
+color:inherit;
+opacity: 0.80;
 }
 .link{
 color:darkblue;
@@ -789,13 +844,14 @@ background: black;
 }
 #notificationcount
 {
-  background: #FF7E7E;
-      position: absolute;
-      border-radius: 100px;
-      right: 30px;
-      color: #ffffff;
-      padding: 5px 5px;
-      font-size: 11px;
+  background:#FF7E7E;
+  position:absolute;
+  border-radius: 100px;
+  right:30px;
+  color:#ffffff;
+top:-5px;
+  padding:8px 8px;
+  font-size: 12px;
 }
 .activebar
 {
@@ -823,12 +879,12 @@ opacity: 0.53!important;
 position:absolute;
 /* background: #ffffff; */
 border-radius: 100px;
-right:25px;
+right:45px;
 top:10px;
 }
 #closeicon i
 {
-  font-size: 24px;
+  font-size: 28px;
   color:#FF7E7E;
 }
 
@@ -1186,7 +1242,7 @@ color:#17394C;
 .postimgfull
 {
 min-height: 450px;
-background-position: center center;
+background-position: top center;
 background-repeat: no-repeat;
 background-size: cover;
 }
@@ -2189,6 +2245,13 @@ background-size: cover;
 .robotcontainer
 {
 min-height: 544px;
+}
+.postimgfull
+{
+min-height: 700px;
+background-position: center center;
+background-repeat: no-repeat;
+background-size: cover;
 }
 
 }

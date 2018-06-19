@@ -86,7 +86,7 @@ if (email != null && email != "") {
 					<p class="text-primary mb30" style="font-size: 26px;">
 						Login or <b>Register</b>
 					</p>
-					<form id="login_form"  class="form-validate"  method="post">
+					<form id="login_form"  class=""  method="post">
 						<div class="form-group">
 							<div class="form-login-error">
                                 <p id="error_message-box" style="color:red"></p>
@@ -95,15 +95,15 @@ if (email != null && email != "") {
 								class="form-control curved-form-login text-primary"
 								 id="username" required="required" required aria-describedby="emailHelp"
 								placeholder="Email">
-							 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> 
+							 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 						</div>
 						<br />
 						<div class="form-group">
 							<input type="password"
 								class="form-control curved-form-login text-primary"
 								  required="required" required id="password" placeholder="Password" >
-							<div class="invalid-feedback">Please enter your password</div>
-							<div class="valid-feedback">Looks Good</div>
+							 <div class="invalid-feedback">Please enter your password</div>
+						<!--	<div class="valid-feedback">Looks Good</div> -->
 						</div>
 						<br />
 						<div class=""  id="loggin2"></div>

@@ -174,7 +174,7 @@ String[] user_name = name.split(" ");
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
           <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a href="favorites.html"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
@@ -208,7 +208,7 @@ String[] user_name = name.split(" ");
                   <a class="nav-link" href="trackerlist.html">Trackers</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Favorites</a>
+                  <a class="nav-link" href="favorites.html">Favorites</a>
                 </li>
               </ul>
       </div>
@@ -271,7 +271,7 @@ String[] user_name = name.split(" ");
  <button class="btn btn-rounded"><i class="far fa-dot-circle icon-small text-primary"></i></button>
   <button class="btn btn-rounded"><i class="far fa-heart icon-small text-primary"></i></button>
 </div>
-<<<<<<< HEAD
+
 <p class="text-center">
   <button class="btn btn-primary stylebuttonpostpage mr10 mt10"><%=obj.get("blogger") %></button>
   <button class="btn btn-primary stylebuttonpostpage mr10 mt10">02-01-2018, 5:30pm</button>
@@ -279,17 +279,13 @@ String[] user_name = name.split(" ");
   <button class="btn btn-primary stylebuttonposttracking mr10 mt10">TRACKING</button>
   <button class="btn btn-primary stylebuttonposttracks mt10">553 Tracks</button></p>
 <p class="text-primary"><%=obj.get("post") %></p>
-=======
-<div class="text-center mt30 mb50"><button class="btn btn-primary stylebutton2"><%=obj.get("blogger") %></button> <button class="btn btn-primary stylebutton2">02-01-2018, 5:30pm</button></div>
+
 
 <div class="<%=obj.get("blogpost_id")%>">
   <input type="hidden" class="postimage" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
 </div>
-<p class="text-primary"><%=pst %></p>
->>>>>>> 09ea9da38e469bb31dc4a57fea44a3eefa464bed
 
-<p class="text-primary"></p>
-<p class="text-primary">ù</p>
+
 <div class="text-center mt50 mt50">
   <button class="btn btn-primary stylebuttonpostpage mr10 mt10">National Public Radio</button>
   <button class="btn btn-primary stylebuttonpostpage mr10 mt10"><%=obj.get("num_comments") %> comment(s)</button>
@@ -304,7 +300,7 @@ String[] user_name = name.split(" ");
 <div class="row pt80 pb80 m20 mt0 mb0 d-none d-lg-block d-xl-block">
 <div class="col-lg-12 d-none d-lg-block d-xl-block">
 <p class="text-primary post-content">
-<%=obj.get("post") %>
+<%=pst %>
 </p>
 
 </div>

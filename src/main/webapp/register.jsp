@@ -69,7 +69,7 @@
       <div class="col-md-8 card m0 p0 borderradiusround nobordertopright noborderbottomright">
           <div class="card-body p40 pt40 pb5 borderradiusround nobordertopright noborderbottomright" style="background-color:#f4f5f6;">
           <p class="text-primary text-center mb30" style="font-size:26px;">Welcome to Blogtrackers</p>
-          <form id="register_form"  class="form-validate"  method="post">
+          <form id="register_form"  class=""  method="post">
       <div class="form-group">
 		<div class="form-login-error">
              <p id="error_message-box" style="color:red"></p>

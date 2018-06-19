@@ -90,12 +90,16 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
 <input type="search" placeholder="Search Post" class="form-control searchhome"/>
 <a href="<%=request.getContextPath()%>/blogbrowser.jsp"><button class="btn btn-success homebutton mt30 p40 pt10 pb10 mb50"><b>Start Tracking</b></button></a>
 </form>
+</div>
+
 
 <div class="robotcontainer">
 
 </div>
 
 </div>
+
+
 
 
 

@@ -125,7 +125,7 @@ String[] user_name = name.split(" ");
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
           <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a href="<%=request.getContextPath()%>/favorites.html"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
@@ -159,7 +159,7 @@ String[] user_name = name.split(" ");
                 <a class="nav-link" href="trackerlist.html">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Favorites</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.html">Favorites</a>
               </li>
             </ul>
     </div>
@@ -287,7 +287,7 @@ String[] user_name = name.split(" ");
         </div>
           </div>
     </div>
-    <div class="float-right"><a href=""><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Keyword Trend Analysis </b> <b class="fas fa-search float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="keywordtrend.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Keyword Trend Analysis </b> <b class="fas fa-search float-right icondash2"></b></button></a></div>
   </div>
 
   <div class="col-md-6 mt20">
@@ -301,7 +301,7 @@ String[] user_name = name.split(" ");
         </div>
           </div>
     </div>
-    <div class="float-right"><a href=""><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-adjust float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="sentiment.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-adjust float-right icondash2"></b></button></a></div>
   </div>
 </div>
 
@@ -318,7 +318,7 @@ String[] user_name = name.split(" ");
       </div>
           </div>
     </div>
-    <div class="float-right"><a href=""><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blog Portfolio Analysis</b> <b class="fas fa-file-alt float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="blogportfolio.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blog Portfolio Analysis</b> <b class="fas fa-file-alt float-right icondash2"></b></button></a></div>
 
   </div>
 
@@ -334,7 +334,7 @@ String[] user_name = name.split(" ");
       </div>
           </div>
     </div>
-    <div class="float-right"><a href=""><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blogger Portfolio Analysis </b> <b class="fas fa-user float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="bloggerportfolio.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blogger Portfolio Analysis </b> <b class="fas fa-user float-right icondash2"></b></button></a></div>
 
   </div>
 
@@ -353,7 +353,7 @@ String[] user_name = name.split(" ");
       </div>
           </div>
     </div>
-    <div class="float-right"><a href=""><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Posting Frequency Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="postingfrequency.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Posting Frequency Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b></button></a></div>
 
   </div>
 
@@ -369,7 +369,7 @@ String[] user_name = name.split(" ");
       </div>
           </div>
     </div>
-    <div class="float-right"><a href=""><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-exchange-alt float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="sentiment.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-exchange-alt float-right icondash2"></b></button></a></div>
 
   </div>
 
