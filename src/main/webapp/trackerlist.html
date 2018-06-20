@@ -188,7 +188,7 @@
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" data-action="reload" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -234,7 +234,7 @@
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" data-action="reload" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -278,7 +278,7 @@
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -324,7 +324,7 @@
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -368,7 +368,7 @@
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -414,7 +414,7 @@
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -454,7 +454,7 @@
 <script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>
 <script type="text/javascript" src="assets/vendors/typeahead/typeahead.bundle.min.js"></script>
 <script type="text/javascript" src="assets/js/form_tags_input.js"></script>
-
+<script type="text/javascript" src="assets/vendors/blockui/blockui.min.js"></script>
 <script>
 $(document).ready(function() {
   $(function () {
@@ -490,6 +490,38 @@ $(document).ready(function() {
 //         if(e.which == 13) e.preventDefault();
 //     }
 // });
+
+//Panels
+  $('.card [data-action=reload]').click(function (e) {
+      e.preventDefault();
+      var block = $(this).parent().parent().parent();
+      $(block).block({ 
+          message: '<i class="fas fa-spinner fa-4x fa-pulse"></i>',
+          overlayCSS: {
+              backgroundColor: '#fff',
+              opacity: 0.8,
+              cursor: 'wait',
+              'box-shadow': '0 0 0 1px #ddd'
+          },
+          css: {
+              border: 0,
+              padding: 0,
+              backgroundColor: 'none'
+          }
+      });
+      
+      
+      
+      // For demo purposes
+      window.setTimeout(function () {
+         $(block).unblock();
+      }, 2000); 
+  });
+  // put the block of code in ajax request which refresh the tracker
+  
+  
+  
+  
 } );
 </script>
 <!--end for table  -->

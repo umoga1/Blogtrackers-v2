@@ -208,15 +208,16 @@ $(this).parent().remove();
   $(this).parent().parent().remove();
   $(".tooltip").hide();
   toastr.error("Blog Removed from Favorites","Action Succesful");
-  // add an ajax remove favorites the post
+  // add an ajax remove blog from favorites
+  
   }
   if(!isFavorites) // if it does not have favorites
   {
   $(this).removeClass("far fa-heart").addClass("fas fa-heart");
   $(this).attr("data-original-title","Remove from Favorite");
   console.log("add to favorites");
+   // add an ajax to favorite the blod
  
-  // add an ajax to favorite the post
   }
 
   })
