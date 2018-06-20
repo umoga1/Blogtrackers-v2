@@ -3,6 +3,7 @@
 <%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
 <%@page import="util.Trackers"%>
+<%@page import="util.Blogs"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%
@@ -27,26 +28,16 @@ if (userinfo.size()<1) {
 userinfo = (ArrayList<?>)userinfo.get(0);
 try{
 username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
-
 name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
-
-
 email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
-//date_modified = userinfo.get(11).toString();
-
 String userpic = userinfo.get(9).toString();
-
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = userinfo.get(9).toString();
-
 profileimage = "images/default-avatar.png";
 if(userpic.indexOf("http")>-1){
 	profileimage = userpic;
 }
-
-
-
 File f = new File(filename);
 if(f.exists() && !f.isDirectory()) { 
 	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
@@ -56,6 +47,7 @@ if(f.exists() && !f.isDirectory()) {
 String[] user_name = name.split(" ");
 
 Trackers tracker  = new Trackers();
+Blogs blg  = new Blogs();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
 ArrayList results = null;
 if(term.equals("")){
@@ -194,11 +186,42 @@ String total = tracker._getTotal();
 
 <div class="card-columns pt0 pb10  mt10 mb50 ">
 <% if(results.size()>0){
+	String res = null;
+	JSONObject resp = null;
+	String resu = null;
+	JSONObject obj = null;
+	String query = null;
+	int totalpost = 0;
+	String bres = null;
+	JSONObject bresp = null;
+	String bresu =null;
+	JSONObject bobj =null;
+	int bpost =0;
+	
 		for(int i=0; i< results.size(); i++){
-			String res = results.get(i).toString();			
-			JSONObject resp = new JSONObject(res);
-		    String resu = resp.get("_source").toString();
-		     JSONObject obj = new JSONObject(resu);
+			res = results.get(i).toString();			
+			resp = new JSONObject(res);
+		    resu = resp.get("_source").toString();
+		    obj = new JSONObject(resu);
+			 
+			 query = obj.get("query").toString();
+			 query = query.replaceAll("blogsite_id in ", "");
+			 query = query.replaceAll("(", "");
+			 query = query.replaceAll(")", "");
+			 totalpost = 0;
+			 if(query.length()>1){
+				 blogs = blg._fetch(query);
+				 if( blogs.size()>0){
+					 for(int k=0; k< blogs.size(); k++){
+						 bres = blogs.get(k).toString();			
+						 bresp = new JSONObject(bres);
+						 bresu = bresp.get("_source").toString();
+						 bobj = new JSONObject(bresu);
+						 bpost = (Integer)bobj.get("totalposts").toString();
+						 totalpost+=bpost;
+					 }
+				 }
+			 }
 
 %>
 				<div class="card noborder curved-card mb30" >
@@ -223,7 +246,7 @@ String total = tracker._getTotal();
 
 					<div class="text-center mt10">
 					<button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">
-					<h1 class="text-success mb0">4,000,232</h1>
+					<h1 class="text-success mb0"><%=totalpost%></h1>
 					<h5 class="text-primary">Posts</h5>
 					</button>
 

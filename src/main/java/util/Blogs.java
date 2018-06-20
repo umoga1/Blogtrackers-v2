@@ -17,35 +17,7 @@ public class Blogs {
 String base_url = "http://144.167.115.218:9200/test-migrate/";
 String totalpost;		    
 	   
-public ArrayList _list(String order, String from) throws Exception {
-	// ArrayList result = new ArrayList();
-	 /*
-	 JSONObject query = new JSONObject();
-	 JSONObject param = new JSONObject();
-	 
-	
-	 
-	 JSONObject ord = new JSONObject();
-	 JSONObject sortby =new JSONObject();
-	
-	 
-	 param.put("match_all",new JSONObject());
-	 
-	 
-	 ord.put("order", order);
-	 
-	 query.put("query", param);
-	 sortby.put("date", ord);
-	 
-	 
-	 query.put("sort", sortby);
-	 */
-	 //auth.put("passwordCredentials", cred);
-	 //parent.put("auth", auth);
-	 
-	 //System.out.println(query.toString());
-	 
-	 
+public ArrayList _list(String order, String from) throws Exception {	 
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 		 		"    \"query\": {\r\n" + 
 		 		"        \"match_all\": {}\r\n" + 
@@ -79,22 +51,13 @@ public ArrayList _list(String order, String from) throws Exception {
 	 
 	 
      String url = base_url+"_search?size=10";
-     /*
-     if(!from.equals("")) {
-    	 int fr = (Integer.parseInt(from)-10);
-    	 url = base_url+"_search?size=10";
-     }
-     */
-     
+ 
      
      URL obj = new URL(url);
      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
      
      con.setDoOutput(true);
      con.setDoInput(true);
-     // optional default is GET
-     //con.setRequestMethod("GET");
-     
      con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
      con.setRequestProperty("Accept", "application/json");
      con.setRequestMethod("POST");
@@ -102,9 +65,6 @@ public ArrayList _list(String order, String from) throws Exception {
      OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
      wr.write(jsonObj.toString());
      wr.flush();
-     
-     //add request header
-     //con.setRequestProperty("User-Agent", "Mozilla/5.0");
      int responseCode = con.getResponseCode();
      
      BufferedReader in = new BufferedReader(
@@ -122,9 +82,6 @@ public ArrayList _list(String order, String from) throws Exception {
      if(null!=myResponse.get("hits")) {
 	     String res = myResponse.get("hits").toString();
 	     JSONObject myRes1 = new JSONObject(res);
-	     
-	
-	     
 	      String total = myRes1.get("total").toString();
 	      this.totalpost = total;
 	    
@@ -146,20 +103,6 @@ public String _getTotal() {
 }
 	
 public ArrayList _search(String term,String from) throws Exception {
-	// ArrayList result = new ArrayList();
-	 
-	 //JSONObject query = new JSONObject(); 
-	 /*
-	 JSONObject jsonObj = new JSONObject("{\r\n" + 
-	 		"  \"query\": {\r\n" + 
-	 		"        \"query_string\" : {\r\n" + 
-	 		"            \"fields\" : [\"title\",\"blogger\",\"post\"],\r\n" + 
-	 		"            \"query\" : "+term+"\r\n" + 
-	 		"        }\r\n" + 
-	 		"  }\r\n" + 
-	 		"}");
-	 
-	 */
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
 	 		"        \"query_string\" : {\r\n" + 
@@ -252,14 +195,24 @@ public ArrayList _search(String term,String from) throws Exception {
 
 public ArrayList _fetch(String ids) throws Exception {
 	 ArrayList result = new ArrayList();
+	 String[] args = ids.split(",");
+	 String arg = "";
 	 
-	 JSONObject query = new JSONObject(); 
+	 for(i=0; i<args.length(); i++){
+		if(i<(args.length()-1)){
+			arg+= "\""+args[i]+"\",";
+		}else{
+			arg+= "\""+args[i]+"\"";
+		}
+	 }
+	 
+
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
 	 		"    \"constant_score\":{\r\n" + 
 	 		"			\"filter\":{\r\n" + 
 	 		"					\"terms\":{\r\n" + 
-	 		"							\"blogpost_id\":[\""+ids+"\"]\r\n" + 
+	 		"							\"blogsite_id\":[\""+arg+"\"]\r\n" + 
 	 		"							}\r\n" + 
 	 		"					}\r\n" + 
 	 		"				}\r\n" + 
