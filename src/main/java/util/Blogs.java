@@ -213,7 +213,7 @@ public ArrayList _fetch(String ids) throws Exception {
 	 String arg2 = "200";
 
 	 //String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":[\""+arg+"\"]}}}}}";
-	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":[\"200\",\"500\"]}}}}}";
+	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":[\"259\",\"37\"]}}}}}";
 		
 	 //"259","37"
 
