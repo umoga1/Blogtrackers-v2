@@ -156,7 +156,7 @@ String[] user_name = name.split(" ");
                 <a class="" href="./">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="trackerlist.html">Trackers</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/favorites.html">Favorites</a>

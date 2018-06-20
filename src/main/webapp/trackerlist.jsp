@@ -1,8 +1,10 @@
+
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
 <%@page import="util.Trackers"%>
+<%@page import="util.Blogs"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%
@@ -27,26 +29,16 @@ if (userinfo.size()<1) {
 userinfo = (ArrayList<?>)userinfo.get(0);
 try{
 username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
-
 name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
-
-
 email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
-//date_modified = userinfo.get(11).toString();
-
 String userpic = userinfo.get(9).toString();
-
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = userinfo.get(9).toString();
-
 profileimage = "images/default-avatar.png";
 if(userpic.indexOf("http")>-1){
 	profileimage = userpic;
 }
-
-
-
 File f = new File(filename);
 if(f.exists() && !f.isDirectory()) { 
 	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
@@ -56,10 +48,11 @@ if(f.exists() && !f.isDirectory()) {
 String[] user_name = name.split(" ");
 
 Trackers tracker  = new Trackers();
+Blogs blg  = new Blogs();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
 ArrayList results = null;
 if(term.equals("")){
-	results = tracker._list("DESC","",username);
+	results = tracker._list("DESC","","walterseun");
 }else{
 	results = tracker._search(term,"");
 }
@@ -98,20 +91,20 @@ String total = tracker._getTotal();
 <body>
 <div class="modal-notifications">
 <div class="row">
-<div class="offset-lg-9 col-lg-3 col-md-12 notificationpanel">
+<div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
   <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
 <div class="profilesection col-md-12 mt50">
-  <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="60" height="60" alt="" class="float-left" />
-  <div class="float-left" style="margin-left:20px;">
-    <h4 class="text-primary m0 bolder"><%=name%></h4>
-    <p class="text-primary"><%=email%></p>
+  <div class="text-center"><img src="<%=profileimage%>" width="60" height="60" alt="" class="" /></div>
+  <div class="text-center" style="margin-left:0px;">
+    <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+    <p class="text-primary profiletext"><%=email%></p>
   </div>
 
 </div>
-<div id="othersection" class="col-md-12 mt100" style="clear:both">
-<a class="cursor-pointer profilemenulink" href="notifications.html"><h3 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h3> </a>
-<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h3  class="text-primary">Profile</h3></a>
-<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h3 class="text-primary">Log Out</h3></a>
+<div id="othersection" class="col-md-12 mt10" style="clear:both">
+<a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+<a class="cursor-pointer profilemenulink" href="profile.html"><h6  class="text-primary">Profile</h3></a>
+<a class="cursor-pointer profilemenulink" href="#"><h6 class="text-primary">Log Out</h3></a>
 </div>
 </div>
 </div>
@@ -145,7 +138,7 @@ String total = tracker._getTotal();
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
-  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
+  <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
   <span><%=user_name[0]%></span>
   <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
@@ -167,7 +160,7 @@ String total = tracker._getTotal();
                 <a class="" href="./">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="trackerlist.html">Trackers</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Favorites</a>
@@ -186,65 +179,136 @@ String total = tracker._getTotal();
 
 <div class="row mt30">
 <div class="col-md-12 ">
-<h6 class="float-left text-primary"><%=total%> Trackers</h6>
+<h6 class="float-left text-primary"><%=total%> Tracker(s)</h6>
 <h6 class="float-right text-primary">Recent <i class="fas fa-chevron-down"></i><h6/>
 </div>
 </div>
 
 
-<div class="card-columns pt0 pb10  mt10 mb50 ">
-<% if(results.size()>0){
+<div class="card-columns pt0 pb10  mt10 mb40 ">
+
+  <div class="card noborder curved-card mb30 pt50 pb50" >
+  <div class="card-body">
+      <div class="cursor-pointer">
+            <h4 class="text-primary text-center"><i class="fas fa-plus-circle addnewtracker" data-toggle="tooltip" data-placement="top" title="Add New Tracker"></i></h4>
+
+      </div>
+    </div>
+
+  </div>
+  
+ <% if(results.size()>0){
+	String res = null;
+	JSONObject resp = null;
+	String resu = null;
+	JSONObject obj = null;
+	String query = null;
+	int totalpost = 0;
+	String bres = null;
+	JSONObject bresp = null;
+	String bresu =null;
+	JSONObject bobj =null;
+	ArrayList blogs = null;
+	int bpost =0;
+	
 		for(int i=0; i< results.size(); i++){
-			String res = results.get(i).toString();			
-			JSONObject resp = new JSONObject(res);
-		    String resu = resp.get("_source").toString();
-		     JSONObject obj = new JSONObject(resu);
-
+			res = results.get(i).toString();			
+			resp = new JSONObject(res);
+		    resu = resp.get("_source").toString();
+		    obj = new JSONObject(resu);
+			 
+			 query = obj.get("query").toString();
+			
+			
+			 query = query.replaceAll("blogsite_id in ", "");
+			 
+			
+			 query = query.replaceAll("\\(", "");
+			 System.out.println(query);
+			
+			 query = query.replaceAll("\\)", "");
+			 System.out.println(query);
+			 totalpost = 0;
+			
+			 if(query.length()>1){
+				 blogs = blg._fetch(query);
+				 System.out.println(blogs);
+				 if( blogs.size()>0){
+					 for(int k=0; k< blogs.size(); k++){
+						 bres = blogs.get(k).toString();			
+						 bresp = new JSONObject(bres);
+						 bresu = bresp.get("_source").toString();
+						 bobj = new JSONObject(bresu);
+						 bpost = Integer.parseInt(bobj.get("totalposts").toString());
+						 totalpost+=bpost;
+					 }
+				 }
+			 }
 %>
-				<div class="card noborder curved-card mb30" >
-				<div class="text-center"><i class="fas fa-ellipsis-h pt40 text-light-color icon-big3 cursor-pointer fa-2x" class="options" title="Options"></i></div>
-				<a href="analytics.html"><h1 class="text-primary text-center pt20"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ") %></h1></a>
 
-				  <div class="card-body">
-					<p class="card-text text-center postdate text-primary"><%=obj.get("date_created").toString()%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;5:30 PM</p>
-					<div class="text-center">
-					<button class="btn btn-default stylebutton5 text-primary p30 pt5 pb5" style="width:100%;">Sports&nbsp;&nbsp;.&nbsp;&nbsp;Science&nbsp;&nbsp;.&nbsp;&nbsp;Art</button>
-					</div>
-					<p class="mt20 text-primary text-center">
-						<%=obj.get("description").toString()%>
-					</p>
-					<div class="text-center mt20">
-					<button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">
-					<h1 class="text-success mb0"><%=obj.get("blogsites_num").toString()%></h1>
-					<h5 class="text-primary">Blogs</h5>
-					</button>
 
-					</div>
+<div class="card noborder curved-card mb30 pt30" >
+<div class=""><a href="analytics.html"><h1 class="text-primary text-center pt20"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ") %></h1></a></div>
 
-					<div class="text-center mt10">
-					<button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">
-					<h1 class="text-success mb0">4,000,232</h1>
-					<h5 class="text-primary">Posts</h5>
-					</button>
+  <div class="card-body">
+    <p class="card-text text-center postdate text-primary"><%=obj.get("date_created").toString()%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;</p>
 
-					</div>
-					<div class="text-center mt10">
-					<button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">
-					<h1 class="text-success mb0">120</h1>
-					<h5 class="text-primary">Comments</h5>
-					</button>
+    <div class="text-center">
+    <button class="btn btn-default stylebutton5 text-primary p30 pt5 pb5" style="width:100%;">Sports&nbsp;&nbsp;.&nbsp;&nbsp;Science&nbsp;&nbsp;.&nbsp;&nbsp;Art</button>
+    </div>
+    <p class="mt20 text-primary text-center">
+   
+	<%=obj.get("description").toString()%>
+    </p>
+    <div class="text-center mt20">
+    <button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">
+    <h1 class="text-success mb0"><%=obj.get("blogsites_num").toString()%></h1>
+    <h5 class="text-primary">Blogs</h5>
+    </button>
 
-					</div>
-				  </div>
+    </div>
 
-				</div>
-<% } %>
-<%}else{ %>
-<div >No tracker found</div>
-<% } %>
+    <div class="text-center mt10">
+    <button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">
+    <h1 class="text-success mb0"><%=totalpost%></h1>
+    <h5 class="text-primary">Posts</h5>
+    </button>
+
+    </div>
+    <div class="text-center mt10">
+    <button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">
+    <h1 class="text-success mb0">120</h1>
+    <h5 class="text-primary">Comments</h5>
+    </button>
+
+    </div>
+    <div class="pt30 pb20 text-center">
+      <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
+    </div>
+  </div>
 
 </div>
+
+
+<% } %>
+<%}%>
 </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
 
 <!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
@@ -260,7 +324,37 @@ String total = tracker._getTotal();
 
 <script>
 $(document).ready(function() {
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
 
+
+  // add new tracker code snippets
+  $('.addnewtracker').on("click",function(e){
+    e.preventDefault();
+    trackersetupform = '<div class="card noborder curved-card mb30 pt50 pb50"><div class="card-body"><div class="cursor-pointer"><textarea class="form-control trackername text-primary" placeholder="Tracker Name"></textarea></div></div></div>';
+  $('.card-columns').prepend(trackersetupform);
+  });
+//   var span = $('<span>').css('display','inline-block')
+// .css('word-break','break-all').appendTo('body').css('visibility','hidden');
+// function initSpan(textarea){
+//   span.text(textarea.text())
+//       .width(textarea.width())
+//       .css('font',textarea.css('font'));
+// }
+// $('textarea').on({
+//     input: function(){
+//       var text = $(this).val();
+//       span.text(text);
+//       $(this).height(text ? span.height() : '1.1em');
+//     },
+//     focus: function(){
+//      initSpan($(this));
+//     },
+//     keypress: function(e){
+//         if(e.which == 13) e.preventDefault();
+//     }
+// });
 } );
 </script>
 <!--end for table  -->
