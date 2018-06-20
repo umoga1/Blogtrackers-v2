@@ -175,6 +175,11 @@ resize:none;
 box-shadow:none;
 color:#17394C;
 }
+.filtersort
+{
+font-weight: 700;
+border:none;
+}
 .newtrackerdescription[placeholder]
 {
 font-size: 20px;
