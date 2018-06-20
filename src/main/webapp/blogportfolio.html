@@ -18,6 +18,7 @@
  <link rel="stylesheet" href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
  <link rel="stylesheet" href="assets/css/table.css" />
  <link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
+ <link href="assets/vendors/animations/animate.min.css" rel="stylesheet" type="text/css">
 
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
@@ -25,10 +26,11 @@
   <!--end of bootsrap -->
   <script src="assets/js/jquery-3.2.1.slim.min.js" ></script>
 <script src="assets/js/popper.min.js"></script>
+<script type="text/javascript" src="assets/vendors/animations/animations_css3.js"></script>
 </head>
 <body>
 
-  <nav class="navbar navbar-inverse bg-primary">
+  <!-- <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid">
       <ul class="nav d-none d-lg-inline-flex d-xl-inline-flex  main-menu">
         <li><a href="./"><i class="icon-user-plus"></i>Home</a></li>
@@ -74,7 +76,93 @@
             </ul>
     </div>
       </div>
-    </nav>
+    </nav> -->
+
+    <div class="modal-notifications">
+    <div class="row">
+    <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+      <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
+    <div class="profilesection col-md-12 mt50">
+      <div class="text-center mb10"><img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="60" height="60" alt="" class="" /></div>
+      <div class="text-center" style="margin-left:0px;">
+        <h6 class="text-primary m0 bolder profiletext">Adigun Adekunle</h6>
+        <p class="text-primary profiletext">adigon2006@gmail.com</p>
+      </div>
+
+    </div>
+    <div id="othersection" class="col-md-12 mt10" style="clear:both">
+    <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+    <a class="cursor-pointer profilemenulink" href="profile.html"><h6  class="text-primary">Profile</h3></a>
+    <a class="cursor-pointer profilemenulink" href="#"><h6 class="text-primary">Log Out</h3></a>
+    </div>
+    </div>
+    </div>
+    </div>
+      <nav class="navbar navbar-inverse bg-primary">
+        <div class="container-fluid mt10">
+
+          <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
+          <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+          </div>
+          <!-- Mobile Menu -->
+          <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          </nav>
+          <!-- <div class="navbar-header ">
+          <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+          </div> -->
+          <!-- Mobile menu  -->
+          <div class="col-lg-4 themainmenu"  align="center">
+            <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+              <li><a href="./"><i class="fas fa-home"></i> Home</a></li>
+              <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
+              <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
+            </ul>
+          </div>
+
+      <div class="col-lg-4">
+      <ul class="nav navbar-nav" style="display:block;">
+      <li class="dropdown dropdown-user cursor-pointer float-right">
+      <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
+        <i class="fas fa-circle" id="notificationcolor"></i>
+      <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="50" height="50" alt="" class="" />
+      <span>Hayder</span>
+      <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
+                  <li><a href="#"> My profile</a></li>
+                  <li><a href="#"> Features</a></li>
+                  <li><a href="#"> Help</a></li>
+                  <li><a href="#">Logout</a></li>
+      </ul> -->
+      </a>
+
+       </li>
+            </ul>
+          </div>
+
+          </div>
+          <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
+          <div class="collapse" id="navbarToggleExternalContent">
+            <ul class="navbar-nav mr-auto mobile-menu">
+                  <li class="nav-item active">
+                    <a class="" href="./">Home <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="trackerlist.html">Trackers</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Favorites</a>
+                  </li>
+                </ul>
+        </div>
+          </div>
+
+          <!-- <div class="col-md-12 mt0">
+          <input type="search" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" placeholder="Search Trackers" />
+          </div> -->
+
+        </nav>
 <div class="container">
 <div class="row">
 <div class="col-md-6 paddi">
@@ -90,25 +178,23 @@
 <div class="text-primary demo"><h6 id="reportrange">Date: <span>02/21/18 - 02/28/18</span></h6></div>
 <div>
   <div class="btn-group mt5" data-toggle="buttons">
-  <label class="btn btn-primary btn-sm daterangebutton legitRipple"> <input type="radio" name="options" value="day" autocomplete="off" > Day
+  <label class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder"> <input type="radio" name="options" value="day" autocomplete="off" > Day
   	</label>
-    <label class="btn btn-primary btn-sm "> <input type="radio" name="options" value="week" autocomplete="off" >Week
+    <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" name="options" value="week" autocomplete="off" >Week
   	</label>
-     <label class="btn btn-primary btn-sm "> <input type="radio" name="options" value="month" autocomplete="off" > Month
+     <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" name="options" value="month" autocomplete="off" > Month
   	</label>
-    <label class="btn btn-primary btn-sm text-center">Year <input type="radio" name="options" value="year" autocomplete="off" >
+    <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
   	</label>
-    <label class="btn btn-primary btn-sm " id="custom">Custom</label>
+    <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label>
   </div>
-
-  <!-- Day Week Month Year <b id="custom" class="text-primary">Custom</b> -->
 
 </div>
 </div>
 </div>
 
 <div class="row p0 pt40 pb40 border-top-bottom mt20 mb20">
-  <div class="col-md-2">
+  <div class="col-md-2 animated fadeInLeft">
 <small class="text-primary">Selected Blog</small>
 <h2 class="styleheading text-blue">AdNovum <div class="circle"></div></h2>
 </div>
@@ -124,7 +210,7 @@
 
 <div class="row mt40">
 <div class="col-md-3">
-  <div class="card card-style mt20 opacity53">
+  <div class="card card-style mt20 opacity53 ">
     <div class="card-body  p30 p30 pt10 pb10">
       <h6 class="card-title mb0">Maximum Influence</h6>
       <h2 class="mb0">649</h2>
@@ -140,7 +226,7 @@
         </div>
   </div>
 </a>
-  <div class="card card-style mt20 activebar">
+  <div class="card card-style mt20 activebar " >
     <div class="card-body  p30 pt5 pb5">
       <h6 class="card-title mb0">Posts</h6>
       <h2 class="mb0">70</h2>
@@ -163,7 +249,7 @@
   </div>
 </div>
 <div class="col-md-9">
-  <div class="card card-style mt20">
+  <div class="card card-style mt20 ">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 475px;">
 <div><p class="text-primary mt10 float-left"><b class="text-blue">Posts</b> Published by <b class="text-blue">Advonum</b> of Past <b class="text-primary">Week</b></p></div>
@@ -201,7 +287,7 @@
   <div class="col-md-6 mt20">
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
-        <div class="min-height-table"style="min-height: 420px;">
+        <div class="min-height-table" style="min-height: 420px;">
           <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u>Advonum</u></b> Yearly Posting Pattern of Past <b class="text-primary">Month</b></p></div>
           <div class="chart" id="yearlypattern">
 
@@ -403,6 +489,8 @@
 
   <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
  <script src="assets/bootstrap/js/bootstrap.js">
+ </script>
+ <script src="assets/js/generic.js">
  </script>
 
  <script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>

@@ -17,6 +17,7 @@
    int maxMemSize = 5000 * 1024;
    String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
    path = path.replace("build/", "");
+  
    String filePath = path;//"c:/apache-tomcat/"; 
    String contentType = request.getContentType();
 

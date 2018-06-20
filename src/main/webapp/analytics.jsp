@@ -81,43 +81,78 @@ String[] user_name = name.split(" ");
 <script src="assets/js/popper.min.js" ></script>
 </head>
 <body>
-   <nav class="navbar navbar-inverse bg-primary">
-    <div class="container-fluid">
-      <ul class="nav d-none d-lg-inline-flex d-xl-inline-flex  main-menu">
-        <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="icon-user-plus"></i>Home</a></li>
-        <li><a href="trackerlist.html"><i class="icon-cog5"></i> Trackers</a></li>
-        <li><a href="#"><i class="icon-help"></i> Favorites</a></li>
+  <div class="modal-notifications">
+<div class="row">
+  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
+  <div class="profilesection col-md-12 mt50">
+    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
+    <div class="text-center" style="margin-left:0px;">
+      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+      <p class="text-primary profiletext"><%=email%></p>
+    </div>
 
-      </ul>
-  <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-  </button>
-  </nav>
-  <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex ">
-  <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
   </div>
-  <ul class="nav navbar-nav">
-  <li class="dropdown dropdown-user cursor-pointer">
-  <a class="dropdown-toggle" data-toggle="dropdown">
-  <img src="<%=profileimage%>" width="50" height="50" alt="" onerror="this.src='images/default-avatar.png'" class="border-white" />
+  <div id="othersection" class="col-md-12 mt10" style="clear:both">
+  <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6  class="text-primary">Profile</h6></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
+  </div>
+  </div>
+</div>
+</div>
+  
+ 
+  
+  <nav class="navbar navbar-inverse bg-primary">
+    <div class="container-fluid mt10 mb10">
+
+      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
+      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      </div>
+      <!-- Mobile Menu -->
+      <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      </nav>
+      <!-- <div class="navbar-header ">
+      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      </div> -->
+      <!-- Mobile menu  -->
+      <div class="col-lg-4 themainmenu"  align="center">
+        <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+          <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
+          <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
+        </ul>
+      </div>
+
+  <div class="col-lg-4">
+  <ul class="nav navbar-nav" style="display:block;">
+  <li class="dropdown dropdown-user cursor-pointer float-right">
+  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
+    <i class="fas fa-circle" id="notificationcolor"></i>
+  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
   <span><%=user_name[0]%></span>
-  <ul class="profilemenu dropdown-menu dropdown-menu-left">
-  <li><a href="<%=request.getContextPath()%>/profile.jsp"> My profile</a></li>
+  <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
+              <li><a href="#"> My profile</a></li>
               <li><a href="#"> Features</a></li>
               <li><a href="#"> Help</a></li>
-              <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
-  </ul>
+              <li><a href="#">Logout</a></li>
+  </ul> -->
   </a>
 
    </li>
-   
-
         </ul>
+      </div>
+
+      </div>
       <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
       <div class="collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav mr-auto mobile-menu">
               <li class="nav-item active">
+              
                 <a class="" href="./">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
@@ -129,8 +164,11 @@ String[] user_name = name.split(" ");
             </ul>
     </div>
       </div>
+<!-- <div class="profilenavbar" style="visibility:hidden;"></div> -->
+
+
     </nav>
- 
+  
  
 <div class="container">
 
@@ -587,6 +625,9 @@ A blog network is a group of blogs that are owned by the same entity. A blog net
 
  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
+</script>
+<script src="assets/js/generic.js">
+
 </script>
 <script>
 $(document).ready(function(){

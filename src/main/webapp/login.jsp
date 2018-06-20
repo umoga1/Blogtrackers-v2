@@ -59,7 +59,7 @@ if (email != null && email != "") {
   </script>
   <script src="https://apis.google.com/js/platform.js"></script>
   
-<script type="text/javascript" src="js/login_validation.js?v=192345"></script>
+<script type="text/javascript" src="js/login_validation.js?v=1897"></script>
 
 </head>
 
@@ -136,7 +136,7 @@ if (email != null && email != "") {
 			<div
 				class="col-md-4 card m0 p0 bg-primary borderradiusround nobordertopleft noborderbottomleft othersection">
 				<div
-					class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 ">
+					class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 robotcontainer2">
 
 				</div>
 			</div>
@@ -164,12 +164,12 @@ var startApp = function() {
 };
 
 function attachSignin(element) {
-  console.log(element.id);
+ // console.log(element.id);
   auth2.attachClickHandler(element, {},
       function(googleUser) {
         var profile = googleUser.getBasicProfile();
-        console.log(profile+"Here");
-	console.log(profile.getImageUrl());
+   //     console.log(profile+"Here");
+	//console.log(profile.getImageUrl());
   
        	register(profile.getEmail(),profile.getName(),profile.getImageUrl()); 
        
@@ -180,7 +180,7 @@ function attachSignin(element) {
 
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
-  console.log(profile.getImageUrl());
+  //console.log(profile.getImageUrl());
   register(profile.getEmail(),profile.getName(),profile.getImageUrl()); 
 }
 

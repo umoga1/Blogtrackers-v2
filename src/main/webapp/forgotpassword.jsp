@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blogtrackers - Login</title>
+<title>Blogtrackers - Forgot Password</title>
 <link rel="shortcut icon" href="images/favicons/favicon.ico">
 <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
 <link rel="apple-touch-icon" sizes="96x96"
@@ -71,10 +71,10 @@
 	<div class="loginbox">
 		<div class="row d-flex align-items-stretch">
 			<div
-				class="col-md-8 card m0 p0 borderradiusround nobordertopright noborderbottomright">
+				class="col-md-12 card m0 p0 borderradiusround nobordertopright noborderbottomright">
 				 <% if(success_message.equals("")){ %>
 				<div
-					class="card-body p40 pt40 pb5 borderradiusround nobordertopright noborderbottomright"
+					class="card-body p40 pt40 pb40 borderradiusround nobordertopright noborderbottomright"
 					style="background-color: #f4f5f6;">
 					<p class="text-primary mb30" style="font-size: 26px;">
 						Forgot Password?</b>
@@ -95,7 +95,7 @@
 						
 						<div class=""  id="loggin">
 							<button type="submit" name="recover" value="yes" class="btn btn-primary loginformbutton"
-								style="background: #28a745;">Submit</button> Back to login? <a href="${pageContext.request.contextPath}/login"></a></small>
+								style="background: #28a745;">Submit</button> <a href="${pageContext.request.contextPath}/login"> Back to login? </a></small>
 							
  						</div>
  			
@@ -116,13 +116,12 @@
                                 
                 <% } %>
 			</div>
-			<div
-				class="col-md-4 card m0 p0 bg-primary borderradiusround nobordertopleft noborderbottomleft othersection">
+			<!-- <div class="col-md-4 card m0 p0 bg-primary borderradiusround nobordertopleft noborderbottomleft othersection">
 				<div
 					class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 ">
 
 				</div>
-			</div>
+			</div> -->
 
 		</div>
 	</div>

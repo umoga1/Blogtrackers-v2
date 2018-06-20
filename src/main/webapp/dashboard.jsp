@@ -82,39 +82,73 @@ String[] user_name = name.split(" ");
 </head>
 <body>
 
-<nav class="navbar navbar-inverse bg-primary">
-    <div class="container-fluid">
-      <ul class="nav d-none d-lg-inline-flex d-xl-inline-flex  main-menu">
-        <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="icon-user-plus"></i>Home</a></li>
-        <li><a href="trackerlist.html"><i class="icon-cog5"></i> Trackers</a></li>
-        <li><a href="#"><i class="icon-help"></i> Favorites</a></li>
+<div class="modal-notifications">
+<div class="row">
+  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
+  <div class="profilesection col-md-12 mt50">
+    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
+    <div class="text-center" style="margin-left:0px;">
+      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+      <p class="text-primary profiletext"><%=email%></p>
+    </div>
 
-      </ul>
-  <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-  </button>
-  </nav>
-  <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex ">
-  <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
   </div>
-  <ul class="nav navbar-nav">
-  <li class="dropdown dropdown-user cursor-pointer">
-  <a class="dropdown-toggle" data-toggle="dropdown">
-  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="border-white" />
+  <div id="othersection" class="col-md-12 mt10" style="clear:both">
+  <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6  class="text-primary">Profile</h6></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
+  </div>
+  </div>
+</div>
+</div>
+  
+ 
+  
+  <nav class="navbar navbar-inverse bg-primary">
+    <div class="container-fluid mt10 mb10">
+
+      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
+      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      </div>
+      <!-- Mobile Menu -->
+      <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      </nav>
+      <!-- <div class="navbar-header ">
+      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      </div> -->
+      <!-- Mobile menu  -->
+      <div class="col-lg-4 themainmenu"  align="center">
+        <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+          <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
+          <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
+        </ul>
+      </div>
+
+  <div class="col-lg-4">
+  <ul class="nav navbar-nav" style="display:block;">
+  <li class="dropdown dropdown-user cursor-pointer float-right">
+  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
+    <i class="fas fa-circle" id="notificationcolor"></i>
+  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
   <span><%=user_name[0]%></span>
-  <ul class="profilemenu dropdown-menu dropdown-menu-left">
-   <li><a href="<%=request.getContextPath()%>/profile.jsp"> My profile</a></li>
+  <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
+              <li><a href="#"> My profile</a></li>
               <li><a href="#"> Features</a></li>
               <li><a href="#"> Help</a></li>
-              <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
-  </ul>
+              <li><a href="#">Logout</a></li>
+  </ul> -->
   </a>
 
    </li>
-   
-
         </ul>
+      </div>
+
+      </div>
       <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
       <div class="collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav mr-auto mobile-menu">
@@ -130,6 +164,9 @@ String[] user_name = name.split(" ");
             </ul>
     </div>
       </div>
+<!-- <div class="profilenavbar" style="visibility:hidden;"></div> -->
+
+
     </nav>
  
 
@@ -144,60 +181,69 @@ String[] user_name = name.split(" ");
 <div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
 </div>
 
+<div class="col-md-6 text-right mt10">
+<div class="text-primary demo"><h6 id="reportrange">Date: <span>02/21/18 - 02/28/18</span></h6></div>
+<div>
+  <div class="btn-group mt5" data-toggle="buttons">
+  <label class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder"> <input type="radio" name="options" value="day" autocomplete="off" > Day
+  	</label>
+    <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" name="options" value="week" autocomplete="off" >Week
+  	</label>
+     <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" name="options" value="month" autocomplete="off" > Month
+  	</label>
+    <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
+  	</label>
+    <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label>
+  </div>
+
+</div>
+</div>
 
 </div>
 
-<div class="row p0 pt10 pb10 border-top-bottom mt20 mb20">
+<div class="row p0 pt20 pb20 border-top-bottom mt20 mb20">
 <div class="col-md-2">
-<div class="card curved-card mt10 mb10">
-<div class="card-body p20 pt5 pb5">
-<h6 class="text-blue mb0"><small>Blogs</small></h6>
-<h3 class="text-blue mb0">200</h3>
-</div>
-</div>
-</div>
-
-<div class="col-md-2">
-<div class="card curved-card mt10 mb10">
-<div class="card-body p20 pt5 pb5">
-<h6 class="text-blue mb0"><small>Bloggers</small></h6>
-<h3 class="text-blue mb0">58 </h3>
-</div>
-</div>
-</div>
-
-<div class="col-md-2">
-<div class="card curved-card mt10 mb10">
-<div class="card-body p20 pt5 pb5">
-<h6 class="text-blue mb0"><small>Subscribers</small></h6>
-<h3 class="text-blue mb0">40,0000</h3>
-</div>
-</div>
-</div>
-
-<div class="col-md-2">
-<div class="card curved-card mt10 mb10">
-<div class="card-body p20 pt5 pb5">
-<h6 class="text-blue mb0"><small>Posts</small></h6>
-<h3 class="text-blue mb0">16,0000</h3>
+<div class="card nocoloredcard mt10 mb10">
+<div class="card-body p0 pt5 pb5">
+<h5 class="text-primary mb0"><i class="fas fa-file-alt icondash"></i>Blogs</h5>
+<h3 class="text-blue mb0 countdash">200</h3>
 </div>
 </div>
 </div>
 
 <div class="col-md-2">
-  <div class="card curved-card mt10 mb10">
-  <div class="card-body p20 pt5 pb5">
-<h6 class="text-blue mb0"><small>Frequency</small></h6>
-<h3 class="text-blue mb0">1.5 </h3>
+<div class="card nocoloredcard mt10 mb10">
+<div class="card-body p0 pt5 pb5">
+<h5 class="text-primary mb0"><i class="fas fa-user icondash"></i>Bloggers</h5>
+<h3 class="text-blue mb0 countdash">58</h3>
 </div>
 </div>
 </div>
 
 <div class="col-md-2">
-  <div class="card curved-card mt10 mb10">
-  <div class="card-body p20 pt5 pb5">
-<h6 class="text-blue mb0"><small>Overall Sentiments</small></h6>
-<h3 class="text-blue mb0">Positive </h3>
+<div class="card nocoloredcard mt10 mb10">
+<div class="card-body p0 pt5 pb5">
+<h5 class="text-primary mb0"><i class="fas fa-file-alt icondash"></i>Posts</h5>
+<h3 class="text-blue mb0 countdash">40,0000</h3>
+</div>
+</div>
+</div>
+
+<div class="col-md-2">
+<div class="card nocoloredcard mt10 mb10">
+<div class="card-body p0 pt5 pb5">
+<h5 class="text-primary mb0"><i class="fas fa-comment icondash"></i>Comments</h5>
+<h3 class="text-blue mb0 countdash">16,0000</h3>
+</div>
+</div>
+</div>
+
+
+<div class="col-md-4">
+  <div class="card nocoloredcard mt10 mb10">
+  <div class="card-body p0 pt5 pb5">
+<h5 class="text-primary mb0"><i class="fas fa-clock icondash"></i>History</h5>
+<h3 class="text-blue mb0 countdash">Feb 2, 2016 - Jun 6, 2018 </h3>
 </div>
 </div>
 </div>
@@ -206,9 +252,9 @@ String[] user_name = name.split(" ");
 
 <div class="row mb0">
   <div class="col-md-6 mt20 ">
-    <div class="card mt20">
+    <div class="card card-style mt20">
       <div class="card-body  p15 pt15 pb15">
-        <div><p class="text-primary mt0 float-right">Active <b class="text-blue">Blogs</b> During Past <b>Week</b></p></div>
+        <div><p class="text-primary mt0 float-left">Most Active Location <b >Blogs</b> of Past <b>Week</b></p></div>
         <div style="min-height: 490px;">
 <div class="map-container map-choropleth"></div>
         </div>
@@ -217,209 +263,315 @@ String[] user_name = name.split(" ");
   </div>
 
   <div class="col-md-6 mt20">
-    <div class="card mt20">
+    <div class="card  card-style  mt20">
       <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10 float-right">Active <b class="text-blue">Blogs</b> During Past <b>Week</b></p></div>
-        <div class="chart-container" >
-        <div class="chart" id="d3-bar-vertical">
+        <div><p class="text-primary mt10 float-left">Language Usage of <b >Blogs</b> of Past <b>Week</b></p></div>
+        <div class="min-height-table" style="min-height: 500px;">
+        <div class="chart-container">
+        <div class="chart" id="languageusage">
                       </div>
         </div>
+      </div>
           </div>
     </div>
   </div>
 </div>
 
-<div class="row mb20 mt20 pb30 bottom-border">
-  <div class="col-md-3 pt10 pb0">
-  <h5 class="text-primary text-center">Language Distribution </h5>
-  <div class="chart-container pt20"  style="max-height:140px;">
-    <div class="chart" align="center"  id="languagedistribution"></div>
-  </div>
+<div class="row mb0">
+  <div class="col-md-6 mt20 ">
+    <div class="card card-style mt20">
+      <div class="card-body  p30 pt5 pb5">
+        <div><p class="text-primary mt10">Top Keywords of <b class="text-primary">Blog</b> of Past <b class="text-primary">Week</b></p></div>
+        <div class="tagcloudcontainer" style="min-height: 420px;">
+
+        </div>
+          </div>
+    </div>
+    <div class="float-right"><a href=""><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Keyword Trend Analysis </b> <b class="fas fa-search float-right icondash2"></b></button></a></div>
   </div>
 
-  <div class="col-md-3 pt10 pb0">
-  <h5 class="text-primary text-center">Blog Distribution </h5>
-  <div class="chart-container pt20" style="max-height:140px;">
-    <div class="chart" align="center" id="blogdistribution"></div>
+  <div class="col-md-6 mt20">
+    <div class="card card-style mt20">
+      <div class="card-body  p30 pt5 pb5">
+        <div><p class="text-primary mt10">Sentiment Usage of <b>Blogs</b> of Past <b>Week</b></p></div>
+        <div style="min-height: 420px;">
+          <div class="chart-container">
+            <div class="chart" id="sentimentbar"></div>
+          </div>
+        </div>
+          </div>
+    </div>
+    <div class="float-right"><a href=""><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-adjust float-right icondash2"></b></button></a></div>
   </div>
+</div>
+
+<div class="row mb0">
+  <div class="col-md-6 mt20">
+    <div class="card card-style mt20">
+      <div class="card-body   p30 pt5 pb5">
+        <div><p class="text-primary mt10 float-left">Blog Distribution of Past <b>Week</b></p></div>
+        <div class="min-height-table" style="min-height: 500px;">
+        <div class="chart-container">
+        <div class="chart" id="bubblesblog">
+                      </div>
+        </div>
+      </div>
+          </div>
+    </div>
+    <div class="float-right"><a href=""><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blog Portfolio Analysis</b> <b class="fas fa-file-alt float-right icondash2"></b></button></a></div>
+
   </div>
 
-  <div class="col-md-3 pt10 pb0">
-  <h5 class="text-primary text-center">Blogger Distribution </h5>
-  <div class="chart-container pt20" style="max-height:140px;">
-    <div class="chart" align="center" id="bloggerdistribution"></div>
-  </div>
+  <div class="col-md-6 mt20">
+    <div class="card card-style mt20">
+      <div class="card-body p30 pt5 pb5">
+          <div><p class="text-primary mt10 float-left">Blogger Distribution of Past <b>Week</b></p></div>
+        <div class="min-height-table" style="min-height: 450px;">
+        <div class="chart-container">
+        <div class="chart" id="bubblesblogger">
+                      </div>
+        </div>
+      </div>
+          </div>
+    </div>
+    <div class="float-right"><a href=""><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blogger Portfolio Analysis </b> <b class="fas fa-user float-right icondash2"></b></button></a></div>
+
   </div>
 
-  <div class="col-md-3 pt10 pb0">
-  <h5 class="text-primary text-center">Post Distribution </h5>
-  <div class="chart-container pt20" style="max-height:140px;">
-    <div class="chart" align="center" id="postdistribution"></div>
+</div>
+
+<div class="row mb0">
+  <div class="col-md-6 mt20">
+    <div class="card card-style mt20">
+      <div class="card-body   p30 pt5 pb5">
+        <div><p class="text-primary mt10 float-left">Most Active <b>Blogs</b> of Past <b>Week</b></p></div>
+        <div class="min-height-table" style="min-height: 500px;">
+        <div class="chart-container">
+        <div class="chart" id="postingfrequencybar">
+                      </div>
+        </div>
+      </div>
+          </div>
+    </div>
+    <div class="float-right"><a href=""><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Posting Frequency Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b></button></a></div>
+
   </div>
+
+  <div class="col-md-6 mt20">
+    <div class="card card-style mt20">
+      <div class="card-body p30 pt5 pb5">
+        <div><p class="text-primary mt10 float-left">Most Influential <b>Blogs</b> of Past <b>Week</b></p></div>
+        <div class="min-height-table" style="min-height: 500px;">
+        <div class="chart-container">
+        <div class="chart" id="influencebar">
+                      </div>
+        </div>
+      </div>
+          </div>
+    </div>
+    <div class="float-right"><a href=""><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-exchange-alt float-right icondash2"></b></button></a></div>
+
   </div>
 
 </div>
 
 <div class="row mb50">
-  <div class="col-md-12 mt10 ">
-    <div class="card mt20">
-      <div class="card-body  p0 pt40 pb40">
-        <div style="min-height: 450px;">
-    <div class="p15 pb5 pt0" role="group">
-    Export Options
-  </div>
-          <table id="DataTables_Table_0_wrapper" class="display nowrap" style="width:100%">
-                  <thead>
-                      <tr>
-                          <th>Blog</th>
-                          <th>Posts</th>
-                          <th>Subscribers</th>
-                          <th>Frequency</th>
-                          <th>Sentiments</th>
-                          <th>Language</th>
-                          <th>Location</th>
+  <div class="col-md-6 mt20 ">
+    <div class="card card-style mt20">
+      <div class="card-body  p5 pt10 pb10">
 
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscribers</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
+        <div style="min-height: 420px;">
+          <div><p class="text-primary p15 pb5 pt0">List of Top Domains of <b >Blogs</b> of Past <b>Week</b></p></div>
+          <div class="p15 pb5 pt0" role="group">
+          Export Options
+          </div>
+                <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Domain</th>
+                                <th>Frequency</th>
 
-                      </tr>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscribers</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                              <td>blogtrackers.com</td>
+                              <td>1</td>
 
-                      </tr>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscribers</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
 
-                      </tr>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscribers</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
+                          </tr>
+                          <tr>
+                              <td>notonato.com</td>
+                              <td>3</td>
 
-                      </tr>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscribers</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
 
-                      </tr>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscribers</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
+                          </tr>
+                          <tr>
+                              <td>notonato.com</td>
+                              <td>6</td>
 
-                      </tr>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscribers</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
 
-                      </tr>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscribers</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
+                          </tr>
+                          <tr>
+                              <td>notonato.com</td>
+                              <td>5</td>
 
-                      </tr>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscribers</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
 
-                      </tr>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscribers</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
+                          </tr>
+                          <tr>
+                              <td>notonato.com</td>
+                              <td>3</td>
 
-                      </tr>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscribers</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
 
-                      </tr>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscribers</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
+                          </tr>
+                          <tr>
+                              <td>notonato.com</td>
+                              <td>1</td>
 
-                      </tr>
-                      <tr>
-                          <td>Blog</td>
-                          <td>Posts</td>
-                          <td>Subscriber</td>
-                          <td>Frequency</td>
-                          <td>Sentiments</td>
-                          <td>Language</td>
-                          <td>Location</td>
 
-                      </tr>
-                  </tbody>
-              </table>
+                          </tr>
+                          <tr>
+                              <td>notonato.com</td>
+                              <td>2</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>notonato.com</td>
+                              <td>4</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>notonato.com</td>
+                              <td>1</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>notonato.com</td>
+                              <td>2</td>
+
+
+                          </tr>
+
+                        </tbody>
+                    </table>
         </div>
           </div>
     </div>
   </div>
 
+  <div class="col-md-6 mt20">
+    <div class="card card-style mt20">
+      <div class="card-body  p5 pt10 pb10">
+        <div class="min-height-table"style="min-height: 420px;">
+          <!-- <div class="dropdown show"><p class="text-primary p15 pb5 pt0">List of Top URLs of <a class=" dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" id="blogbloggermenu1" role="button">Blogs</a> of Past <b>Week</b></p>
+            <div class="dropdown-menu" aria-labelledby="blogbloggermenu1">
+               <a class="dropdown-item" href="#">Action</a>
+               <a class="dropdown-item" href="#">Another action</a>
+               <a class="dropdown-item" href="#">Something else here</a>
+             </div>
+          </div> -->
 
+<div class="dropdown show text-primary p15 pb20 pt0">List of Top URLs of
+  <b class="dropdown-toggle cursor-pointer" href="#" role="button" id="blogbloggermenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Blogs</b> of Past <b class="dropdown-toggle cursor-pointer" href="#" role="button" id="timerange1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Week</b>
+
+  <div class="dropdown-menu submenudashwidth blogblogger" aria-labelledby="blogbloggermenu1">
+    <a class="dropdown-item" href="#">Blog</a>
+    <a class="dropdown-item" href="#">Bloggers</a>
+  </div>
+
+  <div class="dropdown-menu submenudashwidth" aria-labelledby="timerange1">
+    <a class="dropdown-item" href="#">Week</a>
+    <a class="dropdown-item" href="#">Month</a>
+  </div>
+
+</div>
+
+          <!-- Example split danger button -->
+
+          <div class="p15 pb5 pt0" role="group">
+          Export Options
+          </div>
+                <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>URL</th>
+                                <th>Frequency</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>URL</td>
+                                <td>1</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>3</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>6</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>5</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>3</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>1</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>2</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>4</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>1</td>
+
+
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>2</td>
+
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+        </div>
+          </div>
+    </div>
+  </div>
 </div>
 
 
@@ -438,8 +590,12 @@ String[] user_name = name.split(" ");
  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
-
-
+<script src="assets/js/generic.js">
+</script>
+<!-- date range scripts -->
+<script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
+<script src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!--End of date range scripts  -->
 <!-- Start for tables  -->
 <script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
 <script type="text/javascript" src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
@@ -452,189 +608,368 @@ String[] user_name = name.split(" ");
 
 <script>
 $(document).ready(function() {
-    $('#DataTables_Table_0_wrapper').DataTable( {
+  // datatable setup
+    $('#DataTables_Table_1_wrapper').DataTable( {
         "scrollY": 430,
-        "scrollX": true,
+        "scrollX": false,
          "pagingType": "simple",
          dom: 'Bfrtip',
+         "columnDefs": [
+      { "width": "80%", "targets": 0 }
+    ],
       buttons:{
         buttons: [
             { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
             {extend:'csv',className: 'btn-primary stylebutton1'},
             {extend:'excel',className: 'btn-primary stylebutton1'},
-            // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy'},
+           // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
+            {extend:'print',className: 'btn-primary stylebutton1'},
+        ]
+      }
+    } );
+
+// table set up 2
+    $('#DataTables_Table_0_wrapper').DataTable( {
+        "scrollY": 430,
+        "scrollX": false,
+         "pagingType": "simple",
+         dom: 'Bfrtip',
+
+         "columnDefs": [
+      { "width": "80%", "targets": 0 }
+    ],
+      buttons:{
+        buttons: [
+            { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
+            {extend:'csv',className: 'btn-primary stylebutton1'},
+            {extend:'excel',className: 'btn-primary stylebutton1'},
+           // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
             {extend:'print',className: 'btn-primary stylebutton1'},
         ]
       }
     } );
 } );
+
 </script>
 <!--end for table  -->
+<script>
+$(document).ready(function() {
+  $(document)
+             .ready(
+                 function() {
+                   // date range configuration
+   var cb = function(start, end, label) {
+          //console.log(start.toISOString(), end.toISOString(), label);
+          $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+          $('#reportrange input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY')).trigger('change');
+        };
 
+        var optionSet1 =
+             {   startDate: moment().subtract(29, 'days'),
+                 endDate: moment(),
+                 minDate: '01/01/1947',
+                 maxDate: moment(),
+             showDropdowns: true,
+                 showWeekNumbers: true,
+                 timePicker : false,
+           timePickerIncrement : 1,
+           timePicker12Hour : true,
+           dateLimit: { days: 50000 },
+                     ranges: {
+
+                     'This Year' : [
+             moment()
+                 .startOf('year'),
+             moment() ],
+         'Last Year' : [
+             moment()
+                 .subtract(1,'year').startOf('year'),
+             moment().subtract(1,'year').endOf('year') ]
+                 },
+                 opens: 'left',
+                 applyClass: 'btn-small bg-slate-600 btn-block',
+                 cancelClass: 'btn-small btn-default btn-block',
+                 format: 'MM/DD/YYYY',
+             locale: {
+                 applyLabel: 'Submit',
+                 //cancelLabel: 'Clear',
+                 fromLabel: 'From',
+                 toLabel: 'To',
+                 customRangeLabel: 'Custom',
+                 daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                 monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                 firstDay: 1
+               }
+
+             };
+
+
+   // if('${datepicked}' == '')
+   // {
+    //   $('#reportrange span').html(moment().subtract('days', 500).format('MMMM D') + ' - ' + moment().format('MMMM D'));
+    //   $('#reportrange').daterangepicker(optionSet1, cb);
+   // }
+    //
+   // else{
+     // $('#reportrange span').html('${datepicked}');
+      $('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
+     $('#reportrange, #custom').daterangepicker(optionSet1, cb);
+     $('#reportrange')
+     .on(
+         'show.daterangepicker',
+         function() {
+         /* 	console
+               .log("show event fired"); */
+         });
+  $('#reportrange')
+     .on(
+         'hide.daterangepicker',
+         function() {
+           /* console
+               .log("hide event fired"); */
+         });
+  $('#reportrange')
+     .on(
+         'apply.daterangepicker',
+         function(ev, picker) {
+           /* console
+               .log("apply event fired, start/end dates are "
+                   + picker.startDate
+                       .format('MMMM D, YYYY')
+                   + " to "
+                   + picker.endDate
+                       .format('MMMM D, YYYY')); */
+         });
+  $('#reportrange')
+     .on(
+         'cancel.daterangepicker',
+         function(ev, picker) {
+           /* console
+               .log("cancel event fired"); */
+         });
+  $('#options1').click(
+     function() {
+       $('#reportrange').data(
+           'daterangepicker')
+           .setOptions(
+               optionSet1,
+               cb);
+     });
+  $('#options2').click(
+     function() {
+       $('#reportrange').data(
+           'daterangepicker')
+           .setOptions(
+               optionSet2,
+               cb);
+     });
+  $('#destroy').click(
+     function() {
+       $('#reportrange').data(
+           'daterangepicker')
+           .remove();
+     });
+     //}
+                 });
+                // set attribute for the form
+      //$('#trackerform').attr("action","ExportJSON");
+      //$('#dateform').attr("action","ExportJSON");
+
+
+  //$('#config-demo').daterangepicker(options, function(start, end, label) { console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); });
+});
+</script>
 <!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
 <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
+ <script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
 <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
+<!--start of language bar chart  -->
 <script>
 $(function () {
 
     // Initialize chart
-    barVertical('#d3-bar-vertical', 456);
+    languageusage('#languageusage', 455);
 
     // Chart setup
-    function barVertical(element, height) {
+    function languageusage(element, height) {
 
+      // Basic setup
+      // ------------------------------
 
-        // Basic setup
-        // ------------------------------
+      // Define main variables
+      var d3Container = d3.select(element),
+          margin = {top: 5, right: 50, bottom: 20, left: 60},
+          width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
+          height = height - margin.top - margin.bottom - 5;
 
-        // Define main variables
-        var d3Container = d3.select(element),
-            margin = {top: 5, right: 10, bottom: 20, left: 40},
-            width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
-            height = height - margin.top - margin.bottom - 5;
+         var formatPercent = d3.format("");
 
-           var formatPercent = d3.format("");
+      // Construct scales
+      // ------------------------------
 
-        // Construct scales
-        // ------------------------------
+      // Horizontal
+      var y = d3.scale.ordinal()
+          .rangeRoundBands([height,0], .4, .10);
 
-        // Horizontal
-        var x = d3.scale.ordinal()
-            .rangeRoundBands([0, width], .72, .5);
+      // Vertical
+      var x = d3.scale.linear()
+          .range([0,width]);
 
-        // Vertical
-        var y = d3.scale.linear()
-            .range([height, 0]);
-
-        // Color
-        var color = d3.scale.category20c();
-
-
-
-        // Create axes
-        // ------------------------------
-
-        // Horizontal
-        var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient("bottom");
-
-        // Vertical
-        var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left")
-            //.tickFormat(formatPercent);
+      // Color
+      var color = d3.scale.category20c();
 
 
 
-        // Create chart
-        // ------------------------------
+      // Create axes
+      // ------------------------------
 
-        // Add SVG element
-        var container = d3Container.append("svg");
+      // Horizontal
+      var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom")
+          .ticks(6);
 
-        // Add SVG group
-        var svg = container
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-                // Create tooltip
-                    // ------------------------------
+      // Vertical
+      var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left")
+          //.tickFormat(formatPercent);
 
 
 
-        // Load data
-        // ------------------------------
+      // Create chart
+      // ------------------------------
+
+      // Add SVG element
+      var container = d3Container.append("svg");
+
+      // Add SVG group
+      var svg = container
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
+      //         // Create tooltip
+      //             // ------------------------------
+      //
+      //
+      //
+      // // Load data
+      // // ------------------------------
+      //
+      //
+      //
+      data = [
+            {letter:"English", frequency:2550},
+            {letter:"Russian", frequency:800},
+            {letter:"Spanish", frequency:500},
+            {letter:"French", frequency:1700},
+            {letter:"Arabic", frequency:1900},
+            {letter:"Unknown", frequency:1500}
+        ];
+      //
+      //
+      //   // Create tooltip
+        var tip = d3.tip()
+               .attr('class', 'd3-tip')
+               .offset([-10, 0])
+               .html(function(d) {
+                   return d.letter+" ("+d.frequency+")";
+               });
 
-        data = [
-              {letter:"Monday", frequency:2550},
-              {letter:"Tuesday", frequency:800},
-              {letter:"Wednesday", frequency:500},
-              {letter:"Thursday", frequency:1700},
-              {letter:"Friday", frequency:1900},
-              {letter:"Saturday", frequency:1500},
-              {letter:"Sunday", frequency:3000},
-          ];
+           // Initialize tooltip
+           svg.call(tip);
+
+      //
+      //     // Pull out values
+      //     data.forEach(function(d) {
+      //         d.frequency = +d.frequency;
+      //     });
+      //
+      //
+      //
+      //     // Set input domains
+      //     // ------------------------------
+      //
+      //     // Horizontal
+          y.domain(data.map(function(d) { return d.letter; }));
+
+          // Vertical
+          x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
+      //
+      //
+      //     //
+      //     // Append chart elements
+      //     //
+      //
+      //     // Append axes
+      //     // ------------------------------
+      //
+          // Horizontal
+          svg.append("g")
+              .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
+
+          // Vertical
+          var verticalAxis = svg.append("g")
+              .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
+              .style("color","yellow")
+              .call(yAxis);
+      //
+      //
+      //     // Add text label
+      //     verticalAxis.append("text")
+      //         .attr("transform", "rotate(-90)")
+      //         .attr("y", 10)
+      //         .attr("dy", ".71em")
+      //         .style("text-anchor", "end")
+      //         .style("fill", "#999")
+      //         .style("font-size", 12)
+      //         // .text("Frequency")
+      //         ;
+      //
+      //
+      //     // Add bars
+          svg.selectAll(".d3-bar")
+              .data(data)
+              .enter()
+              .append("rect")
+                  .attr("class", "d3-bar")
+                  .attr("y", function(d) { return y(d.letter); })
+                  .attr("height", y.rangeBand())
+                  .attr("x", function(d) { return 0; })
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .style("fill", function(d) {
+                  maxvalue = d3.max(data, function(d) { return d.frequency; });
+                  if(d.frequency == maxvalue)
+                  {
+                    return "0080CC";
+                  }
+                  else
+                  {
+                    return "#78BCE4";
+                  }
+
+                })
+                  .on('mouseover', tip.show)
+                  .on('mouseout', tip.hide);
 
 
-          // Create tooltip
-          var tip = d3.tip()
-                 .attr('class', 'd3-tip')
-                 .offset([-10, 0])
-                 .html(function(d) {
-                     return d.letter+" ("+d.frequency+")";
-                 });
-
-             // Initialize tooltip
-             svg.call(tip);
-
-
-            // Pull out values
-            data.forEach(function(d) {
-                d.frequency = +d.frequency;
-            });
-
-
-
-            // Set input domains
-            // ------------------------------
-
-            // Horizontal
-            x.domain(data.map(function(d) { return d.letter; }));
-
-            // Vertical
-            y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
-
-
-            //
-            // Append chart elements
-            //
-
-            // Append axes
-            // ------------------------------
-
-            // Horizontal
-            svg.append("g")
-                .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis);
-
-            // Vertical
-            var verticalAxis = svg.append("g")
-                .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
-                .call(yAxis)
-
-
-            // Add text label
-            verticalAxis.append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 10)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .style("fill", "#999")
-                .style("font-size", 12)
-                // .text("Frequency")
-                ;
-
-
-            // Add bars
-            svg.selectAll(".d3-bar")
-                .data(data)
-                .enter()
-                .append("rect")
-                    .attr("class", "d3-bar")
-                    .attr("x", function(d) { return x(d.letter); })
-                    .attr("width", x.rangeBand())
-                    .attr("y", function(d) { return y(d.frequency); })
-                    .attr("height", function(d) { return height - y(d.frequency); })
-                    .style("fill", function(d) { return "#58707E"; })
-                    .on('mouseover', tip.show)
-                    .on('mouseout', tip.hide);
+                  // svg.selectAll(".d3-bar")
+                  //     .data(data)
+                  //     .enter()
+                  //     .append("rect")
+                  //         .attr("class", "d3-bar")
+                  //         .attr("x", function(d) { return x(d.letter); })
+                  //         .attr("width", x.rangeBand())
+                  //         .attr("y", function(d) { return y(d.frequency); })
+                  //         .attr("height", function(d) { return height - y(d.frequency); })
+                  //         .style("fill", function(d) { return "#58707E"; })
+                  //         .on('mouseover', tip.show)
+                  //         .on('mouseout', tip.hide);
 
 
 
@@ -660,595 +995,777 @@ $(function () {
             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
 
 
-            // Layout
-            // -------------------------
-
-            // Main svg width
+            // // Layout
+            // // -------------------------
+            //
+            // // Main svg width
             container.attr("width", width + margin.left + margin.right);
 
             // Width of appended group
             svg.attr("width", width + margin.left + margin.right);
-
-
-            // Axes
-            // -------------------------
-
-            // Horizontal range
-            x.rangeRoundBands([0, width], .72, .5);
-
-            // Horizontal axis
+            //
+            //
+            // // Axes
+            // // -------------------------
+            //
+            // // Horizontal range
+           x.range([0,width]);
+            //
+            // // Horizontal axis
             svg.selectAll('.d3-axis-horizontal').call(xAxis);
+             // svg.selectAll('.d3-bar-vertical').call(yAxis);
 
-
-            // Chart elements
-            // -------------------------
-
-            // Line path
-            svg.selectAll('.d3-bar').attr("x", function(d) { return x(d.letter); }).attr("width", 16);
+            //
+            // // Chart elements
+            // // -------------------------
+            //
+            // // Line path
+           svg.selectAll('.d3-bar').attr("width", function(d) { return x(d.frequency); });
         }
     }
 });
-
-
 </script>
 
+<!-- End of language bar chart  -->
 
-
+<!-- start of influence bar chart  -->
 <script>
-// languagedistribution
 $(function () {
 
     // Initialize chart
-    donutBasic('#languagedistribution', 45);
+    influencebar('#influencebar', 450);
 
     // Chart setup
-    function donutBasic(element, radius) {
-
-
-        // Basic setup
-        // ------------------------------
-
-        // Colors
-        var color = d3.scale.category20();
-
-
-        // Create chart
-        // ------------------------------
-
-        // Add SVG element
-        var container = d3.select(element).append("svg");
-
-        // Add SVG group
-        var svg = container
-            .attr("width", radius * 2)
-            .attr("height", radius * 2)
-            .append("g")
-                .attr("transform", "translate(" + radius + "," + radius + ")");
-
-
-                var tip = d3.tip()
-                       .attr('class', 'd3-tip')
-                       .offset([-10, 0])
-                       .html(function(d) {
-                       if(d === null)
-                       {
-                         return "No Information Available";
-                       }
-                       else if(d !== null) {
-                        return d.language+" ("+d.size+")";
-                         }
-                       // return "here";
-                       });
-
-
-        // Construct chart layout
-        // ------------------------------
-
-        // Arc
-        var arc = d3.svg.arc()
-            .outerRadius(radius)
-            .innerRadius(radius / 1.45);
-
-        // Pie
-        var pie = d3.layout.pie()
-            .sort(null)
-            .value(function(d) { return d.size; });
-
-
-        // Load data
-        // ------------------------------
-
-        data = [{"language":"English","size":200},{"language":"German","size":50},{"language":"Unknown","size":80}];
-        // d3.csv("pies_basic.csv", function(error, data) {
-
-            // Pull out values
-            data.forEach(function(d) {
-                d.size = +d.size;
-            });
-
-
-            //
-            // Append chart elements
-            //
-
-            // Add a label for the pie chart
-          // var getKey = function( obj, value ) {
-	        //    var inverse = _.invert( obj );
-	        //     return _.get( inverse, value, false );
-          //   };
-              locationvalue = d3.max(data, function(d) { return d.size; });
-             console.log(data[locationvalue]);
-            svg.append("text")
-                .attr("dy", ".35em")
-                .style("text-anchor", "middle")
-                .style("font-weight", 500)
-                .text(function() {
-                  d = null;
-                  return d3.max(data, function(d) { return d.size; })
-                  ; });
-
-            // Bind data
-            var g = svg.selectAll(".d3-arc")
-                .data(pie(data))
-                .enter()
-                .append("g")
-                    .attr("class", "d3-arc");
-
-            // Add arc path
-            g.append("path")
-                .attr("d", arc)
-                .style("stroke", "#fff")
-                .style("fill", function(d) { return color(d.data.size); })
-                .transition()
-                    .ease("linear")
-                    .duration(1800)
-                    .attrTween("d", tweenPie);
-
-            // Add text labels
-            g.append("text")
-                .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-                .attr("dy", ".35em")
-                .style("fill", "#fff")
-                .style("font-size", 10)
-                .style("text-anchor", "middle")
-                //.text(function(d) { return d.data.language; });
-
-                svg.selectAll(".d3-arc").data(data)
-                .on("mouseover",tip.show)
-                .on("mouseout",tip.hide)
-                //.on("click",function(d){console.log(d.date)});
-
-                function tweenPie(b) {
-                    b.innerRadius = 0;
-                    var i = d3.interpolate({startAngle: 0, endAngle: 0}, b);
-                    return function(t) { return arc(i(t)); };
-                }
-
-                svg.call(tip)
-
-
-        // });
-    }
-});
-
-</script>
-
-
-<script>
-
-$(function () {
-
-    // Initialize chart
-    donutBasic('#blogdistribution', 45);
-
-    // Chart setup
-    function donutBasic(element, radius) {
-
-
-        // Basic setup
-        // ------------------------------
-
-        // Colors
-        var color = d3.scale.category20();
-
-
-        // Create chart
-        // ------------------------------
-
-        // Add SVG element
-        var container = d3.select(element).append("svg");
-
-        // Add SVG group
-        var svg = container
-            .attr("width", radius * 2)
-            .attr("height", radius * 2)
-            .append("g")
-                .attr("transform", "translate(" + radius + "," + radius + ")");
-
-
-                var tip = d3.tip()
-                       .attr('class', 'd3-tip')
-                       .offset([-10, 0])
-                       .html(function(d) {
-                       if(d === null)
-                       {
-                         return "No Information Available";
-                       }
-                       else if(d !== null) {
-                        return d.blog+" ("+d.size+")";
-                         }
-                       // return "here";
-                       });
-
-
-        // Construct chart layout
-        // ------------------------------
-
-        // Arc
-        var arc = d3.svg.arc()
-            .outerRadius(radius)
-            .innerRadius(radius / 1.45);
-
-        // Pie
-        var pie = d3.layout.pie()
-            .sort(null)
-            .value(function(d) { return d.size; });
-
-
-        // Load data
-        // ------------------------------
-
-        data = [{"blog":"Notonato","size":25000},{"blog":"Trump","size":16000},{"blog":"Nato","size":8500}];
-        // d3.csv("pies_basic.csv", function(error, data) {
-
-            // Pull out values
-            data.forEach(function(d) {
-                d.size = +d.size;
-            });
-
-
-            //
-            // Append chart elements
-            //
-
-            // Add a label for the pie chart
-            svg.append("text")
-                .attr("dy", ".35em")
-                .style("text-anchor", "middle")
-                .style("font-weight", 500)
-                .text(function() { return d3.max(data, function(d) { return d.size; }); });
-
-            // Bind data
-            var g = svg.selectAll(".d3-arc")
-                .data(pie(data))
-                .enter()
-                .append("g")
-                    .attr("class", "d3-arc");
-
-            // Add arc path
-            g.append("path")
-                .attr("d", arc)
-                .style("stroke", "#fff")
-                .style("fill", function(d) { return color(d.data.size); })
-                .transition()
-                    .ease("linear")
-                    .duration(1800)
-                    .attrTween("d", tweenPie);
-
-            // Add text labels
-            g.append("text")
-                .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-                .attr("dy", ".35em")
-                .style("fill", "#fff")
-                .style("font-size", 10)
-                .style("text-anchor", "middle")
-                //.text(function(d) { return d.data.language; });
-
-                svg.selectAll(".d3-arc").data(data)
-                .on("mouseover",tip.show)
-                .on("mouseout",tip.hide)
-                //.on("click",function(d){console.log(d.date)});
-
-                function tweenPie(b) {
-                    b.innerRadius = 0;
-                    var i = d3.interpolate({startAngle: 0, endAngle: 0}, b);
-                    return function(t) { return arc(i(t)); };
-                }
-
-                svg.call(tip)
-
-
-        // });
-    }
-});
-
-</script>
-
-<!-- Blogger pie -->
-<script>
-
-$(function () {
-
-    // Initialize chart
-    donutBasic('#bloggerdistribution', 45);
-
-    // Chart setup
-    function donutBasic(element, radius) {
-
-
-        // Basic setup
-        // ------------------------------
-
-        // Colors
-        var color = d3.scale.category20();
-
-
-        // Create chart
-        // ------------------------------
-
-        // Add SVG element
-        var container = d3.select(element).append("svg");
-
-        // Add SVG group
-        var svg = container
-            .attr("width", radius * 2)
-            .attr("height", radius * 2)
-            .append("g")
-                .attr("transform", "translate(" + radius + "," + radius + ")");
-
-
-                var tip = d3.tip()
-                       .attr('class', 'd3-tip')
-                       .offset([-10, 0])
-                       .html(function(d) {
-                       if(d === null)
-                       {
-                         return "No Information Available";
-                       }
-                       else if(d !== null) {
-                        return d.blogger+" ("+d.size+")";
-                         }
-                       // return "here";
-                       });
-
-
-        // Construct chart layout
-        // ------------------------------
-
-        // Arc
-        var arc = d3.svg.arc()
-            .outerRadius(radius)
-            .innerRadius(radius / 1.45);
-
-        // Pie
-        var pie = d3.layout.pie()
-            .sort(null)
-            .value(function(d) { return d.size; });
-
-
-        // Load data
-        // ------------------------------
-
-        data = [{"blogger":"Adigun Adekunle","size":12003},{"blogger":"Sean Pierce","size":10000},{"blogger":"Allen Burry","size":4500}];
-        // d3.csv("pies_basic.csv", function(error, data) {
-
-            // Pull out values
-            data.forEach(function(d) {
-                d.size = +d.size;
-            });
-
-
-            //
-            // Append chart elements
-            //
-
-            // Add a label for the pie chart
-            svg.append("text")
-                .attr("dy", ".35em")
-                .style("text-anchor", "middle")
-                .style("font-weight", 500)
-                .text(function() { return d3.max(data, function(d) { return d.size; }); });
-
-            // Bind data
-            var g = svg.selectAll(".d3-arc")
-                .data(pie(data))
-                .enter()
-                .append("g")
-                    .attr("class", "d3-arc");
-
-            // Add arc path
-            g.append("path")
-                .attr("d", arc)
-                .style("stroke", "#fff")
-                .style("fill", function(d) {
-                  return color(d.data.size);
-                // maxsize =   d3.max(data, function(d) { return d.size; });
-                // if(d.data.size == maxsize)
-                // {
-                //   return "#17394C";
-                // }
-                // else
-                //   {
-                //     return "#A2B0B7";
-                //   }
+    function influencebar(element, height) {
+
+      // Basic setup
+      // ------------------------------
+
+      // Define main variables
+      var d3Container = d3.select(element),
+          margin = {top: 5, right: 50, bottom: 20, left: 60},
+          width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
+          height = height - margin.top - margin.bottom - 5;
+
+         var formatPercent = d3.format("");
+
+      // Construct scales
+      // ------------------------------
+
+      // Horizontal
+      var y = d3.scale.ordinal()
+          .rangeRoundBands([height,0], .5, .40);
+
+      // Vertical
+      var x = d3.scale.linear()
+          .range([0,width]);
+
+      // Color
+      var color = d3.scale.category20c();
+
+
+
+      // Create axes
+      // ------------------------------
+
+      // Horizontal
+      var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom")
+          .ticks(6);
+
+      // Vertical
+      var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left")
+          //.tickFormat(formatPercent);
+
+
+
+      // Create chart
+      // ------------------------------
+
+      // Add SVG element
+      var container = d3Container.append("svg");
+
+      // Add SVG group
+      var svg = container
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+      //         // Create tooltip
+      //             // ------------------------------
+      //
+      //
+      //
+      // // Load data
+      // // ------------------------------
+      //
+      //
+      //
+      data = [
+            {letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},
+            {letter:"Blog 4", frequency:800, name:"Matt Finnace", type:"blogger"},
+            {letter:"Blog 3", frequency:500, name:"notonato", type:"blogger"},
+            {letter:"Blog 2", frequency:1700, name:"Nihal Hussain", type:"blogger"},
+            {letter:"Blog 1", frequency:1900, name:"Test Test", type:"blogger"}
+        ];
+      //
+      //
+      //   // Create tooltip
+        var tip = d3.tip()
+               .attr('class', 'd3-tip')
+               .offset([-10, 0])
+               .html(function(d) {
+                 if(d.type === "blogger")
+                 {
+                   return d.letter+" ("+d.frequency+")<br/> Blogger: "+d.name;
+                 }
+
+                 if(d.type === "blog")
+                 {
+                   return d.letter+" ("+d.frequency+")<br/> Blog: "+d.name;
+                 }
+
+               });
+
+           // Initialize tooltip
+           svg.call(tip);
+
+      //
+      //     // Pull out values
+      //     data.forEach(function(d) {
+      //         d.frequency = +d.frequency;
+      //     });
+      //
+      //
+      //
+      //     // Set input domains
+      //     // ------------------------------
+      //
+      //     // Horizontal
+          y.domain(data.map(function(d) { return d.letter; }));
+
+          // Vertical
+          x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
+      //
+      //
+      //     //
+      //     // Append chart elements
+      //     //
+      //
+      //     // Append axes
+      //     // ------------------------------
+      //
+          // Horizontal
+          svg.append("g")
+              .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
+
+          // Vertical
+          var verticalAxis = svg.append("g")
+              .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
+              .style("color","yellow")
+              .call(yAxis);
+      //
+      //
+      //     // Add text label
+      //     verticalAxis.append("text")
+      //         .attr("transform", "rotate(-90)")
+      //         .attr("y", 10)
+      //         .attr("dy", ".71em")
+      //         .style("text-anchor", "end")
+      //         .style("fill", "#999")
+      //         .style("font-size", 12)
+      //         // .text("Frequency")
+      //         ;
+      //
+      //
+      //     // Add bars
+          svg.selectAll(".d3-bar")
+              .data(data)
+              .enter()
+              .append("rect")
+                  .attr("class", "d3-bar")
+                  .attr("y", function(d) { return y(d.letter); })
+                  .attr("height", y.rangeBand())
+                  .attr("x", function(d) { return 0; })
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .style("fill", function(d) {
+                  maxvalue = d3.max(data, function(d) { return d.frequency; });
+                  if(d.frequency == maxvalue)
+                  {
+                    return "0080CC";
+                  }
+                  else
+                  {
+                    return "#78BCE4";
+                  }
 
                 })
-                .transition()
-                    .ease("linear")
-                    .duration(1800)
-                    .attrTween("d", tweenPie);
-
-            // Add text labels
-            g.append("text")
-                .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-                .attr("dy", ".35em")
-                .style("fill", "#fff")
-                .style("font-size", 10)
-                .style("text-anchor", "middle")
-                //.text(function(d) { return d.data.language; });
-
-                svg.selectAll(".d3-arc").data(data)
-                .on("mouseover",tip.show)
-                .on("mouseout",tip.hide)
-                //.on("click",function(d){console.log(d.date)});
-
-                function tweenPie(b) {
-                    b.innerRadius = 0;
-                    var i = d3.interpolate({startAngle: 0, endAngle: 0}, b);
-                    return function(t) { return arc(i(t)); };
-                }
-
-                svg.call(tip)
+                  .on('mouseover', tip.show)
+                  .on('mouseout', tip.hide);
 
 
-        // });
+                  // svg.selectAll(".d3-bar")
+                  //     .data(data)
+                  //     .enter()
+                  //     .append("rect")
+                  //         .attr("class", "d3-bar")
+                  //         .attr("x", function(d) { return x(d.letter); })
+                  //         .attr("width", x.rangeBand())
+                  //         .attr("y", function(d) { return y(d.frequency); })
+                  //         .attr("height", function(d) { return height - y(d.frequency); })
+                  //         .style("fill", function(d) { return "#58707E"; })
+                  //         .on('mouseover', tip.show)
+                  //         .on('mouseout', tip.hide);
+
+
+
+
+
+        // Resize chart
+        // ------------------------------
+
+        // Call function on window resize
+        $(window).on('resize', resize);
+
+        // Call function on sidebar width change
+        $('.sidebar-control').on('click', resize);
+
+        // Resize function
+        //
+        // Since D3 doesn't support SVG resize by default,
+        // we need to manually specify parts of the graph that need to
+        // be updated on window resize
+        function resize() {
+
+            // Layout variables
+            width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
+
+
+            // // Layout
+            // // -------------------------
+            //
+            // // Main svg width
+            container.attr("width", width + margin.left + margin.right);
+
+            // Width of appended group
+            svg.attr("width", width + margin.left + margin.right);
+            //
+            //
+            // // Axes
+            // // -------------------------
+            //
+            // // Horizontal range
+           x.range([0,width]);
+            //
+            // // Horizontal axis
+            svg.selectAll('.d3-axis-horizontal').call(xAxis);
+             // svg.selectAll('.d3-bar-vertical').call(yAxis);
+
+            //
+            // // Chart elements
+            // // -------------------------
+            //
+            // // Line path
+           svg.selectAll('.d3-bar').attr("width", function(d) { return x(d.frequency); });
+        }
     }
 });
-
 </script>
 
-<script>
+<!--  End of influence bar -->
 
+<!-- start of posting frequency  -->
+<script>
 $(function () {
 
     // Initialize chart
-    donutBasic('#postdistribution', 45);
+    postingfrequencybar('#postingfrequencybar', 450);
 
     // Chart setup
-    function donutBasic(element, radius) {
+    function postingfrequencybar(element, height) {
+
+      // Basic setup
+      // ------------------------------
+
+      // Define main variables
+      var d3Container = d3.select(element),
+          margin = {top: 5, right: 50, bottom: 20, left: 60},
+          width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
+          height = height - margin.top - margin.bottom - 5;
+
+         var formatPercent = d3.format("");
+
+      // Construct scales
+      // ------------------------------
+
+      // Horizontal
+      var y = d3.scale.ordinal()
+          .rangeRoundBands([height,0], .5, .40);
+
+      // Vertical
+      var x = d3.scale.linear()
+          .range([0,width]);
+
+      // Color
+      var color = d3.scale.category20c();
 
 
-        // Basic setup
-        // ------------------------------
 
-        // Colors
-        var color = d3.scale.category20();
+      // Create axes
+      // ------------------------------
 
+      // Horizontal
+      var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom")
+          .ticks(6);
 
-        // Create chart
-        // ------------------------------
-
-        // Add SVG element
-        var container = d3.select(element).append("svg");
-
-        // Add SVG group
-        var svg = container
-            .attr("width", radius * 2)
-            .attr("height", radius * 2)
-            .append("g")
-                .attr("transform", "translate(" + radius + "," + radius + ")");
+      // Vertical
+      var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left")
+          //.tickFormat(formatPercent);
 
 
-                var tip = d3.tip()
-                       .attr('class', 'd3-tip')
-                       .offset([-10, 0])
-                       .html(function(d) {
-                       if(d === null)
-                       {
-                         return "No Information Available";
-                       }
-                       else if(d !== null) {
-                        return d.post+" ("+d.size+")";
-                         }
-                       // return "here";
-                       });
+
+      // Create chart
+      // ------------------------------
+
+      // Add SVG element
+      var container = d3Container.append("svg");
+
+      // Add SVG group
+      var svg = container
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-        // Construct chart layout
-        // ------------------------------
+      //         // Create tooltip
+      //             // ------------------------------
+      //
+      //
+      //
+      // // Load data
+      // // ------------------------------
+      //
+      //
+      //
+      data = [
+            {letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},
+            {letter:"Blog 4", frequency:800, name:"Matt Finnace", type:"blogger"},
+            {letter:"Blog 3", frequency:500, name:"notonato", type:"blogger"},
+            {letter:"Blog 2", frequency:1700, name:"Nihal Hussain", type:"blogger"},
+            {letter:"Blog 1", frequency:1900, name:"Test Test", type:"blogger"}
+        ];
+      //
+      //
+      //   // Create tooltip
+        var tip = d3.tip()
+               .attr('class', 'd3-tip')
+               .offset([-10, 0])
+               .html(function(d) {
+                 if(d.type === "blogger")
+                 {
+                   return d.letter+" ("+d.frequency+")<br/> Blogger: "+d.name;
+                 }
 
-        // Arc
-        var arc = d3.svg.arc()
-            .outerRadius(radius)
-            .innerRadius(radius / 1.45);
+                 if(d.type === "blog")
+                 {
+                   return d.letter+" ("+d.frequency+")<br/> Blog: "+d.name;
+                 }
 
-        // Pie
-        var pie = d3.layout.pie()
-            .sort(null)
-            .value(function(d) { return d.size; });
+               });
 
+           // Initialize tooltip
+           svg.call(tip);
 
-        // Load data
-        // ------------------------------
+      //
+      //     // Pull out values
+      //     data.forEach(function(d) {
+      //         d.frequency = +d.frequency;
+      //     });
+      //
+      //
+      //
+      //     // Set input domains
+      //     // ------------------------------
+      //
+      //     // Horizontal
+          y.domain(data.map(function(d) { return d.letter; }));
 
-        data = [{"post":"Trump is the president","size":1200},{"post":"Nato Launches new staellite","size":1500},{"post":"Facebook makes outstanding amount","size":4500}];
-        // d3.csv("pies_basic.csv", function(error, data) {
+          // Vertical
+          x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
+      //
+      //
+      //     //
+      //     // Append chart elements
+      //     //
+      //
+      //     // Append axes
+      //     // ------------------------------
+      //
+          // Horizontal
+          svg.append("g")
+              .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
 
-            // Pull out values
-            data.forEach(function(d) {
-                d.size = +d.size;
-            });
-
-
-            //
-            // Append chart elements
-            //
-
-            // Add a label for the pie chart
-            svg.append("text")
-                .attr("dy", ".35em")
-                .style("text-anchor", "middle")
-                .style("font-weight", 500)
-                .text(function() { return d3.max(data, function(d) { return d.size ; }); });
-
-            // Bind data
-            var g = svg.selectAll(".d3-arc")
-                .data(pie(data))
-                .enter()
-                .append("g")
-                    .attr("class", "d3-arc");
-
-            // Add arc path
-            g.append("path")
-                .attr("d", arc)
-                .style("stroke", "#fff")
-                .style("fill", function(d) {
-                  return color(d.data.size);
-                // maxsize =   d3.max(data, function(d) { return d.size; });
-                // if(d.data.size == maxsize)
-                // {
-                //   return "#17394C";
-                // }
-                // else
-                //   {
-                //     return "#A2B0B7";
-                //   }
+          // Vertical
+          var verticalAxis = svg.append("g")
+              .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
+              .style("color","yellow")
+              .call(yAxis);
+      //
+      //
+      //     // Add text label
+      //     verticalAxis.append("text")
+      //         .attr("transform", "rotate(-90)")
+      //         .attr("y", 10)
+      //         .attr("dy", ".71em")
+      //         .style("text-anchor", "end")
+      //         .style("fill", "#999")
+      //         .style("font-size", 12)
+      //         // .text("Frequency")
+      //         ;
+      //
+      //
+      //     // Add bars
+          svg.selectAll(".d3-bar")
+              .data(data)
+              .enter()
+              .append("rect")
+                  .attr("class", "d3-bar")
+                  .attr("y", function(d) { return y(d.letter); })
+                  .attr("height", y.rangeBand())
+                  .attr("x", function(d) { return 0; })
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .style("fill", function(d) {
+                  maxvalue = d3.max(data, function(d) { return d.frequency; });
+                  if(d.frequency == maxvalue)
+                  {
+                    return "0080CC";
+                  }
+                  else
+                  {
+                    return "#78BCE4";
+                  }
 
                 })
-                .transition()
-                    .ease("linear")
-                    .duration(1800)
-                    .attrTween("d", tweenPie);
-
-            // Add text labels
-            g.append("text")
-                .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-                .attr("dy", ".35em")
-                .style("fill", "#fff")
-                .style("font-size", 10)
-                .style("text-anchor", "middle")
-                //.text(function(d) { return d.data.language; });
-
-                svg.selectAll(".d3-arc").data(data)
-                .on("mouseover",tip.show)
-                .on("mouseout",tip.hide)
-                //.on("click",function(d){console.log(d.date)});
-
-                function tweenPie(b) {
-                    b.innerRadius = 0;
-                    var i = d3.interpolate({startAngle: 0, endAngle: 0}, b);
-                    return function(t) { return arc(i(t)); };
-                }
-
-                svg.call(tip)
+                  .on('mouseover', tip.show)
+                  .on('mouseout', tip.hide);
 
 
-        // });
+                  // svg.selectAll(".d3-bar")
+                  //     .data(data)
+                  //     .enter()
+                  //     .append("rect")
+                  //         .attr("class", "d3-bar")
+                  //         .attr("x", function(d) { return x(d.letter); })
+                  //         .attr("width", x.rangeBand())
+                  //         .attr("y", function(d) { return y(d.frequency); })
+                  //         .attr("height", function(d) { return height - y(d.frequency); })
+                  //         .style("fill", function(d) { return "#58707E"; })
+                  //         .on('mouseover', tip.show)
+                  //         .on('mouseout', tip.hide);
+
+
+
+
+
+        // Resize chart
+        // ------------------------------
+
+        // Call function on window resize
+        $(window).on('resize', resize);
+
+        // Call function on sidebar width change
+        $('.sidebar-control').on('click', resize);
+
+        // Resize function
+        //
+        // Since D3 doesn't support SVG resize by default,
+        // we need to manually specify parts of the graph that need to
+        // be updated on window resize
+        function resize() {
+
+            // Layout variables
+            width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
+
+
+            // // Layout
+            // // -------------------------
+            //
+            // // Main svg width
+            container.attr("width", width + margin.left + margin.right);
+
+            // Width of appended group
+            svg.attr("width", width + margin.left + margin.right);
+            //
+            //
+            // // Axes
+            // // -------------------------
+            //
+            // // Horizontal range
+           x.range([0,width]);
+            //
+            // // Horizontal axis
+            svg.selectAll('.d3-axis-horizontal').call(xAxis);
+             // svg.selectAll('.d3-bar-vertical').call(yAxis);
+
+            //
+            // // Chart elements
+            // // -------------------------
+            //
+            // // Line path
+           svg.selectAll('.d3-bar').attr("width", function(d) { return x(d.frequency); });
+        }
     }
 });
-
 </script>
-	<script type="text/javascript">
+<!-- end of posting frequency  -->
+<!--  Start of sentiment Bar Chart -->
+<script>
+$(function () {
+
+    // Initialize chart
+    sentimentbar('#sentimentbar', 400);
+
+    // Chart setup
+    function sentimentbar(element, height) {
+
+      // Basic setup
+      // ------------------------------
+
+      // Define main variables
+      var d3Container = d3.select(element),
+          margin = {top: 5, right: 50, bottom: 20, left: 60},
+          width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
+          height = height - margin.top - margin.bottom - 5;
+
+         var formatPercent = d3.format("");
+
+      // Construct scales
+      // ------------------------------
+
+      // Horizontal
+      var y = d3.scale.ordinal()
+          .rangeRoundBands([height,0], .6, .8);
+
+      // Vertical
+      var x = d3.scale.linear()
+          .range([0,width]);
+
+      // Color
+      var color = d3.scale.category20c();
+
+
+
+      // Create axes
+      // ------------------------------
+
+      // Horizontal
+      var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom")
+          .ticks(6);
+
+      // Vertical
+      var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left")
+          //.tickFormat(formatPercent);
+
+
+
+      // Create chart
+      // ------------------------------
+
+      // Add SVG element
+      var container = d3Container.append("svg");
+
+      // Add SVG group
+      var svg = container
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+      //         // Create tooltip
+      //             // ------------------------------
+      //
+      //
+      //
+      // // Load data
+      // // ------------------------------
+      //
+      //
+      //
+      data = [
+            {letter:"Negative", frequency:1200},
+            {letter:"Positive", frequency:2550}
+        ];
+      //
+      //
+      //   // Create tooltip
+        var tip = d3.tip()
+               .attr('class', 'd3-tip')
+               .offset([-10, 0])
+               .html(function(d) {
+                   return d.letter+" ("+d.frequency+")";
+               });
+
+           // Initialize tooltip
+           svg.call(tip);
+
+           var color = d3.scale.linear()
+                   .domain([0,1])
+                   .range(["#FF7D7D", "#72c28e"]);
+
+
+      //
+      //     // Pull out values
+      //     data.forEach(function(d) {
+      //         d.frequency = +d.frequency;
+      //     });
+      //
+      //
+      //
+      //     // Set input domains
+      //     // ------------------------------
+      //
+      //     // Horizontal
+          y.domain(data.map(function(d) { return d.letter; }));
+
+          // Vertical
+          x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
+      //
+      //
+      //     //
+      //     // Append chart elements
+      //     //
+      //
+      //     // Append axes
+      //     // ------------------------------
+      //
+          // Horizontal
+          svg.append("g")
+              .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
+
+          // Vertical
+          var verticalAxis = svg.append("g")
+              .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
+              .style("color","yellow")
+              .call(yAxis);
+      //
+      //
+      //     // Add text label
+      //     verticalAxis.append("text")
+      //         .attr("transform", "rotate(-90)")
+      //         .attr("y", 10)
+      //         .attr("dy", ".71em")
+      //         .style("text-anchor", "end")
+      //         .style("fill", "#999")
+      //         .style("font-size", 12)
+      //         // .text("Frequency")
+      //         ;
+      //
+      //
+      //     // Add bars
+          svg.selectAll(".d3-bar")
+              .data(data)
+              .enter()
+              .append("rect")
+                  .attr("class", "d3-bar")
+                  .attr("y", function(d) { return y(d.letter); })
+                  .attr("height", y.rangeBand())
+                  .attr("x", function(d) { return 0; })
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .style("fill", function(d,i) { return color(i);   })
+                  .on('mouseover', tip.show)
+                  .on('mouseout', tip.hide);
+
+
+                  // svg.selectAll(".d3-bar")
+                  //     .data(data)
+                  //     .enter()
+                  //     .append("rect")
+                  //         .attr("class", "d3-bar")
+                  //         .attr("x", function(d) { return x(d.letter); })
+                  //         .attr("width", x.rangeBand())
+                  //         .attr("y", function(d) { return y(d.frequency); })
+                  //         .attr("height", function(d) { return height - y(d.frequency); })
+                  //         .style("fill", function(d) { return "#58707E"; })
+                  //         .on('mouseover', tip.show)
+                  //         .on('mouseout', tip.hide);
+
+
+
+
+
+        // Resize chart
+        // ------------------------------
+
+        // Call function on window resize
+        $(window).on('resize', resize);
+
+        // Call function on sidebar width change
+        $('.sidebar-control').on('click', resize);
+
+        // Resize function
+        //
+        // Since D3 doesn't support SVG resize by default,
+        // we need to manually specify parts of the graph that need to
+        // be updated on window resize
+        function resize() {
+
+            // Layout variables
+            width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
+
+
+            // // Layout
+            // // -------------------------
+            //
+            // // Main svg width
+            container.attr("width", width + margin.left + margin.right);
+
+            // Width of appended group
+            svg.attr("width", width + margin.left + margin.right);
+            //
+            //
+            // // Axes
+            // // -------------------------
+            //
+            // // Horizontal range
+           x.range([0,width]);
+            //
+            // // Horizontal axis
+            svg.selectAll('.d3-axis-horizontal').call(xAxis);
+             // svg.selectAll('.d3-bar-vertical').call(yAxis);
+
+            //
+            // // Chart elements
+            // // -------------------------
+            //
+            // // Line path
+           svg.selectAll('.d3-bar').attr("width", function(d) { return x(d.frequency); });
+        }
+    }
+});
+</script>
+
+<script type="text/javascript">
 // map data
 var gdpData = {
   "AF": 16.63,
@@ -1457,7 +1974,7 @@ var mymarker = [
     {latLng: [53.555, -113.493], name: 'Edmonton'},
     {latLng: [-0.23, -78.52], name: 'Quito'},
     {latLng: [18.50, -69.99], name: 'Santo Domingo'},
-    {latLng: [4.61, -74.08], name: 'Bogot√°'},
+    {latLng: [4.61, -74.08], name: 'Bogot·'},
     {latLng: [14.08, -87.21], name: 'Tegucigalpa'},
     {latLng: [17.25, -88.77], name: 'Belmopan'},
     {latLng: [14.64, -90.51], name: 'New Guatemala'},
@@ -1495,7 +2012,7 @@ var mymarker = [
     {latLng: [15.3, -61.38], name: 'Dominica'},
     {latLng: [-20.2, 57.5], name: 'Mauritius'},
     {latLng: [26.02, 50.55], name: 'Bahrain'},
-    {latLng: [0.33, 6.73], name: 'S√£o Tom√© and Pr√≠ncipe'}
+    {latLng: [0.33, 6.73], name: 'S„o TomÈ and PrÌncipe'}
 ]
   </script>
 <script type="text/javascript" src="assets/vendors/maps/jvectormap/jvectormap.min.js"></script>
@@ -1503,6 +2020,379 @@ var mymarker = [
 <script type="text/javascript" src="assets/vendors/maps/jvectormap/map_files/countries/usa.js"></script>
 <script type="text/javascript" src="assets/vendors/maps/jvectormap/map_files/countries/germany.js"></script>
 <script type="text/javascript" src="assets/vendors/maps/vector_maps_demo.js"></script>
+
+<!--word cloud  -->
+ <script>
+
+     var frequency_list = [{"text":"study","size":40},{"text":"motion","size":15},{"text":"forces","size":10},{"text":"electricity","size":15},{"text":"movement","size":10},{"text":"relation","size":5},{"text":"things","size":10},{"text":"force","size":5},{"text":"ad","size":5},{"text":"energy","size":85},{"text":"living","size":5},{"text":"nonliving","size":5},{"text":"laws","size":15},{"text":"speed","size":45},{"text":"velocity","size":30},{"text":"define","size":5},{"text":"constraints","size":5},{"text":"universe","size":10},{"text":"distinguished","size":5},{"text":"chemistry","size":5},{"text":"biology","size":5},{"text":"includes","size":5},{"text":"radiation","size":5},{"text":"sound","size":5},{"text":"structure","size":5},{"text":"atoms","size":5},{"text":"including","size":10},{"text":"atomic","size":10},{"text":"nuclear","size":10},{"text":"cryogenics","size":10},{"text":"solid-state","size":10},{"text":"particle","size":10},{"text":"plasma","size":10},{"text":"deals","size":5},{"text":"merriam-webster","size":5},{"text":"dictionary","size":10},{"text":"analysis","size":5},{"text":"conducted","size":5},{"text":"order","size":5},{"text":"understand","size":5},{"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
+
+
+     var color = d3.scale.linear()
+             .domain([0,1,2,3,4,5,6,10,15,20,80])
+             .range(["#17394C", "#F5CC0E", "#CE0202", "#1F90D0", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+
+     d3.layout.cloud().size([450, 300])
+             .words(frequency_list)
+             .rotate(0)
+             .fontSize(function(d) { return d.size; })
+             .on("end", draw)
+             .start();
+
+     function draw(words) {
+         d3.select(".tagcloudcontainer").append("svg")
+                 .attr("width", 450)
+                 .attr("height", 300)
+                 .attr("class", "wordcloud")
+                 .append("g")
+                 // without the transform, words words would get cutoff to the left and top, they would
+                 // appear outside of the SVG area
+                 .attr("transform", "translate(155,180)")
+                 .selectAll("text")
+                 .data(words)
+                 .enter().append("text")
+                 .style("font-size", function(d) { return d.size + "px"; })
+                 .style("fill", function(d, i) { return color(i); })
+                 .attr("transform", function(d) {
+                     return "translate(" + [d.x + 2, d.y + 3] + ")rotate(" + d.rotate + ")";
+                 })
+
+                 .text(function(d) { return d.text; });
+     }
+ </script>
+
+<!-- Blogger Bubble Chart -->
+<script>
+
+
+$(function () {
+
+    // Initialize chart
+    bubblesblogger('#bubblesblogger', 470);
+
+    // Chart setup
+    function bubblesblogger(element, diameter) {
+
+
+        // Basic setup
+        // ------------------------------
+
+        // Format data
+        var format = d3.format(",d");
+
+        // Color scale
+        color = d3.scale.category10();
+
+        // Define main variables
+        var d3Container = d3.select(element),
+            margin = {top: 5, right: 20, bottom: 20, left: 50},
+            width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
+            height = height - margin.top - margin.bottom;
+            diamter = height;
+
+
+
+
+            // Add SVG element
+            var container = d3Container.append("svg");
+
+            // Add SVG group
+            var svg = container
+                .attr("width", diameter + margin.left + margin.right)
+                .attr("height",diameter + margin.top + margin.bottom)
+                .attr("class", "bubble");
+
+        // Create chart
+        // ------------------------------
+
+        // var svg = d3.select(element).append("svg")
+        //     .attr("width", diameter)
+        //     .attr("height", diameter)
+        //     .attr("class", "bubble");
+
+
+
+        // Create chart
+        // ------------------------------
+
+        // Add tooltip
+        var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-5, 0])
+            .html(function(d) {
+                return d.label+"<br/>"+d.className + ": " + format(d.value);;
+            });
+
+        // Initialize tooltip
+        svg.call(tip);
+
+
+
+        // Construct chart layout
+        // ------------------------------
+
+        // Pack
+        var bubble = d3.layout.pack()
+            .sort(null)
+            .size([diameter, diameter])
+            .padding(15);
+
+
+
+        // Load data
+        // ------------------------------
+
+
+
+data = {
+ "name":"flare",
+ "bloggers":[
+ {"label":"Blogger 1","name":"Adigun Adekunle", "size":3245},
+ {"label":"Blogger 2","name":"Obadimu Adewale", "size":2500},
+ {"label":"Blogger 3","name":"Oluwaseun Walter", "size":2800},
+ {"label":"Blogger 4","name":"Kiran Bandeli", "size":900},
+ {"label":"Blogger 5","name":"Adekunle Mayowa", "size":1400},
+ {"label":"Blogger 6","name":"Nihal Hussain", "size":200},
+ {"label":"Blogger 7","name":"Adekunle Mayowa", "size":500},
+ {"label":"Blogger 8","name":"Adekunle Mayowa", "size":300},
+ {"label":"Blogger 9","name":"Adekunle Mayowa", "size":350},
+ {"label":"Blogger 10","name":"Adekunle Mayowa", "size":1400}
+ ]
+}
+
+
+            //
+            // Append chart elements
+            //
+
+            // Bind data
+            var node = svg.selectAll(".d3-bubbles-node")
+                .data(bubble.nodes(classes(data))
+                .filter(function(d) { return !d.children; }))
+                .enter()
+                .append("g")
+                    .attr("class", "d3-bubbles-node")
+                    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+            // Append circles
+            node.append("circle")
+                .attr("r", function(d) { return d.r; })
+                .style("fill", function(d,i) {
+                  // return color(i);
+                  // customize Color
+                  if(i<5)
+                  {
+                    return "#0080cc";
+                  }
+                  else if(i>=5)
+                  {
+                    return "#78bce4";
+                  }
+                })
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide);
+
+            // Append text
+            node.append("text")
+                .attr("dy", ".3em")
+                .style("fill", "#fff")
+                .style("font-size", 12)
+                .style("text-anchor", "middle")
+                .text(function(d) { return d.label.substring(0, d.r / 3); });
+
+
+
+        // Returns a flattened hierarchy containing all leaf nodes under the root.
+        function classes(root) {
+            var classes = [];
+
+            function recurse(name, node) {
+                if (node.bloggers) node.bloggers.forEach(function(child) { recurse(node.name, child); });
+                else classes.push({packageName: name, className: node.name, value: node.size,label:node.label});
+            }
+
+            recurse(null, root);
+            return {children: classes};
+        }
+    }
+});
+</script>
+<script>
+
+
+    var color = d3.scale.linear()
+            .domain([0,1,2,3,4,5,6,10,15,20,80])
+            .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+
+</script>
+<!-- end of blogger bubble chart -->
+
+
+<!-- Blog Bubble Chart -->
+<script>
+
+
+$(function () {
+
+    // Initialize chart
+    bubblesblog('#bubblesblog', 470);
+
+    // Chart setup
+    function bubblesblog(element, diameter) {
+
+
+        // Basic setup
+        // ------------------------------
+
+        // Format data
+        var format = d3.format(",d");
+
+        // Color scale
+        color = d3.scale.category10();
+
+        // Define main variables
+        var d3Container = d3.select(element),
+            margin = {top: 5, right: 20, bottom: 20, left: 50},
+            width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
+            height = height - margin.top - margin.bottom;
+            diamter = height;
+
+
+
+
+            // Add SVG element
+            var container = d3Container.append("svg");
+
+            // Add SVG group
+            var svg = container
+                .attr("width", diameter + margin.left + margin.right)
+                .attr("height",diameter + margin.top + margin.bottom)
+                .attr("class", "bubble");
+
+        // Create chart
+        // ------------------------------
+
+        // var svg = d3.select(element).append("svg")
+        //     .attr("width", diameter)
+        //     .attr("height", diameter)
+        //     .attr("class", "bubble");
+
+
+
+        // Create chart
+        // ------------------------------
+
+        // Add tooltip
+        var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-5, 0])
+            .html(function(d) {
+                return d.label+"<br/>"+d.className + ": " + format(d.value);;
+            });
+
+        // Initialize tooltip
+        svg.call(tip);
+
+
+
+        // Construct chart layout
+        // ------------------------------
+
+        // Pack
+        var bubble = d3.layout.pack()
+            .sort(null)
+            .size([diameter, diameter])
+            .padding(15);
+
+
+
+        // Load data
+        // ------------------------------
+
+
+
+data = {
+ "name":"flare",
+ "bloggers":[
+ {"label":"Blog 1","name":"Adigun Adekunle", "size":3245},
+ {"label":"Blog 2","name":"Obadimu Adewale", "size":2500},
+ {"label":"Blog 3","name":"Oluwaseun Walter", "size":2800},
+ {"label":"Blog 4","name":"Kiran Bandeli", "size":900},
+ {"label":"Blog 5","name":"Adekunle Mayowa", "size":1400},
+ {"label":"Blog 6","name":"Nihal Hussain", "size":200},
+ {"label":"Blog 7","name":"Adekunle Mayowa", "size":500},
+ {"label":"Blog 8","name":"Adekunle Mayowa", "size":300},
+ {"label":"Blog 9","name":"Adekunle Mayowa", "size":350},
+ {"label":"Blog 10","name":"Adekunle Mayowa", "size":1400}
+ ]
+}
+
+
+            //
+            // Append chart elements
+            //
+
+            // Bind data
+            var node = svg.selectAll(".d3-bubbles-node")
+                .data(bubble.nodes(classes(data))
+                .filter(function(d) { return !d.children; }))
+                .enter()
+                .append("g")
+                    .attr("class", "d3-bubbles-node")
+                    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+            // Append circles
+            node.append("circle")
+                .attr("r", function(d) { return d.r; })
+                .style("fill", function(d,i) {
+                  //return color(i);
+                  if(i<5)
+                  {
+                    return "#0080cc";
+                  }
+                  else if(i>=5)
+                  {
+                    return "#78bce4";
+                  }
+                })
+                .on('mouseover',tip.show)
+                .on('mouseout', tip.hide);
+
+            // Append text
+            node.append("text")
+                .attr("dy", ".3em")
+                .style("fill", "#fff")
+                .style("font-size", 12)
+                .style("text-anchor", "middle")
+                .text(function(d) { return d.label.substring(0, d.r / 3); });
+
+
+
+        // Returns a flattened hierarchy containing all leaf nodes under the root.
+        function classes(root) {
+            var classes = [];
+
+            function recurse(name, node) {
+                if (node.bloggers) node.bloggers.forEach(function(child) { recurse(node.name, child); });
+                else classes.push({packageName: name, className: node.name, value: node.size,label:node.label});
+            }
+
+            recurse(null, root);
+            return {children: classes};
+        }
+    }
+});
+</script>
+<script>
+
+
+    var color = d3.scale.linear()
+            .domain([0,1,2,3,4,5,6,10,15,20,80])
+            .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+
+</script>
+
+<!-- End of blog bubble chart -->
 </body>
 </html>
+
 <% } %>
