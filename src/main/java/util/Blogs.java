@@ -23,7 +23,7 @@ public ArrayList _list(String order, String from) throws Exception {
 		 		"        \"match_all\": {}\r\n" + 
 		 		"    },\r\n" + 
 		 		"	\"sort\":{\r\n" + 
-		 		"		\"blogpost_id\":{\r\n" + 
+		 		"		\"blogsite_id\":{\r\n" + 
 		 		"			\"order\":\""+order+"\"\r\n" + 
 		 		"			}\r\n" + 
 		 		"		}\r\n" + 
@@ -35,12 +35,12 @@ public ArrayList _list(String order, String from) throws Exception {
 		  		"        \"match_all\": {}\r\n" + 
 		  		"    },\r\n" + 
 		  		"	\"sort\":{\r\n" + 
-		  		"		\"blogpost_id\":{\r\n" + 
+		  		"		\"blogsite_id\":{\r\n" + 
 		  		"			\"order\":\"DESC\"\r\n" + 
 		  		"			}\r\n" + 
 		  		"		},\r\n" + 
 		  		"	\"range\":{\r\n" + 
-		  		"		\"blogpost_id\":{\r\n" + 
+		  		"		\"blogsite_id\":{\r\n" + 
 		  		"			\"lte\":\""+from+"\",\r\n" + 
 		  		"			\"gte\":\""+0+"\"\r\n" + 
 		  		"			}\r\n" + 
@@ -50,7 +50,7 @@ public ArrayList _list(String order, String from) throws Exception {
 	 }
 	 
 	 
-     String url = base_url+"_search?size=10";
+     String url = base_url+"_search?size=5";
  
      
      URL obj = new URL(url);
@@ -82,8 +82,8 @@ public ArrayList _list(String order, String from) throws Exception {
      if(null!=myResponse.get("hits")) {
 	     String res = myResponse.get("hits").toString();
 	     JSONObject myRes1 = new JSONObject(res);
-	     // String total = myRes1.get("total").toString();
-	     // this.totalpost = total;
+	      String total = myRes1.get("total").toString();
+	      this.totalpost = total;
 	    
 	     JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
 	     
@@ -106,12 +106,12 @@ public ArrayList _search(String term,String from) throws Exception {
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
 	 		"        \"query_string\" : {\r\n" + 
-	 		"            \"fields\" : [\"title\",\"blogger\",\"post\"],\r\n" + 
+	 		"            \"fields\" : [\"blogsite_name\",\"blogsite_authors\"],\r\n" + 
 	 		"            \"query\" : \""+term+"\"\r\n" + 
 	 		"        }\r\n" + 
 	 		"  },\r\n" + 
 	 		"   \"sort\":{\r\n" + 
-	 		"		\"blogpost_id\":{\r\n" + 
+	 		"		\"blogsite_id\":{\r\n" + 
 	 		"			\"order\":\"DESC\"\r\n" + 
 	 		"			}\r\n" + 
 	 		"		}\r\n" + 
@@ -123,7 +123,7 @@ public ArrayList _search(String term,String from) throws Exception {
     	jsonObj = new JSONObject("{\r\n" + 
     			"  \"query\": {\r\n" + 
     			"        \"query_string\" : {\r\n" + 
-    			"            \"fields\" : [\"title\",\"blogger\",\"post\"],\r\n" + 
+	 		    "            \"fields\" : [\"blogsite_name\",\"blogsite_authors\"],\r\n" +
     			"            \"query\" : \""+term+"\"\r\n" + 
     			"        }\r\n" + 
     			"  },\r\n" + 
@@ -215,8 +215,6 @@ public ArrayList _fetch(String ids) throws Exception {
 	 //String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":[\""+arg+"\"]}}}}}";
 	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":[\"259\",\"37\"]}}}}}";
 		
-	 //"259","37"
-
 	 JSONObject jsonObj = new JSONObject(que);
 /*
 	 
