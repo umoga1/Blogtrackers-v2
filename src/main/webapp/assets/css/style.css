@@ -180,6 +180,10 @@ color:#17394C;
 font-weight: 700;
 border:none;
 }
+.filtersort:focus
+{
+box-shadow:none;
+}
 .newtrackerdescription[placeholder]
 {
 font-size: 20px;
@@ -2151,12 +2155,12 @@ border-radius: 20px;
     margin-top: -5.5px;
 }
 .tokenfield .token > .close:after {
-    content: 'X';
-    font-family: 'inherit';
-    display: block;
-    font-size: 11px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  content: '\ed6a';
+  font-family: 'icomoon';
+  display: block;
+  font-size: 11px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .close {
     text-shadow: none;
