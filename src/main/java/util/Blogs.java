@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class Blogs {
 
-String base_url = "http://144.167.115.218:9200/test-migrate/";
+String base_url = "http://144.167.115.218:9200/blogsites/";
 String totalpost;		    
 	   
 public ArrayList _list(String order, String from) throws Exception {	 
@@ -82,8 +82,8 @@ public ArrayList _list(String order, String from) throws Exception {
      if(null!=myResponse.get("hits")) {
 	     String res = myResponse.get("hits").toString();
 	     JSONObject myRes1 = new JSONObject(res);
-	      String total = myRes1.get("total").toString();
-	      this.totalpost = total;
+	     // String total = myRes1.get("total").toString();
+	     // this.totalpost = total;
 	    
 	     JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
 	     
@@ -178,8 +178,8 @@ public ArrayList _search(String term,String from) throws Exception {
 	     
 	
 	     
-	      String total = myRes1.get("total").toString();
-	      this.totalpost = total;
+	      //String total = myRes1.get("total").toString();
+	      //this.totalpost = total;
 	    
 	     JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
 	     
@@ -198,28 +198,58 @@ public ArrayList _fetch(String ids) throws Exception {
 	 String[] args = ids.split(",");
 	 String arg = "";
 	 
-	 for(i=0; i<args.length(); i++){
-		if(i<(args.length()-1)){
+	 
+	 ArrayList<String> ar = new ArrayList<String>();	
+	 for(int i=0; i<args.length; i++){
+		
+		if(i<(args.length-1)){
 			arg+= "\""+args[i]+"\",";
 		}else{
 			arg+= "\""+args[i]+"\"";
 		}
+		
 	 }
 	 
+	 String arg2 = "200";
 
+	 //String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":[\""+arg+"\"]}}}}}";
+	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":[\"200\",\"500\"]}}}}}";
+		
+	 //"259","37"
+
+	 JSONObject jsonObj = new JSONObject(que);
+/*
+	 
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
 	 		"    \"constant_score\":{\r\n" + 
 	 		"			\"filter\":{\r\n" + 
 	 		"					\"terms\":{\r\n" + 
-	 		"							\"blogsite_id\":[\""+arg+"\"]\r\n" + 
+	 		"							\"blogsite_id\":[\"200\",\"500\"]\r\n" + 
 	 		"							}\r\n" + 
 	 		"					}\r\n" + 
 	 		"				}\r\n" + 
 	 		"    }\r\n" + 
 	 		"}");
+
+	 */
+	// JSONObject jsonObj = new JSONObject(que);
+/*
 	 
-	 
+	 JSONObject jsonObj = new JSONObject("{\r\n" + 
+	 		"  \"query\": {\r\n" + 
+	 		"    \"constant_score\":{\r\n" + 
+	 		"			\"filter\":{\r\n" + 
+	 		"					\"terms\":{\r\n" + 
+	 		"							\"blogsite_id\":[\"200\",\"500\"]\r\n" + 
+	 		"							}\r\n" + 
+	 		"					}\r\n" + 
+	 		"				}\r\n" + 
+	 		"    }\r\n" + 
+	 		"}");
+
+	 */
+	System.out.println(arg);
    String url = base_url+"_search/";
    URL obj = new URL(url);
    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -235,7 +265,7 @@ public ArrayList _fetch(String ids) throws Exception {
    wr.write(jsonObj.toString());
    wr.flush();
    
-   int responseCode = con.getResponseCode();
+  // int responseCode = con.getResponseCode();
    
    BufferedReader in = new BufferedReader(
         new InputStreamReader(con.getInputStream()));
@@ -252,8 +282,8 @@ public ArrayList _fetch(String ids) throws Exception {
     if(null!=myResponse.get("hits")) {
 	     String res = myResponse.get("hits").toString();
 	     JSONObject myRes1 = new JSONObject(res);
-	      String total = myRes1.get("total").toString();
-	      this.totalpost = total;	    
+	    //  String total = myRes1.get("total").toString();
+	     // this.totalpost = total;	    
 	     JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 	     
 	     if (jsonArray != null) { 
 	        int len = jsonArray.length();
