@@ -233,7 +233,7 @@ String totalblog = blog._getTotal();
 <div class="card nocoloredcard mt10 mb10">
 <div class="card-body p0 pt5 pb5">
 <h5 class="text-primary mb0"><i class="fas fa-file-alt icondash"></i>Posts</h5>
-<h3 class="text-blue mb0 countdash"><%=totalblog%></h3>
+<h3 class="text-blue mb0 countdash"><%=totalpost%></h3>
 </div>
 </div>
 </div>
@@ -886,12 +886,14 @@ $(function () {
 				 String lang = bobj.get("language").toString();
 				 System.out.println(lang);
 				 //Object ex = language.get(lang);
-				 // if(null == language.get(lang)){
-					language.put(lang,100);
-				 //}else{
+				  if(language.has(lang)){
+					  int val  = Integer.parseInt(language.get(lang).toString())+1;
+				      language.put(lang, val);
+					
+				  }else{
 				 //  	int val  = Integer.parseInt(ex.toString())+1;
-				 //  	language.put(lang, val);
-				// }
+				  	 language.put(lang,1);
+				 }
 				
 			 }
 		 
