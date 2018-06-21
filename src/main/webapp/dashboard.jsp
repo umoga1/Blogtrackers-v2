@@ -1,7 +1,8 @@
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
-<%@page import="java.util.*"%>
+<%@page import="util.*"%>
 <%@page import="java.io.File"%>
+<%@page import="org.json.JSONObject"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 
@@ -49,6 +50,14 @@ if(f.exists() && !f.isDirectory()) {
 }catch(Exception e){}
 
 String[] user_name = name.split(" ");
+Blogposts post  = new Blogposts();
+Blogs blog = new Blogs();
+
+ArrayList posts = post._list("DESC","");
+String totalpost = post._getTotal();
+
+ArrayList blogs = blog._list("DESC","");
+String totalblog = blog._getTotal();
 //pimage = pimage.replace("build/", "");
 %>
 <!DOCTYPE html>
@@ -206,7 +215,7 @@ String[] user_name = name.split(" ");
 <div class="card nocoloredcard mt10 mb10">
 <div class="card-body p0 pt5 pb5">
 <h5 class="text-primary mb0"><i class="fas fa-file-alt icondash"></i>Blogs</h5>
-<h3 class="text-blue mb0 countdash">200</h3>
+<h3 class="text-blue mb0 countdash"><%=totalblog%></h3>
 </div>
 </div>
 </div>
@@ -224,7 +233,7 @@ String[] user_name = name.split(" ");
 <div class="card nocoloredcard mt10 mb10">
 <div class="card-body p0 pt5 pb5">
 <h5 class="text-primary mb0"><i class="fas fa-file-alt icondash"></i>Posts</h5>
-<h3 class="text-blue mb0 countdash">40,0000</h3>
+<h3 class="text-blue mb0 countdash"><%=totalpost%></h3>
 </div>
 </div>
 </div>
@@ -256,8 +265,8 @@ String[] user_name = name.split(" ");
       <div class="card-body  p15 pt15 pb15">
         <div><p class="text-primary mt0 float-left">Most Active Location <b >Blogs</b> of Past <b>Week</b></p></div>
         <div style="min-height: 490px;">
-<div class="map-container map-choropleth"></div>
-        </div>
+			<div class="map-container map-choropleth"></div>
+        	</div>
           </div>
     </div>
   </div>
@@ -862,6 +871,46 @@ $(function () {
       //
       //
       data = [
+      <% 
+      JSONObject language = new JSONObject();     
+      if( blogs.size()>0){
+			String bres = null;
+			JSONObject bresp = null;
+			String bresu =null;
+			JSONObject bobj =null;
+			 for(int k=0; k< blogs.size(); k++){
+				 bres = blogs.get(k).toString();			
+				 bresp = new JSONObject(bres);
+				 bresu = bresp.get("_source").toString();
+				 bobj = new JSONObject(bresu);
+				 String lang = bobj.get("language").toString();
+				 System.out.println(lang);
+				 //Object ex = language.get(lang);
+				  if(language.has(lang)){
+					  int val  = Integer.parseInt(language.get(lang).toString())+1;
+				      language.put(lang, val);
+					
+				  }else{
+				 //  	int val  = Integer.parseInt(ex.toString())+1;
+				  	 language.put(lang,1);
+				 }
+				
+			 }
+		 
+			 for(int k=0; k< blogs.size(); k++){
+				 bres = blogs.get(k).toString();			
+				 bresp = new JSONObject(bres);
+				 bresu = bresp.get("_source").toString();
+				 bobj = new JSONObject(bresu);
+				 String lang = bobj.get("language").toString();
+				%>
+				{letter:"<%=lang%>", frequency:<%=language.get(lang)%>},
+				<%		
+			 }	 		
+	 } %>
+	 ];
+      /*
+      data = [
             {letter:"English", frequency:2550},
             {letter:"Russian", frequency:800},
             {letter:"Spanish", frequency:500},
@@ -869,6 +918,7 @@ $(function () {
             {letter:"Arabic", frequency:1900},
             {letter:"Unknown", frequency:1500}
         ];
+      */
       //
       //
       //   // Create tooltip
@@ -1953,11 +2003,37 @@ var gdpData = {
   "ZW": 5.57
 };
 
+<%
+JSONObject location = new JSONObject();
+location.put("null", "0, 0");
+location.put("Vatican City", "41.90, 12.45");
+location.put("Monaco", "43.73, 7.41");
+location.put("Salt Lake City", "40.726, -111.778");
+location.put("Kansas City", "39.092, -94.575");
+%>
 // map marker location by longitude and latitude
 var mymarker = [
-    {latLng: [41.90, 12.45], name: 'Vatican City'},
-    {latLng: [43.73, 7.41], name: 'Monaco'},
-    {latLng: [40.726, -111.778], name: 'Salt Lake City'},
+	<% if( blogs.size()>0){
+			String bres = null;
+			JSONObject bresp = null;
+			String bresu =null;
+			JSONObject bobj =null;
+		 for(int k=0; k< blogs.size(); k++){
+			 bres = blogs.get(k).toString();			
+			 bresp = new JSONObject(bres);
+			 bresu = bresp.get("_source").toString();
+			 bobj = new JSONObject(bresu);
+			%>
+	 		{latLng: [<%=location.get(bobj.get("location").toString())%>], name: '<%=bobj.get("location").toString()%>'},
+			<%
+		 }
+	 } %>
+    {latLng: [<%=location.get("Vatican City")%>], name: 'Vatican City'},
+    {latLng: [<%=location.get("Monaco")%>], name: 'Monaco'},
+    {latLng: [<%=location.get("Salt Lake City")%>], name: 'Salt Lake City'},
+    {latLng: [<%=location.get("Kansas City")%>], name: 'Kansas City'},
+    
+    /*
     {latLng: [39.092, -94.575], name: 'Kansas City'},
     {latLng: [25.782, -80.231], name: 'Miami'},
     {latLng: [8.967, -79.458], name: 'Panama City'},
@@ -2012,7 +2088,9 @@ var mymarker = [
     {latLng: [15.3, -61.38], name: 'Dominica'},
     {latLng: [-20.2, 57.5], name: 'Mauritius'},
     {latLng: [26.02, 50.55], name: 'Bahrain'},
+    
     {latLng: [0.33, 6.73], name: 'São Tomé and Príncipe'}
+    */
 ]
   </script>
 <script type="text/javascript" src="assets/vendors/maps/jvectormap/jvectormap.min.js"></script>
