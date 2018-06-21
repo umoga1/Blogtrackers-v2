@@ -148,6 +148,7 @@ color:#17394C;
 .createtracker, .canceltracker
 {
 font-size: 18px;
+-webkit-appearance:none;
 }
 .createtrackerbtn
 {
@@ -212,7 +213,7 @@ border-radius:5px;
 }
 .closetracker
 {
-font-size:35px;
+font-size:30px;
 }
 .iconportfolio
 {
