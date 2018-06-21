@@ -118,7 +118,7 @@ String total = post._getTotal();
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
   <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6  class="text-primary">Profile</h6></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
   </div>
@@ -212,7 +212,9 @@ String total = post._getTotal();
 <h6 class="float-left text-primary"><%=total%> posts in our knowledge database</h6>
 
 <%}%>
-<h6 class="float-right text-primary">Recent <i class="fas fa-chevron-down"></i><h6/>
+<h6 class="float-right text-primary">
+  <select class="text-primary filtersort sortby"><option>Recent</option><option>Influence Score</option></select>
+</h6>
 </div>
 </div>
 

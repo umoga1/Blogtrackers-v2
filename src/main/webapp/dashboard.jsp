@@ -263,7 +263,7 @@ String totalblog = blog._getTotal();
   <div class="col-md-6 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p15 pt15 pb15">
-        <div><p class="text-primary mt0 float-left">Most Active Location <b >Blogs</b> of Past <b>Week</b></p></div>
+        <div><p class="text-primary mt0 float-left">Most Active Location <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select>of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
         <div style="min-height: 490px;">
 			<div class="map-container map-choropleth"></div>
         	</div>
@@ -274,7 +274,7 @@ String totalblog = blog._getTotal();
   <div class="col-md-6 mt20">
     <div class="card  card-style  mt20">
       <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10 float-left">Language Usage of <b >Blogs</b> of Past <b>Week</b></p></div>
+        <div><p class="text-primary mt10 float-left">Language Usage of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
         <div class="min-height-table" style="min-height: 500px;">
         <div class="chart-container">
         <div class="chart" id="languageusage">
@@ -290,7 +290,7 @@ String totalblog = blog._getTotal();
   <div class="col-md-6 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Top Keywords of <b class="text-primary">Blog</b> of Past <b class="text-primary">Week</b></p></div>
+        <div><p class="text-primary mt10">Top Keywords of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
         <div class="tagcloudcontainer" style="min-height: 420px;">
 
         </div>
@@ -302,7 +302,7 @@ String totalblog = blog._getTotal();
   <div class="col-md-6 mt20">
     <div class="card card-style mt20">
       <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Sentiment Usage of <b>Blogs</b> of Past <b>Week</b></p></div>
+        <div><p class="text-primary mt10">Sentiment Usage of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
         <div style="min-height: 420px;">
           <div class="chart-container">
             <div class="chart" id="sentimentbar"></div>
@@ -318,7 +318,7 @@ String totalblog = blog._getTotal();
   <div class="col-md-6 mt20">
     <div class="card card-style mt20">
       <div class="card-body   p30 pt5 pb5">
-        <div><p class="text-primary mt10 float-left">Blog Distribution of Past <b>Week</b></p></div>
+        <div><p class="text-primary mt10 float-left">Blog Distribution of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
         <div class="min-height-table" style="min-height: 500px;">
         <div class="chart-container">
         <div class="chart" id="bubblesblog">
@@ -334,7 +334,7 @@ String totalblog = blog._getTotal();
   <div class="col-md-6 mt20">
     <div class="card card-style mt20">
       <div class="card-body p30 pt5 pb5">
-          <div><p class="text-primary mt10 float-left">Blogger Distribution of Past <b>Week</b></p></div>
+          <div><p class="text-primary mt10 float-left">Blogger Distribution of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
         <div class="min-height-table" style="min-height: 450px;">
         <div class="chart-container">
         <div class="chart" id="bubblesblogger">
@@ -353,7 +353,7 @@ String totalblog = blog._getTotal();
   <div class="col-md-6 mt20">
     <div class="card card-style mt20">
       <div class="card-body   p30 pt5 pb5">
-        <div><p class="text-primary mt10 float-left">Most Active <b>Blogs</b> of Past <b>Week</b></p></div>
+        <div><p class="text-primary mt10 float-left">Most Active <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
         <div class="min-height-table" style="min-height: 500px;">
         <div class="chart-container">
         <div class="chart" id="postingfrequencybar">
@@ -369,7 +369,7 @@ String totalblog = blog._getTotal();
   <div class="col-md-6 mt20">
     <div class="card card-style mt20">
       <div class="card-body p30 pt5 pb5">
-        <div><p class="text-primary mt10 float-left">Most Influential <b>Blogs</b> of Past <b>Week</b></p></div>
+        <div><p class="text-primary mt10 float-left">Most Influential <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
         <div class="min-height-table" style="min-height: 500px;">
         <div class="chart-container">
         <div class="chart" id="influencebar">
@@ -390,7 +390,7 @@ String totalblog = blog._getTotal();
       <div class="card-body  p5 pt10 pb10">
 
         <div style="min-height: 420px;">
-          <div><p class="text-primary p15 pb5 pt0">List of Top Domains of <b >Blogs</b> of Past <b>Week</b></p></div>
+          <div><p class="text-primary p15 pb5 pt0">List of Top Domains of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
           <div class="p15 pb5 pt0" role="group">
           Export Options
           </div>
@@ -483,19 +483,9 @@ String totalblog = blog._getTotal();
              </div>
           </div> -->
 
-<div class="dropdown show text-primary p15 pb20 pt0">List of Top URLs of
-  <b class="dropdown-toggle cursor-pointer" href="#" role="button" id="blogbloggermenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Blogs</b> of Past <b class="dropdown-toggle cursor-pointer" href="#" role="button" id="timerange1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Week</b>
+<div class="dropdown show text-primary p15 pb20 pt0">List of Top URLs of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select>
 
-  <div class="dropdown-menu submenudashwidth blogblogger" aria-labelledby="blogbloggermenu1">
-    <a class="dropdown-item" href="#">Blog</a>
-    <a class="dropdown-item" href="#">Bloggers</a>
-  </div>
-
-  <div class="dropdown-menu submenudashwidth" aria-labelledby="timerange1">
-    <a class="dropdown-item" href="#">Week</a>
-    <a class="dropdown-item" href="#">Month</a>
-  </div>
+ 
 
 </div>
 

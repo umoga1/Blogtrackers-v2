@@ -20,7 +20,7 @@
  <link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" href="assets/vendors/DataTables/Buttons-1.5.1/css/buttons.dataTables.min.css" />
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
-
+<link href="assets/fonts/icomoon/styles.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="assets/css/style.css" />
 
   <!--end of bootsrap -->
@@ -30,17 +30,18 @@
 <body>
 <div class="modal-notifications">
 <div class="row">
-<div class="offset-lg-9 col-lg-3 col-md-12 notificationpanel">
-  <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
-<div class="profilesection col-md-12 mt50">
-  <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="60" height="60" alt="" class="float-left" />
-  <div class="float-left" style="margin-left:20px;">
-    <h6 class="text-primary m0 bolder">Adigun Adekunle</h6>
-    <p class="text-primary">adigon2006@gmail.com</p>
-  </div>
+  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
+  <div class="profilesection col-md-12 mt50">
+    <div class="text-center mb10" ><img src="images/default-avatar.png" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
+    <div class="text-center" style="margin-left:0px;">
+      <h6 class="text-primary m0 bolder profiletext">adigon2006@gmail.com	</h6>
+      <p class="text-primary profiletext">Adekunle Adigun</p>
+    </div>
 
-</div>
-<div id="othersection" class="col-md-12 mt100" style="clear:both">
+  </div>
+  
+<div id="othersection" class="col-md-12 mt10" style="clear:both">
 <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
 <a class="cursor-pointer profilemenulink" href="profile.html"><h6  class="text-primary">Profile</h3></a>
 <a class="cursor-pointer profilemenulink" href="#"><h6 class="text-primary">Log Out</h3></a>
@@ -68,7 +69,7 @@
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
           <li><a href="./"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a href="favorites.html"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
@@ -102,7 +103,7 @@
                 <a class="nav-link" href="trackerlist.html">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Favorites</a>
+                <a class="nav-link" href="favorites.html">Favorites</a>
               </li>
             </ul>
     </div>
@@ -187,7 +188,7 @@
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" data-action="reload" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -233,7 +234,7 @@
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" data-action="reload" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -277,7 +278,7 @@
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -323,7 +324,7 @@
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -367,7 +368,7 @@
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -413,7 +414,7 @@
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -453,6 +454,8 @@
 <script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>
 <script type="text/javascript" src="assets/vendors/typeahead/typeahead.bundle.min.js"></script>
 <script type="text/javascript" src="assets/js/form_tags_input.js"></script>
+<script type="text/javascript" src="assets/vendors/blockui/blockui.min.js"></script>
+
 
 <script>
 $(document).ready(function() {
@@ -489,6 +492,38 @@ $(document).ready(function() {
 //         if(e.which == 13) e.preventDefault();
 //     }
 // });
+
+//Panels
+  $('.card [data-action=reload]').click(function (e) {
+      e.preventDefault();
+      var block = $(this).parent().parent().parent();
+      $(block).block({ 
+          message: '<i class="fas fa-spinner fa-4x fa-pulse"></i>',
+          overlayCSS: {
+              backgroundColor: '#fff',
+              opacity: 0.8,
+              cursor: 'wait',
+              'box-shadow': '0 0 0 1px #ddd'
+          },
+          css: {
+              border: 0,
+              padding: 0,
+              backgroundColor: 'none'
+          }
+      });
+      
+      
+      
+      // For demo purposes
+      window.setTimeout(function () {
+         $(block).unblock();
+      }, 2000); 
+  });
+  // put the block of code in ajax request which refresh the tracker
+  
+  
+  
+  
 } );
 </script>
 <!--end for table  -->
