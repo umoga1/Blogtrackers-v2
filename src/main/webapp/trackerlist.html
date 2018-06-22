@@ -134,12 +134,12 @@
 
   </div> -->
 
-  <div class="card noborder curved-card mb30 pt20 pb20"><div class="card-body"><div class="trackerclose"><i class="fas fa-times-circle closetracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Cancel New Tracker"></i></div><div class="cursor-pointer mt20">
+<!--   <div class="card noborder curved-card mb30 pt20 pb20"><div class="card-body"><div class="trackerclose"><i class="fas fa-times-circle closetracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Cancel New Tracker"></i></div><div class="cursor-pointer mt20">
     <textarea class="form-control newtrackername text-primary text-center" placeholder="Tracker Name" rows="2"></textarea></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackerdescription text-primary text-center" placeholder="Description" rows="1"></textarea></div>
-    <div class="form-group mt20 trackerpage"><input type="text" class="form-control tokenfield-primary" value="Engadget,Tech Crunch" placeholder="Add Blog"/></div>
+    <div class="form-group mt20 trackerpage"><input type="text" class="form-control tokenfield-primary" value="" placeholder="Add Blog"/></div>
     <div class="text-center"><i class="fas fa-check text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="fas fa-trash-alt text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div>
   </div>
-</div>
+</div> -->
 
 
   <div class="card noborder curved-card mb30 pt50 pb50" >
@@ -468,9 +468,23 @@ $(document).ready(function() {
   $('.addnewtracker').on("click",function(e){
     e.preventDefault();
     var  trackersetupform = "";
-    trackersetupform += '<div class="card noborder curved-card mb30 pt20 pb20"><div class="card-body"><div class="trackerclose"><i class="fas fa-times-circle closetracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Cancel New Tracker"></i></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackername text-primary text-center" placeholder="Tracker Name" rows="2"></textarea></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackerdescription text-primary text-center" placeholder="Description" rows="1"></textarea></div>';
-    trackersetupform += '<div class="form-group mt20 trackerpage"><input type="text" class="form-control tokenfield-primary" value="Engadget,Tech Crunch" placeholder="Add Blog"/></div><div class="text-center"><i class="fas fa-check text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="fas fa-trash-alt text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
+    trackersetupform += '<div class="card noborder curved-card mb30 pt20 pb20"><div class="card-body"><div class="trackerclose"><i class="fas fa-times-circle closetracker text-primary cursor-pointer" data-toggle="tooltip" data-placement="top" title="Cancel New Tracker"></i></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackername text-primary text-center" placeholder="Tracker Name" rows="2"></textarea></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackerdescription text-primary text-center" placeholder="Description" rows="1"></textarea></div>';
+    trackersetupform += '<div class="form-group mt20 trackerpage"><label class="text-primary">Add Blog</label><input type="text" class="form-control tokenfield-primary" value="" placeholder="Add Blog" /></div><div class="text-center"><i type="submit" class="fas fa-check text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="fas fa-trash-alt text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
   $('.card-columns').prepend(trackersetupform);
+  
+  // load the script for form tag input
+  $.getScript("assets/js/form_tags_input.js", function(data, textStatus, jqxhr) {
+	 /*  console.log(data); //data returned
+	  console.log(textStatus); //success
+	  console.log(jqxhr.status); //200
+	  console.log('Load was performed.'); */
+	  });
+  
+  // put a placeholder
+  $.getScript("pagedependencies/placeholder.js", function(data, textStatus, jqxhr) {
+		
+		  });
+  
   });
 //   var span = $('<span>').css('display','inline-block')
 // .css('word-break','break-all').appendTo('body').css('visibility','hidden');
@@ -494,6 +508,9 @@ $(document).ready(function() {
 // });
 
 //Panels
+
+
+/// refresh a tracker
   $('.card [data-action=reload]').click(function (e) {
       e.preventDefault();
       var block = $(this).parent().parent().parent();
@@ -514,12 +531,16 @@ $(document).ready(function() {
       
       
       
-      // For demo purposes
+      // Put this block of code in ajax request to cancel loader
       window.setTimeout(function () {
          $(block).unblock();
       }, 2000); 
+   // put the block of code in ajax request which refresh the tracker
+   
+   
+      
   });
-  // put the block of code in ajax request which refresh the tracker
+  
   
   
   
