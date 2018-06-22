@@ -169,7 +169,6 @@
     <h1 class="text-success mb0">235</h1>
     <h5 class="text-primary">Blogs</h5>
     </button>
-
     </div>
 
     <div class="text-center mt10">
@@ -177,14 +176,12 @@
     <h1 class="text-success mb0">4,000,232</h1>
     <h5 class="text-primary">Posts</h5>
     </button>
-
     </div>
     <div class="text-center mt10">
     <button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">
     <h1 class="text-success mb0">120</h1>
     <h5 class="text-primary">Comments</h5>
     </button>
-
     </div>
     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
@@ -480,8 +477,8 @@ $(document).ready(function() {
 	  console.log('Load was performed.'); */
 	  });
   
-  // put a placeholder
-  $.getScript("pagedependencies/placeholder.js", function(data, textStatus, jqxhr) {
+  // create a tracker script
+  $.getScript("pagedependencies/createtracker.js", function(data, textStatus, jqxhr) {
 		
 		  });
   
@@ -511,41 +508,10 @@ $(document).ready(function() {
 
 
 /// refresh a tracker
-  $('.card [data-action=reload]').click(function (e) {
-      e.preventDefault();
-      var block = $(this).parent().parent().parent();
-      $(block).block({ 
-          message: '<i class="fas fa-spinner fa-4x fa-pulse"></i>',
-          overlayCSS: {
-              backgroundColor: '#fff',
-              opacity: 0.8,
-              cursor: 'wait',
-              'box-shadow': '0 0 0 1px #ddd'
-          },
-          css: {
-              border: 0,
-              padding: 0,
-              backgroundColor: 'none'
-          }
-      });
-      
-      
-      
-      // Put this block of code in ajax request to cancel loader
-      window.setTimeout(function () {
-         $(block).unblock();
-      }, 2000); 
-   // put the block of code in ajax request which refresh the tracker
-   
-   
-      
+  $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
+		
   });
-  
-  
-  
-  
-  
-} );
+});
 </script>
 <!--end for table  -->
 
