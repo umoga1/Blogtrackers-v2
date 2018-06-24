@@ -96,7 +96,31 @@ $(document).ready(function(){
 	   buttonhtmlupdate = '<div class="pt30 pb20 text-center"><i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i><i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" data-action="reload" title="Refresh Tracker"></i><i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i></div>';
 	   $(this).parent().parent().parent().prepend(trackernamehtmlupdate);
 	   $(this).parent().parent().html(timesectionhtmlupdate + bloglisthtmlupdate + trackerdescriptionhtmlupdate + blogcounthtmlupdate + postcounthtmlupdate + commentcounthtmlupdate + buttonhtmlupdate);
-	  // get script to refresh tracker
+	   
+	   	$.ajax({
+			url: app_url+'tracker',
+			method: 'POST',
+			data: {
+				action: "create",
+				name:trackername,
+				description:trackerdescription,
+				blogs:""
+			},
+			error: function(response)
+			{						
+				console.log(response);		
+			},
+			success: function(response)
+			{   
+				console.log(response);
+				if(response=="true"){
+					toastr.success('Tracker successfully created!','Success');
+				}else{
+					toastr.error('Tracker could not be created!','Error');
+				}
+			}
+		});
+	   // get script to refresh tracker
 	   $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
 		  
 		  });

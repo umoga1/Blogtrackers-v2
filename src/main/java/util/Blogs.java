@@ -247,7 +247,7 @@ public ArrayList _fetch(String ids) throws Exception {
 	 		"}");
 
 	 */
-	System.out.println(arg);
+	//System.out.println(arg);
    String url = base_url+"_search/";
    URL obj = new URL(url);
    HttpURLConnection con = (HttpURLConnection) obj.openConnection();

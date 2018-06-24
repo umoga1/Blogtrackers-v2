@@ -57,6 +57,9 @@ if(term.equals("")){
 	results = tracker._search(term,"");
 }
 String total = tracker._getTotal();
+
+ArrayList test = new ArrayList();
+//tracker._add("hello",test);
 //pimage = pimage.replace("build/", "");
 %>
 <!DOCTYPE html>
@@ -66,6 +69,7 @@ String total = tracker._getTotal();
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Blogtrackers</title>
+	
   <link rel="shortcut icon" href="images/favicons/favicon.ico">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
@@ -81,34 +85,21 @@ String total = tracker._getTotal();
  <link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" href="assets/vendors/DataTables/Buttons-1.5.1/css/buttons.dataTables.min.css" />
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
-
+<link href="assets/fonts/icomoon/styles.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="assets/css/style.css" />
 
   <!--end of bootsrap -->
   <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
+  <script>
+  <!-- update system url here -->
+  var app_url = "http://localhost:8080/Blogtrackers/";
+  </script>
 </head>
 <body>
 <div class="modal-notifications">
 <div class="row">
-<<<<<<< HEAD
-<div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
-  <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
-<div class="profilesection col-md-12 mt50">
-  <div class="text-center"><img src="<%=profileimage%>" width="60" height="60" alt="" class="" /></div>
-  <div class="text-center" style="margin-left:0px;">
-    <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
-    <p class="text-primary profiletext"><%=email%></p>
-  </div>
 
-</div>
-<div id="othersection" class="col-md-12 mt10" style="clear:both">
-<a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-<a class="cursor-pointer profilemenulink" href="profile.html"><h6  class="text-primary">Profile</h3></a>
-<a class="cursor-pointer profilemenulink" href="#"><h6 class="text-primary">Log Out</h3></a>
-</div>
-</div>
-=======
   <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
@@ -125,7 +116,7 @@ String total = tracker._getTotal();
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
   </div>
->>>>>>> 8b9fc03f597ac6076e14cedf028b2a7c93bb62a4
+
 </div>
 </div>
   <nav class="navbar navbar-inverse bg-primary">
@@ -336,9 +327,16 @@ String total = tracker._getTotal();
   </footer> -->
 
 
- <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
+<script type="text/javascript" src="assets/vendors/tags/tagsinput.min.js"></script>
+<script type="text/javascript" src="assets/vendors/tags/tokenfield.min.js"></script>
+<script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>
+<script type="text/javascript" src="assets/vendors/typeahead/typeahead.bundle.min.js"></script>
+<script type="text/javascript" src="assets/js/form_tags_input.js"></script>
+<script type="text/javascript" src="assets/vendors/blockui/blockui.min.js"></script>
+
 
 
 <script>
@@ -351,8 +349,24 @@ $(document).ready(function() {
   // add new tracker code snippets
   $('.addnewtracker').on("click",function(e){
     e.preventDefault();
-    trackersetupform = '<div class="card noborder curved-card mb30 pt50 pb50"><div class="card-body"><div class="cursor-pointer"><textarea class="form-control trackername text-primary" placeholder="Tracker Name"></textarea></div></div></div>';
+    var  trackersetupform = "";
+    trackersetupform += '<div class="card noborder curved-card mb30 pt20 pb20"><div class="card-body"><div class="trackerclose"><i class="fas fa-times-circle closetracker text-primary cursor-pointer" data-toggle="tooltip" data-placement="top" title="Cancel New Tracker"></i></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackername text-primary text-center" placeholder="Tracker Name" rows="2"></textarea></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackerdescription text-primary text-center" placeholder="Description" rows="1"></textarea></div>';
+    trackersetupform += '<div class="form-group mt20 trackerpage"><label class="text-primary">Add Blog</label><input type="text" class="form-control tokenfield-primary" value="" placeholder="Add Blog" /></div><div class="text-center"><i type="submit" class="fas fa-check text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="fas fa-trash-alt text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
   $('.card-columns').prepend(trackersetupform);
+  
+  // load the script for form tag input
+  $.getScript("assets/js/form_tags_input.js", function(data, textStatus, jqxhr) {
+	 /*  console.log(data); //data returned
+	  console.log(textStatus); //success
+	  console.log(jqxhr.status); //200
+	  console.log('Load was performed.'); */
+	  });
+  
+  // create a tracker script
+  $.getScript("pagedependencies/createtracker.js?v=8733", function(data, textStatus, jqxhr) {
+		
+		  });
+  
   });
 //   var span = $('<span>').css('display','inline-block')
 // .css('word-break','break-all').appendTo('body').css('visibility','hidden');
@@ -374,7 +388,16 @@ $(document).ready(function() {
 //         if(e.which == 13) e.preventDefault();
 //     }
 // });
-} );
+
+//Panels
+
+
+/// refresh a tracker
+  $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
+		
+  });
+});
+
 </script>
 <!--end for table  -->
 

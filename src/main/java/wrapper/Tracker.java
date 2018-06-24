@@ -1,0 +1,87 @@
+
+package wrapper;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
+
+import util.Trackers;
+
+/**
+ * 
+ * Servlet implementation class Register
+ * @author Adedayo Ayodele
+ * 
+ */
+@WebServlet("/tracker")
+public class Tracker extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public Tracker() {
+		super();
+
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {           
+		response.setContentType("text/html");    
+		response.sendRedirect("trackerlist.jsp");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+		 Trackers trk = new Trackers();               
+		 PrintWriter pww = response.getWriter();
+		 HttpSession session = request.getSession();
+			
+		String username = session.getAttribute("email").toString();
+        String tracker_name = (null==request.getParameter("name"))?"":request.getParameter("name").replaceAll("\\<.*?\\>", "");
+        String description = (null==request.getParameter("description"))?"":request.getParameter("description").replaceAll("\\<.*?\\>", "");
+        String blogs = (null==request.getParameter("blogs"))?"":request.getParameter("blogs").replaceAll("\\<.*?\\>", "");
+		
+        String query = "";
+		String action = (null==request.getParameter("action"))?"":request.getParameter("action");
+        		
+		if(action.equals("create"))
+		{			
+			 JSONObject param = new JSONObject();
+			 param.put("userid", username);
+			 param.put("query", "");
+			 param.put("tracker_name", tracker_name);
+			 param.put("description", description);
+			 param.put("blogsites_num", blogs);			 
+			 String output =  "false";
+			 try {
+				 output = trk._add(username, param);				 
+			 }catch(Exception e) {}		 
+			 response.setContentType("text/html");				 
+		     pww.write(output); 
+                        
+		}else if(action.equals("update")) {
+						
+		}else if(action.equals("delete")) {
+			
+			
+		}
+
+	}
+}
+
+

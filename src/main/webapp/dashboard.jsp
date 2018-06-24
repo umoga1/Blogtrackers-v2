@@ -8,7 +8,7 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
 
 if (email == null || email == "") {
 	response.sendRedirect("index.jsp");
-}
+}else{
 
 ArrayList<?> userinfo = null;
 String profileimage= "";
@@ -133,8 +133,8 @@ String totalblog = blog._getTotal();
       <div class="col-lg-4 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
           <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="<%=request.getContextPath()%>/favorites.html"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
+          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
@@ -168,7 +168,7 @@ String totalblog = blog._getTotal();
                 <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.html">Favorites</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
               </li>
             </ul>
     </div>
@@ -183,7 +183,7 @@ String totalblog = blog._getTotal();
 <div class="row">
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="trackerlist.html">MY TRACKER</a>
+  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
   <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
   <a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
   </nav>
@@ -862,24 +862,47 @@ $(function () {
       //
       data = [
       <% 
-      JSONObject language = new JSONObject();     
+      JSONObject language = new JSONObject();
+      JSONObject bloggers = new JSONObject();
+      ArrayList looper = new ArrayList();
       if( blogs.size()>0){
 			String bres = null;
 			JSONObject bresp = null;
+			
 			String bresu =null;
 			JSONObject bobj =null;
+			int m=0;
 			 for(int k=0; k< blogs.size(); k++){
 				 bres = blogs.get(k).toString();			
 				 bresp = new JSONObject(bres);
 				 bresu = bresp.get("_source").toString();
 				 bobj = new JSONObject(bresu);
 				 String lang = bobj.get("language").toString();
-				 System.out.println(lang);
+				 String blogger = bobj.get("blogsite_authors").toString();
+				 String blogname = bobj.get("blogsite_name").toString();
+				 JSONObject content = new JSONObject();
+				 
+				 if(bloggers.has(blogger)){
+					 content = new JSONObject(bloggers.get(blogger).toString());
+					 int valu  = Integer.parseInt(content.get("value").toString())+1;
+					 content.put("blog",blogname);
+					 content.put("blogger",blogger);
+					 content.put("value",valu);
+					 bloggers.put(blogger, content);
+					 
+					
+				 }else{
+					 int valu  = 1;
+					 content.put("blog",blogname);
+					 content.put("blogger",blogger);
+					 content.put("value",valu);
+					 bloggers.put(blogger, content);
+					 looper.add(m, blogger);
+				 }
 				 //Object ex = language.get(lang);
 				  if(language.has(lang)){
 					  int val  = Integer.parseInt(language.get(lang).toString())+1;
-				      language.put(lang, val);
-					
+				      language.put(lang, val);					
 				  }else{
 				 //  	int val  = Integer.parseInt(ex.toString())+1;
 				  	 language.put(lang,1);
@@ -2214,8 +2237,15 @@ $(function () {
 data = {
  "name":"flare",
  "bloggers":[
- {"label":"Blogger 1","name":"Adigun Adekunle", "size":3245},
- {"label":"Blogger 2","name":"Obadimu Adewale", "size":2500},
+	<% if(bloggers.length()>1){
+		System.out.println(bloggers);
+		for(int y=0; y<bloggers.length(); y++){
+			String key = looper.get(y).toString();
+			 JSONObject resu = bloggers.getJSONObject(key);
+	%>
+	{"label":"<%=resu.get("blogger")%>","name":"<%=resu.get("blogger")%>", "size":<%=resu.get("value")%>},
+	 <% }} %>
+ /* {"label":"Blogger 2","name":"Obadimu Adewale", "size":2500},
  {"label":"Blogger 3","name":"Oluwaseun Walter", "size":2800},
  {"label":"Blogger 4","name":"Kiran Bandeli", "size":900},
  {"label":"Blogger 5","name":"Adekunle Mayowa", "size":1400},
@@ -2224,6 +2254,7 @@ data = {
  {"label":"Blogger 8","name":"Adekunle Mayowa", "size":300},
  {"label":"Blogger 9","name":"Adekunle Mayowa", "size":350},
  {"label":"Blogger 10","name":"Adekunle Mayowa", "size":1400}
+ */
  ]
 }
 
@@ -2381,16 +2412,14 @@ $(function () {
 data = {
  "name":"flare",
  "bloggers":[
- {"label":"Blog 1","name":"Adigun Adekunle", "size":3245},
- {"label":"Blog 2","name":"Obadimu Adewale", "size":2500},
- {"label":"Blog 3","name":"Oluwaseun Walter", "size":2800},
- {"label":"Blog 4","name":"Kiran Bandeli", "size":900},
- {"label":"Blog 5","name":"Adekunle Mayowa", "size":1400},
- {"label":"Blog 6","name":"Nihal Hussain", "size":200},
- {"label":"Blog 7","name":"Adekunle Mayowa", "size":500},
- {"label":"Blog 8","name":"Adekunle Mayowa", "size":300},
- {"label":"Blog 9","name":"Adekunle Mayowa", "size":350},
- {"label":"Blog 10","name":"Adekunle Mayowa", "size":1400}
+	 <% if(bloggers.length()>1){
+			System.out.println(bloggers);
+			for(int y=0; y<bloggers.length(); y++){
+				String key = looper.get(y).toString();
+				 JSONObject resu = bloggers.getJSONObject(key);
+		%>
+		{"label":"<%=resu.get("blog")%>","name":"<%=resu.get("blogger")%>", "size":<%=resu.get("value")%>},
+		 <% }} %>
  ]
 }
 
@@ -2463,4 +2492,4 @@ data = {
 </body>
 </html>
 
-<% } %>
+<% }} %>

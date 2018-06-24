@@ -8,8 +8,7 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 import java.io.OutputStreamWriter;
-
-
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Trackers {
@@ -261,6 +260,69 @@ public ArrayList _fetch(String ids) throws Exception {
 	     }
     }
    return  list;
+}
+
+/* Add a new tracker*/
+public String _add(String userid, JSONObject params) throws Exception {
+	 String blgs =  params.get("blogs").toString();
+	 String[] blogs = blgs.split(",");
+	 int blognum = 0;
+	 if(!blgs.equals("")) {
+		 blognum = blogs.length;
+	 }
+	 
+	 JSONObject param = new JSONObject();
+	 param.put("userid",userid);
+	 param.put("query", "blogsite_id in ("+params.get("blogs")+")");
+	 param.put("tracker_name", params.get("trackername"));
+	 param.put("description", params.get("description"));
+	 param.put("blogsites_num", blognum);
+	 
+	 System.out.println(param);
+	//JSONObject jsonObj = new JSONObject("{\"userid\":\"wizzletest\",\"query\":\"blogsite_id in (46,62,47,49,66,52,53,65,63,54)\",\"tracker_name\":\"Wizzle\",\"description\":\"Best blogs ever\",\"blogsites_num\":10}");
+	 
+	 String output = "false";
+  String url = base_url+"trackers";
+  URL obj = new URL(url);
+  HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+  
+  con.setDoOutput(true);
+  con.setDoInput(true);
+ 
+  con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+  con.setRequestProperty("Accept", "application/json");
+  con.setRequestMethod("POST");
+  
+  OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+  wr.write(param.toString());
+  wr.flush();
+  
+  int responseCode = con.getResponseCode();
+  
+  BufferedReader in = new BufferedReader(
+       new InputStreamReader(con.getInputStream()));
+  String inputLine;
+  StringBuffer response = new StringBuffer();
+  
+  while ((inputLine = in.readLine()) != null) {
+   	response.append(inputLine);
+   }
+   in.close();
+   
+   JSONObject myResponse = new JSONObject(response.toString());
+   System.out.println(myResponse);
+   if(null!=myResponse.get("result")) {
+	   	  output = "false";
+   }else {
+	   String res = myResponse.get("hits").toString();
+	   if(res.equals("created")) {
+		   output = "true";
+	   }else {
+		   output = "false";
+	   }
+   }
+   
+  return  output;
 }
 
 }
