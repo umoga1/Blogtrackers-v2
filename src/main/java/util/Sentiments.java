@@ -12,9 +12,9 @@ import java.io.OutputStreamWriter;
 
 import java.util.ArrayList;
 
-public class Blogs {
+public class Sentiments {
 
-String base_url = "http://144.167.115.218:9200/blogsites/";
+String base_url = "http://144.167.115.218:9200/blogpost_entitysentiment/";
 String totalpost;		    
 	   
 public ArrayList _list(String order, String from) throws Exception {	 
@@ -23,7 +23,7 @@ public ArrayList _list(String order, String from) throws Exception {
 		 		"        \"match_all\": {}\r\n" + 
 		 		"    },\r\n" + 
 		 		"	\"sort\":{\r\n" + 
-		 		"		\"blogsite_id\":{\r\n" + 
+		 		"		\"id\":{\r\n" + 
 		 		"			\"order\":\""+order+"\"\r\n" + 
 		 		"			}\r\n" + 
 		 		"		}\r\n" + 
@@ -35,12 +35,12 @@ public ArrayList _list(String order, String from) throws Exception {
 		  		"        \"match_all\": {}\r\n" + 
 		  		"    },\r\n" + 
 		  		"	\"sort\":{\r\n" + 
-		  		"		\"blogsite_id\":{\r\n" + 
+		  		"		\"id\":{\r\n" + 
 		  		"			\"order\":\"DESC\"\r\n" + 
 		  		"			}\r\n" + 
 		  		"		},\r\n" + 
 		  		"	\"range\":{\r\n" + 
-		  		"		\"blogsite_id\":{\r\n" + 
+		  		"		\"id\":{\r\n" + 
 		  		"			\"lte\":\""+from+"\",\r\n" + 
 		  		"			\"gte\":\""+0+"\"\r\n" + 
 		  		"			}\r\n" + 
@@ -50,7 +50,7 @@ public ArrayList _list(String order, String from) throws Exception {
 	 }
 	 
 	 
-     String url = base_url+"_search?size=100";
+     String url = base_url+"_search?size=5";
  
      
      URL obj = new URL(url);
@@ -123,17 +123,17 @@ public ArrayList _search(String term,String from) throws Exception {
     	jsonObj = new JSONObject("{\r\n" + 
     			"  \"query\": {\r\n" + 
     			"        \"query_string\" : {\r\n" + 
-	 		    "            \"fields\" : [\"blogsite_name\",\"blogsite_authors\"],\r\n" +
+	 		    "            \"fields\" : [\"entity\",\"type\"],\r\n" +
     			"            \"query\" : \""+term+"\"\r\n" + 
     			"        }\r\n" + 
     			"  },\r\n" + 
     			"   \"sort\":{\r\n" + 
-    			"		\"blogpost_id\":{\r\n" + 
+    			"		\"id\":{\r\n" + 
     			"			\"order\":\"DESC\"\r\n" + 
     			"			}\r\n" + 
     			"		},\r\n" + 
     			" \"range\":{\r\n" + 
-    			"		\"blogpost_id\":{\r\n" + 
+    			"		\"id\":{\r\n" + 
     			"			\"lte\":\""+from+"\",\r\n" + 
 		  		"			\"gte\":\""+0+"\"\r\n" + 
     			"			}\r\n" + 

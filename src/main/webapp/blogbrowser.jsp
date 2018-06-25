@@ -245,7 +245,7 @@ String total = post._getTotal();
     <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
   </div>
   <div class="<%=obj.get("blogpost_id")%>">
-  <input type="hidden" class="postimage" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
+  <input type="hidden" class="post-image" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
   </div>
   <div class="text-center"><i class="far fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Add to Favorites"></i></div>
 </div>
@@ -302,7 +302,7 @@ String total = post._getTotal();
 
 </script>
 
-<script src="pagedependencies/imageloader.js?v=49908998"></script>
+<script src="pagedependencies/imageloader.js?v=489908998"></script>
 <script src="js/functions.js?v=9090"></script>
 <script>
 $(window).scroll(function() {

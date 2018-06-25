@@ -3,6 +3,7 @@
 <%@page import="util.*"%>
 <%@page import="java.io.File"%>
 <%@page import="org.json.JSONObject"%>
+<%@page import="java.net.URI"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 
@@ -55,11 +56,82 @@ Blogs blog = new Blogs();
 
 ArrayList posts = post._list("DESC","");
 String totalpost = post._getTotal();
+String possentiment = post._searchRangeTotal("sentment","0","100");
+String negsentiment = post._searchRangeTotal("sentment","-1","0.1");
 
 ArrayList blogs = blog._list("DESC","");
 String totalblog = blog._getTotal();
 //pimage = pimage.replace("build/", "");
-%>
+
+      JSONObject language = new JSONObject();
+      JSONObject bloggers = new JSONObject();
+      ArrayList looper = new ArrayList();
+      ArrayList langlooper = new ArrayList();
+      if( blogs.size()>0){
+			String bres = null;
+			JSONObject bresp = null;
+			
+			String bresu =null;
+			JSONObject bobj =null;
+			int m=0;
+			int n=0;
+			 for(int k=0; k< blogs.size(); k++){
+				 bres = blogs.get(k).toString();			
+				 bresp = new JSONObject(bres);
+				 bresu = bresp.get("_source").toString();
+				 bobj = new JSONObject(bresu);
+				 String lang = bobj.get("language").toString();
+				 String blogger = bobj.get("blogsite_owner").toString();
+				 String blogname = bobj.get("blogsite_name").toString();
+				 JSONObject content = new JSONObject();
+				 
+				// URI uri = new URI(bobj.get("blogsite_url").toString());
+				 //String domain = uri.getHost();
+				 String durl= bobj.get("blogsite_url").toString();//"";
+				/*
+				 if(domain.startsWith("www.")){
+							  durl = domain.substring(4);
+				  }else{
+							  durl = domain;
+				  }
+				*/
+						  
+				 if(bloggers.has(blogger)){
+					  
+					 content = new JSONObject(bloggers.get(blogger).toString());
+					 int valu  = Integer.parseInt(content.get("value").toString())+1;
+					 content.put("blog",blogname);
+					 content.put("blogger",blogger);
+					 content.put("value",valu);
+					 content.put("blogsite_url",bobj.get("blogsite_url").toString());
+					 content.put("blogsite_domain",durl);
+					 bloggers.put(blogger, content);
+					 
+				 }else{
+					 int valu  = 1;
+					 content.put("blog",blogname);
+					 content.put("blogger",blogger);
+					 content.put("value",valu);
+					 content.put("blogsite_url",bobj.get("blogsite_url").toString());
+					 content.put("blogsite_domain",durl);
+					 bloggers.put(blogger, content);
+					 looper.add(m, blogger);
+					 m++;
+				 }
+				 //Object ex = language.get(lang);
+				  if(language.has(lang)){
+					  int val  = Integer.parseInt(language.get(lang).toString())+1;
+				      language.put(lang, val);					
+				  }else{
+				 //  	int val  = Integer.parseInt(ex.toString())+1;
+				  	 language.put(lang,1);
+				  	 langlooper.add(n, lang);
+					 n++;
+				 }
+				
+			 }
+		  		
+	 } %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -403,68 +475,19 @@ String totalblog = blog._getTotal();
                             </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                              <td>blogtrackers.com</td>
-                              <td>1</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>notonato.com</td>
-                              <td>3</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>notonato.com</td>
-                              <td>6</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>notonato.com</td>
-                              <td>5</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>notonato.com</td>
-                              <td>3</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>notonato.com</td>
-                              <td>1</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>notonato.com</td>
-                              <td>2</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>notonato.com</td>
-                              <td>4</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>notonato.com</td>
-                              <td>1</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>notonato.com</td>
-                              <td>2</td>
-
-
-                          </tr>
-
-                        </tbody>
+                        <% if(bloggers.length()>0){
+							System.out.println(bloggers);
+							for(int y=0; y<bloggers.length(); y++){
+								String key = looper.get(y).toString();
+								 JSONObject resu = bloggers.getJSONObject(key);
+						%>
+						<tr>
+                              <td><%=resu.get("blogsite_domain")%></td>
+                              <td><%=resu.get("value")%></td>
+                        </tr>
+						<% }} %>
+                          
+                         </tbody>
                     </table>
         </div>
           </div>
@@ -504,66 +527,19 @@ String totalblog = blog._getTotal();
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>URL</td>
-                                <td>1</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>3</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>6</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>5</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>3</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>1</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>2</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>4</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>1</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>2</td>
-
-
-                            </tr>
+                             <% if(bloggers.length()>0){
+							System.out.println(bloggers);
+							for(int y=0; y<bloggers.length(); y++){
+								String key = looper.get(y).toString();
+								 JSONObject resu = bloggers.getJSONObject(key);
+						%>
+						<tr>
+                              <td><%=resu.get("blogsite_url")%></td>
+                              <td><%=resu.get("value")%></td>
+                        </tr>
+						<% }} %>
+                            
+                            
 
                         </tbody>
                     </table>
@@ -861,66 +837,15 @@ $(function () {
       //
       //
       data = [
-      <% 
-      JSONObject language = new JSONObject();
-      JSONObject bloggers = new JSONObject();
-      ArrayList looper = new ArrayList();
-      if( blogs.size()>0){
-			String bres = null;
-			JSONObject bresp = null;
-			
-			String bresu =null;
-			JSONObject bobj =null;
-			int m=0;
-			 for(int k=0; k< blogs.size(); k++){
-				 bres = blogs.get(k).toString();			
-				 bresp = new JSONObject(bres);
-				 bresu = bresp.get("_source").toString();
-				 bobj = new JSONObject(bresu);
-				 String lang = bobj.get("language").toString();
-				 String blogger = bobj.get("blogsite_authors").toString();
-				 String blogname = bobj.get("blogsite_name").toString();
-				 JSONObject content = new JSONObject();
-				 
-				 if(bloggers.has(blogger)){
-					 content = new JSONObject(bloggers.get(blogger).toString());
-					 int valu  = Integer.parseInt(content.get("value").toString())+1;
-					 content.put("blog",blogname);
-					 content.put("blogger",blogger);
-					 content.put("value",valu);
-					 bloggers.put(blogger, content);
-					 
-					
-				 }else{
-					 int valu  = 1;
-					 content.put("blog",blogname);
-					 content.put("blogger",blogger);
-					 content.put("value",valu);
-					 bloggers.put(blogger, content);
-					 looper.add(m, blogger);
-				 }
-				 //Object ex = language.get(lang);
-				  if(language.has(lang)){
-					  int val  = Integer.parseInt(language.get(lang).toString())+1;
-				      language.put(lang, val);					
-				  }else{
-				 //  	int val  = Integer.parseInt(ex.toString())+1;
-				  	 language.put(lang,1);
-				 }
-				
-			 }
-		 
-			 for(int k=0; k< blogs.size(); k++){
-				 bres = blogs.get(k).toString();			
-				 bresp = new JSONObject(bres);
-				 bresu = bresp.get("_source").toString();
-				 bobj = new JSONObject(bresu);
-				 String lang = bobj.get("language").toString();
-				%>
-				{letter:"<%=lang%>", frequency:<%=language.get(lang)%>},
-				<%		
-			 }	 		
-	 } %>
+    	  <% 
+    	  if(langlooper.size()>0){			
+    			for(int y=0; y<langlooper.size(); y++){
+    				String key = langlooper.get(y).toString();
+    			 
+    		%>
+    		{letter:"<%=key%>", frequency:<%=language.get(key)%>},
+    		<% }} %>
+
 	 ];
       /*
       data = [
@@ -1674,8 +1599,8 @@ $(function () {
       //
       //
       data = [
-            {letter:"Negative", frequency:1200},
-            {letter:"Positive", frequency:2550}
+            {letter:"Negative", frequency:<%=negsentiment%>},
+            {letter:"Positive", frequency:<%=possentiment%>}
         ];
       //
       //
@@ -2023,6 +1948,13 @@ location.put("Vatican City", "41.90, 12.45");
 location.put("Monaco", "43.73, 7.41");
 location.put("Salt Lake City", "40.726, -111.778");
 location.put("Kansas City", "39.092, -94.575");
+location.put("US", "37.0902, 95.7129");
+location.put("DE", "38.9108, 75.5277");
+location.put("LT", "55.1694, 23.8813");
+location.put("GB", "55.3781, 3.4360");
+location.put("NL", "53.1355, 57.6604");
+location.put("VE", "14.0583, 108.2772");
+location.put("LV", "56.8796, 24.6032");
 %>
 // map marker location by longitude and latitude
 var mymarker = [
@@ -2036,9 +1968,11 @@ var mymarker = [
 			 bresp = new JSONObject(bres);
 			 bresu = bresp.get("_source").toString();
 			 bobj = new JSONObject(bresu);
+			 if(location.has(bobj.get("location").toString())){
 			%>
 	 		{latLng: [<%=location.get(bobj.get("location").toString())%>], name: '<%=bobj.get("location").toString()%>'},
 			<%
+			 }
 		 }
 	 } %>
     {latLng: [<%=location.get("Vatican City")%>], name: 'Vatican City'},
@@ -2237,8 +2171,8 @@ $(function () {
 data = {
  "name":"flare",
  "bloggers":[
-	<% if(bloggers.length()>1){
-		System.out.println(bloggers);
+	<% if(bloggers.length()>0){
+		//System.out.println(bloggers);
 		for(int y=0; y<bloggers.length(); y++){
 			String key = looper.get(y).toString();
 			 JSONObject resu = bloggers.getJSONObject(key);
@@ -2412,8 +2346,8 @@ $(function () {
 data = {
  "name":"flare",
  "bloggers":[
-	 <% if(bloggers.length()>1){
-			System.out.println(bloggers);
+	 <% if(bloggers.length()>0){
+			//System.out.println(bloggers);
 			for(int y=0; y<bloggers.length(); y++){
 				String key = looper.get(y).toString();
 				 JSONObject resu = bloggers.getJSONObject(key);
