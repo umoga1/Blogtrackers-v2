@@ -118,7 +118,7 @@ if (email != null && email != "") {
 							<button type="button" id="glogin" class="btn buttonportfolio3 mt10 pt10 pb10 pl40">
 							<!-- <i class="float-left googleicon pl0 pr10"></i>  -->
 							
-							<b class="float-left semi-bold-text">Sign in with Google </b></button>
+							<b class="float-left bold-text">Sign in with Google </b></button>
  					</div>
 						<p class="pt20 text-primary">
 							<small>Forgot your <a href="<%=request.getContextPath()%>/forgotpassword.jsp"><b>Password?</b></a></small>
