@@ -5,7 +5,7 @@ var z=0;
 $(document).ready(function() {
 	console.log("hree");
     //$('.postimage').on('load', function(img){ // image ready
-    var img = $('.postimage');
+    var img = $('.post-image');
     for(i=0; i<img.length; i++){
     	var id = img[i].id;
 		var url = img[i].value;
