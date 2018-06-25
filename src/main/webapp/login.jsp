@@ -107,7 +107,14 @@ if (email != null && email != "") {
 						</div>
 						<br />
 						<div class=""  id="loggin2"></div>
-						<div class=""  id="loggin">
+						<div>
+						<p class="float-left pt10"><input type="checkbox" class="remembercheckbox"/>Remember Me</p>
+						<p class="pt10 text-primary float-right">
+							<small class="bold-text">Forgot your <a href="<%=request.getContextPath()%>/forgotpassword.jsp"><b>Password?</b></a></small>
+						</p>
+						
+						</div>
+						<div class="clearfloat"  id="loggin">
 							<button type="submit" class="btn btn-primary loginformbutton mt10"
 								style="background: #28a745;">Login</button>
 							<!-- &nbsp;&nbsp;or Login with &nbsp;&nbsp;
@@ -120,10 +127,8 @@ if (email != null && email != "") {
 							
 							<b class="float-left bold-text">Sign in with Google </b></button>
  					</div>
-						<p class="pt20 text-primary">
-							<small>Forgot your <a href="<%=request.getContextPath()%>/forgotpassword.jsp"><b>Password?</b></a></small>
-						</p>
-						<p class="pb20 text-primary">
+						
+						<p class="pb20 mt30 text-primary">
 							Dont have an account yet? <a href="<%=request.getContextPath()%>/register"><b>Register
 									Now</b></a></small>
 						</p>
