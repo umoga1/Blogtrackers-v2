@@ -37,7 +37,7 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
   <nav class="navbar navbar-inverse">
 
 
-
+<!-- Logo -->
   <div class="navbar-header float-left">
   <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
   </div>
@@ -47,30 +47,44 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
   <span class="navbar-toggler-icon"></span>
   </button>
   </nav>
+  <!-- Desktop Menu -->
 <div class="themainmenu"  align="center">
   <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-    <li><a href="#">Features</a></li>
-    <li><a href="#">Sponsors</a></li>
+    <li><a class="bold-text" href="#">Features</a></li>
+    <li><a class="bold-text" href="#">Sponsors</a></li>
+    <li><a class="bold-text" href="#">Creators</a></li>
+    <li><a class="bold-text" href="#">Blogs</a></li>
+    <li><a class="bold-text" href="#">Help</a></li>
 	<% if(email == "") { %>
-		<li><a href="login.jsp">Login</a></li>
+		<li><a class="bold-text" href="login.jsp">Login</a></li>
 	<% }else{ %>
-		<li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
+		<li><a class="bold-text" href="<%=request.getContextPath()%>/logout">Logout</a></li>
 	<% }%>
   </ul>
 </div>
 
+<!-- Mobile menu -->
   <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
   <div class="collapse" id="navbarToggleExternalContent">
     <ul class="navbar-nav mr-auto mobile-menu">
           <li class="nav-item active">
-            <a class="" href="#">Features <span class="sr-only">(current)</span></a>
+            <a class="bold-text" href="#">Features <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Sponsors</a>
+            <a class="nav-link bold-text" href="#">Sponsors</a>
+          </li>
+           <li class="nav-item">
+            <a class="nav-link bold-text" href="#">Creators</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link bold-text" href="#">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link bold-text" href="#">Help</a>
           </li>
          <% if(email == "") { %>
 			  <li class="nav-item">
-				<a class="nav-link" href="login.jsp">Login</a>
+				<a class="nav-link bold-text" href="login.jsp">Login</a>
 			  </li>
           <% }else{ %>
            
