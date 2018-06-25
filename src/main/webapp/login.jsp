@@ -108,12 +108,17 @@ if (email != null && email != "") {
 						<br />
 						<div class=""  id="loggin2"></div>
 						<div class=""  id="loggin">
-							<button type="submit" class="btn btn-primary loginformbutton"
+							<button type="submit" class="btn btn-primary loginformbutton mt10"
 								style="background: #28a745;">Login</button>
-							&nbsp;&nbsp;or Login with &nbsp;&nbsp;
+							<!-- &nbsp;&nbsp;or Login with &nbsp;&nbsp;
 							<button type="button" class="btn btn-rounded big-btn2 " id="glogin" >
 								<i class="fab fa-google icon-small text-primary" ></i>
-							</button><span></span>
+							</button><span></span> -->
+							
+							<button type="button" id="glogin" class="btn buttonportfolio3 mt10 pt10 pb10 pl40">
+							<!-- <i class="float-left googleicon pl0 pr10"></i>  -->
+							
+							<b class="float-left semi-bold-text">Sign in with Google </b></button>
  					</div>
 						<p class="pt20 text-primary">
 							<small>Forgot your <a href="<%=request.getContextPath()%>/forgotpassword.jsp"><b>Password?</b></a></small>
