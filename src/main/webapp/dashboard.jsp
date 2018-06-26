@@ -2207,7 +2207,7 @@ data = {
 			String key = looper.get(y).toString();
 			 JSONObject resu = bloggers.getJSONObject(key);
 			 int size = Integer.parseInt(resu.get("value").toString());
-			 if(size>1){
+			 if(size>0){
 	%>
 	{"label":"<%=resu.get("blogger")%>","name":"<%=resu.get("blogger")%>", "size":<%=resu.get("value")%>},
 	 <% }} }%>
@@ -2384,7 +2384,7 @@ data = {
 				String key = looper.get(y).toString();
 				 JSONObject resu = bloggers.getJSONObject(key);
 				 int size = Integer.parseInt(resu.get("value").toString());
-				 if(size>1){
+				 if(size>0){
 		%>
 		{"label":"<%=resu.get("blog")%>","name":"<%=resu.get("blogger")%>", "size":<%=resu.get("value")%>},
 		 <% }}} %>

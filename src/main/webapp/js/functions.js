@@ -59,11 +59,11 @@ function loadMoreResult(){
 					try{
 						
 					}catch(err){}
-					
+					/*
 					$.getScript( app_url+"pagedependencies/imageloader.js", function( data, textStatus, jqxhr ) {
 						
 					});
-					
+					*/
 					
 				}
 			
