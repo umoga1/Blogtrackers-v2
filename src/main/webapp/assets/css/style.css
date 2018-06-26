@@ -136,6 +136,25 @@ height: 19px;
 position:relative;
 top:3px;
 }
+.trackscount
+{
+  font-size: 14px;
+  position: absolute !important;
+  width:28px;
+  height:28px;
+  padding-top:3px;
+  border-radius: 100px;
+  background-color:#FF7E7E;
+  top:5px;
+}
+.tracksection
+{
+position: fixed;
+bottom:0;
+width:100%;
+z-index:9999;
+}
+
 .buttonportfolio3
 {
 background: #fafafa;

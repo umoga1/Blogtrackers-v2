@@ -122,8 +122,10 @@ if (email != null && email != "") {
 								<i class="fab fa-google icon-small text-primary" ></i>
 							</button><span></span> -->
 							
-							<button type="button" id="glogin" class="btn buttonportfolio3 mt10 pt10 pb10 pl40">
 							<!-- <i class="float-left googleicon pl0 pr10"></i>  -->
+							
+							<button type="button" id="glogin" class="btn buttonportfolio3 mt10 pt10 pb10 pl40">
+							
 							
 							<b class="float-left bold-text">Sign in with Google </b></button>
  					</div>
