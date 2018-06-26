@@ -129,6 +129,28 @@ box-shadow: 0px 7px 0px -2px rgba(233,233,233,1);
 {
 clear:both;	
 }
+.modalbackdrop
+{
+width:100%;
+background-color:rgba(0,0,0,0.8);
+position:fixed;
+height:1000px;
+z-index:998;
+top:0;	
+}
+.trackinitiated
+{
+position:absolute;
+z-index:999;
+top:10%;	
+}
+.closedialog
+{
+font-size:30px;
+position:absolute !important;
+top:20px !important;
+right:20px !important;	
+}
 .remembercheckbox
 {
 width: 30px;
@@ -152,7 +174,7 @@ top:3px;
 position: fixed;
 bottom:0;
 width:100%;
-z-index:9999;
+z-index:997;
 }
 
 .buttonportfolio3
