@@ -13,7 +13,7 @@ function loadMoreResult(){
 	if (!isRunning) {
       isRunning = true;	
 	//var url=back_url;
-     var img = $('.postimage');
+     var img = $('.post-image');
      var from = img[img.length-1].id;
       console.log("from:"+from);
       
@@ -37,7 +37,7 @@ function loadMoreResult(){
 			requests[z] = $.ajax({ type: "POST",
 				url:url,
 				async: true,
-				data:{from:from,term:term,load:"yes"},
+				data:{from:page_no,term:term,load:"yes"},
 				async: true,
 				success : function(data){	
 				isRunning = false;
@@ -63,18 +63,7 @@ function loadMoreResult(){
 					$.getScript( app_url+"pagedependencies/imageloader.js", function( data, textStatus, jqxhr ) {
 						
 					});
-					/* Reload masonry*/
-					/*
-					$.getScript("https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js", function( data, textStatus, jqxhr ) {				
-						var container = document.querySelector('.grid');
-						var msnry = new Masonry( container, {
-						itemSelector: '.grid-item'
-						});
-					//msnry.appended(data);
-						msnry.layout();
-						//alert("yes");
-					});
-					*/
+					
 					
 				}
 			
