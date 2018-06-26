@@ -200,10 +200,10 @@ String total = post._getTotal();
 
     </nav>
 	
-<div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10"><b>Tracks</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer fas fa-times float-right pr20 mt10" id="closetracks"></i></div>
+<div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Tracks</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer fas fa-times float-right pr20 mt10" id="closetracks"></i></div>
 
 
-<div class="container-fluid hidden" style="position:absolute;z-index:99987;">
+<div class="container-fluid hidden trackinitiated" style="position:absolute;z-index:99987;">
 
 <!-- <div class="container-fluid"> -->
 <div class="row bg-primary">
