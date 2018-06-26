@@ -6,9 +6,7 @@
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 
-if (email == null || email == "") {
-	response.sendRedirect("index.jsp");
-}else{
+
 
   int perpage =12;
   PrintWriter pww = response.getWriter();
@@ -16,6 +14,7 @@ if (email == null || email == "") {
 	try {
 		System.out.println("b4");
 		String submitted = request.getParameter("load");
+		
 	    if(submitted!=null && submitted.equals("yes")){	
 	        
 	        String cpage = request.getParameter("from");
@@ -25,14 +24,18 @@ if (email == null || email == "") {
 			String term =  request.getParameter("term");
 			ArrayList results = null;
 			
+			//System.out.println("resu-"+term);
+			
 			if(term.equals("")){			
-				results = post._list("DESC",cpage.toString());
+				results = post._list("DESC",cpage);
 			}else{
-				results = post._search(term,cpage.toString());
+				results = post._search(term,cpage);
 			}
 			
+			//System.out.println("res-"+results);
 			
 			if(results.size()>0){
+				
 				for(int i=0; i< results.size(); i++){
 					String res = results.get(i).toString();
 					
@@ -47,20 +50,16 @@ if (email == null || email == "") {
 					
 		%>
 		<div class="card noborder curved-card mb30" >
-
-		  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-		  
+		 <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
 		<h4 class="text-primary text-center p10 pt20"><a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></a></h4>
 		<div class="text-center"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-
 		  <div class="card-body">
 		    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h5 class="card-title text-primary text-center pb20"><%=pst+"..."%></h5></a>
 		    <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
 		    <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
 		  </div>
-
 		  <div class="<%=obj.get("blogpost_id")%>">
-		  <input type="hidden" class="postimage" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
+		  <input type="hidden" class="post-image" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
 		  </div>
 		  <div class="text-center"><i class="far fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Add to Favorites"></i></div>
 		</div>	
@@ -71,5 +70,5 @@ if (email == null || email == "") {
 	  }
 	}
 	} catch (Exception ex) {}		
-}
+
 %>            

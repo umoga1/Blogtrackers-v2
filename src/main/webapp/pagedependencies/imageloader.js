@@ -29,7 +29,8 @@ function getImage(image_id,url){
 			
 			var meta = $(data).find('meta');//.attr("content");
 			for(i=0; i<meta.length; i++){
-				if(meta[i].name=="twitter:image" ){
+				if(meta[i].name=="twitter:image" &&  meta[i].content!="https://s0.wp.com/i/blank.jpg"){
+					
 					$("#"+image_id).attr('src',meta[i].content);
 					return false;
 				}else{
@@ -38,7 +39,7 @@ function getImage(image_id,url){
 					var og = html.indexOf('property="og:image"');
 					if(og>-1){
 						var con = html.split("content=");
-						if(con.length>1){
+						if(con.length>1 && content[1]!="https://s0.wp.com/i/blank.jpg" ){
 							content =  con[1].split('"');	
 							
 							content =  con[1].split('"');						
@@ -86,7 +87,7 @@ function scrapeImage(image_id, url){
 			
 			var meta = $(data).find('meta');//.attr("content");
 			for(i=0; i<meta.length; i++){
-				if(meta[i].name=="twitter:image" ){
+				if(meta[i].name=="twitter:image" &&  meta[i].content!="https://s0.wp.com/i/blank.jpg"){
 					$("#"+image_id).attr('src',meta[i].content);
 					return false;
 				}else{
@@ -95,7 +96,7 @@ function scrapeImage(image_id, url){
 					var og = html.indexOf('property="og:image"');
 					if(og>-1){
 						var con = html.split("content=");
-						if(con.length>1){
+						if(con.length>1 && content[1]!="https://s0.wp.com/i/blank.jpg"){
 							content =  con[1].split('"');						
 							$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+content[1]+'"  />');
 							$("#"+image_id).remove();

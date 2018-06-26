@@ -23,7 +23,7 @@ public ArrayList _list(String order, String from) throws Exception {
 		 		"        \"match_all\": {}\r\n" + 
 		 		"    },\r\n" + 
 		 		"	\"sort\":{\r\n" + 
-		 		"		\"blogsite_id\":{\r\n" + 
+		 		"		\"totalposts\":{\r\n" + 
 		 		"			\"order\":\""+order+"\"\r\n" + 
 		 		"			}\r\n" + 
 		 		"		}\r\n" + 
