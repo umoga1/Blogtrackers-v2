@@ -1,10 +1,15 @@
 $(document).ready(function() {
+var trackscount = 0;	
 
 //  show tooltip
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
 
+$('#closetracks').on("click",function(){
+$(this).parent().toggle();	
+});
+  
 // handler for each favorites
 $(document).on("click",".favoritestoggle",function(e){
 // check if it has been favorites
@@ -39,17 +44,24 @@ if(!trackingblog)
 // if the blog is being tracked
 $(this).addClass("text-success");
 $(this).attr("data-original-title","Remove Blog from Tracker");
+// adding blog to tracks
 console.log("Added blog to be tracked");
-// add an ajax to removed blog from tracker
+// add an ajax to add blog to tracker
+trackscount++;
+$('#trackscount').html(trackscount);
+$('.tracksection').show();
 }
 else if(trackingblog)
 {
 // if the blog is being tracked
 $(this).removeClass("text-success");
 $(this).attr("data-original-title","Add Blog from Tracker");
-console.log("Removed blog to be tracked");
-// add an ajax to add blog from tracker
 
+console.log("Removed blog to be tracked");
+// add an ajax to remove blog from tracker
+trackscount--;
+$('#trackscount').html(trackscount);
+$('.tracksection').show();
 }
 });
 

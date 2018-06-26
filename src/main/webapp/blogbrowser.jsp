@@ -200,6 +200,38 @@ String total = post._getTotal();
 
     </nav>
 	
+<div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Tracks</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer fas fa-times float-right pr20 mt10" id="closetracks"></i></div>
+
+
+<div class="container-fluid hidden trackinitiated" style="position:absolute;z-index:99987;">
+
+<!-- <div class="container-fluid"> -->
+<div class="row bg-primary">
+<div class="col-md-7 pl100 pt100 pb100">
+<h1 class="text-white trackertitlesize"><b class="greentext">4</b> Blogs</h1>
+<div class="mt30">
+<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10"><b>Engadget</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10"><b>National Public Radio</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10"><b>Crooks and Liars</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10"><b>Tech Crunch</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+</div>
+</div>
+<div class="col-md-5 pt100 pb100 pl50 pr50 bg-white">
+<h3 class="text-primary">Track the selected blogs using the following list of trackers: </h3>
+<button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
+<div class="trackerlist mt20">
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus">Science <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus">Technology <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus">Politics <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus">Russia <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus">Spare <i class="fas fa-check float-right hidden checktracker"></i></button>
+</div>
+
+</div>
+</div>
+
+</div>
+
 	
 <div class="container">
 
