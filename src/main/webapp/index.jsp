@@ -52,9 +52,7 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
   <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
     <li><a class="bold-text" href="#">Features</a></li>
     <li><a class="bold-text" href="#">Sponsors</a></li>
-    <li><a class="bold-text" href="#">Creators</a></li>
-    <li><a class="bold-text" href="#">Blogs</a></li>
-    <li><a class="bold-text" href="#">Help</a></li>
+   
 	<% if(email == "") { %>
 		<li><a class="bold-text" href="login.jsp">Login</a></li>
 	<% }else{ %>
@@ -73,15 +71,7 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
           <li class="nav-item">
             <a class="nav-link bold-text" href="#">Sponsors</a>
           </li>
-           <li class="nav-item">
-            <a class="nav-link bold-text" href="#">Creators</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link bold-text" href="#">Blog</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link bold-text" href="#">Help</a>
-          </li>
+       
          <% if(email == "") { %>
 			  <li class="nav-item">
 				<a class="nav-link bold-text" href="login.jsp">Login</a>
@@ -102,10 +92,10 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
 </nav>
 
 <div class="text-center mt60 offset-lg-3 col-lg-6 col-md-12" style="font-size:20px;">
-<h1 class="text-white text-center">Track Internet Blogs</h1>
-<p class="text-white text-center">Monitor and suggest valuable insights in a drilled-down fashion using content analysis and social network analysis</p>
+<h1 class="text-white text-center">Track Blogs</h1>
+<p class="text-white text-center">Monitor and suggest valuable insights in a drill fashion using content analysis and social network analysis</p>
 <form method="search" method="post" action="<%=request.getContextPath()%>/blogbrowser.jsp">
-<input type="search" placeholder="Search Post" name="term" class="form-control searchhome"/>
+<input type="search" placeholder="Search" autocomplete="off" name="term" class="form-control searchhome"/>
 <button type="submit" class="btn btn-success homebutton mt30 p40 pt10 pb10 mb50"><b>Start Tracking</b></button>
 </form>
 </div>

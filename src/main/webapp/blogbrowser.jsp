@@ -3,6 +3,8 @@
 <%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
 <%@page import="util.Blogposts"%>
+<%@page import="java.text.NumberFormat" %>
+<%@page import="java.util.Locale" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%
@@ -66,7 +68,7 @@ if(term.equals("")){
 }else{
 	results = post._search(term,"");
 }
-String total = post._getTotal();
+String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(post._getTotal()));
 //pimage = pimage.replace("build/", "");
 %>
 
@@ -296,9 +298,9 @@ String total = post._getTotal();
 <div class="row mt50">
 <div class="col-md-12 ">
 <% if(!term.equals("")){ %>
-<h6 class="float-left text-primary bold-text"><%=total%> posts found for "<%=term%>"</h6>
+<h6 class="float-left text-primary bold-text"><%=total %> posts found for "<%=term%>"</h6>
 <%}else{%>
-<h6 class="float-left text-primary bold-text"><%=total%> posts in our knowledge database</h6>
+<h6 class="float-left text-primary bold-text"><%=total %> posts in our knowledge database</h6>
 
 <%}%>
 <h6 class="float-right text-primary">
