@@ -4,17 +4,15 @@
 <%@page import="org.json.JSONObject"%>
 <%@ page import="java.io.*,java.util.*, javax.servlet.*"%>
 <%
-Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
-
+  Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 
 
   int perpage =12;
   PrintWriter pww = response.getWriter();
  
 	try {
-		System.out.println("b4");
-		String submitted = request.getParameter("load");
-		
+
+		String submitted = request.getParameter("load");		
 	    if(submitted!=null && submitted.equals("yes")){	
 	        
 	        String cpage = request.getParameter("from");
@@ -23,17 +21,13 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
 			Blogposts post  = new Blogposts();
 			String term =  request.getParameter("term");
 			ArrayList results = null;
-			
-			//System.out.println("resu-"+term);
-			
+						
 			if(term.equals("")){			
 				results = post._list("DESC",cpage);
 			}else{
 				results = post._search(term,cpage);
 			}
-			
-			//System.out.println("res-"+results);
-			
+
 			if(results.size()>0){
 				
 				for(int i=0; i< results.size(); i++){
