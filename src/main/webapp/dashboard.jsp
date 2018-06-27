@@ -2224,11 +2224,13 @@ data = {
  "bloggers":[
 	<% if(bloggers.length()>0){
 		//System.out.println(bloggers);
+		int k=0;
 		for(int y=0; y<bloggers.length(); y++){
 			String key = looper.get(y).toString();
 			 JSONObject resu = bloggers.getJSONObject(key);
 			 int size = Integer.parseInt(resu.get("value").toString());
-			 if(size>0){
+			 if(size>0 && k<15){
+				 k++;
 	%>
 	{"label":"<%=resu.get("blogger")%>","name":"<%=resu.get("blogger")%>", "size":<%=resu.get("value")%>},
 	 <% }} }%>
@@ -2400,12 +2402,15 @@ data = {
  "name":"flare",
  "bloggers":[
 	 <% if(bloggers.length()>0){
+		 int k=0;
 			//System.out.println(bloggers);
 			for(int y=0; y<bloggers.length(); y++){
+				
 				String key = looper.get(y).toString();
 				 JSONObject resu = bloggers.getJSONObject(key);
 				 int size = Integer.parseInt(resu.get("value").toString());
-				 if(size>0){
+				 if(size>0 && k<15){
+					 k++;
 		%>
 		{"label":"<%=resu.get("blog")%>","name":"<%=resu.get("blogger")%>", "size":<%=resu.get("value")%>},
 		 <% }}} %>
