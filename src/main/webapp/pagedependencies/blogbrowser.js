@@ -79,7 +79,7 @@ $('.trackerindividual').on("click",function(e){
   else if(selected)
   {
     $(this).find(".checktracker").addClass("hidden");
-    $(this).removeClass("trackerindividualactive");
+    $(this).removeClass("trackerindividualactive").addClass("bold-text");
     // remember to pass session id of blog
   }
 

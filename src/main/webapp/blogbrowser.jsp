@@ -210,7 +210,7 @@ String total = post._getTotal();
 
 <!-- <div class="container-fluid"> -->
 <div class="row bg-primary">
-<div class="col-md-7 pl100 pt100 pb100">
+<div class="offset-md-1 col-md-6 pl100 pt100 pb100">
 <h1 class="text-white trackertitlesize"><b class="greentext">4</b> Blogs</h1>
 <div class="mt30">
 <button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Engadget <i class="fas fa-trash float-right hidden deleteblog"></i></button>
@@ -273,10 +273,10 @@ String total = post._getTotal();
 %>
 <div class="card noborder curved-card mb30" >
  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20"><a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></a></h4>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></a></h4>
 <div class="text-center"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
   <div class="card-body">
-    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h5 class="card-title text-primary text-center pb20"><%=pst+"..."%></h5></a>
+    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text"><%=pst+"..."%></h4></a>
     <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
   </div>
