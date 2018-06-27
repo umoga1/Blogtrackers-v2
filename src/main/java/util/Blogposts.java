@@ -80,8 +80,12 @@ public ArrayList _list(String order, String from) throws Exception {
 	 */
 	 
 	 
+<<<<<<< HEAD
      String url = base_url+"_search?size=50";
     
+=======
+     String url = base_url+"_search?size=12";
+>>>>>>> c2e6d1c62f8216692c21fa65549c7ab9b6a3251e
     
      if(!from.equals("")) {
      int frm = Integer.parseInt(from)*10;
@@ -166,8 +170,12 @@ public ArrayList _search(String term,String from) throws Exception {
 	 		"}");
 	
 	 
+<<<<<<< HEAD
     String url = base_url+"_search?size=50";
     /*
+=======
+    String url = base_url+"_search?size=12";
+>>>>>>> c2e6d1c62f8216692c21fa65549c7ab9b6a3251e
     if(!from.equals("")) {
     	jsonObj = new JSONObject("{\r\n" + 
     			"  \"query\": {\r\n" + 
