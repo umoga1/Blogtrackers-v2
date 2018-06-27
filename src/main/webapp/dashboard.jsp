@@ -53,18 +53,38 @@ if(f.exists() && !f.isDirectory()) {
 String[] user_name = name.split(" ");
 Blogposts post  = new Blogposts();
 Blogs blog = new Blogs();
+Sentiments senti = new Sentiments();
 
 ArrayList posts = post._list("DESC","");
+ArrayList sentiments = senti._list("DESC","");
+
 String totalpost = post._getTotal();
 String possentiment = post._searchRangeTotal("sentiment","0","100");
 String negsentiment = post._searchRangeTotal("sentiment","-1","0.1");
+
 
 ArrayList blogs = blog._list("DESC","");
 String totalblog = blog._getTotal();
 //pimage = pimage.replace("build/", "");
 
-      JSONObject language = new JSONObject();
-      JSONObject bloggers = new JSONObject();
+JSONObject sentimentblog = new JSONObject();; 
+      if(sentiments.size()>0){
+
+			 for(int p=0; p< sentiments.size(); p++){
+				 String bstr = sentiments.get(p).toString();			
+				 JSONObject bj = new JSONObject(bstr);
+				 bstr = bj.get("_source").toString();
+				 bj = new JSONObject(bstr);
+				 String id = bj.get("blogsite_id").toString();
+				 //if(!sentimentblog.has(id)){
+					 sentimentblog.put(id,id);
+				// }
+			 }
+      }
+
+      //System.out.println("senti"+ sentimentblog);
+	 JSONObject language = new JSONObject();
+	 JSONObject bloggers = new JSONObject();
       
       ArrayList looper = new ArrayList();
       ArrayList langlooper = new ArrayList();
@@ -87,9 +107,7 @@ String totalblog = blog._getTotal();
 				 String blogger = bobj.get("blogsite_owner").toString();
 				 String blogname = bobj.get("blogsite_name").toString();
 				 String sentiment ="1";// bobj.get("sentiment").toString();
-				 String posting = bobj.get("totalposts").toString();
-				 
-				 
+				 String posting = bobj.get("totalposts").toString(); 
 				
 				 JSONObject content = new JSONObject();
 				 			 
@@ -109,9 +127,11 @@ String totalblog = blog._getTotal();
 					 content = new JSONObject(bloggers.get(blogger).toString());
 					 int valu  = Integer.parseInt(content.get("value").toString())+1;
 					 content.put("blog",blogname);
+					 content.put("id",bobj.get("blogsite_id").toString());
 					 content.put("blogger",blogger);
 					 content.put("sentiment",sentiment);
 					 content.put("postingfreq",posting);
+					 content.put("totalposts",bobj.get("totalposts").toString());
 					 content.put("value",valu);
 					 content.put("blogsite_url",bobj.get("blogsite_url").toString());
 					 content.put("blogsite_domain",durl);
@@ -119,10 +139,12 @@ String totalblog = blog._getTotal();
 				 }else{
 					 int valu  = 1;
 					 content.put("blog",blogname);
+					 content.put("id",bobj.get("blogsite_id").toString());					 
 					 content.put("blogger",blogger);
 					 content.put("sentiment",sentiment);
 					 content.put("postingfreq",posting);
 					 content.put("value",valu);
+					 content.put("totalposts",bobj.get("totalposts").toString());					 
 					 content.put("blogsite_url",bobj.get("blogsite_url").toString());
 					 content.put("blogsite_domain",durl);
 					 bloggers.put(blogger, content);
@@ -139,10 +161,7 @@ String totalblog = blog._getTotal();
 				  	 langlooper.add(n, lang);
 					 n++;
 				 }
-				  
-				 
-					
-				
+
 			 }
 		  		
 	 } %>
@@ -1115,8 +1134,10 @@ $(function () {
 				for(int y=0; y<bloggers.length(); y++){
 					String key = looper.get(y).toString();
 					 JSONObject resu = bloggers.getJSONObject(key);
-					 double size = Double.parseDouble(resu.get("sentiment").toString());
-					 if(size>0 && q<10){
+					 String id = resu.get("id").toString();
+					
+					 int size = Integer.parseInt(resu.get("totalposts").toString());
+					 if(sentimentblog.has(id) && q<10){
 						 q++;
 			%>
 			{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
@@ -2080,7 +2101,7 @@ var mymarker = [
  <script>
 
      var frequency_list = [{"text":"study","size":40},{"text":"motion","size":15},{"text":"forces","size":10},{"text":"electricity","size":15},{"text":"movement","size":10},{"text":"relation","size":5},{"text":"things","size":10},{"text":"force","size":5},{"text":"ad","size":5},{"text":"energy","size":85},{"text":"living","size":5},{"text":"nonliving","size":5},{"text":"laws","size":15},{"text":"speed","size":45},{"text":"velocity","size":30},{"text":"define","size":5},{"text":"constraints","size":5},{"text":"universe","size":10},{"text":"distinguished","size":5},{"text":"chemistry","size":5},{"text":"biology","size":5},{"text":"includes","size":5},{"text":"radiation","size":5},{"text":"sound","size":5},{"text":"structure","size":5},{"text":"atoms","size":5},{"text":"including","size":10},{"text":"atomic","size":10},{"text":"nuclear","size":10},{"text":"cryogenics","size":10},{"text":"solid-state","size":10},{"text":"particle","size":10},{"text":"plasma","size":10},{"text":"deals","size":5},{"text":"merriam-webster","size":5},{"text":"dictionary","size":10},{"text":"analysis","size":5},{"text":"conducted","size":5},{"text":"order","size":5},{"text":"understand","size":5},{"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
-
+	
 
      var color = d3.scale.linear()
              .domain([0,1,2,3,4,5,6,10,15,20,80])
