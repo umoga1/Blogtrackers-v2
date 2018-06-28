@@ -603,6 +603,7 @@ cursor: pointer;
 position:fixed; 
 bottom:12px; 
 background-color:#D94D53; 
+border:4px solid #ffffff;
 border-radius:100px; 
 right:15px; 
 padding:12px;	
