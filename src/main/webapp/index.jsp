@@ -91,6 +91,10 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
 
 </nav>
 
+<div class="text-center cursor-pointer helpcontainer">
+<a href="documentation.html"><i class="fas fa-question text-white cursor-pointer helpicon" ></i></a>
+</div>
+
 <div class="text-center mt60 offset-lg-3 col-lg-6 col-md-12" style="font-size:20px;">
 <h1 class="text-white text-center">Track Blogs</h1>
 <p class="text-white text-center">Monitor and suggest valuable insights in a drill fashion using content analysis and social network analysis</p>
