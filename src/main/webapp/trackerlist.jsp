@@ -292,9 +292,9 @@ ArrayList test = new ArrayList();
     </button>
 
     </div>
-    <div class="pt30 pb20 text-center">
+     <div class="pt30 pb20 text-center">
       <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-placement="top" title="Refresh Tracker"></i>
+      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Tracker"></i>
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
@@ -339,6 +339,14 @@ ArrayList test = new ArrayList();
 
 
 
+<script type="text/javascript" src="assets/vendors/tags/tagsinput.min.js"></script>
+<script type="text/javascript" src="assets/vendors/tags/tokenfield.min.js"></script>
+<script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>
+<script type="text/javascript" src="assets/vendors/typeahead/typeahead.bundle.min.js"></script>
+<script type="text/javascript" src="assets/js/form_tags_input.js"></script>
+<script type="text/javascript" src="assets/vendors/blockui/blockui.min.js"></script>
+
+
 <script>
 $(document).ready(function() {
   $(function () {
@@ -363,11 +371,16 @@ $(document).ready(function() {
 	  });
   
   // create a tracker script
+<<<<<<< HEAD
   $.getScript("pagedependencies/createtracker.js?v=8733", function(data, textStatus, jqxhr) {
+=======
+  $.getScript("pagedependencies/createtracker.js", function(data, textStatus, jqxhr) {
+>>>>>>> 335929c3e6aea161c28c26675c3e84bc74213475
 		
 		  });
   
   });
+<<<<<<< HEAD
 //   var span = $('<span>').css('display','inline-block')
 // .css('word-break','break-all').appendTo('body').css('visibility','hidden');
 // function initSpan(textarea){
@@ -391,15 +404,20 @@ $(document).ready(function() {
 
 //Panels
 
+=======
+>>>>>>> 335929c3e6aea161c28c26675c3e84bc74213475
 
 /// refresh a tracker
   $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
 		
   });
 });
+<<<<<<< HEAD
 
+=======
+>>>>>>> 335929c3e6aea161c28c26675c3e84bc74213475
 </script>
-<!--end for table  -->
+
 
 
 <script src="assets/js/generic.js">

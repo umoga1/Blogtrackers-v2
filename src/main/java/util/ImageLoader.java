@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 
 public class ImageLoader {
 
-String base_url = "http://144.167.115.218:9200/test-migrate/";
+String base_url = "http://144.167.115.218:9200/blogposts/";
 		    
 	   
 public String getUrl(String source) throws Exception {

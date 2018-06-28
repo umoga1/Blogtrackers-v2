@@ -88,9 +88,15 @@
         <input type="password" id="password2" required="required" class="form-control curved-form-login text-primary"  placeholder="* Re-type Password">
       </div>
 
-    <p class="text-center"><button type="submit" class="btn btn-primary loginformbutton" style="background:#28a745;">Register</button>&nbsp;&nbsp; or Register with &nbsp;&nbsp;<button class="btn btn-rounded big-btn2"><i class="fab fa-google icon-small text-primary"></i></button></p>
-        <!-- <p class="pt20 text-primary"><small >Forgot your <b>Password?</b></small></p> -->
-        <p class="pb20 text-primary text-center">Already have an account yet? <a href="login.jsp"><b>Login Now</b></a></small></p>
+    <p class="text-center float-left">
+    <button type="submit" class="btn btn-primary loginformbutton mt10" style="background:#28a745;">Register</button>
+  <!--   &nbsp;&nbsp; or Register with &nbsp;&nbsp; -->
+   <!--  <button class="btn btn-rounded big-btn2"><i class="fab fa-google icon-small text-primary"></i></button> -->
+    <button class="btn buttonportfolio3 mt10 pt10 pb10 pl40">
+							<b class="float-left bold-text">Register with Google </b></button>
+    </p>
+        
+        <p class="pb20 text-primary text-center" style="clear:both;">Already have an account yet? <a href="login.jsp"><b>Login Now</b></a></small></p>
         </form>
 
       </div>

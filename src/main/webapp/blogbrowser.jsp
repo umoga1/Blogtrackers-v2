@@ -81,7 +81,9 @@ String total = post._getTotal();
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
-  <!-- start of bootsrap -->
+  <!-- start of bootstrap -->
+  
+  <link href="assets/fonts/icomoon/styles.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css"/>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"/>
@@ -93,14 +95,17 @@ String total = post._getTotal();
 <link rel="stylesheet" href="assets/vendors/DataTables/Buttons-1.5.1/css/buttons.dataTables.min.css" />
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
 
+<!-- bootstrap  -->
   <link rel="stylesheet" href="assets/css/style.css" />
-
-  <!--end of bootsrap -->
-  
-<link rel="stylesheet" href="assets/css/toastr.css">
+<link rel="stylesheet" href="assets/css/toastr.css" />
 <!--end of bootsrap -->
+
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
+
+<script type="text/javascript" src="assets/js/uniform.min.js"></script>
+<script type="text/javascript" src="assets/js/toastr.js"></script>
+
   <script>
   <!-- update system url here -->
   var app_url = "http://localhost:8080/Blogtrackers/";
@@ -220,6 +225,70 @@ String total = post._getTotal();
 
     </nav>
 	
+<div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Tracks</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer fas fa-times float-right pr20 mt10" id="closetracks"></i></div>
+
+<!-- Backdrop for modal -->
+<div class="modalbackdrop hidden">
+
+</div>
+<div class="container-fluid hidden trackinitiated">
+
+<!-- <div class="container-fluid"> -->
+<div class="row bg-primary">
+
+<div class="offset-md-1 col-md-6 pl100 pt100 pb100">
+<h1 class="text-white trackertitlesize"><b class="greentext">4</b> Blogs</h1>
+<div class="mt30">
+<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Engadget <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">National Public Radio <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Crooks and Liars <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Tech Crunch <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+</div>
+</div>
+<div class="col-md-5 pt100 pb100 pl50 pr50 bg-white">
+<div class="trackcreationsection1">
+<i class="cursor-pointer fas fa-times float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
+<h3 class="text-primary bold-text">Track the selected blogs using the following list of trackers: </h3>
+<button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
+<div class="trackerlist mt20">
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Science <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Technology <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Politics <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Russia <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Spare <i class="fas fa-check float-right hidden checktracker"></i></button>
+</div>
+<div class="col-md-12 mt20 text-primary">
+<b class="selectedtrackercount text-primary">0</b> Tracker(s) selected 
+</div>
+</div>
+
+<!-- tracker section for creatio of new  -->
+<div class="trackcreationsection2 hidden">
+<i class="cursor-pointer fas fa-times float-right closedialog" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close Dialog"></i>
+<h1 class="text-primary">Create a Tracker</h1>
+<input type="text" class="form-control trackerinput blogbrowsertrackername" placeholder="Title" />
+<textarea placeholder="Description" class="form-control mt20 trackerdescription blogbrowsertrackerdescription" rows="8">
+</textarea>
+<div class="form-group mt20">
+<input type="text" class="form-control tokenfield-primary" value="Engadget,National Public Radio,Crooks and Liars,Tech Crunch" />
+</div>
+<div class="mt30">
+<button class="btn btn-default cancelbtn canceltracker text-primary">Cancel</button> <button class=" btn btn-success trackercreatebutton">Create</button>
+</div>
+
+</div>
+
+<!-- end   -->
+
+</div>
+
+
+
+
+</div>
+
+</div>
+
 	
 <div class="container">
 
@@ -227,9 +296,9 @@ String total = post._getTotal();
 <div class="row mt50">
 <div class="col-md-12 ">
 <% if(!term.equals("")){ %>
-<h6 class="float-left text-primary"><%=total%> posts found for "<%=term%>"</h6>
+<h6 class="float-left text-primary bold-text"><%=total%> posts found for "<%=term%>"</h6>
 <%}else{%>
-<h6 class="float-left text-primary"><%=total%> posts in our knowledge database</h6>
+<h6 class="float-left text-primary bold-text"><%=total%> posts in our knowledge database</h6>
 
 <%}%>
 <h6 class="float-right text-primary">
@@ -256,11 +325,13 @@ String total = post._getTotal();
 			
 %>
 <div class="card noborder curved-card mb30" >
+<div class="curved-card selectcontainer">
  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20"><a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></a></h4>
-<div class="text-center"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a class="" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></a></h4>
+<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+  </div>
   <div class="card-body">
-    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h5 class="card-title text-primary text-center pb20"><%=pst+"..."%></h5></a>
+    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=pst+"..."%></h4></a>
     <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
   </div>
@@ -310,6 +381,11 @@ String total = post._getTotal();
 <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
+<script type="text/javascript" src="assets/vendors/tags/tagsinput.min.js"></script>
+<script type="text/javascript" src="assets/vendors/tags/tokenfield.min.js"></script>
+<script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>
+<script type="text/javascript" src="assets/vendors/typeahead/typeahead.bundle.min.js"></script>
+<script type="text/javascript" src="assets/js/form_tags_input.js"></script>
 
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->

@@ -18,34 +18,7 @@ String base_url = "http://144.167.115.218:9200/blogposts/";
 String totalpost;		    
 	   
 public ArrayList _list(String order, String from) throws Exception {
-	// ArrayList result = new ArrayList();
-	 /*
-	 JSONObject query = new JSONObject();
-	 JSONObject param = new JSONObject();
-	 
 	
-	 
-	 JSONObject ord = new JSONObject();
-	 JSONObject sortby =new JSONObject();
-	
-	 
-	 param.put("match_all",new JSONObject());
-	 
-	 
-	 ord.put("order", order);
-	 
-	 query.put("query", param);
-	 sortby.put("date", ord);
-	 
-	 
-	 query.put("sort", sortby);
-	 */
-	 //auth.put("passwordCredentials", cred);
-	 //parent.put("auth", auth);
-	 
-	 //System.out.println(query.toString());
-	 
-	 
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 		 		"    \"query\": {\r\n" + 
 		 		"        \"match_all\": {}\r\n" + 
@@ -57,7 +30,6 @@ public ArrayList _list(String order, String from) throws Exception {
 		 		"		}\r\n" + 
 		 		"}");
 	 
-	 /*
 	 if(!from.equals("")) {
 		  jsonObj = new JSONObject("{\r\n" + 
 		  		"    \"query\": {\r\n" + 
@@ -77,27 +49,15 @@ public ArrayList _list(String order, String from) throws Exception {
 		  		"}");
 		 
 	 }
-	 */
 	 
 	 
-     String url = base_url+"_search?size=10";
-    
-    
-     if(!from.equals("")) {
-     int frm = Integer.parseInt(from)*10;
-    	 
-    	 url = base_url+"_search?from="+frm+"&size=10";
-     }
-     
-     
+     String url = base_url+"_search?size=50";   
      
      URL obj = new URL(url);
      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
      
      con.setDoOutput(true);
      con.setDoInput(true);
-     // optional default is GET
-     //con.setRequestMethod("GET");
      
      con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
      con.setRequestProperty("Accept", "application/json");
@@ -107,8 +67,6 @@ public ArrayList _list(String order, String from) throws Exception {
      wr.write(jsonObj.toString());
      wr.flush();
      
-     //add request header
-     //con.setRequestProperty("User-Agent", "Mozilla/5.0");
      int responseCode = con.getResponseCode();
      
      BufferedReader in = new BufferedReader(
@@ -167,7 +125,6 @@ public ArrayList _search(String term,String from) throws Exception {
 	
 	 
     String url = base_url+"_search?size=10";
-    /*
     if(!from.equals("")) {
     	jsonObj = new JSONObject("{\r\n" + 
     			"  \"query\": {\r\n" + 
@@ -189,13 +146,7 @@ public ArrayList _search(String term,String from) throws Exception {
     			"		}\r\n" + 
     			"}");
     }
-    */
-    if(!from.equals("")) {
-        int frm = Integer.parseInt(from)*10;
-       	 
-       	 url = base_url+"_search?from="+frm+"&size=10";
-     }
-        
+    
     URL obj = new URL(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
     
@@ -264,7 +215,7 @@ public String _searchRangeTotal(String field,String greater, String less) throws
 	
 	 
     String url = base_url+"_search";
-    String totall = "0";
+    String total = "0";
     URL obj = new URL(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
     
@@ -299,9 +250,9 @@ public String _searchRangeTotal(String field,String greater, String less) throws
      if(null!=myResponse.get("hits")) {
 	     String res = myResponse.get("hits").toString();
 	     JSONObject myRes1 = new JSONObject(res);          
-	      totall = myRes1.get("total").toString();              
+	      total = myRes1.get("total").toString();              
      }
-    return  totall;
+    return  total;
 }
 
 public ArrayList _fetch(String ids) throws Exception {

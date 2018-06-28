@@ -56,6 +56,7 @@ if (email != null && email != "") {
   <script>
   <!-- update system url here -->
   var app_url = "http://localhost:8080/Blogtrackers/";
+  //var app_url = "http://144.167.115.218:8080/Blogtrackers/";
   </script>
   <script src="https://apis.google.com/js/platform.js"></script>
   
@@ -107,18 +108,30 @@ if (email != null && email != "") {
 						</div>
 						<br />
 						<div class=""  id="loggin2"></div>
-						<div class=""  id="loggin">
-							<button type="submit" class="btn btn-primary loginformbutton"
+						<div>
+						<p class="float-left pt10"><input type="checkbox" class="remembercheckbox"/>Remember Me</p>
+						<p class="pt10 text-primary float-right">
+							<small class="bold-text">Forgot your <a href="<%=request.getContextPath()%>/forgotpassword.jsp"><b>Password?</b></a></small>
+						</p>
+						
+						</div>
+						<div class="clearfloat"  id="loggin">
+							<button type="submit" class="btn btn-primary loginformbutton mt10"
 								style="background: #28a745;">Login</button>
-							&nbsp;&nbsp;or Login with &nbsp;&nbsp;
+							<!-- &nbsp;&nbsp;or Login with &nbsp;&nbsp;
 							<button type="button" class="btn btn-rounded big-btn2 " id="glogin" >
 								<i class="fab fa-google icon-small text-primary" ></i>
-							</button><span></span>
+							</button><span></span> -->
+							
+							<!-- <i class="float-left googleicon pl0 pr10"></i>  -->
+							
+							<button type="button" id="glogin" class="btn buttonportfolio3 mt10 pt10 pb10 pl40">
+							
+							
+							<b class="float-left bold-text">Sign in with Google </b></button>
  					</div>
-						<p class="pt20 text-primary">
-							<small>Forgot your <a href="<%=request.getContextPath()%>/forgotpassword.jsp"><b>Password?</b></a></small>
-						</p>
-						<p class="pb20 text-primary">
+						
+						<p class="pb20 mt30 text-primary">
 							Dont have an account yet? <a href="<%=request.getContextPath()%>/register"><b>Register
 									Now</b></a></small>
 						</p>
