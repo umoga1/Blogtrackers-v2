@@ -62,10 +62,11 @@ public class Login extends HttpServlet {
 			if(login.size()>0)
 			{
 				HttpSession session = request.getSession();
-
+				ArrayList userinfo = (ArrayList<?>)login.get(0);
+				String user = (null==userinfo.get(0))?"":userinfo.get(0).toString();
 				session.setAttribute("email",username);
-				pww.write("success");
-				
+				session.setAttribute("username",user);
+				pww.write("success");			
 			}
 			else
 			{

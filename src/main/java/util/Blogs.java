@@ -195,59 +195,20 @@ public ArrayList _search(String term,String from) throws Exception {
 
 public ArrayList _fetch(String ids) throws Exception {
 	 ArrayList result = new ArrayList();
+	 ArrayList<String> list = new ArrayList<String>(); 
 	 String[] args = ids.split(",");
-	 String arg = "";
 	 
-	 
+	 JSONArray pars = new JSONArray(); 
 	 ArrayList<String> ar = new ArrayList<String>();	
 	 for(int i=0; i<args.length; i++){
-		
-		if(i<(args.length-1)){
-			arg+= "\""+args[i]+"\",";
-		}else{
-			arg+= "\""+args[i]+"\"";
-		}
-		
+		 pars.put(args[i].replaceAll(" ", ""));
 	 }
 	 
-	 String arg2 = "200";
+	 String arg2 = pars.toString();
 
-	 //String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":[\""+arg+"\"]}}}}}";
-	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":[\"259\",\"37\"]}}}}}";
+	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}}}";
 		
-	 JSONObject jsonObj = new JSONObject(que);
-/*
-	 
-	 JSONObject jsonObj = new JSONObject("{\r\n" + 
-	 		"  \"query\": {\r\n" + 
-	 		"    \"constant_score\":{\r\n" + 
-	 		"			\"filter\":{\r\n" + 
-	 		"					\"terms\":{\r\n" + 
-	 		"							\"blogsite_id\":[\"200\",\"500\"]\r\n" + 
-	 		"							}\r\n" + 
-	 		"					}\r\n" + 
-	 		"				}\r\n" + 
-	 		"    }\r\n" + 
-	 		"}");
-
-	 */
-	// JSONObject jsonObj = new JSONObject(que);
-/*
-	 
-	 JSONObject jsonObj = new JSONObject("{\r\n" + 
-	 		"  \"query\": {\r\n" + 
-	 		"    \"constant_score\":{\r\n" + 
-	 		"			\"filter\":{\r\n" + 
-	 		"					\"terms\":{\r\n" + 
-	 		"							\"blogsite_id\":[\"200\",\"500\"]\r\n" + 
-	 		"							}\r\n" + 
-	 		"					}\r\n" + 
-	 		"				}\r\n" + 
-	 		"    }\r\n" + 
-	 		"}");
-
-	 */
-	//System.out.println(arg);
+	JSONObject jsonObj = new JSONObject(que);
    String url = base_url+"_search/";
    URL obj = new URL(url);
    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -276,12 +237,10 @@ public ArrayList _fetch(String ids) throws Exception {
     in.close();
     
     JSONObject myResponse = new JSONObject(response.toString());
-    ArrayList<String> list = new ArrayList<String>(); 
+    
     if(null!=myResponse.get("hits")) {
 	     String res = myResponse.get("hits").toString();
-	     JSONObject myRes1 = new JSONObject(res);
-	    //  String total = myRes1.get("total").toString();
-	     // this.totalpost = total;	    
+	     JSONObject myRes1 = new JSONObject(res);	    
 	     JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 	     
 	     if (jsonArray != null) { 
 	        int len = jsonArray.length();

@@ -6,6 +6,9 @@
 <%@page import="java.net.URI"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
+Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
+
 
 if (email == null || email == "") {
 	response.sendRedirect("index.jsp");
@@ -17,10 +20,40 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
+ArrayList detail =new ArrayList();
+
+Trackers tracker  = new Trackers();
+if(tid!=""){
+   detail = tracker._fetch(tid.toString());
+}else{
+	detail = tracker._list("DESC","",user.toString(),"1");
+}
+
+boolean isowner = false;
+JSONObject obj =null;
+String ids = "";
+
+if(detail.size()>0){
+	String res = detail.get(0).toString();
+	JSONObject resp = new JSONObject(res);
+    String resu = resp.get("_source").toString();
+    obj = new JSONObject(resu);
+    String tracker_userid = obj.get("userid").toString();
+    if(tracker_userid.equals(user.toString())){
+    	isowner=true;
+    	String query = obj.get("query").toString();
+		query = query.replaceAll("blogsite_id in ", "");		 		
+		query = query.replaceAll("\\(", "");	 
+		query = query.replaceAll("\\)", "");
+		ids=query;
+    }
+}
+
+System.out.println(obj);
 
  userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
-if (userinfo.size()<1) {
+if (userinfo.size()<1 || !isowner) {
 	response.sendRedirect("index.jsp");
 }else{
 userinfo = (ArrayList<?>)userinfo.get(0);
@@ -30,10 +63,7 @@ username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
 name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
 email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
-//date_modified = userinfo.get(11).toString();
-
 String userpic = userinfo.get(9).toString();
-
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = userinfo.get(9).toString();
 
@@ -55,16 +85,16 @@ Blogposts post  = new Blogposts();
 Blogs blog = new Blogs();
 Sentiments senti = new Sentiments();
 
-ArrayList posts = post._list("DESC","");
+//ArrayList posts = post._list("DESC","");
 ArrayList sentiments = senti._list("DESC","");
 
-String totalpost = post._getTotal();
-String possentiment = post._searchRangeTotal("sentiment","0","100");
-String negsentiment = post._searchRangeTotal("sentiment","-1","0.1");
+String totalpost = post._getTotalByBlogId(ids,"");
+String possentiment = post._searchRangeTotal("sentiment","0","100",ids);
+String negsentiment = post._searchRangeTotal("sentiment","-1","0.1",ids);
 
 
-ArrayList blogs = blog._list("DESC","");
-String totalblog = blog._getTotal();
+ArrayList blogs = blog._fetch(ids);;
+int totalblog = blogs.size();
 //pimage = pimage.replace("build/", "");
 
 JSONObject sentimentblog = new JSONObject();; 
@@ -289,7 +319,7 @@ JSONObject sentimentblog = new JSONObject();;
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
   <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
+  <a class="breadcrumb-item text-primary" href="#"><%=obj.get("tracker_name").toString()%></a>
   <a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
   </nav>
 <div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
@@ -329,7 +359,7 @@ JSONObject sentimentblog = new JSONObject();;
 <div class="card nocoloredcard mt10 mb10">
 <div class="card-body p0 pt5 pb5">
 <h5 class="text-primary mb0"><i class="fas fa-user icondash"></i>Bloggers</h5>
-<h3 class="text-blue mb0 countdash">58</h3>
+<h3 class="text-blue mb0 countdash"><%=bloggers.length()%></h3>
 </div>
 </div>
 </div>
@@ -509,7 +539,7 @@ JSONObject sentimentblog = new JSONObject();;
                         </thead>
                         <tbody>
                         <% if(bloggers.length()>0){
-							System.out.println(bloggers);
+							//System.out.println(bloggers);
 							for(int y=0; y<bloggers.length(); y++){
 								String key = looper.get(y).toString();
 								 JSONObject resu = bloggers.getJSONObject(key);
@@ -561,7 +591,7 @@ JSONObject sentimentblog = new JSONObject();;
                         </thead>
                         <tbody>
                         <% if(bloggers.length()>0){
-							System.out.println(bloggers);
+							//System.out.println(bloggers);
 							for(int y=0; y<bloggers.length(); y++){
 								String key = looper.get(y).toString();
 								 JSONObject resu = bloggers.getJSONObject(key);
