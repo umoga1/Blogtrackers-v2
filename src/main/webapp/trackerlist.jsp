@@ -371,16 +371,14 @@ $(document).ready(function() {
 	  });
   
   // create a tracker script
-<<<<<<< HEAD
-  $.getScript("pagedependencies/createtracker.js?v=8733", function(data, textStatus, jqxhr) {
-=======
+
   $.getScript("pagedependencies/createtracker.js", function(data, textStatus, jqxhr) {
->>>>>>> 335929c3e6aea161c28c26675c3e84bc74213475
+
 		
 		  });
   
   });
-<<<<<<< HEAD
+
 //   var span = $('<span>').css('display','inline-block')
 // .css('word-break','break-all').appendTo('body').css('visibility','hidden');
 // function initSpan(textarea){
@@ -404,18 +402,13 @@ $(document).ready(function() {
 
 //Panels
 
-=======
->>>>>>> 335929c3e6aea161c28c26675c3e84bc74213475
 
 /// refresh a tracker
   $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
 		
   });
 });
-<<<<<<< HEAD
 
-=======
->>>>>>> 335929c3e6aea161c28c26675c3e84bc74213475
 </script>
 
 
