@@ -93,7 +93,7 @@ String possentiment = post._searchRangeTotal("sentiment","0","100",ids);
 String negsentiment = post._searchRangeTotal("sentiment","-1","0.1",ids);
 
 
-ArrayList blogs = blog._fetch(ids);;
+ArrayList blogs = blog._fetch(ids);
 int totalblog = blogs.size();
 //pimage = pimage.replace("build/", "");
 

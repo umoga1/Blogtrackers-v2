@@ -18,7 +18,7 @@ String base_url = "http://144.167.115.218:9200/blogposts/";
 String totalpost;		    
 	   
 public ArrayList _list(String order, String from) throws Exception {
-	String size = "10";
+	int size = 10;
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 		 		"    \"query\": {\r\n" + 
 		 		"        \"match_all\": {}\r\n" + 
@@ -31,6 +31,7 @@ public ArrayList _list(String order, String from) throws Exception {
 		 		"}");
 	 
 	 if(!from.equals("")) {
+		 int fr = Integer.parseInt(from)*size;
 		 /*
 		  jsonObj = new JSONObject("{\r\n" + 
 		  		"    \"query\": {\r\n" + 
@@ -152,54 +153,6 @@ public String _getTotalByBlogId(String blog_ids,String from) throws Exception {
 }
 
 
-public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
-	URL obj = new URL(url);
-    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-    
-    con.setDoOutput(true);
-    con.setDoInput(true);
-   
-    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-    con.setRequestProperty("Accept", "application/json");
-    con.setRequestMethod("POST");
-    
-    OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-    wr.write(jsonObj.toString());
-    wr.flush();
-    
-    int responseCode = con.getResponseCode();  
-    BufferedReader in = new BufferedReader(
-         new InputStreamReader(con.getInputStream()));
-    String inputLine;
-    StringBuffer response = new StringBuffer();
-    
-    while ((inputLine = in.readLine()) != null) {
-     	response.append(inputLine);
-     }
-     in.close();
-     
-     JSONObject myResponse = new JSONObject(response.toString());
-     ArrayList<String> list = new ArrayList<String>(); 
-     
-     if(null!=myResponse.get("hits")) {
-	     String res = myResponse.get("hits").toString();
-	     JSONObject myRes1 = new JSONObject(res);
-	      String total = myRes1.get("total").toString();
-	      this.totalpost = total;
-	    
-	     JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
-	     
-	     if (jsonArray != null) { 
-	        int len = jsonArray.length();
-	        for (int i=0;i<len;i++){ 
-	         list.add(jsonArray.get(i).toString());
-	        } 
-	     }
-     }
-     
-     return list;
-}
-
 
 public String _searchRangeTotal(String field,String greater, String less, String blog_ids) throws Exception {
 	String[] args = blog_ids.split(","); 
@@ -211,39 +164,34 @@ public String _searchRangeTotal(String field,String greater, String less, String
 	 
 	 String arg2 = pars.toString();
 	// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
-	String term ="hello";
-	String from = "10";
-	String size = "10";
-	/*
-	 JSONObject jsonObj = new JSONObject("{\r\n" + 	 
-	 		"    \"query\": {\r\n" + 
-	 		"        \"range\" : {\r\n" + 
+
+
+	 String que="{\r\n" + 
+	 		"  \"query\": {\r\n" + 
+	 		"    \"bool\": {\r\n" + 
+	 		"      \"must\": [\r\n" + 
+	 		"        {\r\n" + 
+	 		"		  \"constant_score\":{\r\n" + 
+	 		"					\"filter\":{\r\n" + 
+	 		"							\"terms\":{\r\n" + 
+		 	"							\"blogsite_id\":"+arg2+"\r\n" + 
+	 		"									}\r\n" + 
+	 		"							}\r\n" + 
+	 		"						}\r\n" + 
+	 		"		},\r\n" + 
+	 		"        {\r\n" + 
+	 		"		  \"range\" : {\r\n" + 
 	 		"            \""+field+"\" : {\r\n" + 
 	 		"                \"gte\" : "+greater+",\r\n" + 
 	 		"                \"lte\" : "+less+",\r\n" + 
-	 		"            }\r\n" + 
-	 		"        }\r\n" + 
+	 		"				}\r\n" + 
+	 		"			}\r\n" + 
+	 		"		}\r\n" + 
+	 		"      ]\r\n" + 
 	 		"    }\r\n" + 
-	 		"}");
-	 */
-	 JSONObject jsonObj = new JSONObject("{\"query\" : {\"match_all\" : {}}, \"from\" : 0, \"size\" : 10}");
-	 //String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}}}";	
-	 jsonObj = new JSONObject("{\r\n" + 
- 			"  \"query\": {\r\n" + 
- 			"        \"query_string\" : {\r\n" + 
- 			"            \"fields\" : [\"title\",\"blogger\",\"post\"],\r\n" + 
- 			"            \"query\" : \""+term+"\"\r\n" + 
- 			"        }\r\n" + 
- 			"  },\r\n" +
- 			"  	\"from\":"+from+"," + 
- 			"	\"size\":"+size+"," + 
- 			"   \"sort\":{\r\n" + 
- 			"		\"blogpost_id\":{\r\n" + 
- 			"			\"order\":\"DESC\"\r\n" + 
- 			"			}\r\n" + 
- 			"		},\r\n" + 
- 			"}");
-	// JSONObject jsonObj = new JSONObject(que);
+	 		"  }\r\n" + 
+	 		"}";
+	JSONObject jsonObj = new JSONObject(que);
 	 
     String url = base_url+"_search";
     String total = "0";
@@ -304,5 +252,54 @@ public String _searchRangeTotal(String field,String greater, String less, String
 	   return this._getResult(url, jsonObj);
 	   
 	}
+	
+	public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
+		URL obj = new URL(url);
+	    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+	    
+	    con.setDoOutput(true);
+	    con.setDoInput(true);
+	   
+	    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+	    con.setRequestProperty("Accept", "application/json");
+	    con.setRequestMethod("POST");
+	    
+	    OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+	    wr.write(jsonObj.toString());
+	    wr.flush();
+	    
+	    int responseCode = con.getResponseCode();  
+	    BufferedReader in = new BufferedReader(
+	         new InputStreamReader(con.getInputStream()));
+	    String inputLine;
+	    StringBuffer response = new StringBuffer();
+	    
+	    while ((inputLine = in.readLine()) != null) {
+	     	response.append(inputLine);
+	     }
+	     in.close();
+	     
+	     JSONObject myResponse = new JSONObject(response.toString());
+	     ArrayList<String> list = new ArrayList<String>(); 
+	     
+	     if(null!=myResponse.get("hits")) {
+		     String res = myResponse.get("hits").toString();
+		     JSONObject myRes1 = new JSONObject(res);
+		      String total = myRes1.get("total").toString();
+		      this.totalpost = total;
+		    
+		     JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
+		     
+		     if (jsonArray != null) { 
+		        int len = jsonArray.length();
+		        for (int i=0;i<len;i++){ 
+		         list.add(jsonArray.get(i).toString());
+		        } 
+		     }
+	     }
+	     
+	     return list;
+	}
+
 
 }

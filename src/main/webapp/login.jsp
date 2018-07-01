@@ -60,7 +60,7 @@ if (email != null && email != "") {
   </script>
   <script src="https://apis.google.com/js/platform.js"></script>
   
-<script type="text/javascript" src="js/login_validation.js?v=1897"></script>
+<script type="text/javascript" src="js/login_validation.js?v=897"></script>
 
 </head>
 
