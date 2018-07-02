@@ -1925,7 +1925,7 @@ height: 3px;
 }
 ::-webkit-scrollbar-thumb {
    background-color:#434c5e;
- border-radius:50px;
+/*  border-radius:50px; */
 }
 ::-webkit-scrollbar-thumb:hover {
  background-color: #434c5e;
