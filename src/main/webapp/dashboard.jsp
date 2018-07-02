@@ -49,7 +49,7 @@ if(detail.size()>0){
     }
 }
 
-System.out.println(obj);
+
 
  userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
@@ -89,8 +89,8 @@ Sentiments senti = new Sentiments();
 ArrayList sentiments = senti._list("DESC","");
 
 String totalpost = post._getTotalByBlogId(ids,"");
-String possentiment = post._searchRangeTotal("sentiment","0","100",ids);
-String negsentiment = post._searchRangeTotal("sentiment","-1","0.1",ids);
+String possentiment = post._searchRangeTotal("sentiment","0","10",ids);
+String negsentiment = post._searchRangeTotal("sentiment","-1","1",ids);
 
 
 ArrayList blogs = blog._fetch(ids);

@@ -60,7 +60,7 @@ if (email != null && email != "") {
   </script>
   <script src="https://apis.google.com/js/platform.js"></script>
   
-<script type="text/javascript" src="js/login_validation.js?v=897"></script>
+<script type="text/javascript" src="js/login_validation.js?v=97"></script>
 
 </head>
 
@@ -124,11 +124,13 @@ if (email != null && email != "") {
 							</button><span></span> -->
 							
 							<!-- <i class="float-left googleicon pl0 pr10"></i>  -->
-							
+							<!-- 
 							<button type="button" id="glogin" class="btn buttonportfolio3 mt10 pt10 pb10 pl40">
 							
 							
-							<b class="float-left bold-text">Sign in with Google </b></button>
+							<b class="float-left bold-text">Sign in with Google </b>
+							</button>
+							-->
  					</div>
 						
 						<p class="pb20 mt30 text-primary">
@@ -225,7 +227,7 @@ function register(email,name,pic){
 }
 
 
- startApp();
+ //startApp();
 </script>
 </body>
 </html>

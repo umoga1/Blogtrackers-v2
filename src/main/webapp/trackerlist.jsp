@@ -119,6 +119,7 @@ ArrayList test = new ArrayList();
 
 </div>
 </div>
+
   <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid mt10">
 
@@ -230,7 +231,7 @@ ArrayList test = new ArrayList();
 			 query = query.replaceAll("blogsite_id in ", "");
 			 query = query.replaceAll("\\(", "");			 
 			 query = query.replaceAll("\\)", "");
-			 System.out.println(query);
+			
 			 totalpost = 0;
 			
 			 if(!query.equals("")){
