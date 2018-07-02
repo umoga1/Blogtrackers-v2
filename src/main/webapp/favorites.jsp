@@ -418,7 +418,7 @@ in Washington DC. It serves as a national syndicator to a network of over 1,000 
 <script type="text/javascript" src="assets/vendors/typeahead/typeahead.bundle.min.js"></script>
 <script type="text/javascript" src="assets/js/form_tags_input.js"></script>
 
-<script src="pagedependencies/favorites2.js">
+<script src="pagedependencies/favorites.js">
 
 </script>
 <!--end for table  -->

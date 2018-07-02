@@ -338,15 +338,6 @@ ArrayList test = new ArrayList();
 <script type="text/javascript" src="assets/vendors/blockui/blockui.min.js"></script>
 
 
-
-<script type="text/javascript" src="assets/vendors/tags/tagsinput.min.js"></script>
-<script type="text/javascript" src="assets/vendors/tags/tokenfield.min.js"></script>
-<script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>
-<script type="text/javascript" src="assets/vendors/typeahead/typeahead.bundle.min.js"></script>
-<script type="text/javascript" src="assets/js/form_tags_input.js"></script>
-<script type="text/javascript" src="assets/vendors/blockui/blockui.min.js"></script>
-
-
 <script>
 $(document).ready(function() {
   $(function () {
@@ -371,51 +362,17 @@ $(document).ready(function() {
 	  });
   
   // create a tracker script
-<<<<<<< HEAD
-  $.getScript("pagedependencies/createtracker.js?v=8733", function(data, textStatus, jqxhr) {
-=======
   $.getScript("pagedependencies/createtracker.js", function(data, textStatus, jqxhr) {
->>>>>>> 335929c3e6aea161c28c26675c3e84bc74213475
 		
 		  });
   
   });
-<<<<<<< HEAD
-//   var span = $('<span>').css('display','inline-block')
-// .css('word-break','break-all').appendTo('body').css('visibility','hidden');
-// function initSpan(textarea){
-//   span.text(textarea.text())
-//       .width(textarea.width())
-//       .css('font',textarea.css('font'));
-// }
-// $('textarea').on({
-//     input: function(){
-//       var text = $(this).val();
-//       span.text(text);
-//       $(this).height(text ? span.height() : '1.1em');
-//     },
-//     focus: function(){
-//      initSpan($(this));
-//     },
-//     keypress: function(e){
-//         if(e.which == 13) e.preventDefault();
-//     }
-// });
-
-//Panels
-
-=======
->>>>>>> 335929c3e6aea161c28c26675c3e84bc74213475
 
 /// refresh a tracker
   $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
 		
   });
 });
-<<<<<<< HEAD
-
-=======
->>>>>>> 335929c3e6aea161c28c26675c3e84bc74213475
 </script>
 
 
