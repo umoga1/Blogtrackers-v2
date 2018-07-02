@@ -1,4 +1,11 @@
 $(document).ready(function() {
+	// tracking blogcount
+	var trackscount = 0;
+	// tracker selected count
+	var trackerselectedcount = 0;
+	
+	// store both in session 
+	
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
@@ -54,6 +61,12 @@ $(this).find(".checktracker").removeClass("hidden");
 });
 
 
+//tracker list handler
+$('.trackerindividual').on("mouseenter",function(){
+$(this).find(".checktracker").removeClass("hidden");
+});
+
+
 $('.trackerindividual').on("mouseleave",function(){
   selected = $(this).hasClass("trackerindividualactive");
   if(selected)
@@ -73,20 +86,33 @@ $('.trackerindividual').on("click",function(e){
   if(!selected)
   {
     $(this).find(".checktracker").removeClass("hidden");
-    $(this).addClass("trackerindividualactive");
+    $(this).addClass("trackerindividualactive").removeClass("bold-text");
     // remember to pass session id of blog
+    trackerselectedcount++;
+    console.log(trackerselectedcount);
+    
+    $('.selectedtrackercount').html(trackerselectedcount);
   }
   // check if a blog is not selected
   else if(selected)
   {
     $(this).find(".checktracker").addClass("hidden");
-    $(this).removeClass("trackerindividualactive");
+    $(this).removeClass("trackerindividualactive").addClass("bold-text");
     // remember to pass session id of blog
+    trackerselectedcount--;
+    console.log(trackerselectedcount);
+    // increase count of selected tracker
+    $('.selectedtrackercount').html(trackerselectedcount);
   }
 
 });
 
 // end of tracker list handler
+
+// close the tracks at the footer
+$('#closetracks').on("click",function(){
+	$(this).parent().toggle();	
+	});
 
 
 
@@ -224,33 +250,104 @@ $(this).parent().remove();
   // end of handler for favorites
 
 
+ 
   //select a blog to track
-  $('.trackblog').on("click",function(e){
-  // check the status if the blog is tracked
-  trackingblog = $(this).hasClass("text-success");
-  if(!trackingblog)
-  {
-  // if the blog is being tracked
-  $(this).addClass("text-success");
-  $(this).attr("data-original-title","Remove Blog from Tracker");
-  toastr.success("Blog Added to Tracker","Action Succesful");
-  countblog++;
-  toastr.success(countblog,"Tracking Blog");
-  console.log(countblog);
-  // add an ajax to removed blog from tracker
-  }
-  else if(trackingblog)
-  {
-  // if the blog is being tracked
-  $(this).removeClass("text-success");
-  $(this).attr("data-original-title","Add Blog from Tracker");
-  toastr.error("Blog Removed from Tracker","Action Succesful");
-  // add an ajax to add blog from tracker
+$(document).on("click",".trackblog",function(e){
+// check the status if the blog is tracked
+trackingblog = $(this).hasClass("text-success");
+if(!trackingblog)
+{
+// if the blog is being tracked
+$(this).addClass("text-success");
+$(this).parent().parent().addClass("border-selected");
+$(this).parent().parent().find(".posttitle a").addClass("text-selected");
+$(this).parent().parent().find(".trackingtracks").addClass("hidden");
+$(this).attr("data-original-title","Remove Blog from Tracker");
+// adding blog to tracks
+console.log("Added blog to be tracked");
+// add an ajax to add blog to tracker
+trackscount++;
+$('#trackscount').html(trackscount);
+$('.tracksection').show();
+}
+else if(trackingblog)
+{
+// if the blog is being tracked
+$(this).removeClass("text-success");
+$(this).parent().parent().removeClass("border-selected");
+$(this).parent().parent().find(".posttitle a").removeClass("text-selected");
+$(this).parent().parent().find(".trackingtracks").removeClass("hidden");
+$(this).attr("data-original-title","Add Blog from Tracker");
 
-  countblog--;
-  toastr.error(countblog,"Tracking Blog");
-  console.log(countblog);
-  }
-  });
+console.log("Removed blog to be tracked");
+// add an ajax to remove blog from tracker
+trackscount--;
+$('#trackscount').html(trackscount);
+$('.tracksection').show();
+}
+});
+
+
+
+//call to action to start tracking blogs
+$('#initiatetrack').on("click",function(e){
+
+$('.trackinitiated, .modalbackdrop').show();
+
+// scroll to top
+
+window.scrollTo(0, 0);
+	
+});
+
+$('.closedialog').on("click",function(e){
+
+	$('.trackinitiated, .modalbackdrop').hide();	
+	$('.trackcreationsection2').addClass("hidden");
+	$('.trackcreationsection1').removeClass('hidden');	
+	});
+
+
+	// show the create tracker from dialog handler 
+	$('.createtrackerbtn').on("click", function(){
+	$('.trackcreationsection2').removeClass('hidden');
+	$('.trackcreationsection1').addClass('hidden');
+	});
+
+	// cancel tracker creattion 
+	$('.canceltracker').on("click", function(e){
+	e.preventDefault();	
+	$('.trackcreationsection2').addClass("hidden");
+	$('.trackcreationsection1').removeClass('hidden');	
+	})
+
+
+//handles the creation of the tracker
+$('.trackercreatebutton').on('click', function(){
+
+// handle the creation of the tracker right here
+// store the tracker name, tracker description
+trackername  = $('.blogbrowsertrackername').val();
+trackerdescription = $('.blogbrowsertrackerdescription').val();
+
+console.log(trackername);
+console.log(trackerdescription);
+if(trackername === "")
+	{
+	toastr.error("Enter Tracker Name","Error");
+	}
+else if(trackerdescription === "")
+	{
+	toastr.error("Enter Tracker Description","Error");
+	}
+else
+	{
+	// get the blog ids and store
+	// get the tracker that was selected if any apart from the new tracker
+	}
+	
+	
+});
+
 
 });

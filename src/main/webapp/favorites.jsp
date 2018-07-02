@@ -120,6 +120,70 @@
       </div>
 
     </nav>
+    
+    <div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Tracks</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer fas fa-times float-right pr20 mt10" id="closetracks"></i></div>
+
+<!-- Backdrop for modal -->
+<div class="modalbackdrop hidden">
+
+</div>
+<div class="container-fluid hidden trackinitiated">
+
+<!-- <div class="container-fluid"> -->
+<div class="row bg-primary">
+
+<div class="offset-md-1 col-md-6 pl100 pt100 pb100">
+<h1 class="text-white trackertitlesize"><b class="greentext">4</b> Blogs</h1>
+<div class="mt30">
+<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Engadget <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">National Public Radio <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Crooks and Liars <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Tech Crunch <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+</div>
+</div>
+<div class="col-md-5 pt100 pb100 pl50 pr50 bg-white">
+<div class="trackcreationsection1">
+<i class="cursor-pointer fas fa-times float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
+<h3 class="text-primary bold-text">Track the selected blogs using the following list of trackers: </h3>
+<button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
+<div class="trackerlist mt20">
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Science <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Technology <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Politics <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Russia <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Spare <i class="fas fa-check float-right hidden checktracker"></i></button>
+</div>
+<div class="col-md-12 mt20 text-primary">
+<b class="selectedtrackercount text-primary">0</b> Tracker(s) selected 
+</div>
+</div>
+
+<!-- tracker section for creatio of new  -->
+<div class="trackcreationsection2 hidden">
+<i class="cursor-pointer fas fa-times float-right closedialog" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close Dialog"></i>
+<h1 class="text-primary">Create a Tracker</h1>
+<input type="text" class="form-control trackerinput blogbrowsertrackername" placeholder="Title" />
+<textarea placeholder="Description" class="form-control mt20 trackerdescription blogbrowsertrackerdescription" rows="8">
+</textarea>
+<div class="form-group mt20">
+<input type="text" class="form-control tokenfield-primary" value="Engadget,National Public Radio,Crooks and Liars,Tech Crunch" />
+</div>
+<div class="mt30">
+<button class="btn btn-default cancelbtn canceltracker text-primary">Cancel</button> <button class=" btn btn-success trackercreatebutton">Create</button>
+</div>
+
+</div>
+
+<!-- end   -->
+
+</div>
+
+
+
+
+</div>
+
+</div>
 <div class="container">
 
 
@@ -133,9 +197,11 @@
 
 <div class="card-columns pt0 pb10  mt20 mb50 ">
 <div class="card noborder curved-card mb30" >
-<div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center pt20">Crooks and Liars</h4>
-<div class="text-center"><button class="btn stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+<div class="curved-card selectcontainer">
+ <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
+<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+</div>
   <div class="card-body">
     <a href="blogpostpage"><h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
     <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -149,10 +215,12 @@
 
 
 
-  <div class="card noborder curved-card mb30" >
+ <div class="card noborder curved-card mb30" >
+<div class="curved-card selectcontainer">
   <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-  <h4 class="text-primary text-center pt20">Crooks and Liars</h4>
-  <div class="text-center"><button class="btn stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">100,000,315 Tracks</button></div>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
+<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+  </div>
     <div class="card-body">
     <a href="blogpostpage">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -164,9 +232,11 @@
   </div>
 
 <div class="card noborder curved-card mb30" >
+<div class="curved-card selectcontainer">
   <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-  <h4 class="text-primary text-center pt20">Crooks and Liars</h4>
-  <div class="text-center"><button class="btn stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">100,000,315 Tracks</button></div>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
+<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+  </div>
     <div class="card-body">
     <a href="blogpostpage">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -178,9 +248,11 @@
   </div>
 
   <div class="card noborder curved-card mb30" >
+  <div class="curved-card selectcontainer">
   <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-  <h4 class="text-primary text-center pt20">Crooks and Liars</h4>
-  <div class="text-center"><button class="btn stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">100,000,315 Tracks</button></div>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
+<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+  </div>
     <div class="card-body">
     <a href="blogpostpage">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -193,9 +265,11 @@
 
 
   <div class="card noborder curved-card mb30" >
+  <div class="curved-card selectcontainer">
   <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-  <h4 class="text-primary text-center pt20">Crooks and Liars</h4>
-  <div class="text-center"><button class="btn stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">100,000,315 Tracks</button></div>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
+<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+  </div>
     <div class="card-body">
       <a href="blogpostpage"><h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -208,9 +282,11 @@
 
 
 <div class="card noborder curved-card mb30" >
+<div class="curved-card selectcontainer">
   <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-  <h4 class="text-primary text-center pt20">Crooks and Liars</h4>
-  <div class="text-center"><button class="btn stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">100,000,315 Tracks</button></div>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
+<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+  </div>
     <div class="card-body">
     <a href="blogpostpage">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -222,9 +298,11 @@
   </div>
 
   <div class="card noborder curved-card mb30" >
+  <div class="curved-card selectcontainer">
   <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-  <h4 class="text-primary text-center pt20">Crooks and Liars</h4>
-  <div class="text-center"><button class="btn stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">100,000,315 Tracks</button></div>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
+<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+  </div>
     <div class="card-body">
     <a href="blogpostpage">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -236,9 +314,11 @@
   </div>
 
 <div class="card noborder curved-card mb30" >
+<div class="curved-card selectcontainer">
 <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center pt20">Crooks and Liars</h4>
-<div class="text-center"><button class="btn stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">100,000,315 Tracks</button></div>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
+<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+</div>
   <div class="card-body">
   <a href="blogpostpage">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
     <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -258,146 +338,11 @@
 
 </div>
 
-<div class="container-fluid ">
-
-<!-- <div class="container-fluid"> -->
-<div class="row bg-primary">
-<div class="col-md-7 pl100 pt100 pb100">
-<h1 class="text-white trackertitlesize"><b class="greentext">4</b> Blogs</h1>
-<div class="mt30">
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10"><b>Engadget</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10"><b>National Public Radio</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10"><b>Crooks and Liars</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10"><b>Tech Crunch</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-</div>
-</div>
-<div class="col-md-5 pt100 pb100 pl50 pr50 bg-white">
-<h1 class="text-primary">Create a Tracker</h1>
-<input type="text" class="form-control trackerinput" placeholder="Title"/>
-<textarea placeholder="Description" class="form-control mt20 trackerdescription" rows="8">
-</textarea>
-<div class="form-group mt20">
-<input type="text" class="form-control tokenfield-primary" value="Engadget,National Public Radio,Crooks and Liars,Tech Crunch" />
-</div>
-<div class="mt30">
-<button class="btn btn-default cancelbtn canceltracker text-primary">Cancel</button> <button class=" btn btn-success trackercreatebutton">Create</button>
-</div>
-</div>
-</div>
-<!-- </div> -->
-
-
-</div>
-
-<div>Blogs</div>
-<div class="container-fluid ">
-
-<!-- <div class="container-fluid"> -->
-<div class="row bg-primary">
-<div class="col-md-7 pl100 pt100 pb100">
-<h1 class="text-white trackertitlesize"><b class="greentext">4</b> Blogs</h1>
-<div class="mt30">
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10"><b>Engadget</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10"><b>National Public Radio</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10"><b>Crooks and Liars</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10"><b>Tech Crunch</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-</div>
-</div>
-<div class="col-md-5 pt100 pb100 pl50 pr50 bg-white">
-<h3 class="text-primary">Track the selected blogs using the following list of trackers: </h3>
-<button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
-<div class="trackerlist mt20">
-<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus">Science <i class="fas fa-check float-right hidden checktracker"></i></button>
-<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus">Technology <i class="fas fa-check float-right hidden checktracker"></i></button>
-<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus">Politics <i class="fas fa-check float-right hidden checktracker"></i></button>
-<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus">Russia <i class="fas fa-check float-right hidden checktracker"></i></button>
-<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus">Spare <i class="fas fa-check float-right hidden checktracker"></i></button>
-</div>
-
-</div>
-</div>
 
 
 
-</div>
 
 
-<div class="container-fluid ">
-
-<!-- <div class="container-fluid"> -->
-<div class="row bg-white">
-<div class="col-md-7 pl100 pt100 pb100">
-<h1 class="text-primary trackertitlesize">National Public Radio</h1>
-<div class="mt30">
-<button class=" btn btn-primary text-left text-primary bold-text text-white stylebuttonblog"><b>TRACKING</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>555 TRACKS</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>331210,542 posts</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>22-07-2018 crawled</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-</div>
-<div class="mt30 text-primary fontsizeblog pr40">
-National Public Radio is an American privately and publicly funded non-profit membership media organization based
-in Washington DC. It serves as a national syndicator to a network of over 1,000 public radio stations in the United States.
-</div>
-
-<div class="mt30"><button class="btn btn-default cancelbtn blogbutton text-primary pt10 pb10 pl20 pr20"><b>Visit</b><i class="fas fa-link pl10"></i></button> <button class=" btn blogbutton text-primary pt10 pb10 pl20 pr20"><b>Analytics</b><i class="fas fa-chart-line pl10"></i></button></div>
-</div>
-<div class="col-md-5 pt100 pb100 pl50 pr50  bg-primary">
-<div class="col-md-10"><h3 class="text-white">Track the selected blogs using the following list of trackers: </h3></div>
-<button class="col-md-10 mt30 form-control text-white bold-text cursor-pointer btn createtrackerbtn2">+</button>
-<div class="trackerlist mt20">
-<button class="btn form-control col-md-10 text-white text-left trackerindividual2 pt10 pb10 pl10 resetdefaultfocus">Science <i class="fas fa-check float-right hidden checktracker2"></i></button>
-<button class="btn form-control col-md-10 text-white text-left trackerindividual2 pt10 pb10 pl10 resetdefaultfocus">Technology <i class="fas fa-check float-right hidden checktracker2"></i></button>
-<button class="btn form-control col-md-10 text-white text-left trackerindividual2 pt10 pb10 pl10 resetdefaultfocus">Politics <i class="fas fa-check float-right hidden checktracker2"></i></button>
-<button class="btn form-control col-md-10 text-white text-left trackerindividual2 pt10 pb10 pl10 resetdefaultfocus">Russia <i class="fas fa-check float-right hidden checktracker2"></i></button>
-<button class="btn form-control col-md-10 text-white text-left trackerindividual2 pt10 pb10 pl10 resetdefaultfocus">Spare <i class="fas fa-check float-right hidden checktracker2"></i></button>
-</div>
-
-</div>
-</div>
-
-
-
-</div>
-
-<div>End of blog</div>
-
-<div>Edit Tracker</div>
-
-<div class="container-fluid ">
-
-<!-- <div class="container-fluid"> -->
-<div class="row bg-white">
-<div class="col-md-7 pl100 pt100 pb100">
-<h1 class="text-primary trackertitlesize">Middle East Tracker</h1>
-<div class="mt30">
-<!-- <button class=" btn btn-primary text-left text-primary bold-text text-white stylebuttonblog"><b>TRACKING</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button> -->
-<button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>Blog | 334</b> </button>
-<button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>Crawl | 22-07-2018</b></button>
-</div>
-<div class="mt30 text-primary fontsizeblog pr40">
-National Public Radio is an American privately and publicly funded non-profit membership media organization based
-in Washington DC. It serves as a national syndicator to a network of over 1,000 public radio stations in the United States.
-</div>
-
-<div class="mt30"><button class="btn blogbutton text-primary pt10 pb10 pl20 pr20"><b>Analytics</b><i class="fas fa-chart-line pl10"></i></button></div>
-</div>
-<div class="col-md-5 pt100 pb100 pl50 pr50 bg-white border-before">
-<div class="col-md-10"><h3 class="text-primary ml0">This tracker has the following list of blogs: </h3></div>
-<div class="col-md-10 mt20"><input type="search" class="form-control searchblog pt20 pb20 semi-bold-text ml0" placeholder="Search Blogs"/></div>
-<div class="bloglist mt10">
-  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Science <i class="fas fa-check float-right hidden checkblog"></i></button>
-  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Technology <i class="fas fa-check float-right hidden checkblog"></i></button>
-  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Politics <i class="fas fa-check float-right hidden checkblog"></i></button>
-  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Russia <i class="fas fa-check float-right hidden checkblog"></i></button>
-  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Spare <i class="fas fa-check float-right hidden checkblog"></i></button>
-</div>
-
-</div>
-</div>
-
-
-
-</div>
 
 
 

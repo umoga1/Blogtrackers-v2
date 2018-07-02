@@ -2241,7 +2241,7 @@ border:4px solid #44AF69;
 }
 .text-selected
 {
-color:#44AF69;	
+color:#44AF69 !important;	
 }
 
 .tokenfield:after {

@@ -290,17 +290,23 @@ window.scrollTo(0, 0);
 $('.closedialog').on("click",function(e){
 
 $('.trackinitiated, .modalbackdrop').hide();	
-	
+$('.trackcreationsection2').addClass("hidden");
+$('.trackcreationsection1').removeClass('hidden');	
 });
 
 
 // show the create tracker from dialog handler 
 $('.createtrackerbtn').on("click", function(){
-$('.trackcreationsection2').show();
+$('.trackcreationsection2').removeClass('hidden');
 $('.trackcreationsection1').addClass('hidden');
 });
 
-
+// cancel tracker creattion 
+$('.canceltracker').on("click", function(e){
+e.preventDefault();	
+$('.trackcreationsection2').addClass("hidden");
+$('.trackcreationsection1').removeClass('hidden');	
+})
 
 //handles the creation of the tracker
 $('.trackercreatebutton').on('click', function(){
