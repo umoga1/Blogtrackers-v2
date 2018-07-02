@@ -70,8 +70,7 @@
 	
 	<div class="loginbox">
 		<div class="row d-flex align-items-stretch">
-			<div
-				class="col-md-12 card m0 p0 borderradiusround nobordertopright noborderbottomright">
+			<div		class="col-md-12 card m0 p0 borderradiusround nobordertopright noborderbottomright">
 				 <% if(success_message.equals("")){ %>
 				<div
 					class="card-body p40 pt40 pb40 borderradiusround nobordertopright noborderbottomright"
