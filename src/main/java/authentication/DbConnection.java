@@ -92,13 +92,13 @@ public class DbConnection {
 	 */
 	public boolean isUserExists(String iUserName)										//This method returns True/False depending on whether the user is in our database					
 	{
-		java.sql.Statement stmt = null;
+//		java.sql.Statement stmt = null;
 		try{
 			String queryStr = "SELECT UserName FROM UserCredentials where Username = ?";	//Bind the variable to prevent SQL injection
 			Connection conn = getConnection();												//Get a connection to the database
-			stmt = conn.prepareStatement(queryStr);
-			//PreparedStatement pstmt = conn.prepareStatement(queryStr);						//Prepared statement to perform parametized query
-			//stmt.setString(1, iUserName);													
+//			stmt = conn.prepareStatement(queryStr);
+			PreparedStatement stmt = conn.prepareStatement(queryStr);						//Prepared statement to perform parametized query
+			stmt.setString(1, iUserName);													
 			ResultSet rs = stmt.executeQuery(queryStr);											//executeQuery because we are retrieving data; could have used execute but not executeUpdate since we are not altering the database
 			if(rs.next())																	//This statement will evaluate to false since there won't any row after the update, hence close the database connection to avoid memory leaking 
 			{
