@@ -52,7 +52,7 @@ Blogs blg  = new Blogs();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
 ArrayList results = null;
 if(term.equals("")){
-	results = tracker._list("DESC","",username);
+	results = tracker._list("DESC","",username,"10");
 }else{
 	results = tracker._search(term,"");
 }
@@ -119,6 +119,7 @@ ArrayList test = new ArrayList();
 
 </div>
 </div>
+
   <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid mt10">
 
@@ -225,24 +226,17 @@ ArrayList test = new ArrayList();
 			res = results.get(i).toString();			
 			resp = new JSONObject(res);
 		    resu = resp.get("_source").toString();
-		    obj = new JSONObject(resu);
-			 
+		    obj = new JSONObject(resu);		 
 			 query = obj.get("query").toString();
-			
-			
 			 query = query.replaceAll("blogsite_id in ", "");
-			 
-			
-			 query = query.replaceAll("\\(", "");
-			 System.out.println(query);
-			
+			 query = query.replaceAll("\\(", "");			 
 			 query = query.replaceAll("\\)", "");
-			 System.out.println(query);
+			
 			 totalpost = 0;
 			
-			 if(query.length()>1){
+			 if(!query.equals("")){
 				 blogs = blg._fetch(query);
-				 System.out.println(blogs);
+				 //System.out.println(blogs);
 				 if( blogs.size()>0){
 					 for(int k=0; k< blogs.size(); k++){
 						 bres = blogs.get(k).toString();			
@@ -258,7 +252,7 @@ ArrayList test = new ArrayList();
 
 
 <div class="card noborder curved-card mb30 pt30" >
-<div class=""><a href="analytics.html"><h1 class="text-primary text-center pt20"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ") %></h1></a></div>
+<div class=""><a href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=obj.get("tid").toString()%>"><h1 class="text-primary text-center pt20"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ") %></h1></a></div>
 
   <div class="card-body">
     <p class="card-text text-center postdate text-primary"><%=obj.get("date_created").toString()%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;</p>
@@ -298,10 +292,7 @@ ArrayList test = new ArrayList();
       <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
-
 </div>
-
-
 <% } %>
 <%}%>
 </div>
@@ -340,71 +331,57 @@ ArrayList test = new ArrayList();
 
 <script>
 $(document).ready(function() {
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
-
-
-  // add new tracker code snippets
-  $('.addnewtracker').on("click",function(e){
-    e.preventDefault();
-    var  trackersetupform = "";
-    trackersetupform += '<div class="card noborder curved-card mb30 pt20 pb20"><div class="card-body"><div class="trackerclose"><i class="fas fa-times-circle closetracker text-primary cursor-pointer" data-toggle="tooltip" data-placement="top" title="Cancel New Tracker"></i></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackername text-primary text-center" placeholder="Tracker Name" rows="2"></textarea></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackerdescription text-primary text-center" placeholder="Description" rows="1"></textarea></div>';
-    trackersetupform += '<div class="form-group mt20 trackerpage"><label class="text-primary">Add Blog</label><input type="text" class="form-control tokenfield-primary" value="" placeholder="Add Blog" /></div><div class="text-center"><i type="submit" class="fas fa-check text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="fas fa-trash-alt text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
-  $('.card-columns').prepend(trackersetupform);
-  
-  // load the script for form tag input
-  $.getScript("assets/js/form_tags_input.js", function(data, textStatus, jqxhr) {
-	 /*  console.log(data); //data returned
-	  console.log(textStatus); //success
-	  console.log(jqxhr.status); //200
-	  console.log('Load was performed.'); */
-	  });
-  
-  // create a tracker script
-
-  $.getScript("pagedependencies/createtracker.js", function(data, textStatus, jqxhr) {
-
-
-
-		
+	  $(function () {
+	    $('[data-toggle="tooltip"]').tooltip()
+	  })
+	  // add new tracker code snippets
+	  $('.addnewtracker').on("click",function(e){
+	    e.preventDefault();
+	    var  trackersetupform = "";
+	    trackersetupform += '<div class="card noborder curved-card mb30 pt20 pb20"><div class="card-body"><div class="trackerclose"><i class="fas fa-times-circle closetracker text-primary cursor-pointer" data-toggle="tooltip" data-placement="top" title="Cancel New Tracker"></i></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackername text-primary text-center" placeholder="Tracker Name" rows="2"></textarea></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackerdescription text-primary text-center" placeholder="Description" rows="1"></textarea></div>';
+	    trackersetupform += '<div class="form-group mt20 trackerpage"><label class="text-primary">Add Blog</label><input type="text" class="form-control tokenfield-primary" value="" placeholder="Add Blog" /></div><div class="text-center"><i type="submit" class="fas fa-check text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="fas fa-trash-alt text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
+	  $('.card-columns').prepend(trackersetupform);
+	  
+	  // load the script for form tag input
+	  $.getScript("assets/js/form_tags_input.js", function(data, textStatus, jqxhr) {
+		 /*  console.log(data); //data returned
+		  console.log(textStatus); //success
+		  console.log(jqxhr.status); //200
+		  console.log('Load was performed.'); */
 		  });
-  
-  });
-
-
-
-//   var span = $('<span>').css('display','inline-block')
-// .css('word-break','break-all').appendTo('body').css('visibility','hidden');
-// function initSpan(textarea){
-//   span.text(textarea.text())
-//       .width(textarea.width())
-//       .css('font',textarea.css('font'));
-// }
-// $('textarea').on({
-//     input: function(){
-//       var text = $(this).val();
-//       span.text(text);
-//       $(this).height(text ? span.height() : '1.1em');
-//     },
-//     focus: function(){
-//      initSpan($(this));
-//     },
-//     keypress: function(e){
-//         if(e.which == 13) e.preventDefault();
-//     }
-// });
-
-//Panels
-
-
-
-/// refresh a tracker
-  $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
-		
-  });
-});
-
+	  
+	  // create a tracker script
+	  $.getScript("pagedependencies/createtracker.js", function(data, textStatus, jqxhr) {
+			
+			  });
+	  
+	  });
+	//   var span = $('<span>').css('display','inline-block')
+	// .css('word-break','break-all').appendTo('body').css('visibility','hidden');
+	// function initSpan(textarea){
+	//   span.text(textarea.text())
+//	       .width(textarea.width())
+//	       .css('font',textarea.css('font'));
+	// }
+	// $('textarea').on({
+//	     input: function(){
+//	       var text = $(this).val();
+//	       span.text(text);
+//	       $(this).height(text ? span.height() : '1.1em');
+//	     },
+//	     focus: function(){
+//	      initSpan($(this));
+//	     },
+//	     keypress: function(e){
+//	         if(e.which == 13) e.preventDefault();
+//	     }
+	// });
+	//Panels
+	/// refresh a tracker
+	  $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
+			
+	  });
+	});
 </script>
 
 

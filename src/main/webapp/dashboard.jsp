@@ -6,6 +6,9 @@
 <%@page import="java.net.URI"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
+Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
+
 
 if (email == null || email == "") {
 	response.sendRedirect("index.jsp");
@@ -17,10 +20,40 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
+ArrayList detail =new ArrayList();
+
+Trackers tracker  = new Trackers();
+if(tid!=""){
+   detail = tracker._fetch(tid.toString());
+}else{
+	detail = tracker._list("DESC","",user.toString(),"1");
+}
+
+boolean isowner = false;
+JSONObject obj =null;
+String ids = "";
+
+if(detail.size()>0){
+	String res = detail.get(0).toString();
+	JSONObject resp = new JSONObject(res);
+    String resu = resp.get("_source").toString();
+    obj = new JSONObject(resu);
+    String tracker_userid = obj.get("userid").toString();
+    if(tracker_userid.equals(user.toString())){
+    	isowner=true;
+    	String query = obj.get("query").toString();
+		query = query.replaceAll("blogsite_id in ", "");		 		
+		query = query.replaceAll("\\(", "");	 
+		query = query.replaceAll("\\)", "");
+		ids=query;
+    }
+}
+
+
 
  userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
-if (userinfo.size()<1) {
+if (userinfo.size()<1 || !isowner) {
 	response.sendRedirect("index.jsp");
 }else{
 userinfo = (ArrayList<?>)userinfo.get(0);
@@ -30,10 +63,7 @@ username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
 name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
 email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
-//date_modified = userinfo.get(11).toString();
-
 String userpic = userinfo.get(9).toString();
-
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = userinfo.get(9).toString();
 
@@ -55,16 +85,16 @@ Blogposts post  = new Blogposts();
 Blogs blog = new Blogs();
 Sentiments senti = new Sentiments();
 
-ArrayList posts = post._list("DESC","");
+//ArrayList posts = post._list("DESC","");
 ArrayList sentiments = senti._list("DESC","");
 
-String totalpost = post._getTotal();
-String possentiment = post._searchRangeTotal("sentiment","0","100");
-String negsentiment = post._searchRangeTotal("sentiment","-1","0.1");
+String totalpost = post._getTotalByBlogId(ids,"");
+String possentiment = post._searchRangeTotal("sentiment","0","10",ids);
+String negsentiment = post._searchRangeTotal("sentiment","-1","1",ids);
 
 
-ArrayList blogs = blog._list("DESC","");
-String totalblog = blog._getTotal();
+ArrayList blogs = blog._fetch(ids);
+int totalblog = blogs.size();
 //pimage = pimage.replace("build/", "");
 
 JSONObject sentimentblog = new JSONObject();; 
@@ -289,7 +319,7 @@ JSONObject sentimentblog = new JSONObject();;
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
   <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
+  <a class="breadcrumb-item text-primary" href="#"><%=obj.get("tracker_name").toString()%></a>
   <a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
   </nav>
 <div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
@@ -329,7 +359,7 @@ JSONObject sentimentblog = new JSONObject();;
 <div class="card nocoloredcard mt10 mb10">
 <div class="card-body p0 pt5 pb5">
 <h5 class="text-primary mb0"><i class="fas fa-user icondash"></i>Bloggers</h5>
-<h3 class="text-blue mb0 countdash">58</h3>
+<h3 class="text-blue mb0 countdash"><%=bloggers.length()%></h3>
 </div>
 </div>
 </div>
@@ -509,7 +539,7 @@ JSONObject sentimentblog = new JSONObject();;
                         </thead>
                         <tbody>
                         <% if(bloggers.length()>0){
-							System.out.println(bloggers);
+							//System.out.println(bloggers);
 							for(int y=0; y<bloggers.length(); y++){
 								String key = looper.get(y).toString();
 								 JSONObject resu = bloggers.getJSONObject(key);
@@ -561,7 +591,7 @@ JSONObject sentimentblog = new JSONObject();;
                         </thead>
                         <tbody>
                         <% if(bloggers.length()>0){
-							System.out.println(bloggers);
+							//System.out.println(bloggers);
 							for(int y=0; y<bloggers.length(); y++){
 								String key = looper.get(y).toString();
 								 JSONObject resu = bloggers.getJSONObject(key);
@@ -2100,7 +2130,48 @@ var mymarker = [
 <!--word cloud  -->
  <script>
 
-     var frequency_list = [{"text":"study","size":40},{"text":"motion","size":15},{"text":"forces","size":10},{"text":"electricity","size":15},{"text":"movement","size":10},{"text":"relation","size":5},{"text":"things","size":10},{"text":"force","size":5},{"text":"ad","size":5},{"text":"energy","size":85},{"text":"living","size":5},{"text":"nonliving","size":5},{"text":"laws","size":15},{"text":"speed","size":45},{"text":"velocity","size":30},{"text":"define","size":5},{"text":"constraints","size":5},{"text":"universe","size":10},{"text":"distinguished","size":5},{"text":"chemistry","size":5},{"text":"biology","size":5},{"text":"includes","size":5},{"text":"radiation","size":5},{"text":"sound","size":5},{"text":"structure","size":5},{"text":"atoms","size":5},{"text":"including","size":10},{"text":"atomic","size":10},{"text":"nuclear","size":10},{"text":"cryogenics","size":10},{"text":"solid-state","size":10},{"text":"particle","size":10},{"text":"plasma","size":10},{"text":"deals","size":5},{"text":"merriam-webster","size":5},{"text":"dictionary","size":10},{"text":"analysis","size":5},{"text":"conducted","size":5},{"text":"order","size":5},{"text":"understand","size":5},{"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
+     var frequency_list = [
+    	 {"text":"study","size":40},
+    	 {"text":"motion","size":15},
+    	 {"text":"forces","size":10},
+    	 {"text":"electricity","size":15},
+    	 {"text":"movement","size":10},
+    	 {"text":"relation","size":5},
+    	 {"text":"things","size":10},
+    	 {"text":"force","size":5},
+    	 {"text":"ad","size":5},
+    	 {"text":"energy","size":85},
+    	 {"text":"living","size":5},
+    	 {"text":"nonliving","size":5},
+    	 {"text":"laws","size":15},
+    	 {"text":"speed","size":45},
+    	 {"text":"velocity","size":30},
+    	 {"text":"define","size":5},
+    	 {"text":"constraints","size":5},
+    	 {"text":"universe","size":10},
+    	 {"text":"distinguished","size":5},
+    	 {"text":"chemistry","size":5},
+    	 {"text":"biology","size":5},
+    	 {"text":"includes","size":5},
+    	 {"text":"radiation","size":5},
+    	 {"text":"sound","size":5},
+    	 {"text":"structure","size":5},
+    	 {"text":"atoms","size":5},
+    	 {"text":"including","size":10},
+    	 {"text":"atomic","size":10},
+    	 {"text":"nuclear","size":10},
+    	 {"text":"cryogenics","size":10},
+    	 {"text":"solid-state","size":10},
+    	 {"text":"particle","size":10},
+    	 {"text":"plasma","size":10},
+    	 {"text":"deals","size":5},
+    	 {"text":"merriam-webster","size":5},
+    	 {"text":"dictionary","size":10},
+    	 {"text":"analysis","size":5},
+    	 {"text":"conducted","size":5},
+    	 {"text":"order","size":5},
+    	 {"text":"understand","size":5},
+    	 {"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
 	
 
      var color = d3.scale.linear()

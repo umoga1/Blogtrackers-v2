@@ -3,15 +3,15 @@ var requests = new Array();
 var z=0;
 
 $(document).ready(function() {
-	console.log("hree");
+//	console.log("hree");
     //$('.postimage').on('load', function(img){ // image ready
-    var img = $('.postimage');
+    var img = $('.postimage:eq(0)');
 //    img.css('background-image','url(https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg)');
     console.log(img);
     for(i=0; i<img.length; i++){
     	var id = img[i].id;
-		var url = img[i].attributes.alt.value;
-	console.log("url " + url);
+	var url = img[i].attributes.alt.value;
+    console.log("url " + url);
 		//scrapeImage(id, "https://www.oodaloop.com/");
 		getImage(id,url);
 				
@@ -24,7 +24,7 @@ function getImage(image_id,url){
 	
 	var urll=baseurl+'subpages/imageloader.jsp?url='+url;
 	var prev = $("#"+image_id).css('background-image');
-	console.log(prev)
+//	console.log(prev)
 	if(prev=="none"){
 		$("#"+image_id).css('background-image','url(https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg)');
 		z++;
@@ -67,7 +67,7 @@ function getImage(image_id,url){
 						}
 						
 						nurl = pre+""+nurl;
-						console.log(nurl);
+//						console.log(nurl);
 						scrapeImage(image_id, nurl)
 					}
 				}

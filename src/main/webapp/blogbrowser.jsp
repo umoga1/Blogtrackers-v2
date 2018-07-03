@@ -21,7 +21,7 @@ String name="";
 String phone="";
 String date_modified = "";
 
-// userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
 if (userinfo.size()<1) {
 	//response.sendRedirect("login.jsp");
@@ -400,7 +400,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 
 </script>
 
-<script src="pagedependencies/imageloader.js?v=89189908998"></script>
+<script src="pagedependencies/imageloader.js?v=189908998"></script>
 <script src="js/functions.js?v=0990"></script>
 <script>
 $(window).scroll(function() {

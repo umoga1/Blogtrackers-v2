@@ -120,9 +120,9 @@ $(function() {
 						$("#loggin").html(btntext);
 					}else if(login_status == "success"){
 						toastr.success('Login successfull!','Success');
-						window.location.href = baseurl+"dashboard.jsp";
+						window.location.href = baseurl+"index.jsp";
 					}else if(login_status == "confirmed"){
-						window.location.href = baseurl+"dashboard.jsp";
+						window.location.href = baseurl+"index.jsp";
 					}
 					return false;
 				}

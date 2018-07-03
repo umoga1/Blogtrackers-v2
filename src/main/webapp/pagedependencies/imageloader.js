@@ -39,8 +39,9 @@ function getImage(image_id,url){
 					var og = html.indexOf('property="og:image"');
 					if(og>-1){
 						var con = html.split("content=");
+						var content =  con[1].split('"');	
 						if(con.length>1 && content[1]!="https://s0.wp.com/i/blank.jpg" ){
-							content =  con[1].split('"');	
+							
 							
 							content =  con[1].split('"');						
 							$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+content[1]+'"  />');
@@ -64,7 +65,7 @@ function getImage(image_id,url){
 						
 						nurl = pre+""+nurl;
 						console.log(nurl);
-						scrapeImage(image_id, nurl)
+						//scrapeImage(image_id, nurl);
 					}
 				}
 			}
@@ -96,16 +97,17 @@ function scrapeImage(image_id, url){
 					var og = html.indexOf('property="og:image"');
 					if(og>-1){
 						var con = html.split("content=");
+						var content =  con[1].split('"');
 						if(con.length>1 && content[1]!="https://s0.wp.com/i/blank.jpg"){
-							content =  con[1].split('"');						
+													
 							$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+content[1]+'"  />');
-							$("#"+image_id).remove();
+							//$("#"+image_id).remove();
 							return false;
 						}
 					}
 				}
 			}
-		
+			$("#"+image_id).remove();
 		}
 	});
 	

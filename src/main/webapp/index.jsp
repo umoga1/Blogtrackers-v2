@@ -1,7 +1,51 @@
+<%@page import="authentication.*"%>
+<%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
+<%@page import="util.Blogposts"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="org.json.JSONObject"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+ArrayList<?> userinfo = new ArrayList();//null;
+String profileimage= "";
+String username ="";
+String name="";
+String phone="";
+String date_modified = "";
+userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+ //System.out.println(userinfo);
+if (userinfo.size()<1) {
+	//response.sendRedirect("login.jsp");
+}else{
+userinfo = (ArrayList<?>)userinfo.get(0);
+try{
+	username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+	
+	name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
+	
+	
+	email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
+	phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
+	//date_modified = userinfo.get(11).toString();
+	
+	String userpic = userinfo.get(9).toString();
+	String[] user_name = name.split(" ");
+	username = user_name[0];
+	
+	String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+	String filename = userinfo.get(9).toString();
+	
+	profileimage = "images/default-avatar.png";
+	if(userpic.indexOf("http")>-1){
+		profileimage = userpic;
+	}
+	File f = new File(filename);
+	if(f.exists() && !f.isDirectory()) { 
+		profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+	}
+	}catch(Exception e){}
+}
 %>
 <!DOCTYPE html>
 <html>
@@ -34,9 +78,94 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
 </head>
 <body>
 <div class="container-fluid home-top" style="min-height:500px;">
-  <nav class="navbar navbar-inverse">
 
+<% if(userinfo.size()>0){%>
+<div class="modal-notifications">
+<div class="row">
 
+  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
+  <div class="profilesection col-md-12 mt50">
+    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
+    <div class="text-center" style="margin-left:0px;">
+      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+      <p class="text-primary profiletext"><%=email%></p>
+    </div>
+
+  </div>
+  <div id="othersection" class="col-md-12 mt10" style="clear:both">
+  <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
+  </div>
+  </div>
+
+</div>
+</div>
+  <nav class="navbar navbar-inverse bg-primary">
+    <div class="container-fluid mt10">
+
+      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
+      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      </div>
+      <!-- Mobile Menu -->
+      <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      </nav>
+      <!-- <div class="navbar-header ">
+      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      </div> -->
+      <!-- Mobile menu  -->
+      <div class="col-lg-4 themainmenu"  align="center">
+        <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+          <li><a href="./"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
+          <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
+        </ul>
+      </div>
+
+  <div class="col-lg-4">
+  <ul class="nav navbar-nav" style="display:block;">
+  <li class="dropdown dropdown-user cursor-pointer float-right">
+  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
+    <i class="fas fa-circle" id="notificationcolor"></i>
+  <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
+  <span><%=username%></span>
+  <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
+              <li><a href="#"> My profile</a></li>
+              <li><a href="#"> Features</a></li>
+              <li><a href="#"> Help</a></li>
+              <li><a href="#">Logout</a></li>
+  </ul> -->
+  </a>
+
+   </li>
+        </ul>
+      </div>
+
+      </div>
+      <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
+      <div class="collapse" id="navbarToggleExternalContent">
+        <ul class="navbar-nav mr-auto mobile-menu">
+              <li class="nav-item active">
+                <a class="" href="./">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Favorites</a>
+              </li>
+            </ul>
+    </div>
+      </div>
+    </nav>
+
+<% }else{ %>
+
+<nav class="navbar navbar-inverse">
 <!-- Logo -->
   <div class="navbar-header float-left">
   <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
@@ -47,17 +176,15 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
   <span class="navbar-toggler-icon"></span>
   </button>
   </nav>
+  
   <!-- Desktop Menu -->
 <div class="themainmenu"  align="center">
   <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
     <li><a class="bold-text" href="#">Features</a></li>
     <li><a class="bold-text" href="#">Sponsors</a></li>
-   
-	<% if(email == "") { %>
-		<li><a class="bold-text" href="login.jsp">Login</a></li>
-	<% }else{ %>
-		<li><a class="bold-text" href="<%=request.getContextPath()%>/logout">Logout</a></li>
-	<% }%>
+
+	<li><a class="bold-text" href="login.jsp">Login</a></li>
+	
   </ul>
 </div>
 
@@ -71,35 +198,24 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
           <li class="nav-item">
             <a class="nav-link bold-text" href="#">Sponsors</a>
           </li>
-       
-         <% if(email == "") { %>
-			  <li class="nav-item">
+     
+
+		   <li class="nav-item">
 				<a class="nav-link bold-text" href="login.jsp">Login</a>
-			  </li>
-          <% }else{ %>
-           
-			  <li class="nav-item">
-	            <a class="nav-link" href="<%=request.getContextPath()%>/profile.jsp">My Profile</a>
-	         </li>
-	 		<li class="nav-item">
-	            <a class="nav-link" href="<%=request.getContextPath()%>/logout">Logout</a>
-	         </li>
-          <% } %>
+			</li>         
         </ul>
 </div>
-  </div>
-
+</div>
 </nav>
 
-<div class="text-center cursor-pointer helpcontainer">
-<a href="documentation.html"><i class="fas fa-question text-white cursor-pointer helpicon" ></i></a>
-</div>
+<% } %>
+
 
 <div class="text-center mt60 offset-lg-3 col-lg-6 col-md-12" style="font-size:20px;">
-<h1 class="text-white text-center">Track Blogs</h1>
-<p class="text-white text-center">Monitor and suggest valuable insights in a drill fashion using content analysis and social network analysis</p>
-<form method="search" method="post" action="<%=request.getContextPath()%>/blogbrowser.jsp">
-<input type="search" placeholder="Search" autocomplete="off" name="term" class="form-control searchhome"/>
+<h1 class="text-white text-center">Track Internet Blogs</h1>
+<p class="text-white text-center">Monitor and suggest valuable insights in a drilled-down fashion using content analysis and social network analysis</p>
+<form method="search" method="post" autocomplete="off" action="<%=request.getContextPath()%>/blogbrowser.jsp">
+<input type="search" placeholder="Search Post" name="term" class="form-control searchhome"/>
 <button type="submit" class="btn btn-success homebutton mt30 p40 pt10 pb10 mb50"><b>Start Tracking</b></button>
 </form>
 </div>
@@ -111,7 +227,9 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
 
 </div>
 
-
+<div class="text-center cursor-pointer helpcontainer">
+<a href="documentation.html"><i class="fas fa-question text-white cursor-pointer helpicon" ></i></a>
+</div>
 
 
 
@@ -119,6 +237,8 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
 <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
+<script src="assets/js/generic.js">
 
+</script>
 </body>
 </html>

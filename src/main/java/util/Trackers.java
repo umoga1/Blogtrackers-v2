@@ -16,7 +16,7 @@ public class Trackers {
 String base_url = "http://144.167.115.218:9200/trackers/";
 String totalpost;		    
 	   
-public ArrayList _list(String order, String from, String userid) throws Exception {
+public ArrayList _list(String order, String from, String userid, String size) throws Exception {
 	 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
 	 		"        \"query_string\" : {\r\n" + 
@@ -54,7 +54,7 @@ public ArrayList _list(String order, String from, String userid) throws Exceptio
     			"}");
     }
 	 
-     String url = base_url+"_search?size=10";     
+     String url = base_url+"_search?size="+size;     
      URL obj = new URL(url);
      HttpURLConnection con = (HttpURLConnection) obj.openConnection();    
      con.setDoOutput(true);

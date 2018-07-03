@@ -240,9 +240,7 @@ String[] user_name = name.split(" ");
       </nav>
     
 <div class="container-fluid pl0 pr0 d-none d-lg-block d-xl-block">
-  <div id="<%=obj.get("blogpost_id")%>" alt="<%=obj.get("permalink") %>" 
-  style="background-image:;" 
-  class="postimgfull postimage">
+  <div id="<%=obj.get("blogpost_id")%>" alt="<%=obj.get("permalink") %>"  style="background-image:;"  class="postimgfull postimage">
   </div>
 
 </div>
@@ -254,7 +252,7 @@ String[] user_name = name.split(" ");
 <!--For small and medium devices  -->
 <div class="row pb50 mt0 mb0 d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
   <div class="container-fluid pl0 pr0 ml0 mr0 pb20">
-  <div id="<%=obj.get("blogpost_id")%>s" alt="<%=obj.get("permalink") %>"
+  <div id="<%=obj.get("blogpost_id")%>" alt="<%=obj.get("permalink") %>"
   style="background-image:" class="postimgfull postimage">
   </div>
     </div>
@@ -329,10 +327,12 @@ String[] user_name = name.split(" ");
  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
-<script src="pagedependencies/imageloader2.js?v=8978989898"></script>
 <script src="assets/js/generic.js">
 
 </script>
+
+<script src="pagedependencies/imageloader2.js?v=8978989898"></script>
+
 </body>
 </html>
 <% } %>
