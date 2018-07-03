@@ -61,7 +61,7 @@ public class DbConnection {
 		try{
 			loadContant();															//load the connection parameter so we can fetch appropriate parameters like username, password, etc
 			String connectionURL =  hm.get("dbConnection");	//"jdbc:mysql://localhost:3306/blogtrackers";						
-			String driver = hm.get("driver"); 
+			String driver =    hm.get("driver"); 
 			String username =  hm.get("dbUserName");//"root";//
 			String password = hm.get("dbPassword");
 			
@@ -69,7 +69,8 @@ public class DbConnection {
 
 			if(connectionURL != null && username != null && password != null) {		//check to see if the connection parameter was successfully loaded
 				try {
-					Class.forName(driver);	//com.mysql.jdbc.Driver										//load the connection driver
+					Class.forName(driver);	//com.mysql.jdbc.Driver	
+					//load the connection driver
 				}catch(ClassNotFoundException ex) {									//since this class can throw ClassNotFoundException so we are catching it
 					ex.printStackTrace();											//if there is an exception, give us a stacktrace of it
 				}
@@ -92,35 +93,36 @@ public class DbConnection {
 	 */
 	public boolean isUserExists(String iUserName)										//This method returns True/False depending on whether the user is in our database					
 	{
-//		java.sql.Statement stmt = null;
+
+		
 		try{
-			String queryStr = "SELECT UserName FROM UserCredentials where Username = ?";	//Bind the variable to prevent SQL injection
-			Connection conn = getConnection();												//Get a connection to the database
-//			stmt = conn.prepareStatement(queryStr);
-			PreparedStatement stmt = conn.prepareStatement(queryStr);						//Prepared statement to perform parametized query
-			stmt.setString(1, iUserName);													
-			ResultSet rs = stmt.executeQuery(queryStr);											//executeQuery because we are retrieving data; could have used execute but not executeUpdate since we are not altering the database
-			if(rs.next())																	//This statement will evaluate to false since there won't any row after the update, hence close the database connection to avoid memory leaking 
+			String queryStr = "SELECT UserName FROM UserCredentials where UserName = ?";	//Bind the variable to prevent SQL injection
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(queryStr);
+			pstmt.setString(1, iUserName);
+
+			if(pstmt.execute())															
+
 			{
-				rs.close();																	
-				stmt.close();
+				pstmt.close();
 				conn.close();
 				return true;
 			}
 			else
 			{
-				rs.close();
-				stmt.close();
+				pstmt.close();
 				conn.close();
 				return false;
 			}
+
 		}catch(SQLException e)
 		{
+
 			e.printStackTrace();
 			return false;
 		}
 	}
-	
+
 
 	
 	public boolean removeUser(String iUserName)											//same as isUserExists
