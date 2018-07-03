@@ -73,10 +73,10 @@ String[] user_name = name.split(" ");
   <!--end of bootsrap -->
   <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
- <script>
-  <!-- update system url here -->
-  var app_url = "http://localhost:8080/Blogtrackers/";
+<!-- Base URL  -->
+  <script src="pagedependencies/baseurl.js">
   </script>
+  
 </head>
 <body style="background-color:#ffffff;">
  <!--  <nav class="navbar navbar-inverse bg-primary">

@@ -53,11 +53,10 @@ if (email != null && email != "") {
 	
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
-  <script>
-  <!-- update system url here -->
-  var app_url = "http://localhost:8080/Blogtrackers/";
-  //var app_url = "http://144.167.115.218:8080/Blogtrackers/";
+<!-- Base URL  -->
+  <script src="pagedependencies/baseurl.js">
   </script>
+  
   <script src="https://apis.google.com/js/platform.js"></script>
   
 <script type="text/javascript" src="js/login_validation.js?v=97"></script>

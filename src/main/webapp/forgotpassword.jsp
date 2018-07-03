@@ -47,10 +47,11 @@
 	
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
- <script>
-  <!-- update system url here -->
-  var app_url = "http://localhost:8080/Blogtrackers/";
+<!-- Base URL  -->
+  <script src="pagedependencies/baseurl.js">
   </script>
+  
+  
 <script type="text/javascript" src="js/login_validation.js?v=909090"></script>
 
 </head>

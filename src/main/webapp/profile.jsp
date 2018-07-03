@@ -87,10 +87,10 @@ String[] user_name = name.split(" ");
 	
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
-  <script>
-  <!-- update system url here -->
-  var baseurl = "http://localhost:8080/Blogtrackers/";
+<!-- Base URL  -->
+  <script src="pagedependencies/baseurl.js">
   </script>
+  
 </head>
 <body>
 <div class="modal-notifications">

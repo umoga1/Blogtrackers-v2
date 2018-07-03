@@ -108,9 +108,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <script type="text/javascript" src="assets/js/uniform.min.js"></script>
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
-  <script>
-  <!-- update system url here -->
-  var app_url = "http://localhost:8080/Blogtrackers/";
+  <script src="pagedependencies/baseurl.js">
   </script>
 </head>
 <body >
@@ -175,19 +173,12 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 		    <i class="fas fa-circle" id="notificationcolor"></i>
 		   
 		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-		  <span><%=username%></span>
-		  <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
-		              <li><a href="#"> My profile</a></li>
-		              <li><a href="#"> Features</a></li>
-		              <li><a href="#"> Help</a></li>
-		              <li><a href="#">Logout</a></li>
-		  </ul> -->
-		  </a>
+		  <span><%=username%></span></a>
 			
 		   </li>
 	    </ul>
          <% }else{ %>
-         <ul class="main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+         <ul class="nav main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
         
         	<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
          </ul>

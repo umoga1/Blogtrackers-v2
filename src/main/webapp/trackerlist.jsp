@@ -91,10 +91,12 @@ ArrayList test = new ArrayList();
   <!--end of bootsrap -->
   <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
-  <script>
-  <!-- update system url here -->
-  var app_url = "http://localhost:8080/Blogtrackers/";
+
+<!-- Base URL  -->
+  <script src="pagedependencies/baseurl.js">
   </script>
+  
+  
 </head>
 <body>
 <div class="modal-notifications">
