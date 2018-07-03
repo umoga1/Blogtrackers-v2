@@ -14,7 +14,7 @@ String name="";
 String phone="";
 String date_modified = "";
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
- //System.out.println(userinfo);
+//System.out.println(userinfo + "EMPTY");
 if (userinfo.size()<1) {
 	//response.sendRedirect("login.jsp");
 }else{
