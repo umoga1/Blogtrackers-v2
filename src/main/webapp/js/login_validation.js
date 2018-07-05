@@ -145,7 +145,7 @@ $(function() {
 			}
 		 
 		 if(password1!=password2){
-			 $("#error_message-box").html('Passord does not match');
+			 $("#error_message-box").html('Password does not match');
 			 return false;
 		 }
 			$.ajax({

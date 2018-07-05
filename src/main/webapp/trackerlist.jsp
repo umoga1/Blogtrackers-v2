@@ -76,6 +76,7 @@ ArrayList test = new ArrayList();
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
   <!-- start of bootsrap -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css"/>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"/>
   <link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.css" />
@@ -126,7 +127,8 @@ ArrayList test = new ArrayList();
     <div class="container-fluid mt10">
 
       <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
-      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+<a class="navbar-brand text-center logohome" href="./">
+  </a>
       </div>
       <!-- Mobile Menu -->
       <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
@@ -321,6 +323,7 @@ ArrayList test = new ArrayList();
 
 
 <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
 <script type="text/javascript" src="assets/vendors/tags/tagsinput.min.js"></script>
@@ -358,27 +361,7 @@ $(document).ready(function() {
 			  });
 	  
 	  });
-	//   var span = $('<span>').css('display','inline-block')
-	// .css('word-break','break-all').appendTo('body').css('visibility','hidden');
-	// function initSpan(textarea){
-	//   span.text(textarea.text())
-//	       .width(textarea.width())
-//	       .css('font',textarea.css('font'));
-	// }
-	// $('textarea').on({
-//	     input: function(){
-//	       var text = $(this).val();
-//	       span.text(text);
-//	       $(this).height(text ? span.height() : '1.1em');
-//	     },
-//	     focus: function(){
-//	      initSpan($(this));
-//	     },
-//	     keypress: function(e){
-//	         if(e.which == 13) e.preventDefault();
-//	     }
-	// });
-	//Panels
+
 	/// refresh a tracker
 	  $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
 			

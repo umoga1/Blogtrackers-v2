@@ -61,8 +61,8 @@
 		<div class="container-fluid">
 
 			<div class="navbar-header col-md-12">
-				<a class="navbar-brand text-center col-md-12" href="./"><img
-					src="images/blogtrackers.png" /></a>
+				<a class="navbar-brand text-center logohome" href="./">
+  </a>
 			</div>
 
 

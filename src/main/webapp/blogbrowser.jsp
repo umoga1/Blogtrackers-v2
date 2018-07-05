@@ -144,7 +144,8 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
     <div class="container-fluid mt10 mb10">
 
       <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
-      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      <a class="navbar-brand text-center logohome" href="./">
+  </a>
       </div>
       <!-- Mobile Menu -->
       <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
