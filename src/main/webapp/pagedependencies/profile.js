@@ -121,6 +121,10 @@ if(oldpassword !== newpassword && newpassword !== confirmpassword){
 					// console.log(login_status);
 					if(statuss === "success"){
 						toastr.success('Profile successfully updated!','Success');
+						
+						// updates other instance of name and email
+						$('.myname').html(fullnameval);
+						$('.myemail').html(emailval);
 						if(file!=""){
 							$("#image-form").submit();
 						}

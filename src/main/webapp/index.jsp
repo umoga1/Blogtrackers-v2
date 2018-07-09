@@ -121,9 +121,9 @@ try{
       <!-- Mobile menu  -->
       <div class="col-lg-4 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a class="bold-text" href="./"><i class="fas fa-home"></i> Home</a></li>
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a class="bold-text" href="favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
+            <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
+          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
@@ -151,13 +151,13 @@ try{
       <div class="collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav mr-auto mobile-menu">
               <li class="nav-item active">
-                <a class="" href="./">Home <span class="sr-only">(current)</span></a>
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="favorites.jsp">Favorites</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
               </li>
             </ul>
     </div>

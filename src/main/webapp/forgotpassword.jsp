@@ -1,4 +1,5 @@
 <%@page import="authentication.*"%>
+<%@page import="java.util.*"%>
 <%
 	Object error_message = (null == session.getAttribute("error_message")) ? "" : session.getAttribute("error_message");
 	Object success_message = (null == session.getAttribute("success_message")) ? "" : session.getAttribute("success_message");
@@ -60,7 +61,7 @@
 	<nav class="navbar navbar-inverse bg-primary">
 		<div class="container-fluid">
 
-			<div class="navbar-header col-md-12">
+			<div class="navbar-header col-md-12 text-center">
 				<a class="navbar-brand text-center logohome" href="./">
   </a>
 			</div>
@@ -71,10 +72,10 @@
 	
 	<div class="loginbox">
 		<div class="row d-flex align-items-stretch">
-			<div		class="col-md-12 card m0 p0 borderradiusround nobordertopright noborderbottomright">
+			<div		class="col-md-12 card m0 p0 borderradiusround">
 				 <% if(success_message.equals("")){ %>
 				<div
-					class="card-body p40 pt40 pb40 borderradiusround nobordertopright noborderbottomright"
+					class="card-body p40 pt40 pb40 borderradiusround "
 					style="background-color: #f4f5f6;">
 					<p class="text-primary mb30" style="font-size: 26px;">
 						Forgot Password?</b>
@@ -95,7 +96,7 @@
 						
 						<div class=""  id="loggin">
 							<button type="submit" name="recover" value="yes" class="btn btn-primary loginformbutton"
-								style="background: #28a745;">Submit</button> <a href="${pageContext.request.contextPath}/login"> Back to login? </a></small>
+								style="background: #28a745;">Submit</button> <a href="<%=request.getContextPath()%>/login.jsp"> Back to login? </a></small>
 							
  						</div>
  			
@@ -111,7 +112,7 @@
 						</div>
 
 						
-						<a href="${pageContext.request.contextPath}/" class="btn bg-blue-400 btn-block">Back <i class="icon-arrow-left52 position-right"></i></a>
+						<a href="<%=request.getContextPath()%>/login.jsp" class="btn bg-blue-400 btn-block">Back <i class="icon-arrow-left52 position-right"></i></a>
                                 </div>
                                 
                 <% } %>

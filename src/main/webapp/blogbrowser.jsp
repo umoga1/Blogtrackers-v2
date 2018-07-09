@@ -143,8 +143,8 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid mt10 mb10">
 
-      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
-      <a class="navbar-brand text-center logohome" href="./">
+      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+      <a class="navbar-brand text-left logohomeothers" href="./">
   </a>
       </div>
       <!-- Mobile Menu -->
@@ -157,15 +157,15 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
       <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
       </div> -->
       <!-- Mobile menu  -->
-      <div class="col-lg-4 themainmenu"  align="center">
+      <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="favorites.html"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
-  <div class="col-lg-4">
+  <div class="col-lg-3">
   	 <% if(userinfo.size()>0){ %>
   		
 	  <ul class="nav navbar-nav" style="display:block;">
@@ -193,13 +193,13 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
       <div class="collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav mr-auto mobile-menu">
               <li class="nav-item active">
-                <a class="" href="./">Home <span class="sr-only">(current)</span></a>
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="trackerlist.html">Trackers</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="favorites.html">Favorites</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
               </li>
             </ul>
     </div>

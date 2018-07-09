@@ -247,7 +247,7 @@ if(!trackingblog)
 $(this).addClass("text-success");
 $(this).parent().parent().addClass("border-selected");
 $(this).parent().parent().find(".posttitle a").addClass("text-selected");
-$(this).parent().parent().find(".trackingtracks").addClass("hidden");
+$(this).parent().parent().find(".trackingtracks").addClass("makeinvisible");
 $(this).attr("data-original-title","Remove Blog from Tracker");
 // adding blog to tracks
 console.log("Added blog to be tracked");
@@ -262,7 +262,7 @@ else if(trackingblog)
 $(this).removeClass("text-success");
 $(this).parent().parent().removeClass("border-selected");
 $(this).parent().parent().find(".posttitle a").removeClass("text-selected");
-$(this).parent().parent().find(".trackingtracks").removeClass("hidden");
+$(this).parent().parent().find(".trackingtracks").removeClass("makeinvisible");
 $(this).attr("data-original-title","Add Blog from Tracker");
 
 console.log("Removed blog to be tracked");

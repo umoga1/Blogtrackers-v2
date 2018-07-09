@@ -50,7 +50,7 @@
 
 <body style="background:#ffffff;">
 
-  <nav class="navbar navbar-inverse bg-primary">
+  <nav class="navbar navbar-inverse bg-primary d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
     <div class="container-fluid">
 
   <div class="navbar-header col-md-12 text-center">
@@ -94,8 +94,8 @@
     <button type="submit" class="btn btn-primary loginformbutton mt10" style="background:#28a745;">Register</button>
   <!--   &nbsp;&nbsp; or Register with &nbsp;&nbsp; -->
    <!--  <button class="btn btn-rounded big-btn2"><i class="fab fa-google icon-small text-primary"></i></button> -->
-    <button class="btn buttonportfolio3 mt10 pt10 pb10 pl40">
-							<b class="float-left bold-text">Sign up with Google </b></button>
+    <!-- <button class="btn buttonportfolio3 mt10 pt10 pb10 pl40">
+							<b class="float-left bold-text">Sign up with Google </b></button> -->
     </p>
         
         <p class="pb20 text-primary text-center" style="clear:both;">Already have an account yet? <a href="login.jsp"><b>Login Now</b></a></small></p>
@@ -105,8 +105,10 @@
 
       </div>
     <div class="col-md-5 card m0 p0 bg-primary borderradiusround nobordertopleft noborderbottomleft othersection noborder">
-      <div class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 robotcontainer2">
-
+      <div class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 robotcontainer2 text-center">
+<a class="navbar-brand text-center logohome" href="./">
+				
+				</a>
 </div>
     </div>
 

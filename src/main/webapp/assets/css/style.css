@@ -19,6 +19,14 @@ width:200px;
 background-position: center
  center;	
 }
+.logohomeothers
+{
+background-image: url(../../images/logob.svg);
+background-repeat: no-repeat;
+min-height: 32px;   
+width:200px;
+background-position: left center;	
+}
 .post-title
 {
 color:#003F62 !important;	
@@ -182,7 +190,18 @@ width: 30px;
 height: 19px;
 position:relative;
 top:3px;
+
 }
+input[class="blue"] + span::before {
+    border: solid 1px blue;
+    background: #B2DBFF;
+    background: -moz-radial-gradient(#B2DBFF, #dfdfdf);
+    background: -webkit-radial-gradient(#B2DBFF, #dfdfdf);
+    background: -ms-radial-gradient(#B2DBFF, #dfdfdf);
+    background: -o-radial-gradient(#B2DBFF, #dfdfdf);
+    background: radial-gradient(#B2DBFF, #dfdfdf);
+}
+
 .trackscount
 {
   font-size: 14px;
@@ -439,6 +458,10 @@ margin-left:30px;
 {
 display: none;
 }
+.makeinvisible
+{
+visibility:hidden;	
+}
 .mycard
 {
 background-color: #fff;
@@ -447,15 +470,23 @@ border: 1px solid rgba(0, 0, 0, 0.125);
 }
 .registerbox
 {
-margin:7% auto;
+ top:50%;
+  left:50%;
 width:811px;
-position: relative;
+position: absolute;
+ -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
 }
 .loginbox
 {
-margin:9% auto;
- width:811px;
- position: relative;
+ top:50%;
+  left:50%;
+width:811px;
+position: absolute;
+ -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
 }
 .curved-form-login
 {
@@ -778,7 +809,6 @@ a:hover
 {
 text-decoration: none;
 color:inherit;
-opacity: 0.80;
 }
 .link{
 color:darkblue;
@@ -2377,7 +2407,7 @@ border-radius:100px !important;
   /* LogIn Section  */
 .loginformbutton
 {
-padding: 8px 16px !important;
+padding: 6px 40px !important;
 /* font-size:12px;  */
 }
 .robotcontainer

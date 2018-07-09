@@ -64,7 +64,7 @@ if (email != null && email != "") {
 </head>
 
 <body style="background:#ffffff;">
-	<nav class="navbar navbar-inverse bg-primary">
+	<nav class="navbar navbar-inverse bg-primary d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
 		<div class="container-fluid">
 
 			<div class="navbar-header col-md-12 text-center">
@@ -109,7 +109,7 @@ if (email != null && email != "") {
 						<br />
 						<div class=""  id="loggin2"></div>
 						<div>
-						<p class="float-left pt10"><input type="checkbox" class="remembercheckbox"/>Remember Me</p>
+						<p class="float-left pt10"><input type="checkbox" class="remembercheckbox blue" /><span></span>Remember Me</p>
 						<p class="pt10 text-primary float-right">
 							<small class="bold-text"><a href="<%=request.getContextPath()%>/forgotpassword.jsp">Forgot your password?</a></small>
 						</p>
@@ -151,8 +151,10 @@ if (email != null && email != "") {
 			<div
 				class="col-md-5 card m0 p0 bg-primary borderradiusround nobordertopleft noborderbottomleft othersection noborder">
 				<div
-					class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 robotcontainer3">
-
+					class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 robotcontainer3 text-center">
+<a class="navbar-brand text-center logohome" href="./">
+				
+				</a>
 				</div>
 			</div>
 

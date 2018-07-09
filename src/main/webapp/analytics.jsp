@@ -107,8 +107,8 @@ String[] user_name = name.split(" ");
   <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid mt10 mb10">
 
-      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
-      <a class="navbar-brand text-center logohome" href="./">
+      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+      <a class="navbar-brand text-center logohomeothers" href="./">
   </a>
       </div>
       <!-- Mobile Menu -->
@@ -121,15 +121,15 @@ String[] user_name = name.split(" ");
       <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
       </div> -->
       <!-- Mobile menu  -->
-      <div class="col-lg-4 themainmenu"  align="center">
+      <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
+            <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
+          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
-  <div class="col-lg-4">
+  <div class="col-lg-3">
   <ul class="nav navbar-nav" style="display:block;">
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
@@ -152,15 +152,14 @@ String[] user_name = name.split(" ");
       <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
       <div class="collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav mr-auto mobile-menu">
-              <li class="nav-item active">
-              
-                <a class="" href="./">Home <span class="sr-only">(current)</span></a>
+           <li class="nav-item active">
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="trackerlist.html">Trackers</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Favorites</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
               </li>
             </ul>
     </div>

@@ -88,8 +88,8 @@ $(function() {
 		//console.log("clicked");
 		$("#loggin").html('<button type="submit" class="btn btn-primary loginformbutton" disabled style="background: #28a745;">Logging in ...</button>');
 		
-		var btntext = '<button type="submit" class="btn btn-primary loginformbutton"  style="background: #28a745;">Login</button>';
-	    btntext+='<button type="button" id="glogin" class="btn buttonportfolio3 mt10 pt10 pb10 pl40"><b class="float-left bold-text">Sign in with Google </b></button>';
+		var btntext = '<button type="submit" class="btn btn-primary loginformbutton mt10" style="background: #28a745;">Login</button>';
+	   
 		
 		
 		var password = $("#password").val();
