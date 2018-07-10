@@ -1,10 +1,73 @@
+<%@page import="authentication.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.File"%>
+<%@page import="util.Blogposts"%>
+<%@page import="java.text.NumberFormat" %>
+<%@page import="java.util.Locale" %>
+<%@page import="java.util.ArrayList"%>
+<%@page import="org.json.JSONObject"%>
+<%
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+
+//if (email == null || email == "") {
+	//response.sendRedirect("login.jsp");
+//}else{
+
+ArrayList<?> userinfo = new ArrayList();//null;
+String profileimage= "";
+String username ="";
+String name="";
+String phone="";
+String date_modified = "";
+
+userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+ //System.out.println(userinfo);
+if (userinfo.size()<1) {
+	//response.sendRedirect("login.jsp");
+}else{
+userinfo = (ArrayList<?>)userinfo.get(0);
+try{
+username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+
+name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
+
+
+email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
+phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
+//date_modified = userinfo.get(11).toString();
+
+String userpic = userinfo.get(9).toString();
+String[] user_name = name.split(" ");
+username = user_name[0];
+
+String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+String filename = userinfo.get(9).toString();
+
+profileimage = "images/default-avatar.png";
+if(userpic.indexOf("http")>-1){
+	profileimage = userpic;
+}
+
+
+
+File f = new File(filename);
+if(f.exists() && !f.isDirectory()) { 
+	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+}
+}catch(Exception e){}
+
+
+}
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers</title>
+	<title>Blogtrackers-Keywords Trend</title>
   <link rel="shortcut icon" href="images/favicons/favicon.ico">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
@@ -28,31 +91,38 @@
 </head>
 <body>
 
-    <div class="modal-notifications">
-    <div class="row">
-    <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
-      <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
-    <div class="profilesection col-md-12 mt50">
-      <div class="text-center mb10"><img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="60" height="60" alt="" class="" /></div>
-      <div class="text-center" style="margin-left:0px;">
-        <h6 class="text-primary m0 bolder profiletext">Adigun Adekunle</h6>
-        <p class="text-primary profiletext">adigon2006@gmail.com</p>
-      </div>
+  <div class="modal-notifications">
+<div class="row">
+  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
+  <div class="profilesection col-md-12 mt50">
+  <% if(userinfo.size()>0){ %>
+    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
+    <div class="text-center" style="margin-left:0px;">
+      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+      <p class="text-primary profiletext"><%=email%></p>
+    </div>
+  <%} %>
+  </div>
+  <div id="othersection" class="col-md-12 mt10" style="clear:both">
+  <% if(userinfo.size()>0){ %>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
+  <%}else{ %>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/login"><h6 class="text-primary">Login</h6></a>
+  
+  <%} %>
+  </div>
+  </div>
+</div>
+</div>
 
-    </div>
-    <div id="othersection" class="col-md-12 mt10" style="clear:both">
-    <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-    <a class="cursor-pointer profilemenulink" href="profile.html"><h6  class="text-primary">Profile</h3></a>
-    <a class="cursor-pointer profilemenulink" href="#"><h6 class="text-primary">Log Out</h3></a>
-    </div>
-    </div>
-    </div>
-    </div>
       <nav class="navbar navbar-inverse bg-primary">
         <div class="container-fluid mt10 mb10">
 
-          <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex col-lg-3">
-          <a class="navbar-brand text-center logohomeothers" href="./">
+          <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+         <a class="navbar-brand text-center logohomeothers" href="./">
   </a>
           </div>
           <!-- Mobile Menu -->
@@ -67,44 +137,47 @@
           <!-- Mobile menu  -->
           <div class="col-lg-6 themainmenu"  align="center">
             <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-              <li><a href="./"><i class="fas fa-home"></i> Home</a></li>
-              <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
-              <li><a href="favorites.html"><i class="far fa-heart"></i> Favorites</a></li>
+               <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
+          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
             </ul>
           </div>
 
-      <div class="col-lg-3">
-      <ul class="nav navbar-nav" style="display:block;">
-      <li class="dropdown dropdown-user cursor-pointer float-right">
-      <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
-        <i class="fas fa-circle" id="notificationcolor"></i>
-      <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="50" height="50" alt="" class="" />
-      <span>Hayder</span>
-      <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
-                  <li><a href="#"> My profile</a></li>
-                  <li><a href="#"> Features</a></li>
-                  <li><a href="#"> Help</a></li>
-                  <li><a href="#">Logout</a></li>
-      </ul> -->
-      </a>
-
-       </li>
-            </ul>
-          </div>
+   
+     <div class="col-lg-3">
+  	 <% if(userinfo.size()>0){ %>
+  		
+	  <ul class="nav navbar-nav" style="display:block;">
+		  <li class="dropdown dropdown-user cursor-pointer float-right">
+		  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
+		    <i class="fas fa-circle" id="notificationcolor"></i>
+		   
+		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
+		  <span><%=username%></span></a>
+			
+		   </li>
+	    </ul>
+         <% }else{ %>
+         <ul class="nav main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+        
+        	<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
+         </ul>
+        <% } %>
+      </div>
 
           </div>
           <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
           <div class="collapse" id="navbarToggleExternalContent">
             <ul class="navbar-nav mr-auto mobile-menu">
-                  <li class="nav-item active">
-                    <a class="" href="./">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="trackerlist.html">Trackers</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="favorites.html">Favorites</a>
-                  </li>
+                        <li class="nav-item active">
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
+              </li>
                 </ul>
         </div>
           </div>
@@ -118,9 +191,9 @@
 <div class="row bottom-border pb20">
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="trackerlist.html">MY TRACKER</a>
+  <a class="breadcrumb-item text-primary" href="trackerlist">MY TRACKER</a>
   <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
-  <a class="breadcrumb-item active text-primary" href="influence.html">Influence</a>
+  <a class="breadcrumb-item active text-primary" href="keywordtrend.html">Keywords Trend</a>
   </nav>
 <div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
 </div>
@@ -148,11 +221,11 @@
 
 <!-- <div class="row p40 border-top-bottom mt20 mb20">
   <div class="col-md-2">
-<small class="text-primary">Selected Blogger</small>
-<h2 class="text-primary styleheading">AdNovum <div class="circle"></div></h2>
+<small class="text-primary">Selected Keyword</small>
+<h2 class="text-primary styleheading pb10">Technology <div class="circle"></div></h2>
 </div>
   <div class="col-md-10">
-  <small class="text-primary">Find Blogger</small>
+  <small class="text-primary">Explore Keywords </small>
   <input class="form-control inputboxstyle" placeholder="| Search" />
   </div>
 </div> -->
@@ -161,23 +234,27 @@
 <div class="col-md-3">
 
 <div class="card card-style mt20">
-  <div class="card-body  p30 pt5 pb5 mb20">
-    <h6 class="mt20 mb20">Top Bloggers</h6>
-    <div style="padding-right:10px !important;">
-      <input type="search" class="form-control stylesearch mb20" placeholder="Search Bloggers" /></div>
-    <div class="scrolly" style="height:270px; padding-right:10px !important;">
-    <a class="btn btn-primary form-control stylebuttonactive mb20"><b>Advonum</b></a>
-    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Abel Danger</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
+  <div class="card-body p20 pt5 pb5 mb20">
 
-   </div>
+    <h6 class="mt20 mb20">Top Keywords</h6>
+    <div style="padding-right:10px !important;"><input type="search" class="form-control stylesearch mb20 inputportfolio2" placeholder="| Search Keyword" /> <i class="fas fa-search searchiconinputothers"></i> <i class="fas fa-times searchiconinputclose cursor-pointer"></i></div>
+    <!-- <h6 class="card-title mb0">Maximum Influence</h6> -->
+    <!-- <h4 class="mt20 mb0">Technology</h4> -->
+
+    <!-- <small class="text-success pb10 ">+5% from <b>Last Week</b>
+
+    </small> -->
+   <div class="scrolly" style="height:250px; padding-right:10px !important;">
+   <a class="btn btn-primary form-control stylebuttonactive mb20 activebar"><b>Technology</b></a>
+    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Star</b></a>
+    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>AI</b></a>
+    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Stark</b></a>
+    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Nigeria</b></a>
+    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Trump</b></a>
+    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Nato</b></a>
 
 
+</div>
   </div>
 </div>
 </div>
@@ -186,7 +263,7 @@
   <div class="card card-style mt20">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 250px;">
-<div><p class="text-primary mt10"><b class="text-primary">Individual</b> Influence Score of Bloggers of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
+<div><p class="text-primary mt10 float-left">Keyword Trend of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
 <div class="chart-container">
   <div class="chart" id="d3-line-basic"></div>
 </div>
@@ -197,27 +274,27 @@
     <div class="card-body  p30 pt20 pb20">
       <div class="row">
      <div class="col-md-3 mt5 mb5">
-       <h6 class="card-title mb0">Influence Score</h6>
-       <h2 class="mb0 bold-text">649</h2>
+       <h6 class="card-title mb0">Blog Mentioned</h6>
+       <h2 class="mb0 bold-text">20</h2>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
      <div class="col-md-3 mt5 mb5">
-       <h6 class="card-title mb0">Total Posts</h6>
-       <h2 class="mb0 bold-text">2300</h2>
+       <h6 class="card-title mb0">Post Mentioned</h6>
+       <h2 class="mb0 bold-text">400</h2>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
      <div class="col-md-3 mt5 mb5">
-       <h6 class="card-title mb0">Most Used Keyword</h6>
-       <h2 class="mb0 bold-text">Krymu</h2>
+       <h6 class="card-title mb0">Most Used Location</h6>
+       <h3 class="mb0 bold-text">Nigeria</h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
      <div class="col-md-3  mt5 mb5">
        <h6 class="card-title mb0">Most Active Blog</h6>
        <h2 class="mb0 bold-text">AdNovum</h2>
-       <small class="text-success"><a href=""><b>View Blog</b></a></small>
+       <!-- <small class="text-success"><a href=""><b>View Blog</b></a></small> -->
      </div>
 
       </div>
@@ -226,105 +303,93 @@
 </div>
 </div>
 
-<div class="row mb0">
-  <div class="col-md-6 mt20 ">
+<!-- <div class="row mb0 d-flex align-items-stretch">
+  <div class="col-md-12 mt20 ">
     <div class="card card-style mt20">
-      <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Keywords of <b class="text-blue">AdNovum</b> and <b class="text-success">Abel Danger</b></p></div>
-        <div class="tagcloudcontainer" style="min-height: 420px;">
+      <div class="card-body p10 pt20 pb5">
 
-        </div>
-          </div>
-    </div>
-  </div>
-
-  <div class="col-md-6 mt20">
-    <div class="card card-style mt20">
-      <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Blogger in Tracker Activity Vs Influence</p></div>
         <div style="min-height: 420px;">
-          <div class="chart-container">
-            <div class="chart" id="scatterplot"></div>
-          </div>
+      <p class="text-primary">Top keywords of <b>Past Week</b></p>
+<div id="networkgraph"></div>
+
         </div>
           </div>
     </div>
   </div>
-</div>
 
-<div class="row m0 mt20 mb50 d-flex align-items-stretch" >
+</div> -->
+
+
+
+<div class="row m0 mt20 mb0 d-flex align-items-stretch" >
   <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
   <div class="card-body p0 pt20 pb20" style="min-height: 420px;">
-      <p>Influential Blog Posts of <b class="text-blue">AdNovum</b> and <b class="text-success">Abel Danger</b></p>
+      <p>Posts that mentioned <b class="text-green">Technology</b></p>
           <div class="p15 pb5 pt0" role="group">
           Export Options
           </div>
-                <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
+                <table id="DataTables_Table_2_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
-                                <th class="bold-text text-primary">Post title</th>
-                                <th class="bold-text text-primary">Influence Score</th>
+                                <th>Post title</th>
+                                <th>Occurence</th>
 
 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                          <tr>
+                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
+                              <td align="right">1</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
+                              <td align="right">1</td>
+
+
+                          </tr>  <tr>
                                 <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                <td align="center">649</td>
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">49</td>
+                                <td align="right">1</td>
 
 
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">9</td>
-
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
+                            </tr>  <tr>
+                                  <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
+                                  <td align="right">1</td>
 
 
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
+                              </tr>  <tr>
+                                    <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
+                                    <td align="right">1</td>
 
 
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
+                                </tr>  <tr>
+                                      <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
+                                      <td align="right">1</td>
 
 
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
+                                  </tr>  <tr>
+                                        <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
+                                        <td align="right">1</td>
 
 
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
+                                    </tr>  <tr>
+                                          <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
+                                          <td align="right">1</td>
 
 
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
-
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
+                                      </tr>  <tr>
+                                            <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
+                                            <td align="right">1</td>
 
 
-                            </tr>
+                                        </tr>  <tr>
+                                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
+                                              <td align="right">1</td>
+
+
+                                          </tr>
 
                         </tbody>
                     </table>
@@ -335,8 +400,9 @@
   <div class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
         <div style="" class="pt20">
           <h5 class="text-primary p20 pt0 pb0">#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</h5>
-          <div class="text-center mb20 mt20"><button class="btn stylebuttonblue"><b class="float-left ultra-bold-text">Michael J Fox</b> <i class="far fa-user float-right blogcontenticon"></i></button> <button class="btn stylebuttonnocolor">02-01-2018, 5:30pm</button> <button class="btn stylebuttonorange"><b class="float-left ultra-bold-text">32 comments</b><i class="far fa-comments float-right blogcontenticon"></i></button></div>
-          <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:600px; overflow-y:scroll; ">
+          <div class="text-center mb20 mt20"><button class="btn stylebuttonorange"><b class="float-left ultra-bold-text">Michael J Fox</b><i class="far fa-user float-right blogcontenticon"></i></button> <button class="btn stylebuttonnocolor">02-01-2018, 5:30pm</button> <button class="btn stylebuttonorange"><b class="float-left ultra-bold-text">32 comments</b><i class="far fa-comments float-right blogcontenticon"></i></button></div>
+
+            <div class="p20 pt0 pb10 text-blog-content" style="height:600px; overflow-y:scroll; ">
           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete
           images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer.
            Praesent nibh
@@ -351,6 +417,153 @@
     </div>
   </div>
 </div>
+
+<div class="row mb50 d-flex align-items-stretch">
+  <div class="col-md-12 mt20 ">
+    <div class="card card-style mt20">
+      <div class="card-body p10 pt20 pb5">
+
+        <div style="min-height: 420px;">
+      <!-- <p class="text-primary">Top keywords of <b>Past Week</b></p> -->
+          <div class="p15 pb5 pt0" role="group">
+          Export Options
+          </div>
+                <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Keyword</th>
+                                <th>Frequency</th>
+                                <th>Post Count</th>
+<th>Blog Count</th>
+<th>Blogger Count</th>
+<th>Leading Blogger</th>
+<th>Language</th>
+<th>Location</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Technology</td>
+                                <td>10,000</td>
+  <td>200 <sub>of 200</sub></td>
+  <td>200 <sub>of 200</sub></td>
+    <td>100 <sub>of 100</sub></td>
+<td>Matt Finnace</td>
+      <td>English</td>
+      <td>United States</td>
+
+                            </tr>
+                            <tr>
+                                <td>Technology</td>
+                                <td>10,000</td>
+  <td>200 <sub>of 200</sub></td>
+  <td>200 <sub>of 200</sub></td>
+    <td>100 <sub>of 100</sub></td>
+<td>Matt Finnace</td>
+      <td>English</td>
+      <td>United States</td>
+
+                            </tr>
+                            <tr>
+                                <td>Technology</td>
+                                <td>10,000</td>
+  <td>200 <sub>of 200</sub></td>
+  <td>200 <sub>of 200</sub></td>
+    <td>100 <sub>of 100</sub></td>
+<td>Matt Finnace</td>
+      <td>English</td>
+      <td>United States</td>
+
+                            </tr>    <tr>
+                                    <td>Technology</td>
+                                    <td>10,000</td>
+      <td>200 <sub>of 200</sub></td>
+      <td>200 <sub>of 200</sub></td>
+        <td>100 <sub>of 100</sub></td>
+    <td>Matt Finnace</td>
+          <td>English</td>
+          <td>United States</td>
+
+                                </tr>    <tr>
+                                        <td>Technology</td>
+                                        <td>10,000</td>
+          <td>200 <sub>of 200</sub></td>
+          <td>200 <sub>of 200</sub></td>
+            <td>100 <sub>of 100</sub></td>
+        <td>Matt Finnace</td>
+              <td>English</td>
+              <td>United States</td>
+
+                                    </tr>    <tr>
+                                            <td>Technology</td>
+                                            <td>10,000</td>
+              <td>200 <sub>of 200</sub></td>
+              <td>200 <sub>of 200</sub></td>
+                <td>100 <sub>of 100</sub></td>
+            <td>Matt Finnace</td>
+                  <td>English</td>
+                  <td>United States</td>
+
+                                        </tr>    <tr>
+                                                <td>Technology</td>
+                                                <td>10,000</td>
+                  <td>200 <sub>of 200</sub></td>
+                  <td>200 <sub>of 200</sub></td>
+                    <td>100 <sub>of 100</sub></td>
+                <td>Matt Finnace</td>
+                      <td>English</td>
+                      <td>United States</td>
+
+                                            </tr>    <tr>
+                                                    <td>Technology</td>
+                                                    <td>10,000</td>
+                      <td>200 <sub>of 200</sub></td>
+                      <td>200 <sub>of 200</sub></td>
+                        <td>100 <sub>of 100</sub></td>
+                    <td>Matt Finnace</td>
+                          <td>English</td>
+                          <td>United States</td>
+
+                                                </tr>    <tr>
+                                                        <td>Technology</td>
+                                                        <td>10,000</td>
+                          <td>200 <sub>of 200</sub></td>
+                          <td>200 <sub>of 200</sub></td>
+                            <td>100 <sub>of 100</sub></td>
+                        <td>Matt Finnace</td>
+                              <td>English</td>
+                              <td>United States</td>
+
+                                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+        </div>
+          </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -387,29 +600,8 @@
  $(document).ready(function() {
      $('#DataTables_Table_1_wrapper').DataTable( {
          "scrollY": 430,
+         "scrollX": true,
           "pagingType": "simple",
-          dom: 'Bfrtip',
-       buttons:{
-         buttons: [
-             { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
-             {extend:'csv',className: 'btn-primary stylebutton1'},
-             {extend:'excel',className: 'btn-primary stylebutton1'},
-            // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
-             {extend:'print',className: 'btn-primary stylebutton1'},
-         ]
-       },
-       "columnDefs": [
-    { "width": "80%", "targets": 0 }
-  ]
-     } );
-
-     $('#DataTables_Table_0_wrapper').DataTable( {
-         "scrollY": 430,
-         // "scrollX": false,
-          "pagingType": "simple",
-          "columnDefs": [
-       { "width": "80%", "targets": 0 }
-     ],
           dom: 'Bfrtip',
        buttons:{
          buttons: [
@@ -420,8 +612,38 @@
              {extend:'print',className: 'btn-primary stylebutton1'},
          ]
        }
+     } );
 
+     $('#DataTables_Table_0_wrapper').DataTable( {
+         "scrollY": 430,
 
+          "pagingType": "simple",
+          dom: 'Bfrtip',
+       buttons:{
+         buttons: [
+             { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
+             {extend:'csv',className: 'btn-primary stylebutton1'},
+             {extend:'excel',className: 'btn-primary stylebutton1'},
+            // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
+             {extend:'print',className: 'btn-primary stylebutton1'},
+         ]
+       }
+     } );
+
+     $('#DataTables_Table_2_wrapper').DataTable( {
+         "scrollY": 430,
+
+          "pagingType": "simple",
+          dom: 'Bfrtip',
+       buttons:{
+         buttons: [
+             { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
+             {extend:'csv',className: 'btn-primary stylebutton1'},
+             {extend:'excel',className: 'btn-primary stylebutton1'},
+            // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
+             {extend:'print',className: 'btn-primary stylebutton1'},
+         ]
+       }
      } );
  } );
  </script>
@@ -553,9 +775,9 @@
  });
  </script>
  <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
- <script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
  <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
  <script>
+
  $(function () {
 
      // Initialize chart
@@ -570,12 +792,12 @@
 
          // Define main variables
          var d3Container = d3.select(element),
-             margin = {top: 5, right: 10, bottom: 20, left: 50},
+             margin = {top: 10, right: 10, bottom: 20, left: 50},
              width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
              height = height - margin.top - margin.bottom;
 
 
-         var formatPercent = d3.format("");
+         // var formatPercent = d3.format(",.3f");
          // Format data
          // var parseDate = d3.time.format("%d-%b-%y").parse,
          //     bisectDate = d3.bisector(function(d) { return d.date; }).left,
@@ -593,7 +815,7 @@
 
          // Vertical
          var y = d3.scale.linear()
-                .range([height, 0]);
+             .range([height, 0]);
 
 
 
@@ -613,9 +835,6 @@
          var yAxis = d3.svg.axis()
              .scale(y)
              .orient("left")
-            //  .tickPadding(10)
-            // .tickSize(-width)
-            // .tickSubdivide(true)
              .ticks(6);
 
 
@@ -857,7 +1076,7 @@
                                 .attr("class", "d3-line d3-line-medium")
                                 .attr("d", line)
                                 // .style("fill", "rgba(0,0,0,0.54)")
-                                .style("stroke-width", 2)
+                                .style("stroke-width",2)
                                 .style("stroke", "17394C")
                                  .attr("transform", "translate("+margin.left/4.7+",0)");
                                 // .datum(data)
@@ -911,10 +1130,10 @@
                            // console.log(e)
                            // })
 
-                           console.log(data);
+                           // console.log(data);
 
                               var mergedarray = [].concat(...data);
-                               console.log(mergedarray)
+                               // console.log(mergedarray)
                                  circles = svg.selectAll(".circle-point")
                                      .data(mergedarray)
                                      .enter();
@@ -967,7 +1186,6 @@
                      svg.append("g")
                          .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
                          .attr("transform", "translate(0," + height + ")")
-                         .attr("transform", "translate(0," + y(0) + ")")
                          .call(xAxis);
 
                      // Vertical
@@ -983,12 +1201,22 @@
                      verticalAxis.append("text")
                          .attr("transform", "rotate(-90)")
                          .attr("y", 10)
-                         .attr("dy", ".31em")
+                         .attr("dy", ".71em")
                          .style("text-anchor", "end")
                          .style("fill", "#999")
                          .style("font-size", 12)
-                         // .text("Influence")
+                         // .text("Frequency")
                          ;
+
+
+
+
+             // Append tooltip
+             // -------------------------
+
+
+
+
 
 
          // Resize chart
@@ -1038,484 +1266,16 @@
            svg.selectAll('.d3-line').attr("d", line);
 
 
-           if(data.length == 1)
-           {
-             svg.selectAll(".circle-point").attr("circle",circles)
+
+             svg.selectAll(".circle-point")
              .attr("cx",function(d) { return x(d.date);})
              .attr("cy", function(d){return y(d.close)});
-           }
-           else if(data.length > 1)
-           {
-             svg.selectAll(".circle-point").attr("circle",circles)
-             .attr("cx",function(d) { return x(d.date);})
-             .attr("cy", function(d){return y(d.close)});
-           }
-         }
-     }
- });
- </script>
 
- <!-- Scattert Plot -->
- <script>
 
- $(function () {
-
-     // Initialize chart
-     lineBasic('#scatterplot', 400);
-
-     // Chart setup
-     function lineBasic(element, height) {
-
-
-         // Basic setup
-         // ------------------------------
-
-         // Define main variables
-         var d3Container = d3.select(element),
-             margin = {top: 5, right: 20, bottom: 20, left: 50},
-             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
-             height = height - margin.top - margin.bottom;
-
-
-         var formatPercent = d3.format("");
-         // Format data
-         // var parseDate = d3.time.format("%d-%b-%y").parse,
-         //     bisectDate = d3.bisector(function(d) { return d.date; }).left,
-         //     formatValue = d3.format(",.0f"),
-         //     formatCurrency = function(d) { return formatValue(d); }
-
-
-
-         // Construct scales
-         // ------------------------------
-
-         // Horizontal
-         var x = d3.scale.linear()
-             .range([0, width],.72,.5);
-
-         // Vertical
-         var y = d3.scale.linear()
-                .range([height, 0]);
-
-
-
-         // Create axes
-         // ------------------------------
-
-         // Horizontal
-         var xAxis = d3.svg.axis()
-             .scale(x)
-             .orient("bottom")
-            .ticks(7);
-
-           // .tickFormat(formatPercent);
-
-
-         // Vertical
-         var yAxis = d3.svg.axis()
-             .scale(y)
-             .orient("left")
-             .ticks(6);
-
-
-
-         // Create chart
-         // ------------------------------
-
-         // Add SVG element
-         var container = d3Container.append("svg");
-
-         // Add SVG group
-         var svg = container
-             .attr("width", width + margin.left + margin.right)
-             .attr("height", height + margin.top + margin.bottom)
-             .append("g")
-             // .attr("transform", "translate(0," + y(0) + ")");
-                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-
-         // Construct chart layout
-         // ------------------------------
-
-         // Line
-
-
-         // Load data
-         // ------------------------------
-         //
-         data = [
-           [{"x":12,"y":40},{"x":15,"y":30},{"x":18,"y":12.5},{"x":11,"y":22},{"x":5,"y":19}],
-           [{"x":8,"y":35},{"x":14,"y":22},{"x":27,"y":33},{"x":11.5,"y":-16},{"x":-12,"y":-11}],
-            [{"x":17,"y":50},{"x":18,"y":30},{"x":19,"y":17.7},{"x":10,"y":25},{"x":9,"y":15},{"x":23,"y":20},{"x":1,"y":20},{"x":20,"y":23},{"x":11.5,"y":-11},{"x":-11,"y":-15},{"x":7,"y":40},{"x":20,"y":30},{"x":8,"y":-12.5},{"x":6,"y":15},{"x":15,"y":25},{"x":-8,"y":14},{"x":-14,"y":25}]
-         ];
-
-         //console.log(data);
-         // data = [];
-
-
-         // data = [
-         //   [{"x":12,"y":40},{"x":15,"y":30},{"x":18,"y":12.5},{"x":11,"y":22},{"x":5,"y":19},{"x":8,"y":35},{"x":14,"y":22},{"x":27,"y":33},{"x":11.5,"y":-16},{"x":-12,"y":-11},{"x":17,"y":50},{"x":18,"y":30},{"x":19,"y":17.7},{"x":10,"y":25},{"x":9,"y":15},{"x":23,"y":20},{"x":1,"y":20},{"x":20,"y":23},{"x":11.5,"y":-11},{"x":-11,"y":-15},{"x":7,"y":40},{"x":20,"y":30},{"x":8,"y":-12.5},{"x":6,"y":15},{"x":15,"y":25},{"x":-8,"y":14},{"x":-14,"y":25}]
-         // ];
-
-         var line = d3.svg.line()
-                     .interpolate("basis")
-                     .x(function(d, i) { return x(i); })
-                     .y(function(d, i) { return y(d); });
-
-         // Create tooltip
-         var tip = d3.tip()
-                .attr('class', 'd3-tip')
-                .offset([-10, 0])
-                .html(function(d) {
-                if(d === null)
-                {
-                  return "No Information Available";
-                }
-                else if(d !== null) {
-                 return "("+d.x+","+d.y+")<br/> Click for more information";
-                  }
-
-                });
-
-
-
-
-
-
-                   // Vertical
-         // extract max value from list of json object
-         // console.log(data.length)
-             var maxYvalue =
-             data.map(function(d){
-               var mvalue = [];
-               if(data.length > 1)
-             {
-               d.forEach(function(f,i){
-               mvalue[i] = f.y;
-
-               })
-             return d3.max(mvalue);
-             }
-
-             //console.log(mvalue);
-             });
-
-
-             var minYvalue =
-             data.map(function(d){
-               var mvalue = [];
-               if(data.length > 1)
-             {
-               d.forEach(function(f,i){
-               mvalue[i] = f.y;
-
-               })
-               if(d3.min(mvalue) < 0 )
-               {
-                 return d3.min(mvalue);
-               }
-               else{
-                 return 0;
-               }
-
-             }
-
-             //console.log(mvalue);
-             });
-
-
-             var maxXvalue =
-             data.map(function(d){
-               var mvalue = [];
-               if(data.length > 1)
-             {
-               d.forEach(function(f,i){
-               mvalue[i] = f.x;
-
-               })
-             return d3.max(mvalue);
-             }
-
-             //console.log(mvalue);
-             });
-
-
-             var minXvalue =
-             data.map(function(d){
-               var mvalue = [];
-               if(data.length > 1)
-             {
-               d.forEach(function(f,i){
-               mvalue[i] = f.x;
-
-               })
-
-             if(d3.min(mvalue) < 0)
-             {
-               return d3.min(mvalue);
-             }
-             else
-             {
-               return 0;
-             }
-
-             }
-
-             //console.log(mvalue);
-             });
-
-
-             // color = d3.scale.linear()
-             //          .domain([0,1,2,3,4,5,6,10,15,20,80])
-             //          .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
-                         var color = d3.scale.category20();
-
-
-         ////console.log(data)
-         if(data.length == 1)
-         {
-           // var returnedvalue = data[0].map(function(e){
-           // return e.date
-           // });
-
-           var maxXvalue2 =
-           data.map(function(d){
-           return d3.max(d,function(t){return t.x});
-           });
-
-           var minXvalue2 =
-           data.map(function(d){
-           return d3.min(d,function(t){return t.x});
-           });
-
-         // for single json data
-         x.domain([minXvalue2,maxXvalue2]);
-         // rewrite x domain
-
-         var maxYvalue2 =
-         data.map(function(d){
-         return d3.max(d,function(t){return t.y});
-         });
-
-         var minYvalue2 =
-         data.map(function(d){
-         return d3.min(d,function(t){return t.y});
-         });
-
-         y.domain([minYvalue2,maxYvalue2]);
-         }
-         else if(data.length > 1)
-         {
-
-          x.domain([d3.min(minXvalue), d3.max(maxXvalue)]);
-         y.domain([d3.min(minYvalue), d3.max(maxYvalue)]);
-          }
-
-
-
-
-                     //
-                     // Append chart elements
-                     //
-
-
-
-
-                    // svg.call(tip);
-                      // data.map(function(d){})
-                      if(data.length == 1)
-                      {
-
-                         // add scatter points
-                        var circles = svg.selectAll(".circle-point")
-                                  .data(data[0])
-                                  .enter();
-
-
-                              circles
-                              // .enter()
-                              .append("circle")
-                              .attr("class","circle-point")
-                              .attr("r",3.4)
-                              // .style("stroke", "#4CAF50")
-                              .style("fill",function(e,i){return color(i)})
-                              .attr("cx",function(d) { return x(d.x); })
-                              .attr("cy", function(d){return y(d.y)})
-
-                              .attr("transform", "translate("+margin.left/4.7+",0)");
-
-                              svg.selectAll(".circle-point").data(data[0])
-                              .on("mouseover",tip.show)
-                              .on("mouseout",tip.hide)
-                              .on("click",function(d){
-                                // console.log(d.date)
-                                // sconsole.log(d.y);
-                              });
-                                                 svg.call(tip)
-                      }
-                      // handles multiple json parameter
-                      else if(data.length > 1)
-                      {
-
-                              var mergedarray = [].concat(...data);
-                               // console.log(mergedarray)
-                                 circles = svg.selectAll(".circle-point")
-                                     .data(mergedarray)
-                                     .enter();
-
-                                       circles
-                                       // .enter()
-                                       .append("circle")
-                                       .attr("class","circle-point")
-                                       .attr("r",3.4)
-                                       // .style("stroke", "#4CAF50")
-                                       .style("fill",function(d,i){return color(i);})
-                                       .attr("cx",function(d) { return x(d.x)})
-                                       .attr("cy", function(d){return y(d.y)})
-
-                                       .attr("transform", "translate("+margin.left/4.7+",0)");
-                                      //  svg.selectAll(".circle-point").data(mergedarray)
-                                      // .on("mouseover",tip.show)
-                                      // .on("mouseout",tip.hide)
-                                      // .on("click",function(d){
-                                      //   console.log(d.y)});
-                                 //                         svg.call(tip)
-
-                               //console.log(newi);
-
-
-                                     svg.selectAll(".circle-point").data(mergedarray)
-                                     .on("mouseover",tip.show)
-                                     .on("mouseout",tip.hide)
-                                     .on("click",function(d){console.log(d.y)});
-                                                        svg.call(tip)
-
-
-
-
-
-
-
-
-
-
-                      }
-
-
-         // show data tip
-
-
-                     // Append axes
-                     // ------------------------------
-
-                     // Horizontal
-                    var horizontalAxis =   svg.append("g")
-                         .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
-                         // .attr("transform", "translate(0," + height + ")")
-                         .attr("transform", "translate(0," + y(0) + ")")
-                         .call(xAxis);
-
-                     // Vertical
-                     var verticalAxis = svg.append("g")
-                         .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
-                          .attr("transform", "translate("+ x(0) + "," + "0)")
-                         .call(yAxis);
-
-
-                         svg.selectAll(".tick text")
-                      .each(function (d) {
-                      if ( d === 0 ) {
-                          this.remove();
-                      }
-                      });
-
-
-                     // Add text label
-                     verticalAxis.append("text")
-                         // .attr("transform", "rotate(-90)")
-                         .attr("y", 10)
-                         .attr("dy", ".71em")
-                         .style("text-anchor", "end")
-                         .style("fill", "#999")
-                         .style("font-size", 12)
-                         .text("Influence")
-                         ;
-
-                         horizontalAxis.append("text")
-                             // .attr("transform", "rotate(-90)")
-                             .attr("y", 10)
-                             .attr("dy", ".71em")
-                             .style("text-anchor", "end")
-                             .style("fill", "#999")
-                             .style("font-size", 12)
-                             .text("Activity")
-                             ;
-
-         // Resize chart
-         // ------------------------------
-
-         // Call function on window resize
-         $(window).on('resize', resize);
-
-         // Call function on sidebar width change
-         $('.sidebar-control').on('click', resize);
-
-         // Resize function
-         //
-         // Since D3 doesn't support SVG resize by default,
-         // we need to manually specify parts of the graph that need to
-         // be updated on window resize
-         function resize() {
-
-           // Layout variables
-           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
            //
-           //
-           // // Layout
-           // // -------------------------
-           //
-           // // Main svg width
-           container.attr("width", width + margin.left + margin.right);
-           //
-           // // Width of appended group
-           svg.attr("width", width + margin.left + margin.right);
-           //
-           //
-           // // Axes
-           // // -------------------------
-           //
-           // // Horizontal range
-           x.range([0, width],.72,.5);
-           //
-           // // Horizontal axis
-           svg.select('.d3-axis-horizontal').attr("transform", "translate(0," + y(0) + ")").call(xAxis);
-           svg.select('.d3-axis-vertical').attr("transform", "translate("+ x(0) + "," + "0)").call(yAxis);
-           //
-           //
-           // // Chart elements
-           // // -------------------------
-           //
+           // // Crosshair
+           // svg.selectAll('.d3-crosshair-overlay').attr("width", width);
 
-           svg.selectAll(".tick text")
-        .each(function (d) {
-        if ( d === 0 ) {
-            this.remove();
-        }
-        });
-
-           if(data.length == 1)
-           {
-             svg.selectAll(".circle-point").attr("circle",circles)
-             .attr("cx",function(d) { return x(d.x);})
-             .attr("cy", function(d){return y(d.y)});
-           }
-           else if(data.length > 1)
-           {
-             svg.selectAll(".circle-point").attr("circle",circles)
-             .attr("cx",function(d) { return x(d.x);})
-             .attr("cy", function(d){return y(d.y)});
-           }
          }
      }
  });
@@ -1523,42 +1283,17 @@
 
 <!--word cloud  -->
  <script>
-
-     var frequency_list = [{"text":"study","size":40},{"text":"motion","size":15},{"text":"forces","size":10},{"text":"electricity","size":15},{"text":"movement","size":10},{"text":"relation","size":5},{"text":"things","size":10},{"text":"force","size":5},{"text":"ad","size":5},{"text":"energy","size":85},{"text":"living","size":5},{"text":"nonliving","size":5},{"text":"laws","size":15},{"text":"speed","size":45},{"text":"velocity","size":30},{"text":"define","size":5},{"text":"constraints","size":5},{"text":"universe","size":10},{"text":"distinguished","size":5},{"text":"chemistry","size":5},{"text":"biology","size":5},{"text":"includes","size":5},{"text":"radiation","size":5},{"text":"sound","size":5},{"text":"structure","size":5},{"text":"atoms","size":5},{"text":"including","size":10},{"text":"atomic","size":10},{"text":"nuclear","size":10},{"text":"cryogenics","size":10},{"text":"solid-state","size":10},{"text":"particle","size":10},{"text":"plasma","size":10},{"text":"deals","size":5},{"text":"merriam-webster","size":5},{"text":"dictionary","size":10},{"text":"analysis","size":5},{"text":"conducted","size":5},{"text":"order","size":5},{"text":"understand","size":5},{"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
-
-
      var color = d3.scale.linear()
              .domain([0,1,2,3,4,5,6,10,15,20,80])
-             .range(["#17394C", "#F5CC0E", "#CE0202", "#1F90D0", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+             .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
 
-     d3.layout.cloud().size([450, 300])
-             .words(frequency_list)
-             .rotate(0)
-             .fontSize(function(d) { return d.size; })
-             .on("end", draw)
-             .start();
-
-     function draw(words) {
-         d3.select(".tagcloudcontainer").append("svg")
-                 .attr("width", 450)
-                 .attr("height", 300)
-                 .attr("class", "wordcloud")
-                 .append("g")
-                 // without the transform, words words would get cutoff to the left and top, they would
-                 // appear outside of the SVG area
-                 .attr("transform", "translate(155,180)")
-                 .selectAll("text")
-                 .data(words)
-                 .enter().append("text")
-                 .style("font-size", function(d) { return d.size + "px"; })
-                 .style("fill", function(d, i) { return color(i); })
-                 .attr("transform", function(d) {
-                     return "translate(" + [d.x + 2, d.y + 3] + ")rotate(" + d.rotate + ")";
-                 })
-
-                 .text(function(d) { return d.text; });
-     }
  </script>
+
+
+
+
+
+
 
 </body>
 </html>

@@ -114,7 +114,7 @@ ArrayList test = new ArrayList();
 
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
@@ -171,14 +171,14 @@ ArrayList test = new ArrayList();
       <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
       <div class="collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav mr-auto mobile-menu">
-              <li class="nav-item active">
-                <a class="" href="./">Home <span class="sr-only">(current)</span></a>
+            <li class="nav-item active">
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Favorites</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
               </li>
             </ul>
     </div>

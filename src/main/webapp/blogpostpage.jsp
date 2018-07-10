@@ -79,53 +79,7 @@ String[] user_name = name.split(" ");
   
 </head>
 <body style="background-color:#ffffff;">
- <!--  <nav class="navbar navbar-inverse bg-primary">
-    <div class="container-fluid">
-      <ul class="nav d-none d-lg-inline-flex d-xl-inline-flex  main-menu">
-        <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="icon-user-plus"></i>Home</a></li>
-        <li><a href="trackerlist.html"><i class="icon-cog5"></i> Trackers</a></li>
-        <li><a href="#"><i class="icon-help"></i> Favorites</a></li>
 
-      </ul>
-  <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-  </button>
-  </nav>
-  <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex ">
-  <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
-  </div>
-  	<ul class="nav navbar-nav">
-  <li class="dropdown dropdown-user cursor-pointer">
-  <a class="dropdown-toggle" data-toggle="dropdown">
-  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="border-white" />
-  <span><%=user_name[0]%></span>
-  <ul class="profilemenu dropdown-menu dropdown-menu-left">
-   <li><a href="<%=request.getContextPath()%>/profile.jsp"> My profile</a></li>
-              <li><a href="#"> Features</a></li>
-              <li><a href="#"> Help</a></li>
-              <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
-  </ul>
-  </a>
-
-   </li>
-        </ul>
-      <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
-      <div class="collapse" id="navbarToggleExternalContent">
-        <ul class="navbar-nav mr-auto mobile-menu">
-              <li class="nav-item active">
-                <a class="" href="./">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="trackerlist.html">Trackers</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Favorites</a>
-              </li>
-            </ul>
-    </div>
-      </div>
-    </nav> -->
     
 <div class="modal-notifications">
 <div class="row">
@@ -140,7 +94,7 @@ String[] user_name = name.split(" ");
 
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6  class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>

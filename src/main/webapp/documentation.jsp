@@ -1,10 +1,73 @@
+<%@page import="authentication.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.File"%>
+<%@page import="util.Blogposts"%>
+<%@page import="java.text.NumberFormat" %>
+<%@page import="java.util.Locale" %>
+<%@page import="java.util.ArrayList"%>
+<%@page import="org.json.JSONObject"%>
+<%
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+
+//if (email == null || email == "") {
+	//response.sendRedirect("login.jsp");
+//}else{
+
+ArrayList<?> userinfo = new ArrayList();//null;
+String profileimage= "";
+String username ="";
+String name="";
+String phone="";
+String date_modified = "";
+
+userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+ //System.out.println(userinfo);
+if (userinfo.size()<1) {
+	//response.sendRedirect("login.jsp");
+}else{
+userinfo = (ArrayList<?>)userinfo.get(0);
+try{
+username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+
+name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
+
+
+email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
+phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
+//date_modified = userinfo.get(11).toString();
+
+String userpic = userinfo.get(9).toString();
+String[] user_name = name.split(" ");
+username = user_name[0];
+
+String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+String filename = userinfo.get(9).toString();
+
+profileimage = "images/default-avatar.png";
+if(userpic.indexOf("http")>-1){
+	profileimage = userpic;
+}
+
+
+
+File f = new File(filename);
+if(f.exists() && !f.isDirectory()) { 
+	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+}
+}catch(Exception e){}
+
+
+}
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers</title>
+	<title>Blogtrackers - Documentation</title>
   <link rel="shortcut icon" href="images/favicons/favicon.ico">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
@@ -28,26 +91,34 @@
 <script src="assets/js/popper.min.js" ></script>
 </head>
 <body>
-  <div class="modal-notifications">
-  <div class="row">
+
+ <div class="modal-notifications">
+<div class="row">
   <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
-    <div class="text-center mb10"><img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="60" height="60" alt="" class="" /></div>
+  <% if(userinfo.size()>0){ %>
+    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
     <div class="text-center" style="margin-left:0px;">
-      <h6 class="text-primary m0 bolder profiletext">Adigun Adekunle</h6>
-      <p class="text-primary profiletext">adigon2006@gmail.com</p>
+      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+      <p class="text-primary profiletext"><%=email%></p>
     </div>
-
+  <%} %>
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-  <a class="cursor-pointer profilemenulink" href="profile.html"><h6  class="text-primary">Profile</h3></a>
-  <a class="cursor-pointer profilemenulink" href="#"><h6 class="text-primary">Log Out</h3></a>
+  <% if(userinfo.size()>0){ %>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
+  <%}else{ %>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/login"><h6 class="text-primary">Login</h6></a>
+  
+  <%} %>
   </div>
   </div>
-  </div>
-  </div>
+</div>
+</div>
+
   <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid mt10 mb10">
 
@@ -67,43 +138,46 @@
       <!-- Mobile menu  -->
       <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="./"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="favorites.html"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
+          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
-  <div class="col-lg-3">
-  <ul class="nav navbar-nav" style="display:block;">
-  <li class="dropdown dropdown-user cursor-pointer float-right">
-  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
-    <i class="fas fa-circle" id="notificationcolor"></i>
-  <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="50" height="50" alt="" class="" />
-  <span>Hayder</span>
-  <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
-              <li><a href="#"> My profile</a></li>
-              <li><a href="#"> Features</a></li>
-              <li><a href="#"> Help</a></li>
-              <li><a href="#">Logout</a></li>
-  </ul> -->
-  </a>
-
-   </li>
-        </ul>
+  
+      <div class="col-lg-3">
+  	 <% if(userinfo.size()>0){ %>
+  		
+	  <ul class="nav navbar-nav" style="display:block;">
+		  <li class="dropdown dropdown-user cursor-pointer float-right">
+		  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
+		    <i class="fas fa-circle" id="notificationcolor"></i>
+		   
+		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
+		  <span><%=username%></span></a>
+			
+		   </li>
+	    </ul>
+         <% }else{ %>
+         <ul class="nav main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+        
+        	<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
+         </ul>
+        <% } %>
       </div>
 
       </div>
       <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
       <div class="collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav mr-auto mobile-menu">
-              <li class="nav-item active">
-                <a class="" href="./">Home <span class="sr-only">(current)</span></a>
+                      <li class="nav-item active">
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="trackerlist.html">Trackers</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Favorites</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
               </li>
             </ul>
     </div>
