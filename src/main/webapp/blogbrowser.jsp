@@ -52,7 +52,7 @@ if(userpic.indexOf("http")>-1){
 
 
 File f = new File(filename);
-if(f.exists() && !f.isDirectory()) { 
+if(f.exists() && !f.isDirectory()) {
 	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
 }
 }catch(Exception e){}
@@ -79,12 +79,12 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Blogtrackers - Blog Browser</title>
-  <link rel="shortcut icon" href="images/favicons/favicon.ico">
+  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png" />
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
   <!-- start of bootstrap -->
-  
+
   <link href="assets/fonts/icomoon/styles.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css"/>
@@ -112,9 +112,15 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
   </script>
 </head>
 <body >
+
+<%-- <%@ include file="templates/profilepanel.jsp" %> --%>
+
 <div class="modal-notifications">
 <div class="row">
-  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+<div class="col-lg-10 closesection">
+
+	</div>
+  <div class=" col-lg-2 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
   <% if(userinfo.size()>0){ %>
@@ -132,14 +138,12 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   <%}else{ %>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/login"><h6 class="text-primary">Login</h6></a>
-  
+
   <%} %>
   </div>
   </div>
 </div>
 </div>
-  
-  
 <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid mt10 mb10">
 
@@ -159,34 +163,35 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
       <!-- Mobile menu  -->
       <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
+
         </ul>
       </div>
 
   <div class="col-lg-3">
   	 <% if(userinfo.size()>0){ %>
-  		
+
 	  <ul class="nav navbar-nav" style="display:block;">
 		  <li class="dropdown dropdown-user cursor-pointer float-right">
 		  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
 		    <i class="fas fa-circle" id="notificationcolor"></i>
-		   
+
 		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-		  <span><%=username%></span></a>
-			
+		  <span class="bold-text"><%=username%></span></a>
+
 		   </li>
 	    </ul>
          <% }else{ %>
          <ul class="nav main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-        
+
         	<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
          </ul>
         <% } %>
       </div>
-     
-      
+
+
 
       </div>
       <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
@@ -206,19 +211,19 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
       </div>
 <!-- <div class="profilenavbar" style="visibility:hidden;"></div> -->
 	   <div class="col-md-12 mt0">
-      <form name="serach-form" method="post" action=""><input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" 
+      <form name="serach-form" method="post" action=""><input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground"
      <% if(!term.equals("")){ %>
-      placeholder="Searching for <%=term%>" 
+      placeholder="Searching for <%=term%>"
      <% } else { %>
      placeholder="Search Posts"
      <% } %>
       />
-      
+
       </form>
       </div>
 
     </nav>
-	
+
 <div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Tracks</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer fas fa-times float-right pr20 mt10" id="closetracks"></i></div>
 
 <!-- Backdrop for modal -->
@@ -252,7 +257,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Spare <i class="fas fa-check float-right hidden checktracker"></i></button>
 </div>
 <div class="col-md-12 mt20 text-primary">
-<b class="selectedtrackercount text-primary">0</b> Tracker(s) selected 
+<b class="selectedtrackercount text-primary">0</b> Tracker(s) selected
 </div>
 </div>
 
@@ -283,7 +288,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 
 </div>
 
-	
+
 <div class="container">
 
 
@@ -307,16 +312,16 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <% if(results.size()>0){
 		for(int i=0; i< results.size(); i++){
 			String res = results.get(i).toString();
-			
+
 			JSONObject resp = new JSONObject(res);
 		    String resu = resp.get("_source").toString();
 		     JSONObject obj = new JSONObject(resu);
-		     
+
 		     String pst = obj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
 		     if(pst.length()>120){
 		    	 pst = pst.substring(0,120);
 		     }
-			
+
 %>
 <div class="card noborder curved-card mb30" >
 <div class="curved-card selectcontainer">
@@ -345,7 +350,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 </div>
 
 <% if(results.size()>0){ %>
-<div class="loadmoreimg" id="loading-img" style="text-align:center"><img src='images/preloader.gif' /><br/></div>	
+<div class="loadmoreimg" id="loading-img" style="text-align:center"><img src='images/preloader.gif' /><br/></div>
 <% } %>
 
 

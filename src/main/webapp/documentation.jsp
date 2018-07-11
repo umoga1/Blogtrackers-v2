@@ -94,7 +94,10 @@ if(f.exists() && !f.isDirectory()) {
 
  <div class="modal-notifications">
 <div class="row">
-  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+	<div class="col-lg-10 closesection">
+	
+	</div>
+  <div class="col-lg-2 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
   <% if(userinfo.size()>0){ %>
@@ -138,9 +141,9 @@ if(f.exists() && !f.isDirectory()) {
       <!-- Mobile menu  -->
       <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath() %>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
@@ -161,7 +164,7 @@ if(f.exists() && !f.isDirectory()) {
          <% }else{ %>
          <ul class="nav main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
         
-        	<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
+        	<li class="cursor-pointer"><a class="bold-text" href="login.jsp">Login</a></li>
          </ul>
         <% } %>
       </div>
