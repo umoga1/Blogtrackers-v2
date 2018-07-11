@@ -2,7 +2,7 @@
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
-<%@page import="util.Blogposts"%>
+<%@page import="util.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%
@@ -18,6 +18,9 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
+JSONObject myblogs = new JSONObject();
+Trackers trackers  = new Trackers();
+Blogs blogs  = new Blogs();
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
@@ -47,15 +50,13 @@ if(userpic.indexOf("http")>-1){
 	profileimage = userpic;
 }
 
-
-
-File f = new File(filename);
-if(f.exists() && !f.isDirectory()) { 
-	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
-}
+	File f = new File(filename);
+	if(f.exists() && !f.isDirectory()) { 
+		profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+	}
+	
 }catch(Exception e){}
-
-
+	myblogs = trackers.getMyTrackedBlogs(username);
 }
 
 Blogposts post  = new Blogposts();
@@ -212,7 +213,8 @@ String total = post._getTotal();
       </div>
 <!-- <div class="profilenavbar" style="visibility:hidden;"></div> -->
 	   <div class="col-md-12 mt0">
-      <form name="serach-form" method="post" action=""><input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" 
+      <form name="serach-form" method="get" action="">
+      <input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" 
      <% if(!term.equals("")){ %>
       placeholder="Searching for <%=term%>" 
      <% } else { %>
@@ -311,27 +313,56 @@ String total = post._getTotal();
 <div class="card-columns pt0 pb10  mt20 mb50 " id="appendee">
 
 <% if(results.size()>0){
+	String res = null;
+	JSONObject resp = null;
+	String resu = null;
+	JSONObject obj = null;
+	int totalpost = 0;
+	String bres = null;
+	JSONObject bresp = null;
+	String bresu =null;
+	JSONObject bobj =null;
+	
+
 		for(int i=0; i< results.size(); i++){
-			String res = results.get(i).toString();
+			String blogtitle="";
+		
+			 res = results.get(i).toString();
 			
-			JSONObject resp = new JSONObject(res);
-		    String resu = resp.get("_source").toString();
-		     JSONObject obj = new JSONObject(resu);
+			 resp = new JSONObject(res);
+		     resu = resp.get("_source").toString();
+		     obj = new JSONObject(resu);
+		     String blogid = obj.get("blogsite_id").toString();
 		     
 		     String pst = obj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
 		     if(pst.length()>120){
 		    	 pst = pst.substring(0,120);
 		     }
+
+			 ArrayList blog = blogs._fetch(blogid);
+
+			 if( blog.size()>0){
+						 bres = blog.get(0).toString();			
+						 bresp = new JSONObject(bres);
+						 bresu = bresp.get("_source").toString();
+						 bobj = new JSONObject(bresu);
+						 blogtitle = bobj.get("blogsite_name").toString();
+						 
+				 }
+		     String totaltrack  = trackers.getTotalTrack(blogid);
+		     
 			
 %>
 <div class="card noborder curved-card mb30" >
 <div class="curved-card selectcontainer">
  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20 posttitle"><a class="" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></a></h4>
-<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a class="" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=blogtitle%></a></h4>
+
+<div class="text-center mt10 mb10 trackingtracks">
+<% if(myblogs.has(blogid)){ %><button class="btn btn-primary stylebutton7">TRACKING</button><% } %> <button class="btn btn-primary stylebutton8"><%=totaltrack%> Tracks</button></div>
   </div>
   <div class="card-body">
-    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=pst+"..."%></h4></a>
+    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></h4></a>
     <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
   </div>
@@ -343,10 +374,7 @@ String total = post._getTotal();
 
 <% }
 }else{ %>
-
-<div >No post found</div>
-
-
+	<div >No post found</div>
 <% } %>
 </div>
 
