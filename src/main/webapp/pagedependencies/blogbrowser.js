@@ -268,8 +268,13 @@ $(this).attr("data-original-title","Add Blog from Tracker");
 console.log("Removed blog to be tracked");
 // add an ajax to remove blog from tracker
 trackscount--;
+
 $('#trackscount').html(trackscount);
 $('.tracksection').show();
+if(trackscount == 0)
+{
+	$('.tracksection').hide();
+}
 }
 });
 

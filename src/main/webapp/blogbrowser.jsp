@@ -84,7 +84,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
   <!-- start of bootstrap -->
-
+<link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
   <link href="assets/fonts/icomoon/styles.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css"/>
@@ -179,7 +179,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 		    <i class="fas fa-circle" id="notificationcolor"></i>
 
 		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-		  <span class="bold-text"><%=username%></span></a>
+		  <span ><%=username%></span></a>
 
 		   </li>
 	    </ul>
@@ -224,7 +224,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 
     </nav>
 
-<div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Tracks</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer fas fa-times float-right pr20 mt10" id="closetracks"></i></div>
+<div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Tracks</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer lnr lnr-cross float-right pr20 mt10" id="closetracks" data-toggle="tooltip" data-placement="top" title="Close"></i></div>
 
 <!-- Backdrop for modal -->
 <div class="modalbackdrop hidden">
@@ -246,7 +246,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 </div>
 <div class="col-md-5 pt100 pb100 pl50 pr50 bg-white">
 <div class="trackcreationsection1">
-<i class="cursor-pointer fas fa-times float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
+<i class="cursor-pointer lnr lnr-cross float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
 <h3 class="text-primary bold-text">Track the selected blogs using the following list of trackers: </h3>
 <button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
 <div class="trackerlist mt20">
