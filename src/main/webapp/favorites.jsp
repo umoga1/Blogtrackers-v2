@@ -283,7 +283,7 @@ if(f.exists() && !f.isDirectory()) {
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
 </div>
   <div class="card-body">
-    <a href="blogpostpage"><h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
+    <a href="blogpostpage.jsp"><h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
     <p class="card-text text-center author mb0 light-text">Richard Young</p>
     <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
   </div>
@@ -302,7 +302,7 @@ if(f.exists() && !f.isDirectory()) {
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
   </div>
     <div class="card-body">
-    <a href="blogpostpage">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
+    <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
       <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
 
@@ -318,7 +318,7 @@ if(f.exists() && !f.isDirectory()) {
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
   </div>
     <div class="card-body">
-    <a href="blogpostpage">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
+    <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
       <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
 
@@ -334,7 +334,7 @@ if(f.exists() && !f.isDirectory()) {
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
   </div>
     <div class="card-body">
-    <a href="blogpostpage">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
+    <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
       <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
 
@@ -351,7 +351,7 @@ if(f.exists() && !f.isDirectory()) {
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
   </div>
     <div class="card-body">
-      <a href="blogpostpage"><h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
+      <a href="blogpostpage.jsp"><h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
       <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
 
@@ -368,7 +368,7 @@ if(f.exists() && !f.isDirectory()) {
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
   </div>
     <div class="card-body">
-    <a href="blogpostpage">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
+    <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
       <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
 
@@ -384,7 +384,7 @@ if(f.exists() && !f.isDirectory()) {
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
   </div>
     <div class="card-body">
-    <a href="blogpostpage">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
+    <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
       <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
 
@@ -400,7 +400,7 @@ if(f.exists() && !f.isDirectory()) {
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
 </div>
   <div class="card-body">
-  <a href="blogpostpage">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
+  <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
     <p class="card-text text-center author mb0 light-text">Richard Young</p>
     <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
 

@@ -70,7 +70,9 @@ ArrayList test = new ArrayList();
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Blogtrackers - Tracker List</title>
 	
+
    <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
+
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
@@ -157,7 +159,7 @@ ArrayList test = new ArrayList();
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
   <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
-  <span class="bold-text"><%=user_name[0]%></span>
+  <span><%=user_name[0]%></span>
   <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
               <li><a href="#"> Features</a></li>
