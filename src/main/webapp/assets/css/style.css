@@ -9,7 +9,10 @@ body{
 {
 color:blue;
 } */
-
+.border-white
+{
+border: 4px solid #ffffff;
+}
 .logohome
 {
 background-image: url(../../images/logo.svg);
@@ -2307,7 +2310,7 @@ border-radius: 20px;
 .border-selected
 {
 background-color:#E3F3E8;
-border:4px solid #44AF69;	
+border:4px solid #44AF69 !important;	
 }
 .text-selected
 {

@@ -224,8 +224,9 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 
     </nav>
 
-<div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Tracks</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer lnr lnr-cross float-right pr20 mt10" id="closetracks" data-toggle="tooltip" data-placement="top" title="Close"></i></div>
+<div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Track</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer lnr lnr-cross float-right pr20 mt10" id="closetracks" data-toggle="tooltip" data-placement="top" title="Close"></i></div>
 
+<div class="bg-success"></div>
 <!-- Backdrop for modal -->
 <div class="modalbackdrop hidden">
 
@@ -324,11 +325,11 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 
 %>
 <div class="card noborder curved-card mb30" >
-<div class="curved-card selectcontainer">
+<div class="curved-card selectcontainer border-white">
  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
 <h4 class="text-primary text-center p10 pt20 posttitle"><a class="" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></a></h4>
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-  </div>
+  
   <div class="card-body">
     <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=pst+"..."%></h4></a>
     <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
@@ -338,6 +339,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
   <input type="hidden" class="post-image" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
   </div>
   <div class="text-center"><i class="far fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Add to Favorites"></i></div>
+</div>
 </div>
 
 <% }

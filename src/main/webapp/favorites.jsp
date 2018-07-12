@@ -68,7 +68,7 @@ if(f.exists() && !f.isDirectory()) {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Blogtrackers - Favorites</title>
-  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
+		  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
@@ -197,7 +197,7 @@ if(f.exists() && !f.isDirectory()) {
 
     </nav>
     
-    <div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Tracks</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer fas fa-times float-right pr20 mt10" id="closetracks"></i></div>
+    <div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Track</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer fas fa-times float-right pr20 mt10" id="closetracks"></i></div>
 
 <!-- Backdrop for modal -->
 <div class="modalbackdrop hidden">

@@ -1,5 +1,5 @@
 
-<div class="modal-notifications">
+<%-- <div class="modal-notifications">
 <div class="row">
 <div class="col-lg-10 closesection">
 
@@ -28,3 +28,4 @@
   </div>
 </div>
 </div>
+ --%>
