@@ -285,7 +285,7 @@ console.log("Added blog to be tracked");
 if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 		    // the element is not in the array
 		selected_blogs[looper] = blog_id;
-		$(".total_selected").text(selected_blogs.length);
+		
 		blogname = $(".blogname-"+blog_id);
 		blogname = $(blogname)[0];
 		blogname = $(blogname).text();
@@ -296,6 +296,7 @@ if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 		$(".blog_id_"+blog_id).addClass("text-success");
 		looper++;
 		trackscount++;
+		$(".total_selected").text(trackscount);
 };
 
 
@@ -411,6 +412,7 @@ function removeBlog(element){
 		$(".total_selected").text(selected_blogs.length);		
 		$(".blogg_"+blog_id).remove();
 		trackscount--;
+		$(".total_selected").text(trackscount);
 		$(".blog_id_"+blog_id).removeClass("text-success");
 					
 	};
