@@ -35,10 +35,10 @@
  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <meta name="google-signin-client_id" content="600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com">
 
-  <script>
-  <!-- update system url here -->
-  var app_url = "http://localhost:8080/Blogtrackers/";
+<!-- Base URL  -->
+  <script src="pagedependencies/baseurl.js">
   </script>
+  
 <script type="text/javascript" src="js/login_validation.js?v=9090"></script>
 
   <link rel="stylesheet" href="assets/css/style.css" />
@@ -48,14 +48,16 @@
 <script src="assets/js/popper.min.js" ></script>
 </head>
 
-<body>
+<body style="background:#ffffff;">
 
-  <nav class="navbar navbar-inverse bg-primary">
+  <nav class="navbar navbar-inverse bg-primary d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
     <div class="container-fluid">
 
-  <div class="navbar-header col-md-12">
+  <div class="navbar-header col-md-12 text-center">
 
-  <a class="navbar-brand text-center col-md-12" href="./"><img src="images/blogtrackers.png"  /></a>
+  <a class="navbar-brand text-center col-md-12 logohome" href="./">
+<!--   <img src="images/blogtrackers.png"  /> -->
+  </a>
 
   </div>
 
@@ -66,34 +68,34 @@
 
     <div class="registerbox">
       <div class="row d-flex align-items-stretch">
-      <div class="col-md-8 card m0 p0 borderradiusround nobordertopright noborderbottomright">
-          <div class="card-body p40 pt40 pb5 borderradiusround nobordertopright noborderbottomright" style="background-color:#f4f5f6;">
-          <p class="text-primary text-center mb30" style="font-size:26px;">Welcome to Blogtrackers</p>
+      <div class="col-md-7 card m0 p0 borderradiusround nobordertopright noborderbottomright noborder">
+          <div class="card-body p40 pt40 pb5 borderradiusround nobordertopright noborderbottomright" style="background-color:#F3F4F5;">
+          <p class="text-primary text-left mb30 mt30" style="font-size:26px;">Welcome to <b>Blogtrackers</b></p>
           <form id="register_form"  class=""  method="post">
       <div class="form-group">
 		<div class="form-login-error">
              <p id="error_message-box" style="color:red"></p>
 		</div>
-        <input type="text" id="name" required="required" class="form-control curved-form-login text-primary"   placeholder="* Full Name">
+        <input type="text" id="name" required="required" class="form-control curved-form-login text-primary"   placeholder="Full Name">
         <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
       </div>
       <div class="form-group">
-        <input type="email" id="email" required="required" class="form-control curved-form-login text-primary"  placeholder="* Email">
+        <input type="email" id="email" required="required" class="form-control curved-form-login text-primary"  placeholder="Email">
       </div>
 
       <div class="form-group">
-        <input type="password" id="password" required="required" class="form-control curved-form-login text-primary"  placeholder="* Password">
+        <input type="password" id="password" required="required" class="form-control curved-form-login text-primary"  placeholder="Password">
       </div>
       <div class="form-group">
-        <input type="password" id="password2" required="required" class="form-control curved-form-login text-primary"  placeholder="* Re-type Password">
+        <input type="password" id="password2" required="required" class="form-control curved-form-login text-primary"  placeholder="Re-type Password">
       </div>
 
     <p class="text-center float-left">
     <button type="submit" class="btn btn-primary loginformbutton mt10" style="background:#28a745;">Register</button>
   <!--   &nbsp;&nbsp; or Register with &nbsp;&nbsp; -->
    <!--  <button class="btn btn-rounded big-btn2"><i class="fab fa-google icon-small text-primary"></i></button> -->
-    <button class="btn buttonportfolio3 mt10 pt10 pb10 pl40">
-							<b class="float-left bold-text">Register with Google </b></button>
+    <!-- <button class="btn buttonportfolio3 mt10 pt10 pb10 pl40">
+							<b class="float-left bold-text">Sign up with Google </b></button> -->
     </p>
         
         <p class="pb20 text-primary text-center" style="clear:both;">Already have an account yet? <a href="login.jsp"><b>Login Now</b></a></small></p>
@@ -102,9 +104,11 @@
       </div>
 
       </div>
-    <div class="col-md-4 card m0 p0 bg-primary borderradiusround nobordertopleft noborderbottomleft othersection">
-      <div class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 robotcontainer2">
-
+    <div class="col-md-5 card m0 p0 bg-primary borderradiusround nobordertopleft noborderbottomleft othersection noborder">
+      <div class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 robotcontainer2 text-center">
+<a class="navbar-brand text-center logohome" href="./">
+				
+				</a>
 </div>
     </div>
 

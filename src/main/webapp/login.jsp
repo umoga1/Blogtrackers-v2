@@ -53,24 +53,24 @@ if (email != null && email != "") {
 	
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
-  <script>
-  <!-- update system url here -->
-  var app_url = "http://localhost:8080/Blogtrackers/";
-  //var app_url = "http://144.167.115.218:8080/Blogtrackers/";
+<!-- Base URL  -->
+  <script src="pagedependencies/baseurl.js">
   </script>
+  
   <script src="https://apis.google.com/js/platform.js"></script>
   
 <script type="text/javascript" src="js/login_validation.js?v=97"></script>
 
 </head>
 
-<body>
-	<nav class="navbar navbar-inverse bg-primary">
+<body style="background:#ffffff;">
+	<nav class="navbar navbar-inverse bg-primary d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
 		<div class="container-fluid">
 
-			<div class="navbar-header col-md-12">
-				<a class="navbar-brand text-center col-md-12" href="./"><img
-					src="images/blogtrackers.png" /></a>
+			<div class="navbar-header col-md-12 text-center">
+				<a class="navbar-brand text-center logohome" href="./">
+				<!-- <img src="images/blogtrackers.png" /> -->
+				</a>
 			</div>
 
 
@@ -80,11 +80,11 @@ if (email != null && email != "") {
 	<div class="loginbox">
 		<div class="row d-flex align-items-stretch">
 			<div
-				class="col-md-8 card m0 p0 borderradiusround nobordertopright noborderbottomright">
+				class="col-md-7 card m0 p0 borderradiusround nobordertopright noborderbottomright noborder">
 				<div
 					class="card-body p40 pt40 pb5 borderradiusround nobordertopright noborderbottomright"
-					style="background-color: #f4f5f6;">
-					<p class="text-primary mb30" style="font-size: 26px;">
+					style="background-color: #F3F4F5;">
+					<p class="text-primary mb50 mt20" style="font-size: 22px;">
 						Login or <b>Register</b>
 					</p>
 					<form id="login_form"  class=""  method="post">
@@ -94,28 +94,28 @@ if (email != null && email != "") {
 							</div>
 							<input type="email"
 								class="form-control curved-form-login text-primary"
-								 id="username" required="required" required aria-describedby="emailHelp"
+								 id="username" autocomplete="off" required="required" required aria-describedby="emailHelp"
 								placeholder="Email">
-							 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+							<!--  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
 						</div>
 						<br />
 						<div class="form-group">
 							<input type="password"
 								class="form-control curved-form-login text-primary"
-								  required="required" required id="password" placeholder="Password" >
+								  required="required" autocomplete="off" required id="password" placeholder="Password" >
 							 <div class="invalid-feedback">Please enter your password</div>
 						<!--	<div class="valid-feedback">Looks Good</div> -->
 						</div>
 						<br />
 						<div class=""  id="loggin2"></div>
 						<div>
-						<p class="float-left pt10"><input type="checkbox" class="remembercheckbox"/>Remember Me</p>
+						<p class="float-left pt10"><input type="checkbox" class="remembercheckbox blue" /><span></span>Remember Me</p>
 						<p class="pt10 text-primary float-right">
-							<small class="bold-text">Forgot your <a href="<%=request.getContextPath()%>/forgotpassword.jsp"><b>Password?</b></a></small>
+							<small class="bold-text"><a href="<%=request.getContextPath()%>/forgotpassword.jsp">Forgot your password?</a></small>
 						</p>
 						
 						</div>
-						<div class="clearfloat"  id="loggin">
+						<div class="clearfloat mb50"  id="loggin">
 							<button type="submit" class="btn btn-primary loginformbutton mt10"
 								style="background: #28a745;">Login</button>
 							<!-- &nbsp;&nbsp;or Login with &nbsp;&nbsp;
@@ -133,9 +133,9 @@ if (email != null && email != "") {
 							-->
  					</div>
 						
-						<p class="pb20 mt30 text-primary">
-							Dont have an account yet? <a href="<%=request.getContextPath()%>/register"><b>Register
-									Now</b></a></small>
+						<p class="pb40 mt30 text-primary">
+							Don't have an account with Blogtrackers? <a href="<%=request.getContextPath()%>/register"><b>Register
+									</b>Now</a></small>
 						</p>
 					</form>
 
@@ -149,10 +149,12 @@ if (email != null && email != "") {
 
 			</div>
 			<div
-				class="col-md-4 card m0 p0 bg-primary borderradiusround nobordertopleft noborderbottomleft othersection">
+				class="col-md-5 card m0 p0 bg-primary borderradiusround nobordertopleft noborderbottomleft othersection noborder">
 				<div
-					class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 robotcontainer2">
-
+					class="card-body borderradiusround nobordertopleft noborderbottomleft p10 pt20 pb5 robotcontainer3 text-center">
+<a class="navbar-brand text-center logohome" href="./">
+				
+				</a>
 				</div>
 			</div>
 

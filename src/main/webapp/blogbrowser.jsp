@@ -2,7 +2,11 @@
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
+
 <%@page import="util.*"%>
+<%@page import="java.text.NumberFormat" %>
+<%@page import="java.util.Locale" %>
+
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%
@@ -67,7 +71,7 @@ if(term.equals("")){
 }else{
 	results = post._search(term,"");
 }
-String total = post._getTotal();
+String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(post._getTotal()));
 //pimage = pimage.replace("build/", "");
 %>
 
@@ -107,9 +111,7 @@ String total = post._getTotal();
 <script type="text/javascript" src="assets/js/uniform.min.js"></script>
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
-  <script>
-  <!-- update system url here -->
-  var app_url = "http://localhost:8080/Blogtrackers/";
+  <script src="pagedependencies/baseurl.js">
   </script>
 </head>
 <body >
@@ -128,7 +130,7 @@ String total = post._getTotal();
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
   <% if(userinfo.size()>0){ %>
-  <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   <%}else{ %>
@@ -144,8 +146,9 @@ String total = post._getTotal();
 <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid mt10 mb10">
 
-      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
-      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+      <a class="navbar-brand text-left logohomeothers" href="./">
+  </a>
       </div>
       <!-- Mobile Menu -->
       <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
@@ -157,15 +160,15 @@ String total = post._getTotal();
       <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
       </div> -->
       <!-- Mobile menu  -->
-      <div class="col-lg-4 themainmenu"  align="center">
+      <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="favorites.html"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
-  <div class="col-lg-4">
+  <div class="col-lg-3">
   	 <% if(userinfo.size()>0){ %>
   		
 	  <ul class="nav navbar-nav" style="display:block;">
@@ -174,19 +177,12 @@ String total = post._getTotal();
 		    <i class="fas fa-circle" id="notificationcolor"></i>
 		   
 		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-		  <span><%=username%></span>
-		  <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
-		              <li><a href="#"> My profile</a></li>
-		              <li><a href="#"> Features</a></li>
-		              <li><a href="#"> Help</a></li>
-		              <li><a href="#">Logout</a></li>
-		  </ul> -->
-		  </a>
+		  <span><%=username%></span></a>
 			
 		   </li>
 	    </ul>
          <% }else{ %>
-         <ul class="main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+         <ul class="nav main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
         
         	<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
          </ul>
@@ -200,13 +196,13 @@ String total = post._getTotal();
       <div class="collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav mr-auto mobile-menu">
               <li class="nav-item active">
-                <a class="" href="./">Home <span class="sr-only">(current)</span></a>
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="trackerlist.html">Trackers</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="favorites.html">Favorites</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
               </li>
             </ul>
     </div>
@@ -239,12 +235,9 @@ String total = post._getTotal();
 <div class="row bg-primary">
 
 <div class="offset-md-1 col-md-6 pl100 pt100 pb100">
-<h1 class="text-white trackertitlesize"><b class="greentext">4</b> Blogs</h1>
-<div class="mt30">
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Engadget <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">National Public Radio <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Crooks and Liars <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Tech Crunch <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+<h1 class="text-white trackertitlesize"><b class="greentext total_selected">4</b> Blog(s)</h1>
+<div class="mt30" id="selected_blog_list">
+<!-- <button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Engadget <i class="fas fa-trash float-right hidden deleteblog"></i></button> -->
 </div>
 </div>
 <div class="col-md-5 pt100 pb100 pl50 pr50 bg-white">
@@ -298,9 +291,9 @@ String total = post._getTotal();
 <div class="row mt50">
 <div class="col-md-12 ">
 <% if(!term.equals("")){ %>
-<h6 class="float-left text-primary bold-text"><%=total%> posts found for "<%=term%>"</h6>
+<h6 class="float-left text-primary bold-text"><%=total %> posts found for "<%=term%>"</h6>
 <%}else{%>
-<h6 class="float-left text-primary bold-text"><%=total%> posts in our knowledge database</h6>
+<h6 class="float-left text-primary bold-text"><%=total %> posts in our knowledge database</h6>
 
 <%}%>
 <h6 class="float-right text-primary">
@@ -355,8 +348,8 @@ String total = post._getTotal();
 %>
 <div class="card noborder curved-card mb30" >
 <div class="curved-card selectcontainer">
- <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20 posttitle"><a class="" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=blogtitle%></a></h4>
+ <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="Select to Track Blog"></i></div>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a class="blogname-<%=blogid%>" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=blogtitle%></a></h4>
 
 <div class="text-center mt10 mb10 trackingtracks">
 <% if(myblogs.has(blogid)){ %><button class="btn btn-primary stylebutton7">TRACKING</button><% } %> <button class="btn btn-primary stylebutton8"><%=totaltrack%> Tracks</button></div>
@@ -381,11 +374,6 @@ String total = post._getTotal();
 <% if(results.size()>0){ %>
 <div class="loadmoreimg" id="loading-img" style="text-align:center"><img src='images/preloader.gif' /><br/></div>	
 <% } %>
-
-
-
-
-
 
 </div>
 
@@ -418,7 +406,7 @@ String total = post._getTotal();
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js">
+<script src="pagedependencies/blogbrowser.js?v=1980">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
@@ -427,7 +415,7 @@ String total = post._getTotal();
 </script>
 
 <script src="pagedependencies/imageloader.js?v=189908998"></script>
-<script src="js/functions.js?v=0990"></script>
+<script src="js/functions.js?v=1990"></script>
 <script>
 $(window).scroll(function() {
 	if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {

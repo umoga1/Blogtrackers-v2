@@ -94,7 +94,7 @@ String[] user_name = name.split(" ");
 
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6  class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
@@ -107,8 +107,9 @@ String[] user_name = name.split(" ");
   <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid mt10 mb10">
 
-      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
-      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+      <a class="navbar-brand text-center logohomeothers" href="./">
+  </a>
       </div>
       <!-- Mobile Menu -->
       <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
@@ -120,15 +121,15 @@ String[] user_name = name.split(" ");
       <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
       </div> -->
       <!-- Mobile menu  -->
-      <div class="col-lg-4 themainmenu"  align="center">
+      <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="<%=request.getContextPath()%>/dashboard.jsp"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
+            <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
+          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
-  <div class="col-lg-4">
+  <div class="col-lg-3">
   <ul class="nav navbar-nav" style="display:block;">
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
@@ -151,15 +152,14 @@ String[] user_name = name.split(" ");
       <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
       <div class="collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav mr-auto mobile-menu">
-              <li class="nav-item active">
-              
-                <a class="" href="./">Home <span class="sr-only">(current)</span></a>
+           <li class="nav-item active">
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="trackerlist.html">Trackers</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Favorites</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
               </li>
             </ul>
     </div>
@@ -198,7 +198,7 @@ String[] user_name = name.split(" ");
 <li>Number of Bloggers</li>
 </ul>
 </div>
-<div class="pb30"><a href="dashboard.html"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-1"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb30"><a href="<%=request.getContextPath()%>/dashboard.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-1"><i class="fas fa-plus"></i><b>More Details</b></a></div>
 
 </div>
 </div>
@@ -220,7 +220,7 @@ String[] user_name = name.split(" ");
 <li>Number of Bloggers</li>
 </ul>
 </div>
-<div class="pb30"><a href="postingfrequency.html"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-2"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb30"><a href="<%=request.getContextPath()%>/postingfrequency.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-2"><i class="fas fa-plus"></i><b>More Details</b></a></div>
 
 </div>
 </div>
@@ -241,7 +241,7 @@ String[] user_name = name.split(" ");
 <li>Number of Bloggers</li>
 </ul>
 </div>
-<div class="pb30"><a href="keywordtrend.html"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-3"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb30"><a href="<%=request.getContextPath()%>/keywordtrend.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-3"><i class="fas fa-plus"></i><b>More Details</b></a></div>
 
 </div>
 </div>
@@ -262,7 +262,7 @@ String[] user_name = name.split(" ");
 <li>Number of Bloggers</li>
 </ul>
 </div>
-<div class="pb30"><button class="btn btn-primary stylebutton4">View</button> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-4"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb30"><a href="<%=request.getContextPath()%>/sentiment.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-4"><i class="fas fa-plus"></i><b>More Details</b></a></div>
 
 </div>
 </div>
@@ -283,7 +283,7 @@ String[] user_name = name.split(" ");
 <li>Number of Bloggers</li>
 </ul>
 </div>
-<div class="pb30"><a href="influence.html"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-5"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb30"><a href="<%=request.getContextPath()%>/influence.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-5"><i class="fas fa-plus"></i><b>More Details</b></a></div>
 
 </div>
 </div>
@@ -318,7 +318,7 @@ String[] user_name = name.split(" ");
     <div class="analytics-button2"><button class="btn btn-rounded big-btn"><i class="fas fa-info-circle icon-small text-primary"></i></button></div>
 </div>
 <div class="col-md-10">
-<h6 class="text-primary">Additional Blog Information</h6>
+<h6 class="text-primary">Blog Portfolio</h6>
 <p>This feature provides more in depth-details about the blog. It gives a between day and of average trend of a blog that helps in determining if the blog is a professional blog or a hobby blog. Also provided are monthly posting trend and sentiments for the past three years to determine the variation in activity and emotions. A list of URLs and domains mentioned in the blog is provided to know the source of information.</p>
 <div class="collapse" id="toggle-7" >
 <ul>
@@ -327,7 +327,7 @@ String[] user_name = name.split(" ");
 <li>Number of Bloggers</li>
 </ul>
 </div>
-<div class="pb30"><a href="bloginfo.html"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-7"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb30"><a href="<%=request.getContextPath()%>/blogportfolio.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-7"><i class="fas fa-plus"></i><b>More Details</b></a></div>
 
 </div>
 </div>
@@ -339,7 +339,7 @@ String[] user_name = name.split(" ");
     <div class="analytics-button2"><button class="btn btn-rounded big-btn"><i class="fas fa-user icon-small text-primary"></i></button></div>
 </div>
 <div class="col-md-10">
-<h6 class="text-primary">Additional Blogger Information</h6>
+<h6 class="text-primary">Blogger Portfolio</h6>
 <p>You can use the feature to export all your tracker information and download them in json format This will give you the flexibility to perform further computation using our dataset.</p>
 <div class="collapse" id="toggle-8" >
 <ul>
@@ -348,7 +348,7 @@ String[] user_name = name.split(" ");
 <li>Number of Bloggers</li>
 </ul>
 </div>
-<div class="pb30"><a href="bloggerinfo.html"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-8"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb30"><a href="<%=request.getContextPath()%>/bloggerportfolio.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle-8"><i class="fas fa-plus"></i><b>More Details</b></a></div>
 
 </div>
 </div>
@@ -394,7 +394,7 @@ String[] user_name = name.split(" ");
 The dashboard provides an overview of the selected tracker. It displays the number of blogs, bloggers, blog posts, total positive and negative sentiments. It also shows blog sites' hosting location and language distribution.
 </div>
 
-<div class="pb20"><a href="dashboard.html"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle1"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb20"><a href="<%=request.getContextPath()%>/dashboard.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle1"><i class="fas fa-plus"></i><b>More Details</b></a></div>
   </div>
         </div>
   </div>
@@ -419,7 +419,7 @@ The dashboard provides an overview of the selected tracker. It displays the numb
 It can be utilized to identify any unusual patterns in blog postings. This aids in detecting real-time events that interested the blogging community. This feature also displays a list of active bloggers with number of posts. User can click on any data point on the graph to get a detailed list of the named-entities that were mentioned in blogs during that time-period.
 </div>
 
-<div class="pb20"><a href="postingfrequency.html"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle2"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb20"><a href="<%=request.getContextPath()%>/postingfrequency.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle2"><i class="fas fa-plus"></i><b>More Details</b></a></div>
   </div>
         </div>
   </div>
@@ -443,7 +443,7 @@ It can be utilized to identify any unusual patterns in blog postings. This aids 
 It provides an overall trend of keywords of interest. It helps track changes in topics of interest in the blogging community. An analyst can correlate keyword trends with events to examine discussion topics and themes relating to that event. The analyst can select any data point on the trend line to view all the blogs.
 </div>
 
-<div class="pb20"><a href="keywordtrend.html"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle3"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb20"><a href="<%=request.getContextPath()%>/keywordtrend.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle3"><i class="fas fa-plus"></i><b>More Details</b></a></div>
   </div>
         </div>
   </div>
@@ -467,7 +467,7 @@ It provides an overall trend of keywords of interest. It helps track changes in 
 It displays the trend of positive and negative sentiments of blogs for any selected time-period. This helps in understanding the effect an event has on the blogosphere. Additionally, data analyst can drill down by clicking on any point of interest and view radar charts displaying tonality attributes such as personal concerns, time orientation, core drives, cognitive process.
 </div>
 
-<div class="pb20"><button class="btn btn-primary stylebutton4">View</button> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle4"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb20"><a href="<%=request.getContextPath()%>/sentiment.jsp"><button class="btn btn-primary stylebutton4">View</button></a><a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle4"><i class="fas fa-plus"></i><b>More Details</b></a></div>
   </div>
         </div>
   </div>
@@ -492,7 +492,7 @@ It displays the trend of positive and negative sentiments of blogs for any selec
 This feature helps identify the influence a blogger or blog post has on the blogosphere. Blogtrackers finds the posts that are authoritative by assigning a score calculated using the iFinder model. This feature lists top 5 influential bloggers and displays a trend line to show the variation in bloggers' influence.
 </div>
 
-<div class="pb20"><a href="influence.html"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle5"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb20"><a href="<%=request.getContextPath()%>/influence.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle5"><i class="fas fa-plus"></i><b>More Details</b></a></div>
   </div>
         </div>
   </div>
@@ -531,7 +531,7 @@ You can use the feature to export all your tracker information and download them
     <div class="heading-element bg-primary"></div>
     <div class="analytics-button"><button class="btn btn-rounded big-btn"><i class="fas fa-info-circle icon-small text-primary" style="font-size:35px;"></i></button></div>
     <div class="card-body  p30 pt10 pb5">
-  <h4 class="text-primary analytics-title">Additional Blog Information</h4>
+  <h4 class="text-primary analytics-title">Blog Portfolio</h4>
 <div style="min-height: 170px;">
 <p>-Number of Blogs</p>
 <p>-Number of Blog Posts</p>
@@ -540,7 +540,7 @@ You can use the feature to export all your tracker information and download them
 This feature provides more in depth-details about the blog. It gives a between day and of average trend of a blog that helps in determining if the blog is a professional blog or a hobby blog. Also provided are monthly posting trend and sentiments for the past three years to determine the variation in activity and emotions. A list of URLs and domains mentioned in the blog is provided to know the source of information.
 </div>
 
-<div class="pb20"><a href="bloginfo.html"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle7"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb20"><a href="<%=request.getContextPath()%>/blogportfolio.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle7"><i class="fas fa-plus"></i><b>More Details</b></a></div>
   </div>
         </div>
   </div>
@@ -554,7 +554,7 @@ This feature provides more in depth-details about the blog. It gives a between d
     <div class="heading-element bg-primary"></div>
     <div class="analytics-button"><button class="btn btn-rounded big-btn"><i class="fas fa-user icon-small text-primary" style="font-size:35px;"></i></button></div>
     <div class="card-body  p30 pt10 pb5">
-  <h4 class="text-primary analytics-title">Additional Blogger Information</h4>
+  <h4 class="text-primary analytics-title">Blogger Portfolio</h4>
 <div style="min-height: 170px;">
 <p>-Number of Blogs</p>
 <p>-Number of Blog Posts</p>
@@ -563,7 +563,7 @@ This feature provides more in depth-details about the blog. It gives a between d
 You can use the feature to export all your tracker information and download them in json format This will give you the flexibility to perform further computation using our dataset.
 </div>
 
-<div class="pb20"><a href="bloggerinfo"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle8"><i class="fas fa-plus"></i><b>More Details</b></a></div>
+<div class="pb20"><a href="<%=request.getContextPath()%>/bloggerportfolio.jsp"><button class="btn btn-primary stylebutton4">View</button></a> <a class="cursor-pointer text-primary linktextsize" data-toggle="collapse" data-target="#toggle8"><i class="fas fa-plus"></i><b>More Details</b></a></div>
   </div>
         </div>
   </div>

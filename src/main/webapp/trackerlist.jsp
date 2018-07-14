@@ -76,6 +76,7 @@ ArrayList test = new ArrayList();
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
   <!-- start of bootsrap -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css"/>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"/>
   <link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.css" />
@@ -91,10 +92,12 @@ ArrayList test = new ArrayList();
   <!--end of bootsrap -->
   <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
-  <script>
-  <!-- update system url here -->
-  var app_url = "http://localhost:8080/Blogtrackers/";
+
+<!-- Base URL  -->
+  <script src="pagedependencies/baseurl.js">
   </script>
+  
+  
 </head>
 <body>
 <div class="modal-notifications">
@@ -111,7 +114,7 @@ ArrayList test = new ArrayList();
 
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
@@ -123,8 +126,9 @@ ArrayList test = new ArrayList();
   <nav class="navbar navbar-inverse bg-primary">
     <div class="container-fluid mt10">
 
-      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
-      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+<a class="navbar-brand text-center logohomeothers" href="./">
+  </a>
       </div>
       <!-- Mobile Menu -->
       <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
@@ -136,15 +140,15 @@ ArrayList test = new ArrayList();
       <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
       </div> -->
       <!-- Mobile menu  -->
-      <div class="col-lg-4 themainmenu"  align="center">
+      <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="./"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
-  <div class="col-lg-4">
+  <div class="col-lg-3">
   <ul class="nav navbar-nav" style="display:block;">
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
@@ -167,14 +171,14 @@ ArrayList test = new ArrayList();
       <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
       <div class="collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav mr-auto mobile-menu">
-              <li class="nav-item active">
-                <a class="" href="./">Home <span class="sr-only">(current)</span></a>
+            <li class="nav-item active">
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Favorites</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
               </li>
             </ul>
     </div>
@@ -319,6 +323,7 @@ ArrayList test = new ArrayList();
 
 
 <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
 <script type="text/javascript" src="assets/vendors/tags/tagsinput.min.js"></script>
@@ -329,52 +334,39 @@ ArrayList test = new ArrayList();
 <script type="text/javascript" src="assets/vendors/blockui/blockui.min.js"></script>
 
 
-
-<script type="text/javascript" src="assets/vendors/tags/tagsinput.min.js"></script>
-<script type="text/javascript" src="assets/vendors/tags/tokenfield.min.js"></script>
-<script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>
-<script type="text/javascript" src="assets/vendors/typeahead/typeahead.bundle.min.js"></script>
-<script type="text/javascript" src="assets/js/form_tags_input.js"></script>
-<script type="text/javascript" src="assets/vendors/blockui/blockui.min.js"></script>
-
-
 <script>
 $(document).ready(function() {
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
-
-
-  // add new tracker code snippets
-  $('.addnewtracker').on("click",function(e){
-    e.preventDefault();
-    var  trackersetupform = "";
-    trackersetupform += '<div class="card noborder curved-card mb30 pt20 pb20"><div class="card-body"><div class="trackerclose"><i class="fas fa-times-circle closetracker text-primary cursor-pointer" data-toggle="tooltip" data-placement="top" title="Cancel New Tracker"></i></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackername text-primary text-center" placeholder="Tracker Name" rows="2"></textarea></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackerdescription text-primary text-center" placeholder="Description" rows="1"></textarea></div>';
-    trackersetupform += '<div class="form-group mt20 trackerpage"><label class="text-primary">Add Blog</label><input type="text" class="form-control tokenfield-primary" value="" placeholder="Add Blog" /></div><div class="text-center"><i type="submit" class="fas fa-check text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="fas fa-trash-alt text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
-  $('.card-columns').prepend(trackersetupform);
-  
-  // load the script for form tag input
-  $.getScript("assets/js/form_tags_input.js", function(data, textStatus, jqxhr) {
-	 /*  console.log(data); //data returned
-	  console.log(textStatus); //success
-	  console.log(jqxhr.status); //200
-	  console.log('Load was performed.'); */
-	  });
-  
-  // create a tracker script
-
-  $.getScript("pagedependencies/createtracker.js?v=8733", function(data, textStatus, jqxhr) {
-	
+	  $(function () {
+	    $('[data-toggle="tooltip"]').tooltip()
+	  })
+	  // add new tracker code snippets
+	  $('.addnewtracker').on("click",function(e){
+	    e.preventDefault();
+	    var  trackersetupform = "";
+	    trackersetupform += '<div class="card noborder curved-card mb30 pt20 pb20"><div class="card-body"><div class="trackerclose"><i class="fas fa-times-circle closetracker text-primary cursor-pointer" data-toggle="tooltip" data-placement="top" title="Cancel New Tracker"></i></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackername text-primary text-center" placeholder="Tracker Name" rows="2"></textarea></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackerdescription text-primary text-center" placeholder="Description" rows="1"></textarea></div>';
+	    trackersetupform += '<div class="form-group mt20 trackerpage"><label class="text-primary">Add Blog</label><input type="text" class="form-control tokenfield-primary" value="" placeholder="Add Blog" /></div><div class="text-center"><i type="submit" class="fas fa-check text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="fas fa-trash-alt text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
+	  $('.card-columns').prepend(trackersetupform);
+	  
+	  // load the script for form tag input
+	  $.getScript("assets/js/form_tags_input.js", function(data, textStatus, jqxhr) {
+		 /*  console.log(data); //data returned
+		  console.log(textStatus); //success
+		  console.log(jqxhr.status); //200
+		  console.log('Load was performed.'); */
 		  });
-  
-  });
+	  
+	  // create a tracker script
+	  $.getScript("pagedependencies/createtracker.js", function(data, textStatus, jqxhr) {
+			
+			  });
+	  
+	  });
 
-/// refresh a tracker
-  $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
-		
-  });
-});
-
+	/// refresh a tracker
+	  $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
+			
+	  });
+	});
 </script>
 
 

@@ -1,10 +1,73 @@
+<%@page import="authentication.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.io.File"%>
+<%@page import="util.Blogposts"%>
+<%@page import="java.text.NumberFormat" %>
+<%@page import="java.util.Locale" %>
+<%@page import="java.util.ArrayList"%>
+<%@page import="org.json.JSONObject"%>
+<%
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+
+//if (email == null || email == "") {
+	//response.sendRedirect("login.jsp");
+//}else{
+
+ArrayList<?> userinfo = new ArrayList();//null;
+String profileimage= "";
+String username ="";
+String name="";
+String phone="";
+String date_modified = "";
+
+userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+ //System.out.println(userinfo);
+if (userinfo.size()<1) {
+	//response.sendRedirect("login.jsp");
+}else{
+userinfo = (ArrayList<?>)userinfo.get(0);
+try{
+username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+
+name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
+
+
+email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
+phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
+//date_modified = userinfo.get(11).toString();
+
+String userpic = userinfo.get(9).toString();
+String[] user_name = name.split(" ");
+username = user_name[0];
+
+String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+String filename = userinfo.get(9).toString();
+
+profileimage = "images/default-avatar.png";
+if(userpic.indexOf("http")>-1){
+	profileimage = userpic;
+}
+
+
+
+File f = new File(filename);
+if(f.exists() && !f.isDirectory()) { 
+	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+}
+}catch(Exception e){}
+
+
+}
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers</title>
+	<title>Blogtrackers - Blog Portfolio</title>
   <link rel="shortcut icon" href="images/favicons/favicon.ico">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
@@ -18,7 +81,7 @@
  <link rel="stylesheet" href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
  <link rel="stylesheet" href="assets/css/table.css" />
  <link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
-  <link href="assets/vendors/animations/animate.min.css" rel="stylesheet" type="text/css" />
+ <link href="assets/vendors/animations/animate.min.css" rel="stylesheet" type="text/css" />
 
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
@@ -29,80 +92,38 @@
 <script type="text/javascript" src="assets/vendors/animations/animations_css3.js"></script>
 </head>
 <body>
-
-  <!-- <nav class="navbar navbar-inverse bg-primary">
-    <div class="container-fluid">
-      <ul class="nav d-none d-lg-inline-flex d-xl-inline-flex  main-menu">
-        <li><a href="./"><i class="icon-user-plus"></i>Home</a></li>
-        <li><a href="trackerlist.html"><i class="icon-cog5"></i> Trackers</a></li>
-        <li><a href="#"><i class="icon-help"></i> Favorites</a></li>
-
-      </ul>
-<nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
-<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-<span class="navbar-toggler-icon"></span>
-</button>
-</nav>
-<div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex ">
-<a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+   <div class="modal-notifications">
+<div class="row">
+  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
+  <div class="profilesection col-md-12 mt50">
+  <% if(userinfo.size()>0){ %>
+    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
+    <div class="text-center" style="margin-left:0px;">
+      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+      <p class="text-primary profiletext"><%=email%></p>
+    </div>
+  <%} %>
+  </div>
+  <div id="othersection" class="col-md-12 mt10" style="clear:both">
+  <% if(userinfo.size()>0){ %>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
+  <%}else{ %>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/login"><h6 class="text-primary">Login</h6></a>
+  
+  <%} %>
+  </div>
+  </div>
 </div>
-  <ul class="nav navbar-nav">
-  <li class="dropdown dropdown-user cursor-pointer">
-  <a class="dropdown-toggle" data-toggle="dropdown">
-  <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="50" height="50" alt="" class="border-white" />
-  <span>Hayder</span>
-  <ul class="profilemenu dropdown-menu dropdown-menu-left">
-  						<li><a href="#"> My profile</a></li>
-  						<li><a href="#"> Features</a></li>
-  						<li><a href="#"> Help</a></li>
-  						<li><a href="#">Logout</a></li>
-  </ul>
-  </a>
-
-   </li>
-        </ul>
-      <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
-      <div class="collapse" id="navbarToggleExternalContent">
-        <ul class="navbar-nav mr-auto mobile-menu">
-              <li class="nav-item active">
-                <a class="" href="./">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="trackerlist.html">Trackers</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Favorites</a>
-              </li>
-            </ul>
-    </div>
-      </div>
-    </nav> -->
-
-    <div class="modal-notifications">
-    <div class="row">
-    <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
-      <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
-    <div class="profilesection col-md-12 mt50">
-      <div class="text-center mb10"><img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="60" height="60" alt="" class="" /></div>
-      <div class="text-center" style="margin-left:0px;">
-        <h6 class="text-primary m0 bolder profiletext">Adigun Adekunle</h6>
-        <p class="text-primary profiletext">adigon2006@gmail.com</p>
-      </div>
-
-    </div>
-    <div id="othersection" class="col-md-12 mt10" style="clear:both">
-    <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-    <a class="cursor-pointer profilemenulink" href="profile.html"><h6  class="text-primary">Profile</h3></a>
-    <a class="cursor-pointer profilemenulink" href="#"><h6 class="text-primary">Log Out</h3></a>
-    </div>
-    </div>
-    </div>
-    </div>
+</div>
       <nav class="navbar navbar-inverse bg-primary">
-        <div class="container-fluid mt10">
+        <div class="container-fluid mt10 mb10">
 
-          <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
-          <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+          <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+          <a class="navbar-brand text-center logohomeothers" href="./">
+  </a>
           </div>
           <!-- Mobile Menu -->
           <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
@@ -114,62 +135,62 @@
           <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
           </div> -->
           <!-- Mobile menu  -->
-          <div class="col-lg-4 themainmenu"  align="center">
+          <div class="col-lg-6 themainmenu"  align="center">
             <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-              <li><a href="./"><i class="fas fa-home"></i> Home</a></li>
-              <li><a href="trackerlist.html"><i class="far fa-dot-circle"></i> Trackers</a></li>
-              <li><a href="favorites.html"><i class="far fa-heart"></i> Favorites</a></li>
+               <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
+          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
             </ul>
           </div>
 
-      <div class="col-lg-4">
-      <ul class="nav navbar-nav" style="display:block;">
-      <li class="dropdown dropdown-user cursor-pointer float-right">
-      <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
-        <i class="fas fa-circle" id="notificationcolor"></i>
-      <img src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" width="50" height="50" alt="" class="" />
-      <span>Hayder</span>
-      <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
-                  <li><a href="#"> My profile</a></li>
-                  <li><a href="#"> Features</a></li>
-                  <li><a href="#"> Help</a></li>
-                  <li><a href="#">Logout</a></li>
-      </ul> -->
-      </a>
-
-       </li>
-            </ul>
-          </div>
+        <div class="col-lg-3">
+  	 <% if(userinfo.size()>0){ %>
+  		
+	  <ul class="nav navbar-nav" style="display:block;">
+		  <li class="dropdown dropdown-user cursor-pointer float-right">
+		  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
+		    <i class="fas fa-circle" id="notificationcolor"></i>
+		   
+		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
+		  <span><%=username%></span></a>
+			
+		   </li>
+	    </ul>
+         <% }else{ %>
+         <ul class="nav main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+        
+        	<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
+         </ul>
+        <% } %>
+      </div>
 
           </div>
           <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
           <div class="collapse" id="navbarToggleExternalContent">
             <ul class="navbar-nav mr-auto mobile-menu">
-                  <li class="nav-item active">
-                    <a class="" href="./">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="trackerlist.html">Trackers</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="favorites.html">Favorites</a>
-                  </li>
+                    <li class="nav-item active">
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
+              </li>
                 </ul>
         </div>
           </div>
 
-          <!-- <div class="col-md-12 mt0">
-          <input type="search" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" placeholder="Search Trackers" />
-          </div> -->
+         
 
         </nav>
 <div class="container">
 <div class="row">
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="trackerlist">MY TRACKER</a>
+  <a class="breadcrumb-item text-primary" href="trackerlist.html">MY TRACKER</a>
   <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
-  <a class="breadcrumb-item active text-primary" href="bloggerportfolio.html">Blogger Portfolio</a>
+  <a class="breadcrumb-item active text-primary" href="blogportfolio.html">Blog Portfolio</a>
   </nav>
 <div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
 </div>
@@ -182,14 +203,12 @@
   	</label>
     <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" name="options" value="week" autocomplete="off" >Week
   	</label>
-     <label class="btn btn-primary btn-sm nobgnoborder nobgnoborder"> <input type="radio" name="options" value="month" autocomplete="off" > Month
+     <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" name="options" value="month" autocomplete="off" > Month
   	</label>
     <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
   	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label>
+    <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label>
   </div>
-
-  <!-- Day Week Month Year <b id="custom" class="text-primary">Custom</b> -->
 
 </div>
 </div>
@@ -197,15 +216,15 @@
 
 <div class="row p0 pt40 pb40 border-top-bottom mt20 mb20">
   <div class="col-md-2 animated fadeInLeft">
-<small class="text-primary">Selected Blogger</small>
-<h2 class="textblue styleheading">AdNovum <div class="circle"></div></h2>
+<small class="text-primary">Selected Blog</small>
+<h2 class="styleheading text-blue">AdNovum <div class="circle"></div></h2>
 </div>
 <div class="offset-md-4 col-md-3 text-right">
-<small class="text-primary">Blogsite of <b class="text-blue"><u>Advonum</u></b></small><br/>
-<button class="btn buttonportfolio"><b class="float-left">AdNovum</b> <b class="far fa-file-alt float-right iconportfolio"></b></button>
+<small class="text-primary cursor-pointer"><a href="">Visit Blog</a></small><br/>
+<button class="btn buttonportfolio"><b class="float-left">AdNovum</b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
 </div>
   <div class="col-md-3">
-  <small class="text-primary">Find Blogger</small>
+  <small class="text-primary">Find Blog</small>
   <input class="form-control inputboxstyle opacity53 inputportfolio" placeholder="| Search" /><i class="fas fa-search searchiconinput"></i>
   </div>
 </div>
@@ -213,13 +232,13 @@
 <div class="row mt40">
 <div class="col-md-3">
   <div class="card card-style mt20 opacity53 cursor-pointer">
-    <div class="card-body  p30 pt10 pb10">
+    <div class="card-body  p30 p30 pt10 pb10">
       <h6 class="card-title mb0">Maximum Influence</h6>
       <h2 class="mb0">649</h2>
 
         </div>
   </div>
-  <a href="">
+ 
   <div class="card card-style mt20 opacity53 cursor-pointer">
     <div class="card-body  p30 pt10 pb10">
       <h6 class="card-title mb0">Top Keyword</h6>
@@ -227,15 +246,14 @@
 
         </div>
   </div>
-</a>
-  <div class="card card-style mt20 activebar cursor-pointer" style="">
-    <div class="card-body  p30 pt10 pb10">
+  
+  <div class="card card-style mt20 activebar cursor-pointer" >
+    <div class="card-body  p30 pt5 pb5">
       <h6 class="card-title mb0">Posts</h6>
       <h2 class="mb0">70</h2>
 
         </div>
   </div>
-
   <div class="card card-style mt20 opacity53 cursor-pointer">
     <div class="card-body  p30 pt10 pb10">
       <h6 class="card-title mb0">Overall Sentiment</h6>
@@ -243,13 +261,19 @@
 
         </div>
   </div>
-
+  <div class="card card-style mt20 opacity53 cursor-pointer">
+    <div class="card-body  p30 pt10 pb10">
+      <h6 class="card-title mb0">Top Blogger</h6>
+      <h2 class="mb0">Advonum</h2>
+      <a href="bloggerportfolio" class="link"><small class="link">Blogger Portfolio</small></a>
+        </div>
+  </div>
 </div>
 <div class="col-md-9">
-  <div class="card card-style mt20">
+  <div class="card card-style mt20 ">
     <div class="card-body  p30 pt5 pb5">
-      <div style="min-height: 365px;">
-<div><p class="text-primary mt10 float-left"><b class="text-green">Posts</b> Published by <b class="textblue"><u>Advonum</u></b> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
+      <div style="min-height: 475px;">
+<div><p class="text-primary mt10 float-left"><b class="text-blue">Posts</b> Published by <b class="text-blue">Advonum</b> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
 <!-- <svg class="linesvg" width="960" height="400"></svg> -->
 <!-- <div id="lineplot" style="min-height: 380px;"></div> -->
 
@@ -259,11 +283,12 @@
       </div>
         </div>
   </div>
-</div>
 
 
 </div>
 
+
+</div>
 
 <div class="row mb0">
   <div class="col-md-6 mt20 ">
@@ -283,7 +308,7 @@
   <div class="col-md-6 mt20">
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
-        <div class="min-height-table"style="min-height: 420px;">
+        <div class="min-height-table" style="min-height: 420px;">
           <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u>Advonum</u></b> Yearly Posting Pattern of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
           <div class="chart" id="yearlypattern">
 
@@ -298,10 +323,11 @@
   <div class="col-md-6 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
-        <p class="p15 pb5 pt0 text-primary">List of URLs of <b class="textblue">AdNovum</b></p>
+
         <div style="min-height: 420px;">
+          <div><p class="text-primary p15 pb5 pt0">List of Domains of <b class="text-blue">Advonum</b></p></div>
           <div class="p15 pb5 pt0" role="group">
-          Export
+          Export Options
           </div>
                 <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
@@ -373,6 +399,7 @@
 
 
                           </tr>
+
                         </tbody>
                     </table>
         </div>
@@ -383,10 +410,10 @@
   <div class="col-md-6 mt20">
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
-        <p class="p15 pb5 pt0 text-primary">List of URLs of <b class="textblue">AdNovum</b></p>
         <div class="min-height-table"style="min-height: 420px;">
+          <div><p class="text-primary p15 pb5 pt0">List of URLs of <b class="text-blue">Advonum</b></p></div>
           <div class="p15 pb5 pt0" role="group">
-          Export
+          Export Options
           </div>
                 <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
                         <thead>
@@ -398,66 +425,66 @@
                             </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                              <td>URL</td>
-                              <td>1</td>
+                            <tr>
+                                <td>URL</td>
+                                <td>1</td>
 
 
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>3</td>
 
 
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>6</td>
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>6</td>
 
 
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>5</td>
 
 
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>3</td>
 
 
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>1</td>
 
 
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>2</td>
 
 
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>4</td>
 
 
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>1</td>
 
 
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>URL</td>
+                                <td>2</td>
 
 
-                          </tr>
+                            </tr>
 
                         </tbody>
                     </table>
@@ -466,6 +493,11 @@
     </div>
   </div>
 </div>
+
+
+
+
+
 </div>
 
 
@@ -478,7 +510,6 @@
 
   <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
  <script src="assets/bootstrap/js/bootstrap.js">
-
  </script>
  <script src="assets/js/generic.js">
  </script>
@@ -497,15 +528,15 @@
 
  <script>
  $(document).ready(function() {
+   // datatable setup
      $('#DataTables_Table_1_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": false,
           "pagingType": "simple",
           dom: 'Bfrtip',
-
-                    "columnDefs": [
-                 { "width": "80%", "targets": 0 }
-               ],
+          "columnDefs": [
+       { "width": "80%", "targets": 0 }
+     ],
        buttons:{
          buttons: [
              { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
@@ -517,15 +548,16 @@
        }
      } );
 
+// table set up 2
      $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": false,
           "pagingType": "simple",
           dom: 'Bfrtip',
 
-                    "columnDefs": [
-                 { "width": "80%", "targets": 0 }
-               ],
+          "columnDefs": [
+       { "width": "80%", "targets": 0 }
+     ],
        buttons:{
          buttons: [
              { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
@@ -544,6 +576,7 @@
    $(document)
    						.ready(
    								function() {
+                    // date range configuration
    	var cb = function(start, end, label) {
            //console.log(start.toISOString(), end.toISOString(), label);
            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
@@ -673,7 +706,7 @@
  $(function () {
 
      // Initialize chart
-     lineBasic('#d3-line-basic', 300);
+     lineBasic('#d3-line-basic', 400);
 
      // Chart setup
      function lineBasic(element, height) {
@@ -718,7 +751,7 @@
          var xAxis = d3.svg.axis()
              .scale(x)
              .orient("bottom")
-            .ticks(2)
+            .ticks(9)
 
            // .tickFormat(formatPercent);
 
@@ -978,12 +1011,14 @@
                       .append("circle")
                       .attr("class","circle-point")
                       .attr("r",3.4)
-                      .style("stroke", "#4CAF50")
-                      .style("fill","#4CAF50")
+                      .style("stroke", "#0080CC")
+                      .style("fill","#0080CC")
                       .attr("cx",function(d) { return x(d.date); })
                       .attr("cy", function(d){return y(d.close)})
 
                       .attr("transform", "translate("+margin.left/4.7+",0)");
+
+
 
                       svg.selectAll(".circle-point").data(data[0])
                       .on("mouseover",tip.show)
@@ -1103,7 +1138,7 @@
          // ------------------------------
 
          // Call function on window resize
-          $(window).on('resize', resize);
+         $(window).on('resize', resize);
 
          // Call function on sidebar width change
          $('.sidebar-control').on('click', resize);
@@ -1158,10 +1193,16 @@
              .attr("cx",function(d) { return x(d.date);})
              .attr("cy", function(d){return y(d.close)});
            }
+             // Crosshair
+             //svg.selectAll('.d3-crosshair-overlay').attr("width", width);
          }
      }
  });
  </script>
+
+
+
+
 
  <script>
  $(function () {
@@ -1406,7 +1447,7 @@
  });
  </script>
 
- <!-- Yearly patterns  -->
+<!-- Yearly patterns  -->
  <script>
  $(function () {
 

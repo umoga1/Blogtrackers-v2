@@ -13,9 +13,7 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
-
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
- //System.out.println(userinfo);
 if (userinfo.size()<1) {
 	//response.sendRedirect("login.jsp");
 }else{
@@ -41,15 +39,11 @@ try{
 	if(userpic.indexOf("http")>-1){
 		profileimage = userpic;
 	}
-
-
-
 	File f = new File(filename);
 	if(f.exists() && !f.isDirectory()) { 
 		profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
 	}
 	}catch(Exception e){}
-
 }
 %>
 <!DOCTYPE html>
@@ -107,11 +101,13 @@ try{
 
 </div>
 </div>
-  <nav class="navbar navbar-inverse bg-primary">
+  <nav class="navbar navbar-inverse">
     <div class="container-fluid mt10">
 
       <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
-      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      <a class="navbar-brand text-center logohome" href="./">
+   
+      </a>
       </div>
       <!-- Mobile Menu -->
       <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
@@ -125,9 +121,9 @@ try{
       <!-- Mobile menu  -->
       <div class="col-lg-4 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="./"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
           <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="#"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
         </ul>
       </div>
 
@@ -155,13 +151,13 @@ try{
       <div class="collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav mr-auto mobile-menu">
               <li class="nav-item active">
-                <a class="" href="./">Home <span class="sr-only">(current)</span></a>
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Favorites</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
               </li>
             </ul>
     </div>
@@ -173,7 +169,8 @@ try{
 <nav class="navbar navbar-inverse">
 <!-- Logo -->
   <div class="navbar-header float-left">
-  <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+  <a class="navbar-brand text-center logohome" href="./">
+  </a>
   </div>
 
   <nav class="navbar navbar-dark bg-primary float-right d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" >
@@ -184,13 +181,11 @@ try{
   
   <!-- Desktop Menu -->
 <div class="themainmenu"  align="center">
-  <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+  <ul class="nav main-menu2 homemainmenuoveride" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
     <li><a class="bold-text" href="#">Features</a></li>
     <li><a class="bold-text" href="#">Sponsors</a></li>
-    <li><a class="bold-text" href="#">Creators</a></li>
-    <li><a class="bold-text" href="#">Blogs</a></li>
-    <li><a class="bold-text" href="#">Help</a></li>
-	<li><a class="bold-text" href="login.jsp">Login</a></li>
+	<li><a class="bold-text" href="#">Learn</a></li>
+	<li class="bg-white loginmenu"><a class="bold-text text-primary" href="login.jsp">Login</a></li>
 	
   </ul>
 </div>
@@ -205,15 +200,7 @@ try{
           <li class="nav-item">
             <a class="nav-link bold-text" href="#">Sponsors</a>
           </li>
-           <li class="nav-item">
-            <a class="nav-link bold-text" href="#">Creators</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link bold-text" href="#">Blog</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link bold-text" href="#">Help</a>
-          </li>
+     
 
 		   <li class="nav-item">
 				<a class="nav-link bold-text" href="login.jsp">Login</a>
@@ -226,12 +213,12 @@ try{
 <% } %>
 
 
-<div class="text-center mt60 offset-lg-3 col-lg-6 col-md-12" style="font-size:20px;">
-<h1 class="text-white text-center">Track Internet Blogs</h1>
-<p class="text-white text-center">Monitor and suggest valuable insights in a drilled-down fashion using content analysis and social network analysis</p>
-<form method="search" method="post" action="<%=request.getContextPath()%>/blogbrowser.jsp">
-<input type="search" placeholder="Search Post" name="term" class="form-control searchhome"/>
-<button type="submit" class="btn btn-success homebutton mt30 p40 pt10 pb10 mb50"><b>Start Tracking</b></button>
+<div class="text-center mt60 offset-lg-4 col-lg-4 col-md-12" style="font-size:20px;">
+<h1 class="text-white text-center bold-text" style="font-size:55px;">Track Blogs</h1>
+<p class="text-white text-center mt20">Monitor and suggest valuable insights in a drill down fashion using content analysis and social network analysis</p>
+<form method="search" method="post" autocomplete="off" action="<%=request.getContextPath()%>/blogbrowser.jsp">
+<input type="search" placeholder="Search" name="term" class="form-control searchhome bold-text"/>
+<button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60">Start Tracking</button>
 </form>
 </div>
 
@@ -242,7 +229,12 @@ try{
 
 </div>
 
+<div class="text-center cursor-pointer helpcontainer">
+<a href="documentation.html" class="navbar-brand cursor-pointer helpicon">
+<!-- <i class="text-white" ></i> -->
 
+</a>
+ </div>
 
 
 
@@ -250,6 +242,8 @@ try{
 <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
+<script src="assets/js/generic.js">
 
+</script>
 </body>
 </html>

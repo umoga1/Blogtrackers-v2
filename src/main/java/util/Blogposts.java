@@ -19,6 +19,7 @@ String totalpost;
 	   
 public ArrayList _list(String order, String from) throws Exception {
 	int size = 10;
+	 int fr = 0;
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 		 		"    \"query\": {\r\n" + 
 		 		"        \"match_all\": {}\r\n" + 
@@ -31,7 +32,8 @@ public ArrayList _list(String order, String from) throws Exception {
 		 		"}");
 	 
 	 if(!from.equals("")) {
-		 int fr = Integer.parseInt(from)*size;
+		 fr = Integer.parseInt(from)*size;
+		 
 		 /*
 		  jsonObj = new JSONObject("{\r\n" + 
 		  		"    \"query\": {\r\n" + 
@@ -55,7 +57,7 @@ public ArrayList _list(String order, String from) throws Exception {
 			  		"    \"query\": {\r\n" + 
 			  		"        \"match_all\": {}\r\n" + 
 			  		"    },\r\n" + 	  		
-	     			"  	\"from\":"+from+"," + 
+	     			"  	\"from\":"+fr+"," + 
 	     			"	\"size\":"+size+"," + 
 	     			"   \"sort\":{\r\n" + 
 	     			"		\"blogpost_id\":{\r\n" + 
@@ -67,7 +69,7 @@ public ArrayList _list(String order, String from) throws Exception {
 	 }
 	 
 	 
-     String url = base_url+"_search?size=10";   
+     String url = base_url+"_search?size="+size+"&from="+fr;   
      return this._getResult(url, jsonObj);
    }
 
@@ -76,8 +78,9 @@ public String _getTotal() {
 }
 	
 public ArrayList _search(String term,String from) throws Exception {
-	 String url = base_url+"_search?size=10";
-	 String size = "10";
+	 
+	 int size = 10;
+	 int fr = 0;
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
 	 		"        \"query_string\" : {\r\n" + 
@@ -94,27 +97,7 @@ public ArrayList _search(String term,String from) throws Exception {
 	
 	 
 		    if(!from.equals("")) {
-		    	/*
-		    	jsonObj = new JSONObject("{\r\n" + 
-		    			"  \"query\": {\r\n" + 
-		    			"        \"query_string\" : {\r\n" + 
-		    			"            \"fields\" : [\"title\",\"blogger\",\"post\"],\r\n" + 
-		    			"            \"query\" : \""+term+"\"\r\n" + 
-		    			"        }\r\n" + 
-		    			"  },\r\n" + 
-		    			"   \"sort\":{\r\n" + 
-		    			"		\"blogpost_id\":{\r\n" + 
-		    			"			\"order\":\"DESC\"\r\n" + 
-		    			"			}\r\n" + 
-		    			"		},\r\n" + 
-		    			" \"range\":{\r\n" + 
-		    			"		\"blogpost_id\":{\r\n" + 
-		    			"			\"lte\":\""+from+"\",\r\n" + 
-				  		"			\"gte\":\""+0+"\"\r\n" + 
-		    			"			}\r\n" + 
-		    			"		}\r\n" + 
-		    			"}");
-		    			*/
+		    	fr = Integer.parseInt(from)*size;
 		    	jsonObj = new JSONObject("{\r\n" + 
 		     			"  \"query\": {\r\n" + 
 		     			"        \"query_string\" : {\r\n" + 
@@ -131,7 +114,8 @@ public ArrayList _search(String term,String from) throws Exception {
 		     			"		},\r\n" + 
 		     			"}");
 		    }
-    
+	String url = base_url+"_search?size="+size+"&from="+fr; 
+	//System.out.println(url);
     return this._getResult(url, jsonObj);
 }
 
