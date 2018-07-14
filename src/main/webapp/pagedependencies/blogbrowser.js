@@ -318,7 +318,7 @@ $(this).parent().parent().find(".trackingtracks").removeClass("makeinvisible");
 $(this).attr("data-original-title","Add Blog from Tracker");
 
 console.log("Removed blog to be tracked");
-removeBlog(this);
+removeBlog(this,trackscount);
 // add an ajax to remove blog from tracker
 
 $('#trackscount').html(trackscount);
@@ -393,7 +393,7 @@ else
 });
 
 
-function removeBlog(element){
+function removeBlog(element,trackscount){
 	blog_id = "";
 	classes = $(element).attr('class').split(/\s+/);
 	$.each(classes, function(index, item) {
@@ -411,7 +411,7 @@ function removeBlog(element){
 		}
 		$(".total_selected").text(selected_blogs.length);		
 		$(".blogg_"+blog_id).remove();
-		trackscount--;
+		//trackscount--;
 		$(".total_selected").text(trackscount);
 		$(".blog_id_"+blog_id).removeClass("text-success");
 					

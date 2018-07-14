@@ -406,7 +406,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js?v=9740">
+<script src="pagedependencies/blogbrowser.js?v=999730">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
@@ -415,7 +415,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 </script>
 
 <script src="pagedependencies/imageloader.js?v=189908998"></script>
-<script src="js/functions.js?v=1990"></script>
+<script src="js/functions.js?v=19990"></script>
 <script>
 $(window).scroll(function() {
 	if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {
