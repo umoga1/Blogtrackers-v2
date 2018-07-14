@@ -406,7 +406,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js?v=1980">
+<script src="pagedependencies/blogbrowser.js?v=9750">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
