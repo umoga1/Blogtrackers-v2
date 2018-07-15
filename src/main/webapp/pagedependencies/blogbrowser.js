@@ -76,13 +76,16 @@ $('.trackerindividual').on("mouseleave",function(){
 $('.trackerindividual').on("click",function(e){
   selected = $(this).hasClass("trackerindividualactive");
   // check selected blog
+  console.log(selected+":seected");
   if(!selected)
   {
     $(this).find(".checktracker").removeClass("hidden");
     $(this).addClass("trackerindividualactive").removeClass("bold-text");
+    $(this).addClass("trackerindividualactive");
+    console.log("here");
     // remember to pass session id of blog
     trackerselectedcount++;
-    console.log(trackerselectedcount);
+    console.log("sel:"+trackerselectedcount);
     
     $('.selectedtrackercount').html(trackerselectedcount);
   }
@@ -93,7 +96,7 @@ $('.trackerindividual').on("click",function(e){
     $(this).removeClass("trackerindividualactive").addClass("bold-text");
     // remember to pass session id of blog
     trackerselectedcount--;
-    console.log(trackerselectedcount);
+    console.log("not"+trackerselectedcount);
     // increase count of selected tracker
     $('.selectedtrackercount').html(trackerselectedcount);
   }
@@ -289,14 +292,17 @@ if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 		blogname = $(".blogname-"+blog_id);
 		blogname = $(blogname)[0];
 		blogname = $(blogname).text();
-		$("#selected_blog_list").append('<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10 blogg_'+blog_id+'">'+blogname+'<i class="fas fa-trash float-right hidden deleteblog" id="'+blog_id+'"></i></button><br/>');
+		$("#selected_blog_list").append('<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10 blogg_'+blog_id+'" id="blogg_'+blog_id+'">'+blogname+'<i class="fas fa-trash float-right hidden deleteblog" id="'+blog_id+'"></i></button><br/>');
+		/*
 		$.getScript( app_url+"pagedependencies/blogbrowser.js", function( data, textStatus, jqxhr ) {				
 			
 		});
+		*/
 		$(".blog_id_"+blog_id).addClass("text-success");
 		looper++;
 		trackscount++;
-		$(".total_selected").text(trackscount);
+		var blgs = $(".blogselection");
+		$(".total_selected").text(blgs.length);
 };
 
 
@@ -318,7 +324,8 @@ $(this).parent().parent().find(".trackingtracks").removeClass("makeinvisible");
 $(this).attr("data-original-title","Add Blog from Tracker");
 
 console.log("Removed blog to be tracked");
-removeBlog(this,trackscount);
+removeBlog(this);
+trackscount--;
 // add an ajax to remove blog from tracker
 
 $('#trackscount').html(trackscount);
@@ -383,9 +390,79 @@ else
 	{
 	// get the blog ids and store
 	// get the tracker that was selected if any apart from the new tracker
+	
+	var all_blogs = "";
+	var all_trackers ="";
+	var blogs = selected_blogs;
+    var allblogs = [] ;
+    // push into an array
+   // var blogs = $(this).parent().parent().find(".token span");
+    var blogs = $(".blogselection");
+    
+    var trackers = $(".trackerindividualactive");
+	
+    var allblogs = [] ;    
+    // push into an array
+    var k = 0; var j=0;
+	   	blogs.each(function(i,e)
+	      {
+	   		// allblogs[i] = $(this).text();
+	   		 id = $(this).attr('id');
+	   		 if (id.indexOf("blogg")>-1) {
+	   		        blog_id = id.split("_");
+	   		        blog_id = blog_id[blog_id.length-1];
+		   		     if(k<blogs.length-2){
+		   	    		all_blogs+=blog_id+",";
+		   	    	}else{
+		   	    		all_blogs+=blog_id;
+		   	    	}
+		   		     k++;
+	   		 }
+	     });
+	   	 
+   	
+   		trackers.each(function(i,e)
+   	      {
+   	   		 id = $(this).attr('id');
+   	   		 if (id.indexOf("Trackk")>-1) {
+   	   		        tracker_id = id.split("_");
+   	   		        tracker_id = tracker_id[tracker_id.length-1];
+   		   		     if(j<trackers.length-2){
+   		   	    		all_blogs+=blog_id+",";
+   		   	    	}else{
+   		   	    		all_trackers+=tracker_id;
+   		   	    	}
+   		   		     j++;
+   	   		 } 
+   	     });
+   	
+   	 //If at least a tracker is selected, update tracker else create tracker
+		$.ajax({
+			url: app_url+'tracker',
+			method: 'POST',
+			data: {
+				action: (all_trackers=="")?"create":"update",
+				name:trackername,
+				description:trackerdescription,
+				blogs:all_blogs,
+				trackers:all_trackers,
+			},
+			error: function(response)
+			{						
+				console.log(response);		
+			},
+			success: function(response)
+			{   
+				console.log(response);
+				if(response=="true"){
+					toastr.success('Tracker successfully created!','Success');
+					location.href=app_url+"blogbrowser.jsp";
+				}else{
+					toastr.error('Tracker could not be created!','Error');
+				}
+			}
+		});
 	}
-	
-	
 });
 
 
@@ -393,7 +470,7 @@ else
 });
 
 
-function removeBlog(element,trackscount){
+function removeBlog(element){
 	blog_id = "";
 	classes = $(element).attr('class').split(/\s+/);
 	$.each(classes, function(index, item) {
@@ -412,7 +489,8 @@ function removeBlog(element,trackscount){
 		$(".total_selected").text(selected_blogs.length);		
 		$(".blogg_"+blog_id).remove();
 		//trackscount--;
-		$(".total_selected").text(trackscount);
+		var blgs = $(".blogselection");
+		$(".total_selected").text(blgs.length);
 		$(".blog_id_"+blog_id).removeClass("text-success");
 					
 	};

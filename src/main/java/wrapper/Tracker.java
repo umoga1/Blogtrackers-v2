@@ -55,26 +55,53 @@ public class Tracker extends HttpServlet {
         String tracker_name = (null==request.getParameter("name"))?"":request.getParameter("name").replaceAll("\\<.*?\\>", "");
         String description = (null==request.getParameter("description"))?"":request.getParameter("description").replaceAll("\\<.*?\\>", "");
         String blogs = (null==request.getParameter("blogs"))?"":request.getParameter("blogs").replaceAll("\\<.*?\\>", "");
+        String trackers = (null==request.getParameter("trackers"))?"":request.getParameter("trackers").replaceAll("\\<.*?\\>", "");
 		
         String query = "";
 		String action = (null==request.getParameter("action"))?"":request.getParameter("action");
         		
 		if(action.equals("create"))
-		{			
+		{		
+			if(blogs.length()<1) {
+				 response.setContentType("text/html");				 
+			     pww.write("blog cannot be empty"); 
+			}else {
+			 			
 			 JSONObject param = new JSONObject();
-			 param.put("userid", username);
-			 param.put("query", "");
-			 param.put("tracker_name", tracker_name);
+			 param.put("trackername", tracker_name);
 			 param.put("description", description);
-			 param.put("blogsites_num", blogs);			 
+			 param.put("blogs", blogs);			 
 			 String output =  "false";
 			 try {
-				 output = trk._add(username, param);				 
+				 output = trk._add(username, param);
+				 response.setContentType("text/html");				 
+			     pww.write(output); 
 			 }catch(Exception e) {}		 
-			 response.setContentType("text/html");				 
-		     pww.write(output); 
+				 response.setContentType("text/html");				 
+			     pww.write(output); 
+			}
                         
 		}else if(action.equals("update")) {
+			if(trackers.length()<1) {
+				 response.setContentType("text/html");				 
+			     pww.write("tracker cannot be empty"); 
+			}else {
+			 			
+			 JSONObject param = new JSONObject();		
+			 param.put("blogs", blogs);			 
+			 String output =  "false";
+			 String[] tracker_list = trackers.split(",");
+			 if(tracker_list.length>0) {
+				 for(int i=0; i<tracker_list.length; i++) {
+					 try {
+						 output = trk._update(tracker_list[i], param);					
+					 }catch(Exception e) {}		 
+						 output = "false";
+				 	}
+				 response.setContentType("text/html");				 
+			     pww.write(output); 
+			  	}
+			}
 						
 		}else if(action.equals("delete")) {
 			
