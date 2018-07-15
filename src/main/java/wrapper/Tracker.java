@@ -95,9 +95,13 @@ public class Tracker extends HttpServlet {
 				 pww.write("false"); 
 			 }		
 		   		
-		}else if(action.equals("delete")) {
-			
-			
+		}else if(action.equals("delete")) {	
+			try {
+				String output = trk._delete(tracker_id);
+				pww.write("true");
+			}catch(Exception e) {
+				 pww.write("false"); 
+			 }	
 		}else if(action.equals("remove")) {
 			
 			

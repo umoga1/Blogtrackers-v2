@@ -221,6 +221,28 @@ public String _add(String userid, JSONObject params) throws Exception {
 	  return output;
 }
 
+
+/* Add a new tracker*/
+public String _delete(String trackerid) throws Exception {
+	
+	
+	
+	ArrayList<?> detail = this._fetch(trackerid);
+	 System.out.println(detail);
+	 if(detail.size()>0){		
+			String res = detail.get(0).toString();		
+			JSONObject resp = new JSONObject(res);
+			String tid = resp.get("_id").toString();
+			tid = "36Rqn2QBCl8_4DKPniR1";
+			String url = base_url+"trackers/"+tid;
+			this._runDelete(url);
+			return "true";
+	 }
+	 
+	 return "false";
+
+}
+
 /* Add a new tracker*/
 public String _update(String trackerid, JSONObject params) throws Exception {
 	 String blgs =  params.get("blogs").toString();
@@ -287,7 +309,11 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 			//JSONObject jsonObj = new JSONObject("{\"userid\":\"wizzletest\",\"query\":\"blogsite_id in (46,62,47,49,66,52,53,65,63,54)\",\"tracker_name\":\"Wizzle\",\"description\":\"Best blogs ever\",\"blogsites_num\":10}");
 			 	 
 			 String url = base_url+"trackers/"+tid+"/_update";
-			 JSONObject myResponse = this._runUpdate(url, param);
+			 
+			 JSONObject jsonObj = new JSONObject("{\r\n" + 
+			    		"    \"script\" : \"ctx._source.query = '"+param.get("query")+"'; ctx._source.blogsites_num= '"+param.get("blogsites_num")+"';\",\r\n" + 
+			    		"}");
+			 JSONObject myResponse = this._runUpdate(url, jsonObj);	
 			 
 			 if(null==myResponse.get("result")) {
 				   	  output = "false";
@@ -358,15 +384,12 @@ public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 
 
 /* Update tracker*/
-public JSONObject _runUpdate(String url, JSONObject param) throws Exception {
+public JSONObject _runUpdate(String url, JSONObject jsonObj) throws Exception {
 	URL obj = new URL(url);
 	System.out.println(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
     
-    JSONObject jsonObj = new JSONObject("{\r\n" + 
-    		"    \"script\" : \"ctx._source.query = '"+param.get("query")+"'; ctx._source.blogsites_num= '"+param.get("blogsites_num")+"';\",\r\n" + 
-    		"}");
-   
+
 	  con.setDoOutput(true);
 	  con.setDoInput(true); 
 	  con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -385,13 +408,23 @@ public JSONObject _runUpdate(String url, JSONObject param) throws Exception {
 	  while ((inputLine = in.readLine()) != null) {
 	   	response.append(inputLine);
 	   }
-	   in.close();
-	   
-	   JSONObject myResponse = new JSONObject(response.toString());
-	   
+	   in.close();   
+	   JSONObject myResponse = new JSONObject(response.toString());   
 	   return  myResponse;
 }
 
+
+/* Delete tracker*/
+public void _runDelete(String url) throws Exception {
+	URL obj = new URL(url);
+	System.out.println(url);
+    HttpURLConnection con = (HttpURLConnection) obj.openConnection(); 
+    con.setDoOutput(true);
+    con.setDoInput(true);
+    con.setRequestMethod("DELETE");    
+    OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+    int responseCode = con.getResponseCode();  
+}
 
 public String _getTotal(String url, JSONObject jsonObj) throws Exception {
 	String total  = "0";
