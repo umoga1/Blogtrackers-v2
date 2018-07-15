@@ -212,7 +212,7 @@ public String _add(String userid, JSONObject params) throws Exception {
 	 
 	 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
 	 LocalDateTime now = LocalDateTime.now();  
-	   System.out.println(dtf.format(now));  
+	   //System.out.println(dtf.format(now));  
 	 
 	 JSONObject param = new JSONObject();
 	 param.put("userid",userid);
@@ -223,6 +223,7 @@ public String _add(String userid, JSONObject params) throws Exception {
 	 param.put("tid", tidd);
 	 param.put("date_modified",dtf.format(now));
 	 param.put("date_created",dtf.format(now));
+	 System.out.println(param);
 	 
 	 //System.out.println(param);
 	//JSONObject jsonObj = new JSONObject("{\"userid\":\"wizzletest\",\"query\":\"blogsite_id in (46,62,47,49,66,52,53,65,63,54)\",\"tracker_name\":\"Wizzle\",\"description\":\"Best blogs ever\",\"blogsites_num\":10}");	 

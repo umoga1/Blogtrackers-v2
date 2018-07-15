@@ -359,7 +359,9 @@ if(results.size()>0){
 %>
 <div class="card noborder curved-card mb30" >
 <div class="curved-card selectcontainer">
+<% if(!username.equals("")){ %>
  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="Select to Track Blog"></i></div>
+<% } %>
 <h4 class="text-primary text-center p10 pt20 posttitle"><a class="blogname-<%=blogid%>" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=blogtitle%></a></h4>
 
 <div class="text-center mt10 mb10 trackingtracks">
