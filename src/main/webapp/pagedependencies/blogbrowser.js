@@ -83,6 +83,8 @@ $('.trackerindividual').on("click",function(e){
     $(this).addClass("trackerindividualactive").removeClass("bold-text");
     $(this).addClass("trackerindividualactive");
     console.log("here");
+    
+    updateTracker(this,"update");
     // remember to pass session id of blog
     trackerselectedcount++;
     console.log("sel:"+trackerselectedcount);
@@ -95,6 +97,7 @@ $('.trackerindividual').on("click",function(e){
     $(this).find(".checktracker").addClass("hidden");
     $(this).removeClass("trackerindividualactive").addClass("bold-text");
     // remember to pass session id of blog
+   // updateTracker(this,"remove");
     trackerselectedcount--;
     console.log("not"+trackerselectedcount);
     // increase count of selected tracker
@@ -398,9 +401,6 @@ else
     // push into an array
    // var blogs = $(this).parent().parent().find(".token span");
     var blogs = $(".blogselection");
-    
-    var trackers = $(".trackerindividualactive");
-	
     var allblogs = [] ;    
     // push into an array
     var k = 0; var j=0;
@@ -441,11 +441,10 @@ else
 			url: app_url+'tracker',
 			method: 'POST',
 			data: {
-				action: (all_trackers=="")?"create":"update",
+				action:"create",
 				name:trackername,
 				description:trackerdescription,
 				blogs:all_blogs,
-				trackers:all_trackers,
 			},
 			error: function(response)
 			{						
@@ -468,6 +467,64 @@ else
 
 
 });
+
+
+function updateTracker(element,type){
+    var all_blogs = "";
+	var all_trackers ="";
+	var blogs = selected_blogs;
+    var allblogs = [] ;
+
+    var blogs = $(".blogselection");
+
+    var allblogs = [] ;    
+    var k = 0; var j=0;
+	   	blogs.each(function(i,e)
+	      {
+	   		// allblogs[i] = $(this).text();
+	   		 idd = $(this).attr('id');
+	   		 if (idd.indexOf("blogg")>-1) {
+	   		        blog_id = idd.split("_");
+	   		        blog_id = blog_id[blog_id.length-1];
+		   		     if(k<blogs.length-2){
+		   	    		all_blogs+=blog_id+",";
+		   	    	}else{
+		   	    		all_blogs+=blog_id;
+		   	    	}
+		   		     k++;
+	   		 }
+	     });
+	   	 
+	   	console.log("All blogs:"+all_blogs);
+	   	id = $(element).attr('id');	   		 
+		    $.ajax({
+				url: app_url+'tracker',
+				method: 'POST',
+				data: {
+					action: type,
+					blogs:all_blogs,
+					tracker_id:id,
+				},
+				error: function(response)
+				{						
+					console.log(response);		
+				},
+				success: function(response)
+				{   
+					console.log(response);
+					if(response=="true"){
+						toastr.success('Tracker successfully updated!','Success');
+						//location.href=app_url+"blogbrowser.jsp";
+					}else{
+						if(type=="update"){
+							toastr.error('Blog already exist in tracker','Error');
+						}else{
+							//toastr.error('Blog already exist in tracker','Error');
+						}
+					}
+				}
+			});
+}
 
 
 function removeBlog(element){
@@ -493,5 +550,7 @@ function removeBlog(element){
 		$(".total_selected").text(blgs.length);
 		$(".blog_id_"+blog_id).removeClass("text-success");
 					
-	};
+	}
 }
+
+

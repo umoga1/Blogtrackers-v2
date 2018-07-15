@@ -55,7 +55,7 @@ public class Tracker extends HttpServlet {
         String tracker_name = (null==request.getParameter("name"))?"":request.getParameter("name").replaceAll("\\<.*?\\>", "");
         String description = (null==request.getParameter("description"))?"":request.getParameter("description").replaceAll("\\<.*?\\>", "");
         String blogs = (null==request.getParameter("blogs"))?"":request.getParameter("blogs").replaceAll("\\<.*?\\>", "");
-        String trackers = (null==request.getParameter("trackers"))?"":request.getParameter("trackers").replaceAll("\\<.*?\\>", "");
+        String tracker_id = (null==request.getParameter("tracker_id"))?"":request.getParameter("tracker_id").replaceAll("\\<.*?\\>", "");
 		
         String query = "";
 		String action = (null==request.getParameter("action"))?"":request.getParameter("action");
@@ -82,28 +82,23 @@ public class Tracker extends HttpServlet {
 			}
                         
 		}else if(action.equals("update")) {
-			if(trackers.length()<1) {
-				 response.setContentType("text/html");				 
-			     pww.write("tracker cannot be empty"); 
-			}else {
-			 			
 			 JSONObject param = new JSONObject();		
 			 param.put("blogs", blogs);			 
 			 String output =  "false";
-			 String[] tracker_list = trackers.split(",");
-			 if(tracker_list.length>0) {
-				 for(int i=0; i<tracker_list.length; i++) {
-					 try {
-						 output = trk._update(tracker_list[i], param);					
-					 }catch(Exception e) {}		 
-						 output = "false";
-				 	}
+			 try {
+				 output = trk._update(tracker_id, param);		
 				 response.setContentType("text/html");				 
-			     pww.write(output); 
-			  	}
-			}
-						
+			     pww.write("true"); 
+			     //System.out.println("Update");
+			 }catch(Exception e) {
+				 System.out.println("Error");
+				 pww.write("false"); 
+			 }		
+		   		
 		}else if(action.equals("delete")) {
+			
+			
+		}else if(action.equals("remove")) {
 			
 			
 		}

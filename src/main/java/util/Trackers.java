@@ -225,13 +225,16 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 	 String blgs =  params.get("blogs").toString();
 	 String[] blogs = blgs.split(",");
 	 int blognum = 0;
+	 System.out.println("To Merged:"+blgs);
 	 
 	 
 	 String output = "false";
 	 ArrayList<?> detail = this._fetch(trackerid);
+	 System.out.println(detail);
 	 if(detail.size()>0){		
 			String res = detail.get(0).toString();		
 			JSONObject resp = new JSONObject(res);
+			String tid = resp.get("_id").toString(); 
 		    String resu = resp.get("_source").toString();
 		    JSONObject obj = new JSONObject(resu);		     	     
 		    String quer = obj.get("query").toString();
@@ -240,9 +243,15 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 			 quer = quer.replaceAll("\\(", "");			 
 			 quer = quer.replaceAll("\\)", "");
 			 String[] blogs2 = quer.split(",");
-			 String mergedblogs = this.mergeArrays2(blogs, blogs2);
+			 
+			 String mergedblogs = this.mergeArrays(blogs, blogs2);
 			 String[] allblogs = mergedblogs.split(",");
 			 blognum = allblogs.length;
+			 
+			
+
+			 System.out.println("Merged To:"+quer);
+			 System.out.println("Merged:"+mergedblogs);
 			 
 			 JSONObject param = new JSONObject();
 			 //param.put("userid",userid);
@@ -260,26 +269,25 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 			 
 			 param.put("blogsites_num", blognum);
 			 
-			 System.out.println(param);
+			 //System.out.println(param);
 			//JSONObject jsonObj = new JSONObject("{\"userid\":\"wizzletest\",\"query\":\"blogsite_id in (46,62,47,49,66,52,53,65,63,54)\",\"tracker_name\":\"Wizzle\",\"description\":\"Best blogs ever\",\"blogsites_num\":10}");
-			 
-			 
-			 String url = base_url+"trackers/"+trackerid+"/_update";
+			 	 
+			 String url = base_url+"trackers/"+tid+"/_update";
 			 JSONObject myResponse = this._runUpdate(url, param);
-			  System.out.println(myResponse);
-			  if(null!=myResponse.get("result")) {
+			 System.out.println("Result:"+myResponse.get("result"));
+			 
+			 if(null!=myResponse.get("result")) {
 				   	  output = "false";
 			   }else {
 				   String resv = myResponse.get("result").toString();
-				   
-				   if(resv.equals("created")) {
+				   System.out.println("outout:"+resv);
+				   if(resv.equals("updated")) {
 					   output = "true";
 				   }else {
 					   output = "false";
 				   }
 			   }
-			   
-			 
+			   			 
 	 }
 	 
 	 return  output;
@@ -336,10 +344,15 @@ public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 
 
 /* Update tracker*/
-public JSONObject _runUpdate(String url, JSONObject jsonObj) throws Exception {
+public JSONObject _runUpdate(String url, JSONObject param) throws Exception {
 	URL obj = new URL(url);
+	System.out.println(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
     
+    JSONObject jsonObj = new JSONObject("{\r\n" + 
+    		"    \"script\" : \"ctx._source.query = '"+param.get("query")+"'\",\r\n" + 
+    		"}");
+   
 	  con.setDoOutput(true);
 	  con.setDoInput(true); 
 	  con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -362,7 +375,7 @@ public JSONObject _runUpdate(String url, JSONObject jsonObj) throws Exception {
 	   
 	   JSONObject myResponse = new JSONObject(response.toString());
 	   
-	  return  myResponse;
+	   return  myResponse;
 }
 
 
@@ -405,7 +418,7 @@ public String _getTotal(String url, JSONObject jsonObj) throws Exception {
      return total;
 }
 
-	public String mergeArrays2(String[] arr1, String[] arr2){
+	public String mergeArrays(String[] arr1, String[] arr2){
 		String bracketed_result = "";
 		String[] merged = new String[arr1.length + arr2.length];
 	    System.arraycopy(arr1, 0, merged, 0, arr1.length);
@@ -415,6 +428,7 @@ public String _getTotal(String url, JSONObject jsonObj) throws Exception {
 	
 	    for(int i=0;i<merged.length;i++){
 	        nodupes.add(merged[i]);
+	        bracketed_result+=merged[i]+",";
 	    }
 	
 	    String[] nodupesarray = new String[nodupes.size()];
@@ -422,11 +436,11 @@ public String _getTotal(String url, JSONObject jsonObj) throws Exception {
 	    Iterator<String> it = nodupes.iterator();
 	    while(it.hasNext()){
 	        nodupesarray[i] = it.next();
-	        bracketed_result+=it.next()+",";
+	        
 	        i++;
 	    }
 	
-		    return bracketed_result.replaceAll(", $", "");
+		    return bracketed_result.replaceAll(",$", "");
 	}
 
 }
