@@ -210,8 +210,8 @@ public String _add(String userid, JSONObject params) throws Exception {
 	 
 	 System.out.println(tidd);
 	 
-	 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-	 LocalDateTime now = LocalDateTime.now();  
+	 //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+	 //LocalDateTime now = LocalDateTime.now();  
 	   //System.out.println(dtf.format(now));  
 	 
 	 JSONObject param = new JSONObject();
@@ -221,8 +221,8 @@ public String _add(String userid, JSONObject params) throws Exception {
 	 param.put("description", params.get("description"));
 	 param.put("blogsites_num", blognum);	
 	 param.put("tid", tidd);
-	 param.put("date_modified",dtf.format(now));
-	 param.put("date_created",dtf.format(now));
+	 //param.put("date_modified",dtf.format(now));
+	 //param.put("date_created",dtf.format(now));
 	 System.out.println(param);
 	 
 	 //System.out.println(param);
