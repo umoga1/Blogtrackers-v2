@@ -52,7 +52,7 @@ Blogs blg  = new Blogs();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
 ArrayList results = null;
 if(term.equals("")){
-	results = tracker._list("DESC","",username,"10");
+	results = tracker._list("DESC","",username,"50");
 }else{
 	results = tracker._search(term,"");
 }
