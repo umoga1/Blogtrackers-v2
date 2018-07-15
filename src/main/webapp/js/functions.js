@@ -15,12 +15,13 @@ function loadMoreResult(){
 	//var url=back_url;
      var img = $('.post-image');
      var from = img[img.length-1].id;
-      console.log("from:"+from);
+      //console.log("from:"+from);
       
       
 	var url = app_url+'subpages/blogpostloader.jsp'
 	var $form = $("#page_form"),
 		page_no = $form.find( "input[name='page_id']" ).val();
+	
 	var	hasmore= document.forms["page_form"].hasmore.value;
 	var	term= $("#term").val();
 	//console.log("term:"+term);
@@ -32,6 +33,7 @@ function loadMoreResult(){
 	page_no=parseInt(page_no);
 	page_no++;
 
+	console.log(page_no);
 	$form.find("input[name='page_id']").val(page_no);
 	z++;
 			requests[z] = $.ajax({ type: "POST",
@@ -54,8 +56,7 @@ function loadMoreResult(){
 					  $(function () {
 					    $('[data-toggle="tooltip"]').tooltip()
 					  })
-					  
-					  	
+					  				  	
 					try{
 						
 					}catch(err){}
@@ -63,13 +64,8 @@ function loadMoreResult(){
 					$.getScript( app_url+"pagedependencies/imageloader.js", function( data, textStatus, jqxhr ) {
 						
 					});
-					
-					
+	
 				}
-			
-
-			
-			  
 			  
 			}
 	});

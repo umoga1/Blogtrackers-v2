@@ -54,6 +54,7 @@
 					     resu = resp.get("_source").toString();
 					     obj = new JSONObject(resu);
 					     String blogid = obj.get("blogsite_id").toString();
+					     String[] dt = obj.get("date").toString().split("T");
 					     
 					     String pst = obj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
 					     if(pst.length()>120){
@@ -74,6 +75,7 @@
 					     %>
 		<div class="card noborder curved-card mb30" >
 		<div class="curved-card selectcontainer">
+<<<<<<< HEAD
 		 <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
 <<<<<<< HEAD
 		<h4 class="text-primary text-center p10 pt20 posttitle"><a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></a></h4>
@@ -86,10 +88,18 @@
 		<% if(myblogs.has(blogid)){ %><button class="btn btn-primary stylebutton7">TRACKING</button><% } %> <button class="btn btn-primary stylebutton8"><%=totaltrack%> Tracks</button></div>
 		  </div>
 >>>>>>> df9b4874cd5e4490fa3ca3b13b8af12f0f710649
+=======
+		  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="Select to Track Blog"></i></div>
+		  <h4 class="text-primary text-center p10 pt20 posttitle"><a class="blogname-<%=blogid%>" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=blogtitle%></a></h4>
+		  
+		  <div class="text-center mt10 mb10 trackingtracks"><% if(myblogs.has(blogid)){ %><button class="btn btn-primary stylebutton7">TRACKING</button><% } %> <button class="btn btn-primary stylebutton8"><%=totaltrack%> Tracks</button></div>
+		 </div>
+		 
+>>>>>>> 490b1f32a4a8ce2c02c219bf06dec62f4ff95534
 		  <div class="card-body">
 		    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></h4></a>
 		    <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
-		    <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
+		    <p class="card-text text-center postdate light-text"><%=dt[0]%></p>
 		  </div>
 		  <div class="<%=obj.get("blogpost_id")%>">
 		  <input type="hidden" class="post-image" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">

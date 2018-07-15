@@ -97,29 +97,7 @@ $(document).ready(function(){
 	   $(this).parent().parent().parent().prepend(trackernamehtmlupdate);
 	   $(this).parent().parent().html(timesectionhtmlupdate + bloglisthtmlupdate + trackerdescriptionhtmlupdate + blogcounthtmlupdate + postcounthtmlupdate + commentcounthtmlupdate + buttonhtmlupdate);
 	   
-	   	$.ajax({
-			url: app_url+'tracker',
-			method: 'POST',
-			data: {
-				action: "create",
-				name:trackername,
-				description:trackerdescription,
-				blogs:""
-			},
-			error: function(response)
-			{						
-				console.log(response);		
-			},
-			success: function(response)
-			{   
-				console.log(response);
-				if(response=="true"){
-					toastr.success('Tracker successfully created!','Success');
-				}else{
-					toastr.error('Tracker could not be created!','Error');
-				}
-			}
-		});
+	  
 	   // get script to refresh tracker
 	   $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
 		  
