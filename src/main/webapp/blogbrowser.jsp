@@ -2,21 +2,11 @@
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<%@page import="util.Blogposts"%>
-<%@page import="java.text.NumberFormat" %>
-<%@page import="java.util.Locale" %>
-=======
-<%@page import="util.*"%>
->>>>>>> df9b4874cd5e4490fa3ca3b13b8af12f0f710649
-=======
 
 <%@page import="util.*"%>
 <%@page import="java.text.NumberFormat" %>
 <%@page import="java.util.Locale" %>
 
->>>>>>> 490b1f32a4a8ce2c02c219bf06dec62f4ff95534
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%
@@ -369,7 +359,9 @@ if(results.size()>0){
 %>
 <div class="card noborder curved-card mb30" >
 <div class="curved-card selectcontainer">
+<% if(!username.equals("")){ %>
  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="Select to Track Blog"></i></div>
+<% } %>
 <h4 class="text-primary text-center p10 pt20 posttitle"><a class="blogname-<%=blogid%>" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=blogtitle%></a></h4>
 
 <div class="text-center mt10 mb10 trackingtracks">

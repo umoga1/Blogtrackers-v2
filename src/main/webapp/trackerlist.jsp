@@ -52,7 +52,7 @@ Blogs blg  = new Blogs();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
 ArrayList results = null;
 if(term.equals("")){
-	results = tracker._list("DESC","",username,"10");
+	results = tracker._list("DESC","",username,"50");
 }else{
 	results = tracker._search(term,"");
 }
@@ -237,6 +237,10 @@ ArrayList test = new ArrayList();
 			 query = query.replaceAll("\\)", "");
 			
 			 totalpost = 0;
+			 String dt="";
+			 if(obj.has("date_created")){
+				 dt = obj.get("date_created").toString();
+			 }
 			
 			 if(!query.equals("")){
 				 blogs = blg._fetch(query);
@@ -259,7 +263,7 @@ ArrayList test = new ArrayList();
 <div class=""><a href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=obj.get("tid").toString()%>"><h1 class="text-primary text-center pt20"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ") %></h1></a></div>
 
   <div class="card-body">
-    <p class="card-text text-center postdate text-primary"><%=obj.get("date_created").toString()%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;</p>
+    <p class="card-text text-center postdate text-primary"><%=dt%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;</p>
 
     <div class="text-center">
     <button class="btn btn-default stylebutton5 text-primary p30 pt5 pb5" style="width:100%;">Sports&nbsp;&nbsp;.&nbsp;&nbsp;Science&nbsp;&nbsp;.&nbsp;&nbsp;Art</button>

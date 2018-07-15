@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.*;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime; 
 
 public class Trackers {
 
@@ -194,12 +196,35 @@ public String _add(String userid, JSONObject params) throws Exception {
 		 blognum = blogs.length;
 	 }
 	 
+	 String urll = base_url+"_search?size=5";  
+	 JSONObject jsonObj2 = new JSONObject("{\r\n" + 
+	 		"    \"query\" : {\r\n" + 
+	 		"        \"match_all\" : {}\r\n" + 
+	 		"    }\r\n" + 
+	 		"}");
+		
+	 
+	 String next = this._getTotal(urll, jsonObj2);
+	 int tidd = Integer.parseInt(next)+1;
+	 
+	 
+	 System.out.println(tidd);
+	 
+	 //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+	 //LocalDateTime now = LocalDateTime.now();  
+	   //System.out.println(dtf.format(now));  
+	 
 	 JSONObject param = new JSONObject();
 	 param.put("userid",userid);
 	 param.put("query", "blogsite_id in ("+params.get("blogs")+")");
 	 param.put("tracker_name", params.get("trackername"));
 	 param.put("description", params.get("description"));
-	 param.put("blogsites_num", blognum);	 
+	 param.put("blogsites_num", blognum);	
+	 param.put("tid", tidd);
+	 //param.put("date_modified",dtf.format(now));
+	 //param.put("date_created",dtf.format(now));
+	 System.out.println(param);
+	 
 	 //System.out.println(param);
 	//JSONObject jsonObj = new JSONObject("{\"userid\":\"wizzletest\",\"query\":\"blogsite_id in (46,62,47,49,66,52,53,65,63,54)\",\"tracker_name\":\"Wizzle\",\"description\":\"Best blogs ever\",\"blogsites_num\":10}");	 
 	 String output = "false";
@@ -233,7 +258,7 @@ public String _delete(String trackerid) throws Exception {
 			String res = detail.get(0).toString();		
 			JSONObject resp = new JSONObject(res);
 			String tid = resp.get("_id").toString();
-			tid = "36Rqn2QBCl8_4DKPniR1";
+			//tid = "4qSen2QBCl8_4DKPZSTm";
 			String url = base_url+"trackers/"+tid;
 			this._runDelete(url);
 			return "true";
@@ -314,12 +339,11 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 			    		"    \"script\" : \"ctx._source.query = '"+param.get("query")+"'; ctx._source.blogsites_num= '"+param.get("blogsites_num")+"';\",\r\n" + 
 			    		"}");
 			 JSONObject myResponse = this._runUpdate(url, jsonObj);	
-			 
+			 //this._delete(trackerid);
 			 if(null==myResponse.get("result")) {
 				   	  output = "false";
 			   }else {
 				   String resv = myResponse.get("result").toString();
-				   System.out.println("outout:"+resv);
 				   if(resv.equals("updated")) {
 					   output = "true";
 				   }else {
