@@ -439,7 +439,7 @@ else
 			success: function(response)
 			{   
 				console.log(response);
-				if(response=="true"){
+				if(response.indexOf("true")>-1){
 					toastr.success('Tracker successfully created!','Success');
 					location.href=app_url+"blogbrowser.jsp";
 				}else{

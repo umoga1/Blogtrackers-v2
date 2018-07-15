@@ -216,7 +216,8 @@ public String _add(String userid, JSONObject params) throws Exception {
 		   }else {
 			   output = "false";
 		   }
-	   }  
+	   } 
+	  System.out.println(output);
 	  return output;
 }
 
