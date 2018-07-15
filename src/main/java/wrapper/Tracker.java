@@ -88,7 +88,7 @@ public class Tracker extends HttpServlet {
 			 try {
 				 output = trk._update(tracker_id, param);		
 				 response.setContentType("text/html");				 
-			     pww.write("true"); 
+			     pww.write(output); 
 			     //System.out.println("Update");
 			 }catch(Exception e) {
 				 System.out.println("Error");

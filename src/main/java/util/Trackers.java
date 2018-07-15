@@ -238,20 +238,33 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 		    String resu = resp.get("_source").toString();
 		    JSONObject obj = new JSONObject(resu);		     	     
 		    String quer = obj.get("query").toString();
+		   		  
 		    	
 			 quer = quer.replaceAll("blogsite_id in ", "");
 			 quer = quer.replaceAll("\\(", "");			 
 			 quer = quer.replaceAll("\\)", "");
 			 String[] blogs2 = quer.split(",");
 			 
+			 System.out.println(quer);
+			 //System.out.println("Bid"+);
+			 
+			 if(blogs.length>0) {
+				 System.out.println("Bid"+blogs[0]);
+			    	String bid = blogs[0].trim();
+			    	for(int b=0; b<blogs2.length; b++) {
+			    		String b2id = blogs2[b].trim();
+			    		 //System.out.println(b2id.equals(bid));
+			    		if(b2id.equals(bid)) {
+			    			
+			    			return "false";
+			    		}
+			    	}
+			  }
+			 
 			 String mergedblogs = this.mergeArrays(blogs, blogs2);
 			 String[] allblogs = mergedblogs.split(",");
 			 blognum = allblogs.length;
 			 
-			
-
-			 System.out.println("Merged To:"+quer);
-			 System.out.println("Merged:"+mergedblogs);
 			 
 			 JSONObject param = new JSONObject();
 			 //param.put("userid",userid);
@@ -274,9 +287,8 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 			 	 
 			 String url = base_url+"trackers/"+tid+"/_update";
 			 JSONObject myResponse = this._runUpdate(url, param);
-			 System.out.println("Result:"+myResponse.get("result"));
 			 
-			 if(null!=myResponse.get("result")) {
+			 if(null==myResponse.get("result")) {
 				   	  output = "false";
 			   }else {
 				   String resv = myResponse.get("result").toString();
@@ -290,6 +302,7 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 			   			 
 	 }
 	 
+	
 	 return  output;
 	 
 }
@@ -350,7 +363,7 @@ public JSONObject _runUpdate(String url, JSONObject param) throws Exception {
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
     
     JSONObject jsonObj = new JSONObject("{\r\n" + 
-    		"    \"script\" : \"ctx._source.query = '"+param.get("query")+"'\",\r\n" + 
+    		"    \"script\" : \"ctx._source.query = '"+param.get("query")+"'; ctx._source.blogsites_num= '"+param.get("blogsites_num")+"';\",\r\n" + 
     		"}");
    
 	  con.setDoOutput(true);
@@ -428,7 +441,7 @@ public String _getTotal(String url, JSONObject jsonObj) throws Exception {
 	
 	    for(int i=0;i<merged.length;i++){
 	        nodupes.add(merged[i]);
-	        bracketed_result+=merged[i]+",";
+	        bracketed_result+=merged[i].trim()+",";
 	    }
 	
 	    String[] nodupesarray = new String[nodupes.size()];
@@ -442,5 +455,7 @@ public String _getTotal(String url, JSONObject jsonObj) throws Exception {
 	
 		    return bracketed_result.replaceAll(",$", "");
 	}
+	
+
 
 }
