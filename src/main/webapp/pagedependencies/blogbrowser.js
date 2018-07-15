@@ -420,21 +420,7 @@ else
 	   		 }
 	     });
 	   	 
-   	
-   		trackers.each(function(i,e)
-   	      {
-   	   		 id = $(this).attr('id');
-   	   		 if (id.indexOf("Trackk")>-1) {
-   	   		        tracker_id = id.split("_");
-   	   		        tracker_id = tracker_id[tracker_id.length-1];
-   		   		     if(j<trackers.length-2){
-   		   	    		all_blogs+=blog_id+",";
-   		   	    	}else{
-   		   	    		all_trackers+=tracker_id;
-   		   	    	}
-   		   		     j++;
-   	   		 } 
-   	     });
+
    	
    	 //If at least a tracker is selected, update tracker else create tracker
 		$.ajax({

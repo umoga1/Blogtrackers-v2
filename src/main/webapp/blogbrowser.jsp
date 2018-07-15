@@ -417,7 +417,7 @@ if(results.size()>0){
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js?v=28770">
+<script src="pagedependencies/blogbrowser.js?v=20">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 

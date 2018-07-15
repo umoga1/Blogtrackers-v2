@@ -206,7 +206,7 @@ public String _add(String userid, JSONObject params) throws Exception {
 	 String url = base_url+"trackers";	 
 	 JSONObject myResponse = this._runUpdate(url, param);
 	  System.out.println(myResponse);
-	  if(null!=myResponse.get("result")) {
+	  if(null==myResponse.get("result")) {
 		   	  output = "false";
 	   }else {
 		   String resv = myResponse.get("result").toString();
