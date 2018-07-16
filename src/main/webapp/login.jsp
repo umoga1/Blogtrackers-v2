@@ -17,7 +17,7 @@ if (email != null && email != "") {
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Blogtrackers - Login</title>
-<link rel="shortcut icon" href="images/favicons/favicon.ico">
+<link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
 <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
 <link rel="apple-touch-icon" sizes="96x96"
 	href="images/favicons/favicon-96x96.png">

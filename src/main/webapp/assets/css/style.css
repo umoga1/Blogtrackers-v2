@@ -9,7 +9,10 @@ body{
 {
 color:blue;
 } */
-
+.border-white
+{
+border: 4px solid #ffffff;
+}
 .logohome
 {
 background-image: url(../../images/logo.svg);
@@ -47,9 +50,11 @@ background-color: transparent;
 text-align: center;
 color: #ffffff;
 border: none;
-/* border-bottom: 2px solid #597a86; */
+ border-bottom: 2px solid #597a86; 
 font-size: 3.4rem;
 font-weight: 500;
+width:90% !important;
+margin:0 auto;
 border-radius: 0;
 }
 .searchhome::placeholder
@@ -62,7 +67,7 @@ border:none !important;
 color: #ffffff;
 box-shadow: none;
 border-color:transparent;
-/* border-bottom: 2px solid #597a86; */
+ border-bottom: 2px solid #597a86;
 }
 .robotcontainer
 {
@@ -1063,6 +1068,7 @@ position:absolute;
 border-radius: 100px;
 right:45px;
 top:10px;
+display:none;
 }
 #closeicon i
 {
@@ -2304,7 +2310,7 @@ border-radius: 20px;
 .border-selected
 {
 background-color:#E3F3E8;
-border:4px solid #44AF69;	
+border:4px solid #44AF69 !important;	
 }
 .text-selected
 {
@@ -2405,6 +2411,10 @@ border-radius:100px !important;
 /* Mobile Reponsive Section */
 @media (min-width:300px) and (max-width:860px){
   /* LogIn Section  */
+  #closeicon
+  {
+  display:inline;
+  }
 .loginformbutton
 {
 padding: 6px 40px !important;

@@ -74,6 +74,7 @@
 					     String totaltrack  = trackers.getTotalTrack(blogid);
 					     %>
 		<div class="card noborder curved-card mb30" >
+<<<<<<< HEAD
 		<div class="curved-card selectcontainer">
 		<% if(!username.equals("")){ %>
 		 <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="Select to Track Blog"></i></div>
@@ -82,6 +83,12 @@
 		  
 		  <div class="text-center mt10 mb10 trackingtracks"><% if(myblogs.has(blogid)){ %><button class="btn btn-primary stylebutton7">TRACKING</button><% } %> <button class="btn btn-primary stylebutton8"><%=totaltrack%> Tracks</button></div>
 		 </div>
+=======
+		<div class="curved-card selectcontainer border-white">
+		 <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
+		<h4 class="text-primary text-center p10 pt20 posttitle"><a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></a></h4>
+		<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
+>>>>>>> 980bdf0d74dbfa7a0e1543285ff908939ca8d404
 		 
 		  <div class="card-body">
 		    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></h4></a>
@@ -92,9 +99,14 @@
 		  <input type="hidden" class="post-image" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
 		  </div>
 		  <div class="text-center"><i class="far fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Add to Favorites"></i></div>
+<<<<<<< HEAD
 		</div>
 		
 
+=======
+		</div>	
+		</div>
+>>>>>>> 980bdf0d74dbfa7a0e1543285ff908939ca8d404
 		<%}
 		}else{ 
 			pww.write("empty");
