@@ -194,9 +194,9 @@ if(f.exists() && !f.isDirectory()) {
 <div class="row bottom-border pb20">
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="trackerlist.html">MY TRACKER</a>
+  <a class="breadcrumb-item text-primary" href="trackerlist.jsp">MY TRACKER</a>
   <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
-  <a class="breadcrumb-item active text-primary" href="sentiment.html">Sentiment Analysis</a>
+  <a class="breadcrumb-item active text-primary" href="sentiment.jsp">Sentiment Analysis</a>
   </nav>
 <div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
 </div>

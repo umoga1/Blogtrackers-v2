@@ -2,9 +2,11 @@
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
-<%@page import="util.Blogposts"%>
+
+<%@page import="util.*"%>
 <%@page import="java.text.NumberFormat" %>
 <%@page import="java.util.Locale" %>
+
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%
@@ -20,6 +22,10 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
+JSONObject myblogs = new JSONObject();
+ArrayList mytrackers = new ArrayList();
+Trackers trackers  = new Trackers();
+Blogs blogs  = new Blogs();
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
@@ -50,14 +56,15 @@ if(userpic.indexOf("http")>-1){
 }
 
 
+	File f = new File(filename);
+	if(f.exists() && !f.isDirectory()) { 
+		profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+	}
+	
 
-File f = new File(filename);
-if(f.exists() && !f.isDirectory()) {
-	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
-}
 }catch(Exception e){}
-
-
+	myblogs = trackers.getMyTrackedBlogs(username);
+	mytrackers = trackers._list("DESC","",username,"10");
 }
 
 Blogposts post  = new Blogposts();
@@ -211,7 +218,9 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
       </div>
 <!-- <div class="profilenavbar" style="visibility:hidden;"></div> -->
 	   <div class="col-md-12 mt0">
+
       <form name="serach-form" method="post" action=""><input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground"
+
      <% if(!term.equals("")){ %>
       placeholder="Searching for <%=term%>"
      <% } else { %>
@@ -237,12 +246,9 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <div class="row bg-primary">
 
 <div class="offset-md-1 col-md-6 pl100 pt100 pb100">
-<h1 class="text-white trackertitlesize"><b class="greentext">4</b> Blogs</h1>
-<div class="mt30">
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Engadget <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">National Public Radio <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Crooks and Liars <i class="fas fa-trash float-right hidden deleteblog"></i></button>
-<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Tech Crunch <i class="fas fa-trash float-right hidden deleteblog"></i></button>
+<h1 class="text-white trackertitlesize"><b class="greentext total_selected">4</b> Blog(s)</h1>
+<div class="mt30" id="selected_blog_list">
+<!-- <button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Engadget <i class="fas fa-trash float-right hidden deleteblog"></i></button> -->
 </div>
 </div>
 <div class="col-md-5 pt100 pb100 pl50 pr50 bg-white">
@@ -251,11 +257,24 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <h3 class="text-primary bold-text">Track the selected blogs using the following list of trackers: </h3>
 <button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
 <div class="trackerlist mt20">
-<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Science <i class="fas fa-check float-right hidden checktracker"></i></button>
+<%
+if(mytrackers.size()>0){
+	String tres = null;
+	JSONObject tresp = null;
+	String tresu = null;
+	JSONObject tobj = null;
+
+for(int i=0; i< mytrackers.size(); i++){
+			tres = mytrackers.get(i).toString();			
+			tresp = new JSONObject(tres);
+		    tresu = tresp.get("_source").toString();
+		    tobj = new JSONObject(tresu);	
+%>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text" id="<%=tobj.get("tid").toString()%>"><%=tobj.get("tracker_name").toString()%> <i class="fas fa-check float-right hidden checktracker"></i></button>
+<% }} %>
+<!-- 
 <button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Technology <i class="fas fa-check float-right hidden checktracker"></i></button>
-<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Politics <i class="fas fa-check float-right hidden checktracker"></i></button>
-<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Russia <i class="fas fa-check float-right hidden checktracker"></i></button>
-<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Spare <i class="fas fa-check float-right hidden checktracker"></i></button>
+-->
 </div>
 <div class="col-md-12 mt20 text-primary">
 <b class="selectedtrackercount text-primary">0</b> Tracker(s) selected
@@ -310,30 +329,61 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 
 <div class="card-columns pt0 pb10  mt20 mb50 " id="appendee">
 
-<% if(results.size()>0){
+<% 
+if(results.size()>0){
+	String res = null;
+	JSONObject resp = null;
+	String resu = null;
+	JSONObject obj = null;
+	int totalpost = 0;
+	String bres = null;
+	JSONObject bresp = null;
+	String bresu =null;
+	JSONObject bobj =null;
+	
+
 		for(int i=0; i< results.size(); i++){
-			String res = results.get(i).toString();
 
-			JSONObject resp = new JSONObject(res);
-		    String resu = resp.get("_source").toString();
-		     JSONObject obj = new JSONObject(resu);
+			 String blogtitle="";		
+			 res = results.get(i).toString();			
+			 resp = new JSONObject(res);
+		     resu = resp.get("_source").toString();
+		     obj = new JSONObject(resu);
+		     String blogid = obj.get("blogsite_id").toString();
+		     String[] dt = obj.get("date").toString().split("T");
+		     
 
-		     String pst = obj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
-		     if(pst.length()>120){
-		    	 pst = pst.substring(0,120);
-		     }
-
+			
+			 ArrayList blog = blogs._fetch(blogid); 
+			 if( blog.size()>0){
+						 bres = blog.get(0).toString();			
+						 bresp = new JSONObject(bres);
+						 bresu = bresp.get("_source").toString();
+						 bobj = new JSONObject(bresu);
+						 blogtitle = bobj.get("blogsite_name").toString();			 
+			}
+		     String totaltrack  = trackers.getTotalTrack(blogid);		     
 %>
 <div class="card noborder curved-card mb30" >
 <div class="curved-card selectcontainer border-white">
- <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20 posttitle"><a class="" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ") %></a></h4>
-<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-  
+<% if(!username.equals("") || username.equals("")){ %>
+ <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="Select to Track Blog"></i></div>
+<% } %>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a class="blogname-<%=blogid%>" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=blogtitle%></a></h4>
+
+<div class="text-center mt10 mb10 trackingtracks">
+<% if(myblogs.has(blogid)){ %><button class="btn btn-primary stylebutton7">TRACKING</button><% } %> <button class="btn btn-primary stylebutton8"><%=totaltrack%> Tracks</button>
+  </div>
+
+
+ 
+
   <div class="card-body">
+
     <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title")%></h4></a>
+
     <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
-    <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
+    <p class="card-text text-center postdate light-text"><%=dt[0]%></p>
   </div>
   <div class="<%=obj.get("blogpost_id")%>">
   <input type="hidden" class="post-image" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
@@ -344,10 +394,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 
 <% }
 }else{ %>
-
-<div >No post found</div>
-
-
+	<div >No post found</div>
 <% } %>
 </div>
 
@@ -355,13 +402,8 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <div class="loadmoreimg" id="loading-img" style="text-align:center"><img src='images/preloader.gif' /><br/></div>
 <% } %>
 
-
-
-
-
-
 </div>
-
+<input type="hidden" id="selected_tracker" name="selected_tracker" value="" />
 <form name="page_form" id="page_form" method="post" action="">
     <input type="hidden" id="page_id" name="page_id" value="0" />
 	<input type="hidden" name="negative_page" id="negative_page" value="1" />
@@ -391,7 +433,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js">
+<script src="pagedependencies/blogbrowser.js?v=280">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
@@ -400,7 +442,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 </script>
 
 <script src="pagedependencies/imageloader.js?v=189908998"></script>
-<script src="js/functions.js?v=0990"></script>
+<script src="js/functions.js?v=19990"></script>
 <script>
 $(window).scroll(function() {
 	if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {

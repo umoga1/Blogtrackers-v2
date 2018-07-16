@@ -435,7 +435,7 @@ JSONObject sentimentblog = new JSONObject();;
         </div>
           </div>
     </div>
-    <div class="float-right"><a href="keywordtrend.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Keyword Trend Analysis </b> <b class="fas fa-search float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="keywordtrend.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Keyword Trend Analysis </b> <b class="fas fa-search float-right icondash2"></b></button></a></div>
   </div>
 
   <div class="col-md-6 mt20">
@@ -449,7 +449,7 @@ JSONObject sentimentblog = new JSONObject();;
         </div>
           </div>
     </div>
-    <div class="float-right"><a href="sentiment.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-adjust float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="sentiment.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-adjust float-right icondash2"></b></button></a></div>
   </div>
 </div>
 
@@ -466,7 +466,7 @@ JSONObject sentimentblog = new JSONObject();;
       </div>
           </div>
     </div>
-    <div class="float-right"><a href="blogportfolio.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blog Portfolio Analysis</b> <b class="fas fa-file-alt float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="blogportfolio.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blog Portfolio Analysis</b> <b class="fas fa-file-alt float-right icondash2"></b></button></a></div>
 
   </div>
 
@@ -482,7 +482,7 @@ JSONObject sentimentblog = new JSONObject();;
       </div>
           </div>
     </div>
-    <div class="float-right"><a href="bloggerportfolio.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blogger Portfolio Analysis </b> <b class="fas fa-user float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="bloggerportfolio.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blogger Portfolio Analysis </b> <b class="fas fa-user float-right icondash2"></b></button></a></div>
 
   </div>
 
@@ -501,7 +501,7 @@ JSONObject sentimentblog = new JSONObject();;
       </div>
           </div>
     </div>
-    <div class="float-right"><a href="postingfrequency.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Posting Frequency Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="postingfrequency.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Posting Frequency Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b></button></a></div>
 
   </div>
 
@@ -517,7 +517,7 @@ JSONObject sentimentblog = new JSONObject();;
       </div>
           </div>
     </div>
-    <div class="float-right"><a href="sentiment.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-exchange-alt float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="sentiment.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-exchange-alt float-right icondash2"></b></button></a></div>
 
   </div>
 
