@@ -259,7 +259,7 @@ ArrayList test = new ArrayList();
 
 
 <div class="card noborder curved-card mb30 pt30" >
-<div class=""><h1 class="text-primary text-center pt20"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ") %></h1></div>
+<div class=""><h1 class="text-primary text-center pt20 edittrackerpopaction cursor-pointer"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ") %></h1></div>
 
   <div class="card-body">
     <p class="card-text text-center postdate text-primary"><%=dt%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;</p>
@@ -314,8 +314,46 @@ ArrayList test = new ArrayList();
 
 </div>
 
+<div class="modalbackdrop hidden">
 
+</div>
 
+<div class="edittrackerpop hidden">
+<div class="container-fluid ">
+<!-- <div class="container-fluid"> -->
+<div class="row bg-white">
+<div class="col-md-7 pl100 pt100 pb100">
+<h1 class="text-primary" style="font-weight:bolder;">Middle East Tracker</h1>
+<div class="mt10">
+<!-- <button class=" btn btn-primary text-left text-primary bold-text text-white stylebuttonblog"><b>TRACKING</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button> -->
+<button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>Blog | 334</b> </button>
+<button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>Crawl | 22-07-2018</b></button>
+</div>
+<div class="mt30 text-primary pr40" style="font-size:18px;">
+National Public Radio is an American privately and publicly funded non-profit membership media organization based
+in Washington DC. It serves as a national syndicator to a network of over 1,000 public radio stations in the United States.
+</div>
+
+<div class="mt30"><button class="btn blogbutton text-primary pt10 pb10 pl20 pr20"><b>Analytics</b><i class="ml10 proceedtoanalytics pl10"></i></button></div>
+</div>
+<div class="col-md-5 pt100 pb100 pl50 pr50 bg-white border-before">
+<i class="cursor-pointer lnr lnr-cross float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
+
+<div class="col-md-10"><h5 class="text-primary ml0">This tracker has the following list of blogs: </h5></div>
+<div class="col-md-10 mt20"><input type="search" class="form-control searchblog pt10 pb10 semi-bold-text ml0" placeholder="Search Blogs"/></div>
+<div class="bloglist mt10">
+  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Science <i class="fas fa-check float-right hidden checkblog"></i></button>
+  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Technology <i class="fas fa-check float-right hidden checkblog"></i></button>
+  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Politics <i class="fas fa-check float-right hidden checkblog"></i></button>
+  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Russia <i class="fas fa-check float-right hidden checkblog"></i></button>
+  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Spare <i class="fas fa-check float-right hidden checkblog"></i></button>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
 
 
 <!-- <footer class="footer">
@@ -374,7 +412,8 @@ $(document).ready(function() {
 	});
 </script>
 
-
+<script src="pagedependencies/edittracker.js">
+</script>
 
 <script src="assets/js/generic.js">
 </script>

@@ -9,18 +9,15 @@
 <%@page import="org.json.JSONObject"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
-
 //if (email == null || email == "") {
 	//response.sendRedirect("login.jsp");
 //}else{
-
 ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";
 String username ="";
 String name="";
 String phone="";
 String date_modified = "";
-
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
 if (userinfo.size()<1) {
@@ -29,37 +26,25 @@ if (userinfo.size()<1) {
 userinfo = (ArrayList<?>)userinfo.get(0);
 try{
 username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
-
 name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
-
-
 email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
 //date_modified = userinfo.get(11).toString();
-
 String userpic = userinfo.get(9).toString();
 String[] user_name = name.split(" ");
 username = user_name[0];
-
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = userinfo.get(9).toString();
-
 profileimage = "images/default-avatar.png";
 if(userpic.indexOf("http")>-1){
 	profileimage = userpic;
 }
-
-
-
 File f = new File(filename);
 if(f.exists() && !f.isDirectory()) { 
 	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
 }
 }catch(Exception e){}
-
-
 }
-
 %>
 <!DOCTYPE html>
 <html>
@@ -73,6 +58,7 @@ if(f.exists() && !f.isDirectory()) {
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
   <!-- start of bootsrap -->
+  <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
   <link href="assets/fonts/icomoon/styles.css" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css"/>
@@ -197,7 +183,7 @@ if(f.exists() && !f.isDirectory()) {
 
     </nav>
     
-    <div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Track</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer fas fa-times float-right pr20 mt10" id="closetracks"></i></div>
+    <div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Track</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer lnr lnr-cross float-right pr20 mt10" id="closetracks"></i></div>
 
 <!-- Backdrop for modal -->
 <div class="modalbackdrop hidden">
@@ -219,7 +205,7 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 <div class="col-md-5 pt100 pb100 pl50 pr50 bg-white">
 <div class="trackcreationsection1">
-<i class="cursor-pointer fas fa-times float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
+<i class="cursor-pointer lnr lnr-cross float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
 <h3 class="text-primary bold-text">Track the selected blogs using the following list of trackers: </h3>
 <button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
 <div class="trackerlist mt20">
@@ -276,12 +262,12 @@ if(f.exists() && !f.isDirectory()) {
 
 
 <div class="card-columns pt0 pb10  mt20 mb50 ">
-<div class="card noborder curved-card mb30" >
+<div class="card noborder curved-card mb30 border-white" >
 <div class="curved-card selectcontainer">
  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
 <h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-</div>
+
   <div class="card-body">
     <a href="blogpostpage.jsp"><h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
     <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -291,16 +277,18 @@ if(f.exists() && !f.isDirectory()) {
   <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
 </div>
 
+</div>
 
 
 
 
- <div class="card noborder curved-card mb30" >
+
+<div class="card noborder curved-card mb30 border-white" >
 <div class="curved-card selectcontainer">
   <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
 <h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-  </div>
+
     <div class="card-body">
     <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -310,13 +298,14 @@ if(f.exists() && !f.isDirectory()) {
     <img class="card-img-top pt30 pb30" src="https://i.pinimg.com/originals/f6/6a/64/f66a6486a022f0531dcca06a32f4f9b4.jpg" alt="Card image cap">
     <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
   </div>
+  </div>
 
-<div class="card noborder curved-card mb30" >
+<div class="card noborder curved-card mb30 border-white" >
 <div class="curved-card selectcontainer">
   <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
 <h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-  </div>
+  
     <div class="card-body">
     <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -326,13 +315,14 @@ if(f.exists() && !f.isDirectory()) {
     <img class="card-img-top pt30 pb30" src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" alt="Card image cap">
     <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
   </div>
+  </div>
 
-  <div class="card noborder curved-card mb30" >
+  <div class="card noborder curved-card mb30 border-white" >
   <div class="curved-card selectcontainer">
   <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
 <h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-  </div>
+
     <div class="card-body">
     <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -342,14 +332,15 @@ if(f.exists() && !f.isDirectory()) {
     <img class="card-img-top pt30 pb30" src="https://www.npg.org.uk/assets/microsites/bp2017/images/exhibitors/500_2017_BP_Portrait_Award_work_0009.jpg" alt="Card image cap">
     <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
   </div>
+  </div>
 
 
-  <div class="card noborder curved-card mb30" >
+ <div class="card noborder curved-card mb30 border-white" >
   <div class="curved-card selectcontainer">
   <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
 <h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-  </div>
+
     <div class="card-body">
       <a href="blogpostpage.jsp"><h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -359,14 +350,15 @@ if(f.exists() && !f.isDirectory()) {
     <img class="card-img-top pt30 pb30" src="https://orig00.deviantart.net/041e/f/2011/109/d/0/american_diner_2_by_oliveroettli-d3eey9i.jpg" alt="Card image cap">
     <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
   </div>
+  </div>
 
 
-<div class="card noborder curved-card mb30" >
+<div class="card noborder curved-card mb30 border-white" >
 <div class="curved-card selectcontainer">
   <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
 <h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-  </div>
+
     <div class="card-body">
     <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -376,13 +368,14 @@ if(f.exists() && !f.isDirectory()) {
     <img class="card-img-top pt30 pb30" src="https://i.pinimg.com/originals/f6/6a/64/f66a6486a022f0531dcca06a32f4f9b4.jpg" alt="Card image cap">
     <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
   </div>
+  </div>
 
-  <div class="card noborder curved-card mb30" >
+ <div class="card noborder curved-card mb30 border-white" >
   <div class="curved-card selectcontainer">
   <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
 <h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-  </div>
+
     <div class="card-body">
     <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
       <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -392,13 +385,14 @@ if(f.exists() && !f.isDirectory()) {
     <img class="card-img-top pt30 pb30" src="http://4.bp.blogspot.com/-pSS3m9Y3WWM/T2ejQOItwFI/AAAAAAAAEOM/E8qq9Yuxx-w/s1600/1+Jacques+Louis+David_Self_Portrait+Jail.jpg" alt="Card image cap">
     <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
   </div>
+  </div>
 
-<div class="card noborder curved-card mb30" >
+<div class="card noborder curved-card mb30 border-white" >
 <div class="curved-card selectcontainer">
 <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
 <h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-</div>
+
   <div class="card-body">
   <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
     <p class="card-text text-center author mb0 light-text">Richard Young</p>
@@ -407,6 +401,7 @@ if(f.exists() && !f.isDirectory()) {
   </div>
   <img class="card-img-top pt30 pb30" src="http://4.bp.blogspot.com/-pSS3m9Y3WWM/T2ejQOItwFI/AAAAAAAAEOM/E8qq9Yuxx-w/s1600/1+Jacques+Louis+David_Self_Portrait+Jail.jpg" alt="Card image cap">
   <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
+</div>
 </div>
 
 
@@ -444,13 +439,11 @@ if(f.exists() && !f.isDirectory()) {
 <script type="text/javascript" src="assets/js/form_tags_input.js"></script>
 
 <script src="pagedependencies/favorites.js">
-
 </script>
 <!--end for table  -->
 
 
 <script src="assets/js/generic.js">
-
 </script>
 
 </body>

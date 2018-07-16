@@ -731,6 +731,14 @@ height:63px;
     display:inline-block;
     background-position: center center;		
 }
+.edittrackerpop
+{
+z-index:999;
+position:fixed;
+top:0;
+width:90%;	
+left:5%;
+}
 .searchiconinput
 {
 color:#E0E2E4;
@@ -826,6 +834,14 @@ box-shadow: 0px 4px 0px -2px rgb(0,212,115);
 font-size: 20px;
 }
 .canceltracker
+{
+font-size: 20px;
+border-radius: 100px;
+-webkit-box-shadow: 0px 4px 0px -2px rgb(234,234,234);
+-moz-box-shadow: 0px 4px 0px -2px rgb(234,234,234);
+box-shadow: 0px 4px 0px -2px rgb(234,234,234);
+}
+.canceltrackercreation
 {
 font-size: 20px;
 border-radius: 100px;
@@ -1213,7 +1229,8 @@ padding-bottom: 5px;
   padding-bottom: 5px;
   background-color:transparent;
   border:2px solid #e6eaec;
-  text-transform: uppercase;
+  font-size:13px;
+ /*  text-transform: uppercase; */
 }
 .fontsizeblog
 {

@@ -283,7 +283,7 @@ for(int i=0; i< mytrackers.size(); i++){
 
 <!-- tracker section for creatio of new  -->
 <div class="trackcreationsection2 hidden">
-<i class="cursor-pointer fas fa-times float-right closedialog" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close Dialog"></i>
+<i class="cursor-pointer lnr lnr-cross float-right closedialog" data-toggle="tooltip" data-placement="top" title="" data-original-title="Close Dialog"></i>
 <h1 class="text-primary">Create a Tracker</h1>
 <input type="text" class="form-control trackerinput blogbrowsertrackername" placeholder="Title" />
 <textarea placeholder="Description" class="form-control mt20 trackerdescription blogbrowsertrackerdescription" rows="8">
@@ -292,7 +292,7 @@ for(int i=0; i< mytrackers.size(); i++){
 <input type="text" class="form-control tokenfield-primary" value="Engadget,National Public Radio,Crooks and Liars,Tech Crunch" />
 </div>
 <div class="mt30">
-<button class="btn btn-default cancelbtn canceltracker text-primary">Cancel</button> <button class=" btn btn-success trackercreatebutton">Create</button>
+<button class="btn btn-default cancelbtn canceltrackercreation text-primary">Cancel</button> <button class=" btn btn-success trackercreatebutton">Create</button>
 </div>
 
 </div>
