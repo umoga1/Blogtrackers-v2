@@ -331,7 +331,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
   
   <div class="card-body">
-    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=pst+"..."%></h4></a>
+    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title")%></h4></a>
     <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=obj.get("date") %></p>
   </div>
