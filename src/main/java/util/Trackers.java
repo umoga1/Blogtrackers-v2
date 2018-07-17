@@ -210,9 +210,9 @@ public String _add(String userid, JSONObject params) throws Exception {
 	 
 	 System.out.println(tidd);
 	 
-	 //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+	 //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
 	 //LocalDateTime now = LocalDateTime.now();  
-	   //System.out.println(dtf.format(now));  
+	 //System.out.println(dtf.format(now));  
 	 
 	 JSONObject param = new JSONObject();
 	 param.put("userid",userid);
@@ -222,7 +222,7 @@ public String _add(String userid, JSONObject params) throws Exception {
 	 param.put("blogsites_num", blognum);	
 	 param.put("tid", tidd);
 	 //param.put("date_modified",dtf.format(now));
-	 //param.put("date_created",dtf.format(now));
+	 //param.put("date_created",dtf.format(now)+"T06:00:00.000Z");
 	 System.out.println(param);
 	 
 	 //System.out.println(param);
@@ -273,12 +273,12 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 	 String blgs =  params.get("blogs").toString();
 	 String[] blogs = blgs.split(",");
 	 int blognum = 0;
-	 System.out.println("To Merged:"+blgs);
+	 //System.out.println("To Merged:"+blgs);
 	 
 	 
 	 String output = "false";
 	 ArrayList<?> detail = this._fetch(trackerid);
-	 System.out.println(detail);
+	 //System.out.println(detail);
 	 if(detail.size()>0){		
 			String res = detail.get(0).toString();		
 			JSONObject resp = new JSONObject(res);
@@ -293,7 +293,7 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 			 quer = quer.replaceAll("\\)", "");
 			 String[] blogs2 = quer.split(",");
 			 
-			 System.out.println(quer);
+			 //System.out.println(quer);
 			 //System.out.println("Bid"+);
 			 
 			 if(blogs.length>0) {
