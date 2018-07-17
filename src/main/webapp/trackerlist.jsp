@@ -152,7 +152,7 @@ ArrayList test = new ArrayList();
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
-  <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
+  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
   <span><%=user_name[0]%></span>
   <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
@@ -238,7 +238,8 @@ ArrayList test = new ArrayList();
 			 totalpost = 0;
 			 String dt="";
 			 if(obj.has("date_created")){
-				 dt = obj.get("date_created").toString();
+				 String[] ddt = obj.get("date_created").toString().split("T");
+				 dt = ddt[0];
 			 }
 			
 			 if(!query.equals("")){
