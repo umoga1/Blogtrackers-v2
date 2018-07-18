@@ -58,6 +58,8 @@ public class Login extends HttpServlet {
 		if(submitted.equals("yes"))
 		{			
 			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+username+"' AND Password = '"+pass+"'");
+			
+			System.out.println(login);
 
 			if(login.size()>0)
 			{
