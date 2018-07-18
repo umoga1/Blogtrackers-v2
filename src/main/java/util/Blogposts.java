@@ -114,6 +114,28 @@ public ArrayList _search(String term,String from) throws Exception {
 		     			"		},\r\n" + 
 		     			"}");
 		    }
+		    
+		    if(from.equals("date")) {
+		    	jsonObj = new JSONObject("{\r\n" + 
+		    			"  \"query\": {\r\n" + 
+		     			"        \"query_string\" : {\r\n" + 
+		     			"            \"fields\" : [\"title\",\"blogger\",\"post\"],\r\n" + 
+		     			"            \"query\" : \""+term+"\"\r\n" + 
+		     			"        }\r\n" + 
+		     			"  },\r\n" +
+		    			"   \"sort\":{\r\n" + 
+		    			"		\"blogpost_id\":{\r\n" + 
+		    			"			\"order\":\"DESC\"\r\n" + 
+		    			"			}\r\n" + 
+		    			"		},\r\n" + 
+		    			" \"range\":{\r\n" + 
+		    			"		\"date\":{\r\n" + 
+		    			"			\"lte\":\""+from+"\",\r\n" + 
+				  		"			\"gte\":\""+0+"\"\r\n" + 
+		    			"			}\r\n" + 
+		    			"		}\r\n" + 
+		    			"}");
+		    }
 	String url = base_url+"_search?size="+size+"&from="+fr; 
 	//System.out.println(url);
     return this._getResult(url, jsonObj);

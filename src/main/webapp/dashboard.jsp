@@ -757,8 +757,8 @@ $(document).ready(function() {
      .on(
          'show.daterangepicker',
          function() {
-         /* 	console
-               .log("show event fired"); */
+         	console
+               .log("show event fired"); 
          });
   $('#reportrange')
      .on(
@@ -771,13 +771,14 @@ $(document).ready(function() {
      .on(
          'apply.daterangepicker',
          function(ev, picker) {
-           /* console
+            console
                .log("apply event fired, start/end dates are "
                    + picker.startDate
                        .format('MMMM D, YYYY')
                    + " to "
                    + picker.endDate
-                       .format('MMMM D, YYYY')); */
+                       .format('MMMM D, YYYY')); 
+            	console.log("applied");
          });
   $('#reportrange')
      .on(
