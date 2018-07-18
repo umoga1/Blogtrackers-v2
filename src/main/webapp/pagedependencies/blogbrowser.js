@@ -174,6 +174,8 @@ $('.blogselection').on("mouseenter",function(e){
 $(this).find(".deleteblog").removeClass("hidden");
 });
 
+
+
 $('.blogselection').on("mouseleave",function(e){
 // check the status of the button whether selecte or //
 selected = $(this).hasClass("blogselectionactive");

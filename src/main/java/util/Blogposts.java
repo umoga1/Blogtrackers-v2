@@ -17,7 +17,7 @@ public class Blogposts {
 String base_url = "http://144.167.115.218:9200/blogposts/";
 String totalpost;		    
 	   
-public ArrayList _list(String order, String from) throws Exception {
+public ArrayList _list(String order, String from, String sortby) throws Exception {
 	int size = 10;
 	 int fr = 0;
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
@@ -25,7 +25,7 @@ public ArrayList _list(String order, String from) throws Exception {
 		 		"        \"match_all\": {}\r\n" + 
 		 		"    },\r\n" + 
 		 		"	\"sort\":{\r\n" + 
-		 		"		\"blogpost_id\":{\r\n" + 
+		 		"		\""+sortby+"\":{\r\n" + 
 		 		"			\"order\":\""+order+"\"\r\n" + 
 		 		"			}\r\n" + 
 		 		"		}\r\n" + 
@@ -60,8 +60,8 @@ public ArrayList _list(String order, String from) throws Exception {
 	     			"  	\"from\":"+fr+"," + 
 	     			"	\"size\":"+size+"," + 
 	     			"   \"sort\":{\r\n" + 
-	     			"		\"blogpost_id\":{\r\n" + 
-	     			"			\"order\":\"DESC\"\r\n" + 
+	     			"		\""+sortby+"\":{\r\n" + 
+	     			"			\"order\":\""+order+"\"\r\n" + 
 	     			"			}\r\n" + 
 	     			"		},\r\n" + 
 	     			"}");
@@ -77,7 +77,7 @@ public String _getTotal() {
 	return this.totalpost;
 }
 	
-public ArrayList _search(String term,String from) throws Exception {
+public ArrayList _search(String term,String from,String sortby) throws Exception {
 	 
 	 int size = 10;
 	 int fr = 0;
@@ -89,7 +89,7 @@ public ArrayList _search(String term,String from) throws Exception {
 	 		"        }\r\n" + 
 	 		"  },\r\n" + 
 	 		"   \"sort\":{\r\n" + 
-	 		"		\"blogpost_id\":{\r\n" + 
+	 		"		\""+sortby+"\":{\r\n" + 
 	 		"			\"order\":\"DESC\"\r\n" + 
 	 		"			}\r\n" + 
 	 		"		}\r\n" + 
@@ -108,7 +108,7 @@ public ArrayList _search(String term,String from) throws Exception {
 		     			"  	\"from\":"+from+"," + 
 		     			"	\"size\":"+size+"," + 
 		     			"   \"sort\":{\r\n" + 
-		     			"		\"blogpost_id\":{\r\n" + 
+		     			"		\""+sortby+"\":{\r\n" + 
 		     			"			\"order\":\"DESC\"\r\n" + 
 		     			"			}\r\n" + 
 		     			"		},\r\n" + 
