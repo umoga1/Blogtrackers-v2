@@ -452,7 +452,13 @@ else
 	}
 });
 
-
+$('#sortbyselect').on("change",function(e){
+	console.log("changed");
+	console.log($('#sortbyselect').val());
+	$("#sortby").val($('#sortbyselect').val());
+	//$("#sortform").submit();
+	$('form#sortform').submit();
+});
 
 });
 

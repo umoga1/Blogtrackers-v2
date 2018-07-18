@@ -315,7 +315,7 @@ for(int i=0; i< mytrackers.size(); i++){
 
 <%}%>
 <h6 class="float-right text-primary">
-  <select class="text-primary filtersort sortby" id="sortbyselect"><option value="date">Recent</option><option value="influence_score">Influence Score</option></select>
+  <select class="text-primary filtersort sortby" id="sortbyselect"><option value="date" <%=(sort.equals("date"))?"selected":"" %>>Recent</option><option <%=(sort.equals("influence_score"))?"selected":"" %> value="influence_score">Influence Score</option></select>
 </h6>
 </div>
 </div>
@@ -442,13 +442,7 @@ $(window).scroll(function() {
 	}
 });
 
-$('#sortbyselect').on("change",function(e){
-	console.log("changed");
-	console.log($('#sortbyselect').val());
-	$("#sortby").val($('#sortbyselect').val());
-	//$("#sortform").submit();
-	$('form#sortform').submit();
-});
+
 
 
 </script>
