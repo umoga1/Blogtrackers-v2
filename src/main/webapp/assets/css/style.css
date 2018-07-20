@@ -1239,6 +1239,40 @@ padding-bottom: 5px;
   font-size:13px;
  /*  text-transform: uppercase; */
 }
+.trackericon
+{
+    background-image: url(../../images/trackericon.svg);
+    background-repeat: no-repeat;
+    min-height: 25px;
+    width: 25px;
+    display: inline-block;
+    position: absolute;
+    top:0px;
+    background-position: center center;	
+}
+.homeicon
+{
+    background-image: url(../../images/homeicon.svg);
+    background-repeat: no-repeat;
+    min-height: 25px;
+    width: 25px;
+    display: inline-block;
+    position: absolute;
+    top:0px;
+    background-position: center center;	
+}
+.favoriteicon
+{
+    background-image: url(../../images/heart.svg);
+    background-repeat: no-repeat;
+    min-height: 25px;
+    width: 25px;
+    display: inline-block;
+    position: absolute;
+    top:0px;
+    background-position: center center;	
+}
+
 .fontsizeblog
 {
 font-size: 1.6rem;
