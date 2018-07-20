@@ -314,18 +314,18 @@ ArrayList test = new ArrayList();
 
 </div>
 
-<div class="modalbackdrop hidden">
+<!-- <div class="modalbackdrop hidden">
 
 </div>
 
 <div class="edittrackerpop hidden">
 <div class="container-fluid ">
-<!-- <div class="container-fluid"> -->
+<div class="container-fluid">
 <div class="row bg-white">
 <div class="col-md-7 pl100 pt100 pb100">
 <h1 class="text-primary" style="font-weight:bolder;">Middle East Tracker</h1>
 <div class="mt10">
-<!-- <button class=" btn btn-primary text-left text-primary bold-text text-white stylebuttonblog"><b>TRACKING</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button> -->
+<button class=" btn btn-primary text-left text-primary bold-text text-white stylebuttonblog"><b>TRACKING</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
 <button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>Blog | 334</b> </button>
 <button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>Crawl | 22-07-2018</b></button>
 </div>
@@ -353,7 +353,7 @@ in Washington DC. It serves as a national syndicator to a network of over 1,000 
 </div>
 </div>
 
-</div>
+</div> -->
 
 
 <!-- <footer class="footer">
