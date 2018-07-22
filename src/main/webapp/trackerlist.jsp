@@ -152,7 +152,7 @@ ArrayList test = new ArrayList();
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
-  <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
+  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
   <span><%=user_name[0]%></span>
   <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
@@ -238,7 +238,8 @@ ArrayList test = new ArrayList();
 			 totalpost = 0;
 			 String dt="";
 			 if(obj.has("date_created")){
-				 dt = obj.get("date_created").toString();
+				 String[] ddt = obj.get("date_created").toString().split("T");
+				 dt = ddt[0];
 			 }
 			
 			 if(!query.equals("")){
@@ -262,7 +263,7 @@ ArrayList test = new ArrayList();
 <div class=""><h1 class="text-primary text-center pt20 edittrackerpopaction cursor-pointer"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ") %></h1></div>
 
   <div class="card-body">
-    <p class="card-text text-center postdate text-primary"><%=dt%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;</p>
+   <%--  <p class="card-text text-center postdate text-primary"><%=dt%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;</p> --%>
 
     <div class="text-center">
     <button class="btn btn-default stylebutton5 text-primary p30 pt5 pb5" style="width:100%;">Sports&nbsp;&nbsp;.&nbsp;&nbsp;Science&nbsp;&nbsp;.&nbsp;&nbsp;Art</button>
@@ -314,18 +315,18 @@ ArrayList test = new ArrayList();
 
 </div>
 
-<div class="modalbackdrop hidden">
+<!-- <div class="modalbackdrop hidden">
 
 </div>
 
 <div class="edittrackerpop hidden">
 <div class="container-fluid ">
-<!-- <div class="container-fluid"> -->
+<div class="container-fluid">
 <div class="row bg-white">
 <div class="col-md-7 pl100 pt100 pb100">
 <h1 class="text-primary" style="font-weight:bolder;">Middle East Tracker</h1>
 <div class="mt10">
-<!-- <button class=" btn btn-primary text-left text-primary bold-text text-white stylebuttonblog"><b>TRACKING</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button> -->
+<button class=" btn btn-primary text-left text-primary bold-text text-white stylebuttonblog"><b>TRACKING</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button>
 <button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>Blog | 334</b> </button>
 <button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>Crawl | 22-07-2018</b></button>
 </div>
@@ -353,7 +354,7 @@ in Washington DC. It serves as a national syndicator to a network of over 1,000 
 </div>
 </div>
 
-</div>
+</div> -->
 
 
 <!-- <footer class="footer">

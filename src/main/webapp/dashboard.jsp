@@ -851,7 +851,7 @@ $(function () {
 
       // Horizontal
       var y = d3.scale.ordinal()
-          .rangeRoundBands([height,0], .4, .10);
+          .rangeRoundBands([height,0], .2, .5);
 
       // Vertical
       var x = d3.scale.linear()
