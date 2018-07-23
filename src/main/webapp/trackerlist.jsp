@@ -297,7 +297,7 @@ ArrayList test = new ArrayList();
      <div class="pt30 pb20 text-center">
       <a href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=obj.get("tid").toString()%>"><i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i></a>
       <i class="text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Tracker"></i>
-      <i class="text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
+      <i class="text-primary icontrackersize cursor-pointer deletetracker" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i>
     </div>
   </div>
 </div>
