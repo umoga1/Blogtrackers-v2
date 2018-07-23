@@ -117,7 +117,7 @@ public ArrayList _fetch(String ids) throws Exception {
 	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}}}";
 		
 	JSONObject jsonObj = new JSONObject(que);
-	String url = base_url+"_search?size=50";
+	String url = base_url+"_search";
 	return this._getResult(url, jsonObj);
 	   
 }

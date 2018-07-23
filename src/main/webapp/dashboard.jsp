@@ -4,12 +4,17 @@
 <%@page import="java.io.File"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="java.net.URI"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
+Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
+Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 
 
+//System.out.println(date_start);
 if (email == null || email == "") {
 	response.sendRedirect("index.jsp");
 }else{
@@ -49,7 +54,7 @@ if(detail.size()>0){
     }
 }
 
-
+System.out.println(ids);
 
  userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
@@ -85,12 +90,47 @@ Blogposts post  = new Blogposts();
 Blogs blog = new Blogs();
 Sentiments senti = new Sentiments();
 
-//ArrayList posts = post._list("DESC","");
-ArrayList sentiments = senti._list("DESC","");
+Date today = new Date();
+SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
+SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
 
-String totalpost = post._getTotalByBlogId(ids,"");
-String possentiment = post._searchRangeTotal("sentiment","0","10",ids);
-String negsentiment = post._searchRangeTotal("sentiment","-1","1",ids);
+
+Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse("2013-01-01");
+
+
+String dispfrom = DATE_FORMAT.format(dstart);
+String dispto = DATE_FORMAT.format(today);
+
+String dst =  DATE_FORMAT2.format(dstart);
+String dend =  DATE_FORMAT2.format(today);
+
+System.out.println(today);
+//ArrayList posts = post._list("DESC","");
+ArrayList sentiments = senti._list("DESC","","id");
+String totalpost="0";
+
+String possentiment = "0";
+String negsentiment = "0";
+
+if(!date_start.equals("") && !date_end.equals("")){
+	totalpost = post._searchRangeTotal("date",date_start.toString(),date_end.toString(),ids);
+	//possentiment = post._searchRangeTotal("sentiment","0","10",ids,date_start.toString(),date_end.toString());
+	//negsentiment = post._searchRangeTotal("sentiment","-10","-1",ids,date_start.toString(),date_end.toString());
+
+	possentiment = post._searchRangeTotal("sentiment","0","10",ids);
+	negsentiment = post._searchRangeTotal("sentiment","-10","-1",ids);
+
+	Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
+	Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
+	
+	dispfrom = DATE_FORMAT.format(start);
+	dispto = DATE_FORMAT.format(end);
+}else{
+	totalpost = post._getTotalByBlogId(ids,"");
+	possentiment = post._searchRangeTotal("sentiment","0","10",ids);
+	negsentiment = post._searchRangeTotal("sentiment","-10","-1",ids);
+}
+
 
 
 ArrayList blogs = blog._fetch(ids);
@@ -221,7 +261,12 @@ JSONObject sentimentblog = new JSONObject();;
   <link rel="stylesheet" href="assets/css/style.css" />
 <!-- <link rel="stylesheet" href="assets/css/bar.css" /> -->
   <!--end of bootsrap -->
-  <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
+  <link rel="stylesheet" href="assets/css/toastr.css">
+  
+<script src="assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/js/toastr.js"></script>
+  
+  <!-- <script src="assets/js/jquery-3.2.1.slim.min.js"></script>-->
 <script src="assets/js/popper.min.js"></script>
 </head>
 <body>
@@ -327,7 +372,7 @@ JSONObject sentimentblog = new JSONObject();;
 </div>
 
 <div class="col-md-6 text-right mt10">
-<div class="text-primary demo"><h6 id="reportrange">Date: <span>02/21/18 - 02/28/18</span></h6></div>
+<div class="text-primary demo"><h6 id="reportrange">Date: <span><%=dispfrom%> - <%=dispto%></span></h6></div>
 <div>
   <div class="btn-group mt5" data-toggle="buttons">
   <label class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder"> <input type="radio" name="options" value="day" autocomplete="off" > Day
@@ -388,7 +433,7 @@ JSONObject sentimentblog = new JSONObject();;
   <div class="card nocoloredcard mt10 mb10">
   <div class="card-body p0 pt5 pb5">
 <h5 class="text-primary mb0"><i class="fas fa-clock icondash"></i>History</h5>
-<h3 class="text-blue mb0 countdash">Feb 2, 2016 - Jun 6, 2018 </h3>
+<h3 class="text-blue mb0 countdash"><%=dispfrom%> - <%=dispto%></h3>
 </div>
 </div>
 </div>
@@ -618,6 +663,11 @@ JSONObject sentimentblog = new JSONObject();;
 </div>
 
 
+<form action="" name="customform" id="customform" method="post">
+<input type="hidden" name="tid" value="<%=tid%>" />
+<input type="hidden" name="date_start" id="date_start" value="" />
+<input type="hidden" name="date_end" id="date_end" value="" />
+</form>
 
 <!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
@@ -699,7 +749,7 @@ $(document).ready(function() {
                    // date range configuration
    var cb = function(start, end, label) {
           //console.log(start.toISOString(), end.toISOString(), label);
-          $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+          //$('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
           $('#reportrange input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY')).trigger('change');
         };
 
@@ -751,9 +801,9 @@ $(document).ready(function() {
     //
    // else{
      // $('#reportrange span').html('${datepicked}');
-      $('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
+      //$('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
      $('#reportrange, #custom').daterangepicker(optionSet1, cb);
-     $('#reportrange')
+     $('#reportrange, #custom')
      .on(
          'show.daterangepicker',
          function() {
@@ -767,7 +817,7 @@ $(document).ready(function() {
            /* console
                .log("hide event fired"); */
          });
-  $('#reportrange')
+  $('#reportrange, #custom')
      .on(
          'apply.daterangepicker',
          function(ev, picker) {
@@ -779,13 +829,21 @@ $(document).ready(function() {
                    + picker.endDate
                        .format('MMMM D, YYYY')); 
             	console.log("applied");
+            	
+            	var start = picker.startDate.format('YYYY-MM-DD');
+            	var end = picker.endDate.format('YYYY-MM-DD');
+            	//console.log("End:"+end);
+            	
+            	$("#date_start").val(start);
+            	$("#date_end").val(end);
+            	//toastr.success('Date changed!','Success');
+            	$("form#customform").submit();
          });
   $('#reportrange')
      .on(
          'cancel.daterangepicker',
          function(ev, picker) {
-           /* console
-               .log("cancel event fired"); */
+           console.log("cancel event fired"); 
          });
   $('#options1').click(
      function() {
@@ -2553,6 +2611,8 @@ data = {
             .domain([0,1,2,3,4,5,6,10,15,20,80])
             .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
 
+    
+  
 </script>
 
 <!-- End of blog bubble chart -->
