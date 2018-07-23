@@ -287,7 +287,7 @@ $(this).attr("data-original-title","Remove Blog from Tracker");
 
 
 
-console.log("Added blog to be tracked");
+//console.log("Added blog to be tracked");
 
 
 if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
@@ -331,10 +331,14 @@ $(this).attr("data-original-title","Add Blog from Tracker");
 console.log("Removed blog to be tracked");
 removeBlog(this);
 trackscount--;
-// add an ajax to remove blog from tracker
+
 
 $('#trackscount').html(trackscount);
 $('.tracksection').show();
+if(trackscount == 0)
+{
+	$('.tracksection').hide();
+}
 }
 });
 

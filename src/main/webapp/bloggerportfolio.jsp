@@ -95,7 +95,10 @@ if(f.exists() && !f.isDirectory()) {
 
  <div class="modal-notifications">
 <div class="row">
-  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+<div class="col-lg-10 closesection">
+	
+	</div>
+  <div class="col-lg-2 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
   <% if(userinfo.size()>0){ %>
@@ -139,10 +142,11 @@ if(f.exists() && !f.isDirectory()) {
           <!-- Mobile menu  -->
           <div class="col-lg-6 themainmenu"  align="center">
             <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-             <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
-            </ul>
+            <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
+        
+                </ul>
           </div>
 
       <div class="col-lg-3">
@@ -192,9 +196,9 @@ if(f.exists() && !f.isDirectory()) {
 <div class="row">
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="trackerlist">MY TRACKER</a>
+  <a class="breadcrumb-item text-primary" href="trackerlist.jsp">MY TRACKER</a>
   <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
-  <a class="breadcrumb-item active text-primary" href="bloggerportfolio.html">Blogger Portfolio</a>
+  <a class="breadcrumb-item active text-primary" href="bloggerportfolio.jsp">Blogger Portfolio</a>
   </nav>
 <div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
 </div>

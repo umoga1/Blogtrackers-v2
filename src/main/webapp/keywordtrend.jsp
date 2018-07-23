@@ -67,7 +67,7 @@ if(f.exists() && !f.isDirectory()) {
   <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers-Keywords Trend</title>
+	<title>Blogtrackers - Keywords Trend</title>
   <link rel="shortcut icon" href="images/favicons/favicon.ico">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
@@ -93,7 +93,10 @@ if(f.exists() && !f.isDirectory()) {
 
   <div class="modal-notifications">
 <div class="row">
-  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+<div class="col-lg-10 closesection">
+	
+	</div>
+  <div class="col-lg-2 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
   <% if(userinfo.size()>0){ %>
@@ -137,10 +140,11 @@ if(f.exists() && !f.isDirectory()) {
           <!-- Mobile menu  -->
           <div class="col-lg-6 themainmenu"  align="center">
             <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-               <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
-            </ul>
+             <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
+           
+                  </ul>
           </div>
 
    
@@ -191,9 +195,9 @@ if(f.exists() && !f.isDirectory()) {
 <div class="row bottom-border pb20">
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="trackerlist">MY TRACKER</a>
+  <a class="breadcrumb-item text-primary" href="trackerlist.jsp">MY TRACKER</a>
   <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
-  <a class="breadcrumb-item active text-primary" href="keywordtrend.html">Keywords Trend</a>
+  <a class="breadcrumb-item active text-primary" href="keywordtrend.jsp">Keywords Trend</a>
   </nav>
 <div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
 </div>

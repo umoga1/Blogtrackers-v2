@@ -241,7 +241,7 @@ JSONObject sentimentblog = new JSONObject();;
   <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers</title>
+	<title>Blogtrackers - Dashboard</title>
   <!-- start of bootsrap -->
   <link rel="shortcut icon" href="images/favicons/favicon.ico">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
@@ -273,7 +273,10 @@ JSONObject sentimentblog = new JSONObject();;
 
 <div class="modal-notifications">
 <div class="row">
-  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+<div class="col-lg-10 closesection">
+	
+	</div>
+  <div class="col-lg-2 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
     <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
@@ -313,9 +316,9 @@ JSONObject sentimentblog = new JSONObject();;
       <!-- Mobile menu  -->
       <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
         </ul>
       </div>
 
@@ -325,7 +328,7 @@ JSONObject sentimentblog = new JSONObject();;
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
   <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-  <span><%=user_name[0]%></span>
+  <span class="bold-text"><%=user_name[0]%></span>
   <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
               <li><a href="#"> Features</a></li>
@@ -477,7 +480,7 @@ JSONObject sentimentblog = new JSONObject();;
         </div>
           </div>
     </div>
-    <div class="float-right"><a href="keywordtrend.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Keyword Trend Analysis </b> <b class="fas fa-search float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="keywordtrend.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Keyword Trend Analysis </b> <b class="fas fa-search float-right icondash2"></b></button></a></div>
   </div>
 
   <div class="col-md-6 mt20">
@@ -491,7 +494,7 @@ JSONObject sentimentblog = new JSONObject();;
         </div>
           </div>
     </div>
-    <div class="float-right"><a href="sentiment.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-adjust float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="sentiment.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-adjust float-right icondash2"></b></button></a></div>
   </div>
 </div>
 
@@ -508,7 +511,7 @@ JSONObject sentimentblog = new JSONObject();;
       </div>
           </div>
     </div>
-    <div class="float-right"><a href="blogportfolio.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blog Portfolio Analysis</b> <b class="fas fa-file-alt float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="blogportfolio.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blog Portfolio Analysis</b> <b class="fas fa-file-alt float-right icondash2"></b></button></a></div>
 
   </div>
 
@@ -524,7 +527,7 @@ JSONObject sentimentblog = new JSONObject();;
       </div>
           </div>
     </div>
-    <div class="float-right"><a href="bloggerportfolio.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blogger Portfolio Analysis </b> <b class="fas fa-user float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="bloggerportfolio.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blogger Portfolio Analysis </b> <b class="fas fa-user float-right icondash2"></b></button></a></div>
 
   </div>
 
@@ -543,7 +546,7 @@ JSONObject sentimentblog = new JSONObject();;
       </div>
           </div>
     </div>
-    <div class="float-right"><a href="postingfrequency.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Posting Frequency Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="postingfrequency.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Posting Frequency Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b></button></a></div>
 
   </div>
 
@@ -559,7 +562,7 @@ JSONObject sentimentblog = new JSONObject();;
       </div>
           </div>
     </div>
-    <div class="float-right"><a href="sentiment.html"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-exchange-alt float-right icondash2"></b></button></a></div>
+    <div class="float-right"><a href="sentiment.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-exchange-alt float-right icondash2"></b></button></a></div>
 
   </div>
 

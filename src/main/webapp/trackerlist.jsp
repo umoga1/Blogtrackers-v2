@@ -1,4 +1,3 @@
-
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
@@ -9,18 +8,15 @@
 <%@page import="org.json.JSONObject"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
-
 if (email == null || email == "") {
 	response.sendRedirect("index.jsp");
 }else{
-
 ArrayList<?> userinfo = null;
 String profileimage= "";
 String username ="";
 String name="";
 String phone="";
 String date_modified = "";
-
  userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
 if (userinfo.size()<1) {
@@ -44,20 +40,17 @@ if(f.exists() && !f.isDirectory()) {
 	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
 }
 }catch(Exception e){}
-
 String[] user_name = name.split(" ");
-
 Trackers tracker  = new Trackers();
 Blogs blg  = new Blogs();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
 ArrayList results = null;
 if(term.equals("")){
-	results = tracker._list("DESC","",username,"50");
+	results = tracker._list("DESC","",username,"10");
 }else{
 	results = tracker._search(term,"");
 }
 String total = tracker._getTotal();
-
 ArrayList test = new ArrayList();
 //tracker._add("hello",test);
 //pimage = pimage.replace("build/", "");
@@ -68,13 +61,16 @@ ArrayList test = new ArrayList();
   <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers</title>
+	<title>Blogtrackers - Tracker List</title>
 	
-  <link rel="shortcut icon" href="images/favicons/favicon.ico">
+
+   <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
+
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
   <!-- start of bootsrap -->
+  <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css"/>
@@ -102,8 +98,10 @@ ArrayList test = new ArrayList();
 <body>
 <div class="modal-notifications">
 <div class="row">
-
-  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+<div class="col-lg-10 closesection">
+	
+	</div>
+  <div class="col-lg-2 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
     <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
@@ -142,10 +140,11 @@ ArrayList test = new ArrayList();
       <!-- Mobile menu  -->
       <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-        <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
-        </ul>
+       <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
+        
+           </ul>
       </div>
 
   <div class="col-lg-3">
@@ -195,17 +194,17 @@ ArrayList test = new ArrayList();
 <div class="row mt30">
 <div class="col-md-12 ">
 <h6 class="float-left text-primary"><%=total%> Tracker(s)</h6>
-<h6 class="float-right text-primary">Recent <i class="fas fa-chevron-down"></i><h6/>
+<!-- <h6 class="float-right text-primary">Recent <i class="fas fa-chevron-down"></i><h6/> -->
 </div>
 </div>
 
 
 <div class="card-columns pt0 pb10  mt10 mb40 ">
 
-  <div class="card noborder curved-card mb30 pt50 pb50" >
+  <div class="card noborder curved-card mb30 pt60 pb60" >
   <div class="card-body">
       <div class="cursor-pointer">
-            <h4 class="text-primary text-center"><i class="fas fa-plus-circle addnewtracker" data-toggle="tooltip" data-placement="top" title="Add New Tracker"></i></h4>
+            <h4 class="text-primary text-center"><i class="addnewtracker" data-toggle="tooltip" data-placement="top" title="Add New Tracker"></i></h4>
 
       </div>
     </div>
@@ -261,7 +260,7 @@ ArrayList test = new ArrayList();
 
 
 <div class="card noborder curved-card mb30 pt30" >
-<div class=""><a href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=obj.get("tid").toString()%>"><h1 class="text-primary text-center pt20"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ") %></h1></a></div>
+<div class=""><h1 class="text-primary text-center pt20 edittrackerpopaction cursor-pointer"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ") %></h1></div>
 
   <div class="card-body">
     <p class="card-text text-center postdate text-primary"><%=dt%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;</p>
@@ -296,9 +295,9 @@ ArrayList test = new ArrayList();
 
     </div>
      <div class="pt30 pb20 text-center">
-      <i class="fas fa-chart-line text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-      <i class="fas fa-sync text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Tracker"></i>
-      <i class="fas fa-pencil-alt text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
+      <a href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=obj.get("tid").toString()%>"><i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i></a>
+      <i class="text-primary icontrackersize cursor-pointer refreshtracker" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Tracker"></i>
+      <i class="text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" title="Edit Tracker"></i>
     </div>
   </div>
 </div>
@@ -316,8 +315,46 @@ ArrayList test = new ArrayList();
 
 </div>
 
+<div class="modalbackdrop hidden">
 
+</div>
 
+<div class="edittrackerpop hidden">
+<div class="container-fluid ">
+<!-- <div class="container-fluid"> -->
+<div class="row bg-white">
+<div class="col-md-7 pl100 pt100 pb100">
+<h1 class="text-primary" style="font-weight:bolder;">Middle East Tracker</h1>
+<div class="mt10">
+<!-- <button class=" btn btn-primary text-left text-primary bold-text text-white stylebuttonblog"><b>TRACKING</b> <i class="fas fa-trash float-right hidden deleteblog"></i></button> -->
+<button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>Blog | 334</b> </button>
+<button class=" btn text-left text-primary bold-text stylebuttonblogothers"><b>Crawl | 22-07-2018</b></button>
+</div>
+<div class="mt30 text-primary pr40" style="font-size:18px;">
+National Public Radio is an American privately and publicly funded non-profit membership media organization based
+in Washington DC. It serves as a national syndicator to a network of over 1,000 public radio stations in the United States.
+</div>
+
+<div class="mt30"><button class="btn blogbutton text-primary pt10 pb10 pl20 pr20"><b>Analytics</b><i class="ml10 proceedtoanalytics pl10"></i></button></div>
+</div>
+<div class="col-md-5 pt100 pb100 pl50 pr50 bg-white border-before">
+<i class="cursor-pointer lnr lnr-cross float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
+
+<div class="col-md-10"><h5 class="text-primary ml0">This tracker has the following list of blogs: </h5></div>
+<div class="col-md-10 mt20"><input type="search" class="form-control searchblog pt10 pb10 semi-bold-text ml0" placeholder="Search Blogs"/></div>
+<div class="bloglist mt10">
+  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Science <i class="fas fa-check float-right hidden checkblog"></i></button>
+  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Technology <i class="fas fa-check float-right hidden checkblog"></i></button>
+  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Politics <i class="fas fa-check float-right hidden checkblog"></i></button>
+  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Russia <i class="fas fa-check float-right hidden checkblog"></i></button>
+  <button class="btn form-control col-md-10 text-primary text-left blogindividual pt10 pb10 pl10 resetdefaultfocus">Spare <i class="fas fa-check float-right hidden checkblog"></i></button>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
 
 
 <!-- <footer class="footer">
@@ -348,9 +385,11 @@ $(document).ready(function() {
 	  $('.addnewtracker').on("click",function(e){
 	    e.preventDefault();
 	    var  trackersetupform = "";
-	    trackersetupform += '<div class="card noborder curved-card mb30 pt20 pb20"><div class="card-body"><div class="trackerclose"><i class="fas fa-times-circle closetracker text-primary cursor-pointer" data-toggle="tooltip" data-placement="top" title="Cancel New Tracker"></i></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackername text-primary text-center" placeholder="Tracker Name" rows="2"></textarea></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackerdescription text-primary text-center" placeholder="Description" rows="1"></textarea></div>';
-	    trackersetupform += '<div class="form-group mt20 trackerpage"><label class="text-primary">Add Blog</label><input type="text" class="form-control tokenfield-primary" value="" placeholder="Add Blog" /></div><div class="text-center"><i type="submit" class="fas fa-check text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="fas fa-trash-alt text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
-	  $('.card-columns').prepend(trackersetupform);
+	    trackersetupform += '<div class="card noborder curved-card mb30 pt20 pb20"><div class="card-body"><div class="trackerclose"><i class="lnr lnr-cross closetracker text-primary cursor-pointer" data-toggle="tooltip" data-placement="top" title="Cancel New Tracker"></i></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackername text-primary text-center" placeholder="Tracker Name" rows="2"></textarea></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackerdescription text-primary text-center" placeholder="Description" rows="1"></textarea></div>';
+	    //trackersetupform += '<div class="form-group mt20 trackerpage"><label class="text-primary">Add Blog</label><input type="text" class="form-control tokenfield-primary" value="" placeholder="Add Blog" /></div><div class="text-center"><i type="submit" class="fas fa-check text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="fas fa-trash-alt text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
+	  trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
+	  
+	    $('.card-columns').prepend(trackersetupform);
 	  
 	  // load the script for form tag input
 	  $.getScript("assets/js/form_tags_input.js", function(data, textStatus, jqxhr) {
@@ -374,7 +413,8 @@ $(document).ready(function() {
 	});
 </script>
 
-
+<script src="pagedependencies/edittracker.js">
+</script>
 
 <script src="assets/js/generic.js">
 </script>

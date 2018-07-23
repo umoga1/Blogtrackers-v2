@@ -56,8 +56,8 @@ try{
   <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers</title>
-  <link rel="shortcut icon" href="images/favicons/favicon.ico">
+	<title>Blogtrackers-Home</title>
+  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
@@ -85,8 +85,10 @@ try{
 <% if(userinfo.size()>0){%>
 <div class="modal-notifications">
 <div class="row">
-
-  <div class="offset-lg-10 col-lg-2 col-md-12 notificationpanel">
+<div class="col-lg-10 closesection">
+	
+	</div>
+  <div class="col-lg-2 col-md-12 notificationpanel">
     <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
   <div class="profilesection col-md-12 mt50">
     <div class="text-center mb10" ><img src="<%=profileimage%>" onerror="this.src='images/default-avatar.png'"  width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
@@ -97,7 +99,7 @@ try{
 
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="notifications.html"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
@@ -125,10 +127,11 @@ try{
       <!-- Mobile menu  -->
       <div class="col-lg-4 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-            <li><a href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="fas fa-home"></i> Home</a></li>
-          <li><a href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="far fa-dot-circle"></i> Trackers</a></li>
-          <li><a href="<%=request.getContextPath()%>/favorites.jsp"><i class="far fa-heart"></i> Favorites</a></li>
-        </ul>
+           <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
+          
+            </ul>
       </div>
 
   <div class="col-lg-4">
@@ -189,7 +192,7 @@ try{
     <li><a class="bold-text" href="#">Features</a></li>
     <li><a class="bold-text" href="#">Sponsors</a></li>
 	<li><a class="bold-text" href="#">Learn</a></li>
-	<li class="bg-white loginmenu"><a class="bold-text text-primary" href="login.jsp">Login</a></li>
+	<li class="bg-white loginmenu"><a class="bold-text text-primary" href="<%=request.getContextPath()%>/login.jsp">Login</a></li>
 	
   </ul>
 </div>
@@ -217,12 +220,12 @@ try{
 <% } %>
 
 
-<div class="text-center mt60 offset-lg-4 col-lg-4 col-md-12" style="font-size:20px;">
+<div class="text-center mt60 offset-lg-3 col-lg-6 col-md-12" style="font-size:20px;">
 <h1 class="text-white text-center bold-text" style="font-size:55px;">Track Blogs</h1>
-<p class="text-white text-center mt20">Monitor and suggest valuable insights in a drill down fashion using content analysis and social network analysis</p>
+<p class="text-white text-center mt20" style="width:90%; margin:0 auto;">Monitor and suggest valuable insights in a drill down fashion using content analysis and social network analysis</p>
 <form method="search" method="post" autocomplete="off" action="<%=request.getContextPath()%>/blogbrowser.jsp">
 <input type="search" placeholder="Search" name="term" class="form-control searchhome bold-text"/>
-<button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60">Start Tracking</button>
+<button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60 mt40">Start Tracking</button>
 </form>
 </div>
 
@@ -234,7 +237,7 @@ try{
 </div>
 
 <div class="text-center cursor-pointer helpcontainer">
-<a href="documentation.html" class="navbar-brand cursor-pointer helpicon">
+<a href="<%=request.getContextPath()%>/documentation.jsp" class="navbar-brand cursor-pointer helpicon">
 <!-- <i class="text-white" ></i> -->
 
 </a>
