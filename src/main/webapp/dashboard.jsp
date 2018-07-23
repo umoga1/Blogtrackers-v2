@@ -203,7 +203,7 @@ JSONObject sentimentblog = new JSONObject();;
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Blogtrackers - Dashboard</title>
   <!-- start of bootsrap -->
-  <link rel="shortcut icon" href="images/favicons/favicon.ico">
+  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
