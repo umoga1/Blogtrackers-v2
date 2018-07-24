@@ -69,11 +69,14 @@ if(userpic.indexOf("http")>-1){
 
 Blogposts post  = new Blogposts();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
+String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby");
+
+
 ArrayList results = null;
 if(term.equals("")){
-	results = post._list("DESC","");
+	results = post._list("DESC","",sort);
 }else{
-	results = post._search(term,"");
+	results = post._search(term,"",sort);
 }
 String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(post._getTotal()));
 //pimage = pimage.replace("build/", "");
@@ -325,7 +328,7 @@ for(int i=0; i< mytrackers.size(); i++){
 
 <%}%>
 <h6 class="float-right text-primary">
-  <select class="text-primary filtersort sortby"><option>Recent</option><option>Influence Score</option></select>
+  <select class="text-primary filtersort sortby" id="sortbyselect"><option value="date" <%=(sort.equals("date"))?"selected":"" %>>Recent</option><option <%=(sort.equals("influence_score"))?"selected":"" %> value="influence_score">Influence Score</option></select>
 </h6>
 </div>
 </div>
@@ -415,7 +418,10 @@ if(results.size()>0){
 	<input type="hidden" id="current_page" name="current_page" value="blogbrowser" />
 	<input type="hidden" id="term" name="term" value="<%=term%>" />
  </form>
-
+<form action="" name="sortform" id="sortform" method="post">
+<input type="hidden" name="term" value="<%=term %>" />
+<input type="hidden" name="sortby" id="sortby" value="date" />
+</form>
 
 
 <!-- <footer class="footer">
@@ -437,7 +443,7 @@ if(results.size()>0){
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js?v=280">
+<script src="pagedependencies/blogbrowser.js?v=9280">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
@@ -453,6 +459,9 @@ $(window).scroll(function() {
 		loadMoreResult();
 	}
 });
+
+
+
 
 </script>
 </body>
