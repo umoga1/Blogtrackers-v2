@@ -343,7 +343,7 @@
 						<button
 							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left"
 							style="width: 100%;">
-							<h1 class="text-success mb0">120</h1>
+							<h1 class="text-success mb0">0</h1>
 							<h5 class="text-primary">Comments</h5>
 						</button>
 

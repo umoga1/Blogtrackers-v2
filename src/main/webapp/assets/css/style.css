@@ -775,6 +775,40 @@ height:63px;
     display:inline-block;
     background-position: center center;
 }
+
+.uncheckblog
+{
+ background-image: url(../../images/uncheck.svg);
+    background-repeat: no-repeat;
+    min-height: 22px;
+    width: 22px;
+    display:inline-block;
+    background-position: center center;	
+}
+.checkallblog
+{
+ background-image: url(../../images/checkblue.svg);
+    background-repeat: no-repeat;
+    min-height: 22px;
+    width: 22px;
+    display:inline-block;
+    background-position: center center;	
+}
+.checkblogleft
+{
+position:absolute;
+left:35px;	
+}
+.checkblog
+{
+ background-image: url(../../images/doneicon.svg);
+    background-repeat: no-repeat;
+    min-height: 22px;
+    width: 22px;
+    display:inline-block;
+    background-position: center center;
+}
+
 .canceltracker
 {
  background-image: url(../../images/deleteicon.svg);
@@ -787,8 +821,28 @@ height:63px;
 .iconsetblogs
 {
 position:absolute;	
-top:25px;
 right:35px;
+display: inherit;
+}
+.selectsets
+{
+position:absolute;	
+right:20px;
+display: inherit;
+}
+.sortby
+{
+padding:0;
+border:none;
+width:80px;
+background-color:transparent;		
+}
+.sortby:focus
+{
+    background-color:transparent;
+    border-color: none;
+    outline: 0;
+    box-shadow: none;	
 }
 .edittrackerpop
 {
@@ -2717,12 +2771,20 @@ box-shadow:none;
 }
 .generalstyle
 {
-background-color:#F5F6F7;
+
 font-size:18px;
 padding-top:18px;
 padding-bottom:18px;
 border-radius:15px;
-padding-left:40px;	
+padding-left:50px;	
+margin-top:5px;
+}
+.styleallblog
+{
+font-size:15px;
+padding-top:2px;
+padding-bottom:2px;
+padding-left:50px;	
 margin-top:5px;
 }
 .generalstyle:focus
@@ -2731,7 +2793,7 @@ background-color:inherit;
 }
 .btndefaultlook
 {
-
+background-color:#F5F6F7;
 }
 .btnselected
 {

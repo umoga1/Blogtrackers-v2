@@ -85,10 +85,12 @@ if(f.exists() && !f.isDirectory()) {
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
 
   <link rel="stylesheet" href="assets/css/style.css" />
-
+<link rel="stylesheet" href="assets/css/toastr.css">
   <!--end of bootsrap -->
-  <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
+
 <script src="assets/js/popper.min.js" ></script>
+
+
 </head>
 <body style="background-color:#ffffff;">
  <div class="modal-notifications">
@@ -241,21 +243,142 @@ if(f.exists() && !f.isDirectory()) {
 
 <div class="col-md-12 mt10 mb50">
 
-<div class="form-control btn generalstyle text-left">National Public Radio 
+<div class="form-control btn styleallblog selectallblog text-left text-primary">
+<div class="checkblogleft">
+<i class="navbar-brand text-primary icontrackersize checkallblog cursor-pointer" data-toggle="tooltip" data-placement="top" title="Select All Blog"></i>
+</div>
+13,192 Items 
+<div class="selectsets">
+ <select class="form-control sortby text-primary">
+ <option>Recent</option>
 
+ </select>
+</div>
+</div>
+
+<div id="bloglist">
+<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
+<div class="checkblogleft">
+<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+</div>
+National Public Radio 
 <div class="iconsetblogs">
+<div class="setoficons float-left makeinvisible">
 <i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
 <i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
 <i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
-<i class="text-primary icontrackersize cursor-pointer trackblogblue" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+</div>
+<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+</div>
+</div>
+
+<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
+<div class="checkblogleft">
+<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+</div>
+Engadget
+<div class="iconsetblogs ">
+<div class="setoficons float-left makeinvisible">
+<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
+<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
+<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
+</div>
+<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+</div>
+</div>
+
+<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
+<div class="checkblogleft">
+<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+</div>
+TechCrunch
+<div class="iconsetblogs">
+<div class="setoficons float-left  makeinvisible">
+<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
+<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
+<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
+</div>
+<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+</div>
+</div>
+
+<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
+<div class="checkblogleft">
+<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+</div>
+CNET
+<div class="iconsetblogs">
+<div class="setoficons float-left  makeinvisible">
+<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
+<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
+<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
+</div>
+<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+</div>
+</div>
+
+<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
+<div class="checkblogleft">
+<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+</div>
+Republic
+<div class="iconsetblogs">
+<div class="setoficons float-left  makeinvisible">
+<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
+<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
+<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
+</div>
+<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+</div>
+</div>
+
+<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
+<div class="checkblogleft">
+<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+</div>
+Crooks and Liars
+<div class="iconsetblogs">
+<div class="setoficons float-left  makeinvisible">
+<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
+<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
+<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
+</div>
+<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+</div>
+</div>
+
+<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
+<div class="checkblogleft">
+<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+</div>
+Crooks and Liars
+<div class="iconsetblogs">
+<div class="setoficons float-left  makeinvisible">
+<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
+<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
+<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
+</div>
+<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+</div>
+</div>
+
+<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
+<div class="checkblogleft">
+<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+</div>
+Adekunle Blog
+<div class="iconsetblogs">
+<div class="setoficons float-left makeinvisible">
+<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
+<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
+<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
+</div>
+<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+</div>
 </div>
 
 </div>
-<div class="form-control btn generalstyle text-left">Engadget</div>
-<div class="form-control btn generalstyle text-left btnselected">TechCrunch</div>
-<div class="form-control btn generalstyle text-left">CNET</div>
-<div class="form-control btn generalstyle text-left">Republic</div>
-<div class="form-control btn generalstyle text-left">Crooks and Liars</div>
+
 </div>
 
 </div>
@@ -297,8 +420,11 @@ if(f.exists() && !f.isDirectory()) {
  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
+<script type="text/javascript" src="assets/js/toastr.js"></script>
 
 <script src="assets/js/generic.js">
+</script>
+<script src="pagedependencies/edittrackerpage.js">
 </script>
 <script>
 $(document).ready(function() {
@@ -307,5 +433,6 @@ $(document).ready(function() {
 	  })
 });
 </script>
+
 </body>
 </html>
