@@ -274,7 +274,7 @@ ArrayList test = new ArrayList();
     </p>
     <div class="text-center mt20">
     <button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">
-    <h1 class="text-success mb0"><%=obj.get("blogsites_num").toString()%></h1>
+    <h1 class="text-success mb0"><%=blogs.size()%></h1>
     <h5 class="text-primary">Blogs</h5>
     </button>
 
