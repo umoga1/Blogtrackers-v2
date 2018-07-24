@@ -702,6 +702,16 @@ height:63px;
     display:inline-block;
     background-position: center center;
 }
+
+.refreshblog
+{
+   background-image: url(../../images/refreshicon.svg);
+    background-repeat: no-repeat;
+    min-height: 20px;
+    width: 20px;
+    display:inline-block;
+    background-position: center center;
+}
 .edittracker
 {
  background-image: url(../../images/editicon.svg);
@@ -714,6 +724,33 @@ height:63px;
 .deletetracker
 {
  background-image: url(../../images/deleteicontracker.svg);
+    background-repeat: no-repeat;
+    min-height: 20px;
+    width: 20px;
+    display:inline-block;
+    background-position: center center;
+}
+.deleteblog
+{
+ background-image: url(../../images/deleteicontracker.svg);
+    background-repeat: no-repeat;
+    min-height: 20px;
+    width: 20px;
+    display:inline-block;
+    background-position: center center;
+}
+.trackbloggrey
+{
+ background-image: url(../../images/trackbloggrey.svg);
+    background-repeat: no-repeat;
+    min-height: 20px;
+    width: 20px;
+    display:inline-block;
+    background-position: center center;
+}
+.trackblogblue
+{
+ background-image: url(../../images/trackblogblue.svg);
     background-repeat: no-repeat;
     min-height: 20px;
     width: 20px;
@@ -746,6 +783,12 @@ height:63px;
     width: 25px;
     display:inline-block;
     background-position: center center;
+}
+.iconsetblogs
+{
+position:absolute;	
+top:25px;
+right:35px;
 }
 .edittrackerpop
 {
@@ -2685,6 +2728,14 @@ margin-top:5px;
 .generalstyle:focus
 {
 background-color:inherit;	
+}
+.btndefaultlook
+{
+
+}
+.btnselected
+{
+background-color:#E2F2E8;	
 }
 /* .statcontainer:after {
     content: ""; /* This is necessary for the pseudo element to work. */

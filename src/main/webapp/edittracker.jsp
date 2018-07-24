@@ -241,12 +241,21 @@ if(f.exists() && !f.isDirectory()) {
 
 <div class="col-md-12 mt10 mb50">
 
-<button class="form-control btn generalstyle text-left">National Public Radio</button>
-<button class="form-control btn generalstyle text-left">Engadget</button>
-<button class="form-control btn generalstyle text-left">TechCrunch</button>
-<button class="form-control btn generalstyle text-left">CNET</button>
-<button class="form-control btn generalstyle text-left">Republic</button>
-<button class="form-control btn generalstyle text-left">Crooks and Liars</button>
+<div class="form-control btn generalstyle text-left">National Public Radio 
+
+<div class="iconsetblogs">
+<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
+<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
+<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
+<i class="text-primary icontrackersize cursor-pointer trackblogblue" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+</div>
+
+</div>
+<div class="form-control btn generalstyle text-left">Engadget</div>
+<div class="form-control btn generalstyle text-left btnselected">TechCrunch</div>
+<div class="form-control btn generalstyle text-left">CNET</div>
+<div class="form-control btn generalstyle text-left">Republic</div>
+<div class="form-control btn generalstyle text-left">Crooks and Liars</div>
 </div>
 
 </div>
