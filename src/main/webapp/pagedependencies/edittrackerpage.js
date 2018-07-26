@@ -20,14 +20,14 @@ if(checkedblog.hasClass('checkblog'))
 $('.edittrackerblogindividual').children(".checkblogleft").has('.checkblog').parent().addClass("btnselected text-success");	
 
 // activate the status of tracking by default 
-$('.edittrackerblogindividual').children(".checkblogleft").has('.checkblog').parent().children('.iconsetblogs').children('.trackblogindividual').addClass('trackblogblue').removeClass('trackbloggrey');
+$('.edittrackerblogindividual').children(".checkblogleft").has('.checkblog').parent().children('.iconsetblogs').children('.trackblogindividual').addClass('trackblogblue').removeClass('trackbloggrey').attr("data-original-title","Untrack Blog");
 }
 
 })
 	
 // mouse on each blog show the additional option of the blog
 $('.edittrackerblogindividual').on("mouseover",function(e){
-$(this).addClass("btnselected");
+$(this).addClass("btnselected").removeClass("btndefaultlook");
 //add the other blog options
 
 
@@ -59,14 +59,14 @@ selected = $(this).children('.checkblogleft').children('.checkuncheckblog').hasC
 //console.log(selected);
 if(selected)
 {
-	// do nothing
+// do nothing
 $(this).children(".iconsetblogs").children(".setoficons").addClass("makeinvisible");
 }
 else if(!selected)
 {
 // hides the other blog options
 $(this).children(".iconsetblogs").children(".setoficons").addClass("makeinvisible");	
-$(this).removeClass("btnselected");
+$(this).removeClass("btnselected").addClass("btndefaultlook");
 }
 
 
@@ -116,11 +116,13 @@ $('#selectedblogcount').html(blogselectedcount);
 $('.trackblogindividual').on("click",function(e){
 parentelement = $(this).parent().parent();
 checkifnottrackingblog = $(this).hasClass('trackbloggrey');
+
+// track blog action 
 if(checkifnottrackingblog)
 {
 	// put all blog of code in ajax call success
 	$(this).removeClass('trackbloggrey');
-	$(this).addClass('trackblogblue');	
+	$(this).addClass('trackblogblue').attr("data-original-title","Untrack Blog");	
 	parentelement.addClass('btnsuccess text-success').children(".checkblogleft").children(".checkuncheckblog").addClass('checkblog').removeClass('uncheckblog');
 	toastr.success("Blog added to tracker","Success");
 	// increase selected count
@@ -128,6 +130,7 @@ if(checkifnottrackingblog)
 	$('#selectedblogcount').html(blogselectedcount);
 	// perform an ajax action to start blog track immediately
 }
+// untrack blog action 
 else if(!checkifnottrackingblog)
 	{
 	// put all blog of code in ajax call success
@@ -168,7 +171,49 @@ $('.deleteblog').on('click', function(){
 	});
 	
 
-// checkllblog or uncheckall
+// checkallblog or uncheckallblog action
+$(".checkuncheckallblog").on("click", function(e){
+ischecked = $(this).hasClass("uncheckallblog");
+
+// triggers the selection of all blog 
+if(ischecked)
+{
+	$(this).addClass("checkallblog").removeClass("uncheckallblog");
+	$('.edittrackerblogindividual').children('.checkblogleft').children('.checkuncheckblog').addClass("checkblog").removeClass("uncheckblog");
+	$('.edittrackerblogindividual').removeClass("btndefaultlook").addClass("btnselected");
+	countselectedfromdefault =  $('.edittrackerblogindividual').children(".checkblogleft").children(".checkblog").length;
+	$('#selectedblogcount').html(countselectedfromdefault);
+//	console.log(ischecked);	
+}
+
+// triggers unselection of all blogs
+else if(!ischecked)
+{
+	$(this).removeClass("checkallblog").addClass("uncheckallblog");
+	$('.edittrackerblogindividual').children('.checkblogleft').children('.checkuncheckblog').removeClass("checkblog").addClass("uncheckblog");
+	// check for untracked blog
+//	beentracked = $('.edittrackerblogindividual').children('.iconsetblogs').children(".trackblogindividual").hasClass("trackblogblue");
+//	console.log(beentracked);
+//	if(!beentracked)
+//	{
+////		console.log(!beentracked)
+//		console.log($('.edittrackerblogindividual').children('.iconsetblogs').children(".trackblogindividual").has("trackbloggrey"));
+//		
+////		.children('.checkblogleft').children('.checkuncheckblog').removeClass("checkblog").addClass("uncheckblog");
+////		$('.edittrackerblogindividual').children('.checkblogleft').children('.checkuncheckblog').removeClass("checkblog").addClass("uncheckblog");
+////		console.log(ischecked);
+//	}
+	$('.edittrackerblogindividual').each(function(el,i){
+	untracked = $(this).children('.iconsetblogs').children(".trackblogindividual").hasClass("trackbloggrey");
+	if(untracked)
+		{
+		$(this).children('.iconsetblogs').children(".trackblogindividual").has('.trackbloggrey').parent().parent().children('.checkblogleft').children('.checkuncheckblog').removeClass("checkblog").addClass("uncheckblog")
+		}
+	})
+	
+}
+
+});
 
 	
 });

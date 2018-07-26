@@ -277,7 +277,7 @@ National Public Radio
 <i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
 </div>
 Engadget
-<div class="iconsetblogs ">
+<div class="iconsetblogs">
 <div class="setoficons float-left makeinvisible">
 <i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
 <i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
@@ -351,14 +351,14 @@ Crooks and Liars
 <div class="checkblogleft">
 <i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer checkblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
 </div>
-Crooks and Liars
+Crooks Here
 <div class="iconsetblogs">
 <div class="setoficons float-left  makeinvisible">
 <i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
 <i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
 <i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
 </div>
-<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackblogblue" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
 </div>
 </div>
 
