@@ -1,6 +1,29 @@
 $(document).ready(function(){
 
+numberofblogs = $('.edittrackerblogindividual').length;
+//console.log(numberofblogs);
+$('#totalblogcount').html(numberofblogs);
+	// count the number of selected blogs on load
+countselectedfromdefault =  $('.edittrackerblogindividual').children(".checkblogleft").children(".checkblog").length;
+// initialize the count of the selected blog
+var blogselectedcount = countselectedfromdefault;
+$('#selectedblogcount').html(blogselectedcount);
+$(window).on("load",function(){
 
+// check for checked blog
+
+checkedblog = $('.edittrackerblogindividual').children(".checkblogleft").children(".checkuncheckblog"); 
+ 
+if(checkedblog.hasClass('checkblog'))
+{
+// select active blog in tracker	
+$('.edittrackerblogindividual').children(".checkblogleft").has('.checkblog').parent().addClass("btnselected text-success");	
+
+// activate the status of tracking by default 
+$('.edittrackerblogindividual').children(".checkblogleft").has('.checkblog').parent().children('.iconsetblogs').children('.trackblogindividual').addClass('trackblogblue').removeClass('trackbloggrey');
+}
+
+})
 	
 // mouse on each blog show the additional option of the blog
 $('.edittrackerblogindividual').on("mouseover",function(e){
@@ -56,7 +79,7 @@ $('.checkuncheckblog').on("click",function(e){
 checked = $(this).hasClass('checkblog');	
 //console.log(checked);
 
-// unselect a blog
+// unselect a blog action
 if(checked)
 {
 	
@@ -65,9 +88,15 @@ $(this).parent().parent().removeClass("btnselected text-success");
 $(this).removeClass("checkblog");
 $(this).addClass("uncheckblog");
 toastr.error("Blog Deselected","Removed");
+// check if selectedcount is not zero
+if(blogselectedcount != 0)
+{
+	blogselectedcount--;
+	$('#selectedblogcount').html(blogselectedcount);
+}
 
 }
-// select a blog
+// select a blog action
 else if(!checked)
 {
 $(this).parent().parent().addClass("btnselected text-success");	
@@ -76,6 +105,8 @@ $(this).parent().parent().children(".checkblogleft").children(".checkuncheckblog
 $(this).addClass("checkblog");
 $(this).removeClass("uncheckblog");	
 toastr.success("Blog Selected","Selected");
+blogselectedcount++;
+$('#selectedblogcount').html(blogselectedcount);
 }
 	
 })
@@ -87,24 +118,57 @@ parentelement = $(this).parent().parent();
 checkifnottrackingblog = $(this).hasClass('trackbloggrey');
 if(checkifnottrackingblog)
 {
+	// put all blog of code in ajax call success
 	$(this).removeClass('trackbloggrey');
 	$(this).addClass('trackblogblue');	
-	parentelement.addClass('btnsuccess text-success').children(".checkblogleft").children(".checkuncheckblog").addClass('checkblog');
+	parentelement.addClass('btnsuccess text-success').children(".checkblogleft").children(".checkuncheckblog").addClass('checkblog').removeClass('uncheckblog');
 	toastr.success("Blog added to tracker","Success");
+	// increase selected count
+	blogselectedcount++;
+	$('#selectedblogcount').html(blogselectedcount);
 	// perform an ajax action to start blog track immediately
 }
 else if(!checkifnottrackingblog)
 	{
+	// put all blog of code in ajax call success
 	$(this).addClass('trackbloggrey');
 	$(this).removeClass('trackblogblue');
 	parentelement.removeClass('btnsuccess text-success');
-	parentelement.children(".checkblogleft").children(".checkuncheckblog").removeClass('checkblog');
+	parentelement.children(".checkblogleft").children(".checkuncheckblog").removeClass('checkblog').addClass('uncheckblog');
+	
 	toastr.error("Blog removed from tracker","Removed");
+	if(blogselectedcount != 0)
+	{
+		blogselectedcount--;
+		$('#selectedblogcount').html(blogselectedcount);
+	}
 	// ajax to remove blog from being tracked
 	}
 
 })
+
+// refresh blog individual action 
+$('.refreshblog').on('click', function(){
+eachblogrefresh = $(this);
+// should kick in the automated crawler or something 	
+	toastr.success("Blog Refreshing","Success");	
+});
+
+//delete tracker 
+$('.deleteblog').on('click', function(){
+	var confirmdeleteofblog = confirm("Are you sure you want to delete");
+	eachblogdelete = $(this);
+	eachblogdelete.parent().parent().parent().remove();
+	// should kick in the automated crawler or something 	
+		toastr.error("Blog Delete from Tracker","Success");
+		$('.tooltip').hide();
 		
+		numberofblogs = $('.edittrackerblogindividual').length;
+		$('#totalblogcount').html(numberofblogs);
+	});
+	
+
+// checkllblog or uncheckall
 
 	
 });

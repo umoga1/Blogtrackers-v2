@@ -785,6 +785,15 @@ height:63px;
     display:inline-block;
     background-position: center center;	
 }
+.uncheckallblog
+{
+ background-image: url(../../images/uncheck.svg);
+    background-repeat: no-repeat;
+    min-height: 22px;
+    width: 22px;
+    display:inline-block;
+    background-position: center center;	
+}
 .checkallblog
 {
  background-image: url(../../images/checkblue.svg);
@@ -2798,6 +2807,10 @@ background-color:#F5F6F7;
 .btnselected
 {
 background-color:#E2F2E8;	
+}
+#selectedblogcount
+{
+font-weight:normal;	
 }
 /* .statcontainer:after {
     content: ""; /* This is necessary for the pseudo element to work. */

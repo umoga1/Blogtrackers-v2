@@ -234,8 +234,8 @@ if(f.exists() && !f.isDirectory()) {
 
 </div>
  <select class="form-control col-md-2 allthistracker text-primary" size="1">
- <option>This</option>
- <option>All</option>
+ <option value="this">This</option>
+ <option value="all">All</option>
  </select>
  </form>
  
@@ -245,9 +245,9 @@ if(f.exists() && !f.isDirectory()) {
 
 <div class="form-control btn styleallblog selectallblog text-left text-primary">
 <div class="checkblogleft">
-<i class="navbar-brand text-primary icontrackersize checkallblog cursor-pointer" data-toggle="tooltip" data-placement="top" title="Select All Blog"></i>
+<i class="navbar-brand text-primary icontrackersize checkuncheckallblog uncheckallblog cursor-pointer" data-toggle="tooltip" data-placement="top" title="Select All Blog"></i>
 </div>
-13,192 Items 
+<b id="totalblogcount"></b> Items 
 <div class="selectsets">
  <select class="form-control sortby text-primary">
  <option>Recent</option>
@@ -349,7 +349,7 @@ Crooks and Liars
 
 <div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
 <div class="checkblogleft">
-<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer checkblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
 </div>
 Crooks and Liars
 <div class="iconsetblogs">
@@ -396,12 +396,12 @@ Adekunle Blog
 
 <div class="text-center pt10 pb10 trackingfixededittracker" style="background:#00B361;">
   <div class="container">
-<div class="row" style="margin-left: 50px; margin-right:50px;">  <p  class="mb0 text-white fixedbottomedittrackerlefttext float-left text-left">22 item(s) selected</p>
+<div class="row" style="margin-left: 50px; margin-right:50px;">  <p  class="mb0 text-white fixedbottomedittrackerlefttext float-left text-left"><b id="selectedblogcount">0</b> item(s) selected</p>
   <p class="mb0 float-left fixedbottomedittrackerrighttext text-right" >
-    <i title="Track Blog Selected" data-toggle="tooltip" data-placement="top"  class="trackblogiconedittrackerwhite icon-small text-primary cursor-pointer"></i>
+    <i title="Track Selected Blog " data-toggle="tooltip" data-placement="top"  class="trackblogiconedittrackerwhite icon-small text-primary cursor-pointer"></i>
     <i title="Disable Tracking" data-toggle="tooltip" data-placement="top"  class="disabletrackwhite icon-small text-primary cursor-pointer"></i>
     <i title="Refresh Selected Blog" data-toggle="tooltip" data-placement="top"  class="refreshtrackerwhite icon-small text-primary cursor-pointer"></i>
-    <i title="Delete Selected Blog" data-toggle="tooltip" data-placement="top"  class="deleteblogwhite icon-small text-primary cursor-pointer"></i>
+    <i title="Delete Selected Blog from tracker" data-toggle="tooltip" data-placement="top"  class="deleteblogwhite icon-small text-primary cursor-pointer"></i>
   </p>
 </div>
 
