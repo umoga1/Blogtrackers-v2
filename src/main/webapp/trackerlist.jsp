@@ -45,11 +45,14 @@ Trackers tracker  = new Trackers();
 Blogs blg  = new Blogs();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
 ArrayList results = null;
+results = tracker._list("DESC","",username,"50");
+/*
 if(term.equals("")){
 	results = tracker._list("DESC","",username,"10");
 }else{
 	results = tracker._search(term,"");
 }
+*/
 String total = tracker._getTotal();
 ArrayList test = new ArrayList();
 //tracker._add("hello",test);
@@ -193,7 +196,7 @@ ArrayList test = new ArrayList();
 
 <div class="row mt30">
 <div class="col-md-12 ">
-<h6 class="float-left text-primary"><%=total%> Tracker(s)</h6>
+<h6 class="float-left text-primary"><%=results.size()%> Tracker(s)</h6>
 <!-- <h6 class="float-right text-primary">Recent <i class="fas fa-chevron-down"></i><h6/> -->
 </div>
 </div>
@@ -205,7 +208,7 @@ ArrayList test = new ArrayList();
   <div class="card-body">
       <div class="cursor-pointer">
             <h4 class="text-primary text-center"><i class="addnewtracker" data-toggle="tooltip" data-placement="top" title="Add New Tracker"></i></h4>
-
+			
       </div>
     </div>
 
@@ -229,7 +232,8 @@ ArrayList test = new ArrayList();
 			res = results.get(i).toString();			
 			resp = new JSONObject(res);
 		    resu = resp.get("_source").toString();
-		    obj = new JSONObject(resu);		 
+		    obj = new JSONObject(resu);	
+		    if(obj.has("tid")) {
 			 query = obj.get("query").toString();
 			 query = query.replaceAll("blogsite_id in ", "");
 			 query = query.replaceAll("\\(", "");			 
@@ -251,6 +255,7 @@ ArrayList test = new ArrayList();
 						 bresp = new JSONObject(bres);
 						 bresu = bresp.get("_source").toString();
 						 bobj = new JSONObject(bresu);
+						 
 						 bpost = Integer.parseInt(bobj.get("totalposts").toString());
 						 totalpost+=bpost;
 					 }
@@ -302,7 +307,7 @@ ArrayList test = new ArrayList();
   </div>
 </div>
 <% } %>
-<%}%>
+<% }} %>
 </div>
 
 

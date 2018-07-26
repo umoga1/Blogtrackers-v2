@@ -6,6 +6,8 @@
 <%
   Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
   Object username = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
+  String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby");
+
 
   Trackers trackers  = new Trackers();
   JSONObject myblogs = new JSONObject();
@@ -25,10 +27,13 @@
 			String term =  request.getParameter("term");
 			ArrayList results = null;
 						
-			if(term.equals("")){			
-				results = post._list("DESC",cpage);
+			
+			
+
+			if(term.equals("")){
+				results = post._list("DESC","",sort);
 			}else{
-				results = post._search(term,cpage);
+				results = post._search(term,"",sort);
 			}
 			
 			myblogs = trackers.getMyTrackedBlogs(username.toString());
@@ -43,8 +48,6 @@
 				JSONObject bresp = null;
 				String bresu =null;
 				JSONObject bobj =null;
-				
-
 					for(int i=0; i< results.size(); i++){
 						String blogtitle="";
 					

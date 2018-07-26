@@ -71,28 +71,31 @@ public JSONObject getMyTrackedBlogs(String userid) throws Exception{
 	String resu = null;
 	JSONObject obj = null;	
 	ArrayList result = this._list("DESC","", userid,"100");
-	
 	JSONObject content = new JSONObject();
-	for(int i=0; i< result.size(); i++){
-		res = result.get(i).toString();			
-		resp = new JSONObject(res);
-	    resu = resp.get("_source").toString();
-	    obj = new JSONObject(resu);
-	    String id = obj.get("tid").toString();
-	    String query = obj.get("query").toString();
-		query = query.replaceAll("blogsite_id in ", "");
-		query = query.replaceAll("\\(", "");			 
-		query = query.replaceAll("\\)", "");
-		
-		 if(!query.equals("")){
-			 String[] allque = query.split(",");
-			 if( allque.length>0){
-				 for(int k=0; k< allque.length; k++){
-					 String blog_id = allque[k].trim();
-					 content.put(blog_id, blog_id);
+	if(result.size()>0) {
+		for(int i=0; i< result.size(); i++){
+			res = result.get(i).toString();			
+			resp = new JSONObject(res);
+		    resu = resp.get("_source").toString();
+		    obj = new JSONObject(resu);
+		    if(obj.has("tid")) {
+		    String id = obj.get("tid").toString();
+		    String query = obj.get("query").toString();
+			query = query.replaceAll("blogsite_id in ", "");
+			query = query.replaceAll("\\(", "");			 
+			query = query.replaceAll("\\)", "");
+			
+			 if(!query.equals("")){
+				 String[] allque = query.split(",");
+				 if( allque.length>0){
+					 for(int k=0; k< allque.length; k++){
+						 String blog_id = allque[k].trim();
+						 content.put(blog_id, blog_id);
+					 }
 				 }
 			 }
-		 }
+		    }
+		}
 	}
 	
 	return content;
@@ -262,6 +265,7 @@ public String _delete(String trackerid) throws Exception {
 			String url = base_url+"trackers/"+tid;
 			this._runDelete(url);
 			return "true";
+			
 	 }
 	 
 	 return "false";
@@ -441,7 +445,6 @@ public JSONObject _runUpdate(String url, JSONObject jsonObj) throws Exception {
 /* Delete tracker*/
 public void _runDelete(String url) throws Exception {
 	URL obj = new URL(url);
-	System.out.println(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection(); 
     con.setDoOutput(true);
     con.setDoInput(true);

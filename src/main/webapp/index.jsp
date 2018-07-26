@@ -2,10 +2,12 @@
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
-<%@page import="util.Blogposts"%>
+<%@page import="util.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%
+
+
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";
@@ -26,7 +28,6 @@ try{
 	email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 	phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
 	//date_modified = userinfo.get(11).toString();
-	
 	String userpic = userinfo.get(9).toString();
 	String[] user_name = name.split(" ");
 	username = user_name[0];

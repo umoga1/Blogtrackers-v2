@@ -42,7 +42,9 @@ name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
 email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
 //date_modified = userinfo.get(11).toString();
-
+myblogs = trackers.getMyTrackedBlogs(username);
+mytrackers = trackers._list("DESC","",username,"50");
+	
 String userpic = userinfo.get(9).toString();
 String[] user_name = name.split(" ");
 username = user_name[0];
@@ -63,8 +65,7 @@ if(userpic.indexOf("http")>-1){
 	
 
 }catch(Exception e){}
-	myblogs = trackers.getMyTrackedBlogs(username);
-	mytrackers = trackers._list("DESC","",username,"10");
+	
 }
 
 Blogposts post  = new Blogposts();
