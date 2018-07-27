@@ -188,6 +188,8 @@ top:0;
 position:absolute;
 z-index:999;
 top:10%;
+width:80%;
+left:10%;
 }
 .closedialog
 {
@@ -757,6 +759,16 @@ height:63px;
     display:inline-block;
     background-position: center center;
 }
+
+.trackblogfromblogpage
+{
+ background-image: url(../../images/trackblogblue.svg);
+    background-repeat: no-repeat;
+    min-height: 22px;
+    width: 24px;
+    display:inline-block;
+    background-position: center center;
+}
 .addnewtracker
 {
  background-image: url(../../images/addicon.svg);
@@ -803,6 +815,17 @@ height:63px;
     display:inline-block;
     background-position: center center;	
 }
+
+.editdone
+{
+ background-image: url(../../images/checkblue.svg);
+    background-repeat: no-repeat;
+    min-height: 22px;
+    width: 22px;
+    display:inline-block;
+    background-position: center center;	
+}
+
 .checkblogleft
 {
 position:absolute;
@@ -2826,6 +2849,11 @@ font-weight:normal;
   #closeicon
   {
   display:inline;
+  }
+  .trackinitiated
+  {
+  width:100%;
+  left:0;
   }
 .loginformbutton
 {

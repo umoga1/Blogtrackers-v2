@@ -303,10 +303,9 @@
 
 
 			<div class="card noborder curved-card mb30 pt30">
-				<div class="">
-					<h1
-						class="text-primary text-center pt20 edittrackerpopaction cursor-pointer"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ")%></h1>
-				</div>
+				<a href="<%=request.getContextPath()%>/edittracker.jsp"><div class="">
+					<h1	class="text-primary text-center pt20 cursor-pointer bold-text"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+				</div></a>
 
 				<div class="card-body">
 					<%--  <p class="card-text text-center postdate text-primary"><%=dt%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;</p> --%>
@@ -476,9 +475,9 @@ trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-
 	  });
 
 	/// refresh a tracker
-	  $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
+	   $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
 			
-	  });
+	  }); 
 	});
 </script>
 

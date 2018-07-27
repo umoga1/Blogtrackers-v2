@@ -180,7 +180,7 @@ $('.deleteblog').on('click', function(){
 		eachblogdelete = $(this);
 		eachblogdelete.parent().parent().parent().remove();
 		// should kick in the automated crawler or something 	
-			toastr.error("Blog Delete from Tracker","Success");
+			toastr.error("Blog Deleted from Tracker","Success");
 			$('.tooltip').hide();
 			
 			numberofblogs = $('.edittrackerblogindividual').length;
@@ -303,7 +303,7 @@ $('.deleteallblogfromtracker').on("click", function(){
 		{
 	// put this block of code in the ajax success request	
 		selectedblogelement.parent().parent().remove();
-		toastr.error("Deleted Selected Blogs","Error");
+		toastr.error("Deleted Selected Blog(s) from tracker","Error");
 		numberofblogs = $('.edittrackerblogindividual').length;
 		$('#totalblogcount, #selectedblogcount').html(numberofblogs);
 //		grab all id of blog and perform an ajax request
@@ -326,17 +326,73 @@ function replaceElementTag(targetSelector, newTagString) {
 	});
 }
 
-replaceElementTag('span', '<div></div>');
 
 // end of code section 
 
 $('.trackeredit').on("click", function(){
-
+     
+	// start editing section
+	startedit = $(this).hasClass('startediting');
+	doneedit = $(this).hasClass('doneediting');
 	// change the tag 
-	 $(".edittrackertitle").replaceWith($('<input class="edittrackertitle" value="' + $(".edittrackertitle").html() + '" />'));
-	 
-	 
+	if(startedit)
+	{
+		$(".edittrackertitle").replaceWith($('<input class="edittrackertitle form-control text-primary pt0 pb0 pl0" style="font-size:53px;" value="' + $(".edittrackertitle").html() + '" />'));
+		$(".edittrackerdesc").replaceWith($('<textarea class="edittrackerdesc form-control text-primary pl0 pt0 pb0" style="font-size:18px;" >' + $(".edittrackerdesc").html() + '</textarea>'));	
+		$(this).removeClass('startediting').addClass('doneediting');
+		 $(this).children("i").attr("data-original-title","Done Editing ").addClass("editdone").removeClass("edittracker");
+	}
+	if(doneedit)
+	{
+		console.log("doneediting clicked");
+		trackertitle = $(".edittrackertitle").val();
+		trackerdesc = $(".edittrackerdesc").val();
+		$(".edittrackertitle").replaceWith($('<h1 class="text-primary edittrackertitle mb0">' + $(".edittrackertitle").val() + '</h1>'));
+		$(".edittrackerdesc").replaceWith($('<p class="edittrackerdesc text-primary" >' + $(".edittrackerdesc").val() + '</p>'));	
+		$(this).addClass('startediting').removeClass('doneediting');
+		$(this).children("i").attr("data-original-title","Edit Tracker").addClass("edittracker").removeClass("editdone");
+		toastr.success("Tracker Updated Successfully","Success");
+		// add ajax to finish edit
+	}
 	
+	 
+});
+
+// delete tracker
+$('.trackerdelete').click(function(e){
+//
+var confirmdeletetracker = confirm("Are you sure you want delete tracker?");
+
+if(confirmdeletetracker)
+{
+	toastr.error("Deleting Tracker","Error");	
+console.log("tracker deleted")	
+// add an ajax to deleted tracker 
+// on success go back to tracker list
+setTimeout(function(){
+	location.href = "trackerlist.jsp";	
+}, 2000);
+
+}
+
+
+});
+
+
+// refresh tracker
+//delete tracker
+$('.trackerrefresh').click(function(e){
+//
+
+toastr.success("Refreshing Tracker","Success");	
+
+console.log("tracker deleted")	
+
+// add an ajax to deleted tracker 
+// on success give a notification
+
+
+
 });
 
 

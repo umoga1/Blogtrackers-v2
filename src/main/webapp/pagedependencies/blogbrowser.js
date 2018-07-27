@@ -297,7 +297,7 @@ if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 		blogname = $(".blogname-"+blog_id);
 		blogname = $(blogname)[0];
 		blogname = $(blogname).text();
-		$("#selected_blog_list").append('<button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10 blogg_'+blog_id+'" id="blogg_'+blog_id+'">'+blogname+'<i class="fas fa-trash float-right hidden deleteblog" id="'+blog_id+'"></i></button><br/>');
+		$("#selected_blog_list").append('<button class="col-md-9 btn text-left text-white bold-text blogselection mt10 pt10 pb10 blogg_'+blog_id+'" id="blogg_'+blog_id+'">'+blogname+'<i class="fas fa-trash float-right hidden deleteblog" id="'+blog_id+'"></i></button><br/>');
 		/*
 		$.getScript( app_url+"pagedependencies/blogbrowser.js", function( data, textStatus, jqxhr ) {				
 			
@@ -371,7 +371,7 @@ $('.trackcreationsection1').addClass('hidden');
 });
 
 // cancel tracker creattion 
-$('.canceltracker').on("click", function(e){
+$('.canceltrackercreation').on("click", function(e){
 e.preventDefault();	
 $('.trackcreationsection2').addClass("hidden");
 $('.trackcreationsection1').removeClass('hidden');	

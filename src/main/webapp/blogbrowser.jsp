@@ -252,8 +252,8 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <!-- <div class="container-fluid"> -->
 <div class="row bg-primary">
 
-<div class="offset-md-1 col-md-6 pl100 pt100 pb100">
-<h1 class="text-white trackertitlesize"><b class="greentext total_selected">4</b> Blog(s)</h1>
+<div class="offset-md-1 col-md-6 pl150 pt100 pb100">
+<h1 class="text-white trackertitlesize"><b class="greentext total_selected">0</b> Blog(s)</h1>
 <div class="mt30" id="selected_blog_list">
 <!-- <button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Engadget <i class="fas fa-trash float-right hidden deleteblog"></i></button> -->
 </div>

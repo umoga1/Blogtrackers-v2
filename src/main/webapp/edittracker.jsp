@@ -93,7 +93,7 @@ if(f.exists() && !f.isDirectory()) {
 
 </head>
 <body style="background-color:#ffffff;">
- <div class="modal-notifications">
+  <div class="modal-notifications">
 <div class="row">
 <div class="col-lg-10 closesection">
 	
@@ -122,11 +122,10 @@ if(f.exists() && !f.isDirectory()) {
   </div>
 </div>
 </div>
-  
-        <nav class="navbar navbar-inverse bg-primary">
+      <nav class="navbar navbar-inverse bg-primary">
         <div class="container-fluid mt10 mb10">
 
-          <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex col-lg-3">
+          <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
           <a class="navbar-brand text-center logohomeothers" href="./">
   </a>
           </div>
@@ -142,14 +141,14 @@ if(f.exists() && !f.isDirectory()) {
           <!-- Mobile menu  -->
           <div class="col-lg-6 themainmenu"  align="center">
             <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-           <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+              <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
           <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
           <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
          
-                </ul>
+                 </ul>
           </div>
 
-     <div class="col-lg-3">
+       <div class="col-lg-3">
   	 <% if(userinfo.size()>0){ %>
   		
 	  <ul class="nav navbar-nav" style="display:block;">
@@ -174,7 +173,7 @@ if(f.exists() && !f.isDirectory()) {
           <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
           <div class="collapse" id="navbarToggleExternalContent">
             <ul class="navbar-nav mr-auto mobile-menu">
-                   <li class="nav-item active">
+                          <li class="nav-item active">
                 <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
@@ -190,7 +189,6 @@ if(f.exists() && !f.isDirectory()) {
          
 
         </nav>
-        
 <div class="container mb50">
 
 
@@ -201,13 +199,13 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 <div class="col-md-3 text-right pt10">
 <button class="btn btn-rounded iconedittrackerpage "><i title="Proceed to Analytics" data-toggle="tooltip" data-placement="top" class="proceedtoanalytics icon-small text-primary"></i></button>
-<button class="btn btn-rounded iconedittrackerpage trackeredit"><i title="Edit Tracker" data-toggle="tooltip" data-placement="top" class="edittracker icon-small text-primary"></i></button>
-<button class="btn btn-rounded iconedittrackerpage"><i title="Refresh Tracker" data-toggle="tooltip" data-placement="top" class="refreshtracker icon-small text-primary"></i></button>
-<button class="btn btn-rounded iconedittrackerpage"><i title="Delete Tracker" data-toggle="tooltip" data-placement="top" class="deletetracker icon-small text-primary"></i></button>
+<button class="btn btn-rounded iconedittrackerpage trackeredit startediting"><i title="Edit Tracker" data-toggle="tooltip" data-placement="top" class="edittracker icon-small text-primary"></i></button>
+<button class="btn btn-rounded iconedittrackerpage trackerrefresh"><i title="Refresh Tracker" data-toggle="tooltip" data-placement="top" class="refreshtracker icon-small text-primary"></i></button>
+<button class="btn btn-rounded iconedittrackerpage trackerdelete"><i title="Delete Tracker" data-toggle="tooltip" data-placement="top" class="deletetracker icon-small text-primary"></i></button>
 </div>
 
 <div class="col-md-12 trackerdescription">
-<p>National Public Radio is an American privately and publicly funded non-profit membership media organization based in Washington DC. It serves as a national syndicator to a network of over 1,000 public radio stations in the United States.</p>
+<p class="edittrackerdesc text-primary">National Public Radio is an American privately and publicly funded non-profit membership media organization based in Washington DC. It serves as a national syndicator to a network of over 1,000 public radio stations in the United States.</p>
 </div>
 
 <div class="col-md-12">

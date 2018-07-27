@@ -368,7 +368,7 @@ JSONObject sentimentblog = new JSONObject();;
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
   <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="#"><%=obj.get("tracker_name").toString()%></a>
+  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp"><%=obj.get("tracker_name").toString()%></a>
   <a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
   </nav>
 <div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
