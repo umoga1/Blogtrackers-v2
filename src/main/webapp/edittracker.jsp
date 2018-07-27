@@ -200,8 +200,8 @@ if(f.exists() && !f.isDirectory()) {
 <p><button class="btn metadata text-primary mt10">Created  |  22-07-2018 . 05:30pm</button> <button class="btn metadata text-primary mt10">Modified |  22-07-2018 . 05:30pm</button> <button class="btn metadata text-primary mt10">Crawled |  22-07-2018 . 05:30pm</button></p>
 </div>
 <div class="col-md-3 text-right pt10">
-<button class="btn btn-rounded iconedittrackerpage"><i title="Proceed to Analytics" data-toggle="tooltip" data-placement="top" class="proceedtoanalytics icon-small text-primary"></i></button>
-<button class="btn btn-rounded iconedittrackerpage"><i title="Edit Tracker" data-toggle="tooltip" data-placement="top" class="edittracker icon-small text-primary"></i></button>
+<button class="btn btn-rounded iconedittrackerpage "><i title="Proceed to Analytics" data-toggle="tooltip" data-placement="top" class="proceedtoanalytics icon-small text-primary"></i></button>
+<button class="btn btn-rounded iconedittrackerpage trackeredit"><i title="Edit Tracker" data-toggle="tooltip" data-placement="top" class="edittracker icon-small text-primary"></i></button>
 <button class="btn btn-rounded iconedittrackerpage"><i title="Refresh Tracker" data-toggle="tooltip" data-placement="top" class="refreshtracker icon-small text-primary"></i></button>
 <button class="btn btn-rounded iconedittrackerpage"><i title="Delete Tracker" data-toggle="tooltip" data-placement="top" class="deletetracker icon-small text-primary"></i></button>
 </div>
@@ -349,7 +349,7 @@ Crooks and Liars
 
 <div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
 <div class="checkblogleft">
-<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer checkblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
 </div>
 Crooks Here
 <div class="iconsetblogs">
@@ -358,7 +358,7 @@ Crooks Here
 <i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
 <i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
 </div>
-<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackblogblue" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
 </div>
 </div>
 
@@ -398,10 +398,10 @@ Adekunle Blog
   <div class="container">
 <div class="row" style="margin-left: 50px; margin-right:50px;">  <p  class="mb0 text-white fixedbottomedittrackerlefttext float-left text-left"><b id="selectedblogcount">0</b> item(s) selected</p>
   <p class="mb0 float-left fixedbottomedittrackerrighttext text-right" >
-    <i title="Track Selected Blog " data-toggle="tooltip" data-placement="top"  class="trackblogiconedittrackerwhite icon-small text-primary cursor-pointer"></i>
-    <i title="Disable Tracking" data-toggle="tooltip" data-placement="top"  class="disabletrackwhite icon-small text-primary cursor-pointer"></i>
-    <i title="Refresh Selected Blog" data-toggle="tooltip" data-placement="top"  class="refreshtrackerwhite icon-small text-primary cursor-pointer"></i>
-    <i title="Delete Selected Blog from tracker" data-toggle="tooltip" data-placement="top"  class="deleteblogwhite icon-small text-primary cursor-pointer"></i>
+    <i title="Track Selected Blog " data-toggle="tooltip" data-placement="top"  class="trackblogiconedittrackerwhite trackallblog icon-small text-primary cursor-pointer"></i>
+    <i title="Disable Tracking" data-toggle="tooltip" data-placement="top"  class="disabletrackwhite icon-small text-primary disabletrackallblog cursor-pointer"></i>
+    <i title="Refresh Selected Blog" data-toggle="tooltip" data-placement="top"  class="refreshtrackerwhite icon-small text-primary refreshallblogfromtracker cursor-pointer"></i>
+    <i title="Delete Selected Blog from tracker" data-toggle="tooltip" data-placement="top"  class="deleteblogwhite icon-small deleteallblogfromtracker text-primary cursor-pointer"></i>
   </p>
 </div>
 

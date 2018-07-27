@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-numberofblogs = $('.edittrackerblogindividual').length;
+var numberofblogs = $('.edittrackerblogindividual').length;
 //console.log(numberofblogs);
 $('#totalblogcount').html(numberofblogs);
 	// count the number of selected blogs on load
@@ -47,6 +47,14 @@ $(this).children(".checkblogleft").children(".checkuncheckblog").attr("data-orig
 $(this).children(".iconsetblogs").children(".setoficons").addClass("makeinvisible");	
 }
 
+// check track status 
+ checktrackstatusofblog = $(this).children(".iconsetblogs").children(".trackblogindividual").hasClass("trackblogblue");
+ if( checktrackstatusofblog)
+{
+$(this).children('.iconsetblogs').children('.trackblogindividual').attr("data-original-title","Untrack Blog");
+	 
+ }
+
 });
 	
 
@@ -83,14 +91,15 @@ checked = $(this).hasClass('checkblog');
 if(checked)
 {
 	
-$(this).parent().parent().removeClass("btnselected text-success");	
+$(this).parent().parent().removeClass("btnselected text-success").addClass('btndefaultlook');	
 // toast notification you already selected this blog
 $(this).removeClass("checkblog");
 $(this).addClass("uncheckblog");
 toastr.error("Blog Deselected","Removed");
 // check if selectedcount is not zero
-if(blogselectedcount != 0)
+if(blogselectedcount > 0)
 {
+	$('.checkuncheckallblog').addClass('uncheckallblog').removeClass('checkallblog');
 	blogselectedcount--;
 	$('#selectedblogcount').html(blogselectedcount);
 }
@@ -122,12 +131,18 @@ if(checkifnottrackingblog)
 {
 	// put all blog of code in ajax call success
 	$(this).removeClass('trackbloggrey');
+	
+	// increase selected count
+	// add blog of code in success
+	ischeckedalready = parentelement.children('.checkblogleft').children('.checkuncheckblog').hasClass('checkblog');
+	if(!ischeckedalready)
+		{
+		blogselectedcount++;
+		$('#selectedblogcount').html(blogselectedcount);
+		}
 	$(this).addClass('trackblogblue').attr("data-original-title","Untrack Blog");	
 	parentelement.addClass('btnsuccess text-success').children(".checkblogleft").children(".checkuncheckblog").addClass('checkblog').removeClass('uncheckblog');
 	toastr.success("Blog added to tracker","Success");
-	// increase selected count
-	blogselectedcount++;
-	$('#selectedblogcount').html(blogselectedcount);
 	// perform an ajax action to start blog track immediately
 }
 // untrack blog action 
@@ -140,7 +155,7 @@ else if(!checkifnottrackingblog)
 	parentelement.children(".checkblogleft").children(".checkuncheckblog").removeClass('checkblog').addClass('uncheckblog');
 	
 	toastr.error("Blog removed from tracker","Removed");
-	if(blogselectedcount != 0)
+	if(blogselectedcount >= 0)
 	{
 		blogselectedcount--;
 		$('#selectedblogcount').html(blogselectedcount);
@@ -157,17 +172,27 @@ eachblogrefresh = $(this);
 	toastr.success("Blog Refreshing","Success");	
 });
 
-//delete tracker 
+//delete blog from tracker 
 $('.deleteblog').on('click', function(){
 	var confirmdeleteofblog = confirm("Are you sure you want to delete");
-	eachblogdelete = $(this);
-	eachblogdelete.parent().parent().parent().remove();
-	// should kick in the automated crawler or something 	
-		toastr.error("Blog Delete from Tracker","Success");
-		$('.tooltip').hide();
+	if(confirmdeleteofblog )
+		{
+		eachblogdelete = $(this);
+		eachblogdelete.parent().parent().parent().remove();
+		// should kick in the automated crawler or something 	
+			toastr.error("Blog Delete from Tracker","Success");
+			$('.tooltip').hide();
+			
+			numberofblogs = $('.edittrackerblogindividual').length;
+			$('#totalblogcount').html(numberofblogs);
+			
+			countselectedfromdefault =  $('.edittrackerblogindividual').children(".checkblogleft").children(".checkblog").length;
+//			console.log(countselectedfromdefault);
+			blogselectedcount = countselectedfromdefault;
+			$('#selectedblogcount').html(blogselectedcount);
+		}
+	
 		
-		numberofblogs = $('.edittrackerblogindividual').length;
-		$('#totalblogcount').html(numberofblogs);
 	});
 	
 
@@ -182,7 +207,8 @@ if(ischecked)
 	$('.edittrackerblogindividual').children('.checkblogleft').children('.checkuncheckblog').addClass("checkblog").removeClass("uncheckblog");
 	$('.edittrackerblogindividual').removeClass("btndefaultlook").addClass("btnselected");
 	countselectedfromdefault =  $('.edittrackerblogindividual').children(".checkblogleft").children(".checkblog").length;
-	$('#selectedblogcount').html(countselectedfromdefault);
+	blogselectedcount = countselectedfromdefault;
+	$('#selectedblogcount').html(blogselectedcount);
 //	console.log(ischecked);	
 }
 
@@ -191,29 +217,130 @@ else if(!ischecked)
 {
 	$(this).removeClass("checkallblog").addClass("uncheckallblog");
 	$('.edittrackerblogindividual').children('.checkblogleft').children('.checkuncheckblog').removeClass("checkblog").addClass("uncheckblog");
-	// check for untracked blog
-//	beentracked = $('.edittrackerblogindividual').children('.iconsetblogs').children(".trackblogindividual").hasClass("trackblogblue");
-//	console.log(beentracked);
-//	if(!beentracked)
-//	{
-////		console.log(!beentracked)
-//		console.log($('.edittrackerblogindividual').children('.iconsetblogs').children(".trackblogindividual").has("trackbloggrey"));
-//		
-////		.children('.checkblogleft').children('.checkuncheckblog').removeClass("checkblog").addClass("uncheckblog");
-////		$('.edittrackerblogindividual').children('.checkblogleft').children('.checkuncheckblog').removeClass("checkblog").addClass("uncheckblog");
-////		console.log(ischecked);
-//	}
 	$('.edittrackerblogindividual').each(function(el,i){
 	untracked = $(this).children('.iconsetblogs').children(".trackblogindividual").hasClass("trackbloggrey");
 	if(untracked)
 		{
-		$(this).children('.iconsetblogs').children(".trackblogindividual").has('.trackbloggrey').parent().parent().children('.checkblogleft').children('.checkuncheckblog').removeClass("checkblog").addClass("uncheckblog")
+		$(this).children('.iconsetblogs').children(".trackblogindividual").has('.trackbloggrey').parent().parent().children('.checkblogleft').children('.checkuncheckblog').removeClass("checkblog").addClass("uncheckblog");
+		$(this).addClass('btndefaultlook').removeClass('btnselected text-success');
+		}
+	else if(!untracked)
+		{
+//		$(this).children('.iconsetblogs').children(".trackblogindividual").has('.trackbloggrey').parent().parent().children('.checkblogleft').children('.checkuncheckblog').removeClass("uncheckblog").addClass("checkblog");
+//		$(this).addClass('btndefaultlook').removeClass('btnselected text-success');
 		}
 	})
 	
 }
 
 });
+
+
+// track all selected blog action
+$('.trackallblog').on("click", function(){
+	$('.edittrackerblogindividual').each(function(el,i){
+		selectedblogelement = $('.edittrackerblogindividual').children('.checkblogleft').children('.checkblog');
+		selected  = $(this).children('.checkblogleft').children('.checkuncheckblog').hasClass('checkblog'); 
+		if(selected)
+		{
+			selectedblogelement.parent().parent().children('.iconsetblogs').children(".trackblogindividual").addClass("trackblogblue").removeClass("trackbloggrey");
+				
+		}
+	});
+	
+	
+	selected2  = $('.edittrackerblogindividual').children('.checkblogleft').children('.checkuncheckblog').hasClass('checkblog'); 
+	if(selected2)
+	{
+		// grab the IDS and ajax request
+		toastr.success("Tracking Selected Blogs","Success");
+	}
+});
+
+$('.disabletrackallblog').on("click", function(){
+	$('.edittrackerblogindividual').each(function(el,i){
+		
+		selectedblogelement = $(this).children('.checkblogleft').children('.checkblog');
+		selected  = $(this).children('.checkblogleft').children('.checkuncheckblog').hasClass('checkblog'); 
+//		console.log(selectedblogelement);
+		if(selected)
+			{
+			selectedblogelement.parent().parent().children('.iconsetblogs').children(".trackblogindividual").addClass("trackbloggrey").removeClass("trackblogblue");
+		// perform an ajax to remove blog from tracker	
+			}
+	});
+	
+	selected2  = $('.edittrackerblogindividual').children('.checkblogleft').children('.checkuncheckblog').hasClass('checkblog'); 
+	if(selected2)
+	{
+		// grab the IDS OF BLOGS AND REFRESH
+		toastr.error("Untracking Selected Blogs","Error");
+	}
+	
+});
+
+$('.refreshallblogfromtracker').on("click", function(){
+
+	selectedblogelement = $('.edittrackerblogindividual').children('.checkblogleft').children('.checkblog');
+//	selectedblogelement.parent().parent().children('.iconsetblogs').children(".trackblogindividual").addClass("trackbloggrey").removeClass("trackblogblue");
+	selected  = $('.edittrackerblogindividual').children('.checkblogleft').children('.checkuncheckblog').hasClass('checkblog'); 
+//	console.log(selected)
+	if(selected)
+	{
+		// grab the IDS OF BLOGS AND REFRESH
+		toastr.success("Refreshing All Selected Blogs","Success");
+	}
+	
+	
+});
+
+// delete all blog from tracker action
+$('.deleteallblogfromtracker').on("click", function(){
+
+	selectedblogelement = $('.edittrackerblogindividual').children('.checkblogleft').children('.checkblog');
+	selected  = $('.edittrackerblogindividual').children('.checkblogleft').children('.checkuncheckblog').hasClass('checkblog'); 
+	if(selected)
+		{
+	// put this block of code in the ajax success request	
+		selectedblogelement.parent().parent().remove();
+		toastr.error("Deleted Selected Blogs","Error");
+		numberofblogs = $('.edittrackerblogindividual').length;
+		$('#totalblogcount, #selectedblogcount').html(numberofblogs);
+//		grab all id of blog and perform an ajax request
+		}
+	else if(!selected)
+		{
+		toastr.error("Select a Blog to delete","Error");
+		}
+		
+	
+});
+
+function replaceElementTag(targetSelector, newTagString) {
+	$(targetSelector).each(function(){
+		var newElem = $(newTagString, {html: $(this).html()});
+		$.each(this.attributes, function() {
+			newElem.attr(this.name, this.value);
+		});
+		$(this).replaceWith(newElem);
+	});
+}
+
+replaceElementTag('span', '<div></div>');
+
+// end of code section 
+
+$('.trackeredit').on("click", function(){
+
+	// change the tag 
+	 $(".edittrackertitle").replaceWith($('<input class="edittrackertitle" value="' + $(".edittrackertitle").html() + '" />'));
+	 
+	 
+	
+});
+
+
+
 
 	
 });
