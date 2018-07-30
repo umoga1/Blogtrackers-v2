@@ -17,8 +17,9 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
- userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
+int sizee=0;
 if (userinfo.size()<1) {
 	response.sendRedirect("index.jsp");
 }else{
@@ -103,23 +104,30 @@ ArrayList test = new ArrayList();
 <div class="row">
 <div class="col-lg-10 closesection">
 	
-	</div>
-  <div class="col-lg-2 col-md-12 notificationpanel">
-    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
-  <div class="profilesection col-md-12 mt50">
-    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
-    <div class="text-center" style="margin-left:0px;">
-      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
-      <p class="text-primary profiletext"><%=email%></p>
-    </div>
-
-  </div>
-  <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
-  </div>
-  </div>
+</div>
+ 
+ 	  <div class=" col-lg-2 col-md-12 notificationpanel">
+		    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
+		  <div class="profilesection col-md-12 mt50">
+		  <% if(userinfo.size()>0){ %>
+		    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
+		    <div class="text-center" style="margin-left:0px;">
+		      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+		      <p class="text-primary profiletext"><%=email%></p>
+		    </div>
+		  <%} %>
+		  </div>
+		  <div id="othersection" class="col-md-12 mt10" style="clear:both">
+		  <% if(userinfo.size()>0){ %>
+		  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+		  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
+		  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
+		  <%}else{ %>
+		  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/login"><h6 class="text-primary">Login</h6></a>
+		
+		  <%} %>
+		  </div>
+  	 </div>
 
 </div>
 </div>
@@ -196,7 +204,7 @@ ArrayList test = new ArrayList();
 
 <div class="row mt30">
 <div class="col-md-12 ">
-<h6 class="float-left text-primary"><%=results.size()%> Tracker(s)</h6>
+<h6 class="float-left text-primary"><span id="sizee"><%=results.size()%></span> Tracker(s)</h6>
 <!-- <h6 class="float-right text-primary">Recent <i class="fas fa-chevron-down"></i><h6/> -->
 </div>
 </div>
@@ -228,6 +236,7 @@ ArrayList test = new ArrayList();
 	ArrayList blogs = null;
 	int bpost =0;
 	
+	
 		for(int i=0; i< results.size(); i++){
 			res = results.get(i).toString();			
 			resp = new JSONObject(res);
@@ -238,7 +247,7 @@ ArrayList test = new ArrayList();
 			 query = query.replaceAll("blogsite_id in ", "");
 			 query = query.replaceAll("\\(", "");			 
 			 query = query.replaceAll("\\)", "");
-			
+				sizee++;
 			 totalpost = 0;
 			 String dt="";
 			 if(obj.has("date_created")){
@@ -423,7 +432,9 @@ $(document).ready(function() {
 
 <script src="assets/js/generic.js">
 </script>
-
+<script>
+$("#sizee").html("<%=sizee%>");
+</script>
 </body>
 </html>
 <% }} %>

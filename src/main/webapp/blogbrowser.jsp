@@ -223,15 +223,8 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <!-- <div class="profilenavbar" style="visibility:hidden;"></div> -->
 	   <div class="col-md-12 mt0">
 
-      <form name="serach-form" method="post" action=""><input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground"
-
-     <% if(!term.equals("")){ %>
-      placeholder="Searching for <%=term%>"
-     <% } else { %>
-     placeholder="Search Posts"
-     <% } %>
-      />
-
+      <form method="search" method="post" autocomplete="off" action="<%=request.getContextPath()%>/blogbrowser.jsp">
+      	<input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" <% if(!term.equals("")){ %> placeholder="Searching for <%=term%>" <% } else { %><% } %> />
       </form>
       </div>
 
@@ -369,7 +362,7 @@ if(results.size()>0){
 		     String totaltrack  = trackers.getTotalTrack(blogid);		     
 %>
 <div class="card noborder curved-card mb30" >
-<div class="curved-card selectcontainer border-white">
+<div class="curved-card selectcontainer border-white curve_<%=blogid%>">
 <% if(!username.equals("") || username.equals("")){ %>
  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="Select to Track Blog"></i></div>
 <% } %>
@@ -440,7 +433,7 @@ if(results.size()>0){
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js?v=9280">
+<script src="pagedependencies/blogbrowser.js?v=9672980">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 

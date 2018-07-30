@@ -3,6 +3,7 @@
 <%@page import="util.*"%>
 <%@page import="java.io.File"%>
 <%@page import="org.json.JSONObject"%>
+<%@page import="org.json.JSONArray"%>
 <%@page import="java.net.URI"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
@@ -26,13 +27,17 @@ String name="";
 String phone="";
 String date_modified = "";
 ArrayList detail =new ArrayList();
+ArrayList termss =new ArrayList();
 
 Trackers tracker  = new Trackers();
+Terms term  = new Terms();
+
 if(tid!=""){
    detail = tracker._fetch(tid.toString());
 }else{
 	detail = tracker._list("DESC","",user.toString(),"1");
 }
+
 
 boolean isowner = false;
 JSONObject obj =null;
@@ -124,11 +129,13 @@ if(!date_start.equals("") && !date_end.equals("")){
 	Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
 	
 	dispfrom = DATE_FORMAT.format(start);
-	dispto = DATE_FORMAT.format(end);
+	dispto = DATE_FORMAT.format(end);	
+	termss = term._searchByRange("date",date_start.toString(),date_end.toString(),ids);
 }else{
 	totalpost = post._getTotalByBlogId(ids,"");
 	possentiment = post._searchRangeTotal("sentiment","0","10",ids);
 	negsentiment = post._searchRangeTotal("sentiment","-10","-1",ids);
+	termss = term._fetch(ids);
 }
 
 
@@ -137,7 +144,7 @@ ArrayList blogs = blog._fetch(ids);
 int totalblog = blogs.size();
 //pimage = pimage.replace("build/", "");
 
-JSONObject sentimentblog = new JSONObject();; 
+	JSONObject sentimentblog = new JSONObject();; 
       if(sentiments.size()>0){
 
 			 for(int p=0; p< sentiments.size(); p++){
@@ -152,6 +159,24 @@ JSONObject sentimentblog = new JSONObject();;
 			 }
       }
 
+      JSONArray topterms = new JSONArray(); 
+      if(termss.size()>0){
+
+			 for(int p=0; p< termss.size(); p++){
+				 String bstr = termss.get(p).toString();			
+				 JSONObject bj = new JSONObject(bstr);
+				 bstr = bj.get("_source").toString();
+				 bj = new JSONObject(bstr);
+				 String frequency = bj.get("frequency").toString();
+				 String tm = bj.get("term").toString();
+				 JSONObject cont = new JSONObject();
+				 cont.put("key",tm);
+				 cont.put("frequency",frequency);
+				 topterms.put(cont);
+			 }
+      }
+      
+      
       //System.out.println("senti"+ sentimentblog);
 	 JSONObject language = new JSONObject();
 	 JSONObject bloggers = new JSONObject();
@@ -2194,6 +2219,17 @@ var mymarker = [
  <script>
 
      var frequency_list = [
+    	 <% if(topterms.length()>0){
+    		 for (int i = 0; i < topterms.length(); i++) {
+    		        JSONObject jsonObj = topterms.getJSONObject(i);
+    		        int size = Integer.parseInt(jsonObj.getString("frequency"))*10;
+    		        System.out.println("Info"+ "Key: " + jsonObj.getString("key") + ", value: " + size);			
+    		%>
+    		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
+    	 <% } }%>
+    	
+    	/*	
+    	 
     	 {"text":"study","size":40},
     	 {"text":"motion","size":15},
     	 {"text":"forces","size":10},
@@ -2234,7 +2270,10 @@ var mymarker = [
     	 {"text":"conducted","size":5},
     	 {"text":"order","size":5},
     	 {"text":"understand","size":5},
-    	 {"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
+    	 {"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},
+    	 {"text":"power","size":5}
+    	 */
+    	 ];
 	
 
      var color = d3.scale.linear()

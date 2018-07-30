@@ -70,6 +70,7 @@ $('.trackerindividual').on("mouseleave",function(){
   {
     // hide delete icon
   $(this).find(".checktracker").addClass("hidden").removeClass("trackerindividualactive");
+  
   }
 });
 
@@ -279,6 +280,12 @@ if(!trackingblog)
 {
 // if the blog is being tracked
 //$(this).addClass("text-success");
+$(".curve_"+blog_id).addClass("border-selected");
+$(".curve_"+blog_id).find(".posttitle a").addClass("text-selected");
+$(".curve_"+blog_id).find(".trackingtracks").addClass("makeinvisible");
+$(".blog_id_"+blog_id).attr("data-original-title","Remove Blog from Tracker");
+
+
 $(this).parent().parent().addClass("border-selected");
 $(this).parent().parent().find(".posttitle a").addClass("text-selected");
 $(this).parent().parent().find(".trackingtracks").addClass("makeinvisible");
@@ -323,6 +330,12 @@ else if(trackingblog)
 {
 // if the blog is being tracked
 //$(this).removeClass("text-success");
+	$(".curve_"+blog_id).removeClass("border-selected");
+	$(".curve_"+blog_id).find(".posttitle a").removeClass("text-selected");
+	$(".curve_"+blog_id).find(".trackingtracks").removeClass("makeinvisible");
+	$(".blog_id_"+blog_id).attr("data-original-title","Add Blog from Tracker");
+
+	
 $(this).parent().parent().removeClass("border-selected");
 $(this).parent().parent().find(".posttitle a").removeClass("text-selected");
 $(this).parent().parent().find(".trackingtracks").removeClass("makeinvisible");
