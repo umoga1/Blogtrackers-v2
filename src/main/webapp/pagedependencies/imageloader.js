@@ -38,7 +38,7 @@ function getImage(image_id,url){
 				det = det[0].replace("content=","");
 				//det = det.replace('>',"");
 				det = det.replace('"',"");
-				console.log(det);
+				//console.log(det);
 				if(det!="https://s0.wp.com/i/blank.jpg" ){						
 					$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+det+'"  />');
 					$("#"+image_id).remove();
@@ -49,7 +49,7 @@ function getImage(image_id,url){
 				det2 = det2[0].replace("content=","");
 				//det2 = det2.replace('>',"");
 				det2 = det2.replace('"',"");
-				console.log(det2);
+				//console.log(det2);
 				
 				if(det2!="https://s0.wp.com/i/blank.jpg" ){						
 					$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+det2+'"  />');
