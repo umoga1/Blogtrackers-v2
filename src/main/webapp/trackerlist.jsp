@@ -243,7 +243,7 @@ ArrayList test = new ArrayList();
 
 		<div class="card-columns pt0 pb10  mt10 mb40 ">
 
-			<div class="card noborder curved-card mb30 pt60 pb60">
+			<div class="card noborder curved-card mb30 pt60 pb60 newtrackersection">
 				<div class="card-body">
 					<div class="cursor-pointer">
 						<h4 class="text-primary text-center">
@@ -441,9 +441,14 @@ $(document).ready(function() {
 	  $(function () {
 	    $('[data-toggle="tooltip"]').tooltip()
 	  })
+	  
+	  var newtrackersection = '<div class="card noborder curved-card mb30 pt60 pb60 newtrackersection"><div class="card-body"><div class="cursor-pointer"><h4 class="text-primary text-center"><i class="addnewtracker" data-toggle="tooltip" data-placement="top" title="Add New Tracker"></i></h4></div></div></div>';
+	  
 	  // add new tracker code snippets
 	  $('.addnewtracker').on("click",function(e){
 	    e.preventDefault();
+	    $('.newtrackersection').remove();
+	    $('.tooltip').hide();
 	    var  trackersetupform = "";
 	    trackersetupform += '<div class="card noborder curved-card mb30 pt20 pb20"><div class="card-body"><div class="trackerclose"><i class="lnr lnr-cross closetracker text-primary cursor-pointer" data-toggle="tooltip" data-placement="top" title="Cancel New Tracker"></i></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackername text-primary text-center" placeholder="Tracker Name" rows="2"></textarea></div><div class="cursor-pointer mt20"><textarea class="form-control newtrackerdescription text-primary text-center" placeholder="Description" rows="1"></textarea></div>';
 	    //trackersetupform += '<div class="form-group mt20 trackerpage"><label class="text-primary">Add Blog</label><input type="text" class="form-control tokenfield-primary" value="" placeholder="Add Blog" /></div><div class="text-center"><i type="submit" class="fas fa-check text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="fas fa-trash-alt text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
