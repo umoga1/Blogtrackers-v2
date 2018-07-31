@@ -174,10 +174,10 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
       <!-- Mobile menu  -->
       <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+           <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
           <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
           <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
-       
+
         </ul>
       </div>
 
@@ -230,7 +230,11 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 
     </nav>
 
-<div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Track</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer lnr lnr-cross float-right pr20 mt10" id="closetracks" data-toggle="tooltip" data-placement="top" title="Close"></i></div>
+<!-- <div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Track</b> <b class="trackscount" id="trackscount">0</b> </button> <i style="font-size:30px;" class="cursor-pointer lnr lnr-cross float-right pr20 mt10" id="closetracks" data-toggle="tooltip" data-placement="top" title="Close"></i></div>
+ -->
+<div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Track</b> <b id="trackscount">0</b> <b>Blog(s)</b></button> <i style="font-size:30px;" class="cursor-pointer lnr lnr-cross float-right pr20 mt10" id="closetracks" data-toggle="tooltip" data-placement="top" title="Close"></i></div>
+
+<div class="text-center pt10 pb10 informationselectblogtotrack" style="background:#00B361;"><p class="mb0 text-white"><b>Select blogs to tracks</b></p> </div>
 
 <div class="bg-success"></div>
 <!-- Backdrop for modal -->
@@ -242,8 +246,8 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <!-- <div class="container-fluid"> -->
 <div class="row bg-primary">
 
-<div class="offset-md-1 col-md-6 pl100 pt100 pb100">
-<h1 class="text-white trackertitlesize"><b class="greentext total_selected">4</b> Blog(s)</h1>
+<div class="offset-md-1 col-md-6 pl150 pt100 pb100">
+<h1 class="text-white trackertitlesize"><b class="greentext total_selected">0</b> Blog(s)</h1>
 <div class="mt30" id="selected_blog_list">
 <!-- <button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Engadget <i class="fas fa-trash float-right hidden deleteblog"></i></button> -->
 </div>
@@ -433,7 +437,7 @@ if(results.size()>0){
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js?v=9672980">
+<script src="pagedependencies/blogbrowser.js?v=99980">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
@@ -441,7 +445,7 @@ if(results.size()>0){
 
 </script>
 
-<script src="pagedependencies/imageloader.js?v=189908998"></script>
+<script src="pagedependencies/imageloader.js?v=0998"></script>
 <script src="js/functions.js?v=19990"></script>
 <script>
 $(window).scroll(function() {

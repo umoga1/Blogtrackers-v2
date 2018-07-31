@@ -99,9 +99,19 @@ Date today = new Date();
 SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
 
+SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
+SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
+SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
+SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
+
+
+
 
 Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse("2013-01-01");
 
+String day = DAY_ONLY.format(today);
+String month = MONTH_ONLY.format(today);
+String year = YEAR_ONLY.format(today);
 
 String dispfrom = DATE_FORMAT.format(dstart);
 String dispto = DATE_FORMAT.format(today);
@@ -109,7 +119,7 @@ String dispto = DATE_FORMAT.format(today);
 String dst =  DATE_FORMAT2.format(dstart);
 String dend =  DATE_FORMAT2.format(today);
 
-System.out.println(today);
+
 //ArrayList posts = post._list("DESC","");
 ArrayList sentiments = senti._list("DESC","","id");
 String totalpost="0";
@@ -268,7 +278,7 @@ int totalblog = blogs.size();
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Blogtrackers - Dashboard</title>
   <!-- start of bootsrap -->
-  <link rel="shortcut icon" href="images/favicons/favicon.ico">
+  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
@@ -393,7 +403,7 @@ int totalblog = blogs.size();
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
   <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="#"><%=obj.get("tracker_name").toString()%></a>
+  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp"><%=obj.get("tracker_name").toString()%></a>
   <a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
   </nav>
 <div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
@@ -403,13 +413,14 @@ int totalblog = blogs.size();
 <div class="text-primary demo"><h6 id="reportrange">Date: <span><%=dispfrom%> - <%=dispto%></span></h6></div>
 <div>
   <div class="btn-group mt5" data-toggle="buttons">
-  <label class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder"> <input type="radio" name="options" value="day" autocomplete="off" > Day
+  <label class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder"> 
+  		<input type="radio" name="options" value="day" class="option-only" autocomplete="off" > Day
   	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" name="options" value="week" autocomplete="off" >Week
+    <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" class="option-only" name="options" value="week" autocomplete="off" >Week
   	</label>
-     <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" name="options" value="month" autocomplete="off" > Month
+     <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" class="option-only" name="options" value="month" autocomplete="off" > Month
   	</label>
-    <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
+    <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" class="option-only" name="options" value="year" autocomplete="off" >
   	</label>
     <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label>
   </div>
@@ -690,6 +701,11 @@ int totalblog = blogs.size();
 
 </div>
 
+<form action="" name="customformsingle" id="customformsingle" method="post">
+<input type="hidden" name="tid" value="<%=tid%>" />
+
+<input type="hidden" name="single_date" id="single_date" value="" />
+</form>
 
 <form action="" name="customform" id="customform" method="post">
 <input type="hidden" name="tid" value="<%=tid%>" />
@@ -935,7 +951,7 @@ $(function () {
 
       // Horizontal
       var y = d3.scale.ordinal()
-          .rangeRoundBands([height,0], .4, .10);
+          .rangeRoundBands([height,0], .2, .5);
 
       // Vertical
       var x = d3.scale.linear()
@@ -2656,7 +2672,25 @@ data = {
     
   
 </script>
+<script>
+$(".option-only").on("change",function(e){
+	console.log("only changed ");
+	$("#single_date").val($(this).val());
+	$('form#customformsingle').submit();
+});
 
+$(".option-only").on("click",function(e){
+	console.log("only Click ");
+	$("#single_date").val($(this).val());
+	$('form#customformsingle').submit();
+});
+
+$(".option-lable").on("click",function(e){
+	console.log("Label Click ");
+	$("#single_date").val($(this).val());
+	$('form#customformsingle').submit();
+});
+</script>
 <!-- End of blog bubble chart -->
 </body>
 </html>

@@ -93,9 +93,11 @@
 		    <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
 		    <p class="card-text text-center postdate light-text"><%=dt[0]%></p>
 		  </div>
+		  
 		  <div class="<%=obj.get("blogpost_id")%>">
 		  <input type="hidden" class="post-image" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
 		  </div>
+		  
 		  <div class="text-center"><i class="far fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Add to Favorites"></i></div>
 		</div>
 		

@@ -3,12 +3,13 @@ var requests = new Array();
 var z=0;
 
 $(document).ready(function() {
-	console.log("hree");
+	console.log("eeeh");
     //$('.postimage').on('load', function(img){ // image ready
     var img = $('.post-image');
     for(i=0; i<img.length; i++){
     	var id = img[i].id;
 		var url = img[i].value;
+		//console.log(id);
 		//scrapeImage(id, "https://www.oodaloop.com/");
 		getImage(id,url);
 				
@@ -18,7 +19,7 @@ $(document).ready(function() {
 
 
 function getImage(image_id,url){
-	
+	//console.log("hello Here");
 	var urll=baseurl+'subpages/imageloader.jsp?url='+url;
 		z++;
 		requests[z] = $.ajax({ type: "GET",
@@ -26,20 +27,58 @@ function getImage(image_id,url){
 		async: true,
 		success : function(data)
 		{
+			//console.log("data:"+data);
+			var meta = data.split('meta property="og:image"');//$(data).find("meta");//.attr("content");
+			var meta2 = data.split('twitter:image:src');
+			//var meta2 = $(data).find("twitter:image:src");//.attr("content");
 			
-			var meta = $(data).find('meta');//.attr("content");
+			//console.log(meta2);
+			if(meta.length>1){
+				var det = meta[1].split(">");
+				det = det[0].replace("content=","");
+				//det = det.replace('>',"");
+				det = det.replace('"',"");
+				console.log(det);
+				if(det!="https://s0.wp.com/i/blank.jpg" ){						
+					$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+det+'"  />');
+					$("#"+image_id).remove();
+					return false;
+				}
+			}else if(meta2.length>1){
+				var det2 = meta2[1].split(">");
+				det2 = det2[0].replace("content=","");
+				//det2 = det2.replace('>',"");
+				det2 = det2.replace('"',"");
+				console.log(det2);
+				
+				if(det2!="https://s0.wp.com/i/blank.jpg" ){						
+					$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+det2+'"  />');
+					$("#"+image_id).remove();
+					return false;
+				}
+			}else{			
+				$("#"+image_id).remove();
+				return false;
+			}
+			
+			/*
 			for(i=0; i<meta.length; i++){
+				console.log("Meta here:"+meta[i]);
+				/*
 				if(meta[i].name=="twitter:image" &&  meta[i].content!="https://s0.wp.com/i/blank.jpg"){
-					
-					$("#"+image_id).attr('src',meta[i].content);
+					console.log(meta[i].content);
+					$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+meta[i].content+'"  />');
+					$("#"+image_id).remove();
 					return false;
 				}else{
 				
 				var html = meta[i].outerHTML;
 					var og = html.indexOf('property="og:image"');
+					console.log(og);
 					if(og>-1){
 						var con = html.split("content=");
 						var content =  con[1].split('"');	
+						console.log(content[1]);
 						if(con.length>1 && content[1]!="https://s0.wp.com/i/blank.jpg" ){
 							
 							
@@ -49,6 +88,7 @@ function getImage(image_id,url){
 							return false;
 						}
 					}else{
+						console.log("got here");
 						var nurl = extractRootDomain(url);
 						var pre = "";
 						if(url.indexOf("https")>-1){
@@ -63,12 +103,15 @@ function getImage(image_id,url){
 							pre += "";
 						}
 						
+						
 						nurl = pre+""+nurl;
 						console.log(nurl);
 						//scrapeImage(image_id, nurl);
 					}
 				}
+				
 			}
+		*/
 		
 		}
 	});
@@ -101,13 +144,13 @@ function scrapeImage(image_id, url){
 						if(con.length>1 && content[1]!="https://s0.wp.com/i/blank.jpg"){
 													
 							$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+content[1]+'"  />');
-							//$("#"+image_id).remove();
+							$("#"+image_id).remove();
 							return false;
 						}
 					}
 				}
 			}
-			$("#"+image_id).remove();
+			//$("#"+image_id).remove();
 		}
 	});
 	

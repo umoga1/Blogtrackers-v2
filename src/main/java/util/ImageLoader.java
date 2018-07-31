@@ -12,14 +12,14 @@ String base_url = "http://144.167.115.218:9200/blogposts/";
 		    
 	   
 public String getUrl(String source) throws Exception {
-	 
+    //System.out.println("Here");
 	try {
      URL obj = new URL(source);
      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
      
      con.setDoOutput(true);
     // con.setDoInput(true);
-     con.setConnectTimeout(10000);
+     con.setConnectTimeout(30000);
     
      con.setRequestMethod("GET");
      con.setRequestProperty("User-Agent", "Mozilla/5.0");
@@ -35,8 +35,18 @@ public String getUrl(String source) throws Exception {
      }
      in.close();
      String output = response.toString();
-     output =  output.replaceAll("<script","");
-     return output;
+    
+     if(output.indexOf("301 Moved Permanently")>-1) {
+    	 source = source.replaceFirst("http", "https");
+    	 output = this.getUrl(source);
+    	 output =  output.replaceAll("<script"," ");
+    	 output =  output.replaceAll("javascript"," ");
+	     return output;
+     }else {
+	     output =  output.replaceAll("<script"," ");
+	     output =  output.replaceAll("javascript"," ");
+	     return output;
+     }
 	}catch(Exception ex) {
 		return "";
 	}

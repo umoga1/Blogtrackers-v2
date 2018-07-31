@@ -1,5 +1,8 @@
 $(document).ready(function(e)
 {
+	$(function () {
+	    $('[data-toggle="tooltip"]').tooltip()
+	  })	
   $("#profiletoggle").click(function(e){
   e.preventDefault();
   $(".modal-notifications").css( { transition: "transform 0.80s",

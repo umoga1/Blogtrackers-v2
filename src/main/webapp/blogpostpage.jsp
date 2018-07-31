@@ -52,7 +52,7 @@ String[] user_name = name.split(" ");
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Blogtrackers - Blog Post Page</title>
-  <link rel="shortcut icon" href="images/favicons/favicon.ico">
+  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
@@ -182,9 +182,10 @@ String[] user_name = name.split(" ");
         <div class="row pt30 pb30 m20 mt0 mb0 d-none d-lg-block d-xl-block">
         <div class="col-lg-12 d-none d-lg-block d-xl-block">
         <div class="stickyoptions">
-         <button class="btn btn-rounded"><i title="Track Blogsite" class="far fa-dot-circle icon-small text-primary"></i></button>
-          <button class="btn btn-rounded"><i title="Add to Favorites" class="far fa-heart icon-small text-primary"></i></button>
-           <a href="<%=obj.get("permalink") %>" target="_blank"> <button class="btn btn-rounded"><i title="View Post" class="fas fa-external-link-alt icon-small text-primary"></i></button></a>
+        <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="Back" class="fas fa-arrow-left backblogpostpage icon-small text-primary"></i></button>
+         <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="Track Blogsite" class="trackblogfromblogpage icon-small text-primary"></i></button>
+          <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="far fa-heart icon-small text-primary"></i></button>
+           <a href="<%=obj.get("permalink") %>" target="_blank"> <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="View Post" class="fas fa-external-link-alt icon-small text-primary"></i></button></a>
         </div>
         <h1 class="text-center text-white post-title-font"><%=obj.get("title") %></h1>
         <p class="p10 pt40 pb10 text-center"><button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=obj.get("blogger") %></button>
@@ -285,6 +286,9 @@ String[] user_name = name.split(" ");
 
  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
+</script>
+<script src="pagedependencies/blogpostpage.js">
+
 </script>
 <script src="assets/js/generic.js">
 
