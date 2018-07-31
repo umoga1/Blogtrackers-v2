@@ -13,6 +13,7 @@ Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("
 Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
+Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 
 
 //System.out.println(date_start);
@@ -141,7 +142,19 @@ if(!date_start.equals("") && !date_end.equals("")){
 	dispfrom = DATE_FORMAT.format(start);
 	dispto = DATE_FORMAT.format(end);	
 	termss = term._searchByRange("date",date_start.toString(),date_end.toString(),ids);
+}else if(single.equals("day")){
+	String dt=year+"-"+month+"-"+day;
+	totalpost = post._searchRangeTotal("date",dt,dt,ids);
+}else if(single.equals("month")){
+	String dt=year+"-"+month+"-"+day;
+	String dte=year+"-"+month+"-31";
+	totalpost = post._searchRangeTotal("date",dt,dte,ids);
+}else if(single.equals("year")){
+	String dt=year+"-01-01";
+	String dte=year+"-12-31";
+	totalpost = post._searchRangeTotal("date",dt,dte,ids);
 }else{
+
 	totalpost = post._getTotalByBlogId(ids,"");
 	possentiment = post._searchRangeTotal("sentiment","0","10",ids);
 	negsentiment = post._searchRangeTotal("sentiment","-10","-1",ids);
@@ -2675,20 +2688,22 @@ data = {
 <script>
 $(".option-only").on("change",function(e){
 	console.log("only changed ");
-	$("#single_date").val($(this).val());
+	var valu =  $(this).val();
+	$("#single_date").val(valu);
 	$('form#customformsingle').submit();
 });
 
 $(".option-only").on("click",function(e){
 	console.log("only Click ");
 	$("#single_date").val($(this).val());
-	$('form#customformsingle').submit();
+	//$('form#customformsingle').submit();
 });
 
 $(".option-lable").on("click",function(e){
 	console.log("Label Click ");
+	
 	$("#single_date").val($(this).val());
-	$('form#customformsingle').submit();
+	//$('form#customformsingle').submit();
 });
 </script>
 <!-- End of blog bubble chart -->
