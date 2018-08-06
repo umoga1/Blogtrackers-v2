@@ -10,6 +10,7 @@
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
+
 Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");

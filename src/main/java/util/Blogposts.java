@@ -139,6 +139,28 @@ public String _getTotalByBlogId(String blog_ids,String from) throws Exception {
 	 return this.totalpost;
 }
 
+/* Fetch posts by blog ids*/
+public ArrayList _getPostByBlogId(String blog_ids,String from) throws Exception {
+	 String url = base_url+"_search?size=1000";
+	 String[] args = blog_ids.split(","); 
+	 JSONArray pars = new JSONArray(); 
+	 ArrayList<String> ar = new ArrayList<String>();	
+	 for(int i=0; i<args.length; i++){
+		 pars.put(args[i].replaceAll(" ", ""));
+	 }
+	 
+	 String arg2 = pars.toString();
+	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}}}";
+	
+	 JSONObject jsonObj = new JSONObject(que);
+	 ArrayList result =  this._getResult(url, jsonObj);
+	 return this._getResult(url, jsonObj);
+}
+
+
+
+
+
 public String _searchRangeTotal(String field,String greater, String less, String blog_ids) throws Exception {
 	String[] args = blog_ids.split(","); 
 	 JSONArray pars = new JSONArray(); 

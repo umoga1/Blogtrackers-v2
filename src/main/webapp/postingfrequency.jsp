@@ -1,6 +1,6 @@
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
-<%@page import="java.util.*"%>
+<%@page import="util.*"%>
 <%@page import="java.io.File"%>
 <%@page import="util.Blogposts"%>
 <%@page import="java.text.NumberFormat" %>
@@ -9,6 +9,10 @@
 <%@page import="org.json.JSONObject"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
+Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
+
+
 
 //if (email == null || email == "") {
 	//response.sendRedirect("login.jsp");
@@ -20,6 +24,9 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
+Trackers tracker  = new Trackers();
+Blogposts post  = new Blogposts();
+Blogs blog  = new Blogs();
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
@@ -36,6 +43,7 @@ name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
 email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
 //date_modified = userinfo.get(11).toString();
+
 
 String userpic = userinfo.get(9).toString();
 String[] user_name = name.split(" ");
@@ -60,6 +68,42 @@ if(f.exists() && !f.isDirectory()) {
 
 }
 
+ArrayList detail =new ArrayList();
+if(tid!=""){
+	   detail = tracker._fetch(tid.toString());
+}else{
+		detail = tracker._list("DESC","",user.toString(),"1");
+}
+
+
+boolean isowner = false;
+JSONObject obj =null;
+String ids = "";
+
+if(detail.size()>0){
+	String res = detail.get(0).toString();
+	JSONObject resp = new JSONObject(res);
+    String resu = resp.get("_source").toString();
+    obj = new JSONObject(resu);
+    String tracker_userid = obj.get("userid").toString();
+    if(tracker_userid.equals(user.toString())){
+    	isowner=true;
+    	String query = obj.get("query").toString();
+		query = query.replaceAll("blogsite_id in ", "");		 		
+		query = query.replaceAll("\\(", "");	 
+		query = query.replaceAll("\\)", "");
+		ids=query;
+    }
+}
+
+String allpost = "0";
+ArrayList allauthors = new ArrayList();
+if(!ids.equals("")){
+	allpost = post._getTotalByBlogId(ids,"");
+	allauthors=blog._getBloggerByBlogId(ids,"");
+}
+
+System.out.println(allauthors);
 %>
 <!DOCTYPE html>
 <html>
@@ -190,9 +234,9 @@ if(f.exists() && !f.isDirectory()) {
 <div class="row bottom-border pb20">
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
-  <a class="breadcrumb-item active text-primary" href="postingfrequency.jsp">Posting Frequency</a>
+  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
+  <a class="breadcrumb-item text-primary" href="#"><%=obj.get("tracker_name").toString()%></a>
+  <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/edittracker.jsp">Posting Frequency</a>
   </nav>
 <div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
 </div>
@@ -238,7 +282,28 @@ if(f.exists() && !f.isDirectory()) {
     <div style="padding-right:10px !important;">
       <input type="search" class="form-control stylesearch mb20" placeholder="Search Bloggers" /></div>
     <div class="scrolly" style="height:270px; padding-right:10px !important;">
-    <a class="btn btn-primary form-control stylebuttonactive mb20 activebar"><b>Advonum</b></a>
+    <%
+    JSONObject authors = new JSONObject();
+	if(allauthors.size()>0){
+		String tres = null;
+		JSONObject tresp = null;
+		String tresu = null;
+		JSONObject tobj = null;
+	
+	for(int i=0; i< allauthors.size(); i++){
+				tres = allauthors.get(i).toString();			
+				tresp = new JSONObject(tres);
+			    tresu = tresp.get("_source").toString();
+			    tobj = new JSONObject(tresu);
+			    String auth = tobj.get("blogsite_authors").toString();
+			    if(!authors.has(auth)){
+			    	authors.put(auth,auth);
+			    
+	%>
+
+    <a class="btn btn-primary form-control stylebuttonactive mb20 activebar"><b><%=tobj.get("blogsite_authors")%></b></a>
+    <% }}} %>
+    <!--  
     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
      <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Abel Danger</b></a>
      <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
@@ -246,7 +311,7 @@ if(f.exists() && !f.isDirectory()) {
      <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
      <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
      <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
-
+-->
    </div>
 
 
@@ -270,7 +335,7 @@ if(f.exists() && !f.isDirectory()) {
       <div class="row">
      <div class="col-md-3 mt5 mb5">
        <h6 class="card-title mb0">Total Posts</h6>
-       <h3 class="mb0 bold-text">2331</h3>
+       <h3 class="mb0 bold-text"><%=allpost%></h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 

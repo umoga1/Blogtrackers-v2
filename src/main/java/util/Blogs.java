@@ -102,6 +102,27 @@ public ArrayList _search(String term,String from) throws Exception {
     return this._getResult(url, jsonObj);
 }
 
+
+
+/* Fetch posts by blog ids*/
+public ArrayList _getBloggerByBlogId(String blog_ids,String from) throws Exception {
+	 String url = base_url+"_search?size=1000";
+	 String[] args = blog_ids.split(","); 
+	 JSONArray pars = new JSONArray(); 
+	 ArrayList<String> ar = new ArrayList<String>();	
+	 for(int i=0; i<args.length; i++){
+		 pars.put(args[i].replaceAll(" ", ""));
+	 }
+	 
+	 String arg2 = pars.toString();
+	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}}}";
+	
+	 JSONObject jsonObj = new JSONObject(que);
+	 ArrayList result =  this._getResult(url, jsonObj);
+	 return this._getResult(url, jsonObj);
+}
+
+
 public ArrayList _fetch(String ids) throws Exception {
 	 ArrayList result = new ArrayList();
 	 String[] args = ids.split(",");
