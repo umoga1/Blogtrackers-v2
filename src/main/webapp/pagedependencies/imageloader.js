@@ -3,7 +3,7 @@ var requests = new Array();
 var z=0;
 
 $(document).ready(function() {
-	console.log("hree");
+    //	console.log("hree");
     //$('.postimage').on('load', function(img){ // image ready
     var img = $('.post-image');
     for(i=0; i<img.length; i++){

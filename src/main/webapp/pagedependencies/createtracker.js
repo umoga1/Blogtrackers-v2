@@ -17,6 +17,11 @@ $(document).ready(function(){
 		 toastr.error("Tracker Creation Canceled","Action Succesful");
 	  });
 	 
+	  $('.card-columns').prepend(newtrackersection);
+	    $.getScript("pagedependencies/addnewtracker.js", function(data, textStatus, jqxhr) {
+			
+		  });
+	 
 	});	
 	
 //	show the tooltip

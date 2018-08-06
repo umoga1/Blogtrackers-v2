@@ -317,6 +317,7 @@ if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 // add an ajax to add blog to tracker
 
 $('#trackscount').html(trackscount);
+$('.tracksection').removeClass("hidden");
 $('.tracksection').show();
 }
 else if(trackingblog)
@@ -347,6 +348,8 @@ if(trackscount == 0)
 
 // call to action to start tracking blogs
 $('#initiatetrack').on("click",function(e){
+	
+$('.trackinitiated, .modalbackdrop').removeClass("hidden");
 
 $('.trackinitiated, .modalbackdrop').show();
 

@@ -365,13 +365,13 @@ JSONObject sentimentblog = new JSONObject();;
 
 <div class="container">
 <div class="row">
-<div class="col-md-6 paddi">
+<div class="col-md-6 ">
 <nav class="breadcrumb">
   <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
   <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp"><%=obj.get("tracker_name").toString()%></a>
   <a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
   </nav>
-<div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
+<div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
 </div>
 
 <div class="col-md-6 text-right mt10">
@@ -386,7 +386,7 @@ JSONObject sentimentblog = new JSONObject();;
   	</label>
     <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
   	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label>
+    <!-- <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label> -->
   </div>
 
 </div>
@@ -575,9 +575,9 @@ JSONObject sentimentblog = new JSONObject();;
 
         <div style="min-height: 420px;">
           <div><p class="text-primary p15 pb5 pt0">List of Top Domains of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-          <div class="p15 pb5 pt0" role="group">
+        <!--   <div class="p15 pb5 pt0" role="group">
           Export Options
-          </div>
+          </div> -->
                 <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -626,9 +626,9 @@ JSONObject sentimentblog = new JSONObject();;
 
           <!-- Example split danger button -->
 
-          <div class="p15 pb5 pt0" role="group">
+         <!--  <div class="p15 pb5 pt0" role="group">
           Export Options
-          </div>
+          </div> -->
                 <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -704,7 +704,8 @@ $(document).ready(function() {
     $('#DataTables_Table_1_wrapper').DataTable( {
         "scrollY": 430,
         "scrollX": false,
-         "pagingType": "simple",
+         "pagingType": "simple"
+      /*    ,
          dom: 'Bfrtip',
          "columnDefs": [
       { "width": "80%", "targets": 0 }
@@ -717,14 +718,15 @@ $(document).ready(function() {
            // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
             {extend:'print',className: 'btn-primary stylebutton1'},
         ]
-      }
+      } */
     } );
 
 // table set up 2
     $('#DataTables_Table_0_wrapper').DataTable( {
         "scrollY": 430,
         "scrollX": false,
-         "pagingType": "simple",
+         "pagingType": "simple"
+    /*      ,
          dom: 'Bfrtip',
 
          "columnDefs": [
@@ -738,7 +740,7 @@ $(document).ready(function() {
            // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
             {extend:'print',className: 'btn-primary stylebutton1'},
         ]
-      }
+      } */
     } );
 } );
 
@@ -746,6 +748,8 @@ $(document).ready(function() {
 <!--end for table  -->
 <script>
 $(document).ready(function() {
+	
+	
   $(document)
              .ready(
                  function() {

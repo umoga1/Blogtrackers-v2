@@ -199,7 +199,7 @@ if(f.exists() && !f.isDirectory()) {
   <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
   <a class="breadcrumb-item active text-primary" href="keywordtrend.jsp">Keywords Trend</a>
   </nav>
-<div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
+<div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
 </div>
 
 <div class="col-md-6 text-right mt10">
@@ -214,7 +214,7 @@ if(f.exists() && !f.isDirectory()) {
   	</label>
     <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
   	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label>
+    <!-- <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
   </div>
 
   <!-- Day Week Month Year <b id="custom" class="text-primary">Custom</b> -->
@@ -329,9 +329,9 @@ if(f.exists() && !f.isDirectory()) {
   <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
   <div class="card-body p0 pt20 pb20" style="min-height: 420px;">
       <p>Posts that mentioned <b class="text-green">Technology</b></p>
-          <div class="p15 pb5 pt0" role="group">
+         <!--  <div class="p15 pb5 pt0" role="group">
           Export Options
-          </div>
+          </div> -->
                 <table id="DataTables_Table_2_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -429,9 +429,9 @@ if(f.exists() && !f.isDirectory()) {
 
         <div style="min-height: 420px;">
       <!-- <p class="text-primary">Top keywords of <b>Past Week</b></p> -->
-          <div class="p15 pb5 pt0" role="group">
+          <!-- <div class="p15 pb5 pt0" role="group">
           Export Options
-          </div>
+          </div> -->
                 <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -605,7 +605,8 @@ if(f.exists() && !f.isDirectory()) {
      $('#DataTables_Table_1_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": true,
-          "pagingType": "simple",
+          "pagingType": "simple"
+       /*    ,
           dom: 'Bfrtip',
        buttons:{
          buttons: [
@@ -615,14 +616,16 @@ if(f.exists() && !f.isDirectory()) {
             // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
              {extend:'print',className: 'btn-primary stylebutton1'},
          ]
-       }
+       } */
      } );
 
      $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 430,
 
-          "pagingType": "simple",
-          dom: 'Bfrtip',
+          "pagingType": "simple"
+        	  /*   ,
+           dom: 'Bfrtip'
+         ,
        buttons:{
          buttons: [
              { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
@@ -631,14 +634,16 @@ if(f.exists() && !f.isDirectory()) {
             // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
              {extend:'print',className: 'btn-primary stylebutton1'},
          ]
-       }
+       } */
      } );
 
      $('#DataTables_Table_2_wrapper').DataTable( {
-         "scrollY": 430,
+         "scrollY": 480,
 
-          "pagingType": "simple",
-          dom: 'Bfrtip',
+          "pagingType": "simple"
+        	  /*  ,
+           dom: 'Bfrtip'
+         ,
        buttons:{
          buttons: [
              { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
@@ -647,7 +652,7 @@ if(f.exists() && !f.isDirectory()) {
             // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
              {extend:'print',className: 'btn-primary stylebutton1'},
          ]
-       }
+       } */
      } );
  } );
  </script>
