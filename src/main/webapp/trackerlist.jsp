@@ -454,7 +454,7 @@ $(document).ready(function() {
 	    //trackersetupform += '<div class="form-group mt20 trackerpage"><label class="text-primary">Add Blog</label><input type="text" class="form-control tokenfield-primary" value="" placeholder="Add Blog" /></div><div class="text-center"><i type="submit" class="fas fa-check text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="fas fa-trash-alt text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
 //trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> <i class="text-primary canceltracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i></div></div></div>';
 
-trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-success createtracker mr20 cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> </div></div></div>';
+trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-success createtracker cursor-pointer" data-toggle="tooltip" data-placement="top" title="Create Tracker"></i> </div></div></div>';
 	  
 	    $('.card-columns').prepend(trackersetupform);
 	  

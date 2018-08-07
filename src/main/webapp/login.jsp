@@ -125,7 +125,7 @@
 						</div>
 						<div class="clearfloat mb50" id="loggin">
 							<button type="submit"
-								class="btn btn-primary loginformbutton mt10"
+								class="btn btn-primary loginformbutton mt10 bold-text"
 								style="background: #28a745;">Login</button>
 							<!-- &nbsp;&nbsp;or Login with &nbsp;&nbsp;
 							<button type="button" class="btn btn-rounded big-btn2 " id="glogin" >
@@ -144,8 +144,8 @@
 
 						<p class="pb40 mt30 text-primary">
 							Don't have an account with Blogtrackers? <a
-								href="<%=request.getContextPath()%>/register"><b>Register
-							</b>Now</a></small>
+								href="<%=request.getContextPath()%>/register">Register
+							Now</a></small>
 						</p>
 					</form>
 

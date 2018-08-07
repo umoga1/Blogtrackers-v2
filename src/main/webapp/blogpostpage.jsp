@@ -183,16 +183,18 @@ String[] user_name = name.split(" ");
         <div class="col-lg-12 d-none d-lg-block d-xl-block">
         <div class="stickyoptions">
         <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="Back" class="fas fa-arrow-left backblogpostpage icon-small text-primary"></i></button>
+         <a href="<%=obj.get("permalink") %>" target="_blank"> <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="View Post" class="fas fa-external-link-alt icon-small text-primary"></i></button></a>
+    <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="far fa-heart icon-small text-primary"></i></button>
          <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="Track Blogsite" class="trackblogfromblogpage icon-small text-primary"></i></button>
-          <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="far fa-heart icon-small text-primary"></i></button>
-           <a href="<%=obj.get("permalink") %>" target="_blank"> <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="View Post" class="fas fa-external-link-alt icon-small text-primary"></i></button></a>
-        </div>
+          
+              </div>
         <h1 class="text-center text-white post-title-font"><%=obj.get("title") %></h1>
         <p class="p10 pt40 pb10 text-center"><button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=obj.get("blogger") %></button>
          <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10">02-01-2018, 5:30pm</button>
           <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10">National Public Radio</button> <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=obj.get("num_comments") %> comment(s)</button>
-          <button class="btn btn-primary stylebuttonposttracking mr10 mt10">TRACKING</button>
-          <button class="btn btn-primary stylebuttonposttracks mt10">2 Tracks</button></p>
+       <!--    <button class="btn btn-primary stylebuttonposttracking mr10 mt10">TRACKING</button>
+          <button class="btn btn-primary stylebuttonposttracks mt10">2 Tracks</button> -->
+          </p>
       </div>
     </div>
     </div>

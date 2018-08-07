@@ -200,7 +200,7 @@ if(f.exists() && !f.isDirectory()) {
   <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
   <a class="breadcrumb-item active text-primary" href="bloggerportfolio.jsp">Blogger Portfolio</a>
   </nav>
-<div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
+<div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
 </div>
 
 <div class="col-md-6 text-right mt10">
@@ -215,7 +215,7 @@ if(f.exists() && !f.isDirectory()) {
   	</label>
     <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
   	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label>
+   <!--  <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
   </div>
 
   <!-- Day Week Month Year <b id="custom" class="text-primary">Custom</b> -->
@@ -329,9 +329,9 @@ if(f.exists() && !f.isDirectory()) {
       <div class="card-body  p5 pt10 pb10">
         <p class="p15 pb5 pt0 text-primary">List of URLs of <b class="textblue">AdNovum</b></p>
         <div style="min-height: 420px;">
-          <div class="p15 pb5 pt0" role="group">
+         <!--  <div class="p15 pb5 pt0" role="group">
           Export
-          </div>
+          </div> -->
                 <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -414,9 +414,9 @@ if(f.exists() && !f.isDirectory()) {
       <div class="card-body  p5 pt10 pb10">
         <p class="p15 pb5 pt0 text-primary">List of URLs of <b class="textblue">AdNovum</b></p>
         <div class="min-height-table"style="min-height: 420px;">
-          <div class="p15 pb5 pt0" role="group">
+        <!--   <div class="p15 pb5 pt0" role="group">
           Export
-          </div>
+          </div> -->
                 <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -526,10 +526,15 @@ if(f.exists() && !f.isDirectory()) {
 
  <script>
  $(document).ready(function() {
+	 
+	 $('#printdoc').on('click',function(){
+			print();
+		}) ;
      $('#DataTables_Table_1_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": false,
-          "pagingType": "simple",
+          "pagingType": "simple"
+       /*    ,
           dom: 'Bfrtip',
 
                     "columnDefs": [
@@ -543,14 +548,16 @@ if(f.exists() && !f.isDirectory()) {
             // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
              {extend:'print',className: 'btn-primary stylebutton1'},
          ]
-       }
+       } */
      } );
 
      $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": false,
-          "pagingType": "simple",
-          dom: 'Bfrtip',
+          "pagingType": "simple"
+         /*  ,
+          dom: 'Bfrtip'
+          ,
 
                     "columnDefs": [
                  { "width": "80%", "targets": 0 }
@@ -563,7 +570,7 @@ if(f.exists() && !f.isDirectory()) {
             // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
              {extend:'print',className: 'btn-primary stylebutton1'},
          ]
-       }
+       } */
      } );
  } );
  </script>

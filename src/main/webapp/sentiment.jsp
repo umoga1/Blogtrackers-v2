@@ -185,20 +185,21 @@ if(f.exists() && !f.isDirectory()) {
         </div>
           </div>
 
-          <!-- <div class="col-md-12 mt0">
-          <input type="search" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" placeholder="Search Trackers" />
-          </div> -->
 
         </nav>
 <div class="container">
+<!-- start of print section  -->
+
+
+
 <div class="row bottom-border pb20">
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
   <a class="breadcrumb-item text-primary" href="trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
+  <a class="breadcrumb-item text-primary" href="edittracker.jsp">Second Tracker</a>
   <a class="breadcrumb-item active text-primary" href="sentiment.jsp">Sentiment Analysis</a>
   </nav>
-<div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
+<div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
 </div>
 
 <div class="col-md-6 text-right mt10">
@@ -213,7 +214,7 @@ if(f.exists() && !f.isDirectory()) {
   	</label>
     <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
   	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label>
+   <!--  <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
   </div>
 
   <!-- Day Week Month Year <b id="custom" class="text-primary">Custom</b> -->
@@ -232,6 +233,10 @@ if(f.exists() && !f.isDirectory()) {
   <input class="form-control inputboxstyle" placeholder="| Search" />
   </div>
 </div> -->
+
+
+
+
 
 <div class="row mt20">
 
@@ -256,9 +261,9 @@ if(f.exists() && !f.isDirectory()) {
   <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
   <div class="card-body p0 pt20 pb20" style="min-height: 320px;">
       <p>Influential Blog Posts of <b class="text-blue">AdNovum</b> and <b class="text-success">Abel Danger</b></p>
-          <div class="p15 pb5 pt0" role="group">
+          <!-- <div class="p15 pb5 pt0" role="group">
           Export Options
-          </div>
+          </div> -->
                 <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -318,12 +323,12 @@ if(f.exists() && !f.isDirectory()) {
 
          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active" data-toggle="tooltip" data-placement="top" title="Personal Content"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1" data-toggle="tooltip" data-placement="top" title="Time Orientation"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2" data-toggle="tooltip" data-placement="top" title="Core Drive and Need"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="3" data-toggle="tooltip" data-placement="top" title="Cognitive Process"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="4" data-toggle="tooltip" data-placement="top" title="Summary Variable"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="5" data-toggle="tooltip" data-placement="top" title="Sentiment/Emotion"></li>
 
   </ol>
   <div class="carousel-inner">
@@ -381,6 +386,8 @@ if(f.exists() && !f.isDirectory()) {
 
 
 
+
+
 </div>
 
 
@@ -410,13 +417,43 @@ if(f.exists() && !f.isDirectory()) {
 
  <script>
  $(document).ready(function() {
+	 
+	/*  function PrintElem(elem)
+	 {
+	     var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+	     mywindow.document.write('<html><head><title>' + document.title  + '</title>');
+	     mywindow.document.write('</head><body >');
+	     mywindow.document.write('<h1>' + document.title  + '</h1>');
+	     mywindow.document.write(document.getElementById(elem).innerHTML);
+	     mywindow.document.write('</body></html>');
+
+	     mywindow.document.close(); // necessary for IE >= 10
+	     mywindow.focus(); // necessary for IE >= 10*/
+
+	   /*  mywindow.print();
+	     mywindow.close();
+
+	     return true;
+	 } */
+ 
+	$('#printdoc').on('click',function(){
+		print();
+	}) 
+	
+	 $(function () {
+		    $('[data-toggle="tooltip"]').tooltip()
+		  })
+		  
      $('#DataTables_Table_1_wrapper').DataTable( {
          "scrollY": 430,
           "pagingType": "simple",
-          dom: 'Bfrtip',
+         /*  dom: 
+        	   'Bfrtip', 
                     "columnDefs": [
                  { "width": "80%", "targets": 0 }
-               ],
+               ]  */
+  /*    ,
        buttons:{
          buttons: [
              { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
@@ -425,17 +462,18 @@ if(f.exists() && !f.isDirectory()) {
             // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
              {extend:'print',className: 'btn-primary stylebutton1'},
          ]
-       }
+       } */
      } );
 
      $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 320,
           "pagingType": "simple",
-          dom: 'Bfrtip',
+        /*   dom: 'Bfrtip',
 
                     "columnDefs": [
                  { "width": "80%", "targets": 0 }
-               ],
+               ] */
+    /*  ,
        buttons:{
          buttons: [
              { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
@@ -444,13 +482,15 @@ if(f.exists() && !f.isDirectory()) {
             // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
              {extend:'print',className: 'btn-primary stylebutton1'},
          ]
-       }
+       } */
      } );
  } );
  </script>
  <!--end for table  -->
  <script>
  $(document).ready(function() {
+	 
+		 
    $(document)
    						.ready(
    								function() {

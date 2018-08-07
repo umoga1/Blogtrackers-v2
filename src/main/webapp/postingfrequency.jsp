@@ -238,7 +238,7 @@ System.out.println(allauthors);
   <a class="breadcrumb-item text-primary" href="#"><%=obj.get("tracker_name").toString()%></a>
   <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/edittracker.jsp">Posting Frequency</a>
   </nav>
-<div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
+<div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
 </div>
 
 <div class="col-md-6 text-right mt10">
@@ -253,7 +253,7 @@ System.out.println(allauthors);
   	</label>
     <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
   	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label>
+  <!--   <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
   </div>
 
   <!-- Day Week Month Year <b id="custom" class="text-primary">Custom</b> -->
@@ -381,9 +381,9 @@ System.out.println(allauthors);
           <div class="card-body p0 pt0 pb20" style="min-height: 480px;">
               <!-- <div><p class="text-primary p15 pt0 pb0 mt10">Top 5 Entities</p></div> -->
 
-                  <div class="p15 pb5 pt10" role="group">
-                  Export Options
-                  </div>
+                  <div class="p15 pb5 pt20" role="group">
+                
+                  </div> 
                         <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
                                 <thead>
                                     <tr>
@@ -447,9 +447,9 @@ System.out.println(allauthors);
   <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
   <div class="card-body p0 pt20 pb20" style="min-height: 420px;">
       <p>Influential Blog Posts of <b class="text-blue">AdNovum</b> and <b class="text-success">Abel Danger</b></p>
-          <div class="p15 pb5 pt0" role="group">
+         <!--  <div class="p15 pb5 pt0" role="group">
           Export Options
-          </div>
+          </div> -->
                 <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -581,10 +581,16 @@ System.out.println(allauthors);
 
  <script>
  $(document).ready(function() {
+	 
+	 $('#printdoc').on('click',function(){
+			print();
+		}) ;
+	 
      $('#DataTables_Table_1_wrapper').DataTable( {
          "scrollY": 250,
          "scrollX": true,
-          "pagingType": "simple",
+          "pagingType": "simple"
+       /*    ,
           dom: 'Bfrtip',
        buttons:{
          buttons: [
@@ -594,13 +600,14 @@ System.out.println(allauthors);
             // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
              {extend:'print',className: 'btn-primary stylebutton1'},
          ]
-       }
+       } */
      } );
 
      $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": true,
-          "pagingType": "simple",
+          "pagingType": "simple"
+       /*    ,
           dom: 'Bfrtip',
        buttons:{
          buttons: [
@@ -610,7 +617,7 @@ System.out.println(allauthors);
             // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
              {extend:'print',className: 'btn-primary stylebutton1'},
          ]
-       }
+       } */
      } );
  } );
  </script>

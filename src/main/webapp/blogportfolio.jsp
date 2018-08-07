@@ -196,7 +196,7 @@ if(f.exists() && !f.isDirectory()) {
   <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
   <a class="breadcrumb-item active text-primary" href="blogportfolio.jsp">Blog Portfolio</a>
   </nav>
-<div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
+<div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
 </div>
 
 <div class="col-md-6 text-right mt10">
@@ -211,7 +211,7 @@ if(f.exists() && !f.isDirectory()) {
   	</label>
     <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
   	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label>
+    <!-- <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label> -->
   </div>
 
 </div>
@@ -330,9 +330,9 @@ if(f.exists() && !f.isDirectory()) {
 
         <div style="min-height: 420px;">
           <div><p class="text-primary p15 pb5 pt0">List of Domains of <b class="text-blue">Advonum</b></p></div>
-          <div class="p15 pb5 pt0" role="group">
+         <!--  <div class="p15 pb5 pt0" role="group">
           Export Options
-          </div>
+          </div> -->
                 <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -416,9 +416,9 @@ if(f.exists() && !f.isDirectory()) {
       <div class="card-body  p5 pt10 pb10">
         <div class="min-height-table"style="min-height: 420px;">
           <div><p class="text-primary p15 pb5 pt0">List of URLs of <b class="text-blue">Advonum</b></p></div>
-          <div class="p15 pb5 pt0" role="group">
+          <!-- <div class="p15 pb5 pt0" role="group">
           Export Options
-          </div>
+          </div> -->
                 <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -532,11 +532,16 @@ if(f.exists() && !f.isDirectory()) {
 
  <script>
  $(document).ready(function() {
+	 
+	 $('#printdoc').on('click',function(){
+			print();
+		}) ;
    // datatable setup
      $('#DataTables_Table_1_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": false,
-          "pagingType": "simple",
+          "pagingType": "simple"
+    /*       ,
           dom: 'Bfrtip',
           "columnDefs": [
        { "width": "80%", "targets": 0 }
@@ -549,14 +554,15 @@ if(f.exists() && !f.isDirectory()) {
             // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
              {extend:'print',className: 'btn-primary stylebutton1'},
          ]
-       }
+       } */
      } );
 
 // table set up 2
      $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": false,
-          "pagingType": "simple",
+          "pagingType": "simple"
+     /*      ,
           dom: 'Bfrtip',
 
           "columnDefs": [
@@ -570,7 +576,7 @@ if(f.exists() && !f.isDirectory()) {
             // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
              {extend:'print',className: 'btn-primary stylebutton1'},
          ]
-       }
+       } */
      } );
  } );
  </script>
