@@ -659,6 +659,10 @@ if(f.exists() && !f.isDirectory()) {
  <!--end for table  -->
  <script>
  $(document).ready(function() {
+	 
+	 $('#printdoc').on('click',function(){
+			print();
+		}) ;
    $(document)
    						.ready(
    								function() {
