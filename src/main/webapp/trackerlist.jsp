@@ -7,59 +7,54 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%
-
-Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
-if (email == null || email == "") {
-	response.sendRedirect("index.jsp");
-}else{
-ArrayList<?> userinfo = null;
-String profileimage= "";
-String username ="";
-String name="";
-String phone="";
-String date_modified = "";
-userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
- //System.out.println(userinfo);
-int sizee=0;
-if (userinfo.size()<1) {
-	response.sendRedirect("index.jsp");
-}else{
-userinfo = (ArrayList<?>)userinfo.get(0);
-try{
-username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
-name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
-email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
-phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
-String userpic = userinfo.get(9).toString();
-String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
-String filename = userinfo.get(9).toString();
-profileimage = "images/default-avatar.png";
-if(userpic.indexOf("http")>-1){
-	profileimage = userpic;
-}
-File f = new File(filename);
-if(f.exists() && !f.isDirectory()) { 
-	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
-}
-}catch(Exception e){}
-String[] user_name = name.split(" ");
-Trackers tracker  = new Trackers();
-Blogs blg  = new Blogs();
-String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
-ArrayList results = null;
-results = tracker._list("DESC","",username,"50");
-/*
-if(term.equals("")){
-	results = tracker._list("DESC","",username,"10");
-}else{
-	results = tracker._search(term,"");
-}
-*/
-String total = tracker._getTotal();
-ArrayList test = new ArrayList();
-//tracker._add("hello",test);
-//pimage = pimage.replace("build/", "");
-
+	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+	if (email == null || email == "") {
+		response.sendRedirect("index.jsp");
+	} else {
+		ArrayList<?> userinfo = null;
+		String profileimage = "";
+		String username = "";
+		String name = "";
+		String phone = "";
+		String date_modified = "";
+		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
+		//System.out.println(userinfo);
+		if (userinfo.size() < 1) {
+			response.sendRedirect("index.jsp");
+		} else {
+			userinfo = (ArrayList<?>) userinfo.get(0);
+			try {
+				username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
+				name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
+				email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
+				phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
+				String userpic = userinfo.get(9).toString();
+				String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
+				String filename = userinfo.get(9).toString();
+				profileimage = "images/default-avatar.png";
+				if (userpic.indexOf("http") > -1) {
+					profileimage = userpic;
+				}
+				File f = new File(filename);
+				if (f.exists() && !f.isDirectory()) {
+					profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
+				}
+			} catch (Exception e) {
+			}
+			String[] user_name = name.split(" ");
+			Trackers tracker = new Trackers();
+			Blogs blg = new Blogs();
+			String term = (null == request.getParameter("term")) ? "" : request.getParameter("term");
+			ArrayList results = null;
+			if (term.equals("")) {
+				results = tracker._list("DESC", "", username, "10");
+			} else {
+				results = tracker._search(term, "");
+			}
+			String total = tracker._getTotal();
+			ArrayList test = new ArrayList();
+			//tracker._add("hello",test);
+			//pimage = pimage.replace("build/", "");
 %>
 <!DOCTYPE html>
 <html>
@@ -113,37 +108,40 @@ ArrayList test = new ArrayList();
 
 </head>
 <body>
+	<div class="modal-notifications">
+		<div class="row">
+			<div class="col-lg-10 closesection"></div>
+			<div class="col-lg-2 col-md-12 notificationpanel">
+				<div id="closeicon" class="cursor-pointer">
+					<i class="fas fa-times-circle"></i>
+				</div>
+				<div class="profilesection col-md-12 mt50">
+					<div class="text-center mb10">
+						<img src="<%=profileimage%>" width="60" height="60"
+							onerror="this.src='images/default-avatar.png'" alt="" />
+					</div>
+					<div class="text-center" style="margin-left: 0px;">
+						<h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+						<p class="text-primary profiletext"><%=email%></p>
+					</div>
 
-<div class="modal-notifications">
-<div class="row">
-<div class="col-lg-10 closesection">
-	
-</div>
- 
- 	  <div class=" col-lg-2 col-md-12 notificationpanel">
-		    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
-		  <div class="profilesection col-md-12 mt50">
-		  <% if(userinfo.size()>0){ %>
-		    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
-		    <div class="text-center" style="margin-left:0px;">
-		      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
-		      <p class="text-primary profiletext"><%=email%></p>
-		    </div>
-		  <%} %>
-		  </div>
-		  <div id="othersection" class="col-md-12 mt10" style="clear:both">
-		  <% if(userinfo.size()>0){ %>
-		  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-		  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
-		  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
-		  <%}else{ %>
-		  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/login"><h6 class="text-primary">Login</h6></a>
-		
-		  <%} %>
-		  </div>
-  	 </div>
+				</div>
+				<div id="othersection" class="col-md-12 mt10" style="clear: both">
+					<a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/notifications.jsp"><h6
+							class="text-primary">
+							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
+						</h6> </a> <a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/profile.jsp"><h6
+							class="text-primary">Profile</h6></a> <a
+						class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/logout"><h6
+							class="text-primary">Log Out</h6></a>
+				</div>
+			</div>
 
-	
+		</div>
+	</div>
 
 	<nav class="navbar navbar-inverse bg-primary">
 		<div class="container-fluid mt10">
@@ -197,7 +195,6 @@ ArrayList test = new ArrayList();
               <li><a href="#"> Help</a></li>
               <li><a href="#">Logout</a></li>
   </ul> -->
-
 					</a>
 
 					</li>
@@ -372,6 +369,15 @@ ArrayList test = new ArrayList();
 			%>
 		</div>
 
+
+
+
+
+
+
+
+
+
 	</div>
 
 	<!-- <div class="modalbackdrop hidden">
@@ -486,9 +492,7 @@ trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-
 
 	<script src="assets/js/generic.js">
 </script>
-<script>
-$("#sizee").html("<%=sizee%>");
-</script>
+
 </body>
 </html>
 <% }} %>

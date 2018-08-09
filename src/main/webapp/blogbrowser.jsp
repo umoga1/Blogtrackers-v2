@@ -12,9 +12,6 @@
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 
-//if (email == null || email == "") {
-	//response.sendRedirect("login.jsp");
-//}else{
 
 ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";

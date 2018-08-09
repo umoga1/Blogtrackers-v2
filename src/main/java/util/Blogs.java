@@ -163,6 +163,7 @@ public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 	   
 	   BufferedReader in = new BufferedReader(
 	        new InputStreamReader(con.getInputStream()));
+
 	   String inputLine;
 	   StringBuffer response = new StringBuffer();
 	   
