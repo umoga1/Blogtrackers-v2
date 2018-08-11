@@ -1,229 +1,497 @@
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
-<%@page import="java.util.*"%>
+<%@page import="util.*"%>
 <%@page import="java.io.File"%>
-<%@page import="util.Blogposts"%>
-<%@page import="java.text.NumberFormat" %>
-<%@page import="java.util.Locale" %>
-<%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+<%@page import="org.json.JSONArray"%>
+<%@page import="java.net.URI"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%
-Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 
-//if (email == null || email == "") {
-	//response.sendRedirect("login.jsp");
-//}else{
+	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
+	Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
+	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
+	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 
-ArrayList<?> userinfo = new ArrayList();//null;
-String profileimage= "";
-String username ="";
-String name="";
-String phone="";
-String date_modified = "";
+	//System.out.println(date_start);
+	if (email == null || email == "") {
+		response.sendRedirect("index.jsp");
+	} else {
 
-userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
- //System.out.println(userinfo);
-if (userinfo.size()<1) {
-	//response.sendRedirect("login.jsp");
-}else{
-userinfo = (ArrayList<?>)userinfo.get(0);
-try{
-username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+		ArrayList<?> userinfo = null;
+		String profileimage = "";
+		String username = "";
+		String name = "";
+		String phone = "";
+		String date_modified = "";
+		ArrayList detail = new ArrayList();
+		ArrayList termss = new ArrayList();
 
-name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
+		Trackers tracker = new Trackers();
+		Terms term = new Terms();
 
+		if (tid != "") {
+			detail = tracker._fetch(tid.toString());
+		} else {
+			detail = tracker._list("DESC", "", user.toString(), "1");
+		}
 
-email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
-phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
-//date_modified = userinfo.get(11).toString();
+		boolean isowner = false;
+		JSONObject obj = null;
+		String ids = "";
 
-String userpic = userinfo.get(9).toString();
-String[] user_name = name.split(" ");
-username = user_name[0];
+		if (detail.size() > 0) {
+			String res = detail.get(0).toString();
 
-String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
-String filename = userinfo.get(9).toString();
+			JSONObject resp = new JSONObject(res);
 
-profileimage = "images/default-avatar.png";
-if(userpic.indexOf("http")>-1){
-	profileimage = userpic;
-}
+			String resu = resp.get("_source").toString();
+			obj = new JSONObject(resu);
+			String tracker_userid = obj.get("userid").toString();
+			if (tracker_userid.equals(user.toString())) {
+				isowner = true;
+				String query = obj.get("query").toString();
+				query = query.replaceAll("blogsite_id in ", "");
+				query = query.replaceAll("\\(", "");
+				query = query.replaceAll("\\)", "");
+				ids = query;
+			}
+		}
+		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
+		//System.out.println(userinfo);
+		if (userinfo.size() < 1 || !isowner) {
+			response.sendRedirect("index.jsp");
+		} else {
+			userinfo = (ArrayList<?>) userinfo.get(0);
+			try {
+				username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
 
+				name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
+				email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
+				phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
+				String userpic = userinfo.get(9).toString();
+				String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
+				String filename = userinfo.get(9).toString();
 
+				profileimage = "images/default-avatar.png";
+				if (userpic.indexOf("http") > -1) {
+					profileimage = userpic;
+				}
 
-File f = new File(filename);
-if(f.exists() && !f.isDirectory()) { 
-	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
-}
-}catch(Exception e){}
+				File f = new File(filename);
+				if (f.exists() && !f.isDirectory()) {
+					profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
+				}
+			} catch (Exception e) {
+			}
 
+			String[] user_name = name.split(" ");
+			Blogposts post = new Blogposts();
+			Blogs blog = new Blogs();
+			Sentiments senti = new Sentiments();
 
-}
+			Date today = new Date();
+			SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
+			SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
 
+			SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
+			SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
+			SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
+			SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
+
+			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse("2013-01-01");
+
+			String day = DAY_ONLY.format(today);
+			String month = MONTH_ONLY.format(today);
+			String year = YEAR_ONLY.format(today);
+
+			String dispfrom = DATE_FORMAT.format(dstart);
+			String dispto = DATE_FORMAT.format(today);
+
+			String dst = DATE_FORMAT2.format(dstart);
+			String dend = DATE_FORMAT2.format(today);
+
+			//ArrayList posts = post._list("DESC","");
+			ArrayList sentiments = senti._list("DESC", "", "id");
+			String totalpost = "0";
+
+			String possentiment = "0";
+			String negsentiment = "0";
+
+			if (!date_start.equals("") && !date_end.equals("")) {
+				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
+				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+
+				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
+				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
+
+				dispfrom = DATE_FORMAT.format(start);
+				dispto = DATE_FORMAT.format(end);
+				termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
+			} else if (single.equals("day")) {
+				String dt = year + "-" + month + "-" + day;
+				totalpost = post._searchRangeTotal("date", dt, dt, ids);
+			} else if (single.equals("month")) {
+				String dt = year + "-" + month + "-" + day;
+				String dte = year + "-" + month + "-31";
+				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			} else if (single.equals("year")) {
+				String dt = year + "-01-01";
+				String dte = year + "-12-31";
+				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			} else {
+
+				totalpost = post._getTotalByBlogId(ids, "");
+				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+				termss = term._fetch(ids);
+			}
+
+			ArrayList blogs = blog._fetch(ids);
+			int totalblog = blogs.size();
+			//pimage = pimage.replace("build/", "");
+
+			JSONObject sentimentblog = new JSONObject();;
+			if (sentiments.size() > 0) {
+
+				for (int p = 0; p < sentiments.size(); p++) {
+					String bstr = sentiments.get(p).toString();
+					JSONObject bj = new JSONObject(bstr);
+					bstr = bj.get("_source").toString();
+					bj = new JSONObject(bstr);
+					String id = bj.get("blogsite_id").toString();
+					//if(!sentimentblog.has(id)){
+					sentimentblog.put(id, id);
+					// }
+				}
+			}
+
+			JSONArray topterms = new JSONArray();
+			if (termss.size() > 0) {
+
+				for (int p = 0; p < termss.size(); p++) {
+					String bstr = termss.get(p).toString();
+					JSONObject bj = new JSONObject(bstr);
+					bstr = bj.get("_source").toString();
+					bj = new JSONObject(bstr);
+					String frequency = bj.get("frequency").toString();
+					String tm = bj.get("term").toString();
+					JSONObject cont = new JSONObject();
+					cont.put("key", tm);
+					cont.put("frequency", frequency);
+					topterms.put(cont);
+				}
+			}
+
+			//System.out.println("senti"+ sentimentblog);
+			JSONObject language = new JSONObject();
+			JSONObject bloggers = new JSONObject();
+
+			ArrayList looper = new ArrayList();
+			ArrayList langlooper = new ArrayList();
+
+			if (blogs.size() > 0) {
+				String bres = null;
+				JSONObject bresp = null;
+
+				String bresu = null;
+				JSONObject bobj = null;
+				int m = 0;
+				int n = 0;
+				for (int k = 0; k < blogs.size(); k++) {
+					bres = blogs.get(k).toString();
+					bresp = new JSONObject(bres);
+					bresu = bresp.get("_source").toString();
+					bobj = new JSONObject(bresu);
+					String lang = bobj.get("language").toString();
+					String blogger = bobj.get("blogsite_owner").toString();
+					String blogname = bobj.get("blogsite_name").toString();
+					String sentiment = "1";// bobj.get("sentiment").toString();
+					String posting = bobj.get("totalposts").toString();
+
+					JSONObject content = new JSONObject();
+
+					String durl = bobj.get("blogsite_url").toString();//"";
+					try {
+						URI uri = new URI(bobj.get("blogsite_url").toString());
+						String domain = uri.getHost();
+						if (domain.startsWith("www.")) {
+							durl = domain.substring(4);
+						} else {
+							durl = domain;
+						}
+					} catch (Exception ex) {
+					}
+
+					if (bloggers.has(blogger)) {
+						content = new JSONObject(bloggers.get(blogger).toString());
+						int valu = Integer.parseInt(content.get("value").toString()) + 1;
+						content.put("blog", blogname);
+						content.put("id", bobj.get("blogsite_id").toString());
+						content.put("blogger", blogger);
+						content.put("sentiment", sentiment);
+						content.put("postingfreq", posting);
+						content.put("totalposts", bobj.get("totalposts").toString());
+						content.put("value", valu);
+						content.put("blogsite_url", bobj.get("blogsite_url").toString());
+						content.put("blogsite_domain", durl);
+						bloggers.put(blogger, content);
+					} else {
+						int valu = 1;
+						content.put("blog", blogname);
+						content.put("id", bobj.get("blogsite_id").toString());
+						content.put("blogger", blogger);
+						content.put("sentiment", sentiment);
+						content.put("postingfreq", posting);
+						content.put("value", valu);
+						content.put("totalposts", bobj.get("totalposts").toString());
+						content.put("blogsite_url", bobj.get("blogsite_url").toString());
+						content.put("blogsite_domain", durl);
+						bloggers.put(blogger, content);
+						looper.add(m, blogger);
+						m++;
+					}
+					//Object ex = language.get(lang);
+					if (language.has(lang)) {
+						int val = Integer.parseInt(language.get(lang).toString()) + 1;
+						language.put(lang, val);
+					} else {
+						//  	int val  = Integer.parseInt(ex.toString())+1;
+						language.put(lang, 1);
+						langlooper.add(n, lang);
+						n++;
+					}
+
+				}
+
+			}
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers - Sentiment Analysis</title>
-  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
-  <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
-  <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
-  <!-- start of bootsrap -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
-  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css"/>
-  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"/>
-  <link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.css" />
-  <link rel="stylesheet" href="assets/fonts/iconic/css/open-iconic.css" />
- <link rel="stylesheet" href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
- <link rel="stylesheet" href="assets/css/table.css" />
- <link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blogtrackers - Sentiment Analysis</title>
+<link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
+<link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
+<link rel="apple-touch-icon" sizes="96x96"
+	href="images/favicons/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="144x144"
+	href="images/favicons/favicon-144x144.png">
+<!-- start of bootsrap -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css" />
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet"
+	href="assets/fonts/fontawesome/css/fontawesome-all.css" />
+<link rel="stylesheet" href="assets/fonts/iconic/css/open-iconic.css" />
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet"
+	href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
 
-  <!--end of bootsrap -->
-  <script src="assets/js/jquery-3.2.1.slim.min.js"  ></script>
-<script src="assets/js/popper.min.js" ></script>
+<!--end of bootsrap -->
+<script src="assets/js/jquery-3.2.1.slim.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
 </head>
 <body>
 
-     <div class="modal-notifications">
-<div class="row">
-<div class="col-lg-10 closesection">
-	
-	</div>
-  <div class="col-lg-2 col-md-12 notificationpanel">
-    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
-  <div class="profilesection col-md-12 mt50">
-  <% if(userinfo.size()>0){ %>
-    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
-    <div class="text-center" style="margin-left:0px;">
-      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
-      <p class="text-primary profiletext"><%=email%></p>
-    </div>
-  <%} %>
-  </div>
-  <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <% if(userinfo.size()>0){ %>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
-  <%}else{ %>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/login"><h6 class="text-primary">Login</h6></a>
-  
-  <%} %>
-  </div>
-  </div>
-</div>
-</div>
-      <nav class="navbar navbar-inverse bg-primary">
-        <div class="container-fluid mt10 mb10">
+	<div class="modal-notifications">
+		<div class="row">
+			<div class="col-lg-10 closesection"></div>
+			<div class="col-lg-2 col-md-12 notificationpanel">
+				<div id="closeicon" class="cursor-pointer">
+					<i class="fas fa-times-circle"></i>
+				</div>
+				<div class="profilesection col-md-12 mt50">
+					<%
+						if (userinfo.size() > 0) {
+					%>
+					<div class="text-center mb10">
+						<img src="<%=profileimage%>" width="60" height="60"
+							onerror="this.src='images/default-avatar.png'" alt="" />
+					</div>
+					<div class="text-center" style="margin-left: 0px;">
+						<h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+						<p class="text-primary profiletext"><%=email%></p>
+					</div>
+					<%
+						}
+					%>
+				</div>
+				<div id="othersection" class="col-md-12 mt10" style="clear: both">
+					<%
+						if (userinfo.size() > 0) {
+					%>
+					<a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/notifications.jsp"><h6
+							class="text-primary">
+							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
+						</h6> </a> <a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/profile.jsp"><h6
+							class="text-primary">Profile</h6></a> <a
+						class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/logout"><h6
+							class="text-primary">Log Out</h6></a>
+					<%
+						} else {
+					%>
+					<a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/login"><h6
+							class="text-primary">Login</h6></a>
 
-          <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
-         <a class="navbar-brand text-center logohomeothers" href="./">
-  </a>
-          </div>
-          <!-- Mobile Menu -->
-          <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-          </button>
-          </nav>
-          <!-- <div class="navbar-header ">
+					<%
+						}
+					%>
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar navbar-inverse bg-primary">
+		<div class="container-fluid mt10 mb10">
+
+			<div
+				class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+				<a class="navbar-brand text-center logohomeothers" href="./"> </a>
+			</div>
+			<!-- Mobile Menu -->
+			<nav
+				class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none"
+				id="menutoggle">
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarToggleExternalContent"
+					aria-controls="navbarToggleExternalContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</nav>
+			<!-- <div class="navbar-header ">
           <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
           </div> -->
-          <!-- Mobile menu  -->
-          <div class="col-lg-6 themainmenu"  align="center">
-            <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-            <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
-           
-               </ul>
-          </div>
+			<!-- Mobile menu  -->
+			<div class="col-lg-6 themainmenu" align="center">
+				<ul class="nav main-menu2"
+					style="display: inline-flex; display: -webkit-inline-flex; display: -mozkit-inline-flex;">
+					<li><a class="bold-text"
+						href="<%=request.getContextPath()%>/blogbrowser.jsp"><i
+							class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+					<li><a class="bold-text"
+						href="<%=request.getContextPath()%>/trackerlist.jsp"><i
+							class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
+					<li><a class="bold-text"
+						href="<%=request.getContextPath()%>/favorites.jsp"><i
+							class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
 
-     <div class="col-lg-3">
-  	 <% if(userinfo.size()>0){ %>
-  		
-	  <ul class="nav navbar-nav" style="display:block;">
-		  <li class="dropdown dropdown-user cursor-pointer float-right">
-		  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
-		    <i class="fas fa-circle" id="notificationcolor"></i>
-		   
-		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-		  <span><%=username%></span></a>
-			
-		   </li>
-	    </ul>
-         <% }else{ %>
-         <ul class="nav main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-        
-        	<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
-         </ul>
-        <% } %>
-      </div>
+				</ul>
+			</div>
 
-          </div>
-          <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
-          <div class="collapse" id="navbarToggleExternalContent">
-            <ul class="navbar-nav mr-auto mobile-menu">
-                             <li class="nav-item active">
-                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
-              </li>
-                </ul>
-        </div>
-          </div>
+			<div class="col-lg-3">
+				<%
+					if (userinfo.size() > 0) {
+				%>
+
+				<ul class="nav navbar-nav" style="display: block;">
+					<li class="dropdown dropdown-user cursor-pointer float-right">
+						<a class="dropdown-toggle " id="profiletoggle"
+						data-toggle="dropdown"> <i class="fas fa-circle"
+							id="notificationcolor"></i> <img src="<%=profileimage%>"
+							width="50" height="50"
+							onerror="this.src='images/default-avatar.png'" alt="" class="" />
+							<span><%=username%></span></a>
+
+					</li>
+				</ul>
+				<%
+					} else {
+				%>
+				<ul class="nav main-menu2 float-right"
+					style="display: inline-flex; display: -webkit-inline-flex; display: -mozkit-inline-flex;">
+
+					<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
+				</ul>
+				<%
+					}
+				%>
+			</div>
+
+		</div>
+		<div
+			class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
+			<div class="collapse" id="navbarToggleExternalContent">
+				<ul class="navbar-nav mr-auto mobile-menu">
+					<li class="nav-item active"><a class=""
+						href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span
+							class="sr-only">(current)</span></a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a></li>
+				</ul>
+			</div>
+		</div>
 
 
-        </nav>
-<div class="container">
-<!-- start of print section  -->
+	</nav>
+	<div class="container">
+		<!-- start of print section  -->
 
 
 
-<div class="row bottom-border pb20">
-<div class="col-md-6 paddi">
-<nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="edittracker.jsp">Second Tracker</a>
-  <a class="breadcrumb-item active text-primary" href="sentiment.jsp">Sentiment Analysis</a>
-  </nav>
-<div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
-</div>
+		<div class="row bottom-border pb20">
+			<div class="col-md-6 ">
+				<nav class="breadcrumb">
+					<a class="breadcrumb-item text-primary"
+						href="<%=request.getContextPath()%>/trackerlist.jsp">My	Trackers</a> <a class="breadcrumb-item text-primary"
+						href="<%=request.getContextPath()%>/edittracker.jsp"><%=obj.get("tracker_name").toString()%></a>
+					<a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
+				</nav>
+				<div>
+					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
+						AS PDF</button>
+				</div>
+			</div>
+			<div class="col-md-6 text-right mt10">
+				<div class="text-primary demo">
+					<h6 id="reportrange">
+						Date: <span>02/21/18 - 02/28/18</span>
+					</h6>
+				</div>
+				<div>
+					<div class="btn-group mt5" data-toggle="buttons">
+						<label
+							class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder">
+							<input type="radio" name="options" value="day" autocomplete="off">
+							Day
+						</label> <label class="btn btn-primary btn-sm nobgnoborder"> <input
+							type="radio" name="options" value="week" autocomplete="off">Week
+						</label> <label class="btn btn-primary btn-sm nobgnoborder nobgnoborder">
+							<input type="radio" name="options" value="month"
+							autocomplete="off"> Month
+						</label> <label class="btn btn-primary btn-sm text-center nobgnoborder">Year
+							<input type="radio" name="options" value="year"
+							autocomplete="off">
+						</label>
+						<!--  <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
+					</div>
 
-<div class="col-md-6 text-right mt10">
-<div class="text-primary demo"><h6 id="reportrange">Date: <span>02/21/18 - 02/28/18</span></h6></div>
-<div>
-  <div class="btn-group mt5" data-toggle="buttons">
-  <label class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder"> <input type="radio" name="options" value="day" autocomplete="off" > Day
-  	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" name="options" value="week" autocomplete="off" >Week
-  	</label>
-     <label class="btn btn-primary btn-sm nobgnoborder nobgnoborder"> <input type="radio" name="options" value="month" autocomplete="off" > Month
-  	</label>
-    <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
-  	</label>
-   <!--  <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
-  </div>
+					<!-- Day Week Month Year <b id="custom" class="text-primary">Custom</b> -->
 
-  <!-- Day Week Month Year <b id="custom" class="text-primary">Custom</b> -->
+				</div>
+			</div>
+		</div>
 
-</div>
-</div>
-</div>
-
-<!-- <div class="row p40 border-top-bottom mt20 mb20">
+		<!-- <div class="row p40 border-top-bottom mt20 mb20">
   <div class="col-md-2">
 <small class="text-primary">Selected Blogger</small>
 <h2 class="text-primary styleheading">AdNovum <div class="circle"></div></h2>
@@ -238,184 +506,249 @@ if(f.exists() && !f.isDirectory()) {
 
 
 
-<div class="row mt20">
+		<div class="row mt20">
 
-<div class="col-md-12">
-  <div class="card card-style mt20">
-    <div class="card-body  p30 pt5 pb5">
-      <div style="min-height: 250px;">
-<div><p class="text-primary mt10"><b>Aggregate</b> of <b class="text-success">Positive</b> and <b class="text-danger">Negative</b> Sentiment of post Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p> </div>
-<div class="chart-container">
-  <div class="chart" id="d3-line-basic"></div>
-</div>
-      </div>
-        </div>
-  </div>
+			<div class="col-md-12">
+				<div class="card card-style mt20">
+					<div class="card-body  p30 pt5 pb5">
+						<div style="min-height: 250px;">
+							<div>
+								<p class="text-primary mt10">
+									<b>Aggregate</b> of <b class="text-success">Positive</b> and <b
+										class="text-danger">Negative</b> Sentiment of post Past <select
+										class="text-primary filtersort sortbytimerange"><option
+											value="week">Week</option>
+										<option value="month">Month</option>
+										<option value="year">Year</option></select>
+								</p>
+							</div>
+							<div class="chart-container">
+								<div class="chart" id="d3-line-basic"></div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-</div>
-</div>
+			</div>
+		</div>
 
 
 
-<div class="row m0 mt20 mb50 d-flex align-items-stretch" >
-  <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
-  <div class="card-body p0 pt20 pb20" style="min-height: 320px;">
-      <p>Influential Blog Posts of <b class="text-blue">AdNovum</b> and <b class="text-success">Abel Danger</b></p>
-          <!-- <div class="p15 pb5 pt0" role="group">
+		<div class="row m0 mt20 mb50 d-flex align-items-stretch">
+			<div
+				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
+				<div class="card-body p0 pt20 pb20" style="min-height: 320px;">
+					<p>
+						Influential Blog Posts of <b class="text-blue">AdNovum</b> and <b
+							class="text-success">Abel Danger</b>
+					</p>
+					<!-- <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-                <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th class="bold-text">Post title</th>
-                                <th class="bold-text">Blogger</th>
+					<table id="DataTables_Table_0_wrapper" class="display"
+						style="width: 100%">
+						<thead>
+							<tr>
+								<th class="bold-text">Post title</th>
+								<th class="bold-text">Blogger</th>
 
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="right">Matt Finucane</td>
-                          </tr>
-                          <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="right">Matt Finucane</td>
-                          </tr>  <tr>
-                                <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                <td align="right">Matt Finucane</td>
-                            </tr>  <tr>
-                                  <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                  <td align="right">Matt Finucane</td>
-                              </tr>  <tr>
-                                    <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                    <td align="right">Matt Finucane</td>
-                                </tr>  <tr>
-                                      <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                      <td align="right">Matt Finucane</td>
-                                  </tr>  <tr>
-                                        <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                        <td align="right">Matt Finucane</td>
-                                    </tr>  <tr>
-                                          <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                          <td align="right">Matt Finucane</td>
-                                      </tr>  <tr>
-                                            <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                            <td align="right">Matt Finucane</td>
-                                        </tr>  <tr>
-                                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                              <td align="right">Matt Finucane</td>
-                                          </tr>
-                        </tbody>
-                    </table>
-        </div>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">Matt Finucane</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">Matt Finucane</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">Matt Finucane</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">Matt Finucane</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">Matt Finucane</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">Matt Finucane</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">Matt Finucane</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">Matt Finucane</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">Matt Finucane</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">Matt Finucane</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 
-  </div>
+			</div>
 
-  <div class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
-        <div style="" class="pt20">
+			<div
+				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
+				<div style="" class="pt20">
 
 
-          <!-- <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:586px;">
+					<!-- <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:586px;">
           <h5 class="text-primary p20 pt0 pb0 text-center">Personal Content</h5>
           	<div class="personalcontent"></div>
          </div> -->
 
-         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active" data-toggle="tooltip" data-placement="top" title="Personal Content"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1" data-toggle="tooltip" data-placement="top" title="Time Orientation"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2" data-toggle="tooltip" data-placement="top" title="Core Drive and Need"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="3" data-toggle="tooltip" data-placement="top" title="Cognitive Process"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="4" data-toggle="tooltip" data-placement="top" title="Summary Variable"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="5" data-toggle="tooltip" data-placement="top" title="Sentiment/Emotion"></li>
+					<div id="carouselExampleIndicators" class="carousel slide"
+						data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carouselExampleIndicators" data-slide-to="0"
+								class="active" data-toggle="tooltip" data-placement="top"
+								title="Personal Content"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="1"
+								data-toggle="tooltip" data-placement="top"
+								title="Time Orientation"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="2"
+								data-toggle="tooltip" data-placement="top"
+								title="Core Drive and Need"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="3"
+								data-toggle="tooltip" data-placement="top"
+								title="Cognitive Process"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="4"
+								data-toggle="tooltip" data-placement="top"
+								title="Summary Variable"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="5"
+								data-toggle="tooltip" data-placement="top"
+								title="Sentiment/Emotion"></li>
 
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:586px;">
-      <h5 class="text-primary p20 pt0 pb0 text-center">Personal Content</h5>
-        <div class="personalcontent"></div>
-     </div>
-    </div>
-    <div class="carousel-item">
-      <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:586px;">
-      <h5 class="text-primary p20 pt0 pb0 text-center">Time Orientation</h5>
-        <div class="timeorientation"></div>
-     </div>
-    </div>
-    <div class="carousel-item">
-      <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:586px;">
-      <h5 class="text-primary p20 pt0 pb0 text-center">Core Drive and Need</h5>
-        <div class="coredriveandneed"></div>
-     </div>
-    </div>
-    <div class="carousel-item">
-      <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:586px;">
-      <h5 class="text-primary p20 pt0 pb0 text-center">Cognitive Process</h5>
-        <div class="cognitiveprocess"></div>
-     </div>
-    </div>
-    <div class="carousel-item">
-      <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:586px;">
-      <h5 class="text-primary p20 pt0 pb0 text-center">Summary Variable</h5>
-        <div class="summaryvariable"></div>
-     </div>
-    </div>
-    <div class="carousel-item">
-      <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:586px;">
-      <h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion</h5>
-        <div class="sentimentemotion"></div>
-     </div>
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
+						</ol>
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt0 pb0 text-center">Personal
+										Content</h5>
+									<div class="personalcontent"></div>
+								</div>
+							</div>
+							<div class="carousel-item">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt0 pb0 text-center">Time
+										Orientation</h5>
+									<div class="timeorientation"></div>
+								</div>
+							</div>
+							<div class="carousel-item">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt0 pb0 text-center">Core
+										Drive and Need</h5>
+									<div class="coredriveandneed"></div>
+								</div>
+							</div>
+							<div class="carousel-item">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt0 pb0 text-center">Cognitive
+										Process</h5>
+									<div class="cognitiveprocess"></div>
+								</div>
+							</div>
+							<div class="carousel-item">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt0 pb0 text-center">Summary
+										Variable</h5>
+									<div class="summaryvariable"></div>
+								</div>
+							</div>
+							<div class="carousel-item">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion</h5>
+									<div class="sentimentemotion"></div>
+								</div>
+							</div>
+						</div>
+						<a class="carousel-control-prev" href="#carouselExampleIndicators"
+							role="button" data-slide="prev"> <span
+							class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+							class="sr-only">Previous</span>
+						</a> <a class="carousel-control-next"
+							href="#carouselExampleIndicators" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
 
-    </div>
-  </div>
-</div>
+				</div>
+			</div>
+		</div>
 
 
 
 
 
 
-</div>
+	</div>
 
 
-<!-- <footer class="footer">
+	<!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
 <p class="text-center text-medium pt10 pb10 mb0">Copyright &copy; Blogtrackers 2017 All Rights Reserved.</p>
 </div>
   </footer> -->
 
 
-  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
- <script src="assets/bootstrap/js/bootstrap.js">
+	<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.js">
  </script>
- <script src="assets/js/generic.js">
+	<script src="assets/js/generic.js">
  </script>
- <script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
- <script src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
- <!-- Start for tables  -->
- <script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
- <script type="text/javascript" src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
- <script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
- <script src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
- <script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
- <script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
- <script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
- <script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
+	<script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
+	<script
+		src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<!-- Start for tables  -->
+	<script type="text/javascript"
+		src="assets/vendors/DataTables/datatables.min.js"></script>
+	<script type="text/javascript"
+		src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
+	<script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
+	<script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
- <script>
+	<script>
  $(document).ready(function() {
 	 
 	/*  function PrintElem(elem)
@@ -486,8 +819,8 @@ if(f.exists() && !f.isDirectory()) {
      } );
  } );
  </script>
- <!--end for table  -->
- <script>
+	<!--end for table  -->
+	<script>
  $(document).ready(function() {
 	 
 		 
@@ -615,11 +948,11 @@ if(f.exists() && !f.isDirectory()) {
    //$('#config-demo').daterangepicker(options, function(start, end, label) { console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); });
  });
  </script>
- <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
- <script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
- <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
- <script src="assets/vendors/radarchart/radarChart.js"></script>
- <script>
+	<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
+	<script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
+	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
+	<script src="assets/vendors/radarchart/radarChart.js"></script>
+	<script>
 $(function () {
     /* Radar chart design created by Nadieh Bremer - VisualCinnamon.com */
 
@@ -845,7 +1178,7 @@ $(function () {
 
 });
   </script>
- <script>
+	<script>
  $(function () {
 
      // Initialize chart
@@ -1344,7 +1677,7 @@ $(function () {
  });
  </script>
 
-  <script>
+	<script>
   $('.carousel').carousel({
       interval: false
   });
@@ -1354,3 +1687,6 @@ $(function () {
 
 </body>
 </html>
+
+
+<% }} %>

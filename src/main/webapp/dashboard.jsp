@@ -8,674 +8,850 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%
-Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
-Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
+	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 
-Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
-Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
-Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
-Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
+	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
+	Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
+	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
+	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 
+	//System.out.println(date_start);
+	if (email == null || email == "") {
+		response.sendRedirect("index.jsp");
+	} else {
 
-//System.out.println(date_start);
-if (email == null || email == "") {
-	response.sendRedirect("index.jsp");
-}else{
+		ArrayList<?> userinfo = null;
+		String profileimage = "";
+		String username = "";
+		String name = "";
+		String phone = "";
+		String date_modified = "";
+		ArrayList detail = new ArrayList();
+		ArrayList termss = new ArrayList();
 
-ArrayList<?> userinfo = null;
-String profileimage= "";
-String username ="";
-String name="";
-String phone="";
-String date_modified = "";
-ArrayList detail =new ArrayList();
-ArrayList termss =new ArrayList();
+		Trackers tracker = new Trackers();
+		Terms term = new Terms();
 
-Trackers tracker  = new Trackers();
-Terms term  = new Terms();
+		if (tid != "") {
+			detail = tracker._fetch(tid.toString());
+		} else {
+			detail = tracker._list("DESC", "", user.toString(), "1");
+		}
 
-if(tid!=""){
-   detail = tracker._fetch(tid.toString());
-}else{
-	detail = tracker._list("DESC","",user.toString(),"1");
-}
+		boolean isowner = false;
+		JSONObject obj = null;
+		String ids = "";
 
+		if (detail.size() > 0) {
+			String res = detail.get(0).toString();
 
-boolean isowner = false;
-JSONObject obj =null;
-String ids = "";
+			JSONObject resp = new JSONObject(res);
 
-if(detail.size()>0){
-	String res = detail.get(0).toString();
-	JSONObject resp = new JSONObject(res);
-    String resu = resp.get("_source").toString();
-    obj = new JSONObject(resu);
-    String tracker_userid = obj.get("userid").toString();
-    if(tracker_userid.equals(user.toString())){
-    	isowner=true;
-    	String query = obj.get("query").toString();
-		query = query.replaceAll("blogsite_id in ", "");		 		
-		query = query.replaceAll("\\(", "");	 
-		query = query.replaceAll("\\)", "");
-		ids=query;
-    }
-}
+			String resu = resp.get("_source").toString();
+			obj = new JSONObject(resu);
+			String tracker_userid = obj.get("userid").toString();
+			if (tracker_userid.equals(user.toString())) {
+				isowner = true;
+				String query = obj.get("query").toString();
+				query = query.replaceAll("blogsite_id in ", "");
+				query = query.replaceAll("\\(", "");
+				query = query.replaceAll("\\)", "");
+				ids = query;
+			}
+		}
+		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
+		//System.out.println(userinfo);
+		if (userinfo.size() < 1 || !isowner) {
+			response.sendRedirect("index.jsp");
+		} else {
+			userinfo = (ArrayList<?>) userinfo.get(0);
+			try {
+				username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
 
-System.out.println(ids);
+				name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
+				email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
+				phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
+				String userpic = userinfo.get(9).toString();
+				String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
+				String filename = userinfo.get(9).toString();
 
- userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
- //System.out.println(userinfo);
-if (userinfo.size()<1 || !isowner) {
-	response.sendRedirect("index.jsp");
-}else{
-userinfo = (ArrayList<?>)userinfo.get(0);
-try{
-username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+				profileimage = "images/default-avatar.png";
+				if (userpic.indexOf("http") > -1) {
+					profileimage = userpic;
+				}
 
-name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
-email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
-phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
-String userpic = userinfo.get(9).toString();
-String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
-String filename = userinfo.get(9).toString();
+				File f = new File(filename);
+				if (f.exists() && !f.isDirectory()) {
+					profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
+				}
+			} catch (Exception e) {
+			}
 
-profileimage = "images/default-avatar.png";
-if(userpic.indexOf("http")>-1){
-	profileimage = userpic;
-}
+			String[] user_name = name.split(" ");
+			Blogposts post = new Blogposts();
+			Blogs blog = new Blogs();
+			Sentiments senti = new Sentiments();
 
+			Date today = new Date();
+			SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
+			SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
 
+			SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
+			SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
+			SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
+			SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
 
-File f = new File(filename);
-if(f.exists() && !f.isDirectory()) { 
-	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
-}
-}catch(Exception e){}
+			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse("2013-01-01");
 
-String[] user_name = name.split(" ");
-Blogposts post  = new Blogposts();
-Blogs blog = new Blogs();
-Sentiments senti = new Sentiments();
+			String day = DAY_ONLY.format(today);
+			String month = MONTH_ONLY.format(today);
+			String year = YEAR_ONLY.format(today);
 
-Date today = new Date();
-SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
-SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
+			String dispfrom = DATE_FORMAT.format(dstart);
+			String dispto = DATE_FORMAT.format(today);
 
-SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
-SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
-SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
-SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
+			String dst = DATE_FORMAT2.format(dstart);
+			String dend = DATE_FORMAT2.format(today);
 
+			//ArrayList posts = post._list("DESC","");
+			ArrayList sentiments = senti._list("DESC", "", "id");
+			String totalpost = "0";
 
+			String possentiment = "0";
+			String negsentiment = "0";
 
+			if (!date_start.equals("") && !date_end.equals("")) {
+				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
+				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
 
-Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse("2013-01-01");
+				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
+				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
 
-String day = DAY_ONLY.format(today);
-String month = MONTH_ONLY.format(today);
-String year = YEAR_ONLY.format(today);
+				dispfrom = DATE_FORMAT.format(start);
+				dispto = DATE_FORMAT.format(end);
+				termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
+			} else if (single.equals("day")) {
+				String dt = year + "-" + month + "-" + day;
+				totalpost = post._searchRangeTotal("date", dt, dt, ids);
+			} else if (single.equals("month")) {
+				String dt = year + "-" + month + "-" + day;
+				String dte = year + "-" + month + "-31";
+				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			} else if (single.equals("year")) {
+				String dt = year + "-01-01";
+				String dte = year + "-12-31";
+				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			} else {
 
-String dispfrom = DATE_FORMAT.format(dstart);
-String dispto = DATE_FORMAT.format(today);
+				totalpost = post._getTotalByBlogId(ids, "");
+				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+				termss = term._fetch(ids);
+			}
 
-String dst =  DATE_FORMAT2.format(dstart);
-String dend =  DATE_FORMAT2.format(today);
+			ArrayList blogs = blog._fetch(ids);
+			int totalblog = blogs.size();
+			//pimage = pimage.replace("build/", "");
 
+			JSONObject sentimentblog = new JSONObject();;
+			if (sentiments.size() > 0) {
 
-//ArrayList posts = post._list("DESC","");
-ArrayList sentiments = senti._list("DESC","","id");
-String totalpost="0";
+				for (int p = 0; p < sentiments.size(); p++) {
+					String bstr = sentiments.get(p).toString();
+					JSONObject bj = new JSONObject(bstr);
+					bstr = bj.get("_source").toString();
+					bj = new JSONObject(bstr);
+					String id = bj.get("blogsite_id").toString();
+					//if(!sentimentblog.has(id)){
+					sentimentblog.put(id, id);
+					// }
+				}
+			}
 
-String possentiment = "0";
-String negsentiment = "0";
+			JSONArray topterms = new JSONArray();
+			if (termss.size() > 0) {
 
-if(!date_start.equals("") && !date_end.equals("")){
-	totalpost = post._searchRangeTotal("date",date_start.toString(),date_end.toString(),ids);
-	//possentiment = post._searchRangeTotal("sentiment","0","10",ids,date_start.toString(),date_end.toString());
-	//negsentiment = post._searchRangeTotal("sentiment","-10","-1",ids,date_start.toString(),date_end.toString());
+				for (int p = 0; p < termss.size(); p++) {
+					String bstr = termss.get(p).toString();
+					JSONObject bj = new JSONObject(bstr);
+					bstr = bj.get("_source").toString();
+					bj = new JSONObject(bstr);
+					String frequency = bj.get("frequency").toString();
+					String tm = bj.get("term").toString();
+					JSONObject cont = new JSONObject();
+					cont.put("key", tm);
+					cont.put("frequency", frequency);
+					topterms.put(cont);
+				}
+			}
 
-	possentiment = post._searchRangeTotal("sentiment","0","10",ids);
-	negsentiment = post._searchRangeTotal("sentiment","-10","-1",ids);
+			//System.out.println("senti"+ sentimentblog);
+			JSONObject language = new JSONObject();
+			JSONObject bloggers = new JSONObject();
 
-	Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
-	Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
-	
-	dispfrom = DATE_FORMAT.format(start);
-	dispto = DATE_FORMAT.format(end);	
-	termss = term._searchByRange("date",date_start.toString(),date_end.toString(),ids);
-}else if(single.equals("day")){
-	String dt=year+"-"+month+"-"+day;
-	totalpost = post._searchRangeTotal("date",dt,dt,ids);
-}else if(single.equals("month")){
-	String dt=year+"-"+month+"-"+day;
-	String dte=year+"-"+month+"-31";
-	totalpost = post._searchRangeTotal("date",dt,dte,ids);
-}else if(single.equals("year")){
-	String dt=year+"-01-01";
-	String dte=year+"-12-31";
-	totalpost = post._searchRangeTotal("date",dt,dte,ids);
-}else{
+			ArrayList looper = new ArrayList();
+			ArrayList langlooper = new ArrayList();
 
-	totalpost = post._getTotalByBlogId(ids,"");
-	possentiment = post._searchRangeTotal("sentiment","0","10",ids);
-	negsentiment = post._searchRangeTotal("sentiment","-10","-1",ids);
-	termss = term._fetch(ids);
-}
+			if (blogs.size() > 0) {
+				String bres = null;
+				JSONObject bresp = null;
 
+				String bresu = null;
+				JSONObject bobj = null;
+				int m = 0;
+				int n = 0;
+				for (int k = 0; k < blogs.size(); k++) {
+					bres = blogs.get(k).toString();
+					bresp = new JSONObject(bres);
+					bresu = bresp.get("_source").toString();
+					bobj = new JSONObject(bresu);
+					String lang = bobj.get("language").toString();
+					String blogger = bobj.get("blogsite_owner").toString();
+					String blogname = bobj.get("blogsite_name").toString();
+					String sentiment = "1";// bobj.get("sentiment").toString();
+					String posting = bobj.get("totalposts").toString();
 
+					JSONObject content = new JSONObject();
 
-ArrayList blogs = blog._fetch(ids);
-int totalblog = blogs.size();
-//pimage = pimage.replace("build/", "");
+					String durl = bobj.get("blogsite_url").toString();//"";
+					try {
+						URI uri = new URI(bobj.get("blogsite_url").toString());
+						String domain = uri.getHost();
+						if (domain.startsWith("www.")) {
+							durl = domain.substring(4);
+						} else {
+							durl = domain;
+						}
+					} catch (Exception ex) {
+					}
 
-	JSONObject sentimentblog = new JSONObject();; 
-      if(sentiments.size()>0){
+					if (bloggers.has(blogger)) {
+						content = new JSONObject(bloggers.get(blogger).toString());
+						int valu = Integer.parseInt(content.get("value").toString()) + 1;
+						content.put("blog", blogname);
+						content.put("id", bobj.get("blogsite_id").toString());
+						content.put("blogger", blogger);
+						content.put("sentiment", sentiment);
+						content.put("postingfreq", posting);
+						content.put("totalposts", bobj.get("totalposts").toString());
+						content.put("value", valu);
+						content.put("blogsite_url", bobj.get("blogsite_url").toString());
+						content.put("blogsite_domain", durl);
+						bloggers.put(blogger, content);
+					} else {
+						int valu = 1;
+						content.put("blog", blogname);
+						content.put("id", bobj.get("blogsite_id").toString());
+						content.put("blogger", blogger);
+						content.put("sentiment", sentiment);
+						content.put("postingfreq", posting);
+						content.put("value", valu);
+						content.put("totalposts", bobj.get("totalposts").toString());
+						content.put("blogsite_url", bobj.get("blogsite_url").toString());
+						content.put("blogsite_domain", durl);
+						bloggers.put(blogger, content);
+						looper.add(m, blogger);
+						m++;
+					}
+					//Object ex = language.get(lang);
+					if (language.has(lang)) {
+						int val = Integer.parseInt(language.get(lang).toString()) + 1;
+						language.put(lang, val);
+					} else {
+						//  	int val  = Integer.parseInt(ex.toString())+1;
+						language.put(lang, 1);
+						langlooper.add(n, lang);
+						n++;
+					}
 
-			 for(int p=0; p< sentiments.size(); p++){
-				 String bstr = sentiments.get(p).toString();			
-				 JSONObject bj = new JSONObject(bstr);
-				 bstr = bj.get("_source").toString();
-				 bj = new JSONObject(bstr);
-				 String id = bj.get("blogsite_id").toString();
-				 //if(!sentimentblog.has(id)){
-					 sentimentblog.put(id,id);
-				// }
-			 }
-      }
+				}
 
-      JSONArray topterms = new JSONArray(); 
-      if(termss.size()>0){
-
-			 for(int p=0; p< termss.size(); p++){
-				 String bstr = termss.get(p).toString();			
-				 JSONObject bj = new JSONObject(bstr);
-				 bstr = bj.get("_source").toString();
-				 bj = new JSONObject(bstr);
-				 String frequency = bj.get("frequency").toString();
-				 String tm = bj.get("term").toString();
-				 JSONObject cont = new JSONObject();
-				 cont.put("key",tm);
-				 cont.put("frequency",frequency);
-				 topterms.put(cont);
-			 }
-      }
-      
-      
-      //System.out.println("senti"+ sentimentblog);
-	 JSONObject language = new JSONObject();
-	 JSONObject bloggers = new JSONObject();
-      
-      ArrayList looper = new ArrayList();
-      ArrayList langlooper = new ArrayList();
-     
-      
-      if( blogs.size()>0){
-			String bres = null;
-			JSONObject bresp = null;
-			
-			String bresu =null;
-			JSONObject bobj =null;
-			int m=0;
-			int n=0;
-			 for(int k=0; k< blogs.size(); k++){
-				 bres = blogs.get(k).toString();			
-				 bresp = new JSONObject(bres);
-				 bresu = bresp.get("_source").toString();
-				 bobj = new JSONObject(bresu);
-				 String lang = bobj.get("language").toString();
-				 String blogger = bobj.get("blogsite_owner").toString();
-				 String blogname = bobj.get("blogsite_name").toString();
-				 String sentiment ="1";// bobj.get("sentiment").toString();
-				 String posting = bobj.get("totalposts").toString(); 
-				
-				 JSONObject content = new JSONObject();
-				 			 
-				 String durl= bobj.get("blogsite_url").toString();//"";
-				 try{
-					 URI uri = new URI(bobj.get("blogsite_url").toString());
-					 String domain = uri.getHost();
-					 if(domain.startsWith("www.")){
-								  durl = domain.substring(4);
-					  }else{
-								  durl = domain;
-					  }
-				 }catch(Exception ex){}
-				
-						  
-				 if(bloggers.has(blogger)){					  
-					 content = new JSONObject(bloggers.get(blogger).toString());
-					 int valu  = Integer.parseInt(content.get("value").toString())+1;
-					 content.put("blog",blogname);
-					 content.put("id",bobj.get("blogsite_id").toString());
-					 content.put("blogger",blogger);
-					 content.put("sentiment",sentiment);
-					 content.put("postingfreq",posting);
-					 content.put("totalposts",bobj.get("totalposts").toString());
-					 content.put("value",valu);
-					 content.put("blogsite_url",bobj.get("blogsite_url").toString());
-					 content.put("blogsite_domain",durl);
-					 bloggers.put(blogger, content);					 
-				 }else{
-					 int valu  = 1;
-					 content.put("blog",blogname);
-					 content.put("id",bobj.get("blogsite_id").toString());					 
-					 content.put("blogger",blogger);
-					 content.put("sentiment",sentiment);
-					 content.put("postingfreq",posting);
-					 content.put("value",valu);
-					 content.put("totalposts",bobj.get("totalposts").toString());					 
-					 content.put("blogsite_url",bobj.get("blogsite_url").toString());
-					 content.put("blogsite_domain",durl);
-					 bloggers.put(blogger, content);
-					 looper.add(m, blogger);
-					 m++;
-				 }
-				 //Object ex = language.get(lang);
-				  if(language.has(lang)){
-					  int val  = Integer.parseInt(language.get(lang).toString())+1;
-				      language.put(lang, val);					
-				  }else{
-				 //  	int val  = Integer.parseInt(ex.toString())+1;
-				  	 language.put(lang,1);
-				  	 langlooper.add(n, lang);
-					 n++;
-				 }
-
-			 }
-		  		
-	 } %>
+			}
+%>
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers - Dashboard</title>
-  <!-- start of bootsrap -->
-  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
-  <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
-  <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blogtrackers - Dashboard</title>
+<!-- start of bootsrap -->
+<link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
+<link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
+<link rel="apple-touch-icon" sizes="96x96"
+	href="images/favicons/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="144x144"
+	href="images/favicons/favicon-144x144.png">
 
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
-  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css"/>
-  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"/>
-  <link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.css" />
-  <link rel="stylesheet" href="assets/fonts/iconic/css/open-iconic.css" />
- <link rel="stylesheet" href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
- <link rel="stylesheet" href="assets/css/table.css" />
- <link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
-<link rel="stylesheet" href="assets/vendors/DataTables/Buttons-1.5.1/css/buttons.dataTables.min.css" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css" />
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet"
+	href="assets/fonts/fontawesome/css/fontawesome-all.css" />
+<link rel="stylesheet" href="assets/fonts/iconic/css/open-iconic.css" />
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet"
+	href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
+<link rel="stylesheet"
+	href="assets/vendors/DataTables/Buttons-1.5.1/css/buttons.dataTables.min.css" />
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
 <!-- <link rel="stylesheet" href="assets/css/bar.css" /> -->
-  <!--end of bootsrap -->
-  <link rel="stylesheet" href="assets/css/toastr.css">
-  
+<!--end of bootsrap -->
+<link rel="stylesheet" href="assets/css/toastr.css">
+
 <script src="assets/js/jquery.min.js"></script>
-  <script type="text/javascript" src="assets/js/toastr.js"></script>
-  
-  <!-- <script src="assets/js/jquery-3.2.1.slim.min.js"></script>-->
+<script type="text/javascript" src="assets/js/toastr.js"></script>
+
+<!-- <script src="assets/js/jquery-3.2.1.slim.min.js"></script>-->
 <script src="assets/js/popper.min.js"></script>
 </head>
 <body>
 
-<div class="modal-notifications">
-<div class="row">
-<div class="col-lg-10 closesection">
-	
+	<div class="modal-notifications">
+		<div class="row">
+			<div class="col-lg-10 closesection"></div>
+			<div class="col-lg-2 col-md-12 notificationpanel">
+				<div id="closeicon" class="cursor-pointer">
+					<i class="fas fa-times-circle"></i>
+				</div>
+				<div class="profilesection col-md-12 mt50">
+					<div class="text-center mb10">
+						<img src="<%=profileimage%>" width="60" height="60"
+							onerror="this.src='images/default-avatar.png'" alt="" />
+					</div>
+					<div class="text-center" style="margin-left: 0px;">
+						<h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+						<p class="text-primary profiletext"><%=email%></p>
+					</div>
+
+				</div>
+				<div id="othersection" class="col-md-12 mt10" style="clear: both">
+					<a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/notifications.jsp"><h6
+							class="text-primary">
+							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
+						</h6> </a> <a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/profile.jsp"><h6
+							class="text-primary">Profile</h6></a> <a
+						class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/logout"><h6
+							class="text-primary">Log Out</h6></a>
+				</div>
+			</div>
+		</div>
 	</div>
-  <div class="col-lg-2 col-md-12 notificationpanel">
-    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
-  <div class="profilesection col-md-12 mt50">
-    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
-    <div class="text-center" style="margin-left:0px;">
-      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
-      <p class="text-primary profiletext"><%=email%></p>
-    </div>
 
-  </div>
-  <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6  class="text-primary">Profile</h6></a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
-  </div>
-  </div>
-</div>
-</div>
-  
- 
-  
-  <nav class="navbar navbar-inverse bg-primary">
-    <div class="container-fluid mt10 mb10">
 
-      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
-      <a class="navbar-brand text-center logohomeothers" href="./">
-  </a>
-      </div>
-      <!-- Mobile Menu -->
-      <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-      </button>
-      </nav>
-      <!-- <div class="navbar-header ">
+
+	<nav class="navbar navbar-inverse bg-primary">
+		<div class="container-fluid mt10 mb10">
+
+			<div
+				class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+				<a class="navbar-brand text-center logohomeothers" href="./"> </a>
+			</div>
+			<!-- Mobile Menu -->
+			<nav
+				class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none"
+				id="menutoggle">
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarToggleExternalContent"
+					aria-controls="navbarToggleExternalContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</nav>
+			<!-- <div class="navbar-header ">
       <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
       </div> -->
-      <!-- Mobile menu  -->
-      <div class="col-lg-6 themainmenu"  align="center">
-        <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
-        </ul>
-      </div>
+			<!-- Mobile menu  -->
+			<div class="col-lg-6 themainmenu" align="center">
+				<ul class="nav main-menu2"
+					style="display: inline-flex; display: -webkit-inline-flex; display: -mozkit-inline-flex;">
+					<li><a class="bold-text"
+						href="<%=request.getContextPath()%>/blogbrowser.jsp"><i
+							class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+					<li><a class="bold-text"
+						href="<%=request.getContextPath()%>/trackerlist.jsp"><i
+							class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
+					<li><a class="bold-text"
+						href="<%=request.getContextPath()%>/favorites.jsp"><i
+							class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
+				</ul>
+			</div>
 
-  <div class="col-lg-3">
-  <ul class="nav navbar-nav" style="display:block;">
-  <li class="dropdown dropdown-user cursor-pointer float-right">
-  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
-    <i class="fas fa-circle" id="notificationcolor"></i>
-  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-  <span class="bold-text"><%=user_name[0]%></span>
-  <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
+			<div class="col-lg-3">
+				<ul class="nav navbar-nav" style="display: block;">
+					<li class="dropdown dropdown-user cursor-pointer float-right">
+						<a class="dropdown-toggle " id="profiletoggle"
+						data-toggle="dropdown"> <i class="fas fa-circle"
+							id="notificationcolor"></i> <img src="<%=profileimage%>"
+							width="50" height="50"
+							onerror="this.src='images/default-avatar.png'" alt="" class="" />
+							<span class="bold-text"><%=user_name[0]%></span> <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
               <li><a href="#"> My profile</a></li>
               <li><a href="#"> Features</a></li>
               <li><a href="#"> Help</a></li>
               <li><a href="#">Logout</a></li>
   </ul> -->
-  </a>
+					</a>
 
-   </li>
-        </ul>
-      </div>
+					</li>
+				</ul>
+			</div>
 
-      </div>
-      <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
-      <div class="collapse" id="navbarToggleExternalContent">
-        <ul class="navbar-nav mr-auto mobile-menu">
-              <li class="nav-item active">
-                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
-              </li>
-            </ul>
-    </div>
-      </div>
-<!-- <div class="profilenavbar" style="visibility:hidden;"></div> -->
-
-
-    </nav>
- 
-
-<div class="container">
-<div class="row">
-<div class="col-md-6 ">
-<nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp"><%=obj.get("tracker_name").toString()%></a>
-  <a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
-  </nav>
-<div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
-</div>
-
-<div class="col-md-6 text-right mt10">
-<div class="text-primary demo"><h6 id="reportrange">Date: <span><%=dispfrom%> - <%=dispto%></span></h6></div>
-<div>
-  <div class="btn-group mt5" data-toggle="buttons">
-  <label class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder"> 
-  		<input type="radio" name="options" value="day" class="option-only" autocomplete="off" > Day
-  	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" class="option-only" name="options" value="week" autocomplete="off" >Week
-  	</label>
-     <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" class="option-only" name="options" value="month" autocomplete="off" > Month
-  	</label>
-    <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" class="option-only" name="options" value="year" autocomplete="off" >
-  	</label>
-    <!-- <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label> -->
-  </div>
-
-</div>
-</div>
-
-</div>
-
-<div class="row p0 pt20 pb20 border-top-bottom mt20 mb20">
-<div class="col-md-2">
-<div class="card nocoloredcard mt10 mb10">
-<div class="card-body p0 pt5 pb5">
-<h5 class="text-primary mb0"><i class="fas fa-file-alt icondash"></i>Blogs</h5>
-<h3 class="text-blue mb0 countdash"><%=totalblog%></h3>
-</div>
-</div>
-</div>
-
-<div class="col-md-2">
-<div class="card nocoloredcard mt10 mb10">
-<div class="card-body p0 pt5 pb5">
-<h5 class="text-primary mb0"><i class="fas fa-user icondash"></i>Bloggers</h5>
-<h3 class="text-blue mb0 countdash"><%=bloggers.length()%></h3>
-</div>
-</div>
-</div>
-
-<div class="col-md-2">
-<div class="card nocoloredcard mt10 mb10">
-<div class="card-body p0 pt5 pb5">
-<h5 class="text-primary mb0"><i class="fas fa-file-alt icondash"></i>Posts</h5>
-<h3 class="text-blue mb0 countdash"><%=totalpost%></h3>
-</div>
-</div>
-</div>
-
-<div class="col-md-2">
-<div class="card nocoloredcard mt10 mb10">
-<div class="card-body p0 pt5 pb5">
-<h5 class="text-primary mb0"><i class="fas fa-comment icondash"></i>Comments</h5>
-<h3 class="text-blue mb0 countdash">16,0000</h3>
-</div>
-</div>
-</div>
+		</div>
+		<div
+			class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
+			<div class="collapse" id="navbarToggleExternalContent">
+				<ul class="navbar-nav mr-auto mobile-menu">
+					<li class="nav-item active"><a class=""
+						href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span
+							class="sr-only">(current)</span></a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a></li>
+				</ul>
+			</div>
+		</div>
+		<!-- <div class="profilenavbar" style="visibility:hidden;"></div> -->
 
 
-<div class="col-md-4">
-  <div class="card nocoloredcard mt10 mb10">
-  <div class="card-body p0 pt5 pb5">
-<h5 class="text-primary mb0"><i class="fas fa-clock icondash"></i>History</h5>
-<h3 class="text-blue mb0 countdash"><%=dispfrom%> - <%=dispto%></h3>
-</div>
-</div>
-</div>
+	</nav>
 
-</div>
 
-<div class="row mb0">
-  <div class="col-md-6 mt20 ">
-    <div class="card card-style mt20">
-      <div class="card-body  p15 pt15 pb15">
-        <div><p class="text-primary mt0 float-left">Most Active Location <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select>of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-        <div style="min-height: 490px;">
-			<div class="map-container map-choropleth"></div>
-        	</div>
-          </div>
-    </div>
-  </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 ">
+				<nav class="breadcrumb">
+					<a class="breadcrumb-item text-primary"
+						href="<%=request.getContextPath()%>/trackerlist.jsp">My	Trackers</a> <a class="breadcrumb-item text-primary"
+						href="<%=request.getContextPath()%>/edittracker.jsp"><%=obj.get("tracker_name").toString()%></a>
+					<a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
+				</nav>
+				<div>
+					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
+						AS PDF</button>
+				</div>
+			</div>
 
-  <div class="col-md-6 mt20">
-    <div class="card  card-style  mt20">
-      <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10 float-left">Language Usage of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-        <div class="min-height-table" style="min-height: 500px;">
-        <div class="chart-container">
-        <div class="chart" id="languageusage">
-                      </div>
-        </div>
-      </div>
-          </div>
-    </div>
-  </div>
-</div>
+			<div class="col-md-6 text-right mt10">
+				<div class="text-primary demo">
+					<h6 id="reportrange">
+						Date: <span><%=dispfrom%> - <%=dispto%></span>
+					</h6>
+				</div>
+				<div>
+					<div class="btn-group mt5" data-toggle="buttons">
+						<label
+							class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder">
+							<input type="radio" name="options" value="day"
+							class="option-only" autocomplete="off"> Day
+						</label> <label class="btn btn-primary btn-sm nobgnoborder"> <input
+							type="radio" class="option-only" name="options" value="week"
+							autocomplete="off">Week
+						</label> <label class="btn btn-primary btn-sm nobgnoborder"> <input
+							type="radio" class="option-only" name="options" value="month"
+							autocomplete="off"> Month
+						</label> <label class="btn btn-primary btn-sm text-center nobgnoborder">Year
+							<input type="radio" class="option-only" name="options"
+							value="year" autocomplete="off">
+						</label>
+						<!-- <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label> -->
+					</div>
 
-<div class="row mb0">
-  <div class="col-md-12 mt20">
-  
-   <div class="card  card-style  mt20">
-      <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10 float-left">Posting Frequency of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-        <div class="min-height-table" style="min-height: 300px;">
-        <div class="chart-container">
-         <div class="chart" id="postingfrequency">
-                      </div>
-        </div>
-      </div>
-          </div>
-    </div>
-  
+				</div>
+			</div>
 
-</div>
-</div>
+		</div>
 
-<div class="row mb0">
-  <div class="col-md-6 mt20 ">
-    <div class="card card-style mt20">
-      <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Top Keywords of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-        <div class="tagcloudcontainer" style="min-height: 420px;">
+		<div class="row p0 pt20 pb20 border-top-bottom mt20 mb20">
+			<div class="col-md-2">
+				<div class="card nocoloredcard mt10 mb10">
+					<div class="card-body p0 pt5 pb5">
+						<h5 class="text-primary mb0">
+							<i class="fas fa-file-alt icondash"></i>Blogs
+						</h5>
+						<h3 class="text-blue mb0 countdash"><%=totalblog%></h3>
+					</div>
+				</div>
+			</div>
 
-        </div>
-          </div>
-    </div>
-    <div class="float-right"><a href="keywordtrend.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Keyword Trend Analysis </b> <b class="fas fa-search float-right icondash2"></b></button></a></div>
-  </div>
+			<div class="col-md-2">
+				<div class="card nocoloredcard mt10 mb10">
+					<div class="card-body p0 pt5 pb5">
+						<h5 class="text-primary mb0">
+							<i class="fas fa-user icondash"></i>Bloggers
+						</h5>
+						<h3 class="text-blue mb0 countdash"><%=bloggers.length()%></h3>
+					</div>
+				</div>
+			</div>
 
-  <div class="col-md-6 mt20">
-    <div class="card card-style mt20">
-      <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Sentiment Usage of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-        <div style="min-height: 420px;">
-          <div class="chart-container">
-            <div class="chart" id="sentimentbar"></div>
-          </div>
-        </div>
-          </div>
-    </div>
-    <div class="float-right"><a href="sentiment.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-adjust float-right icondash2"></b></button></a></div>
-  </div>
-</div>
+			<div class="col-md-2">
+				<div class="card nocoloredcard mt10 mb10">
+					<div class="card-body p0 pt5 pb5">
+						<h5 class="text-primary mb0">
+							<i class="fas fa-file-alt icondash"></i>Posts
+						</h5>
+						<h3 class="text-blue mb0 countdash"><%=totalpost%></h3>
+					</div>
+				</div>
+			</div>
 
-<div class="row mb0">
-  <div class="col-md-6 mt20">
-    <div class="card card-style mt20">
-      <div class="card-body   p30 pt5 pb5">
-        <div><p class="text-primary mt10 float-left">Blog Distribution of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-        <div class="min-height-table" style="min-height: 500px;">
-        <div class="chart-container">
-        <div class="chart" id="bubblesblog">
-                      </div>
-        </div>
-      </div>
-          </div>
-    </div>
-    <div class="float-right"><a href="blogportfolio.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blog Portfolio Analysis</b> <b class="fas fa-file-alt float-right icondash2"></b></button></a></div>
+			<div class="col-md-2">
+				<div class="card nocoloredcard mt10 mb10">
+					<div class="card-body p0 pt5 pb5">
+						<h5 class="text-primary mb0">
+							<i class="fas fa-comment icondash"></i>Comments
+						</h5>
+						<h3 class="text-blue mb0 countdash">16,0000</h3>
+					</div>
+				</div>
+			</div>
 
-  </div>
 
-  <div class="col-md-6 mt20">
-    <div class="card card-style mt20">
-      <div class="card-body p30 pt5 pb5">
-          <div><p class="text-primary mt10 float-left">Blogger Distribution of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-        <div class="min-height-table" style="min-height: 450px;">
-        <div class="chart-container">
-        <div class="chart" id="bubblesblogger">
-                      </div>
-        </div>
-      </div>
-          </div>
-    </div>
-    <div class="float-right"><a href="bloggerportfolio.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Blogger Portfolio Analysis </b> <b class="fas fa-user float-right icondash2"></b></button></a></div>
+			<div class="col-md-4">
+				<div class="card nocoloredcard mt10 mb10">
+					<div class="card-body p0 pt5 pb5">
+						<h5 class="text-primary mb0">
+							<i class="fas fa-clock icondash"></i>History
+						</h5>
+						<h3 class="text-blue mb0 countdash"><%=dispfrom%>
+							-
+							<%=dispto%></h3>
+					</div>
+				</div>
+			</div>
 
-  </div>
+		</div>
 
-</div>
+		<div class="row mb0">
+			<div class="col-md-6 mt20 ">
+				<div class="card card-style mt20">
+					<div class="card-body  p15 pt15 pb15">
+						<div>
+							<p class="text-primary mt0 float-left">
+								Most Active Location <select
+									class="text-primary filtersort sortbyblogblogger"><option
+										value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option></select>of Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
+							</p>
+						</div>
+						<div style="min-height: 490px;">
+							<div class="map-container map-choropleth"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-<div class="row mb0">
-  <div class="col-md-6 mt20">
-    <div class="card card-style mt20">
-      <div class="card-body   p30 pt5 pb5">
-        <div><p class="text-primary mt10 float-left">Most Active <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-        <div class="min-height-table" style="min-height: 500px;">
-        <div class="chart-container">
-        <div class="chart" id="postingfrequencybar">
-                      </div>
-        </div>
-      </div>
-          </div>
-    </div>
-    <div class="float-right"><a href="postingfrequency.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Posting Frequency Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b></button></a></div>
+			<div class="col-md-6 mt20">
+				<div class="card  card-style  mt20">
+					<div class="card-body  p30 pt5 pb5">
+						<div>
+							<p class="text-primary mt10 float-left">
+								Language Usage of <select
+									class="text-primary filtersort sortbyblogblogger"><option
+										value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option></select> of Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
+							</p>
+						</div>
+						<div class="min-height-table" style="min-height: 500px;">
+							<div class="chart-container">
+								<div class="chart" id="languageusage"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-  </div>
+		<div class="row mb0">
+			<div class="col-md-12 mt20">
 
-  <div class="col-md-6 mt20">
-    <div class="card card-style mt20">
-      <div class="card-body p30 pt5 pb5">
-        <div><p class="text-primary mt10 float-left">Most Influential <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-        <div class="min-height-table" style="min-height: 500px;">
-        <div class="chart-container">
-        <div class="chart" id="influencebar">
-                      </div>
-        </div>
-      </div>
-          </div>
-    </div>
-    <div class="float-right"><a href="sentiment.jsp"><button class="btn buttonportfolio2 mt10"><b class="float-left semi-bold-text">Sentiment Analysis </b> <b class="fas fa-exchange-alt float-right icondash2"></b></button></a></div>
+				<div class="card  card-style  mt20">
+					<div class="card-body  p30 pt5 pb5">
+						<div>
+							<p class="text-primary mt10 float-left">
+								Posting Frequency of Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
+							</p>
+						</div>
+						<div class="min-height-table" style="min-height: 300px;">
+							<div class="chart-container">
+								<div class="chart" id="postingfrequency"></div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-  </div>
 
-</div>
+			</div>
+		</div>
 
-<div class="row mb50">
-  <div class="col-md-12 mt20 ">
-    <div class="card card-style mt20">
-      <div class="card-body  p5 pt10 pb10">
+		<div class="row mb0">
+			<div class="col-md-6 mt20 ">
+				<div class="card card-style mt20">
+					<div class="card-body  p30 pt5 pb5">
+						<div>
+							<p class="text-primary mt10">
+								Top Keywords of <select
+									class="text-primary filtersort sortbyblogblogger"><option
+										value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option></select> of Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
+							</p>
+						</div>
+						<div class="tagcloudcontainer" style="min-height: 420px;"></div>
+					</div>
+				</div>
+				<div class="float-right">
+					<a href="keywordtrend.jsp"><button
+							class="btn buttonportfolio2 mt10">
+							<b class="float-left semi-bold-text">Keyword Trend Analysis </b>
+							<b class="fas fa-search float-right icondash2"></b>
+						</button></a>
+				</div>
+			</div>
 
-        <div style="min-height: 420px;">
-          <div><p class="text-primary p15 pb5 pt0">List of Top Domains of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-        <!--   <div class="p15 pb5 pt0" role="group">
+			<div class="col-md-6 mt20">
+				<div class="card card-style mt20">
+					<div class="card-body  p30 pt5 pb5">
+						<div>
+							<p class="text-primary mt10">
+								Sentiment Usage of <select
+									class="text-primary filtersort sortbyblogblogger"><option
+										value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option></select> of Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
+							</p>
+						</div>
+						<div style="min-height: 420px;">
+							<div class="chart-container">
+								<div class="chart" id="sentimentbar"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="float-right">
+					<a
+						href="<%=request.getContextPath()%>/sentiment.jsp?tid=<%=obj.get("tid").toString()%>"><button
+							class="btn buttonportfolio2 mt10">
+							<b class="float-left semi-bold-text">Sentiment Analysis </b> <b
+								class="fas fa-adjust float-right icondash2"></b>
+						</button></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mb0">
+			<div class="col-md-6 mt20">
+				<div class="card card-style mt20">
+					<div class="card-body   p30 pt5 pb5">
+						<div>
+							<p class="text-primary mt10 float-left">
+								Blog Distribution of Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
+							</p>
+						</div>
+						<div class="min-height-table" style="min-height: 500px;">
+							<div class="chart-container">
+								<div class="chart" id="bubblesblog"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="float-right">
+					<a href="blogportfolio.jsp"><button
+							class="btn buttonportfolio2 mt10">
+							<b class="float-left semi-bold-text">Blog Portfolio Analysis</b>
+							<b class="fas fa-file-alt float-right icondash2"></b>
+						</button></a>
+				</div>
+
+			</div>
+
+			<div class="col-md-6 mt20">
+				<div class="card card-style mt20">
+					<div class="card-body p30 pt5 pb5">
+						<div>
+							<p class="text-primary mt10 float-left">
+								Blogger Distribution of Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
+							</p>
+						</div>
+						<div class="min-height-table" style="min-height: 450px;">
+							<div class="chart-container">
+								<div class="chart" id="bubblesblogger"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="float-right">
+					<a href="bloggerportfolio.jsp"><button
+							class="btn buttonportfolio2 mt10">
+							<b class="float-left semi-bold-text">Blogger Portfolio
+								Analysis </b> <b class="fas fa-user float-right icondash2"></b>
+						</button></a>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="row mb0">
+			<div class="col-md-6 mt20">
+				<div class="card card-style mt20">
+					<div class="card-body   p30 pt5 pb5">
+						<div>
+							<p class="text-primary mt10 float-left">
+								Most Active <select
+									class="text-primary filtersort sortbyblogblogger"><option
+										value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option></select> of Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
+							</p>
+						</div>
+						<div class="min-height-table" style="min-height: 500px;">
+							<div class="chart-container">
+								<div class="chart" id="postingfrequencybar"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="float-right">
+					<a href="postingfrequency.jsp"><button
+							class="btn buttonportfolio2 mt10">
+							<b class="float-left semi-bold-text">Posting Frequency
+								Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b>
+						</button></a>
+				</div>
+
+			</div>
+
+			<div class="col-md-6 mt20">
+				<div class="card card-style mt20">
+					<div class="card-body p30 pt5 pb5">
+						<div>
+							<p class="text-primary mt10 float-left">
+								Most Influential <select
+									class="text-primary filtersort sortbyblogblogger"><option
+										value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option></select> of Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
+							</p>
+						</div>
+						<div class="min-height-table" style="min-height: 500px;">
+							<div class="chart-container">
+								<div class="chart" id="influencebar"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="float-right">
+					<a href="sentiment.jsp"><button
+							class="btn buttonportfolio2 mt10">
+							<b class="float-left semi-bold-text">Sentiment Analysis </b> <b
+								class="fas fa-exchange-alt float-right icondash2"></b>
+						</button></a>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="row mb50">
+			<div class="col-md-12 mt20 ">
+				<div class="card card-style mt20">
+					<div class="card-body  p5 pt10 pb10">
+
+						<div style="min-height: 420px;">
+							<div>
+								<p class="text-primary p15 pb5 pt0">
+									List of Top Domains of <select
+										class="text-primary filtersort sortbyblogblogger"><option
+											value="blogs">Blogs</option>
+										<option value="bloggers">Bloggers</option></select> of Past <select
+										class="text-primary filtersort sortbytimerange"><option
+											value="week">Week</option>
+										<option value="month">Month</option>
+										<option value="year">Year</option></select>
+								</p>
+							</div>
+							<!--   <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-                <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Domain</th>
-                                <th>Frequency</th>
+							<table id="DataTables_Table_0_wrapper" class="display"
+								style="width: 100%">
+								<thead>
+									<tr>
+										<th>Domain</th>
+										<th>Frequency</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <% if(bloggers.length()>0){
-							//System.out.println(bloggers);
-							for(int y=0; y<bloggers.length(); y++){
-								String key = looper.get(y).toString();
-								 JSONObject resu = bloggers.getJSONObject(key);
-						%>
-						<tr>
-                              <td class=""><%=resu.get("blogsite_domain")%></td>
-                              <td><%=resu.get("value")%></td>
-                        </tr>
-						<% }} %>
-                          
-                         </tbody>
-                    </table>
-        </div>
-          </div>
-    </div>
-  </div>
+									</tr>
+								</thead>
+								<tbody>
+									<%
+										if (bloggers.length() > 0) {
+													//System.out.println(bloggers);
+													for (int y = 0; y < bloggers.length(); y++) {
+														String key = looper.get(y).toString();
+														JSONObject resu = bloggers.getJSONObject(key);
+									%>
+									<tr>
+										<td class=""><%=resu.get("blogsite_domain")%></td>
+										<td><%=resu.get("value")%></td>
+									</tr>
+									<%
+										}
+}
+									%>
 
- <%-- <%--  <div class="col-md-6 mt20">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<%-- <%--  <div class="col-md-6 mt20">
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
         <div class="min-height-table"style="min-height: 420px;">
@@ -727,52 +903,59 @@ int totalblog = blogs.size();
         </div>
           </div>
     </div>
-  </div> --%> 
-</div>
+  </div> --%>
+		</div>
 
 
 
-</div>
+	</div>
 
-<form action="" name="customformsingle" id="customformsingle" method="post">
-<input type="hidden" name="tid" value="<%=tid%>" />
+	<form action="" name="customformsingle" id="customformsingle"
+		method="post">
+		<input type="hidden" name="tid" value="<%=tid%>" /> <input
+			type="hidden" name="single_date" id="single_date" value="" />
+	</form>
 
-<input type="hidden" name="single_date" id="single_date" value="" />
-</form>
+	<form action="" name="customform" id="customform" method="post">
+		<input type="hidden" name="tid" value="<%=tid%>" /> <input
+			type="hidden" name="date_start" id="date_start" value="" /> <input
+			type="hidden" name="date_end" id="date_end" value="" />
+	</form>
 
-<form action="" name="customform" id="customform" method="post">
-<input type="hidden" name="tid" value="<%=tid%>" />
-<input type="hidden" name="date_start" id="date_start" value="" />
-<input type="hidden" name="date_end" id="date_end" value="" />
-</form>
-
-<!-- <footer class="footer">
+	<!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
 <p class="text-center text-medium pt10 pb10 mb0">Copyright &copy; Blogtrackers 2017 All Rights Reserved.</p>
 </div>
   </footer> -->
 
 
- <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
-<script src="assets/bootstrap/js/bootstrap.js">
+	<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.js">
 </script>
-<script src="assets/js/generic.js">
+	<script src="assets/js/generic.js">
 </script>
-<!-- date range scripts -->
-<script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
-<script src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-<!--End of date range scripts  -->
-<!-- Start for tables  -->
-<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
-<script type="text/javascript" src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
-<script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
-<script src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
-<script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
-<script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
-<script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
-<script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
+	<!-- date range scripts -->
+	<script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
+	<script
+		src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<!--End of date range scripts  -->
+	<!-- Start for tables  -->
+	<script type="text/javascript"
+		src="assets/vendors/DataTables/datatables.min.js"></script>
+	<script type="text/javascript"
+		src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
+	<script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
+	<script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
-<script>
+	<script>
 $(document).ready(function() {
 	
   // datatable setup
@@ -820,8 +1003,8 @@ $(document).ready(function() {
 } );
 
 </script>
-<!--end for table  -->
-<script>
+	<!--end for table  -->
+	<script>
 $(document).ready(function() {
 	
 	 $('#printdoc').on('click',function(){
@@ -961,12 +1144,12 @@ $(document).ready(function() {
   //$('#config-demo').daterangepicker(options, function(start, end, label) { console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); });
 });
 </script>
-<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
-<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
- <script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
-<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
-<!--start of language bar chart  -->
-<script>
+	<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
+	<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
+	<script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
+	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
+	<!--start of language bar chart  -->
+	<script>
 $(function () {
 
     // Initialize chart
@@ -1044,14 +1227,12 @@ $(function () {
       //
       //
       data = [
-    	  <% 
-    	  if(langlooper.size()>0){			
-    			for(int y=0; y<langlooper.size(); y++){
-    				String key = langlooper.get(y).toString();
-    			 	
-    		%>
+    	  <%if (langlooper.size() > 0) {
+						for (int y = 0; y < langlooper.size(); y++) {
+							String key = langlooper.get(y).toString();%>
     		{letter:"<%=key%>", frequency:<%=language.get(key)%>},
-    		<% }} %>
+    		<%}
+					}%>
 
 	 ];
       /*
@@ -1221,10 +1402,10 @@ $(function () {
 });
 </script>
 
-<!-- End of language bar chart  -->
+	<!-- End of language bar chart  -->
 
-<!-- start of influence bar chart  -->
-<script>
+	<!-- start of influence bar chart  -->
+	<script>
 $(function () {
 
     // Initialize chart
@@ -1302,20 +1483,21 @@ $(function () {
       //
       //
       data = [
-    	  <% if(bloggers.length()>0){
-				//System.out.println(bloggers);
-				int q=0;
-				for(int y=0; y<bloggers.length(); y++){
-					String key = looper.get(y).toString();
-					 JSONObject resu = bloggers.getJSONObject(key);
-					 String id = resu.get("id").toString();
-					
-					 int size = Integer.parseInt(resu.get("totalposts").toString());
-					 if(sentimentblog.has(id) && q<10){
-						 q++;
-			%>
+    	  <%if (bloggers.length() > 0) {
+						//System.out.println(bloggers);
+						int q = 0;
+						for (int y = 0; y < bloggers.length(); y++) {
+							String key = looper.get(y).toString();
+							JSONObject resu = bloggers.getJSONObject(key);
+							String id = resu.get("id").toString();
+
+							int size = Integer.parseInt(resu.get("totalposts").toString());
+							if (sentimentblog.has(id) && q < 10) {
+								q++;%>
 			{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-			 <% }}} %>
+			 <%}
+						}
+					}%>
             //{letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},
             
         ];
@@ -1485,10 +1667,10 @@ $(function () {
 });
 </script>
 
-<!--  End of influence bar -->
+	<!--  End of influence bar -->
 
-<!-- start of posting frequency  -->
-<script>
+	<!-- start of posting frequency  -->
+	<script>
 $(function () {
 
     // Initialize chart
@@ -1566,18 +1748,19 @@ $(function () {
       //
       //
       data = [
-    		 <% if(bloggers.length()>0){
-    			 int p=0;
-    				//System.out.println(bloggers);
-    				for(int y=0; y<bloggers.length(); y++){
-    					String key = looper.get(y).toString();
-    					 JSONObject resu = bloggers.getJSONObject(key);
-    					 int size = Integer.parseInt(resu.get("postingfreq").toString());
-    					 if(size>200 && p<10){
-    						 p++;
-    			%>
+    		 <%if (bloggers.length() > 0) {
+						int p = 0;
+						//System.out.println(bloggers);
+						for (int y = 0; y < bloggers.length(); y++) {
+							String key = looper.get(y).toString();
+							JSONObject resu = bloggers.getJSONObject(key);
+							int size = Integer.parseInt(resu.get("postingfreq").toString());
+							if (size > 200 && p < 10) {
+								p++;%>
     			{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-    			 <% }}} %>
+    			 <%}
+						}
+					}%>
             //{letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},
             
         ];
@@ -1747,9 +1930,9 @@ $(function () {
     }
 });
 </script>
-<!-- end of posting frequency  -->
-<!--  Start of sentiment Bar Chart -->
-<script>
+	<!-- end of posting frequency  -->
+	<!--  Start of sentiment Bar Chart -->
+	<script>
 $(function () {
 
     // Initialize chart
@@ -1981,7 +2164,7 @@ $(function () {
 });
 </script>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 // map data
 var gdpData = {
   "AF": 16.63,
@@ -2169,40 +2352,36 @@ var gdpData = {
   "ZW": 5.57
 };
 
-<%
-JSONObject location = new JSONObject();
-location.put("null", "0, 0");
-location.put("Vatican City", "41.90, 12.45");
-location.put("Monaco", "43.73, 7.41");
-location.put("Salt Lake City", "40.726, -111.778");
-location.put("Kansas City", "39.092, -94.575");
-location.put("US", "37.0902, 95.7129");
-location.put("DE", "38.9108, 75.5277");
-location.put("LT", "55.1694, 23.8813");
-location.put("GB", "55.3781, 3.4360");
-location.put("NL", "53.1355, 57.6604");
-location.put("VE", "14.0583, 108.2772");
-location.put("LV", "56.8796, 24.6032");
-%>
+<%JSONObject location = new JSONObject();
+					location.put("null", "0, 0");
+					location.put("Vatican City", "41.90, 12.45");
+					location.put("Monaco", "43.73, 7.41");
+					location.put("Salt Lake City", "40.726, -111.778");
+					location.put("Kansas City", "39.092, -94.575");
+					location.put("US", "37.0902, 95.7129");
+					location.put("DE", "38.9108, 75.5277");
+					location.put("LT", "55.1694, 23.8813");
+					location.put("GB", "55.3781, 3.4360");
+					location.put("NL", "53.1355, 57.6604");
+					location.put("VE", "14.0583, 108.2772");
+					location.put("LV", "56.8796, 24.6032");%>
 // map marker location by longitude and latitude
 var mymarker = [
-	<% if( blogs.size()>0){
-			String bres = null;
-			JSONObject bresp = null;
-			String bresu =null;
-			JSONObject bobj =null;
-		 for(int k=0; k< blogs.size(); k++){
-			 bres = blogs.get(k).toString();			
-			 bresp = new JSONObject(bres);
-			 bresu = bresp.get("_source").toString();
-			 bobj = new JSONObject(bresu);
-			 if(location.has(bobj.get("location").toString())){
-			%>
+	<%if (blogs.size() > 0) {
+						String bres = null;
+						JSONObject bresp = null;
+						String bresu = null;
+						JSONObject bobj = null;
+						for (int k = 0; k < blogs.size(); k++) {
+							bres = blogs.get(k).toString();
+							bresp = new JSONObject(bres);
+							bresu = bresp.get("_source").toString();
+							bobj = new JSONObject(bresu);
+							if (location.has(bobj.get("location").toString())) {%>
 	 		{latLng: [<%=location.get(bobj.get("location").toString())%>], name: '<%=bobj.get("location").toString()%>'},
-			<%
-			 }
-		 }
-	 } %>
+			<%}
+						}
+					}%>
     {latLng: [<%=location.get("Vatican City")%>], name: 'Vatican City'},
     
     
@@ -2266,24 +2445,29 @@ var mymarker = [
     */
 ]
   </script>
-<script type="text/javascript" src="assets/vendors/maps/jvectormap/jvectormap.min.js"></script>
-<script type="text/javascript" src="assets/vendors/maps/jvectormap/map_files/world.js"></script>
-<script type="text/javascript" src="assets/vendors/maps/jvectormap/map_files/countries/usa.js"></script>
-<script type="text/javascript" src="assets/vendors/maps/jvectormap/map_files/countries/germany.js"></script>
-<script type="text/javascript" src="assets/vendors/maps/vector_maps_demo.js"></script>
+	<script type="text/javascript"
+		src="assets/vendors/maps/jvectormap/jvectormap.min.js"></script>
+	<script type="text/javascript"
+		src="assets/vendors/maps/jvectormap/map_files/world.js"></script>
+	<script type="text/javascript"
+		src="assets/vendors/maps/jvectormap/map_files/countries/usa.js"></script>
+	<script type="text/javascript"
+		src="assets/vendors/maps/jvectormap/map_files/countries/germany.js"></script>
+	<script type="text/javascript"
+		src="assets/vendors/maps/vector_maps_demo.js"></script>
 
-<!--word cloud  -->
- <script>
+	<!--word cloud  -->
+	<script>
 
      var frequency_list = [
-    	 <% if(topterms.length()>0){
-    		 for (int i = 0; i < topterms.length(); i++) {
-    		        JSONObject jsonObj = topterms.getJSONObject(i);
-    		        int size = Integer.parseInt(jsonObj.getString("frequency"))*10;
-    		        System.out.println("Info"+ "Key: " + jsonObj.getString("key") + ", value: " + size);			
-    		%>
+    	 <%if (topterms.length() > 0) {
+						for (int i = 0; i < topterms.length(); i++) {
+							JSONObject jsonObj = topterms.getJSONObject(i);
+							int size = Integer.parseInt(jsonObj.getString("frequency")) * 10;
+							System.out.println("Info" + "Key: " + jsonObj.getString("key") + ", value: " + size);%>
     		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
-    	 <% } }%>
+    	 <%}
+					}%>
     	
     	/*	
     	 
@@ -2366,8 +2550,8 @@ var mymarker = [
      }
  </script>
 
-<!-- Blogger Bubble Chart -->
-<script>
+	<!-- Blogger Bubble Chart -->
+	<script>
 
 
 $(function () {
@@ -2452,18 +2636,19 @@ $(function () {
 data = {
  "name":"flare",
  "bloggers":[
-	<% if(bloggers.length()>0){
-		//System.out.println(bloggers);
-		int k=0;
-		for(int y=0; y<bloggers.length(); y++){
-			String key = looper.get(y).toString();
-			 JSONObject resu = bloggers.getJSONObject(key);
-			 int size = Integer.parseInt(resu.get("value").toString());
-			 if(size>0 && k<15){
-				 k++;
-	%>
+	<%if (bloggers.length() > 0) {
+						//System.out.println(bloggers);
+						int k = 0;
+						for (int y = 0; y < bloggers.length(); y++) {
+							String key = looper.get(y).toString();
+							JSONObject resu = bloggers.getJSONObject(key);
+							int size = Integer.parseInt(resu.get("value").toString());
+							if (size > 0 && k < 15) {
+								k++;%>
 	{"label":"<%=resu.get("blogger")%>","name":"<%=resu.get("blogger")%>", "size":<%=resu.get("value")%>},
-	 <% }} }%>
+	 <%}
+						}
+					}%>
  /* {"label":"Blogger 2","name":"Obadimu Adewale", "size":2500},
  {"label":"Blogger 3","name":"Oluwaseun Walter", "size":2800},
  {"label":"Blogger 4","name":"Kiran Bandeli", "size":900},
@@ -2534,7 +2719,7 @@ data = {
     }
 });
 </script>
-<script>
+	<script>
 
 
     var color = d3.scale.linear()
@@ -2542,11 +2727,11 @@ data = {
             .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
 
 </script>
-<!-- end of blogger bubble chart -->
+	<!-- end of blogger bubble chart -->
 
 
-<!-- Blog Bubble Chart -->
-<script>
+	<!-- Blog Bubble Chart -->
+	<script>
 
 
 $(function () {
@@ -2631,19 +2816,20 @@ $(function () {
 data = {
  "name":"flare",
  "bloggers":[
-	 <% if(bloggers.length()>0){
-		 int k=0;
-			//System.out.println(bloggers);
-			for(int y=0; y<bloggers.length(); y++){
-				
-				String key = looper.get(y).toString();
-				 JSONObject resu = bloggers.getJSONObject(key);
-				 int size = Integer.parseInt(resu.get("value").toString());
-				 if(size>0 && k<15){
-					 k++;
-		%>
+	 <%if (bloggers.length() > 0) {
+						int k = 0;
+						//System.out.println(bloggers);
+						for (int y = 0; y < bloggers.length(); y++) {
+
+							String key = looper.get(y).toString();
+							JSONObject resu = bloggers.getJSONObject(key);
+							int size = Integer.parseInt(resu.get("value").toString());
+							if (size > 0 && k < 15) {
+								k++;%>
 		{"label":"<%=resu.get("blog")%>","name":"<%=resu.get("blogger")%>", "size":<%=resu.get("value")%>},
-		 <% }}} %>
+		 <%}
+						}
+					}%>
  ]
 }
 
@@ -2703,7 +2889,7 @@ data = {
     }
 });
 </script>
-<script>
+	<script>
 
 
     var color = d3.scale.linear()
@@ -2713,7 +2899,7 @@ data = {
     
   
 </script>
-<script>
+	<script>
 $(".option-only").on("change",function(e){
 	console.log("only changed ");
 	var valu =  $(this).val();
@@ -2734,10 +2920,10 @@ $(".option-lable").on("click",function(e){
 	//$('form#customformsingle').submit();
 });
 </script>
-<!-- End of blog bubble chart -->
+	<!-- End of blog bubble chart -->
 
-<!-- posting frequency -->
- <script>
+	<!-- posting frequency -->
+	<script>
 
  $(function () {
 
@@ -3242,8 +3428,8 @@ $(".option-lable").on("click",function(e){
  });
  </script>
 
-<!--word cloud  -->
- <script>
+	<!--word cloud  -->
+	<script>
      var color = d3.scale.linear()
              .domain([0,1,2,3,4,5,6,10,15,20,80])
              .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
