@@ -71,6 +71,7 @@ public JSONObject getMyTrackedBlogs(String userid) throws Exception{
 	String resu = null;
 	JSONObject obj = null;	
 	ArrayList result = this._list("DESC","", userid,"100");
+	
 	JSONObject content = new JSONObject();
 	if(result.size()>0) {
 		for(int i=0; i< result.size(); i++){
@@ -118,7 +119,7 @@ public ArrayList _search(String term,String from) throws Exception {
 	 		"}");
 	
 	 
-    String url = base_url+"_search?size=10";
+    String url = base_url+"_search?size=100";
     if(!from.equals("")) {
     	jsonObj = new JSONObject("{\r\n" + 
     			"  \"query\": {\r\n" + 
@@ -162,7 +163,7 @@ public String getTotalTrack(String blogsite_id) throws Exception {
 	 		"}");
 	
 	 
-    String url = base_url+"_search?size=10";
+    String url = base_url+"_search?size=100";
     
     
     return this._getTotal(url, jsonObj);
@@ -211,8 +212,6 @@ public String _add(String userid, JSONObject params) throws Exception {
 	 int tidd = Integer.parseInt(next)+1;
 	 
 	 
-	 System.out.println(tidd);
-	 
 	 //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
 	 //LocalDateTime now = LocalDateTime.now();  
 	 //System.out.println(dtf.format(now));  
@@ -226,14 +225,14 @@ public String _add(String userid, JSONObject params) throws Exception {
 	 param.put("tid", tidd);
 	 //param.put("date_modified",dtf.format(now));
 	 //param.put("date_created",dtf.format(now)+"T06:00:00.000Z");
-	 System.out.println(param);
+
 	 
 	 //System.out.println(param);
 	//JSONObject jsonObj = new JSONObject("{\"userid\":\"wizzletest\",\"query\":\"blogsite_id in (46,62,47,49,66,52,53,65,63,54)\",\"tracker_name\":\"Wizzle\",\"description\":\"Best blogs ever\",\"blogsites_num\":10}");	 
 	 String output = "false";
 	 String url = base_url+"trackers";	 
 	 JSONObject myResponse = this._runUpdate(url, param);
-	  System.out.println(myResponse);
+	 
 	  if(null==myResponse.get("result")) {
 		   	  output = "false";
 	   }else {
@@ -245,7 +244,6 @@ public String _add(String userid, JSONObject params) throws Exception {
 			   output = "false";
 		   }
 	   } 
-	  System.out.println(output);
 	  return output;
 }
 
@@ -256,7 +254,7 @@ public String _delete(String trackerid) throws Exception {
 	
 	
 	ArrayList<?> detail = this._fetch(trackerid);
-	 System.out.println(detail);
+	
 	 if(detail.size()>0){		
 			String res = detail.get(0).toString();		
 			JSONObject resp = new JSONObject(res);
@@ -301,7 +299,6 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 			 //System.out.println("Bid"+);
 			 
 			 if(blogs.length>0) {
-				 System.out.println("Bid"+blogs[0]);
 			    	String bid = blogs[0].trim();
 			    	for(int b=0; b<blogs2.length; b++) {
 			    		String b2id = blogs2[b].trim();
@@ -406,7 +403,6 @@ public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 	        } 
 	     }
      }
-     
      return list;
 }
 
@@ -414,7 +410,6 @@ public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 /* Update tracker*/
 public JSONObject _runUpdate(String url, JSONObject jsonObj) throws Exception {
 	URL obj = new URL(url);
-	System.out.println(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
     
 

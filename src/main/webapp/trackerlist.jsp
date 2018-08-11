@@ -30,6 +30,7 @@
 				phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
 				String userpic = userinfo.get(9).toString();
 				String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
+				String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
 				String filename = userinfo.get(9).toString();
 				profileimage = "images/default-avatar.png";
 				if (userpic.indexOf("http") > -1) {
@@ -219,9 +220,11 @@
 		</div>
 
 		<div class="col-md-12 mt0">
-			<input type="search"
+		<form method="search" method="post" autocomplete="off" action="<%=request.getContextPath()%>/trackerlist.jsp">
+			<input type="search" name="term"
 				class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground"
 				placeholder="Search Trackers" />
+				</form>
 		</div>
 
 	</nav>

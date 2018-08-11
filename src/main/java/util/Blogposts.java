@@ -18,7 +18,7 @@ String base_url = "http://144.167.115.218:9200/blogposts/";
 String totalpost;		    
 	   
 public ArrayList _list(String order, String from, String sortby) throws Exception {
-	int size = 10;
+	int size = 100;
 	 int fr = 0;
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 		 		"    \"query\": {\r\n" + 
@@ -59,7 +59,7 @@ public String _getTotal() {
 	
 public ArrayList _search(String term,String from,String sortby) throws Exception {
 	 
-	 int size = 10;
+	 int size = 100;
 	 int fr = 0;
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
@@ -123,7 +123,7 @@ public ArrayList _search(String term,String from,String sortby) throws Exception
 
 /* Fetch posts by blog ids*/
 public String _getTotalByBlogId(String blog_ids,String from) throws Exception {
-	 String url = base_url+"_search?size=10";
+	 String url = base_url+"_search?size=100";
 	 String[] args = blog_ids.split(","); 
 	 JSONArray pars = new JSONArray(); 
 	 ArrayList<String> ar = new ArrayList<String>();	
@@ -261,7 +261,7 @@ public String _searchRangeTotal(String field,String greater, String less, String
 		 		"}");
 		 
 		 
-	   String url = base_url+"_search?size=50";
+	   String url = base_url+"_search?size=100";
 	   return this._getResult(url, jsonObj);
 	   
 	}
