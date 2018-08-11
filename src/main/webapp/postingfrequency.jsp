@@ -60,7 +60,7 @@ if(f.exists() && !f.isDirectory()) {
 }catch(Exception e){}
 
 
-}
+
 
 ArrayList detail =new ArrayList();
 if(tid!=""){
@@ -280,6 +280,8 @@ if(!ids.equals("")){
     <div class="scrolly" style="height:270px; padding-right:10px !important;">
     <%
     JSONObject authors = new JSONObject();
+    JSONObject years = new JSONObject();
+    
 	if(allauthors.size()>0){
 		String tres = null;
 		JSONObject tresp = null;
@@ -292,12 +294,16 @@ if(!ids.equals("")){
 			    tresu = tresp.get("_source").toString();
 			    tobj = new JSONObject(tresu);
 			    String auth = tobj.get("blogger").toString();
+			    String[] dateyear=tobj.get("date").toString().split("-");
+			    String yy= dateyear[0];
+			    
+			    
 			    if(!authors.has(auth)){
 			    	authors.put(auth,auth);
 			    
 	%>
 
-    <a class="btn btn-primary form-control stylebuttonactive mb20 activebar"><b><%=tobj.get("blogsite_authors")%></b></a>
+    <a class="btn btn-primary form-control stylebuttonactive mb20 activebar graph-maker" id="graph" ><b><%=tobj.get("blogger")%></b></a>
     <% }}} %>
     <!--  
     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
@@ -1291,3 +1297,4 @@ if(!ids.equals("")){
 
 </body>
 </html>
+<% } %>
