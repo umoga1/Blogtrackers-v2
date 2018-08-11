@@ -12,12 +12,6 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
 Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 
-
-
-//if (email == null || email == "") {
-	//response.sendRedirect("login.jsp");
-//}else{
-
 ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";
 String username ="";
@@ -31,7 +25,7 @@ Blogs blog  = new Blogs();
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
 if (userinfo.size()<1) {
-	//response.sendRedirect("login.jsp");
+	response.sendRedirect("login.jsp");
 }else{
 userinfo = (ArrayList<?>)userinfo.get(0);
 try{
@@ -100,10 +94,12 @@ String allpost = "0";
 ArrayList allauthors = new ArrayList();
 if(!ids.equals("")){
 	allpost = post._getTotalByBlogId(ids,"");
-	allauthors=blog._getBloggerByBlogId(ids,"");
+	allauthors=post._getBloggerByBlogId(ids,"");
+	
+	
 }
 
-System.out.println(allauthors);
+
 %>
 <!DOCTYPE html>
 <html>
@@ -295,7 +291,7 @@ System.out.println(allauthors);
 				tresp = new JSONObject(tres);
 			    tresu = tresp.get("_source").toString();
 			    tobj = new JSONObject(tresu);
-			    String auth = tobj.get("blogsite_authors").toString();
+			    String auth = tobj.get("blogger").toString();
 			    if(!authors.has(auth)){
 			    	authors.put(auth,auth);
 			    
