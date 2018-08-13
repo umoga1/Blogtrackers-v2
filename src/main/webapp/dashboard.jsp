@@ -513,7 +513,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-comment icondash"></i>Comments
 						</h5>
-						<h3 class="text-blue mb0 countdash">16,0000</h3>
+						<h3 class="text-blue mb0 countdash">3</h3>
 					</div>
 				</div>
 			</div>
