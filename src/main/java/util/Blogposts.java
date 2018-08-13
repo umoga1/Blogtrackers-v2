@@ -67,7 +67,7 @@ public class Blogposts {
 		}
 
 		String arg2 = pars.toString();
-		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}}}";
+		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
 		
 		
 		JSONObject jsonObj = new JSONObject(que);

@@ -7,6 +7,7 @@
 <%@page import="java.util.Locale" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+<%@page import="org.json.JSONArray"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
@@ -280,14 +281,19 @@ if(!ids.equals("")){
     <div class="scrolly" style="height:270px; padding-right:10px !important;">
     <%
     JSONObject authors = new JSONObject();
+    JSONObject authoryears = new JSONObject();
+    JSONObject authormonths = new JSONObject();
+    JSONArray authorcount = new JSONArray();
     JSONObject years = new JSONObject();
+    JSONArray yearsarray = new JSONArray();
     
 	if(allauthors.size()>0){
 		String tres = null;
 		JSONObject tresp = null;
 		String tresu = null;
 		JSONObject tobj = null;
-	
+		int j=0;
+		int k=0;
 	for(int i=0; i< allauthors.size(); i++){
 				tres = allauthors.get(i).toString();			
 				tresp = new JSONObject(tres);
@@ -296,15 +302,71 @@ if(!ids.equals("")){
 			    String auth = tobj.get("blogger").toString();
 			    String[] dateyear=tobj.get("date").toString().split("-");
 			    String yy= dateyear[0];
-			    
-			    
+			    String mm = dateyear[1];
+			  
 			    if(!authors.has(auth)){
 			    	authors.put(auth,auth);
+			    	JSONObject postyear = new JSONObject();
+			    	JSONObject postmonth = new JSONObject();
+			    	authorcount.put(j,auth);
+			    	postyear.put(yy,1);
+			    	postmonth.put(mm,1);
+			    	
+			    	if(!years.has(yy)){
+			    		years.put(yy,yy);
+			    		
+			    		yearsarray.put(k,yy);
+			    		k++;
+			    	}
+			    	
+			    	
+			    	authoryears.put(auth,postyear);
+			    	authormonths.put(auth,postmonth);
+			    	j++;
 			    
-	%>
+				%>
 
-    <a class="btn btn-primary form-control stylebuttonactive mb20 activebar graph-maker" id="graph" ><b><%=tobj.get("blogger")%></b></a>
-    <% }}} %>
+    			<a class="btn btn-primary form-control stylebuttonactive mb20 activebar graph-maker" id="graph" ><b><%=tobj.get("blogger")%></b></a>
+    			<% }else{
+	    				JSONObject postyear = new JSONObject();
+				    	JSONObject postmonth = new JSONObject();
+				    	
+				    	//String oot = authoryears.get(auth.toString()).toString();
+				    	
+				    	JSONObject byyear = new JSONObject(authoryears.get(auth.toString()).toString());
+				    	JSONObject bymonth = new JSONObject(authormonths.get(auth.toString()).toString());
+				    	if(!years.has(yy)){
+				    		years.put(yy,yy);
+				    		yearsarray.put(k,yy);
+				    		k++;
+				    	}
+				    	
+				    	if(!byyear.has(yy)){
+				    		postyear.put(yy,1);				    		
+					    }else{
+					    	int prev = Integer.parseInt(byyear.get(yy).toString());
+					    	prev++;
+					    	postyear.put(yy,prev);			    	
+					    }
+					    
+					  
+					    if(!bymonth.has(mm)){
+					    	postmonth.put(mm,1);
+					    }else{
+					    	int prev = Integer.parseInt(bymonth.get(mm).toString());
+					    	prev++;
+					    	postmonth.put(mm,prev);			    	
+					    }
+				    	
+				    	authoryears.put(auth,postyear);
+				    	authormonths.put(auth,postmonth);
+				    	
+    			   }
+			   // System.out.println(authoryears);
+			    }} 
+	System.out.println(authoryears);
+    System.out.println(years);
+    %>
     <!--  
     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
      <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Abel Danger</b></a>
@@ -844,14 +906,32 @@ if(!ids.equals("")){
   // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
   // ];
 
-  data = [
+  data = [<% for(int p=0; p<authorcount.length(); p++){ 
+	  		String au = authorcount.get(p).toString();
+	  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
+	  %>[<% for(int q=0; q<years.length(); q++){ 
+		  		String year=yearsarray.get(q).toString(); 
+		  		if(specific_auth.has(year)){ %>
+		  			{"date":"<%=year%>","close":<%=specific_auth.get(year) %>},
+			<%
+		  		}else{ %>
+		  			{"date":"<%=year%>","close":0},
+	   		<% } %>
+		<%  
+	  		}%>]<% if(p<authorcount.length()-1){%>,<%}%>
+	  <%	}
+	  %> ];
+	
+data2 = [
     [{"date":"2014","close":400},{"date":"2015","close":600},{"date":"2016","close":1300},{"date":"2017","close":1700},{"date":"2018","close":2100}],
     [{"date":"2014","close":350},{"date":"2015","close":700},{"date":"2016","close":1500},{"date":"2017","close":1600},{"date":"2018","close":1250}],
     [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200},{"date":"2017","close":1200},{"date":"2018","close":2600}],
     [{"date":"2014","close":250},{"date":"2015","close":1840},{"date":"2016","close":1400},{"date":"2017","close":1300},{"date":"2018","close":1800}]
   ];
-
-  //console.log(data);
+  
+console.log("here");
+  console.log(data);
+  console.log(data2);
   // data = [];
 
   // data = [
