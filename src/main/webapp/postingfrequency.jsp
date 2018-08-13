@@ -364,8 +364,8 @@ if(!ids.equals("")){
     			   }
 			   // System.out.println(authoryears);
 			    }} 
-	System.out.println(authoryears);
-    System.out.println(years);
+	//System.out.println(authoryears);
+    System.out.println(yearsarray);
     %>
     <!--  
     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
@@ -909,7 +909,7 @@ if(!ids.equals("")){
   data = [<% for(int p=0; p<authorcount.length(); p++){ 
 	  		String au = authorcount.get(p).toString();
 	  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
-	  %>[<% for(int q=0; q<years.length(); q++){ 
+	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
 		  		String year=yearsarray.get(q).toString(); 
 		  		if(specific_auth.has(year)){ %>
 		  			{"date":"<%=year%>","close":<%=specific_auth.get(year) %>},
@@ -921,7 +921,7 @@ if(!ids.equals("")){
 	  		}%>]<% if(p<authorcount.length()-1){%>,<%}%>
 	  <%	}
 	  %> ];
-	
+	/*
 data2 = [
     [{"date":"2014","close":400},{"date":"2015","close":600},{"date":"2016","close":1300},{"date":"2017","close":1700},{"date":"2018","close":2100}],
     [{"date":"2014","close":350},{"date":"2015","close":700},{"date":"2016","close":1500},{"date":"2017","close":1600},{"date":"2018","close":1250}],
@@ -930,8 +930,9 @@ data2 = [
   ];
   
 console.log("here");
+*/
   console.log(data);
-  console.log(data2);
+ // console.log(data2);
   // data = [];
 
   // data = [
