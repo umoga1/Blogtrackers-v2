@@ -58,7 +58,7 @@ public class Blogposts {
 	}
 
 	public ArrayList _getBloggerByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=1000";
+		String url = base_url+"_search?size=200";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -67,7 +67,7 @@ public class Blogposts {
 		}
 
 		String arg2 = pars.toString();
-		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}}}";
+		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
 		
 		
 		JSONObject jsonObj = new JSONObject(que);
