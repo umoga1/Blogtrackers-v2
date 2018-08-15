@@ -30,7 +30,7 @@ userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email =
 detail = tracker._fetch(tid.toString());
  //System.out.println(userinfo);
 if (userinfo.size()<1 || detail.size()<1) {
-	//response.sendRedirect("login.jsp");
+	response.sendRedirect("login.jsp");
 }else{
 userinfo = (ArrayList<?>)userinfo.get(0);
 try{
