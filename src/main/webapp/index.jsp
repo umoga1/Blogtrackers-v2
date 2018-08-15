@@ -1,3 +1,4 @@
+<%@page import="java.net.HttpURLConnection"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
@@ -8,8 +9,9 @@
 <%
 
 
+
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
-ArrayList<?> userinfo = new ArrayList();//null;
+ArrayList<?> userinfo = new ArrayList();
 String profileimage= "";
 String username ="";
 String name="";

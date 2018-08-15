@@ -12,7 +12,6 @@
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 
-
 ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";
 String username ="";
