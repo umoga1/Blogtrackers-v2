@@ -305,7 +305,7 @@
 			%>
 			
 			<div class="card noborder curved-card mb30 pt30">
-				<a href="<%=request.getContextPath()%>/edittracker.jsp"><div class="">
+				<a href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=obj.get("tid").toString()%>"><div class="">
 					<h1	class="text-primary text-center pt20 cursor-pointer bold-text"><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ")%></h1>
 				</div></a>
 
