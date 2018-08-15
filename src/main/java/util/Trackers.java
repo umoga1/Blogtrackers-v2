@@ -360,6 +360,8 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 }
 
 public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
+	ArrayList<String> list = new ArrayList<String>();
+	try {
 	URL obj = new URL(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
     
@@ -386,8 +388,7 @@ public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
      in.close();
      
      JSONObject myResponse = new JSONObject(response.toString());
-     ArrayList<String> list = new ArrayList<String>(); 
-     
+    
      if(null!=myResponse.get("hits")) {
 	     String res = myResponse.get("hits").toString();
 	     JSONObject myRes1 = new JSONObject(res);
@@ -403,6 +404,7 @@ public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 	        } 
 	     }
      }
+	}catch(Exception ex) {}
      return list;
 }
 

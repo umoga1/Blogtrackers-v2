@@ -2,13 +2,14 @@
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
-<%@page import="util.Blogposts"%>
+<%@page import="util.*"%>
 <%@page import="java.text.NumberFormat" %>
 <%@page import="java.util.Locale" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 
 //if (email == null || email == "") {
 	//response.sendRedirect("login.jsp");
@@ -20,11 +21,16 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
+ArrayList detail = new ArrayList();
+Trackers tracker = new Trackers();
+ArrayList allblogs = new ArrayList();
+Blogs blg = new Blogs();
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+detail = tracker._fetch(tid.toString());
  //System.out.println(userinfo);
-if (userinfo.size()<1) {
-	//response.sendRedirect("login.jsp");
+if (userinfo.size()<1 || detail.size()<1) {
+	response.sendRedirect("login.jsp");
 }else{
 userinfo = (ArrayList<?>)userinfo.get(0);
 try{
@@ -58,7 +64,7 @@ if(f.exists() && !f.isDirectory()) {
 }catch(Exception e){}
 
 
-}
+
 
 %>
 <!DOCTYPE html>
@@ -191,204 +197,160 @@ if(f.exists() && !f.isDirectory()) {
         </nav>
 <div class="container mb50">
 
+<%
+				if (detail.size() > 0) {
+							String res = null;
+							JSONObject resp = null;
+							String resu = null;
+							JSONObject obj = null;
+							String query = null;
+							int totalpost = 0;
+							int totalblog = 0;
+							String bres = null;
+							JSONObject bresp = null;
+							String bresu = null;
+							JSONObject bobj = null;
+							ArrayList blogs = null;
+							int bpost = 0;
 
-<div class="row m50 mt40">
-<div class="col-md-9">
-<h1 class="text-primary edittrackertitle mb0" style="">Middle East Tracker</h1>
-<p><button class="btn metadata text-primary mt10">Created  |  22-07-2018 . 05:30pm</button> <button class="btn metadata text-primary mt10">Modified |  22-07-2018 . 05:30pm</button> <button class="btn metadata text-primary mt10">Crawled |  22-07-2018 . 05:30pm</button></p>
-</div>
-<div class="col-md-3 text-right pt10">
-<button class="btn btn-rounded iconedittrackerpage "><i title="Proceed to Analytics" data-toggle="tooltip" data-placement="top" class="proceedtoanalytics icon-small text-primary"></i></button>
-<button class="btn btn-rounded iconedittrackerpage trackeredit startediting"><i title="Edit Tracker" data-toggle="tooltip" data-placement="top" class="edittracker icon-small text-primary"></i></button>
-<button class="btn btn-rounded iconedittrackerpage trackerrefresh"><i title="Refresh Tracker" data-toggle="tooltip" data-placement="top" class="refreshtracker icon-small text-primary"></i></button>
-<button class="btn btn-rounded iconedittrackerpage trackerdelete"><i title="Delete Tracker" data-toggle="tooltip" data-placement="top" class="deletetracker icon-small text-primary"></i></button>
-</div>
+							for (int i = 0; i < detail.size(); i++) {
+								res = detail.get(i).toString();
+								resp = new JSONObject(res);
+								resu = resp.get("_source").toString();
+								obj = new JSONObject(resu);
+								query = obj.get("query").toString();
+								query = query.replaceAll("blogsite_id in ", "");
+								query = query.replaceAll("\\(", "");
+								query = query.replaceAll("\\)", "");
 
-<div class="col-md-12 trackerdescription">
-<p class="edittrackerdesc text-primary">National Public Radio is an American privately and publicly funded non-profit membership media organization based in Washington DC. It serves as a national syndicator to a network of over 1,000 public radio stations in the United States.</p>
-</div>
+								
+								String dt = "";
+								String dtmodified = "";
+								if (obj.has("date_created")) {
+									String[] ddt = obj.get("date_created").toString().split("T");
+									dt = ddt[0];
+								}
+								if (obj.has("date_modified")) {
+									String[] ddtm = obj.get("date_modified").toString().split("T");
+									dtmodified = ddtm[0];
+								}
 
-<div class="col-md-12">
-<div class="float-left statcontainer">
-<b class="stattext">334K</b>
-<h6 class="text-primary labeltext">Blogs</h6>
-</div>
-<div class="float-left statcontainer">
-<b class="stattext">43M</b>
-<h6 class="text-primary labeltext">Posts</h6>
-</div>
+								if (!query.equals("")) {
+									blogs = blg._fetch(query);
+									
+									//System.out.println(blogs);
+									if (blogs.size() > 0) {
+										totalblog = blogs.size();	
+									
+										for (int k = 0; k < blogs.size(); k++) {
+											bres = blogs.get(k).toString();
+											bresp = new JSONObject(bres);
+											bresu = bresp.get("_source").toString();
+											bobj = new JSONObject(bresu);
+											bpost = Integer.parseInt(bobj.get("totalposts").toString());
+											totalpost += bpost;
+											allblogs.add(k,bobj.toString());
+										}
+									}
+								}
+			%>
+	<div class="row m50 mt40">
+	<div class="col-md-9">
+	<h1 class="text-primary edittrackertitle mb0" style=""><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+	<p><button class="btn metadata text-primary mt10">Created  |  <%=dt%></button> <button class="btn metadata text-primary mt10">Modified |  <%=dtmodified %></button> <button class="btn metadata text-primary mt10">Crawled |  22-07-2018 . 05:30pm</button></p>
+	</div>
+	<div class="col-md-3 text-right pt10">
+	<button class="btn btn-rounded iconedittrackerpage "><i title="Proceed to Analytics" data-toggle="tooltip" data-placement="top" class="proceedtoanalytics icon-small text-primary"></i></button>
+	<button class="btn btn-rounded iconedittrackerpage trackeredit startediting"><i title="Edit Tracker" data-toggle="tooltip" data-placement="top" class="edittracker icon-small text-primary"></i></button>
+	<button class="btn btn-rounded iconedittrackerpage trackerrefresh"><i title="Refresh Tracker" data-toggle="tooltip" data-placement="top" class="refreshtracker icon-small text-primary"></i></button>
+	<button class="btn btn-rounded iconedittrackerpage trackerdelete"><i title="Delete Tracker" data-toggle="tooltip" data-placement="top" class="deletetracker icon-small text-primary"></i></button>
+	</div>
+	
+	<div class="col-md-12 trackerdescription">
+	<p class="edittrackerdesc text-primary"><%=obj.get("description").toString()%></p>
+	</div>
+	
+	<div class="col-md-12">
+	<div class="float-left statcontainer">
+	<b class="stattext"><%=totalblog%></b>
+	<h6 class="text-primary labeltext">Blogs</h6>
+	</div>
+	<div class="float-left statcontainer">
+	<b class="stattext"><%=totalpost%></b>
+	<h6 class="text-primary labeltext">Posts</h6>
+	</div>
+	
+	<div class="float-left statcontainer">
+	<b class="stattext">11B</b>
+	<h6 class="text-primary labeltext">Comments</h6>
+	</div>
+	</div>
+	
+	<div class="col-md-12 mt30">
+	<form class="form-inline">
+	<div class="input-group col-md-10" style="padding-left:0 !important;">
+	<i class="searchiconinputblog cursor-pointer" aria-hidden="true"></i>
+	<input class="form-control searchblogsites text-primary" placeholder="Search Blogs" type="text" />
+	
+	</div>
+	 <select class="form-control col-md-2 allthistracker text-primary" size="1">
+	 <option value="this">This</option>
+	 <option value="all">All</option>
+	 </select>
+	 </form>
+	 
+	</div>
+	
+	<div class="col-md-12 mt10 mb50">
 
-<div class="float-left statcontainer">
-<b class="stattext">11B</b>
-<h6 class="text-primary labeltext">Comments</h6>
-</div>
-</div>
+			
 
-<div class="col-md-12 mt30">
-<form class="form-inline">
-<div class="input-group col-md-10" style="padding-left:0 !important;">
-<i class="searchiconinputblog cursor-pointer" aria-hidden="true"></i>
-<input class="form-control searchblogsites text-primary" placeholder="Search Blogs" type="text" />
-
-</div>
- <select class="form-control col-md-2 allthistracker text-primary" size="1">
- <option value="this">This</option>
- <option value="all">All</option>
- </select>
- </form>
- 
-</div>
-
-<div class="col-md-12 mt10 mb50">
-
-<div class="form-control btn styleallblog selectallblog text-left text-primary">
-<div class="checkblogleft">
-<i class="navbar-brand text-primary icontrackersize checkuncheckallblog uncheckallblog cursor-pointer" data-toggle="tooltip" data-placement="top" title="Select All Blog"></i>
-</div>
-<b id="totalblogcount"></b> Items 
-<div class="selectsets">
- <select class="form-control sortby text-primary">
- <option>Recent</option>
-
- </select>
-</div>
-</div>
-
-<div id="bloglist">
-<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
-<div class="checkblogleft">
-<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
-</div>
-National Public Radio 
-<div class="iconsetblogs">
-<div class="setoficons float-left makeinvisible">
-<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
-<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
-</div>
-<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
-</div>
-</div>
-
-<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
-<div class="checkblogleft">
-<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
-</div>
-Engadget
-<div class="iconsetblogs">
-<div class="setoficons float-left makeinvisible">
-<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
-<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
-</div>
-<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
-</div>
-</div>
-
-<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
-<div class="checkblogleft">
-<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
-</div>
-TechCrunch
-<div class="iconsetblogs">
-<div class="setoficons float-left  makeinvisible">
-<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
-<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
-</div>
-<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
-</div>
-</div>
-
-<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
-<div class="checkblogleft">
-<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
-</div>
-CNET
-<div class="iconsetblogs">
-<div class="setoficons float-left  makeinvisible">
-<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
-<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
-</div>
-<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
-</div>
-</div>
-
-<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
-<div class="checkblogleft">
-<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
-</div>
-Republic
-<div class="iconsetblogs">
-<div class="setoficons float-left  makeinvisible">
-<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
-<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
-</div>
-<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
-</div>
-</div>
-
-<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
-<div class="checkblogleft">
-<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
-</div>
-Crooks and Liars
-<div class="iconsetblogs">
-<div class="setoficons float-left  makeinvisible">
-<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
-<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
-</div>
-<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
-</div>
-</div>
-
-<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
-<div class="checkblogleft">
-<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
-</div>
-Crooks Here
-<div class="iconsetblogs">
-<div class="setoficons float-left  makeinvisible">
-<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
-<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
-</div>
-<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
-</div>
-</div>
-
-<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
-<div class="checkblogleft">
-<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
-</div>
-Adekunle Blog
-<div class="iconsetblogs">
-<div class="setoficons float-left makeinvisible">
-<i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i>
-<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
-<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
-</div>
-<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
-</div>
-</div>
+		
+		<div class="form-control btn styleallblog selectallblog text-left text-primary">
+		<div class="checkblogleft">
+		<i class="navbar-brand text-primary icontrackersize checkuncheckallblog uncheckallblog cursor-pointer" data-toggle="tooltip" data-placement="top" title="Select All Blog"></i>
+		</div>
+		<b id="totalblogcount"></b> Items 
+		<div class="selectsets">
+		 <select class="form-control sortby text-primary">
+		 <option>Recent</option>
+		
+		 </select>
+		</div>
+		</div>
+		
+		<div id="bloglist">
+		<% if (blogs.size() > 0) {
+			for (int k = 0; k < blogs.size(); k++) {				
+				bobj = new JSONObject(bresu);			
+				String v1 = allblogs.get(k).toString();
+				JSONObject ob = new JSONObject(v1);
+		%>							
+			<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
+			<div class="checkblogleft">
+			<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+			</div>
+			<%=ob.get("blogsite_name").toString()%>
+			<div class="iconsetblogs">
+			<div class="setoficons float-left makeinvisible">
+			<a href="<%=request.getContextPath()%>/analytics.jsp?bid=<%=ob.get("blogsite_id").toString()%>"><i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i></a>
+			<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
+			<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
+			</div>
+			<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+			</div>
+			</div>
+		<% }} %>
+		
+		
+		</div>
+		
+		</div>
 
 </div>
-
-</div>
-
-</div>
-
-
-
-
-
-
-
-
-
+<% }
+}
+%>
 </div>
 
 
@@ -434,3 +396,4 @@ $(document).ready(function() {
 
 </body>
 </html>
+<% }  %>
