@@ -11,10 +11,6 @@
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 
-//if (email == null || email == "") {
-	//response.sendRedirect("login.jsp");
-//}else{
-
 ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";
 String username ="";
