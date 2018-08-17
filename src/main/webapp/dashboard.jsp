@@ -32,13 +32,15 @@
 
 		Trackers tracker = new Trackers();
 		Terms term = new Terms();
-
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
+			System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
+			System.out.println(detail);
 		}
-
+		
+		
 		boolean isowner = false;
 		JSONObject obj = null;
 		String ids = "";
@@ -2524,7 +2526,7 @@ var mymarker = [
      d3.layout.cloud().size([450, 300])
              .words(frequency_list)
              .rotate(0)
-             .fontSize(function(d) { return d.size; })
+             .fontSize(function(d) { return d.size * 1.5; })
              .on("end", draw)
              .start();
 
