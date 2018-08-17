@@ -220,7 +220,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 	   <div class="col-md-12 mt0">
 
       <form method="search" method="post" autocomplete="off" action="<%=request.getContextPath()%>/blogbrowser.jsp">
-      	<input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" <% if(!term.equals("")){ %> placeholder="Searching for <%=term%>" <% } else { %><% } %> />
+      	<input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" <% if(!term.equals("")){ %> placeholder="Searching for <%=term%>" <% } else { %>placeholder="Search for a keyword"<% } %> />
       </form>
       </div>
 
