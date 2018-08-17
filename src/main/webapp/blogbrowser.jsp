@@ -253,7 +253,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <i class="cursor-pointer lnr lnr-cross float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
 <h3 class="text-primary bold-text">Track the selected blogs using the following list of trackers: </h3>
 <button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
-<div class="trackerlist mt20">
+<div class="trackerlist mt20" style="position: relative; overflow: auto; height: 250px;">
 <%
 if(mytrackers.size()>0){
 	String tres = null;
