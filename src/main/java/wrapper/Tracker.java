@@ -81,7 +81,9 @@ public class Tracker extends HttpServlet {
 			     pww.write(output); 
 			}
                         
-		}else if(action.equals("update")) {
+		}
+	
+		else if(action.equals("update")) {
 			 JSONObject param = new JSONObject();		
 			 param.put("blogs", blogs);			 
 			 String output =  "false";

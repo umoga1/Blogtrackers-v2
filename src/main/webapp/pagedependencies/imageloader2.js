@@ -40,14 +40,17 @@ function getImage(image_id,url){
 			var det = meta[1].split(">");
 			det = det[0].replace("content=","");
 			//det = det.replace('>',"");
-//			det = det.replace('',"");
+  		    det = det.replace(' /',"");
 			if(det!="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" ){	
 				imgsrc = det;
 				imgcontainer = $("#"+image_id)
+				console.log(det)
 //				$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+det+'"  />');
 //				$("#"+image_id).remove();
-				console.log(imgsrc)
+//				console.log("ade")
 			$("#"+image_id).css('background-image','url('+det+')');
+			
+				
 				return false;
 			}
 		}
@@ -55,21 +58,30 @@ function getImage(image_id,url){
 			var det2 = meta2[1].split(">");
 			det2 = det2[0].replace("content=","");
 			//det2 = det2.replace('>',"");
-			det2 = det2.replace('"',"");
+//			det2 = det2.replace('"',"");
+			det2 = det2.replace(' /',"");
 //			console.log(det2);
 			
-			if(det2!="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" ){						
-			//	$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+det2+'"  />');
-				$("#"+image_id).remove();
+			if(det2!="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" ){	
+				imgsrc = det2;
+				imgcontainer = $("#"+image_id)
+//				$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+det+'"  />');
+//				$("#"+image_id).remove();
+//				console.log("adek")
+			$("#"+image_id).css('background-image','url('+det2+')');
+	//	$("."+image_id).html('<img class="card-img-top pt30 pb30" src="'+det2+'"  />');
+//				$("#"+image_id).remove();
 //				$("#"+image_id).css('background-image','url("'+det2+'")');
 				return false;
 			}
 		}
-//		else{			
-//			$("#"+image_id).remove();
-//			return false;
-//		}
-//		
+		else{
+			// remove image if no image
+//			console.log("ashjsd");
+			$("#"+image_id).remove();
+			return false;
+		}
+	
 		
 	}
 	});
