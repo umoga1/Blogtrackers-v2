@@ -5,6 +5,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL; 
 import org.json.JSONObject;
+
+import authentication.DbConnection;
+
 import org.json.JSONArray;
 
 import java.io.OutputStreamWriter;
@@ -15,8 +18,10 @@ import java.time.LocalDateTime;
 
 public class Trackers {
 
-String base_url = "http://144.167.115.218:9200/trackers/";
-String totalpost;		    
+	HashMap<String, String> hm = DbConnection.loadConstant();		
+	
+	String base_url = hm.get("elasticIndex")+"trackers/";
+	String totalpost;	    
 	   
 public ArrayList _list(String order, String from, String userid, String size) throws Exception {
 	 	 JSONObject jsonObj = new JSONObject("{\r\n" + 

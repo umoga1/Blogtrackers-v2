@@ -21,7 +21,7 @@ public class Blogposts {
 	HashMap<String, String> hm = DbConnection.loadConstant();		
 
 	String base_url = hm.get("elasticIndex")+"blogposts/";
-
+	
 	String totalpost;		    
 
 	public ArrayList _list(String order, String from, String sortby) throws Exception {

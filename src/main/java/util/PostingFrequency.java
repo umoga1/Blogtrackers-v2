@@ -5,17 +5,23 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL; 
 import org.json.JSONObject;
+
+import authentication.DbConnection;
+
 import org.json.JSONArray;
 
 import java.io.OutputStreamWriter;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PostingFrequency {
 
-String base_url = "http://144.167.115.218:9200/blogpost_entitysentiment/";
-String totalpost;		    
+	HashMap<String, String> hm = DbConnection.loadConstant();		
+	
+	String base_url = hm.get("elasticIndex")+"blogpost_entitysentiment/";
+	String totalpost;
 	   
 public ArrayList _list(String order, String from) throws Exception {	 
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
