@@ -1023,10 +1023,13 @@ $(document).ready(function() {
         };
 
         var optionSet1 =
-             {   startDate: moment().subtract(29, 'days'),
+             {   startDate: moment().subtract(90, 'days'),
                  endDate: moment(),
                  minDate: '01/01/1947',
                  maxDate: moment(),
+                 maxSpan: {
+                     days: 50000
+                 },
              showDropdowns: true,
                  showWeekNumbers: true,
                  timePicker : false,
