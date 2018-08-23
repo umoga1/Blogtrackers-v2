@@ -91,6 +91,7 @@ if(f.exists() && !f.isDirectory()) {
   <!--end of bootsrap -->
 
 <script src="assets/js/popper.min.js" ></script>
+<script src="pagedependencies/baseurl.js"></script>
 
 
 </head>
@@ -324,7 +325,7 @@ if(f.exists() && !f.isDirectory()) {
 		%>							
 			<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
 			<div class="checkblogleft">
-			<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+			<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" id="<%=ob.get("blogsite_id").toString()%>_select" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
 			</div>
 			<%=ob.get("blogsite_name").toString()%>
 			<div class="iconsetblogs">
@@ -351,6 +352,7 @@ if(f.exists() && !f.isDirectory()) {
 
 
 <div class="text-center pt10 pb10 trackingfixededittracker" style="background:#00B361;">
+<input type="hidden" id="teeid" value="<%=tid%>" />
   <div class="container">
 <div class="row" style="margin-left: 50px; margin-right:50px;">  <p  class="mb0 text-white fixedbottomedittrackerlefttext float-left text-left"><b id="selectedblogcount">0</b> item(s) selected</p>
   <p class="mb0 float-left fixedbottomedittrackerrighttext text-right" >
@@ -380,7 +382,7 @@ if(f.exists() && !f.isDirectory()) {
 
 <script src="assets/js/generic.js">
 </script>
-<script src="pagedependencies/edittrackerpage.js">
+<script src="pagedependencies/edittrackerpage.js?v=90">
 </script>
 <script>
 $(document).ready(function() {
