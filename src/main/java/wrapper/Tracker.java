@@ -52,6 +52,7 @@ public class Tracker extends HttpServlet {
 		 HttpSession session = request.getSession();
 			
 		String username = session.getAttribute("username").toString();
+		
         String tracker_name = (null==request.getParameter("name"))?"":request.getParameter("name").replaceAll("\\<.*?\\>", "");
         String description = (null==request.getParameter("description"))?"":request.getParameter("description").replaceAll("\\<.*?\\>", "");
         String blogs = (null==request.getParameter("blogs"))?"":request.getParameter("blogs").replaceAll("\\<.*?\\>", "");
@@ -89,7 +90,6 @@ public class Tracker extends HttpServlet {
 				 output = trk._update(tracker_id, param);		
 				 response.setContentType("text/html");				 
 			     pww.write(output); 
-			     //System.out.println("Update");
 			 }catch(Exception e) {
 				 System.out.println("Error");
 				 pww.write("false"); 
@@ -102,8 +102,14 @@ public class Tracker extends HttpServlet {
 			}catch(Exception e) {
 				 pww.write("false"); 
 			 }	
-		}else if(action.equals("remove")) {
-			
+		}else if(action.equals("removeblog")) {
+			String ids= request.getParameter("blog_ids").replaceAll("\\<.*?\\>", "");
+			try {
+				String output = trk._removeBlogs(tracker_id,ids,username);
+				pww.write(output);
+			}catch(Exception e) {
+				 pww.write("false"); 
+			 }	
 			
 		}
 

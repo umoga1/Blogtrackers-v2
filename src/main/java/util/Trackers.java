@@ -251,8 +251,6 @@ public String _add(String userid, JSONObject params) throws Exception {
 /* Add a new tracker*/
 public String _delete(String trackerid) throws Exception {
 	
-	
-	
 	ArrayList<?> detail = this._fetch(trackerid);
 	
 	 if(detail.size()>0){		
@@ -267,7 +265,65 @@ public String _delete(String trackerid) throws Exception {
 	 }
 	 
 	 return "false";
+}
 
+/* Remove blogs from tracker*/
+public String _removeBlogs(String trackerid,String blog_ids,String userid) throws Exception {
+	String[] blogs = blog_ids.split(",");
+	JSONObject jblog = new JSONObject();
+	String output = "false";
+	
+	for(int k=0; k<blogs.length; k++) {
+		jblog.put(blogs[k], blogs[k]);
+	}
+	 
+	ArrayList<?> detail = this._fetch(trackerid);
+	
+	 if(detail.size()>0){		
+			String res = detail.get(0).toString();		
+			JSONObject resp = new JSONObject(res);
+			String tid = resp.get("_id").toString();
+			
+			 String resu = resp.get("_source").toString();
+			 JSONObject obj = new JSONObject(resu);	
+			 
+			 String mergedblogs = "";			 
+			 String quer = obj.get("query").toString();
+			 	 if(!obj.get("userid").toString().equals(userid)) {
+			 		 return "false";
+			 	 }
+				 quer = quer.replaceAll("blogsite_id in ", "");
+				 quer = quer.replaceAll("\\(", "");			 
+				 quer = quer.replaceAll("\\)", "");
+				 String[] blogs2 = quer.split(",");
+				 int blogcounter=0;
+				 for(int j=0; j<blogs2.length; j++) {
+					 if(!jblog.has(blogs2[j])) {
+						 if(j<(blogs2.length-1))
+							 mergedblogs+=blogs2[j]+",";
+						 else
+							 mergedblogs+=blogs2[j];
+						 blogcounter++;
+					 }
+				 }
+				 			
+				String que =  "blogsite_id in ("+mergedblogs+")";			 
+				String url = base_url+"trackers/"+tid+"/_update";			 
+				JSONObject jsonObj = new JSONObject("{\r\n" + 
+			    		"    \"script\" : \"ctx._source.query = '"+que+"'; ctx._source.blogsites_num= '"+blogcounter+"';\",\r\n" + 
+			    		"}");
+			 
+				JSONObject myResponse = this._runUpdate(url, jsonObj);	
+				 if(null!=myResponse.get("result")) {
+					   String resv = myResponse.get("result").toString();
+					   if(resv.equals("updated")) {
+						   output = "true";
+					   }
+				   }
+				   						
+	 }
+	 
+	 return output;
 }
 
 /* Add a new tracker*/
@@ -302,9 +358,7 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 			    	String bid = blogs[0].trim();
 			    	for(int b=0; b<blogs2.length; b++) {
 			    		String b2id = blogs2[b].trim();
-			    		 //System.out.println(b2id.equals(bid));
-			    		if(b2id.equals(bid)) {
-			    			
+			    		if(b2id.equals(bid)) {		    			
 			    			return "false";
 			    		}
 			    	}
@@ -412,6 +466,8 @@ public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 /* Update tracker*/
 public JSONObject _runUpdate(String url, JSONObject jsonObj) throws Exception {
 	URL obj = new URL(url);
+	 JSONObject myResponse = new  JSONObject();
+	try {
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
     
 
@@ -434,7 +490,8 @@ public JSONObject _runUpdate(String url, JSONObject jsonObj) throws Exception {
 	   	response.append(inputLine);
 	   }
 	   in.close();   
-	   JSONObject myResponse = new JSONObject(response.toString());   
+	   myResponse = new JSONObject(response.toString()); 
+	}catch(Exception e) {}
 	   return  myResponse;
 }
 
@@ -450,8 +507,12 @@ public void _runDelete(String url) throws Exception {
     int responseCode = con.getResponseCode();  
 }
 
+
+
+
 public String _getTotal(String url, JSONObject jsonObj) throws Exception {
 	String total  = "0";
+	try {
 	URL obj = new URL(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
     
@@ -485,7 +546,7 @@ public String _getTotal(String url, JSONObject jsonObj) throws Exception {
 	     JSONObject myRes1 = new JSONObject(res);
 	      total = myRes1.get("total").toString();  
      }
-     
+	}catch(Exception e) {}
      return total;
 }
 

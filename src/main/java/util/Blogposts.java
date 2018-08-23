@@ -284,53 +284,54 @@ public class Blogposts {
 	}
 
 	public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
+		ArrayList<String> list = new ArrayList<String>();
+		try {
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-		con.setDoOutput(true);
-		con.setDoInput(true);
-
-		con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-		con.setRequestProperty("Accept", "application/json");
-		con.setRequestMethod("POST");
-
-		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-		wr.write(jsonObj.toString());
-		wr.flush();
-
-		int responseCode = con.getResponseCode();  
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
-
-		JSONObject myResponse = new JSONObject(response.toString());
-		ArrayList<String> list = new ArrayList<String>(); 
-
-		if(null!=myResponse.get("hits")) {
-			String res = myResponse.get("hits").toString();
-			JSONObject myRes1 = new JSONObject(res);
-			String total = myRes1.get("total").toString();
-			this.totalpost = total;
-
-			JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
-
-			if (jsonArray != null) { 
-				int len = jsonArray.length();
-				for (int i=0;i<len;i++){ 
-					list.add(jsonArray.get(i).toString());
-				} 
-			}
-		}
-
-		return list;
+	    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+	    
+	    con.setDoOutput(true);
+	    con.setDoInput(true);
+	   
+	    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+	    con.setRequestProperty("Accept", "application/json");
+	    con.setRequestMethod("POST");
+	    
+	    OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+	    wr.write(jsonObj.toString());
+	    wr.flush();
+	    
+	    int responseCode = con.getResponseCode();  
+	    BufferedReader in = new BufferedReader(
+	         new InputStreamReader(con.getInputStream()));
+	    String inputLine;
+	    StringBuffer response = new StringBuffer();
+	    
+	    while ((inputLine = in.readLine()) != null) {
+	     	response.append(inputLine);
+	     }
+	     in.close();
+	     
+	     JSONObject myResponse = new JSONObject(response.toString());
+	    
+	     if(null!=myResponse.get("hits")) {
+		     String res = myResponse.get("hits").toString();
+		     JSONObject myRes1 = new JSONObject(res);
+		      String total = myRes1.get("total").toString();
+		      this.totalpost = total;
+		    
+		     JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
+		     
+		     if (jsonArray != null) { 
+		        int len = jsonArray.length();
+		        for (int i=0;i<len;i++){ 
+		         list.add(jsonArray.get(i).toString());
+		        } 
+		     }
+	     }
+		}catch(Exception ex) {}
+	     return list;
 	}
-
+	
 	public String _getTotal(String url, JSONObject jsonObj) throws Exception {
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
