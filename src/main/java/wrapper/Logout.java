@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class Login
- * @author mukti
+ * @author Adewale
  */
 @WebServlet("/logout")
 public class Logout extends HttpServlet {
