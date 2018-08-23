@@ -46,7 +46,11 @@ $(function() {
             },
             markers: mymarker,
         onRegionLabelShow: function(e, el, code){
-            el.html(el.html()+'<br>'+gdpData[code]);
+            el.html(el.html()
+            		// remove the data count
+            		//+'<br>'+
+            		//gdpData[code]
+            );
         }
     });
 
