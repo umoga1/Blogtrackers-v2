@@ -482,7 +482,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-file-alt icondash"></i>Blogs
 						</h5>
-						<h3 class="text-blue mb0 countdash"><%=totalblog%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=totalblog%></h3>
 					</div>
 				</div>
 			</div>
@@ -493,7 +493,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
-						<h3 class="text-blue mb0 countdash"><%=bloggers.length()%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=bloggers.length()%></h3>
 					</div>
 				</div>
 			</div>
@@ -504,7 +504,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-file-alt icondash"></i>Posts
 						</h5>
-						<h3 class="text-blue mb0 countdash"><%=totalpost%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=totalpost%></h3>
 					</div>
 				</div>
 			</div>
@@ -515,7 +515,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-comment icondash"></i>Comments
 						</h5>
-						<h3 class="text-blue mb0 countdash">3</h3>
+						<h3 class="text-blue mb0 countdash dash-label">3</h3>
 					</div>
 				</div>
 			</div>
@@ -527,7 +527,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-clock icondash"></i>History
 						</h5>
-						<h3 class="text-blue mb0 countdash"><%=dispfrom%>
+						<h3 class="text-blue mb0 countdash dash-label"><%=dispfrom%>
 							-
 							<%=dispto%></h3>
 					</div>
@@ -1827,6 +1827,11 @@ $(function () {
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
               .style("color","yellow")
               .call(yAxis)
+              .selectAll("text")
+   			.attr("y", -25)
+    			.attr("x", 40)
+    		.attr("dy", ".75em")
+    		.attr("transform", "rotate(-70)")
               ;
       //
       //
