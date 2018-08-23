@@ -788,9 +788,9 @@
 					</div>
 				</div>
 				<div class="float-right">
-					<a href="sentiment.jsp"><button
+					<a href="influence.jsp"><button
 							class="btn buttonportfolio2 mt10">
-							<b class="float-left semi-bold-text">Sentiment Analysis </b> <b
+							<b class="float-left semi-bold-text">Influence Analysis </b> <b
 								class="fas fa-exchange-alt float-right icondash2"></b>
 						</button></a>
 				</div>
