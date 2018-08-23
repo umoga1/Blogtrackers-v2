@@ -9,6 +9,11 @@ body{
 {
 color:blue;
 } */
+
+.dash-label
+{
+    font-size: 1.70rem;	
+}
 .border-white
 {
 border: 4px solid #ffffff;
