@@ -29,8 +29,9 @@ public class DbConnection {
 	/**
 	 * loadConstant() - For loading the configuration file from a remote repository	
 	 */
-	private static HashMap<String, String> hm = new HashMap<String, String>();				// Hashmap that will contain the key-value pair from the config file
-	private static void loadContant() {
+	
+	public static HashMap<String, String> loadConstant() {
+		HashMap<String, String> hm = new HashMap<String, String>();
 		BufferedReader br = null;	
 		try {
 			br = new BufferedReader(new FileReader("C:/blogtrackers.config"));  	// Read the config file
@@ -51,19 +52,23 @@ public class DbConnection {
 		} catch(IOException ex) {
 			Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, "Encounter error while loading config file", ex);	//To log the error for this specific class
 		}
+		return hm;
 	}
 
 	/**
 	 * getConnection() - For getting the connection parameter and connecting to the database driver
 	 */
 // hello
-	public static Connection getConnection() {
+	public Connection getConnection() {
 		try{
-			loadContant();															//load the connection parameter so we can fetch appropriate parameters like username, password, etc
+			HashMap<String, String> hm = new HashMap<String, String>();
+			
+			hm = DbConnection.loadConstant();				//load the connection parameter so we can fetch appropriate parameters like username, password, etc
 			String connectionURL =  hm.get("dbConnection");	//"jdbc:mysql://localhost:3306/blogtrackers";						
 			String driver =    hm.get("driver"); 
 			String username =  hm.get("dbUserName");//"root";//
 			String password = hm.get("dbPassword");
+			String elastic = hm.get("elasticIndex");
 			
 			
 

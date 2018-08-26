@@ -32,13 +32,15 @@
 
 		Trackers tracker = new Trackers();
 		Terms term = new Terms();
-
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
+			System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
+			System.out.println(detail);
 		}
-
+		
+		
 		boolean isowner = false;
 		JSONObject obj = null;
 		String ids = "";
@@ -480,7 +482,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-file-alt icondash"></i>Blogs
 						</h5>
-						<h3 class="text-blue mb0 countdash"><%=totalblog%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=totalblog%></h3>
 					</div>
 				</div>
 			</div>
@@ -491,7 +493,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
-						<h3 class="text-blue mb0 countdash"><%=bloggers.length()%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=bloggers.length()%></h3>
 					</div>
 				</div>
 			</div>
@@ -502,7 +504,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-file-alt icondash"></i>Posts
 						</h5>
-						<h3 class="text-blue mb0 countdash"><%=totalpost%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=totalpost%></h3>
 					</div>
 				</div>
 			</div>
@@ -513,7 +515,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-comment icondash"></i>Comments
 						</h5>
-						<h3 class="text-blue mb0 countdash">16,0000</h3>
+						<h3 class="text-blue mb0 countdash dash-label">3</h3>
 					</div>
 				</div>
 			</div>
@@ -525,7 +527,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-clock icondash"></i>History
 						</h5>
-						<h3 class="text-blue mb0 countdash"><%=dispfrom%>
+						<h3 class="text-blue mb0 countdash dash-label"><%=dispfrom%>
 							-
 							<%=dispto%></h3>
 					</div>
@@ -786,9 +788,9 @@
 					</div>
 				</div>
 				<div class="float-right">
-					<a href="sentiment.jsp"><button
+					<a href="influence.jsp"><button
 							class="btn buttonportfolio2 mt10">
-							<b class="float-left semi-bold-text">Sentiment Analysis </b> <b
+							<b class="float-left semi-bold-text">Influence Analysis </b> <b
 								class="fas fa-exchange-alt float-right icondash2"></b>
 						</button></a>
 				</div>
@@ -1021,10 +1023,13 @@ $(document).ready(function() {
         };
 
         var optionSet1 =
-             {   startDate: moment().subtract(29, 'days'),
+             {   startDate: moment().subtract(90, 'days'),
                  endDate: moment(),
                  minDate: '01/01/1947',
                  maxDate: moment(),
+                 maxSpan: {
+                     days: 50000
+                 },
              showDropdowns: true,
                  showWeekNumbers: true,
                  timePicker : false,
@@ -1822,6 +1827,11 @@ $(function () {
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
               .style("color","yellow")
               .call(yAxis)
+              .selectAll("text")
+   			.attr("y", -25)
+    			.attr("x", 40)
+    		.attr("dy", ".75em")
+    		.attr("transform", "rotate(-70)")
               ;
       //
       //
@@ -2341,7 +2351,7 @@ var gdpData = {
   "UA": 136.56,
   "AE": 239.65,
   "GB": 2258.57,
-  "US": 14624.18,
+  "US": 0,
   "UY": 40.71,
   "UZ": 37.72,
   "VU": 0.72,
@@ -2524,7 +2534,7 @@ var mymarker = [
      d3.layout.cloud().size([450, 300])
              .words(frequency_list)
              .rotate(0)
-             .fontSize(function(d) { return d.size; })
+             .fontSize(function(d) { return d.size * 1.5; })
              .on("end", draw)
              .start();
 

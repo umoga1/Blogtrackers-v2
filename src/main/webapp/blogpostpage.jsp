@@ -214,8 +214,7 @@ String[] user_name = name.split(" ");
 <!--For small and medium devices  -->
 <div class="row pb50 mt0 mb0 d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
   <div class="container-fluid pl0 pr0 ml0 mr0 pb20">
-  <div id="<%=obj.get("blogpost_id")%>" alt="<%=obj.get("permalink") %>"
-  style="background-image:" class="postimgfull postimage">
+  <div id="<%=obj.get("blogpost_id")%>" alt="<%=obj.get("permalink") %>" class="postimgfull postimage">
   </div>
     </div>
 <div class="col-md-12 d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">

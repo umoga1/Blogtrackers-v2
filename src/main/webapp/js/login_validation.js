@@ -137,17 +137,24 @@ $(function() {
 		e.preventDefault();
 		var password1 =  $("input#password").val();
 		 var password2 = $("input#password2").val();
-		 
+		 var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
 		 var email = $("input#email").val();
 			var name= $("input#name").val();
 			if(email=="" || password=="" || name=="" ){
+				 $("#error_message-box").html('All fields are required');
 				return false;
 			}
-		 
-		 if(password1!=password2){
+			else if(!strongRegex.test(password1))
+				{
+				 $("#error_message-box").html('Password must contain minimum of 8 characters and contain at least 1 uppercase, 1 lowercase and a special character (!@#$%&)');
+					return false;
+				}
+			else if(password1!=password2){
 			 $("#error_message-box").html('Password does not match');
 			 return false;
 		 }
+			else
+				{
 			$.ajax({
 				url: baseurl+'register',
 				method: 'POST',
@@ -174,7 +181,12 @@ $(function() {
 						$("#error_message-box").html('Email is in use');
 					}else if(login_status == "success"){
 						toastr.success('Registration successfull!','Success');
-						window.location.href = baseurl+"login.jsp";
+//						window.location.href = baseurl+"login.jsp";
+						$("#error_message-box").html("");
+						$("input#email").val("");
+						$("input#name").val("");
+						$("input#password").val("");
+						$("input#password2").val("");
 					}else{
 						$("#error_message-box").html('Error adding record');
 					}
@@ -183,6 +195,7 @@ $(function() {
 			});
 		
 		return false;
+				}
 		
 	});
 	

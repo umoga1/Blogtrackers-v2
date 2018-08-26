@@ -105,14 +105,14 @@
 
 				</div>
 				 <% }else{ %>
-						<div class="panel panel-body login-form">
+						<div class="panel panel-body login-form pb10">
 						<div class="text-center">
 							<div class="icon-object border-warning text-warning"><i class="icon-spinner11"></i></div>
-							<h5 class="content-group"><%=success_message%></h5>
+							<h5 class="content-group pt20"><%=success_message%></h5>
 						</div>
 
 						
-						<a href="<%=request.getContextPath()%>/login.jsp" class="btn bg-blue-400 btn-block">Back <i class="icon-arrow-left52 position-right"></i></a>
+						<a href="<%=request.getContextPath()%>/login.jsp" class="btn bg-blue-400 btn-block">Proceed to Login <i class="icon-arrow-left52 position-right"></i></a>
                                 </div>
                                 
                 <% } %>

@@ -12,7 +12,6 @@
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 
-
 ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";
 String username ="";
@@ -221,7 +220,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 	   <div class="col-md-12 mt0">
 
       <form method="search" method="post" autocomplete="off" action="<%=request.getContextPath()%>/blogbrowser.jsp">
-      	<input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" <% if(!term.equals("")){ %> placeholder="Searching for <%=term%>" <% } else { %><% } %> />
+      	<input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" <% if(!term.equals("")){ %> placeholder="Searching for <%=term%>" <% } else { %>placeholder="Search for a keyword"<% } %> />
       </form>
       </div>
 
@@ -231,7 +230,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
  -->
 <div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Track</b> <b id="trackscount">0</b> <b>Blog(s)</b></button> <i style="font-size:30px;" class="cursor-pointer lnr lnr-cross float-right pr20 mt10" id="closetracks" data-toggle="tooltip" data-placement="top" title="Close"></i></div>
 
-<div class="text-center pt10 pb10 informationselectblogtotrack" style="background:#00B361;"><p class="mb0 text-white"><b>Select blogs to tracks</b></p> </div>
+<div class="text-center pt10 pb10 informationselectblogtotrack" style="background:#00B361;"><p class="mb0 text-white"><b>Select blogs to track</b></p> </div>
 
 <div class="bg-success"></div>
 <!-- Backdrop for modal -->
@@ -254,7 +253,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <i class="cursor-pointer lnr lnr-cross float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
 <h3 class="text-primary bold-text">Track the selected blogs using the following list of trackers: </h3>
 <button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
-<div class="trackerlist mt20">
+<div class="trackerlist mt20" style="position: relative; overflow: auto; height: 250px;">
 <%
 if(mytrackers.size()>0){
 	String tres = null;

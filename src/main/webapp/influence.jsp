@@ -1,30 +1,35 @@
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
-<%@page import="java.util.*"%>
+<%@page import="util.*"%>
 <%@page import="java.io.File"%>
 <%@page import="util.Blogposts"%>
-<%@page import="java.text.NumberFormat" %>
-<%@page import="java.util.Locale" %>
+<%@page import="java.text.NumberFormat"%>
+<%@page import="java.util.Locale"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+<%@page import="org.json.JSONArray"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
+Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 
-//if (email == null || email == "") {
-	//response.sendRedirect("login.jsp");
-//}else{
+ArrayList<?> userinfo = new ArrayList();
 
-ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";
 String username ="";
 String name="";
 String phone="";
 String date_modified = "";
 
+Trackers tracker  = new Trackers();
+Blogposts post  = new Blogposts();
+Blogs blog  = new Blogs();
+Terms term  = new Terms();
+
+
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
- //System.out.println(userinfo);
 if (userinfo.size()<1) {
-	//response.sendRedirect("login.jsp");
+
 }else{
 userinfo = (ArrayList<?>)userinfo.get(0);
 try{
@@ -57,169 +62,307 @@ if(f.exists() && !f.isDirectory()) {
 }
 }catch(Exception e){}
 
-
 }
 
+ArrayList detail =new ArrayList();
+if(tid!=""){
+	   detail = tracker._fetch(tid.toString());
+}else{
+		detail = tracker._list("DESC","",user.toString(),"1");
+}
+
+boolean isowner = false;
+JSONObject obj =null;
+String ids = "";
+
+if(detail.size()>0){
+	String res = detail.get(0).toString();
+	JSONObject resp = new JSONObject(res);
+    String resu = resp.get("_source").toString();
+    obj = new JSONObject(resu);
+    String tracker_userid = obj.get("userid").toString();
+    if(tracker_userid.equals(user.toString())){
+    	isowner=true;
+    	String query = obj.get("query").toString();
+		query = query.replaceAll("blogsite_id in ", "");		 		
+		query = query.replaceAll("\\(", "");	 
+		query = query.replaceAll("\\)", "");
+		ids=query;
+    }
+}
+
+String allpost = "0";
+float totalinfluence = 0;
+String mostactiveblog="";
+String mostactivebloglink="";
+String mostactiveblogposts="0";
+String mostactiveblogid="0";
+
+String mostactiveblogger="";
+String secondactiveblogger="";
+
+String secondactiveblog = "";
+String secondactiveid = "";
+
+String mostusedkeyword = "";
+String fsid = "";
+
+
+ArrayList mostactive= blog._getMostactive(ids);
+if(mostactive.size()>0){
+	mostactiveblog = mostactive.get(0).toString();
+	mostactivebloglink = mostactive.get(1).toString();
+	mostactiveblogposts = mostactive.get(2).toString();
+	mostactiveblogid = mostactive.get(3).toString();
+	fsid = mostactiveblogid;
+	if(mostactive.size()>4){
+		secondactiveblog = mostactive.get(4).toString();
+		secondactiveid = mostactive.get(7).toString();
+		fsid = mostactiveblogid+","+secondactiveid;
+	}
+}
+
+ArrayList allauthors = new ArrayList();
+if(!ids.equals("")){
+	allpost = post._getTotalByBlogId(ids,"");
+	allauthors=post._getBloggerByBlogId(ids,"");	
+}
+
+ArrayList allterms = term._fetch(fsid);
+int highestfrequency = 0;
+JSONArray topterms = new JSONArray();
+JSONObject keys = new JSONObject();
+if (allterms.size() > 0) {
+
+	for (int p = 0; p < allterms.size(); p++) {
+		String bstr = allterms.get(p).toString();
+		JSONObject bj = new JSONObject(bstr);
+		bstr = bj.get("_source").toString();
+		bj = new JSONObject(bstr);
+		String frequency = bj.get("frequency").toString();
+		int freq = Integer.parseInt(frequency);
+		
+		String tm = bj.get("term").toString();
+		if(freq>highestfrequency){
+			highestfrequency = freq;
+			mostusedkeyword = tm;
+		}
+		JSONObject cont = new JSONObject();
+		cont.put("key", tm);
+		cont.put("frequency", frequency);
+		if(!keys.has(tm)){
+			keys.put(tm,tm);
+			topterms.put(cont);
+		}
+	}
+}
+
+System.out.println(topterms);
 %>
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers-Influence</title>
-  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
-  <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
-  <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
-  <!-- start of bootsrap -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
-  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css"/>
-  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"/>
-  <link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.css" />
-  <link rel="stylesheet" href="assets/fonts/iconic/css/open-iconic.css" />
- <link rel="stylesheet" href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
- <link rel="stylesheet" href="assets/css/table.css" />
- <link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blogtrackers-Influence</title>
+<link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
+<link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
+<link rel="apple-touch-icon" sizes="96x96"
+	href="images/favicons/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="144x144"
+	href="images/favicons/favicon-144x144.png">
+<!-- start of bootsrap -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css" />
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet"
+	href="assets/fonts/fontawesome/css/fontawesome-all.css" />
+<link rel="stylesheet" href="assets/fonts/iconic/css/open-iconic.css" />
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet"
+	href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
 
-  <!--end of bootsrap -->
-  <script src="assets/js/jquery-3.2.1.slim.min.js"  ></script>
-<script src="assets/js/popper.min.js" ></script>
+<!--end of bootsrap -->
+<script src="assets/js/jquery-3.2.1.slim.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
 </head>
 <body>
 
-   <div class="modal-notifications">
-<div class="row">
-<div class="col-lg-10 closesection">
-	
-	</div>
-  <div class="col-lg-2 col-md-12 notificationpanel">
-    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
-  <div class="profilesection col-md-12 mt50">
-  <% if(userinfo.size()>0){ %>
-    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
-    <div class="text-center" style="margin-left:0px;">
-      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
-      <p class="text-primary profiletext"><%=email%></p>
-    </div>
-  <%} %>
-  </div>
-  <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <% if(userinfo.size()>0){ %>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
-  <%}else{ %>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/login"><h6 class="text-primary">Login</h6></a>
-  
-  <%} %>
-  </div>
-  </div>
-</div>
-</div>
-      <nav class="navbar navbar-inverse bg-primary">
-        <div class="container-fluid mt10 mb10">
+	<div class="modal-notifications">
+		<div class="row">
+			<div class="col-lg-10 closesection"></div>
+			<div class="col-lg-2 col-md-12 notificationpanel">
+				<div id="closeicon" class="cursor-pointer">
+					<i class="fas fa-times-circle"></i>
+				</div>
+				<div class="profilesection col-md-12 mt50">
+					<% if(userinfo.size()>0){ %>
+					<div class="text-center mb10">
+						<img src="<%=profileimage%>" width="60" height="60"
+							onerror="this.src='images/default-avatar.png'" alt="" />
+					</div>
+					<div class="text-center" style="margin-left: 0px;">
+						<h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+						<p class="text-primary profiletext"><%=email%></p>
+					</div>
+					<%} %>
+				</div>
+				<div id="othersection" class="col-md-12 mt10" style="clear: both">
+					<% if(userinfo.size()>0){ %>
+					<a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/notifications.jsp"><h6
+							class="text-primary">
+							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
+						</h6> </a> <a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/profile.jsp"><h6
+							class="text-primary">Profile</h6></a> <a
+						class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/logout"><h6
+							class="text-primary">Log Out</h6></a>
+					<%}else{ %>
+					<a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/login"><h6
+							class="text-primary">Login</h6></a>
 
-          <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex col-lg-3">
-          <a class="navbar-brand text-center logohomeothers" href="./">
-  </a>
-          </div>
-          <!-- Mobile Menu -->
-          <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-          </button>
-          </nav>
-          <!-- <div class="navbar-header ">
+					<%} %>
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar navbar-inverse bg-primary">
+		<div class="container-fluid mt10 mb10">
+
+			<div
+				class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex col-lg-3">
+				<a class="navbar-brand text-center logohomeothers" href="./"> </a>
+			</div>
+			<!-- Mobile Menu -->
+			<nav
+				class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none"
+				id="menutoggle">
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarToggleExternalContent"
+					aria-controls="navbarToggleExternalContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</nav>
+			<!-- <div class="navbar-header ">
           <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
           </div> -->
-          <!-- Mobile menu  -->
-          <div class="col-lg-6 themainmenu"  align="center">
-            <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-           <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
-         
-                </ul>
-          </div>
+			<!-- Mobile menu  -->
+			<div class="col-lg-6 themainmenu" align="center">
+				<ul class="nav main-menu2"
+					style="display: inline-flex; display: -webkit-inline-flex; display: -mozkit-inline-flex;">
+					<li><a class="bold-text"
+						href="<%=request.getContextPath()%>/blogbrowser.jsp"><i
+							class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+					<li><a class="bold-text"
+						href="<%=request.getContextPath()%>/trackerlist.jsp"><i
+							class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
+					<li><a class="bold-text"
+						href="<%=request.getContextPath()%>/favorites.jsp"><i
+							class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
 
-     <div class="col-lg-3">
-  	 <% if(userinfo.size()>0){ %>
-  		
-	  <ul class="nav navbar-nav" style="display:block;">
-		  <li class="dropdown dropdown-user cursor-pointer float-right">
-		  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
-		    <i class="fas fa-circle" id="notificationcolor"></i>
-		   
-		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-		  <span><%=username%></span></a>
-			
-		   </li>
-	    </ul>
-         <% }else{ %>
-         <ul class="nav main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-        
-        	<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
-         </ul>
-        <% } %>
-      </div>
+				</ul>
+			</div>
 
-          </div>
-          <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
-          <div class="collapse" id="navbarToggleExternalContent">
-            <ul class="navbar-nav mr-auto mobile-menu">
-                   <li class="nav-item active">
-                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
-              </li>
-                </ul>
-        </div>
-          </div>
+			<div class="col-lg-3">
+				<% if(userinfo.size()>0){ %>
 
-         
+				<ul class="nav navbar-nav" style="display: block;">
+					<li class="dropdown dropdown-user cursor-pointer float-right">
+						<a class="dropdown-toggle " id="profiletoggle"
+						data-toggle="dropdown"> <i class="fas fa-circle"
+							id="notificationcolor"></i> <img src="<%=profileimage%>"
+							width="50" height="50"
+							onerror="this.src='images/default-avatar.png'" alt="" class="" />
+							<span><%=username%></span></a>
 
-        </nav>
-<div class="container">
-<div class="row bottom-border pb20">
-<div class="col-md-6 paddi">
-<nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
-  <a class="breadcrumb-item active text-primary" href="influence.jsp">Influence</a>
-  </nav>
-<div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
-</div>
+					</li>
+				</ul>
+				<% }else{ %>
+				<ul class="nav main-menu2 float-right"
+					style="display: inline-flex; display: -webkit-inline-flex; display: -mozkit-inline-flex;">
 
-<div class="col-md-6 text-right mt10">
-<div class="text-primary demo"><h6 id="reportrange">Date: <span>02/21/18 - 02/28/18</span></h6></div>
-<div>
-  <div class="btn-group mt5" data-toggle="buttons">
-  <label class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder"> <input type="radio" name="options" value="day" autocomplete="off" > Day
-  	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" name="options" value="week" autocomplete="off" >Week
-  	</label>
-     <label class="btn btn-primary btn-sm nobgnoborder nobgnoborder"> <input type="radio" name="options" value="month" autocomplete="off" > Month
-  	</label>
-    <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
-  	</label>
-   <!--  <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
-  </div>
+					<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
+				</ul>
+				<% } %>
+			</div>
 
-  <!-- Day Week Month Year <b id="custom" class="text-primary">Custom</b> -->
+		</div>
+		<div
+			class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
+			<div class="collapse" id="navbarToggleExternalContent">
+				<ul class="navbar-nav mr-auto mobile-menu">
+					<li class="nav-item active"><a class=""
+						href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span
+							class="sr-only">(current)</span></a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a></li>
+				</ul>
+			</div>
+		</div>
 
-</div>
-</div>
-</div>
 
-<!-- <div class="row p40 border-top-bottom mt20 mb20">
+
+	</nav>
+	<div class="container">
+		<div class="row bottom-border pb20">
+			<div class="col-md-6 paddi">
+				<nav class="breadcrumb">
+					<a class="breadcrumb-item text-primary" href="trackerlist.jsp">MY
+						TRACKER</a> <a class="breadcrumb-item text-primary" href="#">Second
+						Tracker</a> <a class="breadcrumb-item active text-primary"
+						href="influence.jsp">Influence</a>
+				</nav>
+				<div>
+					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
+						AS PDF</button>
+				</div>
+			</div>
+
+			<div class="col-md-6 text-right mt10">
+				<div class="text-primary demo">
+					<h6 id="reportrange">
+						Date: <span>02/21/18 - 02/28/18</span>
+					</h6>
+				</div>
+				<div>
+					<div class="btn-group mt5" data-toggle="buttons">
+						<label
+							class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder">
+							<input type="radio" name="options" value="day" autocomplete="off">
+							Day
+						</label> <label class="btn btn-primary btn-sm nobgnoborder"> <input
+							type="radio" name="options" value="week" autocomplete="off">Week
+						</label> <label class="btn btn-primary btn-sm nobgnoborder nobgnoborder">
+							<input type="radio" name="options" value="month"
+							autocomplete="off"> Month
+						</label> <label class="btn btn-primary btn-sm text-center nobgnoborder">Year
+							<input type="radio" name="options" value="year"
+							autocomplete="off">
+						</label>
+						<!--  <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
+					</div>
+
+					<!-- Day Week Month Year <b id="custom" class="text-primary">Custom</b> -->
+
+				</div>
+			</div>
+		</div>
+
+		<!-- <div class="row p40 border-top-bottom mt20 mb20">
   <div class="col-md-2">
 <small class="text-primary">Selected Blogger</small>
 <h2 class="text-primary styleheading">AdNovum <div class="circle"></div></h2>
@@ -230,233 +373,407 @@ if(f.exists() && !f.isDirectory()) {
   </div>
 </div> -->
 
-<div class="row mt20">
-<div class="col-md-3">
+		<div class="row mt20">
+			<div class="col-md-3">
 
-<div class="card card-style mt20">
-  <div class="card-body  p30 pt5 pb5 mb20">
-    <h6 class="mt20 mb20">Top Bloggers</h6>
-    <div style="padding-right:10px !important;">
-      <input type="search" class="form-control stylesearch mb20" placeholder="Search Bloggers" /></div>
-    <div class="scrolly" style="height:270px; padding-right:10px !important;">
-    <a class="btn btn-primary form-control stylebuttonactive mb20"><b>Advonum</b></a>
-    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Abel Danger</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
+				<div class="card card-style mt20">
+					<div class="card-body  p30 pt5 pb5 mb20">
+						<h6 class="mt20 mb20">Top Bloggers</h6>
+						<div style="padding-right: 10px !important;">
+							<input type="search" class="form-control stylesearch mb20"
+								placeholder="Search Bloggers" />
+						</div>
+						<div class="scrolly"
+							style="height: 270px; padding-right: 10px !important;">
 
-   </div>
+							<a class="btn btn-primary form-control stylebuttonactive mb20"><b>Advonum</b></a>
+							<a
+								class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt
+									Fincane</b></a>
+
+							<%
+								JSONObject authors = new JSONObject();
+								JSONObject authoryears = new JSONObject();
+								JSONObject authormonths = new JSONObject();
+								JSONArray authorcount = new JSONArray();
+								JSONObject years = new JSONObject();
+								JSONArray yearsarray = new JSONArray();
+								HashSet uniqueAuthors = new HashSet();
+								int l=0;
+								if(allauthors.size()>0){
+									
+									String tres = null;
+									JSONObject tresp = null;
+									String tresu = null;
+									JSONObject tobj = null;
+									int j=0;
+									int k=0;
+									for(int i=0; i< allauthors.size(); i++){
+										tres = allauthors.get(i).toString();	
+										tresp = new JSONObject(tres);
+										tresu = tresp.get("_source").toString();
+										tobj = new JSONObject(tresu);
+										String auth  = tobj.get("blogger").toString();
+										float influence = Float.parseFloat(tobj.get("influence_score").toString());
+										totalinfluence+=influence;
+										
+										String[] dateyear=tobj.get("date").toString().split("-");
+										String yy= dateyear[0];
+									    String mm = dateyear[1];
+									    
+									    if(!authors.has(auth)){
+									    	if(l==0){
+												mostactiveblogger = auth;
+											}
+									    	
+									    	if(l==1){
+												secondactiveblogger = auth;
+											}
+											l++;
+											
+									    	authors.put(auth, auth);
+									    	JSONObject postyear = new JSONObject();
+									    	JSONObject postmonth = new JSONObject();
+									    	authorcount.put(j, auth);
+									    	postyear.put(yy, 1);
+									    	postmonth.put(yy, 1);
+									    	
+									    	if(!years.has(yy)){
+									    		years.put(yy,yy);
+									    		
+									    		yearsarray.put(k,yy);
+									    		k++;
+									    	}
+									    	
+									    	authoryears.put(auth,postyear);
+									    	authormonths.put(auth,postmonth);
+									    	j++;
+									    	
+									    	%>
+
+							    			<a class="btn btn-primary form-control stylebuttonactive mb20 <% if(!auth.equals(mostactiveblogger) && !auth.equals(secondactiveblogger)){ %>text-primary opacity53<%}else{%> btn-primary <% } %>blogger-select" id="<%=auth.replaceAll(" ", "_")%>" ><b><%=tobj.get("blogger")%></b></a>
+							    			<% }else{
+								    				JSONObject postyear = new JSONObject();
+											    	JSONObject postmonth = new JSONObject();
+											    	
+											    	//String oot = authoryears.get(auth.toString()).toString();
+											    	
+											    	JSONObject byyear = new JSONObject(authoryears.get(auth).toString());
+											    	JSONObject bymonth = new JSONObject(authormonths.get(auth).toString());
+											    	if(!years.has(yy)){
+											    		years.put(yy,yy);
+											    		yearsarray.put(k,yy);
+											    		k++;
+											    	}
+											    	
+											    	if(!byyear.has(yy)){
+											    		postyear.put(yy,1);				    		
+												    }else{
+												    	int prev = Integer.parseInt(byyear.get(yy).toString());
+												    	prev++;
+												    	postyear.put(yy,prev);			    	
+												    }
+												    
+												  
+												    if(!bymonth.has(mm)){
+												    	postmonth.put(mm,1);
+												    }else{
+												    	int prev = Integer.parseInt(bymonth.get(mm).toString());
+												    	prev++;
+												    	postmonth.put(mm,prev);			    	
+												    }
+											    	
+											    	authoryears.put(auth,postyear);
+											    	authormonths.put(auth,postmonth);
+											    	
+							    			   }
+										   // System.out.println(authoryears);
+										    }} 
+								//System.out.println(authoryears);
+							    System.out.println(yearsarray);
+							    %>
 
 
-  </div>
-</div>
-</div>
+						</div>
 
-<div class="col-md-9">
-  <div class="card card-style mt20">
-    <div class="card-body  p30 pt5 pb5">
-      <div style="min-height: 250px;">
-<div><p class="text-primary mt10"><b class="text-primary">Individual</b> Influence Score of Bloggers of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-<div class="chart-container">
-  <div class="chart" id="d3-line-basic"></div>
-</div>
-      </div>
-        </div>
-  </div>
-  <div class="card card-style mt20">
-    <div class="card-body  p30 pt20 pb20">
-      <div class="row">
-     <div class="col-md-3 mt5 mb5">
-       <h6 class="card-title mb0">Influence Score</h6>
-       <h2 class="mb0 bold-text">649</h2>
-       <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
-     </div>
 
-     <div class="col-md-3 mt5 mb5">
-       <h6 class="card-title mb0">Total Posts</h6>
-       <h2 class="mb0 bold-text">2300</h2>
-       <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
-     </div>
+					</div>
+				</div>
+			</div>
 
-     <div class="col-md-3 mt5 mb5">
-       <h6 class="card-title mb0">Most Used Keyword</h6>
-       <h2 class="mb0 bold-text">Krymu</h2>
-       <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
-     </div>
+			<div class="col-md-9">
+				<div class="card card-style mt20">
+					<div class="card-body  p30 pt5 pb5">
+						<div style="min-height: 250px;">
+							<div>
+								<p class="text-primary mt10">
+									<b class="text-primary">Individual</b> Influence Score of
+									Bloggers of Past <select
+										class="text-primary filtersort sortbytimerange"><option
+											value="week">Week</option>
+										<option value="month">Month</option>
+										<option value="year">Year</option></select>
+								</p>
+							</div>
+							<div class="chart-container">
+								<div class="chart" id="d3-line-basic"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card card-style mt20">
+					<div class="card-body  p30 pt20 pb20">
+						<div class="row">
+							<div class="col-md-3 mt5 mb5">
+								<h6 class="card-title mb0">Influence Score</h6>
+								<h2 class="mb0 bold-text"><%=totalinfluence%></h2>
+								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+							</div>
 
-     <div class="col-md-3  mt5 mb5">
-       <h6 class="card-title mb0">Most Active Blog</h6>
-       <h2 class="mb0 bold-text">AdNovum</h2>
-       <small class="text-success"><a href=""><b>View Blog</b></a></small>
-     </div>
+							<div class="col-md-3 mt5 mb5">
+								<h6 class="card-title mb0">Total Posts</h6>
+								<h2 class="mb0 bold-text"><%=allpost%></h2>
+								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+							</div>
 
-      </div>
-        </div>
-  </div>
-</div>
-</div>
+							<div class="col-md-3 mt5 mb5">
+								<h6 class="card-title mb0">Most Used Keyword</h6>
+								<h2 class="mb0 bold-text"><%=mostusedkeyword%></h2>
+								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+							</div>
 
-<div class="row mb0">
-  <div class="col-md-6 mt20 ">
-    <div class="card card-style mt20">
-      <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Keywords of <b class="text-blue">AdNovum</b> and <b class="text-success">Abel Danger</b></p></div>
-        <div class="tagcloudcontainer" style="min-height: 420px;">
+							<div class="col-md-3  mt5 mb5">
+								<h6 class="card-title mb0">Most Active Blog</h6>
+								<h2 class="mb0 bold-text"><%=mostactiveblog%></h2>
+								<small class="text-success"><a href="<%=mostactivebloglink%>" target="_blank"><b>View Blog</b></a></small>
+							</div>
 
-        </div>
-          </div>
-    </div>
-  </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-  <div class="col-md-6 mt20">
-    <div class="card card-style mt20">
-      <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Blogger in Tracker Activity Vs Influence</p></div>
-        <div style="min-height: 420px;">
-          <div class="chart-container">
-            <div class="chart" id="scatterplot"></div>
-          </div>
-        </div>
-          </div>
-    </div>
-  </div>
-</div>
+		<div class="row mb0">
+			<div class="col-md-6 mt20 ">
+				<div class="card card-style mt20">
+					<div class="card-body  p30 pt5 pb5">
+						<div>
+							<p class="text-primary mt10">
+								Keywords of <b class="text-blue"><%=mostactiveblog%></b> and <b
+									class="text-success"><%=secondactiveblog%></b>
+							</p>
+						</div>
+						<div class="tagcloudcontainer" style="min-height: 420px;"></div>
+					</div>
+				</div>
+			</div>
 
-<div class="row m0 mt20 mb50 d-flex align-items-stretch" >
-  <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
-  <div class="card-body p0 pt20 pb20" style="min-height: 420px;">
-      <p>Influential Blog Posts of <b class="text-blue">AdNovum</b> and <b class="text-success">Abel Danger</b></p>
-        <!--   <div class="p15 pb5 pt0" role="group">
+			<div class="col-md-6 mt20">
+				<div class="card card-style mt20">
+					<div class="card-body  p30 pt5 pb5">
+						<div>
+							<p class="text-primary mt10">Blogger in Tracker Activity Vs
+								Influence</p>
+						</div>
+						<div style="min-height: 420px;">
+							<div class="chart-container">
+								<div class="chart" id="scatterplot"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row m0 mt20 mb50 d-flex align-items-stretch">
+			<div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
+				<div class="card-body p0 pt20 pb20" style="min-height: 420px;" id="influential-post-box">
+					<p>
+						Influential Blog Posts of <b class="text-blue"><%=mostactiveblogger%></b> and <b
+							class="text-success"><%=secondactiveblogger%></b>
+					</p>
+					<!--   <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-                <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th class="bold-text text-primary">Post title</th>
-                                <th class="bold-text text-primary">Influence Score</th>
+					<table id="DataTables_Table_0_wrapper" class="display"
+						style="width: 100%">
+						<thead>
+							<tr>
+								<th class="bold-text text-primary">Post title</th>
+								<th class="bold-text text-primary">Influence Score</th>
 
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                <td align="center">649</td>
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">49</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="center">649</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="center">49</td>
 
 
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">9</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="center">9</td>
 
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
-
-
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="center">79</td>
 
 
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="center">79</td>
 
 
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="center">79</td>
 
 
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="center">79</td>
 
 
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
-
-                            </tr>
-                            <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="center">79</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="center">79</td>
 
 
-                            </tr>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="center">79</td>
 
-                        </tbody>
-                    </table>
-        </div>
-
-  </div>
-
-  <div class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
-        <div style="" class="pt20">
-          <h5 class="text-primary p20 pt0 pb0">#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</h5>
-          <div class="text-center mb20 mt20"><button class="btn stylebuttonblue"><b class="float-left ultra-bold-text">Michael J Fox</b> <i class="far fa-user float-right blogcontenticon"></i></button> <button class="btn stylebuttonnocolor">02-01-2018, 5:30pm</button> <button class="btn stylebuttonorange"><b class="float-left ultra-bold-text">32 comments</b><i class="far fa-comments float-right blogcontenticon"></i></button></div>
-          <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:600px; overflow-y:scroll; ">
-          You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete
-          images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer.
-           Praesent nibh
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-         </div>
-    </div>
-  </div>
-</div>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="center">79</td>
 
 
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+
+			<div
+				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
+				<div style="" class="pt20">
+					<h5 class="text-primary p20 pt0 pb0">#1809: Marine Links
+						Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One
+						Pentagon bomb</h5>
+					<div class="text-center mb20 mt20">
+						<button class="btn stylebuttonblue">
+							<b class="float-left ultra-bold-text">Michael J Fox</b> <i
+								class="far fa-user float-right blogcontenticon"></i>
+						</button>
+						<button class="btn stylebuttonnocolor">02-01-2018, 5:30pm</button>
+						<button class="btn stylebuttonorange">
+							<b class="float-left ultra-bold-text">32 comments</b><i
+								class="far fa-comments float-right blogcontenticon"></i>
+						</button>
+					</div>
+					<div class="p20 pt0 pb20 text-blog-content text-primary"
+						style="height: 600px; overflow-y: scroll;">You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh...</div>
+				</div>
+			</div>
+		</div>
 
 
 
-</div>
 
 
-<!-- <footer class="footer">
+	</div>
+
+
+	<!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
 <p class="text-center text-medium pt10 pb10 mb0">Copyright &copy; Blogtrackers 2017 All Rights Reserved.</p>
 </div>
   </footer> -->
 
 
-  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
- <script src="assets/bootstrap/js/bootstrap.js">
+	<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.js">
  </script>
- <script src="assets/js/generic.js">
+	<script src="assets/js/generic.js">
  </script>
- <script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
- <script src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
- <!-- Start for tables  -->
- <script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
- <script type="text/javascript" src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
- <script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
- <script src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
- <script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
- <script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
- <script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
- <script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
+	<script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
+	<script
+		src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<!-- Start for tables  -->
+	<script type="text/javascript"
+		src="assets/vendors/DataTables/datatables.min.js"></script>
+	<script type="text/javascript"
+		src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
+	<script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
+	<script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
- <script>
+	<script>
  $(document).ready(function() {
 	 
 	 $('#printdoc').on('click',function(){
@@ -505,8 +822,8 @@ if(f.exists() && !f.isDirectory()) {
      } );
  } );
  </script>
- <!--end for table  -->
- <script>
+	<!--end for table  -->
+	<script>
  $(document).ready(function() {
    $(document)
    						.ready(
@@ -632,10 +949,10 @@ if(f.exists() && !f.isDirectory()) {
    //$('#config-demo').daterangepicker(options, function(start, end, label) { console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); });
  });
  </script>
- <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
- <script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
- <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
- <script>
+	<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
+	<script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
+	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
+	<script>
  $(function () {
 
      // Initialize chart
@@ -727,13 +1044,28 @@ if(f.exists() && !f.isDirectory()) {
          // data = [[{"date": "Jan","close": 120},{"date": "Feb","close": 140},{"date": "Mar","close":160},{"date": "Apr","close": 180},{"date": "May","close": 200},{"date": "Jun","close": 220},{"date": "Jul","close": 240},{"date": "Aug","close": 260},{"date": "Sep","close": 280},{"date": "Oct","close": 300},{"date": "Nov","close": 320},{"date": "Dec","close": 340}],
          // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
          // ];
-
+		/*
          data = [
            [{"date":"2014","close":400},{"date":"2015","close":600},{"date":"2016","close":1300},{"date":"2017","close":1700},{"date":"2018","close":2100}],
            [{"date":"2014","close":350},{"date":"2015","close":700},{"date":"2016","close":1500},{"date":"2017","close":1600},{"date":"2018","close":1250}],
            [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200},{"date":"2017","close":1200},{"date":"2018","close":2600}]
          ];
-
+		*/
+         data = [<% for(int p=0; p<authorcount.length(); p++){ 
+ 	  		String au = authorcount.get(p).toString();
+ 	  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
+ 	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
+ 		  		String year=yearsarray.get(q).toString(); 
+ 		  		if(specific_auth.has(year)){ %>
+ 		  			{"date":"<%=year%>","close":<%=specific_auth.get(year) %>},
+ 			<%
+ 		  		}else{ %>
+ 		  			{"date":"<%=year%>","close":0},
+ 	   		<% } %>
+ 		<%  
+ 	  		}%>]<% if(p<authorcount.length()-1){%>,<%}%>
+ 	  <%	}
+ 	  %> ];
          //console.log(data);
          // data = [];
 
@@ -1135,8 +1467,8 @@ if(f.exists() && !f.isDirectory()) {
  });
  </script>
 
- <!-- Scattert Plot -->
- <script>
+	<!-- Scattert Plot -->
+	<script>
 
  $(function () {
 
@@ -1601,11 +1933,65 @@ if(f.exists() && !f.isDirectory()) {
  });
  </script>
 
-<!--word cloud  -->
- <script>
+	<!--word cloud  -->
+	<script>
 
-     var frequency_list = [{"text":"study","size":40},{"text":"motion","size":15},{"text":"forces","size":10},{"text":"electricity","size":15},{"text":"movement","size":10},{"text":"relation","size":5},{"text":"things","size":10},{"text":"force","size":5},{"text":"ad","size":5},{"text":"energy","size":85},{"text":"living","size":5},{"text":"nonliving","size":5},{"text":"laws","size":15},{"text":"speed","size":45},{"text":"velocity","size":30},{"text":"define","size":5},{"text":"constraints","size":5},{"text":"universe","size":10},{"text":"distinguished","size":5},{"text":"chemistry","size":5},{"text":"biology","size":5},{"text":"includes","size":5},{"text":"radiation","size":5},{"text":"sound","size":5},{"text":"structure","size":5},{"text":"atoms","size":5},{"text":"including","size":10},{"text":"atomic","size":10},{"text":"nuclear","size":10},{"text":"cryogenics","size":10},{"text":"solid-state","size":10},{"text":"particle","size":10},{"text":"plasma","size":10},{"text":"deals","size":5},{"text":"merriam-webster","size":5},{"text":"dictionary","size":10},{"text":"analysis","size":5},{"text":"conducted","size":5},{"text":"order","size":5},{"text":"understand","size":5},{"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
-
+     //var frequency_list = [{"text":"study","size":40},{"text":"motion","size":15},{"text":"forces","size":10},{"text":"electricity","size":15},{"text":"movement","size":10},{"text":"relation","size":5},{"text":"things","size":10},{"text":"force","size":5},{"text":"ad","size":5},{"text":"energy","size":85},{"text":"living","size":5},{"text":"nonliving","size":5},{"text":"laws","size":15},{"text":"speed","size":45},{"text":"velocity","size":30},{"text":"define","size":5},{"text":"constraints","size":5},{"text":"universe","size":10},{"text":"distinguished","size":5},{"text":"chemistry","size":5},{"text":"biology","size":5},{"text":"includes","size":5},{"text":"radiation","size":5},{"text":"sound","size":5},{"text":"structure","size":5},{"text":"atoms","size":5},{"text":"including","size":10},{"text":"atomic","size":10},{"text":"nuclear","size":10},{"text":"cryogenics","size":10},{"text":"solid-state","size":10},{"text":"particle","size":10},{"text":"plasma","size":10},{"text":"deals","size":5},{"text":"merriam-webster","size":5},{"text":"dictionary","size":10},{"text":"analysis","size":5},{"text":"conducted","size":5},{"text":"order","size":5},{"text":"understand","size":5},{"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
+	     var frequency_list = [
+    	 <%if (topterms.length() > 0) {
+						for (int i = 0; i < topterms.length(); i++) {
+							JSONObject jsonObj = topterms.getJSONObject(i);
+							int size = Integer.parseInt(jsonObj.getString("frequency")) * 10;
+							System.out.println("Info" + "Key: " + jsonObj.getString("key") + ", value: " + size);%>
+    		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
+    	 <%}
+					}%>
+    	
+    	/*	    	 
+    	 {"text":"study","size":40},
+    	 {"text":"motion","size":15},
+    	 {"text":"forces","size":10},
+    	 {"text":"electricity","size":15},
+    	 {"text":"movement","size":10},
+    	 {"text":"relation","size":5},
+    	 {"text":"things","size":10},
+    	 {"text":"force","size":5},
+    	 {"text":"ad","size":5},
+    	 {"text":"energy","size":85},
+    	 {"text":"living","size":5},
+    	 {"text":"nonliving","size":5},
+    	 {"text":"laws","size":15},
+    	 {"text":"speed","size":45},
+    	 {"text":"velocity","size":30},
+    	 {"text":"define","size":5},
+    	 {"text":"constraints","size":5},
+    	 {"text":"universe","size":10},
+    	 {"text":"distinguished","size":5},
+    	 {"text":"chemistry","size":5},
+    	 {"text":"biology","size":5},
+    	 {"text":"includes","size":5},
+    	 {"text":"radiation","size":5},
+    	 {"text":"sound","size":5},
+    	 {"text":"structure","size":5},
+    	 {"text":"atoms","size":5},
+    	 {"text":"including","size":10},
+    	 {"text":"atomic","size":10},
+    	 {"text":"nuclear","size":10},
+    	 {"text":"cryogenics","size":10},
+    	 {"text":"solid-state","size":10},
+    	 {"text":"particle","size":10},
+    	 {"text":"plasma","size":10},
+    	 {"text":"deals","size":5},
+    	 {"text":"merriam-webster","size":5},
+    	 {"text":"dictionary","size":10},
+    	 {"text":"analysis","size":5},
+    	 {"text":"conducted","size":5},
+    	 {"text":"order","size":5},
+    	 {"text":"understand","size":5},
+    	 {"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},
+    	 {"text":"power","size":5}
+    	 */
+    	 ];
 
      var color = d3.scale.linear()
              .domain([0,1,2,3,4,5,6,10,15,20,80])

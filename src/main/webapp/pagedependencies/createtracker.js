@@ -108,6 +108,7 @@ $(document).ready(function(){
 	   $(this).parent().parent().html(bloglisthtmlupdate + trackerdescriptionhtmlupdate + blogcounthtmlupdate + postcounthtmlupdate + commentcounthtmlupdate + buttonhtmlupdate);
 	   
 	  
+	   
 	   // get script to refresh tracker
 	   $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
 		  

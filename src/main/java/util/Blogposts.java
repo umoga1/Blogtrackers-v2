@@ -5,16 +5,23 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL; 
 import org.json.JSONObject;
+
+import authentication.DbConnection;
+
 import org.json.JSONArray;
 
 import java.io.OutputStreamWriter;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Blogposts {
 
-	String base_url = "http://144.167.115.218:9200/blogposts/";
+	HashMap<String, String> hm = DbConnection.loadConstant();		
+
+	String base_url = hm.get("elasticIndex")+"blogposts/";
+	
 	String totalpost;		    
 
 	public ArrayList _list(String order, String from, String sortby) throws Exception {
@@ -57,8 +64,10 @@ public class Blogposts {
 		return this.totalpost;
 	}
 
+
+	
 	public ArrayList _getBloggerByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=200";
+		String url = base_url+"_search?size=10";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -68,8 +77,8 @@ public class Blogposts {
 
 		String arg2 = pars.toString();
 		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
-		
-		
+
+
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);

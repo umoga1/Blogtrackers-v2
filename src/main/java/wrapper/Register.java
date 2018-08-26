@@ -17,7 +17,7 @@ import authentication.DbConnection;
 /**
  * 
  * Servlet implementation class Register
- * @author Adedayo Ayodele
+ * @author Adewale
  * 
  */
 @WebServlet("/register")

@@ -9,6 +9,11 @@ body{
 {
 color:blue;
 } */
+
+.dash-label
+{
+    font-size: 1.70rem;	
+}
 .border-white
 {
 border: 4px solid #ffffff;
@@ -888,7 +893,7 @@ display: inherit;
 {
 padding:0;
 border:none;
-width:80px;
+width:140px;
 background-color:transparent;		
 }
 .sortby:focus
@@ -1100,7 +1105,7 @@ font-family: inherit !important;
 .blogbrowsersearch::placeholder
 {
 font-size: 60px !important;
-line-height: 70px;
+line-height: 79px;
 color:#45606F !important;
 font-weight: 600;
 
