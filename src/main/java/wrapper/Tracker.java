@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONObject;
 
 import util.Trackers;
+import util.Blogposts;
 
 /**
  * 
@@ -47,7 +48,9 @@ public class Tracker extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		 Trackers trk = new Trackers();               
+		 Trackers trk = new Trackers();  
+		 Blogposts bp = new Blogposts();  
+		 
 		 PrintWriter pww = response.getWriter();
 		 HttpSession session = request.getSession();
 			
@@ -111,6 +114,21 @@ public class Tracker extends HttpServlet {
 				pww.write(output);
 			}catch(Exception e) {
 				 pww.write("false"); 
+			 }	
+			
+		}else if(action.equals("getpostbyblogger")) {
+			String blogger= request.getParameter("blogger").replaceAll("\\<.*?\\>", "");
+			
+			try {
+				ArrayList posts = bp._getPostByBlogger(blogger);
+				if(posts.size()>0){
+					pww.write("Include post by "+blogger+" here");
+				}else {
+					pww.write("No Post found");
+				}
+				
+			}catch(Exception e) {
+				 pww.write("error"); 
 			 }	
 			
 		}

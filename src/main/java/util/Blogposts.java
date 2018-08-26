@@ -148,6 +148,24 @@ public class Blogposts {
 		return this._getResult(url, jsonObj);
 	}
 
+	public ArrayList _getPostByBlogger(String blogger)throws Exception {
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"        \"query_string\" : {\r\n" + 
+				"            \"fields\" : [\"blogger\"],\r\n" + 
+				"            \"query\" : \""+blogger+"\"\r\n" + 
+				"        }\r\n" + 
+				"  },\r\n" + 
+				"   \"sort\":{\r\n" + 
+				"		\"date\":{\r\n" + 
+				"			\"order\":\"DESC\"\r\n" + 
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"}");
+		String url = base_url+"_search?size=10";
+		return this._getResult(url, jsonObj);
+	}
+	
 	/* Fetch posts by blog ids*/
 	public String _getTotalByBlogId(String blog_ids,String from) throws Exception {
 		String url = base_url+"_search?size=100";

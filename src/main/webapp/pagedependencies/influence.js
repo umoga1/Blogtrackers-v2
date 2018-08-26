@@ -1,8 +1,8 @@
 // delete all blog from tracker action
 $('.blogger-select').on("click", function(e){
 
-		var id = $(e).attr("id");
-		id = id.replaceAll("_"," ");
+		var blogger = $(e).attr("id");
+		blogger = blogger.replaceAll("_"," ");
 		// put this block of code in the ajax success request	
 		
 		//grab all id of blog and perform an ajax request
@@ -11,7 +11,7 @@ $('.blogger-select').on("click", function(e){
 			method: 'POST',
 			data: {
 				action:"fetchpost",
-				blogger:id,
+				blogger:blogger,
 			},
 			error: function(response)
 			{						

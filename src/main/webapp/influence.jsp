@@ -29,135 +29,135 @@ Terms term  = new Terms();
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
 if (userinfo.size()<1) {
-
+	response.sendRedirect("login.jsp");
 }else{
 userinfo = (ArrayList<?>)userinfo.get(0);
-try{
-username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
-
-name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
-
-
-email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
-phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
-//date_modified = userinfo.get(11).toString();
-
-String userpic = userinfo.get(9).toString();
-String[] user_name = name.split(" ");
-username = user_name[0];
-
-String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
-String filename = userinfo.get(9).toString();
-
-profileimage = "images/default-avatar.png";
-if(userpic.indexOf("http")>-1){
-	profileimage = userpic;
-}
-
-
-
-File f = new File(filename);
-if(f.exists() && !f.isDirectory()) { 
-	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
-}
-}catch(Exception e){}
-
-}
-
-ArrayList detail =new ArrayList();
-if(tid!=""){
-	   detail = tracker._fetch(tid.toString());
-}else{
-		detail = tracker._list("DESC","",user.toString(),"1");
-}
-
-boolean isowner = false;
-JSONObject obj =null;
-String ids = "";
-
-if(detail.size()>0){
-	String res = detail.get(0).toString();
-	JSONObject resp = new JSONObject(res);
-    String resu = resp.get("_source").toString();
-    obj = new JSONObject(resu);
-    String tracker_userid = obj.get("userid").toString();
-    if(tracker_userid.equals(user.toString())){
-    	isowner=true;
-    	String query = obj.get("query").toString();
-		query = query.replaceAll("blogsite_id in ", "");		 		
-		query = query.replaceAll("\\(", "");	 
-		query = query.replaceAll("\\)", "");
-		ids=query;
-    }
-}
-
-String allpost = "0";
-float totalinfluence = 0;
-String mostactiveblog="";
-String mostactivebloglink="";
-String mostactiveblogposts="0";
-String mostactiveblogid="0";
-
-String mostactiveblogger="";
-String secondactiveblogger="";
-
-String secondactiveblog = "";
-String secondactiveid = "";
-
-String mostusedkeyword = "";
-String fsid = "";
-
-
-ArrayList mostactive= blog._getMostactive(ids);
-if(mostactive.size()>0){
-	mostactiveblog = mostactive.get(0).toString();
-	mostactivebloglink = mostactive.get(1).toString();
-	mostactiveblogposts = mostactive.get(2).toString();
-	mostactiveblogid = mostactive.get(3).toString();
-	fsid = mostactiveblogid;
-	if(mostactive.size()>4){
-		secondactiveblog = mostactive.get(4).toString();
-		secondactiveid = mostactive.get(7).toString();
-		fsid = mostactiveblogid+","+secondactiveid;
+	try{
+	username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+	
+	name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
+	
+	
+	email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
+	phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
+	//date_modified = userinfo.get(11).toString();
+	
+	String userpic = userinfo.get(9).toString();
+	String[] user_name = name.split(" ");
+	username = user_name[0];
+	
+	String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+	String filename = userinfo.get(9).toString();
+	
+	profileimage = "images/default-avatar.png";
+	if(userpic.indexOf("http")>-1){
+		profileimage = userpic;
 	}
-}
+	
+	
+	
+	File f = new File(filename);
+	if(f.exists() && !f.isDirectory()) { 
+		profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+	}
+	}catch(Exception e){}
+	
+	}
 
-ArrayList allauthors = new ArrayList();
-if(!ids.equals("")){
-	allpost = post._getTotalByBlogId(ids,"");
-	allauthors=post._getBloggerByBlogId(ids,"");	
-}
+	ArrayList detail =new ArrayList();
+	if(tid!=""){
+		   detail = tracker._fetch(tid.toString());
+	}else{
+			detail = tracker._list("DESC","",user.toString(),"1");
+	}
 
-ArrayList allterms = term._fetch(fsid);
-int highestfrequency = 0;
-JSONArray topterms = new JSONArray();
-JSONObject keys = new JSONObject();
-if (allterms.size() > 0) {
+	boolean isowner = false;
+	JSONObject obj =null;
+	String ids = "";
+	
+	if(detail.size()>0){
+		String res = detail.get(0).toString();
+		JSONObject resp = new JSONObject(res);
+	    String resu = resp.get("_source").toString();
+	    obj = new JSONObject(resu);
+	    String tracker_userid = obj.get("userid").toString();
+	    if(tracker_userid.equals(user.toString())){
+	    	isowner=true;
+	    	String query = obj.get("query").toString();
+			query = query.replaceAll("blogsite_id in ", "");		 		
+			query = query.replaceAll("\\(", "");	 
+			query = query.replaceAll("\\)", "");
+			ids=query;
+	    }
+	}
+	
+	String allpost = "0";
+	float totalinfluence = 0;
+	String mostactiveblog="";
+	String mostactivebloglink="";
+	String mostactiveblogposts="0";
+	String mostactiveblogid="0";
+	
+	String mostactiveblogger="";
+	String secondactiveblogger="";
+	
+	String secondactiveblog = "";
+	String secondactiveid = "";
+	
+	String mostusedkeyword = "";
+	String fsid = "";
 
-	for (int p = 0; p < allterms.size(); p++) {
-		String bstr = allterms.get(p).toString();
-		JSONObject bj = new JSONObject(bstr);
-		bstr = bj.get("_source").toString();
-		bj = new JSONObject(bstr);
-		String frequency = bj.get("frequency").toString();
-		int freq = Integer.parseInt(frequency);
-		
-		String tm = bj.get("term").toString();
-		if(freq>highestfrequency){
-			highestfrequency = freq;
-			mostusedkeyword = tm;
-		}
-		JSONObject cont = new JSONObject();
-		cont.put("key", tm);
-		cont.put("frequency", frequency);
-		if(!keys.has(tm)){
-			keys.put(tm,tm);
-			topterms.put(cont);
+
+	ArrayList mostactive= blog._getMostactive(ids);
+	if(mostactive.size()>0){
+		mostactiveblog = mostactive.get(0).toString();
+		mostactivebloglink = mostactive.get(1).toString();
+		mostactiveblogposts = mostactive.get(2).toString();
+		mostactiveblogid = mostactive.get(3).toString();
+		fsid = mostactiveblogid;
+		if(mostactive.size()>4){
+			secondactiveblog = mostactive.get(4).toString();
+			secondactiveid = mostactive.get(7).toString();
+			fsid = mostactiveblogid+","+secondactiveid;
 		}
 	}
-}
+	
+	ArrayList allauthors = new ArrayList();
+	if(!ids.equals("")){
+		allpost = post._getTotalByBlogId(ids,"");
+		allauthors=post._getBloggerByBlogId(ids,"");	
+	}
 
-System.out.println(topterms);
+	ArrayList allterms = term._fetch(fsid);
+	int highestfrequency = 0;
+	JSONArray topterms = new JSONArray();
+	JSONObject keys = new JSONObject();
+	if (allterms.size() > 0) {
+	
+		for (int p = 0; p < allterms.size(); p++) {
+			String bstr = allterms.get(p).toString();
+			JSONObject bj = new JSONObject(bstr);
+			bstr = bj.get("_source").toString();
+			bj = new JSONObject(bstr);
+			String frequency = bj.get("frequency").toString();
+			int freq = Integer.parseInt(frequency);
+			
+			String tm = bj.get("term").toString();
+			if(freq>highestfrequency){
+				highestfrequency = freq;
+				mostusedkeyword = tm;
+			}
+			JSONObject cont = new JSONObject();
+			cont.put("key", tm);
+			cont.put("frequency", frequency);
+			if(!keys.has(tm)){
+				keys.put(tm,tm);
+				topterms.put(cont);
+			}
+		}
+	}
+
+//System.out.println(topterms);
 %>
 <!DOCTYPE html>
 <html>
@@ -396,10 +396,12 @@ System.out.println(topterms);
 								JSONObject authoryears = new JSONObject();
 								JSONObject authormonths = new JSONObject();
 								JSONArray authorcount = new JSONArray();
+								JSONArray posttodisplay = new JSONArray();
 								JSONObject years = new JSONObject();
 								JSONArray yearsarray = new JSONArray();
 								HashSet uniqueAuthors = new HashSet();
 								int l=0;
+								int qc=0;
 								if(allauthors.size()>0){
 									
 									String tres = null;
@@ -413,7 +415,14 @@ System.out.println(topterms);
 										tresp = new JSONObject(tres);
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
+										
 										String auth  = tobj.get("blogger").toString();
+										String posttitle  = tobj.get("title").toString();
+										String body  = tobj.get("post").toString();
+										String dt  = tobj.get("date").toString();
+										String num_comment  = tobj.get("num_comments").toString();
+										num_comment = num_comment.equals("null")?"0":num_comment;
+										
 										float influence = Float.parseFloat(tobj.get("influence_score").toString());
 										totalinfluence+=influence;
 										
@@ -429,6 +438,8 @@ System.out.println(topterms);
 									    	if(l==1){
 												secondactiveblogger = auth;
 											}
+									    	
+									    	
 											l++;
 											
 									    	authors.put(auth, auth);
@@ -487,6 +498,18 @@ System.out.println(topterms);
 											    	authormonths.put(auth,postmonth);
 											    	
 							    			   }
+									    		
+											    if(auth.equals(mostactiveblogger) || auth.equals(secondactiveblogger) ){
+												    	JSONObject disp = new JSONObject();
+												    	disp.put("title",posttitle);
+												    	disp.put("influence",influence);
+												    	disp.put("body",body);
+												    	disp.put("blogger",auth);
+												    	disp.put("date",dt);
+												    	disp.put("num_comments",num_comment);
+												    	posttodisplay.put(qc,disp);
+												    	qc++;
+											    }
 										   // System.out.println(authoryears);
 										    }} 
 								//System.out.println(authoryears);
@@ -607,74 +630,16 @@ System.out.println(topterms);
 							</tr>
 						</thead>
 						<tbody>
+						<% if(posttodisplay.length()>0){ 
+							for(int y=0; y<posttodisplay.length(); y++){
+								JSONObject postjson = new JSONObject(posttodisplay.get(y).toString());
+						%>
 							<tr>
-								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
-									War Rooms, Serco Base One Pentagon bomb</td>
-								<td align="center">649</td>
+								<td>#<%=(y+1)%>: <%=postjson.get("title") %></td>
+								<td align="center"><%=postjson.get("influence") %></td>
 							</tr>
-							<tr>
-								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
-									War Rooms, Serco Base One Pentagon bomb</td>
-								<td align="center">49</td>
-
-
-							</tr>
-							<tr>
-								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
-									War Rooms, Serco Base One Pentagon bomb</td>
-								<td align="center">9</td>
-
-							</tr>
-							<tr>
-								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
-									War Rooms, Serco Base One Pentagon bomb</td>
-								<td align="center">79</td>
-
-
-							</tr>
-							<tr>
-								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
-									War Rooms, Serco Base One Pentagon bomb</td>
-								<td align="center">79</td>
-
-
-							</tr>
-							<tr>
-								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
-									War Rooms, Serco Base One Pentagon bomb</td>
-								<td align="center">79</td>
-
-
-							</tr>
-							<tr>
-								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
-									War Rooms, Serco Base One Pentagon bomb</td>
-								<td align="center">79</td>
-
-
-							</tr>
-							<tr>
-								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
-									War Rooms, Serco Base One Pentagon bomb</td>
-								<td align="center">79</td>
-
-
-							</tr>
-							<tr>
-								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
-									War Rooms, Serco Base One Pentagon bomb</td>
-								<td align="center">79</td>
-
-							</tr>
-							<tr>
-								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
-									War Rooms, Serco Base One Pentagon bomb</td>
-								<td align="center">79</td>
-
-
-							</tr>
-
-						</tbody>
+						<% }} %>
+													</tbody>
 					</table>
 				</div>
 
@@ -683,55 +648,27 @@ System.out.println(topterms);
 			<div
 				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
 				<div style="" class="pt20">
-					<h5 class="text-primary p20 pt0 pb0">#1809: Marine Links
-						Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One
-						Pentagon bomb</h5>
+				<% if(posttodisplay.length()>0){ 
+							JSONObject postdetjson = new JSONObject(posttodisplay.get(0).toString());
+					%>
+					<h5 class="text-primary p20 pt0 pb0">#1: <%=postdetjson.get("title")%></h5>
 					<div class="text-center mb20 mt20">
 						<button class="btn stylebuttonblue">
-							<b class="float-left ultra-bold-text">Michael J Fox</b> <i
+							<b class="float-left ultra-bold-text"><%=postdetjson.get("blogger")%></b> <i
 								class="far fa-user float-right blogcontenticon"></i>
 						</button>
-						<button class="btn stylebuttonnocolor">02-01-2018, 5:30pm</button>
+						<button class="btn stylebuttonnocolor"><%=postdetjson.get("date")%></button>
 						<button class="btn stylebuttonorange">
-							<b class="float-left ultra-bold-text">32 comments</b><i
+							<b class="float-left ultra-bold-text"><%=postdetjson.get("num_comments")%> comments</b><i
 								class="far fa-comments float-right blogcontenticon"></i>
 						</button>
 					</div>
 					<div class="p20 pt0 pb20 text-blog-content text-primary"
-						style="height: 600px; overflow-y: scroll;">You can create
-						Slideshows and Stacked galleries with Post Format: Gallery. Also
-						you can manage - add/edit/delete images any time you want. Hyper-X
-						comes with huge amount of gallery options, which could be
-						previewed from Theme Customizer. Praesent nibh You can create
-						Slideshows and Stacked galleries with Post Format: Gallery. Also
-						you can manage - add/edit/delete images any time you want. Hyper-X
-						comes with huge amount of gallery options, which could be
-						previewed from Theme Customizer. Praesent nibh... You can create
-						Slideshows and Stacked galleries with Post Format: Gallery. Also
-						you can manage - add/edit/delete images any time you want. Hyper-X
-						comes with huge amount of gallery options, which could be
-						previewed from Theme Customizer. Praesent nibh... You can create
-						Slideshows and Stacked galleries with Post Format: Gallery. Also
-						you can manage - add/edit/delete images any time you want. Hyper-X
-						comes with huge amount of gallery options, which could be
-						previewed from Theme Customizer. Praesent nibh... You can create
-						Slideshows and Stacked galleries with Post Format: Gallery. Also
-						you can manage - add/edit/delete images any time you want. Hyper-X
-						comes with huge amount of gallery options, which could be
-						previewed from Theme Customizer. Praesent nibh... You can create
-						Slideshows and Stacked galleries with Post Format: Gallery. Also
-						you can manage - add/edit/delete images any time you want. Hyper-X
-						comes with huge amount of gallery options, which could be
-						previewed from Theme Customizer. Praesent nibh... You can create
-						Slideshows and Stacked galleries with Post Format: Gallery. Also
-						you can manage - add/edit/delete images any time you want. Hyper-X
-						comes with huge amount of gallery options, which could be
-						previewed from Theme Customizer. Praesent nibh... You can create
-						Slideshows and Stacked galleries with Post Format: Gallery. Also
-						you can manage - add/edit/delete images any time you want. Hyper-X
-						comes with huge amount of gallery options, which could be
-						previewed from Theme Customizer. Praesent nibh...</div>
+						style="height: 600px; overflow-y: scroll;">
+						<%=postdetjson.get("body")%>
+						</div>
 				</div>
+				<% } %>
 			</div>
 		</div>
 
@@ -2025,6 +1962,8 @@ System.out.println(topterms);
                  .text(function(d) { return d.text; });
      }
  </script>
-
+<script src="pagedependencies/influence.js"></script>
+	
 </body>
 </html>
+
