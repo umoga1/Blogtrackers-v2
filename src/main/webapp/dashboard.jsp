@@ -2368,7 +2368,7 @@ var gdpData = {
 					location.put("Monaco", "43.73, 7.41");
 					location.put("Salt Lake City", "40.726, -111.778");
 					location.put("Kansas City", "39.092, -94.575");
-					location.put("US", "37.0902, 95.7129");
+					location.put("US", "36.778259, -119.417931");
 					location.put("DE", "38.9108, 75.5277");
 					location.put("LT", "55.1694, 23.8813");
 					location.put("GB", "55.3781, 3.4360");
@@ -2392,7 +2392,7 @@ var mymarker = [
 			<%}
 						}
 					}%>
-    {latLng: [<%=location.get("Vatican City")%>], name: 'Vatican City'},
+   {latLng: [<%=location.get("Vatican City")%>], name: 'Vatican City'},
     
     
     /*
