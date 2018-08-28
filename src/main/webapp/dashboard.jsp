@@ -354,8 +354,7 @@
 	<nav class="navbar navbar-inverse bg-primary">
 		<div class="container-fluid mt10 mb10">
 
-			<div
-				class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+			<div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
 				<a class="navbar-brand text-center logohomeothers" href="./"> </a>
 			</div>
 			<!-- Mobile Menu -->
@@ -2361,7 +2360,7 @@ var gdpData = {
   "ZM": 15.69,
   "ZW": 5.57
 };
-
+// add the list of location of craweled blog here
 <%JSONObject location = new JSONObject();
 					location.put("null", "0, 0");
 					location.put("Vatican City", "41.90, 12.45");
@@ -2369,12 +2368,15 @@ var gdpData = {
 					location.put("Salt Lake City", "40.726, -111.778");
 					location.put("Kansas City", "39.092, -94.575");
 					location.put("US", "37.0902, -95.7129");
-					location.put("DE", "38.9108, 75.5277");
+					location.put("DE", "51.165691, 10.451526");
 					location.put("LT", "55.1694, 23.8813");
 					location.put("GB", "55.3781, 3.4360");
-					location.put("NL", "53.1355, 57.6604");
-					location.put("VE", "14.0583, 108.2772");
-					location.put("LV", "56.8796, 24.6032");%>
+					location.put("NL", "52.132633, 5.291266");
+					location.put("VE", "6.423750, -66.589729");
+					location.put("LV", "56.8796, 24.6032");
+					location.put("LV", "56.8796, 24.6032");
+					location.put("UA", "48.379433, 31.165581");
+					location.put("RU", "61.524010, 105.318756");%>
 // map marker location by longitude and latitude
 var mymarker = [
 	<%if (blogs.size() > 0) {
@@ -2392,7 +2394,7 @@ var mymarker = [
 			<%}
 						}
 					}%>
-    {latLng: [<%=location.get("Vatican City")%>], name: 'Vatican City'},
+   
     
     
     /*
