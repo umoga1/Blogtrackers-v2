@@ -113,7 +113,7 @@ try{
   <nav class="navbar navbar-inverse">
     <div class="container-fluid mt10">
 
-      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-4">
+      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
       <a class="navbar-brand text-center logohome" href="./">
    
       </a>
@@ -128,7 +128,7 @@ try{
       <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
       </div> -->
       <!-- Mobile menu  -->
-      <div class="col-lg-4 themainmenu"  align="center">
+      <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
            <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
           <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
@@ -137,7 +137,7 @@ try{
             </ul>
       </div>
 
-  <div class="col-lg-4">
+  <div class="col-lg-3">
   <ul class="nav navbar-nav" style="display:block;">
   <li class="dropdown dropdown-user cursor-pointer float-right">
   <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
