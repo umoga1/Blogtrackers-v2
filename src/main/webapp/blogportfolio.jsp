@@ -90,8 +90,10 @@ if(f.exists() && !f.isDirectory()) {
   <script src="assets/js/jquery-3.2.1.slim.min.js" ></script>
 <script src="assets/js/popper.min.js"></script>
 <script type="text/javascript" src="assets/vendors/animations/animations_css3.js"></script>
+  <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
    <div class="modal-notifications">
 <div class="row">
 <div class="col-lg-10 closesection">

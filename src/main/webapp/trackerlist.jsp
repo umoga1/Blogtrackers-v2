@@ -107,9 +107,12 @@
 	
 </script>
 
-
+<script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
+<noscript>
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
+</noscript>
 	<div class="modal-notifications">
 		<div class="row">
 			<div class="col-lg-10 closesection"></div>

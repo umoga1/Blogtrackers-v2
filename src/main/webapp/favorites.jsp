@@ -81,8 +81,10 @@ if(f.exists() && !f.isDirectory()) {
 
 <script type="text/javascript" src="assets/js/uniform.min.js"></script>
 <script type="text/javascript" src="assets/js/toastr.js"></script>
+<script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body >
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
      <div class="modal-notifications">
 <div class="row">
 <div class="col-lg-10 closesection">

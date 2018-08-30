@@ -46,10 +46,11 @@
   <!--end of bootsrap -->
  <!--   <script src="assets/js/jquery-3.2.1.slim.min.js"></script>-->
 <script src="assets/js/popper.min.js" ></script>
+<script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 
 <body style="background:#ffffff;">
-
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
   <nav class="navbar navbar-inverse bg-primary d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
     <div class="container-fluid">
 
