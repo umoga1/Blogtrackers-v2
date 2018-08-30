@@ -96,10 +96,11 @@
 <link href="assets/fonts/icomoon/styles.css" rel="stylesheet"
 	type="text/css">
 <link rel="stylesheet" href="assets/css/style.css" />
-
+<link rel="stylesheet" href="assets/css/toastr.css" />
 <!--end of bootsrap -->
 <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js"></script>
+
 
 <!-- Base URL  -->
 <script src="pagedependencies/baseurl.js">
@@ -359,7 +360,9 @@
 							data-toggle="tooltip" data-action="reload" data-placement="top"
 							title="Refresh Tracker"></i> <i
 							class="text-primary icontrackersize cursor-pointer deletetracker"
-							data-toggle="tooltip" data-placement="top" title="Delete Tracker"></i>
+							data-toggle="tooltip" data-placement="top" title="Delete Tracker">
+							<input type="hidden" name="tid" value="<%=obj.get("tid").toString()%>" class="tid" />
+							</i>
 					</div>
 				</div>
 			</div>
@@ -443,6 +446,7 @@ in Washington DC. It serves as a national syndicator to a network of over 1,000 
 <script type="text/javascript" src="assets/js/form_tags_input.js"></script>
 <script type="text/javascript" src="assets/vendors/blockui/blockui.min.js"></script>
 
+<script type="text/javascript" src="assets/js/toastr.js"></script>
 
 <script>
 $(document).ready(function() {
@@ -479,6 +483,9 @@ trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-
 			
 			  });
 	  
+	  
+	
+	
 	  });
 
 	/// refresh a tracker
@@ -486,6 +493,10 @@ trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-
 			
 	  }); 
 	});
+</script>
+
+<script src="pagedependencies/deletetracker.js">
+
 </script>
 
 <script src="pagedependencies/edittracker.js">

@@ -120,7 +120,10 @@ $(document).ready(function(){
 	    $.getScript("pagedependencies/addnewtracker.js", function(data, textStatus, jqxhr) {
 			
 		  });
+	    
+	   
 	   // create an ajax to create a tracker
+	
 	   }
 	 
 	 
