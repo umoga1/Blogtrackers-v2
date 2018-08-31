@@ -278,7 +278,7 @@ if(f.exists() && !f.isDirectory()) {
 	</div>
 	
 	<div class="float-left statcontainer">
-	<b class="stattext">11B</b>
+	<b class="stattext">0</b>
 	<h6 class="text-primary labeltext">Comments</h6>
 	</div>
 	</div>

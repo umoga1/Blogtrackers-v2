@@ -20,6 +20,7 @@ public class Blogposts {
 
 	HashMap<String, String> hm = DbConnection.loadConstant();		
 
+	//String base_url = hm.get("elasticIndex")+"blogposts/";
 	String base_url = hm.get("elasticIndex")+"blogposts/";
 	
 	String totalpost;		    
@@ -306,6 +307,25 @@ public class Blogposts {
 
 
 		String url = base_url+"_search?size=100";
+		return this._getResult(url, jsonObj);
+
+	}
+	
+	public ArrayList _getPost(String key, String value) throws Exception {
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"constant_score\":{\r\n" + 
+				"			\"filter\":{\r\n" + 
+				"					\"terms\":{\r\n" + 
+				"							\""+key+"\":[\""+value+"\"]\r\n" + 
+				"							}\r\n" + 
+				"					}\r\n" + 
+				"				}\r\n" + 
+				"    }\r\n" + 
+				"}");
+
+
+		String url = base_url+"_search?size=10";
 		return this._getResult(url, jsonObj);
 
 	}

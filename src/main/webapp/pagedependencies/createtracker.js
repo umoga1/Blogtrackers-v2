@@ -18,10 +18,8 @@ $(document).ready(function(){
 	  });
 	 
 	  $('.card-columns').prepend(newtrackersection);
-	    $.getScript("pagedependencies/addnewtracker.js", function(data, textStatus, jqxhr) {
-			
+	    $.getScript("pagedependencies/addnewtracker.js", function(data, textStatus, jqxhr) {	
 		  });
-	 
 	});	
 	
 //	show the tooltip

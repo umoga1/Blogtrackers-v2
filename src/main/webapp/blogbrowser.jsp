@@ -9,6 +9,8 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+ <%@ page contentType="text/html;
+charset=UTF-8" %>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 
@@ -433,7 +435,7 @@ if(results.size()>0){
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js?v=99980">
+<script src="pagedependencies/blogbrowser.js?v=99">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
@@ -441,7 +443,7 @@ if(results.size()>0){
 
 </script>
 
-<script src="pagedependencies/imageloader.js?v=0998"></script>
+<script src="pagedependencies/imageloader.js?v=09"></script>
 <script src="js/functions.js?v=19990"></script>
 <script>
 $(window).scroll(function() {
