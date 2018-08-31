@@ -310,6 +310,25 @@ public class Blogposts {
 		return this._getResult(url, jsonObj);
 
 	}
+	
+	public ArrayList _getPost(String key, String value) throws Exception {
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"constant_score\":{\r\n" + 
+				"			\"filter\":{\r\n" + 
+				"					\"terms\":{\r\n" + 
+				"							\""+key+"\":[\""+value+"\"]\r\n" + 
+				"							}\r\n" + 
+				"					}\r\n" + 
+				"				}\r\n" + 
+				"    }\r\n" + 
+				"}");
+
+
+		String url = base_url+"_search?size=10";
+		return this._getResult(url, jsonObj);
+
+	}
 
 	public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 		ArrayList<String> list = new ArrayList<String>();

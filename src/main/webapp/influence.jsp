@@ -385,11 +385,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						</div>
 						<div class="scrolly"
 							style="height: 270px; padding-right: 10px !important;">
-
+   <!-- 
 							<a class="btn btn-primary form-control stylebuttonactive mb20"><b>Advonum</b></a>
 							<a
 								class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt
 									Fincane</b></a>
+									-->
 
 							<%
 								JSONObject authors = new JSONObject();
@@ -418,6 +419,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										
 										String auth  = tobj.get("blogger").toString();
 										String posttitle  = tobj.get("title").toString();
+										String postid  = tobj.get("blogpost_id").toString();
 										String body  = tobj.get("post").toString();
 										String dt  = tobj.get("date").toString();
 										String num_comment  = tobj.get("num_comments").toString();
@@ -506,6 +508,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 												    	disp.put("body",body);
 												    	disp.put("blogger",auth);
 												    	disp.put("date",dt);
+												    	disp.put("blogpost_id",postid);
 												    	disp.put("num_comments",num_comment);
 												    	posttodisplay.put(qc,disp);
 												    	qc++;
@@ -635,7 +638,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject postjson = new JSONObject(posttodisplay.get(y).toString());
 						%>
 							<tr>
-								<td>#<%=(y+1)%>: <%=postjson.get("title") %></td>
+								<td><a href="#" class="blogpost_link" id="<%=postjson.get("blogpost_id")%>" >#<%=(y+1)%>: <%=postjson.get("title") %></a></td>
 								<td align="center"><%=postjson.get("influence") %></td>
 							</tr>
 						<% }} %>
@@ -647,7 +650,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 			<div
 				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
-				<div style="" class="pt20">
+				<div style="" class="pt20" id="blogpost_detail">
 				<% if(posttodisplay.length()>0){ 
 							JSONObject postdetjson = new JSONObject(posttodisplay.get(0).toString());
 					%>
@@ -1962,7 +1965,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
                  .text(function(d) { return d.text; });
      }
  </script>
-<script src="pagedependencies/influence.js"></script>
+ <script src="pagedependencies/baseurl.js?v=3"></script>
+ 
+<script src="pagedependencies/influence.js?v=39"></script>
 	
 </body>
 </html>

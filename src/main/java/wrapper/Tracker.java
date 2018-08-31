@@ -116,17 +116,80 @@ public class Tracker extends HttpServlet {
 				 pww.write("false"); 
 			 }	
 			
-		}else if(action.equals("getpostbyblogger")) {
-			String blogger= request.getParameter("blogger").replaceAll("\\<.*?\\>", "");
-			
+		}else if(action.equals("fetchpost")) {
+			String key= request.getParameter("key").replaceAll("\\<.*?\\>", "");
+			String value= request.getParameter("value").replaceAll("\\<.*?\\>", "");
+			String source = request.getParameter("source").replaceAll("\\<.*?\\>", "");
+			String section = request.getParameter("section").replaceAll("\\<.*?\\>", "");
+			String output="";
 			try {
-				ArrayList posts = bp._getPostByBlogger(blogger);
+				ArrayList posts = bp._getPost(key,value);
 				if(posts.size()>0){
-					pww.write("Include post by "+blogger+" here");
+					//pww.write(posts+"");
+					if(source.equals("influence") && section.equals("detail_table")) {
+
+						for (int p = 0; p < posts.size(); p++) {
+							String bstr = posts.get(p).toString();
+							JSONObject bj = new JSONObject(bstr);
+							bstr = bj.get("_source").toString();
+							bj = new JSONObject(bstr);
+							//System.out.println(bj.get("body"));
+							
+							output+="<h5 class='text-primary p20 pt0 pb0'>#1: "+bj.get("title").toString()+"</h5>" + 
+									"					<div class='text-center mb20 mt20'>" + 
+									"						<button class='btn stylebuttonblue'>" + 
+									"							<b class='float-left ultra-bold-text'>"+bj.get("blogger").toString()+"</b> <i" + 
+									"								class='far fa-user float-right blogcontenticon'></i>" + 
+									"						</button>" + 
+									"						<button class='btn stylebuttonnocolor'>"+bj.get("date").toString()+"</button>" + 
+									"						<button class='btn stylebuttonorange'>" + 
+									"							<b class='float-left ultra-bold-text'>"+bj.get("num_comments").toString()+" comments</b><i" + 
+									"								class='far fa-comments float-right blogcontenticon'></i>" + 
+									"						</button>" + 
+									"					</div>" + 
+									"					<div class='p20 pt0 pb20 text-blog-content text-primary'" + 
+									"						style='height: 600px; overflow-y: scroll;'>" + 
+									"						"+bj.get("post").toString()+""+ 
+									"						</div>";
+									
+							
+						}
+						
+						
+						pww.write(output+"");
+					}else if(source.equals("influence") && section.equals("influential_table")) {
+						output+="<p>\r\n" + 
+								"Influential Blog Posts of <b class=\"text-blue\">"+value+"</b> and <b\r\n" + 
+								"					</p>\r\n" + 
+								"					<table id=\"DataTables_Table_0_wrapper\" class=\"display\"\r\n" + 
+								"						style=\"width: 100%\">\r\n" + 
+								"						<thead>\r\n" + 
+								"							<tr>\r\n" + 
+								"								<th class=\"bold-text text-primary\">Post title</th>\r\n" + 
+								"								<th class=\"bold-text text-primary\">Influence Score</th>\r\n" + 
+								"\r\n" + 
+								"\r\n" + 
+								"		</tr>\r\n" + 
+								"	</thead>\r\n" + 
+								"<tbody>";
+						for (int p = 0; p < posts.size(); p++) {
+							String bstr = posts.get(p).toString();
+							JSONObject bj = new JSONObject(bstr);
+							bstr = bj.get("_source").toString();
+							bj = new JSONObject(bstr);
+							
+							output+="<tr>\r\n" + 
+									"	<td><a href=\"#\" class=\"blogpost_link\" id=\""+bj.get("blogpost_id")+"\" >#"+(p+1)+": "+bj.get("title")+"</a></td>\r\n" + 
+									"	<td align=\"center\">"+bj.get("influence")+"</td>\r\n" + 
+									"</tr>";
+						}
+						
+						output+="</tbody></table>";
+						pww.write(output+"");
+					}
 				}else {
 					pww.write("No Post found");
-				}
-				
+				}	
 			}catch(Exception e) {
 				 pww.write("error"); 
 			 }	
