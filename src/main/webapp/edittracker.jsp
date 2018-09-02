@@ -93,9 +93,10 @@ if(f.exists() && !f.isDirectory()) {
 <script src="assets/js/popper.min.js" ></script>
 <script src="pagedependencies/baseurl.js"></script>
 
-
+<script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body style="background-color:#ffffff;">
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
   <div class="modal-notifications">
 <div class="row">
 <div class="col-lg-10 closesection">

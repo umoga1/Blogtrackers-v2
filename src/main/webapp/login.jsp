@@ -61,11 +61,17 @@
 
 <script src="https://apis.google.com/js/platform.js"></script>
 
+<<<<<<< HEAD
 <script type="text/javascript" src="js/login_validation.js?v=970"></script>
 
+=======
+<script type="text/javascript" src="js/login_validation.js?v=97"></script>
+<script src="pagedependencies/googletagmanagerscript.js"></script>
+>>>>>>> e67b185d54c1f39a90ea795abc15c2c05d319a62
 </head>
 
 <body style="background: #ffffff;">
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<nav
 		class="navbar navbar-inverse bg-primary d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
 		<div class="container-fluid">

@@ -81,8 +81,13 @@ try{
   <!--end of bootstrap -->
   <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
+<script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
+<noscript>
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
 <div class="container-fluid home-top" style="min-height:500px;">
 
 <% if(userinfo.size()>0){%>

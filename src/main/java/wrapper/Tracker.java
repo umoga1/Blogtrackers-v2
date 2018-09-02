@@ -63,7 +63,7 @@ public class Tracker extends HttpServlet {
 		
         String query = "";
 		String action = (null==request.getParameter("action"))?"":request.getParameter("action");
-        		
+		
 		if(action.equals("create"))
 		{		
 			if(blogs.length()<1) {

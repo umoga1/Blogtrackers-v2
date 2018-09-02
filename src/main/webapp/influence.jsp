@@ -189,6 +189,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
 <link rel="stylesheet" href="assets/css/style.css" />
 
+<<<<<<< HEAD
 <!--end of bootsrap -->
 <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js"></script>
@@ -235,6 +236,19 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 				</div>
 			</div>
 		</div>
+=======
+  <!--end of bootsrap -->
+  <script src="assets/js/jquery-3.2.1.slim.min.js" > </script>
+<script src="assets/js/popper.min.js" ></script>
+<script src="pagedependencies/googletagmanagerscript.js"></script>
+</head>
+<body>
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
+   <div class="modal-notifications">
+<div class="row">
+<div class="col-lg-10 closesection">
+	
+>>>>>>> e67b185d54c1f39a90ea795abc15c2c05d319a62
 	</div>
 	<nav class="navbar navbar-inverse bg-primary">
 		<div class="container-fluid mt10 mb10">

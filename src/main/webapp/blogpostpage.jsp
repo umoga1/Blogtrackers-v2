@@ -76,10 +76,10 @@ String[] user_name = name.split(" ");
 <!-- Base URL  -->
   <script src="pagedependencies/baseurl.js">
   </script>
-  
+  <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body style="background-color:#ffffff;">
-
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
     
 <div class="modal-notifications">
 <div class="row">

@@ -119,9 +119,10 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 
   <script src="pagedependencies/baseurl.js">
   </script>
+    <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body >
-
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
 <%-- <%@ include file="templates/profilepanel.jsp" %> --%>
 
 <div class="modal-notifications">
