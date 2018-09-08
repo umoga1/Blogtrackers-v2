@@ -180,7 +180,7 @@ public class Tracker extends HttpServlet {
 							
 							output+="<tr>\r\n" + 
 									"	<td><a href=\"#\" class=\"blogpost_link\" id=\""+bj.get("blogpost_id")+"\" >#"+(p+1)+": "+bj.get("title")+"</a></td>\r\n" + 
-									"	<td align=\"center\">"+bj.get("influence")+"</td>\r\n" + 
+									"	<td align=\"center\">"+bj.get("influence_score")+"</td>\r\n" + 
 									"</tr>";
 						}
 						
