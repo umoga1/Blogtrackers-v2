@@ -9,7 +9,7 @@
  *
  * ---------------------------------------------------------------------------- */
 
-var baseurl = app_url;//"http://localhost:8080/Blogtrackers/";
+var baseurl = app_url;
 
 $(function() {
 
@@ -92,14 +92,15 @@ $(function() {
 	   
 		
 		
-		var password = $("#password").val();
+		var password = $("#password").val(); //CODE REVIEW: why do we have password variable here? - wale
 			$.ajax({
-				url: baseurl+'login',
+				url: baseurl+'login',    //Please note the baseurl here is the deployment url not to be confused with the elastic index
 				method: 'POST',
 				//dataType: 'json',
 				data: {
 					email: $("input#username").val(),
 					password: $("input#password").val(),
+					remember: $("input#remember_me").val(),
 					login: "yes",
 				},
 				error: function(response)
@@ -111,8 +112,7 @@ $(function() {
 				},
 				success: function(response)
 				{       
-					console.log(response);
-					//alert("An error occoured!");
+					//console.log(response);
 					var login_status = response;//.responseText;
 					// console.log(login_status);
 					if(login_status === "invalid"){

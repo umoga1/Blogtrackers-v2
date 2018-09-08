@@ -1,7 +1,7 @@
 <%@page import="authentication.*"%>
 <%
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
-
+	Object success_message = (null == session.getAttribute("success_message")) ? "" : "";
 	if (email != null && email != "") {
 		response.sendRedirect("dashboard.jsp");
 	}
@@ -114,7 +114,7 @@
 						<div class="" id="loggin2"></div>
 						<div>
 							<p class="float-left pt10">
-								<input type="checkbox" class="remembercheckbox blue" /><span></span>Remember
+								<input id="remember_me" type="checkbox" class="remembercheckbox blue" /><span></span>Remember
 								Me
 							</p>
 							<p class="pt10 text-primary float-right">
