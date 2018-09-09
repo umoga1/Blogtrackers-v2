@@ -278,10 +278,10 @@
 							ArrayList resut = new ArrayList();
 
 							for (int i = 0; i < results.size(); i++) {
-								resut = (ArrayList<?>)results.get(i);
+								resut = (ArrayList)results.get(i);
 								
 							    String id = resut.get(0).toString();
-							    query = resut.get(4).toString();//obj.get("query").toString();
+							    query = resut.get(5).toString();//obj.get("query").toString();
 								/*
 							    res = results.get(i).toString();
 								resp = new JSONObject(res);

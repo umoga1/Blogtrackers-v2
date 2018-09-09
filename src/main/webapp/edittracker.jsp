@@ -221,7 +221,7 @@ if(f.exists() && !f.isDirectory()) {
 								obj = new JSONObject(resu);
 								query = obj.get("query").toString();
 								*/
-								query = resut.get(4).toString();
+								query = resut.get(5).toString();
 								query = query.replaceAll("blogsite_id in ", "");
 								query = query.replaceAll("\\(", "");
 								query = query.replaceAll("\\)", "");
@@ -230,7 +230,7 @@ if(f.exists() && !f.isDirectory()) {
 								String dtmodified = "";
 								
 								String dtt =resut.get(3).toString();
-								String dtt2 =resut.get(7).toString();
+								String dtt2 = (null==resut.get(4))?resut.get(4).toString():"";
 								
 								if (!dtt.equals("null")){
 									String[] ddt = dtt.split(" ");

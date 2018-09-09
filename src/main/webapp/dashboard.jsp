@@ -57,7 +57,7 @@
 			String tracker_userid = resp.get(0).toString();
 			if (tracker_userid.equals(user.toString())) {
 				isowner = true;
-				String query = resp.get(4).toString();//obj.get("query").toString();
+				String query = resp.get(5).toString();//obj.get("query").toString();
 				query = query.replaceAll("blogsite_id in ", "");
 				query = query.replaceAll("\\(", "");
 				query = query.replaceAll("\\)", "");
