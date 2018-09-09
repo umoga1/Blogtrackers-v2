@@ -273,7 +273,7 @@
 							JSONObject bresp = null;
 							String bresu = null;
 							JSONObject bobj = null;
-							ArrayList blogs = null;
+							ArrayList blogs = new ArrayList();
 							int bpost = 0;
 							ArrayList resut = new ArrayList();
 
@@ -296,11 +296,12 @@
 								totalpost = 0;
 								String dt = "";
 								if (!dtt.equals("null")){
-									String[] ddt = dtt.split("T");
+									String[] ddt = dtt.split(" ");
 									dt = ddt[0];
 								}
 
-								if (!query.equals("")) {
+								if (!query.equals("") ) {
+									
 									blogs = blg._fetch(query);
 									//System.out.println(blogs);
 									if (blogs.size() > 0) {
@@ -313,6 +314,7 @@
 											totalpost += bpost;
 										}
 									}
+									
 								}
 			%>
 			
@@ -331,7 +333,7 @@
 					</div>
 					<p class="mt20 text-primary text-center">
 
-						<%=resut.get(6).toString()%>
+						<%=resut.get(6)%>
 					</p>
 					<div class="text-center mt20">
 						<button
