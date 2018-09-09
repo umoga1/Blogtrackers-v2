@@ -209,27 +209,36 @@ if(f.exists() && !f.isDirectory()) {
 							String bresu = null;
 							JSONObject bobj = null;
 							ArrayList blogs = null;
+							ArrayList resut = new ArrayList();
 							int bpost = 0;
 
 							for (int i = 0; i < detail.size(); i++) {
+								resut = (ArrayList<?>)detail.get(0);
+								/*
 								res = detail.get(i).toString();
 								resp = new JSONObject(res);
 								resu = resp.get("_source").toString();
 								obj = new JSONObject(resu);
 								query = obj.get("query").toString();
+								*/
+								query = resut.get(5).toString();
 								query = query.replaceAll("blogsite_id in ", "");
 								query = query.replaceAll("\\(", "");
 								query = query.replaceAll("\\)", "");
-
 								
 								String dt = "";
 								String dtmodified = "";
-								if (obj.has("date_created")) {
-									String[] ddt = obj.get("date_created").toString().split("T");
+								
+								String dtt =resut.get(3).toString();
+								String dtt2 = (null==resut.get(4))?resut.get(4).toString():"";
+								
+								if (!dtt.equals("null")){
+									String[] ddt = dtt.split(" ");
 									dt = ddt[0];
-								}
-								if (obj.has("date_modified")) {
-									String[] ddtm = obj.get("date_modified").toString().split("T");
+								}								
+								
+								if (!dtt2.equals("null")){
+									String[] ddtm = dtt2.split("T");
 									dtmodified = ddtm[0];
 								}
 
@@ -254,7 +263,7 @@ if(f.exists() && !f.isDirectory()) {
 			%>
 	<div class="row m50 mt40">
 	<div class="col-md-9">
-	<h1 class="text-primary edittrackertitle mb0" style=""><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+	<h1 class="text-primary edittrackertitle mb0" style=""><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
 	<p><button class="btn metadata text-primary mt10">Created  |  <%=dt%></button> <button class="btn metadata text-primary mt10">Modified |  <%=dtmodified %></button> <button class="btn metadata text-primary mt10">Crawled |  22-07-2018 . 05:30pm</button></p>
 	</div>
 	<div class="col-md-3 text-right pt10">
@@ -265,7 +274,7 @@ if(f.exists() && !f.isDirectory()) {
 	</div>
 	
 	<div class="col-md-12 trackerdescription">
-	<p class="edittrackerdesc text-primary"><%=obj.get("description").toString()%></p>
+	<p class="edittrackerdesc text-primary"><%=resut.get(6).toString()%></p>
 	</div>
 	
 	<div class="col-md-12">

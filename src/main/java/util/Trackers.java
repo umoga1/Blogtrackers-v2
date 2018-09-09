@@ -24,6 +24,7 @@ public class Trackers {
 	String totalpost;	    
 	   
 public ArrayList _list(String order, String from, String userid, String size) throws Exception {
+	/*
 	 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
 	 		"        \"query_string\" : {\r\n" + 
@@ -63,7 +64,14 @@ public ArrayList _list(String order, String from, String userid, String size) th
 	 
      String url = base_url+"_search?size="+size;     
      return this._getResult(url, jsonObj);
-   
+   */
+	ArrayList trackerlist = new ArrayList();
+	try {
+		trackerlist = new DbConnection().query("select * from trackers where userid = '"+userid+"' ");				
+	} catch (Exception ex) {}
+	
+	return trackerlist;
+	
    }
 
 public String _getTotal() {
@@ -75,18 +83,19 @@ public JSONObject getMyTrackedBlogs(String userid) throws Exception{
 	JSONObject resp = null;
 	String resu = null;
 	JSONObject obj = null;	
+	ArrayList resut = new ArrayList();
 	ArrayList result = this._list("DESC","", userid,"100");
 	
 	JSONObject content = new JSONObject();
 	if(result.size()>0) {
 		for(int i=0; i< result.size(); i++){
-			res = result.get(i).toString();			
-			resp = new JSONObject(res);
-		    resu = resp.get("_source").toString();
-		    obj = new JSONObject(resu);
-		    if(obj.has("tid")) {
-		    String id = obj.get("tid").toString();
-		    String query = obj.get("query").toString();
+			resut = (ArrayList<?>)result.get(i);
+			//resp = new JSONObject(res);
+		   // resu = resp.get("_source").toString();
+		    //obj = new JSONObject(resu);
+		   // if(obj.has("tid")) {
+		    String id = resut.get(0).toString();
+		    String query = resut.get(4).toString();//obj.get("query").toString();
 			query = query.replaceAll("blogsite_id in ", "");
 			query = query.replaceAll("\\(", "");			 
 			query = query.replaceAll("\\)", "");
@@ -100,7 +109,7 @@ public JSONObject getMyTrackedBlogs(String userid) throws Exception{
 					 }
 				 }
 			 }
-		    }
+		   // }
 		}
 	}
 	
@@ -109,6 +118,7 @@ public JSONObject getMyTrackedBlogs(String userid) throws Exception{
 
 
 public ArrayList _search(String term,String from) throws Exception {
+	/*
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
 	 		"        \"query_string\" : {\r\n" + 
@@ -148,6 +158,17 @@ public ArrayList _search(String term,String from) throws Exception {
     }
     
     return this._getResult(url, jsonObj);
+    */
+	ArrayList bloglist = new ArrayList();
+	 String s="";
+	try {
+		if(!term.trim().isEmpty()){
+			
+			   bloglist = new DbConnection().query("select * from trackers where traker_name like '%"+term+"%' ");				
+		}
+	} catch (Exception ex) {}
+	
+	return bloglist;
 }
 
 
@@ -177,7 +198,10 @@ public String getTotalTrack(String blogsite_id) throws Exception {
 
 public ArrayList _fetch(String ids) throws Exception {
 	 ArrayList result = new ArrayList();
-	 
+	 String s = "("+ids+")";
+	 result =  new DbConnection().query("select * from trackers where tracker_id in "+s+"");			
+		
+	 /*
 	 JSONObject query = new JSONObject(); 
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
@@ -193,7 +217,9 @@ public ArrayList _fetch(String ids) throws Exception {
 	 
 	 
    String url = base_url+"_search/";
-   return this._getResult(url, jsonObj);
+   return this._getResult(url, jsonObj)
+   */
+	 return result;
 }
 
 /* Add a new tracker*/

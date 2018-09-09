@@ -46,16 +46,18 @@
 		String ids = "";
 
 		if (detail.size() > 0) {
-			String res = detail.get(0).toString();
-
+			//String res = detail.get(0).toString();
+			ArrayList resp = (ArrayList<?>)detail.get(0);
+			/*
 			JSONObject resp = new JSONObject(res);
 
 			String resu = resp.get("_source").toString();
 			obj = new JSONObject(resu);
-			String tracker_userid = obj.get("userid").toString();
+			*/
+			String tracker_userid = resp.get(0).toString();
 			if (tracker_userid.equals(user.toString())) {
 				isowner = true;
-				String query = obj.get("query").toString();
+				String query = resp.get(5).toString();//obj.get("query").toString();
 				query = query.replaceAll("blogsite_id in ", "");
 				query = query.replaceAll("\\(", "");
 				query = query.replaceAll("\\)", "");
@@ -63,31 +65,31 @@
 			}
 		}
 		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
-		//System.out.println(userinfo);
 		if (userinfo.size() < 1 || !isowner) {
 			response.sendRedirect("index.jsp");
 		} else {
 			userinfo = (ArrayList<?>) userinfo.get(0);
 			try {
-				username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
-
-				name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
-				email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
-				phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
-				String userpic = userinfo.get(9).toString();
-				String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
-				String filename = userinfo.get(9).toString();
-
-				profileimage = "images/default-avatar.png";
-				if (userpic.indexOf("http") > -1) {
-					profileimage = userpic;
-				}
-
-				File f = new File(filename);
-				if (f.exists() && !f.isDirectory()) {
-					profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
-				}
+					username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
+	
+					name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
+					email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
+					phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
+					String userpic = userinfo.get(9).toString();
+					String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
+					String filename = userinfo.get(9).toString();
+	
+					profileimage = "images/default-avatar.png";
+					if (userpic.indexOf("http") > -1) {
+						profileimage = userpic;
+					}
+	
+					File f = new File(filename);
+					if (f.exists() && !f.isDirectory()) {
+						profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
+					}
 			} catch (Exception e) {
+			
 			}
 
 			String[] user_name = name.split(" ");

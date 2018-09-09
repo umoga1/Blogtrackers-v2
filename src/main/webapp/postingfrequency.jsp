@@ -75,20 +75,26 @@ boolean isowner = false;
 JSONObject obj =null;
 String ids = "";
 
-if(detail.size()>0){
-	String res = detail.get(0).toString();
+
+
+if (detail.size() > 0) {
+	//String res = detail.get(0).toString();
+	ArrayList resp = (ArrayList<?>)detail.get(0);
+	/*
 	JSONObject resp = new JSONObject(res);
-    String resu = resp.get("_source").toString();
-    obj = new JSONObject(resu);
-    String tracker_userid = obj.get("userid").toString();
-    if(tracker_userid.equals(user.toString())){
-    	isowner=true;
-    	String query = obj.get("query").toString();
-		query = query.replaceAll("blogsite_id in ", "");		 		
-		query = query.replaceAll("\\(", "");	 
+
+	String resu = resp.get("_source").toString();
+	obj = new JSONObject(resu);
+	*/
+	String tracker_userid = resp.get(0).toString();
+	if (tracker_userid.equals(user.toString())) {
+		isowner = true;
+		String query = resp.get(5).toString();//obj.get("query").toString();
+		query = query.replaceAll("blogsite_id in ", "");
+		query = query.replaceAll("\\(", "");
 		query = query.replaceAll("\\)", "");
-		ids=query;
-    }
+		ids = query;
+	}
 }
 
 String allpost = "0";

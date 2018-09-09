@@ -258,6 +258,9 @@ public class DbConnection {
 		return result;
 	}
 	
+	
+	
+	
 	public String md5Funct(String userNamePass) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
