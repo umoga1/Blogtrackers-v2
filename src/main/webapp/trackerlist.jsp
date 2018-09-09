@@ -52,7 +52,7 @@
 			} else {
 				results = tracker._search(term, "");
 			}
-			String total = tracker._getTotal();
+			String total = results.size()+"";//._getTotal();
 			ArrayList test = new ArrayList();
 			//tracker._add("hello",test);
 			//pimage = pimage.replace("build/", "");
