@@ -93,9 +93,10 @@ if(f.exists() && !f.isDirectory()) {
 <script src="assets/js/popper.min.js" ></script>
 <script src="pagedependencies/baseurl.js"></script>
 
-
+<script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body style="background-color:#ffffff;">
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
   <div class="modal-notifications">
 <div class="row">
 <div class="col-lg-10 closesection">
@@ -208,27 +209,36 @@ if(f.exists() && !f.isDirectory()) {
 							String bresu = null;
 							JSONObject bobj = null;
 							ArrayList blogs = null;
+							ArrayList resut = new ArrayList();
 							int bpost = 0;
 
 							for (int i = 0; i < detail.size(); i++) {
+								resut = (ArrayList<?>)detail.get(0);
+								/*
 								res = detail.get(i).toString();
 								resp = new JSONObject(res);
 								resu = resp.get("_source").toString();
 								obj = new JSONObject(resu);
 								query = obj.get("query").toString();
+								*/
+								query = resut.get(4).toString();
 								query = query.replaceAll("blogsite_id in ", "");
 								query = query.replaceAll("\\(", "");
 								query = query.replaceAll("\\)", "");
-
 								
 								String dt = "";
 								String dtmodified = "";
-								if (obj.has("date_created")) {
-									String[] ddt = obj.get("date_created").toString().split("T");
+								
+								String dtt =resut.get(3).toString();
+								String dtt2 =resut.get(7).toString();
+								
+								if (!dtt.equals("null")){
+									String[] ddt = dtt.split(" ");
 									dt = ddt[0];
-								}
-								if (obj.has("date_modified")) {
-									String[] ddtm = obj.get("date_modified").toString().split("T");
+								}								
+								
+								if (!dtt2.equals("null")){
+									String[] ddtm = dtt2.split("T");
 									dtmodified = ddtm[0];
 								}
 

@@ -8,6 +8,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="org.json.JSONArray"%>
+
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
@@ -75,20 +76,24 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	JSONObject obj =null;
 	String ids = "";
 	
-	if(detail.size()>0){
-		String res = detail.get(0).toString();
+	if (detail.size() > 0) {
+		//String res = detail.get(0).toString();
+		ArrayList resp = (ArrayList<?>)detail.get(0);
+		/*
 		JSONObject resp = new JSONObject(res);
-	    String resu = resp.get("_source").toString();
-	    obj = new JSONObject(resu);
-	    String tracker_userid = obj.get("userid").toString();
-	    if(tracker_userid.equals(user.toString())){
-	    	isowner=true;
-	    	String query = obj.get("query").toString();
-			query = query.replaceAll("blogsite_id in ", "");		 		
-			query = query.replaceAll("\\(", "");	 
+
+		String resu = resp.get("_source").toString();
+		obj = new JSONObject(resu);
+		*/
+		String tracker_userid = resp.get(0).toString();
+		if (tracker_userid.equals(user.toString())) {
+			isowner = true;
+			String query = resp.get(4).toString();//obj.get("query").toString();
+			query = query.replaceAll("blogsite_id in ", "");
+			query = query.replaceAll("\\(", "");
 			query = query.replaceAll("\\)", "");
-			ids=query;
-	    }
+			ids = query;
+		}
 	}
 	
 	String allpost = "0";

@@ -3,6 +3,9 @@ package wrapper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,11 +14,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import org.json.JSONObject;
 
 import util.Trackers;
 import util.Blogposts;
+import authentication.DbConnection;
+import java.util.*;
 
 /**
  * 
@@ -63,9 +69,10 @@ public class Tracker extends HttpServlet {
 		
         String query = "";
 		String action = (null==request.getParameter("action"))?"":request.getParameter("action");
-        		
+		
 		if(action.equals("create"))
-		{		
+		{	
+			/*
 			if(blogs.length()<1) {
 				 response.setContentType("text/html");				 
 			     pww.write("blog cannot be empty"); 
@@ -83,11 +90,60 @@ public class Tracker extends HttpServlet {
 			 }catch(Exception e) {}		 
 				 response.setContentType("text/html");				 
 			     pww.write(output); 
+			}       
+			*/
+			String userName = (String) session.getAttribute("username");
+			String userid = (String) session.getAttribute("user");
+			     	
+			//String keyword = request.getParameter("keyword");
+			String trackerName=tracker_name;//request.getParameter("title");
+			if(!trackerName.trim().isEmpty()){
+
+				String trackerDescription=description;//request.getParameter("descr");
+				String createdDate= getDateTime();
+				String selected = blogs;//request.getParameter("sites");
+				//session.setAttribute("searched", "about "+keyword);
+				//selected = selected.tr
+				String[] selectedSite = selected.split(","); 
+				String listString = "";
+				if(selectedSite.length>0){
+					for (int i = 0; i < selectedSite.length; i++) { 
+						listString += selectedSite[i] + ",";
+					}
+					listString="blogsite_id in ("+listString.substring(0, listString.length()-1)+")";
+				}else{
+					listString="blogsite_id in (0)";
+				}
+				//TrackerDialog dialog= new TrackerDialog();
+				//dialog.addTracker(userName, trackerName, createdDate, null, listString, trackerDescription, selectedSite.length);
+				ArrayList prev = new DbConnection().query("SELECT * FROM trackers WHERE tracker_name='"+trackerName+"'");
+				
+				if(prev!=null && prev.size()>0) {
+					pww.write("exist");
+				}else {	
+				   query="INSERT INTO trackers(userid,tracker_name,date_created,date_modified,query,description,blogsites_num) VALUES('"+userName+"', '"+trackerName+"', '"+createdDate+"', "+ null+", '"+listString+"', '"+trackerDescription+"', '"+selectedSite.length+"')";
+					boolean done = new DbConnection().updateTable(query);
+					if(done) {
+					  	ArrayList trackers = new DbConnection().query("SELECT * FROM trackers WHERE userid='"+userid+"'");
+	                	session.setAttribute("trackers", trackers+"");
+	                	session.setAttribute("initiated_search_term", "");
+						response.setContentType("text/html");
+						pww.write("success");
+					}else {
+						response.setContentType("text/html");
+						pww.write("full failure");
+					}
+				}
 			}
-                        
+			else{
+				response.setContentType("text/html");
+				pww.write("failure");
+			}
 		}
 	
 		else if(action.equals("update")) {
+			 String[] bloggs = blogs.split(",");
+			/*
 			 JSONObject param = new JSONObject();		
 			 param.put("blogs", blogs);			 
 			 String output =  "false";
@@ -99,23 +155,114 @@ public class Tracker extends HttpServlet {
 				 System.out.println("Error");
 				 pww.write("false"); 
 			 }		
-		   		
-		}else if(action.equals("delete")) {	
+		   	*/
+			try {
+				ArrayList tracker =null;
+				String blog_id = request.getParameter("blog_id");
+				
+				DbConnection db = new DbConnection();
+				String addendum="";
+					 tracker = db.query("SELECT query FROM trackers WHERE tid='"+tracker_id+"'");
+					 if(tracker.size()>0){
+						 	ArrayList hd = (ArrayList)tracker.get(0);
+							String que = hd.get(0).toString();
+							
+							 que = que.replaceAll("blogsite_id in ", "");
+							 que = que.replaceAll("\\(", "");			 
+							 que = que.replaceAll("\\)", "");
+							 String[] blogs2 = que.split(",");
+							 
+							 
+							 String mergedblogs = this.mergeArrays(bloggs, blogs2);
+							 String[] allblogs = mergedblogs.split(",");
+							 int blognum = allblogs.length;
+							
+														 
+							addendum = "blogsite_id in ("+mergedblogs+")";//"blogsite_id in ("+addendum+blog_id+")";				
+							db.updateTable("UPDATE trackers SET query='"+addendum+"', tracker_name='"+tracker_name+"', decription='"+description+"', blogsites_num = '"+blognum+"' WHERE  tid='"+tracker_id+"'");	
+						
+					 }
+					
+				
+				
+	        	pww.write("success");
+	        	
+			}catch(Exception ex) {
+				pww.write("false"); 
+			}
+		}else if(action.equals("delete")) {
+			/*
 			try {
 				String output = trk._delete(tracker_id);
 				pww.write("true");
 			}catch(Exception e) {
 				 pww.write("false"); 
-			 }	
+			 }*/	
+			try {
+					String tid = request.getParameter("tracker_id");
+					new DbConnection().updateTable("DELETE FROM trackers WHERE  tid='"+tracker_id+"'");						
+					String userid = (String) session.getAttribute("user");
+					ArrayList trackers = new DbConnection().query("SELECT * FROM trackers WHERE userid='"+userid+"'");
+		        	//session.setAttribute("trackers", trackers);
+		       		pww.write("true");
+				}catch(Exception ex) {
+					 pww.write("false"); 
+				}			
+				
 		}else if(action.equals("removeblog")) {
 			String ids= request.getParameter("blog_ids").replaceAll("\\<.*?\\>", "");
+			/*
 			try {
 				String output = trk._removeBlogs(tracker_id,ids,username);
 				pww.write(output);
 			}catch(Exception e) {
 				 pww.write("false"); 
 			 }	
+			 */
+			try {
+			DbConnection db = new DbConnection();
+			String[] bloggs = ids.split(",");
+			JSONObject jblog = new JSONObject();
+			String output = "false";
 			
+			for(int k=0; k<bloggs.length; k++) {
+				jblog.put(bloggs[k], bloggs[k]);
+			}
+			 
+			ArrayList detail = new DbConnection().query("SELECT * FROM trackers WHERE tid='"+tracker_id+"'");
+        	
+			 if(detail.size()>0){
+				 	ArrayList hd = (ArrayList)detail.get(0);
+					String que = hd.get(0).toString();
+					
+					 que = que.replaceAll("blogsite_id in ", "");
+					 que = que.replaceAll("\\(", "");			 
+					 que = que.replaceAll("\\)", "");
+					 String[] blogs2 = que.split(",");
+					 
+					 String mergedblogs = "";	
+					 int blogcounter=0;
+					 for(int j=0; j<blogs2.length; j++) {
+						 if(!jblog.has(blogs2[j])) {
+							 if(j<(blogs2.length-1))
+								 mergedblogs+=blogs2[j]+",";
+							 else
+								 mergedblogs+=blogs2[j];
+							 blogcounter++;
+						 }
+					 }
+					 			
+					que =  "blogsite_id in ("+mergedblogs+")";			 
+					db.updateTable("UPDATE trackers SET query='"+que+"', blogsites_num = '"+blogcounter+"' WHERE  tid='"+tracker_id+"'");	
+					pww.write("success");
+			 }else {
+				 pww.write("false");
+			 }
+			}catch(Exception e) {
+				 pww.write("false"); 
+			}	
+			 
+			 			
 		}else if(action.equals("fetchpost")) {
 			String key= request.getParameter("key").replaceAll("\\<.*?\\>", "");
 			String value= request.getParameter("value").replaceAll("\\<.*?\\>", "");
@@ -197,6 +344,38 @@ public class Tracker extends HttpServlet {
 		}
 
 	}
+	
+	private String mergeArrays(String[] arr1, String[] arr2){
+		String bracketed_result = "";
+		String[] merged = new String[arr1.length + arr2.length];
+	    System.arraycopy(arr1, 0, merged, 0, arr1.length);
+	    System.arraycopy(arr2, 0, merged, arr1.length, arr2.length);
+	
+	    Set<String> nodupes = new HashSet<String>();
+	
+	    for(int i=0;i<merged.length;i++){
+	        nodupes.add(merged[i]);
+	        bracketed_result+=merged[i].trim()+",";
+	    }
+	
+	    String[] nodupesarray = new String[nodupes.size()];
+	    int i = 0;
+	    Iterator<String> it = nodupes.iterator();
+	    while(it.hasNext()){
+	        nodupesarray[i] = it.next();
+	        
+	        i++;
+	    }
+	
+		    return bracketed_result.replaceAll(",$", "");
+	}
+	
+	private String getDateTime() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
+	
 }
 
 
