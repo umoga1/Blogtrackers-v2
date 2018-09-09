@@ -263,7 +263,7 @@ if(f.exists() && !f.isDirectory()) {
 			%>
 	<div class="row m50 mt40">
 	<div class="col-md-9">
-	<h1 class="text-primary edittrackertitle mb0" style=""><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+	<h1 class="text-primary edittrackertitle mb0" style=""><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
 	<p><button class="btn metadata text-primary mt10">Created  |  <%=dt%></button> <button class="btn metadata text-primary mt10">Modified |  <%=dtmodified %></button> <button class="btn metadata text-primary mt10">Crawled |  22-07-2018 . 05:30pm</button></p>
 	</div>
 	<div class="col-md-3 text-right pt10">
@@ -274,7 +274,7 @@ if(f.exists() && !f.isDirectory()) {
 	</div>
 	
 	<div class="col-md-12 trackerdescription">
-	<p class="edittrackerdesc text-primary"><%=obj.get("description").toString()%></p>
+	<p class="edittrackerdesc text-primary"><%=resut.get(6).toString()%></p>
 	</div>
 	
 	<div class="col-md-12">

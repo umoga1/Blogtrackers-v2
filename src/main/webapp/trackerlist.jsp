@@ -318,7 +318,7 @@
 			
 			<div class="card noborder curved-card mb30 pt30">
 				<a href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=resut.get(0).toString()%>"><div class="">
-					<h1	class="text-primary text-center pt20 cursor-pointer bold-text"><%=resut.get(1).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+					<h1	class="text-primary text-center pt20 cursor-pointer bold-text"><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
 				</div></a>
 
 				<div class="card-body">
@@ -331,7 +331,7 @@
 					</div>
 					<p class="mt20 text-primary text-center">
 
-						<%=resut.get(5).toString()%>
+						<%=resut.get(6).toString()%>
 					</p>
 					<div class="text-center mt20">
 						<button
