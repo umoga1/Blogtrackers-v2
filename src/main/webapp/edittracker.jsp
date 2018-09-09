@@ -238,7 +238,7 @@ if(f.exists() && !f.isDirectory()) {
 								}								
 								
 								if (!dtt2.equals("null")){
-									String[] ddtm = dtt2.split("T");
+									String[] ddtm = dtt2.split(" ");
 									dtmodified = ddtm[0];
 								}
 
@@ -274,7 +274,7 @@ if(f.exists() && !f.isDirectory()) {
 	</div>
 	
 	<div class="col-md-12 trackerdescription">
-	<p class="edittrackerdesc text-primary"><%=resut.get(6).toString()%></p>
+	<p class="edittrackerdesc text-primary"><%=resut.get(6)%></p>
 	</div>
 	
 	<div class="col-md-12">
