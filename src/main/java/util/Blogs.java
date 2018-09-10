@@ -141,7 +141,7 @@ public class Blogs extends DbConnection{
 		}
 
 		String arg2 = pars.toString();
-
+		System.out.println(ids);
 		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}}}";
 		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"totalposts\":{\"order\":\"DESC\"}}}";
 
@@ -189,46 +189,49 @@ public class Blogs extends DbConnection{
 
 	public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 		ArrayList<String> list = new ArrayList<String>(); 
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-		con.setDoOutput(true);
-		con.setDoInput(true);
-
-		con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-		con.setRequestProperty("Accept", "application/json");
-		con.setRequestMethod("POST");
-
-		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-		wr.write(jsonObj.toString());
-		wr.flush();
-
-		// int responseCode = con.getResponseCode();
-
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(con.getInputStream()));
-
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
-
-		JSONObject myResponse = new JSONObject(response.toString());
-
-		if(null!=myResponse.get("hits")) {
-			String res = myResponse.get("hits").toString();
-			JSONObject myRes1 = new JSONObject(res);	    
-			JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 	     
-			if (jsonArray != null) { 
-				int len = jsonArray.length();
-				for (int i=0;i<len;i++){ 
-					list.add(jsonArray.get(i).toString());
-				} 
+		try {
+			URL obj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+	
+			con.setDoOutput(true);
+			con.setDoInput(true);
+	
+			con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+			con.setRequestProperty("Accept", "application/json");
+			con.setRequestMethod("POST");
+	
+			OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+			wr.write(jsonObj.toString());
+			wr.flush();
+	
+			// int responseCode = con.getResponseCode();
+	
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(con.getInputStream()));
+	
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+	
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
 			}
-		}
+			in.close();
+	
+			JSONObject myResponse = new JSONObject(response.toString());
+	
+			if(null!=myResponse.get("hits")) {
+				String res = myResponse.get("hits").toString();
+				JSONObject myRes1 = new JSONObject(res);	    
+				JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 	     
+				if (jsonArray != null) { 
+					int len = jsonArray.length();
+					for (int i=0;i<len;i++){ 
+						list.add(jsonArray.get(i).toString());
+					} 
+				}
+			}
+		}catch(Exception e) {}
+		
 		return  list;
 	}
 

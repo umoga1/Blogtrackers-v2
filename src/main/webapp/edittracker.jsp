@@ -230,7 +230,7 @@ if(f.exists() && !f.isDirectory()) {
 								String dtmodified = "";
 								
 								String dtt =resut.get(3).toString();
-								String dtt2 = (null==resut.get(4))?resut.get(4).toString():"";
+								String dtt2 = "";//(null==resut.get(4))?resut.get(4).toString():"";
 								
 								if (!dtt.equals("null")){
 									String[] ddt = dtt.split(" ");
