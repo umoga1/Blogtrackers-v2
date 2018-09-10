@@ -199,8 +199,9 @@ public String getTotalTrack(String blogsite_id) throws Exception {
 public ArrayList _fetch(String ids) throws Exception {
 	 ArrayList result = new ArrayList();
 	 String s = "("+ids+")";
-	 result =  new DbConnection().query("select * from trackers where tracker_id in "+s+"");			
-		
+	
+	 result =  new DbConnection().query("select * from trackers where tid in "+s+"");			
+
 	 /*
 	 JSONObject query = new JSONObject(); 
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
