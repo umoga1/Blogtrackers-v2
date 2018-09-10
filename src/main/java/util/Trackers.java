@@ -269,7 +269,7 @@ public String _add(String userid, JSONObject params) throws Exception {
 		   	  output = "false";
 	   }else {
 		   String resv = myResponse.get("result").toString();
-		   System.out.println(resv);
+		  // System.out.println(resv);
 		   if(resv.equals("created")) {
 			   output = "true";
 		   }else {

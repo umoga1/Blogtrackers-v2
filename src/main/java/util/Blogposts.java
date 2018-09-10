@@ -380,10 +380,12 @@ public class Blogposts {
 	}
 	
 	public String _getTotal(String url, JSONObject jsonObj) throws Exception {
+		String total = "0";
+		try {
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-		String total = "0";
+		
 
 		con.setDoOutput(true);
 		con.setDoInput(true);
@@ -418,6 +420,7 @@ public class Blogposts {
 			JSONObject myRes1 = new JSONObject(res);          
 			total = myRes1.get("total").toString();              
 		}
+		}catch(Exception ex) {}
 		return  total;
 	}
 

@@ -194,7 +194,9 @@ public ArrayList _getMostUsed(String blog_ids) throws Exception {
 }
 
 public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
+	
 	   ArrayList<String> list = new ArrayList<String>(); 
+	   try {
 	   URL obj = new URL(url);
 	   HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 	   
@@ -234,6 +236,7 @@ public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 		        } 
 		     }
 	    }
+	}catch(Exception ex) {}
 	   return  list;
 }
 

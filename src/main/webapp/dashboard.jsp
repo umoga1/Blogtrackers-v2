@@ -17,7 +17,7 @@
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 
 	//System.out.println(date_start);
-	if (email == null || email == "") {
+	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
 	} else {
 
@@ -34,36 +34,33 @@
 		Terms term = new Terms();
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
-			System.out.println(detail);
+			//System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
-			System.out.println(detail);
+			System.out.println("List:"+detail);
 		}
 		
 		
 		boolean isowner = false;
 		JSONObject obj = null;
 		String ids = "";
-
+		String trackername="";
 		if (detail.size() > 0) {
 			//String res = detail.get(0).toString();
 			ArrayList resp = (ArrayList<?>)detail.get(0);
-			/*
-			JSONObject resp = new JSONObject(res);
 
-			String resu = resp.get("_source").toString();
-			obj = new JSONObject(resu);
-			*/
 			String tracker_userid = resp.get(0).toString();
-			if (tracker_userid.equals(user.toString())) {
+			trackername = resp.get(2).toString();
+			//if (tracker_userid.equals(user.toString())) {
 				isowner = true;
 				String query = resp.get(5).toString();//obj.get("query").toString();
 				query = query.replaceAll("blogsite_id in ", "");
 				query = query.replaceAll("\\(", "");
 				query = query.replaceAll("\\)", "");
 				ids = query;
-			}
+			//}
 		}
+		
 		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
 		if (userinfo.size() < 1 || !isowner) {
 			response.sendRedirect("index.jsp");
@@ -438,7 +435,7 @@
 				<nav class="breadcrumb">
 					<a class="breadcrumb-item text-primary"
 						href="<%=request.getContextPath()%>/trackerlist.jsp">My	Trackers</a> <a class="breadcrumb-item text-primary"
-						href="<%=request.getContextPath()%>/edittracker.jsp"><%=obj.get("tracker_name").toString()%></a>
+						href="<%=request.getContextPath()%>/edittracker.jsp"><%=trackername%></a>
 					<a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
 				</nav>
 				<div>
@@ -664,7 +661,7 @@
 				</div>
 				<div class="float-right">
 					<a
-						href="<%=request.getContextPath()%>/sentiment.jsp?tid=<%=obj.get("tid").toString()%>"><button
+						href="<%=request.getContextPath()%>/sentiment.jsp?tid=<%=tid%>"><button
 							class="btn buttonportfolio2 mt10">
 							<b class="float-left semi-bold-text">Sentiment Analysis </b> <b
 								class="fas fa-adjust float-right icondash2"></b>
