@@ -806,7 +806,10 @@
 						<div style="min-height: 420px;">
 							<div>
 								<p class="text-primary p15 pb5 pt0">
-									List of Top Domains of <select
+									List of Top <select
+										class="text-primary filtersort sortbydomainsrls"><option
+											value="domains">Domains</option>
+										<option value="urls">URLs</option></select> of <select
 										class="text-primary filtersort sortbyblogblogger"><option
 											value="blogs">Blogs</option>
 										<option value="bloggers">Bloggers</option></select> of Past <select
@@ -1773,6 +1776,11 @@ $(function () {
             //{letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},
             
         ];
+      
+      data.sort(function(a, b){
+  	    return a.frequency - b.frequency;
+  	});
+      
       //
       //
       //   // Create tooltip
