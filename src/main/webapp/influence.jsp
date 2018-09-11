@@ -21,7 +21,7 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
-
+String trackername="";
 Trackers tracker  = new Trackers();
 Blogposts post  = new Blogposts();
 Blogs blog  = new Blogs();
@@ -88,6 +88,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		String tracker_userid = resp.get(0).toString();
 		if (tracker_userid.equals(user.toString())) {
 			isowner = true;
+			trackername = resp.get(2).toString();
 			String query = resp.get(5).toString();//obj.get("query").toString();
 			query = query.replaceAll("blogsite_id in ", "");
 			query = query.replaceAll("\\(", "");
@@ -327,8 +328,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			<div class="col-md-6 paddi">
 				<nav class="breadcrumb">
 					<a class="breadcrumb-item text-primary" href="trackerlist.jsp">MY
-						TRACKER</a> <a class="breadcrumb-item text-primary" href="#">Second
-						Tracker</a> <a class="breadcrumb-item active text-primary"
+						TRACKER</a> <a class="breadcrumb-item text-primary" href="#"><%=trackername%></a> <a class="breadcrumb-item active text-primary"
 						href="influence.jsp">Influence</a>
 				</nav>
 				<div>

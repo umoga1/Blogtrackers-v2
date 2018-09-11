@@ -19,6 +19,8 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
+String trackername="";
+
 Trackers tracker  = new Trackers();
 Blogposts post  = new Blogposts();
 Blogs blog  = new Blogs();
@@ -89,6 +91,7 @@ if (detail.size() > 0) {
 	String tracker_userid = resp.get(0).toString();
 	if (tracker_userid.equals(user.toString())) {
 		isowner = true;
+		trackername = resp.get(2).toString();
 		String query = resp.get(5).toString();//obj.get("query").toString();
 		query = query.replaceAll("blogsite_id in ", "");
 		query = query.replaceAll("\\(", "");
@@ -240,7 +243,7 @@ if(!ids.equals("")){
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
   <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="#"><%=obj.get("tracker_name").toString()%></a>
+  <a class="breadcrumb-item text-primary" href="#"><%=trackername%></a>
   <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/edittracker.jsp">Posting Frequency</a>
   </nav>
 <div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
