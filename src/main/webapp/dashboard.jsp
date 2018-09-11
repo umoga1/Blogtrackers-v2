@@ -1178,7 +1178,7 @@ $(function () {
 
       // Horizontal
       var y = d3.scale.ordinal()
-          .rangeRoundBands([height,0], .2, .5);
+          .rangeRoundBands([height,0], .65, .65);
 
       // Vertical
       var x = d3.scale.linear()
@@ -1230,7 +1230,7 @@ $(function () {
       //
       //
       //
-      data = [
+     data = [
     	  <%if (langlooper.size() > 0) {
 						for (int y = 0; y < langlooper.size(); y++) {
 							String key = langlooper.get(y).toString();%>
@@ -1238,17 +1238,20 @@ $(function () {
     		<%}
 					}%>
 
-	 ];
-      /*
-      data = [
+	 ]; 
+     data.sort(function(a, b){
+    	    return a.frequency - b.frequency;
+    	});
+     
+   /*    data = [
             {letter:"English", frequency:2550},
             {letter:"Russian", frequency:800},
             {letter:"Spanish", frequency:500},
             {letter:"French", frequency:1700},
             {letter:"Arabic", frequency:1900},
             {letter:"Unknown", frequency:1500}
-        ];
-      */
+        ]; */
+      
       //
       //
       //   // Create tooltip
@@ -1273,10 +1276,12 @@ $(function () {
       //     // Set input domains
       //     // ------------------------------
       //
-      //     // Horizontal
+      //    // Vertical
           y.domain(data.map(function(d) { return d.letter; }));
 
-          // Vertical
+          
+          
+          // Horizontal domain
           x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
       //
       //
@@ -1322,7 +1327,7 @@ $(function () {
                   .attr("height", y.rangeBand())
                   .attr("x", function(d) { return 0; })
                   .attr("width", function(d) { return x(d.frequency); })
-                  .style("fill", function(d) {
+                   .style("fill", function(d) {
                   maxvalue = d3.max(data, function(d) { return d.frequency; });
                   if(d.frequency == maxvalue)
                   {
@@ -1333,7 +1338,7 @@ $(function () {
                     return "#78BCE4";
                   }
 
-                })
+                }) 
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
 
@@ -2370,7 +2375,7 @@ var gdpData = {
 					location.put("US", "37.0902, -95.7129");
 					location.put("DE", "51.165691, 10.451526");
 					location.put("LT", "55.1694, 23.8813");
-					location.put("GB", "55.3781, 3.4360");
+					location.put("GB", "55.3781, -3.4360");
 					location.put("NL", "52.132633, 5.291266");
 					location.put("VE", "6.423750, -66.589729");
 					location.put("LV", "56.8796, 24.6032");
