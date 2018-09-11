@@ -1,6 +1,9 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="util.Blogs"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
-<%@page import="java.util.*"%>
+<%@page import="util.*"%>
 <%@page import="java.io.File"%>
 <%@page import="util.Blogposts"%>
 <%@page import="java.util.ArrayList"%>
@@ -18,6 +21,7 @@ String phone="";
 String date_modified = "";
 
  userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+
  ArrayList detail = post._fetch(id.toString());
  //System.out.println(userinfo);
 if (userinfo.size()<1 || detail.size()<1 ) {
@@ -48,7 +52,7 @@ String[] user_name = name.split(" ");
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Blogtrackers - Blog Post Page</title>
@@ -166,16 +170,39 @@ String[] user_name = name.split(" ");
       </div>
         </div>
 
-<% if(detail.size()>0){
-		
+<%
+Blogs blogs = new Blogs();
+JSONObject bresp = null;
+String bresu =null;
+JSONObject bobj =null;
+String	blogtitle = null;
+String date = null;
+if(detail.size()>0){
+	
+	String bres = null;
+	
 			String res = detail.get(0).toString();
 			
 			JSONObject resp = new JSONObject(res);
 		    String resu = resp.get("_source").toString();
 		     JSONObject obj = new JSONObject(resu);
+		     String blogid = obj.get("blogsite_id").toString();
+		     ArrayList blog = blogs._fetch(blogid); 
+		  
 		     
+		     String datetime = obj.get("date").toString();
 		     
 		     String pst = obj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
+		   
+			 if(blog.size()>0){
+				 		 date = datetime.substring(0, 10);
+						 bres = blog.get(0).toString();			
+						 bresp = new JSONObject(bres);
+						 bresu = bresp.get("_source").toString();
+						 bobj = new JSONObject(bresu);
+						 blogtitle = bobj.get("blogsite_name").toString();
+						
+			}
 		     
  %>
 <div class="container">
@@ -190,8 +217,8 @@ String[] user_name = name.split(" ");
               </div>
         <h1 class="text-center text-white post-title-font"><%=obj.get("title") %></h1>
         <p class="p10 pt40 pb10 text-center"><button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=obj.get("blogger") %></button>
-         <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10">02-01-2018, 5:30pm</button>
-          <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10">National Public Radio</button> <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=obj.get("num_comments") %> comment(s)</button>
+         <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=date%></button>
+          <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=blogtitle%></button> <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=obj.get("num_comments") %> comment(s)</button>
        <!--    <button class="btn btn-primary stylebuttonposttracking mr10 mt10">TRACKING</button>
           <button class="btn btn-primary stylebuttonposttracks mt10">2 Tracks</button> -->
           </p>
