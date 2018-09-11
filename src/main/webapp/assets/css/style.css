@@ -9,7 +9,12 @@ body{
 {
 color:blue;
 } */
+.card
+{
+flex-direction:row;	
+-webkit-box-orient: horizontal;
 
+}
 .dash-label
 {
     font-size: 1.70rem;

@@ -325,7 +325,7 @@ for(int i=0; i< mytrackers.size(); i++){
 </div>
 
 
-<div class="card-columns pt0 pb10  mt20 mb50 " id="appendee">
+<div class="card-columns pt0 pb10  mt20 mb50" id="appendee">
 
 <% 
 if(results.size()>0){
