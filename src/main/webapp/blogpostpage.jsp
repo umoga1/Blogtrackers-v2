@@ -209,10 +209,10 @@ if(detail.size()>0){
         <div class="row pt30 pb30 m20 mt0 mb0 d-none d-lg-block d-xl-block">
         <div class="col-lg-12 d-none d-lg-block d-xl-block">
         <div class="stickyoptions">
-        <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="Back" class="fas fa-arrow-left backblogpostpage icon-small text-primary"></i></button>
-         <a href="<%=obj.get("permalink") %>" target="_blank"> <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="View Post" class="fas fa-external-link-alt icon-small text-primary"></i></button></a>
-    <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="Add to Favorites" class="far fa-heart icon-small text-primary"></i></button>
-         <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="top" title="Track Blogsite" class="trackblogfromblogpage icon-small text-primary"></i></button>
+        <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="right" title="Back" class="fas fa-arrow-left backblogpostpage icon-small text-primary"></i></button>
+         <a href="<%=obj.get("permalink") %>" target="_blank"> <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="right" title="View Post" class="fas fa-external-link-alt icon-small text-primary"></i></button></a>
+    <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="right" title="Add to Favorites" class="far fa-heart icon-small text-primary"></i></button>
+         <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="right" title="Track Blogsite" class="trackblogfromblogpage icon-small text-primary"></i></button>
           
               </div>
         <h1 class="text-center text-white post-title-font"><%=obj.get("title") %></h1>
