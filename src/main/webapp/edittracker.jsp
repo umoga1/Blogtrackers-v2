@@ -274,7 +274,8 @@ if(f.exists() && !f.isDirectory()) {
 	</div>
 	
 	<div class="col-md-12 trackerdescription">
-	<p class="edittrackerdesc text-primary"><%=resut.get(6)%></p>
+	<p class="edittrackerdesc text-primary">
+	<%=resut.get(6)%></p>
 	</div>
 	
 	<div class="col-md-12">
@@ -294,7 +295,8 @@ if(f.exists() && !f.isDirectory()) {
 	</div>
 	
 	<div class="col-md-12 mt30">
-	<form class="form-inline">
+	<h1 class="listofblogs">List of Blogs </h1><i class="addiconblog cursor-pointer"></i>
+<!-- 	<form class="form-inline">
 	<div class="input-group col-md-10" style="padding-left:0 !important;">
 	<i class="searchiconinputblog cursor-pointer" aria-hidden="true"></i>
 	<input class="form-control searchblogsites text-primary" placeholder="Search Blogs" type="text" />
@@ -304,7 +306,7 @@ if(f.exists() && !f.isDirectory()) {
 	 <option value="this">This</option>
 	 <option value="all">All</option>
 	 </select>
-	 </form>
+	 </form> -->
 	 
 	</div>
 	
@@ -317,13 +319,16 @@ if(f.exists() && !f.isDirectory()) {
 		<div class="checkblogleft">
 		<i class="navbar-brand text-primary icontrackersize checkuncheckallblog uncheckallblog cursor-pointer" data-toggle="tooltip" data-placement="top" title="Select All Blog"></i>
 		</div>
-		<b id="totalblogcount"></b> Items 
-		<div class="selectsets">
+		<!-- id="totalblogcount" count the number of blogs for the tracker  -->
+		<p class="blogname mb10">Blog Name</p>
+		<p class="noofposts mb10">No of Posts</p>
+		<p class="lastestcrawl">Latest Crawl</p>
+		<!-- <div class="selectsets">
 		 <select class="form-control sortby text-primary">
 		 <option>Recent</option>
 		
 		 </select>
-		</div>
+		</div> -->
 		</div>
 		
 		<div id="bloglist">
@@ -337,15 +342,18 @@ if(f.exists() && !f.isDirectory()) {
 			<div class="checkblogleft">
 			<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" id="<%=ob.get("blogsite_id").toString()%>_select" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
 			</div>
-			<%=ob.get("blogsite_name").toString()%>
+			<p class="float-left mb0 eachblogname"><%=ob.get("blogsite_name").toString()%></p>
 			<div class="iconsetblogs">
-			<div class="setoficons float-left makeinvisible">
+			<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey float-right" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+			<div class="setoficons makeinvisible">
 			<a href="<%=request.getContextPath()%>/analytics.jsp?bid=<%=ob.get("blogsite_id").toString()%>"><i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i></a>
 			<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
 			<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
 			</div>
-			<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
-			</div>
+				</div>
+				<p class="mb0 float-right blogdateingroup">2 years ago</p>
+				<p class="mb0 float-right postcount">34K</p>
+				
 			</div>
 		<% }} %>
 		

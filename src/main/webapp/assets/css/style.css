@@ -25,7 +25,7 @@ border: 4px solid #ffffff;
 }
 .logohome
 {
-background-image: url(../../images/logo.svg);
+background-image: url(../../images/svgs/logo.svg);
 background-repeat: no-repeat;
 min-height: 50px;
 width:200px;
@@ -39,9 +39,29 @@ bottom:0;
     width: 100%;
     z-index: 995;
 }
+.blogname
+{
+width:70%;	
+font-weight:bold;
+float:left;
+}
+.noofposts
+{
+width:15%;	
+font-weight:bold;
+float:left;
+text-align:left;
+}
+.lastestcrawl
+{
+width:15%;	
+font-weight:bold;
+float:left;
+text-align:left;	
+}
 .logohomeothers
 {
-background-image: url(../../images/logob.svg);
+background-image: url(../../images/svgs/logob.svg);
 background-repeat: no-repeat;
 min-height: 32px;
 width:200px;
@@ -89,7 +109,7 @@ border-color:transparent;
 .robotcontainer
 {
 min-height: 360px;
-background-image:url('../../images/botnobackground.svg');
+background-image:url('../../images/svgs/botnobackground.svg');
 background-repeat: no-repeat;
 background-size: cover;
 background-position: center bottom;
@@ -100,7 +120,7 @@ margin-top: -50px;
 .robotcontainer2
 {
 /* min-height: 360px; */
-background-image:url('../../images/LoginArt.svg');
+background-image:url('../../images/svgs/LoginArt.svg');
 background-repeat: no-repeat;
 background-size: cover;
 background-position:bottom center;
@@ -110,7 +130,7 @@ position:relative;
 .robotcontainer3
 {
 /* min-height: 360px; */
-background-image:url('../../images/LoginArt.svg');
+background-image:url('../../images/svgs/LoginArt.svg');
 background-repeat: no-repeat;
 background-size: cover;
 background-position:bottom center;
@@ -257,14 +277,14 @@ min-width:190px;
 -webkit-box-shadow: 0px 7px 0px -2px rgba(233,233,233,1);
 -moz-box-shadow: 0px 7px 0px -2px rgba(233,233,233,1);
 box-shadow: 0px 7px 0px -2px rgba(233,233,233,1);
-background-image: url(../../images/btn_google_light_normal_ios.svg);
+background-image: url(../../images/svgs/btn_google_light_normal_ios.svg);
 background-repeat: no-repeat;
 min-height: 40px;
 background-position: left
 }
 .googleicon
 {
-background-image:url('../../images/btn_google_light_normal_ios.svg');
+background-image:url('../../images/svgs/btn_google_light_normal_ios.svg');
 background-repeat: repeat;
 width:80px;
 height:80px;
@@ -712,7 +732,7 @@ height:63px;
 }
 .helpicon
 {
-    background-image: url(../../images/questions.svg);
+    background-image: url(../../images/svgs/questions.svg);
     background-repeat: no-repeat;
     min-height: 35px;
     width: 35px;
@@ -720,7 +740,7 @@ height:63px;
 }
 .proceedtoanalytics
 {
-    background-image: url(../../images/analyticsicon.svg);
+    background-image: url(../../images/svgs/analyticsicon.svg);
     background-repeat: no-repeat;
     min-height: 20px;
     width: 20px;
@@ -729,7 +749,17 @@ height:63px;
 }
 .refreshtracker
 {
-   background-image: url(../../images/refreshicon.svg);
+   background-image: url(../../images/svgs/refreshicon.svg);
+    background-repeat: no-repeat;
+    min-height: 20px;
+    width: 20px;
+    display:inline-block;
+    background-position: center center;
+}
+
+.refreshdeactivated
+{
+   background-image: url(../../images/svgs/refreshdeactivated.svg);
     background-repeat: no-repeat;
     min-height: 20px;
     width: 20px;
@@ -739,7 +769,7 @@ height:63px;
 
 .refreshblog
 {
-   background-image: url(../../images/refreshicon.svg);
+   background-image: url(../../images/svgs/refreshicon.svg);
     background-repeat: no-repeat;
     min-height: 20px;
     width: 20px;
@@ -748,7 +778,7 @@ height:63px;
 }
 .edittracker
 {
- background-image: url(../../images/editicon.svg);
+ background-image: url(../../images/svgs/editicon.svg);
     background-repeat: no-repeat;
     min-height: 20px;
     width: 20px;
@@ -757,7 +787,7 @@ height:63px;
 }
 .deletetracker
 {
- background-image: url(../../images/deleteicontracker.svg);
+ background-image: url(../../images/svgs/deleteicontracker.svg);
     background-repeat: no-repeat;
     min-height: 20px;
     width: 20px;
@@ -766,7 +796,7 @@ height:63px;
 }
 .deleteblog
 {
- background-image: url(../../images/deleteicontracker.svg);
+ background-image: url(../../images/svgs/deleteicontracker.svg);
     background-repeat: no-repeat;
     min-height: 20px;
     width: 20px;
@@ -775,26 +805,28 @@ height:63px;
 }
 .trackbloggrey
 {
- background-image: url(../../images/trackbloggrey.svg);
+ background-image: url(../../images/svgs/trackbloggrey.svg);
     background-repeat: no-repeat;
     min-height: 20px;
     width: 20px;
     display:inline-block;
     background-position: center center;
+    margin-left:20px !important;
 }
 .trackblogblue
 {
- background-image: url(../../images/trackblogblue.svg);
+ background-image: url(../../images/svgs/trackblogblue.svg);
     background-repeat: no-repeat;
     min-height: 20px;
     width: 20px;
     display:inline-block;
     background-position: center center;
+    margin-left:20px !important;
 }
 
 .trackblogfromblogpage
 {
- background-image: url(../../images/trackblogblue.svg);
+ background-image: url(../../images/svgs/trackblogblue.svg);
     background-repeat: no-repeat;
     min-height: 22px;
     width: 24px;
@@ -803,7 +835,7 @@ height:63px;
 }
 .addnewtracker
 {
- background-image: url(../../images/addicon.svg);
+ background-image: url(../../images/svgs/addicon.svg);
     background-repeat: no-repeat;
     min-height: 25px;
     width: 25px;
@@ -812,7 +844,7 @@ height:63px;
 }
 .createtracker
 {
- background-image: url(../../images/doneicon.svg);
+ background-image: url(../../images/svgs/doneicon.svg);
     background-repeat: no-repeat;
     min-height: 25px;
     width: 25px;
@@ -822,7 +854,7 @@ height:63px;
 
 .uncheckblog
 {
- background-image: url(../../images/uncheck.svg);
+ background-image: url(../../images/svgs/uncheck.svg);
     background-repeat: no-repeat;
     min-height: 22px;
     width: 22px;
@@ -831,7 +863,7 @@ height:63px;
 }
 .uncheckallblog
 {
- background-image: url(../../images/uncheck.svg);
+ background-image: url(../../images/svgs/uncheck.svg);
     background-repeat: no-repeat;
     min-height: 22px;
     width: 22px;
@@ -840,7 +872,7 @@ height:63px;
 }
 .checkallblog
 {
- background-image: url(../../images/checkblue.svg);
+ background-image: url(../../images/svgs/checkblue.svg);
     background-repeat: no-repeat;
     min-height: 22px;
     width: 22px;
@@ -850,7 +882,7 @@ height:63px;
 
 .editdone
 {
- background-image: url(../../images/checkblue.svg);
+ background-image: url(../../images/svgs/checkblue.svg);
     background-repeat: no-repeat;
     min-height: 22px;
     width: 22px;
@@ -865,7 +897,7 @@ left:35px;
 }
 .checkblog
 {
- background-image: url(../../images/doneicon.svg);
+ background-image: url(../../images/svgs/doneicon.svg);
     background-repeat: no-repeat;
     min-height: 22px;
     width: 22px;
@@ -875,7 +907,7 @@ left:35px;
 
 .canceltracker
 {
- background-image: url(../../images/deleteicon.svg);
+ background-image: url(../../images/svgs/deleteicon.svg);
     background-repeat: no-repeat;
     min-height: 25px;
     width: 25px;
@@ -884,9 +916,26 @@ left:35px;
 }
 .iconsetblogs
 {
-position:absolute;
-right:35px;
-display: inherit;
+position:relative; 
+display: inline-block;
+ text-align:right; 
+width:40%;
+}
+.eachblogname
+{
+width:25%;	
+}
+.clearfloat
+{
+clear:both;	
+}
+.blogdateingroup
+{
+width:15%	
+}
+.postcount
+{
+width:15%		
 }
 .selectsets
 {
@@ -1411,7 +1460,7 @@ padding-bottom: 5px;
 }
 .trackericon
 {
-    background-image: url(../../images/trackericon.svg);
+    background-image: url(../../images/svgs/trackericon.svg);
     background-repeat: no-repeat;
     min-height: 25px;
     width: 25px;
@@ -1422,7 +1471,7 @@ padding-bottom: 5px;
 }
 .homeicon
 {
-    background-image: url(../../images/homeicon.svg);
+    background-image: url(../../images/svgs/homeicon.svg);
     background-repeat: no-repeat;
     min-height: 25px;
     width: 25px;
@@ -1433,7 +1482,7 @@ padding-bottom: 5px;
 }
 .favoriteicon
 {
-    background-image: url(../../images/heart.svg);
+    background-image: url(../../images/svgs/heart.svg);
     background-repeat: no-repeat;
     min-height: 25px;
     width: 25px;
@@ -2736,6 +2785,14 @@ max-width:200px;
 min-width:200px;
 
 }
+.listofblogs
+{
+font-size: 46px !important;
+font-weight: 300 !important;
+color:#17394C;
+padding-left: 0;
+float:left;
+}
 .searchblogsites
 {
 font-size: 46px;
@@ -2769,7 +2826,7 @@ width:65%;
 }
 .trackblogiconedittrackerwhite
 {
-    background-image: url(../../images/trackblogwhite.svg);
+    background-image: url(../../images/svgs/trackblogwhite.svg);
     background-repeat: no-repeat;
     min-height: 27px;
     width: 27px;
@@ -2779,7 +2836,7 @@ width:65%;
 }
 .disabletrackwhite
 {
-    background-image: url(../../images/disabletrackwhite.svg);
+    background-image: url(../../images/svgs/disabletrackwhite.svg);
     background-repeat: no-repeat;
     min-height: 27px;
     width: 27px;
@@ -2789,7 +2846,7 @@ width:65%;
 }
 .refreshtrackerwhite
 {
-    background-image: url(../../images/refreshtrackerwhite.svg);
+    background-image: url(../../images/svgs/refreshtrackerwhite.svg);
     background-repeat: no-repeat;
     min-height: 27px;
     width: 27px;
@@ -2799,7 +2856,7 @@ width:65%;
 }
 .deleteblogwhite
 {
-    background-image: url(../../images/deletetrackerwhite.svg);
+    background-image: url(../../images/svgs/deletetrackerwhite.svg);
     background-repeat: no-repeat;
     min-height: 27px;
     width: 27px;
@@ -2808,18 +2865,36 @@ width:65%;
 }
 .searchiconinputblog
 {
- background-image: url(../../images/searchiconedittracker.svg);
-    background-repeat: no-repeat;
-    min-height: 40px;
-    width: 40px;
-    display:inline-block;
-    background-position: center center;
-    position:absolute;
-    top:20px;
-    display: flex;
+ background-image: url(../../images/svgs/searchiconedittracker.svg);
+  background-repeat: no-repeat;
+  min-height: 40px;
+  width: 40px;
+  display:inline-block;
+  background-position: center center;
+  position:absolute;
+  top:20px;
+  display: flex;
   align-items: center;
   right:20px;
-    z-index:888;
+  z-index:888;
+}
+.addiconblog
+{
+ background-image: url(../../images/svgs/addiconblog.svg);
+  background-repeat: no-repeat;
+  min-height: 40px;
+  width: 40px;
+  display:inline-block;
+  background-position: center center;
+/*   position:absolute; */
+  top:20px; 
+  margin-top:12px;
+  margin-left:12px;
+float:left;
+  display: flex;
+  align-items: center;
+/*   right:20px; */
+  z-index:888;
 }
 .allthistracker
 {

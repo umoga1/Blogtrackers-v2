@@ -333,7 +333,19 @@
 					</div>
 					<p class="mt20 text-primary text-center">
 
-						<%=resut.get(6)%>
+						<%
+						String description  = String.valueOf(resut.get(6));
+						if(description.equalsIgnoreCase("null"))
+						{
+							description = "No Description";	
+						}
+						else
+						{
+						description = description;	
+						}
+						%>
+						
+						<%=description	%>
 					</p>
 					<div class="text-center mt20">
 						<button
@@ -369,7 +381,7 @@
 							class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics"
 							data-toggle="tooltip" data-placement="top"
 							title="Proceed to Analytics"></i></a> <i
-							class="text-primary icontrackersize cursor-pointer refreshtracker"
+							class="text-primary icontrackersize cursor-pointer refreshdeactivated"
 							data-toggle="tooltip" data-action="reload" data-placement="top"
 							title="Refresh Tracker"></i> <i class="text-primary icontrackersize cursor-pointer deletetracker trackerdelete"
 							data-toggle="tooltip" data-placement="top" title="Delete Tracker" id="<%=resut.get(0).toString()%>">
