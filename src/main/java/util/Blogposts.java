@@ -1,6 +1,8 @@
 package util;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL; 
@@ -87,7 +89,7 @@ public class Blogposts {
 
 	public ArrayList _search(String term,String from,String sortby) throws Exception {
 
-		int size = 100;
+		int size = 10;
 		int fr = 0;
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
@@ -169,7 +171,7 @@ public class Blogposts {
 	
 	/* Fetch posts by blog ids*/
 	public String _getTotalByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=100";
+		String url = base_url+"_search?size=10";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		for(int i=0; i<args.length; i++){
@@ -186,7 +188,7 @@ public class Blogposts {
 
 	/* Fetch posts by blog ids*/
 	public ArrayList _getPostByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=1000";
+		String url = base_url+"_search?size=10";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -306,7 +308,7 @@ public class Blogposts {
 				"}");
 
 
-		String url = base_url+"_search?size=100";
+		String url = base_url+"_search?size=10";
 		return this._getResult(url, jsonObj);
 
 	}
@@ -339,12 +341,17 @@ public class Blogposts {
 	    con.setDoOutput(true);
 	    con.setDoInput(true);
 	   
-	    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+	    con.setRequestProperty("Content-Type", "application/json; charset=utf-32");
+	    con.setRequestProperty("Content-Type", "application/json");
+	    con.setRequestProperty("Accept-Charset", "UTF-32");
 	    con.setRequestProperty("Accept", "application/json");
 	    con.setRequestMethod("POST");
 	    
-	    OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-	    wr.write(jsonObj.toString());
+	    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+	    
+	    
+	    //OutputStreamWriter wr1 = new OutputStreamWriter(con.getOutputStream());
+	    wr.write(jsonObj.toString().getBytes());
 	    wr.flush();
 	    
 	    int responseCode = con.getResponseCode();  
@@ -355,6 +362,8 @@ public class Blogposts {
 	    
 	    while ((inputLine = in.readLine()) != null) {
 	     	response.append(inputLine);
+	     	System.out.println(inputLine);
+	     	
 	     }
 	     in.close();
 	     
@@ -409,6 +418,7 @@ public class Blogposts {
 
 		while ((inputLine = in.readLine()) != null) {
 			response.append(inputLine);
+		
 		}
 		in.close();
 
