@@ -19,6 +19,8 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
+String trackername="";
+
 Trackers tracker  = new Trackers();
 Blogposts post  = new Blogposts();
 Blogs blog  = new Blogs();
@@ -75,20 +77,27 @@ boolean isowner = false;
 JSONObject obj =null;
 String ids = "";
 
-if(detail.size()>0){
-	String res = detail.get(0).toString();
+
+
+if (detail.size() > 0) {
+	//String res = detail.get(0).toString();
+	ArrayList resp = (ArrayList<?>)detail.get(0);
+	/*
 	JSONObject resp = new JSONObject(res);
-    String resu = resp.get("_source").toString();
-    obj = new JSONObject(resu);
-    String tracker_userid = obj.get("userid").toString();
-    if(tracker_userid.equals(user.toString())){
-    	isowner=true;
-    	String query = obj.get("query").toString();
-		query = query.replaceAll("blogsite_id in ", "");		 		
-		query = query.replaceAll("\\(", "");	 
+
+	String resu = resp.get("_source").toString();
+	obj = new JSONObject(resu);
+	*/
+	String tracker_userid = resp.get(0).toString();
+	if (tracker_userid.equals(user.toString())) {
+		isowner = true;
+		trackername = resp.get(2).toString();
+		String query = resp.get(5).toString();//obj.get("query").toString();
+		query = query.replaceAll("blogsite_id in ", "");
+		query = query.replaceAll("\\(", "");
 		query = query.replaceAll("\\)", "");
-		ids=query;
-    }
+		ids = query;
+	}
 }
 
 String allpost = "0";
@@ -129,8 +138,10 @@ if(!ids.equals("")){
   <!--end of bootsrap -->
   <script src="assets/js/jquery-3.2.1.slim.min.js"  ></script>
 <script src="assets/js/popper.min.js" ></script>
+<script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
     <div class="modal-notifications">
 <div class="row">
 <div class="col-lg-10 closesection">
@@ -232,7 +243,7 @@ if(!ids.equals("")){
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
   <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="#"><%=obj.get("tracker_name").toString()%></a>
+  <a class="breadcrumb-item text-primary" href="#"><%=trackername%></a>
   <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/edittracker.jsp">Posting Frequency</a>
   </nav>
 <div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>

@@ -17,7 +17,7 @@
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 
 	//System.out.println(date_start);
-	if (email == null || email == "") {
+	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
 	} else {
 
@@ -34,60 +34,59 @@
 		Terms term = new Terms();
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
-			System.out.println(detail);
+			//System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
-			System.out.println(detail);
+			System.out.println("List:"+detail);
 		}
 		
 		
 		boolean isowner = false;
 		JSONObject obj = null;
 		String ids = "";
-
+		String trackername="";
 		if (detail.size() > 0) {
-			String res = detail.get(0).toString();
+			//String res = detail.get(0).toString();
+			ArrayList resp = (ArrayList<?>)detail.get(0);
 
-			JSONObject resp = new JSONObject(res);
-
-			String resu = resp.get("_source").toString();
-			obj = new JSONObject(resu);
-			String tracker_userid = obj.get("userid").toString();
-			if (tracker_userid.equals(user.toString())) {
+			String tracker_userid = resp.get(0).toString();
+			trackername = resp.get(2).toString();
+			//if (tracker_userid.equals(user.toString())) {
 				isowner = true;
-				String query = obj.get("query").toString();
+				String query = resp.get(5).toString();//obj.get("query").toString();
 				query = query.replaceAll("blogsite_id in ", "");
 				query = query.replaceAll("\\(", "");
 				query = query.replaceAll("\\)", "");
 				ids = query;
-			}
+			//}
 		}
+		
 		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
-		//System.out.println(userinfo);
 		if (userinfo.size() < 1 || !isowner) {
 			response.sendRedirect("index.jsp");
 		} else {
 			userinfo = (ArrayList<?>) userinfo.get(0);
 			try {
-				username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
-
-				name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
-				email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
-				phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
-				String userpic = userinfo.get(9).toString();
-				String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
-				String filename = userinfo.get(9).toString();
-
-				profileimage = "images/default-avatar.png";
-				if (userpic.indexOf("http") > -1) {
-					profileimage = userpic;
-				}
-
-				File f = new File(filename);
-				if (f.exists() && !f.isDirectory()) {
-					profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
-				}
+					username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
+	
+					name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
+					email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
+					phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
+					String userpic = userinfo.get(9).toString();
+					String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
+					String filename = userinfo.get(9).toString();
+	
+					profileimage = "images/default-avatar.png";
+					if (userpic.indexOf("http") > -1) {
+						profileimage = userpic;
+					}
+	
+					File f = new File(filename);
+					if (f.exists() && !f.isDirectory()) {
+						profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
+					}
 			} catch (Exception e) {
+			
 			}
 
 			String[] user_name = name.split(" ");
@@ -312,9 +311,10 @@
 
 <!-- <script src="assets/js/jquery-3.2.1.slim.min.js"></script>-->
 <script src="assets/js/popper.min.js"></script>
+<script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
-
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<div class="modal-notifications">
 		<div class="row">
 			<div class="col-lg-10 closesection"></div>
@@ -354,8 +354,7 @@
 	<nav class="navbar navbar-inverse bg-primary">
 		<div class="container-fluid mt10 mb10">
 
-			<div
-				class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+			<div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
 				<a class="navbar-brand text-center logohomeothers" href="./"> </a>
 			</div>
 			<!-- Mobile Menu -->
@@ -436,7 +435,7 @@
 				<nav class="breadcrumb">
 					<a class="breadcrumb-item text-primary"
 						href="<%=request.getContextPath()%>/trackerlist.jsp">My	Trackers</a> <a class="breadcrumb-item text-primary"
-						href="<%=request.getContextPath()%>/edittracker.jsp"><%=obj.get("tracker_name").toString()%></a>
+						href="<%=request.getContextPath()%>/edittracker.jsp"><%=trackername%></a>
 					<a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
 				</nav>
 				<div>
@@ -482,7 +481,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-file-alt icondash"></i>Blogs
 						</h5>
-						<h3 class="text-blue mb0 countdash"><%=totalblog%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=totalblog%></h3>
 					</div>
 				</div>
 			</div>
@@ -493,7 +492,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
-						<h3 class="text-blue mb0 countdash"><%=bloggers.length()%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=bloggers.length()%></h3>
 					</div>
 				</div>
 			</div>
@@ -504,7 +503,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-file-alt icondash"></i>Posts
 						</h5>
-						<h3 class="text-blue mb0 countdash"><%=totalpost%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=totalpost%></h3>
 					</div>
 				</div>
 			</div>
@@ -515,7 +514,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-comment icondash"></i>Comments
 						</h5>
-						<h3 class="text-blue mb0 countdash">3</h3>
+						<h3 class="text-blue mb0 countdash dash-label">3</h3>
 					</div>
 				</div>
 			</div>
@@ -527,7 +526,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-clock icondash"></i>History
 						</h5>
-						<h3 class="text-blue mb0 countdash"><%=dispfrom%>
+						<h3 class="text-blue mb0 countdash dash-label"><%=dispfrom%>
 							-
 							<%=dispto%></h3>
 					</div>
@@ -662,7 +661,7 @@
 				</div>
 				<div class="float-right">
 					<a
-						href="<%=request.getContextPath()%>/sentiment.jsp?tid=<%=obj.get("tid").toString()%>"><button
+						href="<%=request.getContextPath()%>/sentiment.jsp?tid=<%=tid%>"><button
 							class="btn buttonportfolio2 mt10">
 							<b class="float-left semi-bold-text">Sentiment Analysis </b> <b
 								class="fas fa-adjust float-right icondash2"></b>
@@ -788,9 +787,9 @@
 					</div>
 				</div>
 				<div class="float-right">
-					<a href="sentiment.jsp"><button
+					<a href="influence.jsp"><button
 							class="btn buttonportfolio2 mt10">
-							<b class="float-left semi-bold-text">Sentiment Analysis </b> <b
+							<b class="float-left semi-bold-text">Influence Analysis </b> <b
 								class="fas fa-exchange-alt float-right icondash2"></b>
 						</button></a>
 				</div>
@@ -807,7 +806,10 @@
 						<div style="min-height: 420px;">
 							<div>
 								<p class="text-primary p15 pb5 pt0">
-									List of Top Domains of <select
+									List of Top <select
+										class="text-primary filtersort sortbydomainsrls"><option
+											value="domains">Domains</option>
+										<option value="urls">URLs</option></select> of <select
 										class="text-primary filtersort sortbyblogblogger"><option
 											value="blogs">Blogs</option>
 										<option value="bloggers">Bloggers</option></select> of Past <select
@@ -1023,10 +1025,13 @@ $(document).ready(function() {
         };
 
         var optionSet1 =
-             {   startDate: moment().subtract(29, 'days'),
+             {   startDate: moment().subtract(90, 'days'),
                  endDate: moment(),
                  minDate: '01/01/1947',
                  maxDate: moment(),
+                 maxSpan: {
+                     days: 50000
+                 },
              showDropdowns: true,
                  showWeekNumbers: true,
                  timePicker : false,
@@ -1176,7 +1181,7 @@ $(function () {
 
       // Horizontal
       var y = d3.scale.ordinal()
-          .rangeRoundBands([height,0], .2, .5);
+          .rangeRoundBands([height,0], .65, .65);
 
       // Vertical
       var x = d3.scale.linear()
@@ -1228,7 +1233,7 @@ $(function () {
       //
       //
       //
-      data = [
+     data = [
     	  <%if (langlooper.size() > 0) {
 						for (int y = 0; y < langlooper.size(); y++) {
 							String key = langlooper.get(y).toString();%>
@@ -1236,17 +1241,20 @@ $(function () {
     		<%}
 					}%>
 
-	 ];
-      /*
-      data = [
+	 ]; 
+     data.sort(function(a, b){
+    	    return a.frequency - b.frequency;
+    	});
+     
+   /*    data = [
             {letter:"English", frequency:2550},
             {letter:"Russian", frequency:800},
             {letter:"Spanish", frequency:500},
             {letter:"French", frequency:1700},
             {letter:"Arabic", frequency:1900},
             {letter:"Unknown", frequency:1500}
-        ];
-      */
+        ]; */
+      
       //
       //
       //   // Create tooltip
@@ -1271,10 +1279,12 @@ $(function () {
       //     // Set input domains
       //     // ------------------------------
       //
-      //     // Horizontal
+      //    // Vertical
           y.domain(data.map(function(d) { return d.letter; }));
 
-          // Vertical
+          
+          
+          // Horizontal domain
           x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
       //
       //
@@ -1320,7 +1330,7 @@ $(function () {
                   .attr("height", y.rangeBand())
                   .attr("x", function(d) { return 0; })
                   .attr("width", function(d) { return x(d.frequency); })
-                  .style("fill", function(d) {
+                   .style("fill", function(d) {
                   maxvalue = d3.max(data, function(d) { return d.frequency; });
                   if(d.frequency == maxvalue)
                   {
@@ -1331,7 +1341,7 @@ $(function () {
                     return "#78BCE4";
                   }
 
-                })
+                }) 
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
 
@@ -1766,6 +1776,11 @@ $(function () {
             //{letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},
             
         ];
+      
+      data.sort(function(a, b){
+  	    return a.frequency - b.frequency;
+  	});
+      
       //
       //
       //   // Create tooltip
@@ -1824,6 +1839,11 @@ $(function () {
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
               .style("color","yellow")
               .call(yAxis)
+              .selectAll("text")
+   			.attr("y", -25)
+    			.attr("x", 40)
+    		.attr("dy", ".75em")
+    		.attr("transform", "rotate(-70)")
               ;
       //
       //
@@ -2343,7 +2363,7 @@ var gdpData = {
   "UA": 136.56,
   "AE": 239.65,
   "GB": 2258.57,
-  "US": 14624.18,
+  "US": 0,
   "UY": 40.71,
   "UZ": 37.72,
   "VU": 0.72,
@@ -2353,20 +2373,23 @@ var gdpData = {
   "ZM": 15.69,
   "ZW": 5.57
 };
-
+// add the list of location of craweled blog here
 <%JSONObject location = new JSONObject();
 					location.put("null", "0, 0");
 					location.put("Vatican City", "41.90, 12.45");
 					location.put("Monaco", "43.73, 7.41");
 					location.put("Salt Lake City", "40.726, -111.778");
 					location.put("Kansas City", "39.092, -94.575");
-					location.put("US", "37.0902, 95.7129");
-					location.put("DE", "38.9108, 75.5277");
+					location.put("US", "37.0902, -95.7129");
+					location.put("DE", "51.165691, 10.451526");
 					location.put("LT", "55.1694, 23.8813");
-					location.put("GB", "55.3781, 3.4360");
-					location.put("NL", "53.1355, 57.6604");
-					location.put("VE", "14.0583, 108.2772");
-					location.put("LV", "56.8796, 24.6032");%>
+					location.put("GB", "55.3781, -3.4360");
+					location.put("NL", "52.132633, 5.291266");
+					location.put("VE", "6.423750, -66.589729");
+					location.put("LV", "56.8796, 24.6032");
+					location.put("LV", "56.8796, 24.6032");
+					location.put("UA", "48.379433, 31.165581");
+					location.put("RU", "61.524010, 105.318756");%>
 // map marker location by longitude and latitude
 var mymarker = [
 	<%if (blogs.size() > 0) {
@@ -2384,7 +2407,7 @@ var mymarker = [
 			<%}
 						}
 					}%>
-    {latLng: [<%=location.get("Vatican City")%>], name: 'Vatican City'},
+
     
     
     /*

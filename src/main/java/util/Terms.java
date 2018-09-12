@@ -5,17 +5,23 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL; 
 import org.json.JSONObject;
+
+import authentication.DbConnection;
+
 import org.json.JSONArray;
 
 import java.io.OutputStreamWriter;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Terms {
 
-String base_url = "http://144.167.115.218:9200/terms/";
-String totalpost;		    
+	HashMap<String, String> hm = DbConnection.loadConstant();		
+	
+	String base_url = hm.get("elasticIndex")+"terms/";
+	String totalpost;		    
 	   
 public ArrayList _list(String order, String from) throws Exception {	 
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
@@ -157,7 +163,9 @@ public ArrayList _fetch(String ids) throws Exception {
 	 
 	 String arg2 = pars.toString();
 
-	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsiteid\":"+arg2+"}}}}}";
+	// String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsiteid\":"+arg2+"}}}}}";
+	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsiteid\":"+arg2+"}}}},\"sort\":{\"frequency\":{\"order\":\"DESC\"}}}";
+
 		
 	JSONObject jsonObj = new JSONObject(que);
 	String url = base_url+"_search";
@@ -165,8 +173,30 @@ public ArrayList _fetch(String ids) throws Exception {
 	   
 }
 
+public ArrayList _getMostUsed(String blog_ids) throws Exception { 
+	ArrayList mostactive = new ArrayList();
+	ArrayList terms = this._fetch(blog_ids);
+
+	if (terms.size() > 0) {
+		String bres = null;
+		JSONObject bresp = null;
+		
+		String bresu = null;
+		JSONObject bobj = null;
+		bres = terms.get(0).toString();
+			bresp = new JSONObject(bres);
+			bresu = bresp.get("_source").toString();
+			bobj = new JSONObject(bresu);
+			mostactive.add(0, bobj.get("term").toString()); 
+			mostactive.add(1, bobj.get("frequency").toString());	
+	}
+	return mostactive;		
+}
+
 public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
+	
 	   ArrayList<String> list = new ArrayList<String>(); 
+	   try {
 	   URL obj = new URL(url);
 	   HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 	   
@@ -206,6 +236,7 @@ public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 		        } 
 		     }
 	    }
+	}catch(Exception ex) {}
 	   return  list;
 }
 

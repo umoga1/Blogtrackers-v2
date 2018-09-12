@@ -17,7 +17,7 @@ import authentication.DbConnection;
 
 /**
  * Servlet implementation class Login
- * @author mukti
+ * @author Adewale
  */
 @SuppressWarnings("unused")
 @WebServlet("/forgotpassword")
@@ -35,7 +35,8 @@ public class Resetpassword extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		response.setContentType("text/html");
 		response.sendRedirect("forgotpassword.jsp");
 	}
@@ -48,7 +49,7 @@ public class Resetpassword extends HttpServlet {
 
 		
 		//authentication.Login auth = new authentication.Login();
-		 DbConnection dbinstance = new DbConnection();
+		DbConnection dbinstance = new DbConnection();
 		String submitted = request.getParameter("recover");
 		PrintWriter pww = response.getWriter();
         HttpSession session = request.getSession();
@@ -61,7 +62,7 @@ public class Resetpassword extends HttpServlet {
                         ArrayList prev = dbinstance.query("SELECT * FROM usercredentials WHERE Email = '"+email+"'");
                        // prev = (ArrayList)prev.get(0);
                         System.out.println(prev);
-                        String[] receivers = {email,"baodium@gmail.com"};
+                        String[] receivers = {email,""};
                         if(prev.size()>0){
                         	prev = (ArrayList)prev.get(0);
                             double ran = Math.random();
@@ -72,10 +73,10 @@ public class Resetpassword extends HttpServlet {
                                 session.setAttribute("success_message","A mail has been sent to "+email+" containing your login information");
                                 try{
                                     Mailing.postMail(receivers, "Blogtrackers password change request", "Hello "+prev.get(0)+", Please note that your password has been changed to <b>"+pass+"</b>. <br/>You are strongly advised to change your password after first login. <br/>Kindly login at <a href='"+app_url+"'>"+app_url+"</a><br/><br/> Thanks for using Blogtrackers"); 
-                                    response.sendRedirect("forgotpassword.jsp");
+                                    response.sendRedirect("login.jsp");
                                 }catch(Exception e){
                                 	response.setContentType("text/html");
-                                    response.sendRedirect("forgotpassword.jsp");
+                                    response.sendRedirect("login.jsp");
                                 }
                             }else{
                                  session.setAttribute("error_message","invalid operation");

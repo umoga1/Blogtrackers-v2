@@ -1,6 +1,6 @@
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
-<%@page import="java.util.*"%>
+<%@page import="util.*"%>
 <%@page import="java.io.File"%>
 
 <%@page import="util.*"%>
@@ -9,6 +9,7 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+ <%@ page contentType="text/html; charset=UTF-8" %>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 
@@ -117,9 +118,10 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 
   <script src="pagedependencies/baseurl.js">
   </script>
+    <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body >
-
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
 <%-- <%@ include file="templates/profilepanel.jsp" %> --%>
 
 <div class="modal-notifications">
@@ -230,7 +232,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
  -->
 <div class="text-center pt20 pb20 tracksection hidden" style="background:#ffffff;"><button type="submit" class="btn btn-success homebutton p50 pt10 pb10" id="initiatetrack"><b>Track</b> <b id="trackscount">0</b> <b>Blog(s)</b></button> <i style="font-size:30px;" class="cursor-pointer lnr lnr-cross float-right pr20 mt10" id="closetracks" data-toggle="tooltip" data-placement="top" title="Close"></i></div>
 
-<div class="text-center pt10 pb10 informationselectblogtotrack" style="background:#00B361;"><p class="mb0 text-white"><b>Select blogs to tracks</b></p> </div>
+<div class="text-center pt10 pb10 informationselectblogtotrack" style="background:#00B361;"><p class="mb0 text-white"><b>Select blogs to track</b></p> </div>
 
 <div class="bg-success"></div>
 <!-- Backdrop for modal -->
@@ -324,7 +326,7 @@ for(int i=0; i< mytrackers.size(); i++){
 </div>
 
 
-<div class="card-columns pt0 pb10  mt20 mb50 " id="appendee">
+<div class="card-columns pt0 pb10  mt20 mb50" id="appendee">
 
 <% 
 if(results.size()>0){
@@ -433,7 +435,7 @@ if(results.size()>0){
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js?v=99980">
+<script src="pagedependencies/blogbrowser.js?v=99">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
@@ -441,7 +443,7 @@ if(results.size()>0){
 
 </script>
 
-<script src="pagedependencies/imageloader.js?v=0998"></script>
+<script src="pagedependencies/imageloader.js?v=09"></script>
 <script src="js/functions.js?v=19990"></script>
 <script>
 $(window).scroll(function() {

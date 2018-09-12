@@ -9,8 +9,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>Blogtrackers-v2</name>
+	<!-- FIXME change it to the project's website 
+	<url>http://http://blogtrackers.host.ualr.edu/Blogtrackers</url>
+-->
 	<!-- FIXME change it to the project's website -->
 	<url>http://locahost:8080/Blogtrackers</url>
+
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -97,11 +101,23 @@
 
 		<!-- https://developers.google.com/api-client-library/java/apis/gmail/v1 -->
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
-		</dependency>
+		</dependency> -->
+		
+		<dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>mail</artifactId>
+        <version>1.4.5</version>
+  		</dependency>
+		
+		<dependency>
+        <groupId>javax.activation</groupId>
+        <artifactId>activation</artifactId>
+        <version>1.1.1</version>
+    	</dependency>		
 
 
 	</dependencies>

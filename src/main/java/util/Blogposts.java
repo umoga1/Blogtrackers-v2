@@ -5,16 +5,24 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL; 
 import org.json.JSONObject;
+
+import authentication.DbConnection;
+
 import org.json.JSONArray;
 
 import java.io.OutputStreamWriter;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Blogposts {
 
-	String base_url = "http://144.167.115.218:9200/blogposts/";
+	HashMap<String, String> hm = DbConnection.loadConstant();		
+
+	//String base_url = hm.get("elasticIndex")+"blogposts/";
+	String base_url = hm.get("elasticIndex")+"blogposts/";
+	
 	String totalpost;		    
 
 	public ArrayList _list(String order, String from, String sortby) throws Exception {
@@ -57,8 +65,10 @@ public class Blogposts {
 		return this.totalpost;
 	}
 
+
+	
 	public ArrayList _getBloggerByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=200";
+		String url = base_url+"_search?size=10";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -68,8 +78,8 @@ public class Blogposts {
 
 		String arg2 = pars.toString();
 		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
-		
-		
+
+
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
@@ -139,6 +149,24 @@ public class Blogposts {
 		return this._getResult(url, jsonObj);
 	}
 
+	public ArrayList _getPostByBlogger(String blogger)throws Exception {
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"        \"query_string\" : {\r\n" + 
+				"            \"fields\" : [\"blogger\"],\r\n" + 
+				"            \"query\" : \""+blogger+"\"\r\n" + 
+				"        }\r\n" + 
+				"  },\r\n" + 
+				"   \"sort\":{\r\n" + 
+				"		\"date\":{\r\n" + 
+				"			\"order\":\"DESC\"\r\n" + 
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"}");
+		String url = base_url+"_search?size=10";
+		return this._getResult(url, jsonObj);
+	}
+	
 	/* Fetch posts by blog ids*/
 	public String _getTotalByBlogId(String blog_ids,String from) throws Exception {
 		String url = base_url+"_search?size=100";
@@ -282,60 +310,82 @@ public class Blogposts {
 		return this._getResult(url, jsonObj);
 
 	}
+	
+	public ArrayList _getPost(String key, String value) throws Exception {
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"constant_score\":{\r\n" + 
+				"			\"filter\":{\r\n" + 
+				"					\"terms\":{\r\n" + 
+				"							\""+key+"\":[\""+value+"\"]\r\n" + 
+				"							}\r\n" + 
+				"					}\r\n" + 
+				"				}\r\n" + 
+				"    }\r\n" + 
+				"}");
 
-	public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-		con.setDoOutput(true);
-		con.setDoInput(true);
+		String url = base_url+"_search?size=10";
+		return this._getResult(url, jsonObj);
 
-		con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-		con.setRequestProperty("Accept", "application/json");
-		con.setRequestMethod("POST");
-
-		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-		wr.write(jsonObj.toString());
-		wr.flush();
-
-		int responseCode = con.getResponseCode();  
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
-
-		JSONObject myResponse = new JSONObject(response.toString());
-		ArrayList<String> list = new ArrayList<String>(); 
-
-		if(null!=myResponse.get("hits")) {
-			String res = myResponse.get("hits").toString();
-			JSONObject myRes1 = new JSONObject(res);
-			String total = myRes1.get("total").toString();
-			this.totalpost = total;
-
-			JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
-
-			if (jsonArray != null) { 
-				int len = jsonArray.length();
-				for (int i=0;i<len;i++){ 
-					list.add(jsonArray.get(i).toString());
-				} 
-			}
-		}
-
-		return list;
 	}
 
+	public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
+		ArrayList<String> list = new ArrayList<String>();
+		try {
+		URL obj = new URL(url);
+	    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+	    
+	    con.setDoOutput(true);
+	    con.setDoInput(true);
+	   
+	    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+	    con.setRequestProperty("Accept", "application/json");
+	    con.setRequestMethod("POST");
+	    
+	    OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+	    wr.write(jsonObj.toString());
+	    wr.flush();
+	    
+	    int responseCode = con.getResponseCode();  
+	    BufferedReader in = new BufferedReader(
+	         new InputStreamReader(con.getInputStream()));
+	    String inputLine;
+	    StringBuffer response = new StringBuffer();
+	    
+	    while ((inputLine = in.readLine()) != null) {
+	     	response.append(inputLine);
+	     }
+	     in.close();
+	     
+	     JSONObject myResponse = new JSONObject(response.toString());
+	    
+	     if(null!=myResponse.get("hits")) {
+		     String res = myResponse.get("hits").toString();
+		     JSONObject myRes1 = new JSONObject(res);
+		      String total = myRes1.get("total").toString();
+		      this.totalpost = total;
+		    
+		     JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
+		     
+		     if (jsonArray != null) { 
+		        int len = jsonArray.length();
+		        for (int i=0;i<len;i++){ 
+		         list.add(jsonArray.get(i).toString());
+		        } 
+		     }
+	     }
+		}catch(Exception ex) {}
+	     return list;
+	}
+	
 	public String _getTotal(String url, JSONObject jsonObj) throws Exception {
+		String total = "0";
+		try {
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-		String total = "0";
+		
 
 		con.setDoOutput(true);
 		con.setDoInput(true);
@@ -370,6 +420,7 @@ public class Blogposts {
 			JSONObject myRes1 = new JSONObject(res);          
 			total = myRes1.get("total").toString();              
 		}
+		}catch(Exception ex) {}
 		return  total;
 	}
 

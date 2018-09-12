@@ -301,12 +301,48 @@ $('.deleteallblogfromtracker').on("click", function(){
 	selected  = $('.edittrackerblogindividual').children('.checkblogleft').children('.checkuncheckblog').hasClass('checkblog'); 
 	if(selected)
 		{
-	// put this block of code in the ajax success request	
-		selectedblogelement.parent().parent().remove();
-		toastr.error("Deleted Selected Blog(s) from tracker","Error");
-		numberofblogs = $('.edittrackerblogindividual').length;
-		$('#totalblogcount, #selectedblogcount').html(numberofblogs);
-//		grab all id of blog and perform an ajax request
+		
+		console.log(selectedblogelement);
+		var allid = "";
+		$(selectedblogelement).each(function(){
+			id = $(this).attr('id');
+			allid+=id+",";
+			console.log(id);
+			console.log(this);
+			
+		});
+		// put this block of code in the ajax success request	
+		
+		//grab all id of blog and perform an ajax request
+		$.ajax({
+			url: app_url+'tracker',
+			method: 'POST',
+			data: {
+				action:"removeblog",
+				blog_ids:allid,
+				tracker_id:$("#teeid").val()
+			},
+			error: function(response)
+			{						
+				console.log(response);		
+			},
+			success: function(response)
+			{   
+				console.log(response);
+				if(response.indexOf("true")>-1){					
+					selectedblogelement.parent().parent().remove();
+					toastr.success("Deleted Selected Blog(s) from tracker","Success");
+					numberofblogs = $('.edittrackerblogindividual').length;
+					$('#totalblogcount, #selectedblogcount').html(numberofblogs);
+					
+				}else{
+					toastr.error('Blogs could not be removed!','Error');
+				}
+			}
+		});
+		
+		
+		
 		}
 	else if(!selected)
 		{
@@ -365,13 +401,40 @@ var confirmdeletetracker = confirm("Are you sure you want delete tracker?");
 
 if(confirmdeletetracker)
 {
-	toastr.error("Deleting Tracker","Error");	
-console.log("tracker deleted")	
-// add an ajax to deleted tracker 
-// on success go back to tracker list
-setTimeout(function(){
-	location.href = "trackerlist.jsp";	
-}, 2000);
+	toastr.error("Deleting Tracker","Wait");
+	
+	$.ajax({
+		url: app_url+'tracker',
+		method: 'POST',
+		data: {
+			action:"delete",
+			tracker_id:$("#teeid").val(),
+		},
+		error: function(response)
+		{						
+			console.log(response);		
+		},
+		success: function(response)
+		{   
+			console.log(response);
+			if(response.indexOf("true")>-1){
+				toastr.success('Tracker successfully deleted!','Success');
+				//location.href=app_url+"trackerlist.jsp";
+				
+				console.log("tracker deleted")	
+				// add an ajax to deleted tracker 
+				// on success go back to tracker list
+				setTimeout(function(){
+					location.href = "trackerlist.jsp";	
+				}, 2000);
+				
+			}else{
+				toastr.error('Tracker could not be deleted!','Error');
+			}
+		}
+	});
+	
+
 
 }
 

@@ -91,10 +91,12 @@ if(f.exists() && !f.isDirectory()) {
   <!--end of bootsrap -->
 
 <script src="assets/js/popper.min.js" ></script>
+<script src="pagedependencies/baseurl.js"></script>
 
-
+<script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body style="background-color:#ffffff;">
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
   <div class="modal-notifications">
 <div class="row">
 <div class="col-lg-10 closesection">
@@ -207,27 +209,36 @@ if(f.exists() && !f.isDirectory()) {
 							String bresu = null;
 							JSONObject bobj = null;
 							ArrayList blogs = null;
+							ArrayList resut = new ArrayList();
 							int bpost = 0;
 
 							for (int i = 0; i < detail.size(); i++) {
+								resut = (ArrayList<?>)detail.get(0);
+								/*
 								res = detail.get(i).toString();
 								resp = new JSONObject(res);
 								resu = resp.get("_source").toString();
 								obj = new JSONObject(resu);
 								query = obj.get("query").toString();
+								*/
+								query = resut.get(5).toString();
 								query = query.replaceAll("blogsite_id in ", "");
 								query = query.replaceAll("\\(", "");
 								query = query.replaceAll("\\)", "");
-
 								
 								String dt = "";
 								String dtmodified = "";
-								if (obj.has("date_created")) {
-									String[] ddt = obj.get("date_created").toString().split("T");
+								
+								String dtt =resut.get(3).toString();
+								String dtt2 = "";//(null==resut.get(4))?resut.get(4).toString():"";
+								
+								if (!dtt.equals("null")){
+									String[] ddt = dtt.split(" ");
 									dt = ddt[0];
-								}
-								if (obj.has("date_modified")) {
-									String[] ddtm = obj.get("date_modified").toString().split("T");
+								}								
+								
+								if (!dtt2.equals("null")){
+									String[] ddtm = dtt2.split(" ");
 									dtmodified = ddtm[0];
 								}
 
@@ -252,7 +263,7 @@ if(f.exists() && !f.isDirectory()) {
 			%>
 	<div class="row m50 mt40">
 	<div class="col-md-9">
-	<h1 class="text-primary edittrackertitle mb0" style=""><%=obj.get("tracker_name").toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+	<h1 class="text-primary edittrackertitle mb0" style=""><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
 	<p><button class="btn metadata text-primary mt10">Created  |  <%=dt%></button> <button class="btn metadata text-primary mt10">Modified |  <%=dtmodified %></button> <button class="btn metadata text-primary mt10">Crawled |  22-07-2018 . 05:30pm</button></p>
 	</div>
 	<div class="col-md-3 text-right pt10">
@@ -263,7 +274,8 @@ if(f.exists() && !f.isDirectory()) {
 	</div>
 	
 	<div class="col-md-12 trackerdescription">
-	<p class="edittrackerdesc text-primary"><%=obj.get("description").toString()%></p>
+	<p class="edittrackerdesc text-primary">
+	<%=resut.get(6)%></p>
 	</div>
 	
 	<div class="col-md-12">
@@ -277,13 +289,14 @@ if(f.exists() && !f.isDirectory()) {
 	</div>
 	
 	<div class="float-left statcontainer">
-	<b class="stattext">11B</b>
+	<b class="stattext">0</b>
 	<h6 class="text-primary labeltext">Comments</h6>
 	</div>
 	</div>
 	
 	<div class="col-md-12 mt30">
-	<form class="form-inline">
+	<h1 class="listofblogs">List of Blogs </h1><i class="addiconblog cursor-pointer"></i>
+<!-- 	<form class="form-inline">
 	<div class="input-group col-md-10" style="padding-left:0 !important;">
 	<i class="searchiconinputblog cursor-pointer" aria-hidden="true"></i>
 	<input class="form-control searchblogsites text-primary" placeholder="Search Blogs" type="text" />
@@ -293,7 +306,7 @@ if(f.exists() && !f.isDirectory()) {
 	 <option value="this">This</option>
 	 <option value="all">All</option>
 	 </select>
-	 </form>
+	 </form> -->
 	 
 	</div>
 	
@@ -306,13 +319,16 @@ if(f.exists() && !f.isDirectory()) {
 		<div class="checkblogleft">
 		<i class="navbar-brand text-primary icontrackersize checkuncheckallblog uncheckallblog cursor-pointer" data-toggle="tooltip" data-placement="top" title="Select All Blog"></i>
 		</div>
-		<b id="totalblogcount"></b> Items 
-		<div class="selectsets">
+		<!-- id="totalblogcount" count the number of blogs for the tracker  -->
+		<p class="blogname mb10">Blog Name</p>
+		<p class="noofposts mb10">No of Posts</p>
+		<p class="lastestcrawl">Latest Crawl</p>
+		<!-- <div class="selectsets">
 		 <select class="form-control sortby text-primary">
 		 <option>Recent</option>
 		
 		 </select>
-		</div>
+		</div> -->
 		</div>
 		
 		<div id="bloglist">
@@ -324,17 +340,20 @@ if(f.exists() && !f.isDirectory()) {
 		%>							
 			<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
 			<div class="checkblogleft">
-			<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+			<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" id="<%=ob.get("blogsite_id").toString()%>_select" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
 			</div>
-			<%=ob.get("blogsite_name").toString()%>
+			<p class="float-left mb0 eachblogname"><%=ob.get("blogsite_name").toString()%></p>
 			<div class="iconsetblogs">
-			<div class="setoficons float-left makeinvisible">
+			<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey float-right" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
+			<div class="setoficons makeinvisible">
 			<a href="<%=request.getContextPath()%>/analytics.jsp?bid=<%=ob.get("blogsite_id").toString()%>"><i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i></a>
 			<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
 			<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
 			</div>
-			<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
-			</div>
+				</div>
+				<p class="mb0 float-right blogdateingroup">2 years ago</p>
+				<p class="mb0 float-right postcount">34K</p>
+				
 			</div>
 		<% }} %>
 		
@@ -351,6 +370,7 @@ if(f.exists() && !f.isDirectory()) {
 
 
 <div class="text-center pt10 pb10 trackingfixededittracker" style="background:#00B361;">
+<input type="hidden" id="teeid" value="<%=tid%>" />
   <div class="container">
 <div class="row" style="margin-left: 50px; margin-right:50px;">  <p  class="mb0 text-white fixedbottomedittrackerlefttext float-left text-left"><b id="selectedblogcount">0</b> item(s) selected</p>
   <p class="mb0 float-left fixedbottomedittrackerrighttext text-right" >
@@ -380,7 +400,7 @@ if(f.exists() && !f.isDirectory()) {
 
 <script src="assets/js/generic.js">
 </script>
-<script src="pagedependencies/edittrackerpage.js">
+<script src="pagedependencies/edittrackerpage.js?v=90">
 </script>
 <script>
 $(document).ready(function() {

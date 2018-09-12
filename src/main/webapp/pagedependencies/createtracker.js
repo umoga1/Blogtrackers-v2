@@ -18,10 +18,8 @@ $(document).ready(function(){
 	  });
 	 
 	  $('.card-columns').prepend(newtrackersection);
-	    $.getScript("pagedependencies/addnewtracker.js", function(data, textStatus, jqxhr) {
-			
+	    $.getScript("pagedependencies/addnewtracker.js", function(data, textStatus, jqxhr) {	
 		  });
-	 
 	});	
 	
 //	show the tooltip
@@ -108,6 +106,7 @@ $(document).ready(function(){
 	   $(this).parent().parent().html(bloglisthtmlupdate + trackerdescriptionhtmlupdate + blogcounthtmlupdate + postcounthtmlupdate + commentcounthtmlupdate + buttonhtmlupdate);
 	   
 	  
+	   
 	   // get script to refresh tracker
 	   $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
 		  
@@ -119,7 +118,10 @@ $(document).ready(function(){
 	    $.getScript("pagedependencies/addnewtracker.js", function(data, textStatus, jqxhr) {
 			
 		  });
+	    
+	   
 	   // create an ajax to create a tracker
+	
 	   }
 	 
 	 

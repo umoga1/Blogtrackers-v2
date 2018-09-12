@@ -1,7 +1,7 @@
 <%@page import="authentication.*"%>
 <%
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
-
+	Object success_message = (null == session.getAttribute("success_message")) ? "" : "";
 	if (email != null && email != "") {
 		response.sendRedirect("dashboard.jsp");
 	}
@@ -62,10 +62,11 @@
 <script src="https://apis.google.com/js/platform.js"></script>
 
 <script type="text/javascript" src="js/login_validation.js?v=97"></script>
-
+<script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 
 <body style="background: #ffffff;">
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<nav
 		class="navbar navbar-inverse bg-primary d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
 		<div class="container-fluid">
@@ -113,7 +114,7 @@
 						<div class="" id="loggin2"></div>
 						<div>
 							<p class="float-left pt10">
-								<input type="checkbox" class="remembercheckbox blue" /><span></span>Remember
+								<input id="remember_me" type="checkbox" class="remembercheckbox blue" /><span></span>Remember
 								Me
 							</p>
 							<p class="pt10 text-primary float-right">

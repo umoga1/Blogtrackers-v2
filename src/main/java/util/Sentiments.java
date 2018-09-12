@@ -5,18 +5,24 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL; 
 import org.json.JSONObject;
+
+import authentication.DbConnection;
+
 import org.json.JSONArray;
 
 import java.io.OutputStreamWriter;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Sentiments {
 
-String base_url = "http://144.167.115.218:9200/blogpost_entitysentiment/";
-String totalpost;		    
-	   
+	HashMap<String, String> hm = DbConnection.loadConstant();		
+	
+String base_url = hm.get("elasticIndex")+"blogpost_entitysentiment/";
+String totalpost;
+
 public ArrayList _list(String order, String from, String sortby) throws Exception {	
 	 int size = 10;
 	 int fr = 0;
@@ -129,6 +135,8 @@ public ArrayList _fetch(String ids) throws Exception {
 }
 
 public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
+	ArrayList<String> list = new ArrayList<String>(); 
+	try {
 	URL obj = new URL(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
     
@@ -155,7 +163,7 @@ public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
      in.close();
      
      JSONObject myResponse = new JSONObject(response.toString());
-     ArrayList<String> list = new ArrayList<String>(); 
+   
      
      if(null!=myResponse.get("hits")) {
 	     String res = myResponse.get("hits").toString();
@@ -172,7 +180,7 @@ public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 	        } 
 	     }
      }
-     
+}catch(Exception ex) {}
      return list;
 }
 
