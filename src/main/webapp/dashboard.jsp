@@ -136,27 +136,34 @@
 			} else if (single.equals("day")) {
 				String dt = year + "-" + month + "-" + day;
 				totalpost = post._searchRangeTotal("date", dt, dt, ids);
+				termss = term._searchByRange("date", dt, dt, ids);
+				
 			} else if (single.equals("month")) {
 				String dt = year + "-" + month + "-" + day;
 				String dte = year + "-" + month + "-31";
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+				termss = term._searchByRange("date", dt, dte, ids);
 			} else if (single.equals("year")) {
 				String dt = year + "-01-01";
 				String dte = year + "-12-31";
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+				termss = term._searchByRange("date", dt, dte, ids);
 			} else {
 
 				totalpost = post._getTotalByBlogId(ids, "");
 				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
 				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
-				termss = term._fetch(ids);
+				
+				termss = term._searchByRange("date", dst, dend, ids);
 			}
-
+			
+			//System.out.println("Terms here:"+termss);
+			
 			ArrayList blogs = blog._fetch(ids);
 			int totalblog = blogs.size();
 			//pimage = pimage.replace("build/", "");
 
-			JSONObject sentimentblog = new JSONObject();;
+			JSONObject sentimentblog = new JSONObject();
 			if (sentiments.size() > 0) {
 
 				for (int p = 0; p < sentiments.size(); p++) {

@@ -8,6 +8,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="org.json.JSONArray"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
@@ -27,6 +29,11 @@ Blogposts post  = new Blogposts();
 Blogs blog  = new Blogs();
 Terms term  = new Terms();
 
+SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
+Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse("2013-01-01");
+Date today = new Date();
+String dst = DATE_FORMAT2.format(dstart);
+String dend = DATE_FORMAT2.format(today);
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
 if (userinfo.size()<1) {
@@ -134,7 +141,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		allauthors=post._getBloggerByBlogId(ids,"");	
 	}
 
-	ArrayList allterms = term._fetch(fsid);
+	ArrayList allterms = term._searchByRange("date", dst, dend, ids);
 	int highestfrequency = 0;
 	JSONArray topterms = new JSONArray();
 	JSONObject keys = new JSONObject();
