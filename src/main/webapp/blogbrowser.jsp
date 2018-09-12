@@ -1,6 +1,6 @@
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
-<%@page import="java.util.*"%>
+<%@page import="util.*"%>
 <%@page import="java.io.File"%>
 
 <%@page import="util.*"%>
@@ -9,8 +9,7 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
- <%@ page contentType="text/html;
-charset=UTF-8" %>
+ <%@ page contentType="text/html; charset=UTF-8" %>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 
@@ -327,7 +326,7 @@ for(int i=0; i< mytrackers.size(); i++){
 </div>
 
 
-<div class="card-columns pt0 pb10  mt20 mb50 " id="appendee">
+<div class="card-columns pt0 pb10  mt20 mb50" id="appendee">
 
 <% 
 if(results.size()>0){

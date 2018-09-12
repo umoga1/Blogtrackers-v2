@@ -9,8 +9,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>Blogtrackers-v2</name>
+	<!-- FIXME change it to the project's website 
+	<url>http://http://blogtrackers.host.ualr.edu/Blogtrackers</url>
+-->
 	<!-- FIXME change it to the project's website -->
 	<url>http://locahost:8080/Blogtrackers</url>
+
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

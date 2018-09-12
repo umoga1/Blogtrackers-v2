@@ -113,7 +113,7 @@
 						</div>
 
 						
-						<a href="<%=request.getContextPath()%>/login.jsp" class="btn bg-blue-400 btn-block">Proceed to Login <i class="icon-arrow-left52 position-right"></i></a>
+						<a href="<%=request.getContextPath()%>/logout" class="btn bg-blue-400 btn-block">Click here to proceed <i class="icon-arrow-left52 position-right"></i></a>
                                 </div>
                                 
                 <% } %>
