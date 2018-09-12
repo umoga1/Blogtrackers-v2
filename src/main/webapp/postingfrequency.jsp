@@ -698,14 +698,14 @@ if(!ids.equals("")){
          };
 
          var optionSet1 =
-       	      {   startDate: moment().subtract(29, 'days'),
+       	      {   startDate: moment().subtract(3500, 'days'),
        	          endDate: moment(),
        	          minDate: '01/01/1947',
        	          maxDate: moment(),
        			  showDropdowns: true,
-       	          showWeekNumbers: true,
-       	          timePicker : false,
-   				  timePickerIncrement : 1,
+       	          showWeekNumbers: false,
+       	          //timePicker : false,
+   				  //timePickerIncrement : 1,
    				  timePicker12Hour : true,
    				  dateLimit: { days: 50000 },
           	          ranges: {
