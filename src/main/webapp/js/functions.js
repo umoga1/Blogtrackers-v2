@@ -14,9 +14,8 @@ function loadMoreResult(){
       isRunning = true;	
 	//var url=back_url;
      var img = $('.post-image');
-     var from = img[img.length-1].id;
-    //  console.log("from:"+from);
-      
+    // var from = img[img.length-1].id;
+    // console.log("from:"+from);
       
 	var url = app_url+'subpages/blogpostloader.jsp'
 	var $form = $("#page_form"),

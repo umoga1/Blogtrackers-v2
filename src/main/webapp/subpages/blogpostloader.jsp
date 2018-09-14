@@ -31,7 +31,7 @@
 			
 
 			if(term.equals("")){
-				results = post._list("DESC","",sort);
+				results = post._list("DESC",cpage,sort);
 			}else{
 				results = post._search(term,"",sort);
 			}
