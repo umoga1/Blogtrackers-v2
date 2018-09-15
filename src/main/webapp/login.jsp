@@ -75,8 +75,6 @@
 				<a class="navbar-brand text-center logohome" href="./"> <!-- <img src="images/blogtrackers.png" /> -->
 				</a>
 			</div>
-
-
 		</div>
 	</nav>
 
@@ -149,12 +147,6 @@
 							Now</a></small>
 						</p>
 					</form>
-
-
-
-
-
-
 
 				</div>
 
