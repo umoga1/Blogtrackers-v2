@@ -67,7 +67,6 @@
   </a>
 			</div>
 
-
 		</div>
 	</nav>
 	
@@ -78,11 +77,11 @@
 				<div
 					class="card-body p40 pt40 pb40 borderradiusround "
 					style="background-color: #f4f5f6;">
-					<p class="text-primary mb30" style="font-size: 26px;">
+					<p class="text-primary mb30" style="font-size: 28px;">
 						Forgot Password?</b>
 					</p>
 					
-					<form id="password_form"  class="form-validate" action="http://localhost:8080/Blogtrackers/forgotpassword"  method="post">
+					<form id="password_form"  class="form-validate" action="http://http://blogtrackers.host.ualr.edu/Blogtrackers/forgotpassword"  method="post">
 						<div class="form-group">
 							<div class="form-login-error">
 							
@@ -97,13 +96,11 @@
 						
 						<div class=""  id="loggin">
 							<button type="submit" name="recover" value="yes" class="btn btn-primary loginformbutton"
-								style="background: #28a745;">Submit</button> <a href="<%=request.getContextPath()%>/login.jsp"> Back to login? </a></small>
-							
- 						</div>
- 			
+								style="background: #28a745;">Submit</button> <a href="<%=request.getContextPath()%>/login.jsp"> Back to login? </a></small>				
+ 						</div> 			
 						
 					</form>
-
+					
 				</div>
 				 <% }else{ %>
 						<div class="panel panel-body login-form pb10">
@@ -111,7 +108,6 @@
 							<div class="icon-object border-warning text-warning"><i class="icon-spinner11"></i></div>
 							<h5 class="content-group pt20"><%=success_message%></h5>
 						</div>
-
 						
 						<a href="<%=request.getContextPath()%>/logout" class="btn bg-blue-400 btn-block">Click here to proceed <i class="icon-arrow-left52 position-right"></i></a>
                                 </div>
