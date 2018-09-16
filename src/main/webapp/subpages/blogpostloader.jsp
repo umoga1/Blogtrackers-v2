@@ -31,7 +31,6 @@
 				results = post._search(term,cpage,sort);
 			}
 			
-			//System.out.println(results);
 			myblogs = trackers.getMyTrackedBlogs(username.toString());
 			
 			if(results.size()>0){

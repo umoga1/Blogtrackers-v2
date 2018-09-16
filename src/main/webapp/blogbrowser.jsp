@@ -71,9 +71,6 @@ String sort =  (null == request.getParameter("sortby")) ? "date" : request.getPa
 
 
 ArrayList results = null;
-
-
-
 if(term.equals("")){
 	results = post._list("DESC","",sort);
 }else{
