@@ -81,7 +81,7 @@
 						Forgot Password?</b>
 					</p>
 					
-					<form id="password_form"  class="form-validate" action="http://http://blogtrackers.host.ualr.edu/Blogtrackers/forgotpassword"  method="post">
+					<form id="password_form"  class="form-validate" action="http://blogtrackers.host.ualr.edu/Blogtrackers/forgotpassword"  method="post">
 						<div class="form-group">
 							<div class="form-login-error">
 							

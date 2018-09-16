@@ -14,7 +14,7 @@ function loadMoreResult(){
       isRunning = true;	
 	//var url=back_url;
      var img = $('.post-image');
-    // var from = img[img.length-1].id;
+    // var from = 0;
     // console.log("from:"+from);
       
 	var url = app_url+'subpages/blogpostloader.jsp'
@@ -32,7 +32,7 @@ function loadMoreResult(){
 	page_no=parseInt(page_no);
 	page_no++;
 
-	console.log(page_no);
+	//console.log(page_no);
 	$form.find("input[name='page_id']").val(page_no);
 	z++;
 			requests[z] = $.ajax({ type: "POST",
@@ -40,7 +40,8 @@ function loadMoreResult(){
 				async: true,
 				data:{from:page_no,term:term,load:"yes"},
 				async: true,
-				success : function(data){	
+				success : function(data){
+					//console.log(data);
 				isRunning = false;
 				//$.get(url+"/"+page_no,function(data){
 				var pos=$(window).height()-200;
@@ -50,7 +51,7 @@ function loadMoreResult(){
 					return false;
 				}else{
 					
-					$("#appendee").append(data);
+					$("#appendee").append("<div>"+data+"</div>");
 				//  show tooltip
 					  $(function () {
 					    $('[data-toggle="tooltip"]').tooltip()
