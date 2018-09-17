@@ -8,6 +8,7 @@
 <%@page import="util.Blogposts"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 Object id = (null == request.getParameter("p")) ? "" : request.getParameter("p");

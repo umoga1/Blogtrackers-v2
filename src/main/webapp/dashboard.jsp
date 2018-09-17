@@ -7,6 +7,7 @@
 <%@page import="java.net.URI"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
@@ -2434,7 +2435,7 @@ var mymarker = [
     {latLng: [53.555, -113.493], name: 'Edmonton'},
     {latLng: [-0.23, -78.52], name: 'Quito'},
     {latLng: [18.50, -69.99], name: 'Santo Domingo'},
-    {latLng: [4.61, -74.08], name: 'Bogotá'},
+    {latLng: [4.61, -74.08], name: 'BogotÃ¡'},
     {latLng: [14.08, -87.21], name: 'Tegucigalpa'},
     {latLng: [17.25, -88.77], name: 'Belmopan'},
     {latLng: [14.64, -90.51], name: 'New Guatemala'},
@@ -2473,7 +2474,7 @@ var mymarker = [
     {latLng: [-20.2, 57.5], name: 'Mauritius'},
     {latLng: [26.02, 50.55], name: 'Bahrain'},
     
-    {latLng: [0.33, 6.73], name: 'São Tomé and Príncipe'}
+    {latLng: [0.33, 6.73], name: 'SÃ£o TomÃ© and PrÃ­ncipe'}
     */
 ]
   </script>

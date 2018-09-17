@@ -2,6 +2,7 @@
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 

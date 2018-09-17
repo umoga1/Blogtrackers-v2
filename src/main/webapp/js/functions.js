@@ -167,4 +167,9 @@ function abort_requests(){
 }
 
 
+function pluginAPI(){
+	var url = app_url+''
+	
+}
+
 

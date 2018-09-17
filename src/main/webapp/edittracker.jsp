@@ -7,6 +7,7 @@
 <%@page import="java.util.Locale" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
