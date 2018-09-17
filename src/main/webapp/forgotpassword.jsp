@@ -58,7 +58,7 @@
 </head>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 <body>
-<%@include file="subpages/googletagmanagernoscript.jsp" %>
+
 	<nav class="navbar navbar-inverse bg-primary">
 		<div class="container-fluid">
 

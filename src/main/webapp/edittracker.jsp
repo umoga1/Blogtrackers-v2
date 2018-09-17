@@ -318,6 +318,7 @@ if(f.exists() && !f.isDirectory()) {
 		<div class="form-control btn styleallblog selectallblog text-left text-primary">
 		<div class="checkblogleft">
 		<i class="navbar-brand text-primary icontrackersize checkuncheckallblog uncheckallblog cursor-pointer" data-toggle="tooltip" data-placement="top" title="Select All Blog"></i>
+		
 		</div>
 		<!-- id="totalblogcount" count the number of blogs for the tracker  -->
 		
@@ -327,6 +328,9 @@ if(f.exists() && !f.isDirectory()) {
 		
 		 </select>
 		</div> -->
+		<p class="blogname mb0">Blog Name</p>
+		<p class="noofposts mb0">No of Posts</p>
+		<p class="lastestcrawl mb0">Latest Crawl</p>
 		</div>
 		
 		<div id="bloglist">

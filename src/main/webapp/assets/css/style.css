@@ -9,12 +9,18 @@ body{
 {
 color:blue;
 } */
-.card
+.card-columns .card
 {
-flex-direction:row;	
--webkit-box-orient: horizontal;
 
 }
+/* .card-columns {
+  @include media-breakpoint-only(lg) {
+    column-count: 4;
+  }
+  @include media-breakpoint-only(xl) {
+    column-count: 5;
+  }
+} */
 .dash-label
 {
     font-size: 1.70rem;

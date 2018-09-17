@@ -14,8 +14,8 @@ function loadMoreResult(){
       isRunning = true;	
 	//var url=back_url;
      var img = $('.post-image');
-     var from = img[img.length-1].id;
-    //  console.log("from:"+from);
+//     var from = img[img.length-1].id;
+      //console.log("from:"+from);
       
       
 	var url = app_url+'subpages/blogpostloader.jsp'
@@ -33,9 +33,10 @@ function loadMoreResult(){
 	page_no=parseInt(page_no);
 	page_no++;
 
-	console.log(page_no);
+	console.log("page:"+page_no);
 	$form.find("input[name='page_id']").val(page_no);
 	z++;
+	
 			requests[z] = $.ajax({ type: "POST",
 				url:url,
 				async: true,
@@ -50,7 +51,6 @@ function loadMoreResult(){
 					$("#loading-img").html("");
 					return false;
 				}else{
-					
 					$("#appendee").append(data);
 				//  show tooltip
 					  $(function () {
