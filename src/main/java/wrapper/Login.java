@@ -37,7 +37,7 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {           
-		System.out.println("get request");
+	//	System.out.println("get request");
 		response.setContentType("text/html");    
 		response.sendRedirect("login.jsp");
 	}

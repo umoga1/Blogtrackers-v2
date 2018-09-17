@@ -8,7 +8,6 @@
   Object username = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
   String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby");
 
-
   Trackers trackers  = new Trackers();
   JSONObject myblogs = new JSONObject();
   Blogs blogs  = new Blogs();
@@ -22,16 +21,14 @@
 	        
 	        String cpage = request.getParameter("from");
 	        int from = Integer.parseInt(cpage);
-	       
 			Blogposts post  = new Blogposts();
 			String term =  request.getParameter("term");
 			ArrayList results = null;
 						
-			
-			
-
 			if(term.equals("")){
-				results = post._list("DESC",cpage,sort);
+
+				results = post._list("DESC",cpage,sort);		
+
 			}else{
 				results = post._search(term,cpage,sort);
 			}

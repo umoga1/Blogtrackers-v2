@@ -75,8 +75,6 @@
 				<a class="navbar-brand text-center logohome" href="./"> <!-- <img src="images/blogtrackers.png" /> -->
 				</a>
 			</div>
-
-
 		</div>
 	</nav>
 
@@ -150,12 +148,6 @@
 						</p>
 					</form>
 
-
-
-
-
-
-
 				</div>
 
 			</div>
@@ -218,7 +210,7 @@
 		function register(email, name, pic) {
 			$("#loggin")
 					.html(
-							'<button type="button" class="btn btn-primary loginformbutton" style="background: #28a745;">Loggin in ...</button>');
+							'<button type="button" class="btn btn-primary loginformbutton" style="background: #28a745;">Logging in ...</button>');
 
 			$.ajax({
 				url : baseurl + 'register',

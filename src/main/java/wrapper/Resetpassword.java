@@ -59,10 +59,11 @@ public class Resetpassword extends HttpServlet {
                     if(submitted!=null && submitted.equals("yes")){
                     	try {
 			String email = request.getParameter("email");
+			//System.out.println(email);
                         ArrayList prev = dbinstance.query("SELECT * FROM usercredentials WHERE Email = '"+email+"'");
                        // prev = (ArrayList)prev.get(0);
-                        System.out.println(prev);
-                        String[] receivers = {email,""};
+                      //  System.out.println(prev);
+                        String[] receivers = {email};
                         if(prev.size()>0){
                         	prev = (ArrayList)prev.get(0);
                             double ran = Math.random();
@@ -72,7 +73,7 @@ public class Resetpassword extends HttpServlet {
                                 if(updated){
                                 session.setAttribute("success_message","A mail has been sent to "+email+" containing your login information");
                                 try{
-                                    Mailing.postMail(receivers, "Blogtrackers password change request", "Hello "+prev.get(0)+", Please note that your password has been changed to <b>"+pass+"</b>. <br/>You are strongly advised to change your password after first login. <br/>Kindly login at <a href='"+app_url+"'>"+app_url+"</a><br/><br/> Thanks for using Blogtrackers"); 
+                                    Mailing.postMail(receivers, "Blogtrackers - Password Reset Information", "Hello "+prev.get(0)+", <br/><br/> Please note that your password has been changed to <b>"+pass+"</b>. <br/>You are strongly advised to change your password after first login. <br/>Kindly login at <a href='http://blogtrackers.host.ualr.edu/Blogtrackers/login.jsp'> Blogtrackers </a><br/><br/> Thanks for using Blogtrackers"); 
                                     response.sendRedirect("login.jsp");
                                 }catch(Exception e){
                                 	response.setContentType("text/html");
