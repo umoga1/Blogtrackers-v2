@@ -52,13 +52,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>6.0.6</version>
 		</dependency>
-<!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-servlet -->
+<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
 <dependency>
-    <groupId>com.sun.jersey</groupId>
-    <artifactId>jersey-servlet</artifactId>
-    <version>1.19.4</version>
+    <groupId>org.glassfish.jersey.core</groupId>
+    <artifactId>jersey-client</artifactId>
+    <version>2.27</version>
 </dependency>
-
 
     
 		
