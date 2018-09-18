@@ -51,9 +51,11 @@ function loadMoreResult(){
 					$("#loading-img").html("");
 					return false;
 				}else{
-
+				
+						$("#appendee").append("<div>"+data+"</div>");	
+						$.getScript( app_url+"pagedependencies/blogbrowser.js", function( data, textStatus, jqxhr ) {
+					});
 					
-					$("#appendee").append("<div>"+data+"</div>");
 
 				//  show tooltip
 					  $(function () {
