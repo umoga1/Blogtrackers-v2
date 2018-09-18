@@ -162,7 +162,7 @@
                     showEasing: 'swing', //swing and linear are built into jQuery
                     onShown: undefined,
                     hideMethod: 'fadeOut',
-                    hideDuration: 1000,
+                    hideDuration: 500,
                     hideEasing: 'swing',
                     onHidden: undefined,
                     closeMethod: false,
@@ -170,7 +170,7 @@
                     closeEasing: false,
                     closeOnHover: true,
 
-                    extendedTimeOut: 1000,
+                    extendedTimeOut: 500,
                     iconClasses: {
                         error: 'toast-error',
                         info: 'toast-info',
@@ -179,7 +179,7 @@
                     },
                     iconClass: 'toast-info',
                     positionClass: 'toast-top-right',
-                    timeOut: 5000, // Set timeOut and extendedTimeOut to 0 to make it sticky
+                    timeOut: 1500, // Set timeOut and extendedTimeOut to 0 to make it sticky
                     titleClass: 'toast-title',
                     messageClass: 'toast-message',
                     escapeHtml: false,

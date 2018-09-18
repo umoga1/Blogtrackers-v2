@@ -44,7 +44,7 @@
 <script src="pagedependencies/baseurl.js"></script>
 <script type="text/javascript" src="js/request.js?v=970"></script>
 <body>
-	<form id="request_form" class="" method="get">
+	<form id="request_form" class="" method="post">
 		<div>
 			<input type="email" id="username" placeholder="Email"> 
 			<input type="password" id="password" placeholder="Password">

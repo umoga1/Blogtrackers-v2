@@ -57,7 +57,7 @@
 
 </head>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
-<body>
+<body class="bgwhite">
 
 	<nav class="navbar navbar-inverse bg-primary">
 		<div class="container-fluid">

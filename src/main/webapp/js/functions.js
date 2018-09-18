@@ -14,18 +14,6 @@ function loadMoreResult(){
       isRunning = true;	
 	//var url=back_url;
      var img = $('.post-image');
-<<<<<<< HEAD
-
-//     var from = img[img.length-1].id;
-
-    // var from = 0;
-    // console.log("from:"+from);
-
-=======
-     //var from = img[img.length-1].id;
-    //  console.log("from:"+from);
-      
->>>>>>> 73ac187664f1a68cc426d3ed9543cad611e27415
       
 	var url = app_url+'subpages/blogpostloader.jsp'
 	var $form = $("#page_form"),
@@ -66,10 +54,7 @@ function loadMoreResult(){
 
 					
 					$("#appendee").append("<div>"+data+"</div>");
-<<<<<<< HEAD
 
-=======
->>>>>>> 73ac187664f1a68cc426d3ed9543cad611e27415
 				//  show tooltip
 					  $(function () {
 					    $('[data-toggle="tooltip"]').tooltip()

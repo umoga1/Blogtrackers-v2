@@ -26,12 +26,12 @@ $(function() {
 		var password = $("#password").val(); 
 			$.ajax({
 				url: baseurl+'request',   
-				method: 'GET',
+				method: 'POST',
 				dataType: 'json',
 				data: {
 					email: $("input#username").val(),
 					password: $("input#password").val(),
-					login: "yes",
+					madeRequest: "yes",
 				},
 				error: function(response)
 				{						

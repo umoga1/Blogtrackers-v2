@@ -96,7 +96,7 @@ if(f.exists() && !f.isDirectory()) {
 
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
-<body style="background-color:#ffffff;">
+<body class="bgwhite">
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
   <div class="modal-notifications">
 <div class="row">
@@ -265,12 +265,18 @@ if(f.exists() && !f.isDirectory()) {
 	<div class="row m50 mt40">
 	<div class="col-md-9">
 	<h1 class="text-primary edittrackertitle mb0" style=""><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
-	<p><button class="btn metadata text-primary mt10">Created  :  <%=dt%></button> <button class="btn metadata text-primary mt10">Modified :  <%=dtmodified %></button> <button class="btn metadata text-primary mt10">Crawled :  22-07-2018 . 05:30pm</button></p>
+	<p><button class="btn metadata text-primary mt10">Created  :  <%=dt%></button> 
+	<% if(!dtmodified.toString().equalsIgnoreCase("")) { %>
+	<button class="btn metadata text-primary mt10">Modified :  <%=dtmodified %></button> 
+	<% } %>
+	<button class="btn metadata text-primary mt10">Crawled :  22-07-2018 . 05:30pm</button></p>
 	</div>
 	<div class="col-md-3 text-right pt10">
 	<button class="btn btn-rounded iconedittrackerpage "><i title="Proceed to Analytics" data-toggle="tooltip" data-placement="top" class="proceedtoanalytics icon-small text-primary"></i></button>
 	<button class="btn btn-rounded iconedittrackerpage trackeredit startediting"><i title="Edit Tracker" data-toggle="tooltip" data-placement="top" class="edittracker icon-small text-primary"></i></button>
-	<button class="btn btn-rounded iconedittrackerpage trackerrefresh"><i title="Refresh Tracker" data-toggle="tooltip" data-placement="top" class="refreshtracker icon-small text-primary"></i></button>
+	<!-- <button class="btn btn-rounded iconedittrackerpage trackerrefresh"><i title="Refresh Tracker" data-toggle="tooltip" data-placement="top" class="refreshtracker icon-small text-primary"></i></button> -->
+	<button class="btn btn-rounded iconedittrackerpage trackerrefreshinactive">
+	<i title="Refresh Tracker" data-toggle="tooltip" data-placement="top" class="refreshtrackerinactive icon-small text-primary"></i></button>
 	<button class="btn btn-rounded iconedittrackerpage trackerdelete"><i title="Delete Tracker" data-toggle="tooltip" data-placement="top" class="deletetracker icon-small text-primary"></i></button>
 	</div>
 	
@@ -296,7 +302,7 @@ if(f.exists() && !f.isDirectory()) {
 	</div>
 	
 	<div class="col-md-12 mt30">
-	<h1 class="listofblogs">List of Blogs </h1><i class="addiconblog cursor-pointer"></i>
+	<h1 class="listofblogs">List of Blogs </h1><!-- <i class="addiconblog cursor-pointer"></i> -->
 <!-- 	<form class="form-inline">
 	<div class="input-group col-md-10" style="padding-left:0 !important;">
 	<i class="searchiconinputblog cursor-pointer" aria-hidden="true"></i>
@@ -317,10 +323,10 @@ if(f.exists() && !f.isDirectory()) {
 
 		
 		<div class="form-control btn styleallblog selectallblog text-left text-primary">
-		<div class="checkblogleft">
+		<!-- <div class="checkblogleft">
 		<i class="navbar-brand text-primary icontrackersize checkuncheckallblog uncheckallblog cursor-pointer" data-toggle="tooltip" data-placement="top" title="Select All Blog"></i>
 		
-		</div>
+		</div> -->
 		<!-- id="totalblogcount" count the number of blogs for the tracker  -->
 		
 		<!-- <div class="selectsets">
@@ -341,18 +347,20 @@ if(f.exists() && !f.isDirectory()) {
 				String v1 = allblogs.get(k).toString();
 				JSONObject ob = new JSONObject(v1);
 		%>							
-			<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
-			<div class="checkblogleft">
+			<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary nocursor">
+			<%-- <div class="checkblogleft">
 			<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" id="<%=ob.get("blogsite_id").toString()%>_select" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
-			</div>
+			</div> --%>
 			<p class="float-left mb0 eachblogname"><%=ob.get("blogsite_name").toString()%></p>
 			<div class="iconsetblogs">
-			<i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey float-right" data-toggle="tooltip" data-placement="top" title="Track Blog"></i>
-			<div class="setoficons makeinvisible">
+			<!-- <i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey float-right" data-toggle="tooltip" data-placement="top" title="Track Blog"></i> -->
+			
+			<i class="text-primary icontrackersize cursor-pointer deleteblog float-right" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
+			<%-- <div class="setoficons makeinvisible">
 			<a href="<%=request.getContextPath()%>/analytics.jsp?bid=<%=ob.get("blogsite_id").toString()%>"><i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i></a>
 			<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
 			<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
-			</div>
+			</div> --%>
 				</div>
 				<p class="mb0 float-right blogdateingroup">2 years ago</p>
 				<p class="mb0 float-right postcount">34K</p>
@@ -372,7 +380,7 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 
 
-<div class="text-center pt10 pb10 trackingfixededittracker" style="background:#00B361;">
+<%-- <div class="text-center pt10 pb10 trackingfixededittracker" style="background:#00B361;">
 <input type="hidden" id="teeid" value="<%=tid%>" />
   <div class="container">
 <div class="row" style="margin-left: 50px; margin-right:50px;">  <p  class="mb0 text-white fixedbottomedittrackerlefttext float-left text-left"><b id="selectedblogcount">0</b> item(s) selected</p>
@@ -386,7 +394,7 @@ if(f.exists() && !f.isDirectory()) {
 
   </div>
 
-</div>
+</div> --%>
 
 
 <!-- <footer class="footer">
