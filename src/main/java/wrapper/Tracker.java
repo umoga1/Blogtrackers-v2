@@ -96,7 +96,7 @@ public class Tracker extends HttpServlet {
 			String userid = (String) session.getAttribute("user");
 			     	
 			//String keyword = request.getParameter("keyword");
-			String trackerName=tracker_name;//request.getParameter("title");
+			String trackerName=tracker_name.trim();//request.getParameter("title");
 			if(!trackerName.trim().isEmpty()){
 
 				String trackerDescription=description;//request.getParameter("descr");
@@ -116,12 +116,12 @@ public class Tracker extends HttpServlet {
 				}
 				//TrackerDialog dialog= new TrackerDialog();
 				//dialog.addTracker(userName, trackerName, createdDate, null, listString, trackerDescription, selectedSite.length);
-				ArrayList prev = new DbConnection().query("SELECT * FROM trackers WHERE tracker_name='"+trackerName+"'");
-				
+				ArrayList prev = new DbConnection().query("SELECT * FROM trackers WHERE tracker_name='"+trackerName+"' AND userid= '"+userid+"'");
+				//System.out.println("Previous:"+trackerName+" "+prev);
 				if(prev!=null && prev.size()>0) {
-					pww.write("exist");
+					pww.write("tracker already exist");
 				}else {	
-				   query="INSERT INTO trackers(userid,tracker_name,date_created,date_modified,query,description,blogsites_num) VALUES('"+userName+"', '"+trackerName+"', '"+createdDate+"', "+ null+", '"+listString+"', '"+trackerDescription+"', '"+selectedSite.length+"')";
+				   query="INSERT INTO trackers(userid,tracker_name,date_created,date_modified,query,description,blogsites_num) VALUES('"+userid+"', '"+trackerName+"', '"+createdDate+"', "+ null+", '"+listString+"', '"+trackerDescription+"', '"+selectedSite.length+"')";
 					boolean done = new DbConnection().updateTable(query);
 					if(done) {
 					  	ArrayList trackers = new DbConnection().query("SELECT * FROM trackers WHERE userid='"+userid+"'");
@@ -137,7 +137,7 @@ public class Tracker extends HttpServlet {
 			}
 			else{
 				response.setContentType("text/html");
-				pww.write("failure");
+				pww.write("Trackername cannot be empty");
 			}
 		}
 	

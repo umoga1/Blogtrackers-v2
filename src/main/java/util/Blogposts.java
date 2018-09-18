@@ -28,9 +28,13 @@ public class Blogposts {
 	String totalpost;		    
 
 	public ArrayList _list(String order, String from, String sortby) throws Exception {
+<<<<<<< HEAD
 
 		int size = 10;
 
+=======
+		int size = 5;
+>>>>>>> 73ac187664f1a68cc426d3ed9543cad611e27415
 		int fr = 0;
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"    \"query\": {\r\n" + 
@@ -91,7 +95,11 @@ public class Blogposts {
 
 	public ArrayList _search(String term,String from,String sortby) throws Exception {
 
+<<<<<<< HEAD
 		int size = 10;
+=======
+		int size = 5;
+>>>>>>> 73ac187664f1a68cc426d3ed9543cad611e27415
 		int fr = 0;
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 

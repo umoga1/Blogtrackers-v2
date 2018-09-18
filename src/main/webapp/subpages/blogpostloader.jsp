@@ -13,8 +13,8 @@
   Blogs blogs  = new Blogs();
   int perpage =12;
   PrintWriter pww = response.getWriter();
- 
-	try {
+ System.out.println("Here");
+	//try {
 
 		String submitted = request.getParameter("load");		
 	    if(submitted!=null && submitted.equals("yes")){	
@@ -33,8 +33,9 @@
 				results = post._search(term,cpage,sort);
 			}
 			
+			System.out.println("username:"+username.toString());
 			myblogs = trackers.getMyTrackedBlogs(username.toString());
-			
+			System.out.println("Myblogs here"+myblogs);
 			if(results.size()>0){
 				String res = null;
 				JSONObject resp = null;
@@ -110,6 +111,6 @@
 			pww.write("empty");
 	  }
 	}
-} catch (Exception ex) {}		
+//} catch (Exception ex) {}		
 
 %>            

@@ -95,7 +95,7 @@ public JSONObject getMyTrackedBlogs(String userid) throws Exception{
 		    //obj = new JSONObject(resu);
 		   // if(obj.has("tid")) {
 		    String id = resut.get(0).toString();
-		    String query = resut.get(4).toString();//obj.get("query").toString();
+		    String query = resut.get(5).toString();//obj.get("query").toString();
 			query = query.replaceAll("blogsite_id in ", "");
 			query = query.replaceAll("\\(", "");			 
 			query = query.replaceAll("\\)", "");
