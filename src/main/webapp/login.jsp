@@ -65,7 +65,7 @@
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 
-<body style="background: #ffffff;">
+<body class="bgwhite">
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<nav
 		class="navbar navbar-inverse bg-primary d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">

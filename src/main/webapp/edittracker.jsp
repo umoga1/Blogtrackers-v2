@@ -95,7 +95,7 @@ if(f.exists() && !f.isDirectory()) {
 
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
-<body style="background-color:#ffffff;">
+<body class="bgwhite">
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
   <div class="modal-notifications">
 <div class="row">
@@ -273,7 +273,9 @@ if(f.exists() && !f.isDirectory()) {
 	<div class="col-md-3 text-right pt10">
 	<button class="btn btn-rounded iconedittrackerpage "><i title="Proceed to Analytics" data-toggle="tooltip" data-placement="top" class="proceedtoanalytics icon-small text-primary"></i></button>
 	<button class="btn btn-rounded iconedittrackerpage trackeredit startediting"><i title="Edit Tracker" data-toggle="tooltip" data-placement="top" class="edittracker icon-small text-primary"></i></button>
-	<button class="btn btn-rounded iconedittrackerpage trackerrefresh"><i title="Refresh Tracker" data-toggle="tooltip" data-placement="top" class="refreshtracker icon-small text-primary"></i></button>
+	<!-- <button class="btn btn-rounded iconedittrackerpage trackerrefresh"><i title="Refresh Tracker" data-toggle="tooltip" data-placement="top" class="refreshtracker icon-small text-primary"></i></button> -->
+	<button class="btn btn-rounded iconedittrackerpage trackerrefreshinactive">
+	<i title="Refresh Tracker" data-toggle="tooltip" data-placement="top" class="refreshtrackerinactive icon-small text-primary"></i></button>
 	<button class="btn btn-rounded iconedittrackerpage trackerdelete"><i title="Delete Tracker" data-toggle="tooltip" data-placement="top" class="deletetracker icon-small text-primary"></i></button>
 	</div>
 	
@@ -344,7 +346,7 @@ if(f.exists() && !f.isDirectory()) {
 				String v1 = allblogs.get(k).toString();
 				JSONObject ob = new JSONObject(v1);
 		%>							
-			<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary">
+			<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary nocursor">
 			<%-- <div class="checkblogleft">
 			<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" id="<%=ob.get("blogsite_id").toString()%>_select" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
 			</div> --%>

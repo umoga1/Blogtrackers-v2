@@ -5,6 +5,10 @@ body{
 
   background-color: #F3F4F5  ;
 }
+.bgwhite
+{
+ background-color: #FFFFFF  ;	
+}
 /* .carousel-control-prev, .carousel-control-next
 {
 color:blue;
@@ -762,7 +766,19 @@ height:63px;
     display:inline-block;
     background-position: center center;
 }
-
+.refreshtrackerinactive
+{
+   background-image: url(../../images/svgs/refreshtrackereditdeactivated.svg);
+    background-repeat: no-repeat;
+    min-height: 20px;
+    width: 20px;
+    display:inline-block;
+    background-position: center center;
+}
+.nocursor
+{
+cursor:none;	
+}
 .refreshdeactivated
 {
    background-image: url(../../images/svgs/refreshdeactivated.svg);
