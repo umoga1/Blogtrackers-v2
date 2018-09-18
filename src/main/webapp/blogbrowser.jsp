@@ -72,9 +72,9 @@ String sort =  (null == request.getParameter("sortby")) ? "date" : request.getPa
 
 ArrayList results = null;
 if(term.equals("")){
-	results = post._list("DESC","",sort);
+	results = post._list("DESC","0",sort);
 }else{
-	results = post._search(term,"",sort);
+	results = post._search(term,"0",sort);
 }
 String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(post._getTotal()));
 //pimage = pimage.replace("build/", "");

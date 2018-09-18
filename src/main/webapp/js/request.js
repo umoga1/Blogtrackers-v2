@@ -25,35 +25,22 @@ $(function() {
 		
 		var password = $("#password").val(); 
 			$.ajax({
-				url: baseurl+'request',    
-				method: 'POST',
+				url: baseurl+'request',   
+				method: 'GET',
 				dataType: 'json',
 				data: {
 					email: $("input#username").val(),
 					password: $("input#password").val(),
-					remember: $("input#remember_me").val(),
 					login: "yes",
 				},
 				error: function(response)
 				{						
 					console.log("got here");
-					$("#error_message-box").html('Invalid username/password');
-					$("#loggin").html(btntext);
-		
 				},
 				success: function(response)
 				{       
-					var login_status = response;
-					if(login_status === "invalid"){
-						$("#error_message-box").html('Invalid username/password');
-						$("#loggin").html(btntext);
-					}else if(login_status == "success"){
-						toastr.success('Login successfull!','Success');
-						window.location.href = baseurl+"index.jsp";
-					}else if(login_status == "confirmed"){
-						window.location.href = baseurl+"index.jsp";
-					}
-					return false;
+					console.log("in console here");
+					console.log(response);
 				}
 			});
 		
