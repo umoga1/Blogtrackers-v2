@@ -232,8 +232,7 @@
 						} else {
 							durl = domain;
 						}
-					} catch (Exception ex) {
-					}
+					} catch (Exception ex) {}
 
 					if (bloggers.has(blogger)) {
 						content = new JSONObject(bloggers.get(blogger).toString());

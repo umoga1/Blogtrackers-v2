@@ -433,7 +433,7 @@ else
 	   		 if (id.indexOf("blogg")>-1) {
 	   		        blog_id = id.split("_");
 	   		        blog_id = blog_id[blog_id.length-1];
-		   		     if(k<blogs.length-2){
+		   		     if(k<blogs.length-1){
 		   	    		all_blogs+=blog_id+",";
 		   	    	}else{
 		   	    		all_blogs+=blog_id;
@@ -442,7 +442,7 @@ else
 	   		 }
 	     });
 	   	 
-
+	   //	console.log("Allblogs here:"+all_blogs);return false;
    	
    	 //If at least a tracker is selected, update tracker else create tracker
 		$.ajax({
@@ -461,11 +461,11 @@ else
 			success: function(response)
 			{   
 				console.log(response);
-				if(response.indexOf("true")>-1){
+				if(response.indexOf("success")>-1){
 					toastr.success('Tracker successfully created!','Success');
 					location.href=app_url+"blogbrowser.jsp";
 				}else{
-					toastr.error('Tracker could not be created!','Error');
+					toastr.error(response,'Error');
 				}
 			}
 		});

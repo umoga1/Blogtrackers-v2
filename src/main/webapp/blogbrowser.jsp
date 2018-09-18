@@ -257,19 +257,12 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
 <div class="trackerlist mt20" style="position: relative; overflow: auto; height: 250px;">
 <%
+ArrayList resut = new ArrayList();
 if(mytrackers.size()>0){
-	String tres = null;
-	JSONObject tresp = null;
-	String tresu = null;
-	JSONObject tobj = null;
-
 for(int i=0; i< mytrackers.size(); i++){
-			tres = mytrackers.get(i).toString();			
-			tresp = new JSONObject(tres);
-		    tresu = tresp.get("_source").toString();
-		    tobj = new JSONObject(tresu);	
+			resut = (ArrayList)mytrackers.get(i);				
 %>
-<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text" id="<%=tobj.get("tid").toString()%>"><%=tobj.get("tracker_name").toString()%> <i class="fas fa-check float-right hidden checktracker"></i></button>
+<button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text" id="<%=resut.get(0).toString()%>"><%=resut.get(2).toString()%> <i class="fas fa-check float-right hidden checktracker"></i></button>
 <% }} %>
 <!-- 
 <button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Technology <i class="fas fa-check float-right hidden checktracker"></i></button>
@@ -288,7 +281,7 @@ for(int i=0; i< mytrackers.size(); i++){
 <textarea placeholder="Description" class="form-control mt20 trackerdescription blogbrowsertrackerdescription" rows="8">
 </textarea>
 <div class="form-group mt20">
-<input type="text" class="form-control tokenfield-primary" value="Engadget,National Public Radio,Crooks and Liars,Tech Crunch" />
+<!-- <input type="text" class="form-control tokenfield-primary" value="Engadget,National Public Radio,Crooks and Liars,Tech Crunch" />-->
 </div>
 <div class="mt30">
 <button class="btn btn-default cancelbtn canceltrackercreation text-primary">Cancel</button> <button class=" btn btn-success trackercreatebutton">Create</button>
@@ -359,7 +352,7 @@ if(results.size()>0){
 						 bresp = new JSONObject(bres);
 						 bresu = bresp.get("_source").toString();
 						 bobj = new JSONObject(bresu);
-						 blogtitle = bobj.get("blogsite_name").toString();			 
+						 blogtitle = bobj.get("blogsite_name").toString().replaceAll("[^a-zA-Z]", " ");			 
 			}
 		     String totaltrack  = trackers.getTotalTrack(blogid);		     
 %>
@@ -379,7 +372,7 @@ if(results.size()>0){
 
   <div class="card-body">
 
-    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title")%></h4></a>
+    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ")%></h4></a>
 
     <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=dt[0]%></p>
@@ -435,7 +428,7 @@ if(results.size()>0){
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js?v=99">
+<script src="pagedependencies/blogbrowser.js?v=8999">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
@@ -444,7 +437,7 @@ if(results.size()>0){
 </script>
 
 <script src="pagedependencies/imageloader.js?v=09"></script>
-<script src="js/functions.js?v=19990"></script>
+<script src="js/functions.js?v=199990"></script>
 <script>
 $(window).scroll(function() {
 	if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {

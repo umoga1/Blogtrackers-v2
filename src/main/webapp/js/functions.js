@@ -14,7 +14,7 @@ function loadMoreResult(){
       isRunning = true;	
 	//var url=back_url;
      var img = $('.post-image');
-     var from = img[img.length-1].id;
+     //var from = img[img.length-1].id;
     //  console.log("from:"+from);
       
       
@@ -51,7 +51,7 @@ function loadMoreResult(){
 					return false;
 				}else{
 					
-					$("#appendee").append(data);
+					$("#appendee").append("<div>"+data+"</div>");
 				//  show tooltip
 					  $(function () {
 					    $('[data-toggle="tooltip"]').tooltip()

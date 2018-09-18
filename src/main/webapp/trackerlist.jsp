@@ -238,7 +238,7 @@
 
 		<div class="row mt30">
 			<div class="col-md-12 ">
-				<h6 class="float-left text-primary"><%=total%>
+				<h6 class="float-left text-primary"><span id="tracker-total"><%=total%></span>
 					Tracker(s)
 				</h6>
 				<!-- <h6 class="float-right text-primary">Recent <i class="fas fa-chevron-down"></i><h6/> -->
@@ -489,7 +489,7 @@ trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-
 		  });
 	  
 	  // create a tracker script
-	  $.getScript("pagedependencies/createtracker.js", function(data, textStatus, jqxhr) {
+	  $.getScript("pagedependencies/createtracker.js?v=19", function(data, textStatus, jqxhr) {
 			
 			  });
 	  
@@ -509,7 +509,7 @@ trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-
 
 </script>
 
-<script src="pagedependencies/edittracker.js?v=12"></script>
+<!-- <script src="pagedependencies/edittracker.js?v=12"></script>-->
 
 <script src="assets/js/generic.js">
 </script>
