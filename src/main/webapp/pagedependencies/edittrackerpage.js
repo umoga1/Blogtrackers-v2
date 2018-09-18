@@ -172,13 +172,36 @@ eachblogrefresh = $(this);
 	toastr.success("Blog Refreshing","Success");	
 });
 
-//delete blog from tracker 
+/*//delete blog from tracker 
 $('.deleteblog').on('click', function(){
 	var confirmdeleteofblog = confirm("Are you sure you want to delete");
 	if(confirmdeleteofblog )
 		{
 		eachblogdelete = $(this);
 		eachblogdelete.parent().parent().parent().remove();
+		// should kick in the automated crawler or something 	
+			toastr.error("Blog Deleted from Tracker","Success");
+			$('.tooltip').hide();
+			
+			numberofblogs = $('.edittrackerblogindividual').length;
+			$('#totalblogcount').html(numberofblogs);
+			
+			countselectedfromdefault =  $('.edittrackerblogindividual').children(".checkblogleft").children(".checkblog").length;
+//			console.log(countselectedfromdefault);
+			blogselectedcount = countselectedfromdefault;
+			$('#selectedblogcount').html(blogselectedcount);
+		}
+	
+		
+	});*/
+
+//delete blog from tracker 
+$('.deleteblog').on('click', function(){
+	var confirmdeleteofblog = confirm("Are you sure you want to delete");
+	if(confirmdeleteofblog )
+		{
+		eachblogdelete = $(this);
+		eachblogdelete.parent().parent().remove();
 		// should kick in the automated crawler or something 	
 			toastr.error("Blog Deleted from Tracker","Success");
 			$('.tooltip').hide();
