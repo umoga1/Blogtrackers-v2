@@ -7,7 +7,8 @@
 <%@page import="java.util.Locale" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 //if (email == null || email == "") {

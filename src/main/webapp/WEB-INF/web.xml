@@ -3,5 +3,13 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Blogtrackers</display-name>
+  <servlet>
+  	<servlet-name>Plugin</servlet-name>
+  	<servlet-class>org.glassfish.jersey.servlet.ServletContainer.class</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>Plugin</servlet-name>
+  	<url-pattern>/request</url-pattern>
+  </servlet-mapping>
+ 
 </web-app>

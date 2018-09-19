@@ -1,3 +1,12 @@
+<%@page import="authentication.*"%>
+<%
+	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+	Object success_message = (null == session.getAttribute("success_message")) ? "" : "";
+	if (email != null && email != "") {
+		System.out.println("email is "+ email);
+	}
+%>
+
 <html>
 <head>API test for Mike
 </head>
@@ -42,14 +51,22 @@
 
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 <script src="pagedependencies/baseurl.js"></script>
-<script type="text/javascript" src="js/request.js?v=970"></script>
+<script type="text/javascript" src="js/request.js?v=97"></script>
 <body>
 	<form id="request_form" class="" method="post">
 		<div>
 			<input type="email" id="username" placeholder="Email"> 
 			<input type="password" id="password" placeholder="Password">
-			<button type="submit" class="btn btn-primary loginformbutton mt10 bold-text"
-								style="background: #28a745;">Login</button>
+			<button type="submit" class="btn btn-primary loginformbutton mt10 bold-text" style="background: #28a745;">Login</button>
+		</div>
+		
+		<div>
+		
+		<p><%=email%> is logged in</p>
+		
+		<p>His trackers</p>
+		
+		
 		</div>
 	</form>
 </body>
