@@ -273,7 +273,8 @@ if(f.exists() && !f.isDirectory()) {
 	<button class="btn metadata text-primary mt10">Crawled :  22-07-2018 . 05:30pm</button></p>
 	</div>
 	<div class="col-md-3 text-right pt10">
-	<button class="btn btn-rounded iconedittrackerpage "><i title="Proceed to Analytics" data-toggle="tooltip" data-placement="top" class="proceedtoanalytics icon-small text-primary"></i></button>
+	<a
+							href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=resut.get(0).toString()%>"><button class="btn btn-rounded iconedittrackerpage "><i title="Proceed to Analytics" data-toggle="tooltip" data-placement="top" class="proceedtoanalytics icon-small text-primary"></i></button></a>
 	<button class="btn btn-rounded iconedittrackerpage trackeredit startediting"><i title="Edit Tracker" data-toggle="tooltip" data-placement="top" class="edittracker icon-small text-primary"></i></button>
 	<!-- <button class="btn btn-rounded iconedittrackerpage trackerrefresh"><i title="Refresh Tracker" data-toggle="tooltip" data-placement="top" class="refreshtracker icon-small text-primary"></i></button> -->
 	<button class="btn btn-rounded iconedittrackerpage trackerrefreshinactive">

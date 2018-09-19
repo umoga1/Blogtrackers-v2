@@ -116,7 +116,7 @@ public class Tracker extends HttpServlet {
 				//TrackerDialog dialog= new TrackerDialog();
 				//dialog.addTracker(userName, trackerName, createdDate, null, listString, trackerDescription, selectedSite.length);
 				ArrayList prev = new DbConnection().query("SELECT * FROM trackers WHERE tracker_name='"+trackerName+"' AND userid= '"+userid+"'");
-				//System.out.println("Previous:"+trackerName+" "+prev);
+				//System.out.println("Previous:"+trackerName+" "+userid+"User-"+prev);
 				if(prev!=null && prev.size()>0) {
 					pww.write("tracker already exist");
 				}else {	
