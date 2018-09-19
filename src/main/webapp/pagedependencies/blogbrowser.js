@@ -526,7 +526,7 @@ function updateTracker(element,type){
 				success: function(response)
 				{   
 					console.log(response);
-					if(response=="true"){
+					if(response.indexOf("success")>-1){
 						toastr.success('Tracker successfully updated!','Success');
 						//location.href=app_url+"blogbrowser.jsp";
 					}else{
