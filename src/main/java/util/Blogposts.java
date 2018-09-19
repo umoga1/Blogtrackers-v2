@@ -186,6 +186,36 @@ public class Blogposts {
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this.totalpost;
 	}
+	
+	/* Fetch posts by blog ids*/
+	public String _getTotalByBlogger(String blogger,String field,String greater, String less) throws Exception {
+		String url = base_url+"_search?size=1";
+		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogger\":"+blogger+"}}}}}";
+
+		//JSONObject jsonObj = new JSONObject(que);
+		
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"        \"query_string\" : {\r\n" + 
+				"            \"fields\" : [\"blogger\"],\r\n" + 
+				"            \"query\" : \""+blogger+"\"\r\n" + 
+				"        }\r\n" + 
+				"  },\r\n" +
+				"   \"sort\":{\r\n" + 
+				"		\"blogpost_id\":{\r\n" + 
+				"			\"order\":\"DESC\"\r\n" + 
+				"			}\r\n" + 
+				"		},\r\n" + 
+				" \"range\":{\r\n" + 
+				"		\"date\":{\r\n" + 
+				"			\"lte\":\""+greater+"\",\r\n" + 
+				"			\"gte\":\""+less+"\"\r\n" + 
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"}");
+		
+		return this._getTotal(url, jsonObj);
+	}
 
 	/* Fetch posts by blog ids*/
 	public ArrayList _getPostByBlogId(String blog_ids,String from) throws Exception {
