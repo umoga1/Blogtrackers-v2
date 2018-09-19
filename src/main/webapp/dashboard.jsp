@@ -213,7 +213,7 @@
 			if (outlinks.size() > 0) {
 				int mm=0;
 				for (int p = 0; p < outlinks.size(); p++) {
-					String bstr = termss.get(p).toString();
+					String bstr = outlinks.get(p).toString();
 					JSONObject bj = new JSONObject(bstr);
 					bstr = bj.get("_source").toString();
 					bj = new JSONObject(bstr);
