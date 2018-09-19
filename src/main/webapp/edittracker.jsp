@@ -227,6 +227,7 @@ if(f.exists() && !f.isDirectory()) {
 								query = query.replaceAll("\\(", "");
 								query = query.replaceAll("\\)", "");
 								
+								
 								String dt = "";
 								String dtmodified = "";
 								
@@ -299,6 +300,7 @@ if(f.exists() && !f.isDirectory()) {
 	<b class="stattext">0</b>
 	<h6 class="text-primary labeltext">Comments</h6>
 	</div>
+	<input type="hidden" id="teeid" value="<%=tid%>" />
 	</div>
 	
 	<div class="col-md-12 mt30">
@@ -341,29 +343,40 @@ if(f.exists() && !f.isDirectory()) {
 		</div>
 		
 		<div id="bloglist">
-		<% if (blogs.size() > 0) {
+		<% if (allblogs.size() > 0) {
 			for (int k = 0; k < blogs.size(); k++) {				
 				bobj = new JSONObject(bresu);			
 				String v1 = allblogs.get(k).toString();
 				JSONObject ob = new JSONObject(v1);
+				
+				String dtc =ob.get("last_crawled").toString();
+				String dc ="";
+				
+				if (!dtc.equals("null")){
+					String[] ddt2 = dtc.split("T");
+					dc = ddt2[0];
+				}
+				
 		%>							
 			<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary nocursor">
-			<%-- <div class="checkblogleft">
+			<%-- 
+			<div class="checkblogleft">
 			<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" id="<%=ob.get("blogsite_id").toString()%>_select" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
-			</div> --%>
+			</div> 
+			--%>
 			<p class="float-left mb0 eachblogname"><%=ob.get("blogsite_name").toString()%></p>
 			<div class="iconsetblogs">
 			<!-- <i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey float-right" data-toggle="tooltip" data-placement="top" title="Track Blog"></i> -->
 			
-			<i class="text-primary icontrackersize cursor-pointer deleteblog float-right" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
+			<i class="text-primary icontrackersize cursor-pointer deleteblog float-right" data-toggle="tooltip" id="<%=ob.get("blogsite_id").toString()%>_select" data-placement="top" title="Delete Blog"></i>
 			<%-- <div class="setoficons makeinvisible">
 			<a href="<%=request.getContextPath()%>/analytics.jsp?bid=<%=ob.get("blogsite_id").toString()%>"><i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i></a>
 			<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
 			<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
 			</div> --%>
 				</div>
-				<p class="mb0 float-right blogdateingroup">2 years ago</p>
-				<p class="mb0 float-right postcount">34K</p>
+				<p class="mb0 float-right blogdateingroup"><%=dc%><!-- 2 years ago --></p>
+				<p class="mb0 float-right postcount"><%=ob.get("totalposts").toString()%></p>
 				
 			</div>
 		<% }} %>
@@ -381,7 +394,7 @@ if(f.exists() && !f.isDirectory()) {
 
 
 <%-- <div class="text-center pt10 pb10 trackingfixededittracker" style="background:#00B361;">
-<input type="hidden" id="teeid" value="<%=tid%>" />
+
   <div class="container">
 <div class="row" style="margin-left: 50px; margin-right:50px;">  <p  class="mb0 text-white fixedbottomedittrackerlefttext float-left text-left"><b id="selectedblogcount">0</b> item(s) selected</p>
   <p class="mb0 float-left fixedbottomedittrackerrighttext text-right" >
@@ -411,7 +424,7 @@ if(f.exists() && !f.isDirectory()) {
 
 <script src="assets/js/generic.js">
 </script>
-<script src="pagedependencies/edittrackerpage.js?v=90">
+<script src="pagedependencies/edittrackerpage.js?v=19990">
 </script>
 <script>
 $(document).ready(function() {
