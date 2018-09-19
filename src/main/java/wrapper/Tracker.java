@@ -146,7 +146,7 @@ public class Tracker extends HttpServlet {
 				
 				DbConnection db = new DbConnection();
 				String addendum="";
-					 tracker = db.query("SELECT query FROM trackers WHERE tid='"+tracker_id+"' userid='"+userid+"'");
+					 tracker = db.query("SELECT query FROM trackers WHERE tid='"+tracker_id+"' AND userid='"+userid+"'");
 					 if(tracker.size()>0){
 						 	ArrayList hd = (ArrayList)tracker.get(0);
 							String que = hd.get(0).toString();
