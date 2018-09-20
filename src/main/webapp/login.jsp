@@ -1,7 +1,6 @@
 <%@page import="authentication.*"%>
 <%
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
-	Object success_message = (null == session.getAttribute("success_message")) ? "" : "";
 	if (email != null && email != "") {
 		response.sendRedirect("dashboard.jsp");
 	}

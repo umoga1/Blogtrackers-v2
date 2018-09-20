@@ -201,18 +201,49 @@ $('.deleteblog').on('click', function(){
 	if(confirmdeleteofblog )
 		{
 		eachblogdelete = $(this);
-		eachblogdelete.parent().parent().remove();
-		// should kick in the automated crawler or something 	
-			toastr.error("Blog Deleted from Tracker","Success");
-			$('.tooltip').hide();
+		var id = $(this).attr("id");
+		id = id.split("_");
+		allid = id[0];
+		toastr.success("Deleting blog...","Success");
+		$.ajax({
+			url: app_url+'tracker',
+			method: 'POST',
+			data: {
+				action:"removeblog",
+				blog_ids:allid,
+				tracker_id:$("#teeid").val()
+			},
+			error: function(response)
+			{						
+				console.log(response);		
+			},
+			success: function(response)
+			{   
+				console.log(response);
+				if(response.indexOf("success")>-1){					
+						eachblogdelete.parent().parent().remove();
+					// should kick in the automated crawler or something 	
+						toastr.success("Blog Deleted from Tracker","Success");
+						$('.tooltip').hide();
+						
+						numberofblogs = $('.edittrackerblogindividual').length;
+						$('#totalblogcount').html(numberofblogs);
+						var initc = $(".stattext").html();
+						initc = parseInt(initc)-1;
+						$(".stattext").html(initc);
+						
+						countselectedfromdefault =  $('.edittrackerblogindividual').children(".checkblogleft").children(".checkblog").length;
+//						console.log(countselectedfromdefault);
+						blogselectedcount = countselectedfromdefault;
+						$('#selectedblogcount').html(blogselectedcount);
+					
+				}else{
+					toastr.error('Blogs could not be removed!','Error');
+				}
+			}
+		});
+		
 			
-			numberofblogs = $('.edittrackerblogindividual').length;
-			$('#totalblogcount').html(numberofblogs);
-			
-			countselectedfromdefault =  $('.edittrackerblogindividual').children(".checkblogleft").children(".checkblog").length;
-//			console.log(countselectedfromdefault);
-			blogselectedcount = countselectedfromdefault;
-			$('#selectedblogcount').html(blogselectedcount);
 		}
 	
 		
@@ -352,7 +383,7 @@ $('.deleteallblogfromtracker').on("click", function(){
 			success: function(response)
 			{   
 				console.log(response);
-				if(response.indexOf("true")>-1){					
+				if(response.indexOf("success")>-1){					
 					selectedblogelement.parent().parent().remove();
 					toastr.success("Deleted Selected Blog(s) from tracker","Success");
 					numberofblogs = $('.edittrackerblogindividual').length;
@@ -410,8 +441,32 @@ $('.trackeredit').on("click", function(){
 		$(".edittrackerdesc").replaceWith($('<p class="edittrackerdesc text-primary" >' + $(".edittrackerdesc").val() + '</p>'));	
 		$(this).addClass('startediting').removeClass('doneediting');
 		$(this).children("i").attr("data-original-title","Edit Tracker").addClass("edittracker").removeClass("editdone");
-		toastr.success("Tracker Updated Successfully","Success");
+		//console.log($("#teeid").val()); return false;
 		// add ajax to finish edit
+		$.ajax({
+			url: app_url+'tracker',
+			method: 'POST',
+			data: {
+				action:"updatedetail",
+				name:trackertitle,
+				description:trackerdesc,
+				tracker_id:$("#teeid").val(),
+			},
+			error: function(response)
+			{						
+				console.log(response);		
+			},
+			success: function(response)
+			{   
+				console.log(response);
+				if(response.indexOf("success")>-1){
+					toastr.success("Tracker Updated Successfully","Success");					
+				}else{
+					toastr.error('Tracker could not be updated!','Error');
+				}
+			}
+		});
+
 	}
 	
 	 
@@ -440,7 +495,7 @@ if(confirmdeletetracker)
 		success: function(response)
 		{   
 			console.log(response);
-			if(response.indexOf("true")>-1){
+			if(response.indexOf("success")>-1){
 				toastr.success('Tracker successfully deleted!','Success');
 				//location.href=app_url+"trackerlist.jsp";
 				

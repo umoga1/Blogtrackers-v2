@@ -35,7 +35,7 @@ $(function() {
 				},
 				error: function(response)
 				{						
-					console.log("got here");
+					c("error");
 				},
 				success: function(response)
 				{       

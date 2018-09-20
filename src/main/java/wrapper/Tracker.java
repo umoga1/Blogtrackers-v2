@@ -69,6 +69,7 @@ public class Tracker extends HttpServlet {
 		
         String query = "";
 		String action = (null==request.getParameter("action"))?"":request.getParameter("action");
+		String userid = username;//(String) session.getAttribute("user");
 		
 		if(action.equals("create"))
 		{	
@@ -93,8 +94,6 @@ public class Tracker extends HttpServlet {
 			}       
 			*/
 			String userName = (String) session.getAttribute("username");
-			String userid = (String) session.getAttribute("user");
-			     	
 			//String keyword = request.getParameter("keyword");
 			String trackerName=tracker_name.trim();//request.getParameter("title");
 			if(!trackerName.trim().isEmpty()){
@@ -117,7 +116,7 @@ public class Tracker extends HttpServlet {
 				//TrackerDialog dialog= new TrackerDialog();
 				//dialog.addTracker(userName, trackerName, createdDate, null, listString, trackerDescription, selectedSite.length);
 				ArrayList prev = new DbConnection().query("SELECT * FROM trackers WHERE tracker_name='"+trackerName+"' AND userid= '"+userid+"'");
-				//System.out.println("Previous:"+trackerName+" "+prev);
+				//System.out.println("Previous:"+trackerName+" "+userid+"User-"+prev);
 				if(prev!=null && prev.size()>0) {
 					pww.write("tracker already exist");
 				}else {	
@@ -139,30 +138,15 @@ public class Tracker extends HttpServlet {
 				response.setContentType("text/html");
 				pww.write("Trackername cannot be empty");
 			}
-		}
-	
-		else if(action.equals("update")) {
-			 String[] bloggs = blogs.split(",");
-			/*
-			 JSONObject param = new JSONObject();		
-			 param.put("blogs", blogs);			 
-			 String output =  "false";
-			 try {
-				 output = trk._update(tracker_id, param);		
-				 response.setContentType("text/html");				 
-			     pww.write(output); 
-			 }catch(Exception e) {
-				 System.out.println("Error");
-				 pww.write("false"); 
-			 }		
-		   	*/
+		}else if(action.equals("update")) {
+			String[] bloggs = blogs.split(",");
 			try {
 				ArrayList tracker =null;
-				String blog_id = request.getParameter("blog_id");
+				//String blog_id = request.getParameter("blog_id");
 				
 				DbConnection db = new DbConnection();
 				String addendum="";
-					 tracker = db.query("SELECT query FROM trackers WHERE tid='"+tracker_id+"'");
+					 tracker = db.query("SELECT query FROM trackers WHERE tid='"+tracker_id+"' userid='"+userid+"'");
 					 if(tracker.size()>0){
 						 	ArrayList hd = (ArrayList)tracker.get(0);
 							String que = hd.get(0).toString();
@@ -180,30 +164,43 @@ public class Tracker extends HttpServlet {
 														 
 							addendum = "blogsite_id in ("+mergedblogs+")";//"blogsite_id in ("+addendum+blog_id+")";				
 							db.updateTable("UPDATE trackers SET query='"+addendum+"', tracker_name='"+tracker_name+"', decription='"+description+"', blogsites_num = '"+blognum+"' WHERE  tid='"+tracker_id+"'");	
-						
+							pww.write("success");
+					 }else {
+						 	pww.write("invalid tracker");
 					 }
-					
-				
-				
-	        	pww.write("success");
-	        	
+
 			}catch(Exception ex) {
 				pww.write("false"); 
 			}
-		}else if(action.equals("delete")) {
-			/*
+		}else if(action.equals("updatedetail")) {
+			
 			try {
-				String output = trk._delete(tracker_id);
-				pww.write("true");
-			}catch(Exception e) {
-				 pww.write("false"); 
-			 }*/	
+				ArrayList tracker =null;
+				
+					DbConnection db = new DbConnection();
+					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+tracker_id+"' AND userid='"+userid+"'");
+					
+					 if(tracker.size()>0){
+						 
+						 db.updateTable("UPDATE trackers SET tracker_name='"+tracker_name+"', description='"+description+"' WHERE  tid='"+tracker_id+"'");	
+						 tracker = db.query("SELECT * FROM trackers WHERE tid='"+tracker_id+"' AND userid='"+userid+"'");
+						 //System.out.println("tracker here :"+tracker_name+"-"+tracker);
+						 
+						 pww.write("success");
+					 }else {
+						 pww.write("invalid tracker");
+					 }
+
+			}catch(Exception ex) {
+				pww.write("false"); 
+			}
+		}else if(action.equals("delete")) {	
 			try {
 					String tid = request.getParameter("tracker_id");
-					new DbConnection().updateTable("DELETE FROM trackers WHERE  tid='"+tracker_id+"'");						
-					String userid = (String) session.getAttribute("user");
+					new DbConnection().updateTable("DELETE FROM trackers WHERE  tid='"+tracker_id+"' AND userid='"+userid+"'");						
+					
 					ArrayList trackers = new DbConnection().query("SELECT * FROM trackers WHERE userid='"+userid+"'");
-		        	//session.setAttribute("trackers", trackers);
+		        	//sesson.setAttribute("trackers", trackers);
 		       		pww.write("true");
 				}catch(Exception ex) {
 					 pww.write("false"); 
@@ -229,11 +226,11 @@ public class Tracker extends HttpServlet {
 				jblog.put(bloggs[k], bloggs[k]);
 			}
 			 
-			ArrayList detail = new DbConnection().query("SELECT * FROM trackers WHERE tid='"+tracker_id+"'");
+			ArrayList detail = new DbConnection().query("SELECT * FROM trackers WHERE tid='"+tracker_id+"' AND userid='"+userid+"'");
         	
 			 if(detail.size()>0){
 				 	ArrayList hd = (ArrayList)detail.get(0);
-					String que = hd.get(0).toString();
+					String que = hd.get(5).toString();
 					
 					 que = que.replaceAll("blogsite_id in ", "");
 					 que = que.replaceAll("\\(", "");			 

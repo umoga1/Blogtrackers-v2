@@ -6,6 +6,8 @@
 <%@page import="util.Blogs"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 	if (email == null || email == "") {
@@ -269,6 +271,7 @@
 							JSONObject obj = null;
 							String query = null;
 							int totalpost = 0;
+							
 							String bres = null;
 							JSONObject bresp = null;
 							String bresu = null;
@@ -279,7 +282,7 @@
 
 							for (int i = 0; i < results.size(); i++) {
 								resut = (ArrayList)results.get(i);
-								
+								int totalblog =0;
 							    String id = resut.get(0).toString();
 							    query = resut.get(5).toString();//obj.get("query").toString();
 								/*
@@ -303,6 +306,7 @@
 								if (!query.equals("") ) {
 									
 									blogs = blg._fetch(query);
+									totalblog = blogs.size();
 									//System.out.println(blogs);
 									if (blogs.size() > 0) {
 										for (int k = 0; k < blogs.size(); k++) {
@@ -351,7 +355,7 @@
 						<button
 							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left"
 							style="width: 100%;">
-							<h1 class="text-success mb0"><%=blogs.size()%></h1>
+							<h1 class="text-success mb0"><%=totalblog%></h1>
 							<h5 class="text-primary">Blogs</h5>
 						</button>
 
