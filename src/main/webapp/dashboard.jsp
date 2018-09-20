@@ -1774,10 +1774,9 @@ $(function () {
           .range([0,width]);
 
       // Color
-      var color = d3.scale.category20c();
+    //  var color = d3.scale.category20c();
 
-
-
+  	
       // Create axes
       // ------------------------------
 
@@ -1837,7 +1836,7 @@ $(function () {
             
         ];
       
-      data.sort(function(a, b){
+      data = data.sort(function(a, b){
   	    return a.frequency - b.frequency;
   	});
       
@@ -1920,6 +1919,11 @@ $(function () {
       //
       //
       //     // Add bars
+      
+      var color = d3.scale.linear()
+	.domain([0,1,2,3,4,5,6,10,15,20])
+	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
+
           svg.selectAll(".d3-bar")
               .data(data)
               .enter()
@@ -1929,16 +1933,25 @@ $(function () {
                   .attr("height", y.rangeBand())
                   .attr("x", function(d) { return 0; })
                   .attr("width", function(d) { return x(d.frequency); })
-                  .style("fill", function(d) {
-                  maxvalue = d3.max(data, function(d) { return d.frequency; });
-                  if(d.frequency == maxvalue)
+                  .style("fill", function(d,i) {
+                 // maxvalue = d3.max(data, function(d) { return d.frequency; });
+                 //console.log(i)
+                /*    if(i == 0)
                   {
-                    return "0080CC";
+                	console.log(i)
+                    return "#17394C";
                   }
-                  else
+                   else if(i == 1)
+                   {
+                 	console.log(i)
+                     return "#FFBB78";
+                   }
+                   else
                   {
                     return "#78BCE4";
-                  }
+                  } */
+                  //console.log(data.length - i -1)
+                  return color(data.length - i - 1);
 
                 })
                   .on('mouseover', tip.show)
@@ -2752,7 +2765,7 @@ data = {
             //
             // Append chart elements
             //
-
+ 			
             // Bind data
             var node = svg.selectAll(".d3-bubbles-node")
                 .data(bubble.nodes(classes(data))
@@ -2931,24 +2944,32 @@ data = {
                 .append("g")
                     .attr("class", "d3-bubbles-node")
                     .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
+        
+			var color = d3.scale.linear()
+			.domain([0,1,2,3,4,5,6,10,15,20])
+			.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
+			
             // Append circles
             node.append("circle")
                 .attr("r", function(d) { return d.r; })
                 .style("fill", function(d,i) {
                   //return color(i);
-                  if(i<5)
+                  /* if(i<5)
                   {
                     return "#0080cc";
                   }
                   else if(i>=5)
                   {
                     return "#78bce4";
-                  }
+                  } */
+                  //console.log(d.r * 2);
+                 // console.log("afde");
+                  return color(i);
+                
                 })
                 .on('mouseover',tip.show)
                 .on('mouseout', tip.hide);
-
+           
             // Append text
             node.append("text")
                 .attr("dy", ".3em")
@@ -2973,16 +2994,6 @@ data = {
         }
     }
 });
-</script>
-	<script>
-
-
-    var color = d3.scale.linear()
-            .domain([0,1,2,3,4,5,6,10,15,20,80])
-            .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
-
-    
-  
 </script>
 	<script>
 $(".option-only").on("change",function(e){
