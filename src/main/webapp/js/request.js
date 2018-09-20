@@ -25,8 +25,9 @@ $(function() {
 		
 		var password = $("#password").val(); 
 			$.ajax({
-				url: 'request',   
+				url: baseurl+'request',   
 				method: 'POST',
+				dataType: 'json',
 				data: {
 					email: $("input#username").val(),
 					password: $("input#password").val(),
@@ -34,7 +35,7 @@ $(function() {
 				},
 				error: function(response)
 				{						
-					console.log(response);
+					c("error");
 				},
 				success: function(response)
 				{       
