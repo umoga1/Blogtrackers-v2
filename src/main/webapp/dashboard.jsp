@@ -590,10 +590,12 @@
 					<div class="card-body  p15 pt15 pb15">
 						<div>
 							<p class="text-primary mt0 float-left">
-								Most Active Location <select
+								Most Active Location 
+								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select>of Past <select
+									<option value="bloggers">Bloggers</option></select>  -->
+									for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -612,10 +614,12 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Language Usage of <select
+								Language Usage 
+								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
+									<option value="bloggers">Bloggers</option></select>  -->
+									for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -639,7 +643,7 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Posting Frequency of Past <select
+								Posting Frequency for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -664,10 +668,13 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10">
-								Top Keywords of <select
+								Top Keywords
+								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
+									<option value="bloggers">Bloggers</option></select>  -->
+									
+									for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -691,10 +698,12 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10">
-								Sentiment Usage of <select
+								Sentiment Usage
+							<!-- 	<select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
+									<option value="bloggers">Bloggers</option></select>  -->
+									for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -725,7 +734,7 @@
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Blog Distribution of Past <select
+								Blog Distribution for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -754,7 +763,7 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Blogger Distribution of Past <select
+								Blogger Distribution for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -786,7 +795,8 @@
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Most Active <select
+								Most Active 
+								<select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select> of Past <select
