@@ -1920,7 +1920,7 @@ $(function () {
       //
       //     // Add bars
       
-      var color = d3.scale.linear()
+      var colorblogs = d3.scale.linear()
 	.domain([0,1,2,3,4,5,6,10,15,20])
 	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
 
@@ -1951,7 +1951,7 @@ $(function () {
                     return "#78BCE4";
                   } */
                   //console.log(data.length - i -1)
-                  return color(data.length - i - 1);
+                  return colorblogs(data.length - i - 1);
 
                 })
                   .on('mouseover', tip.show)
