@@ -330,12 +330,12 @@
 				<div class="card-body">
 					<%--  <p class="card-text text-center postdate text-primary"><%=dt%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;</p> --%>
 
-					<div class="text-center">
+					<!-- <div class="text-center">
 						<button
 							class="btn btn-default stylebutton5 text-primary p30 pt5 pb5"
 							style="width: 100%;">Sports&nbsp;&nbsp;.&nbsp;&nbsp;Science&nbsp;&nbsp;.&nbsp;&nbsp;Art</button>
-					</div>
-					<p class="mt20 text-primary text-center">
+					</div> -->
+					<p class="mt10 text-primary text-center">
 
 						<%
 						String description  = String.valueOf(resut.get(6));

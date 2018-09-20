@@ -590,10 +590,12 @@
 					<div class="card-body  p15 pt15 pb15">
 						<div>
 							<p class="text-primary mt0 float-left">
-								Most Active Location <select
+								Most Active Location 
+								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select>of Past <select
+									<option value="bloggers">Bloggers</option></select>  -->
+									for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -612,10 +614,12 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Language Usage of <select
+								Language Usage 
+								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
+									<option value="bloggers">Bloggers</option></select>  -->
+									for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -639,7 +643,7 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Posting Frequency of Past <select
+								Posting Frequency for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -664,10 +668,13 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10">
-								Top Keywords of <select
+								Top Keywords
+								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
+									<option value="bloggers">Bloggers</option></select>  -->
+									
+									for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -691,10 +698,12 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10">
-								Sentiment Usage of <select
+								Sentiment Usage
+							<!-- 	<select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
+									<option value="bloggers">Bloggers</option></select>  -->
+									for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -725,7 +734,7 @@
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Blog Distribution of Past <select
+								Blog Distribution for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -754,7 +763,7 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Blogger Distribution of Past <select
+								Blogger Distribution for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
@@ -786,7 +795,8 @@
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Most Active <select
+								Most Active 
+								<select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select> of Past <select
@@ -1764,10 +1774,9 @@ $(function () {
           .range([0,width]);
 
       // Color
-      var color = d3.scale.category20c();
+    //  var color = d3.scale.category20c();
 
-
-
+  	
       // Create axes
       // ------------------------------
 
@@ -1827,7 +1836,7 @@ $(function () {
             
         ];
       
-      data.sort(function(a, b){
+      data = data.sort(function(a, b){
   	    return a.frequency - b.frequency;
   	});
       
@@ -1910,6 +1919,11 @@ $(function () {
       //
       //
       //     // Add bars
+      
+      var colorblogs = d3.scale.linear()
+	.domain([0,1,2,3,4,5,6,10,15,20])
+	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
+
           svg.selectAll(".d3-bar")
               .data(data)
               .enter()
@@ -1919,16 +1933,25 @@ $(function () {
                   .attr("height", y.rangeBand())
                   .attr("x", function(d) { return 0; })
                   .attr("width", function(d) { return x(d.frequency); })
-                  .style("fill", function(d) {
-                  maxvalue = d3.max(data, function(d) { return d.frequency; });
-                  if(d.frequency == maxvalue)
+                  .style("fill", function(d,i) {
+                 // maxvalue = d3.max(data, function(d) { return d.frequency; });
+                 //console.log(i)
+                /*    if(i == 0)
                   {
-                    return "0080CC";
+                	console.log(i)
+                    return "#17394C";
                   }
-                  else
+                   else if(i == 1)
+                   {
+                 	console.log(i)
+                     return "#FFBB78";
+                   }
+                   else
                   {
                     return "#78BCE4";
-                  }
+                  } */
+                  //console.log(data.length - i -1)
+                  return colorblogs(data.length - i - 1);
 
                 })
                   .on('mouseover', tip.show)
@@ -2742,7 +2765,7 @@ data = {
             //
             // Append chart elements
             //
-
+ 			
             // Bind data
             var node = svg.selectAll(".d3-bubbles-node")
                 .data(bubble.nodes(classes(data))
@@ -2921,24 +2944,32 @@ data = {
                 .append("g")
                     .attr("class", "d3-bubbles-node")
                     .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
+        
+			var color = d3.scale.linear()
+			.domain([0,1,2,3,4,5,6,10,15,20])
+			.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
+			
             // Append circles
             node.append("circle")
                 .attr("r", function(d) { return d.r; })
                 .style("fill", function(d,i) {
                   //return color(i);
-                  if(i<5)
+                  /* if(i<5)
                   {
                     return "#0080cc";
                   }
                   else if(i>=5)
                   {
                     return "#78bce4";
-                  }
+                  } */
+                  //console.log(d.r * 2);
+                 // console.log("afde");
+                  return color(i);
+                
                 })
                 .on('mouseover',tip.show)
                 .on('mouseout', tip.hide);
-
+           
             // Append text
             node.append("text")
                 .attr("dy", ".3em")
@@ -2963,16 +2994,6 @@ data = {
         }
     }
 });
-</script>
-	<script>
-
-
-    var color = d3.scale.linear()
-            .domain([0,1,2,3,4,5,6,10,15,20,80])
-            .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
-
-    
-  
 </script>
 	<script>
 $(".option-only").on("change",function(e){
