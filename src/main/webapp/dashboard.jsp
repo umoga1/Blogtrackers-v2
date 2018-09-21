@@ -1810,7 +1810,7 @@ $(function () {
       //
       //
       data = [
-    		 <%if (bloggers.length() > 0) {
+    		 <% if (bloggers.length() > 0) {
 						int p = 0;
 						//System.out.println(bloggers);
 						for (int y = 0; y < bloggers.length(); y++) {
@@ -3092,7 +3092,6 @@ $(".option-lable").on("click",function(e){
          data = [
            [{"date":"2014","close":400},{"date":"2015","close":600},{"date":"2016","close":1300},{"date":"2017","close":1700},{"date":"2018","close":2100}],
            [{"date":"2014","close":350},{"date":"2015","close":700},{"date":"2016","close":1500},{"date":"2017","close":1600},{"date":"2018","close":1250}],
-           [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200},{"date":"2017","close":1200},{"date":"2018","close":2600}]
          ];
 
          //console.log(data);
