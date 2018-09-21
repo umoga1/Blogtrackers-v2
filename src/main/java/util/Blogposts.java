@@ -393,7 +393,7 @@ public class Blogposts {
 	    
 	    while ((inputLine = in.readLine()) != null) {
 	     	response.append(inputLine);
-	     	System.out.println(inputLine);
+	     	//System.out.println(inputLine);
 	     	
 	     }
 	     in.close();

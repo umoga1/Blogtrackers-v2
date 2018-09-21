@@ -32,7 +32,7 @@
 				phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
 				String userpic = userinfo.get(9).toString();
 				String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
-				String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
+				String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString().replaceAll("[^a-zA-Z]", " ");
 				String filename = userinfo.get(9).toString();
 				profileimage = "images/default-avatar.png";
 				if (userpic.indexOf("http") > -1) {
