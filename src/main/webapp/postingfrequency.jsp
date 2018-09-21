@@ -311,6 +311,7 @@ if(!ids.equals("")){
 				tresp = new JSONObject(tres);
 			    tresu = tresp.get("_source").toString();
 			    tobj = new JSONObject(tresu);
+			    
 			    String auth = tobj.get("blogger").toString();
 			    String[] dateyear=tobj.get("date").toString().split("-");
 			    String yy= dateyear[0];

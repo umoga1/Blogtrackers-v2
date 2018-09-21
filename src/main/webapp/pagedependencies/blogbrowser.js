@@ -500,7 +500,7 @@ function updateTracker(element,type){
 	   		 if (idd.indexOf("blogg")>-1) {
 	   		        blog_id = idd.split("_");
 	   		        blog_id = blog_id[blog_id.length-1];
-		   		     if(k<blogs.length-2){
+		   		     if(k<blogs.length-1){
 		   	    		all_blogs+=blog_id+",";
 		   	    	}else{
 		   	    		all_blogs+=blog_id;

@@ -67,9 +67,8 @@ if(userpic.indexOf("http")>-1){
 }
 
 Blogposts post  = new Blogposts();
-String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term");
-String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby");
-
+String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString().replaceAll("[^a-zA-Z]", " ");
+String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
 ArrayList results = null;
 if(term.equals("")){
@@ -429,7 +428,7 @@ if(results.size()>0){
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js?v=8999">
+<script src="pagedependencies/blogbrowser.js?v=28999">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
@@ -438,11 +437,8 @@ if(results.size()>0){
 </script>
 
 <script src="pagedependencies/imageloader.js?v=09"></script>
-<<<<<<< HEAD
+
 <script src="js/functions.js?v=19920"></script>
-=======
-<script src="js/functions.js?v=199990"></script>
->>>>>>> 73ac187664f1a68cc426d3ed9543cad611e27415
 <script>
 $(window).scroll(function() {
 	if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {
