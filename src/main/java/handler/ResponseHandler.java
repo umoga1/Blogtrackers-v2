@@ -143,35 +143,6 @@ public class ResponseHandler extends HttpServlet {
 
 
 	}
-	private String mergeArrays(String[] arr1, String[] arr2){
-		String bracketed_result = "";
-		String[] merged = new String[arr1.length + arr2.length];
-	    System.arraycopy(arr1, 0, merged, 0, arr1.length);
-	    System.arraycopy(arr2, 0, merged, arr1.length, arr2.length);
 	
-	    Set<String> nodupes = new HashSet<String>();
-	
-	    for(int i=0;i<merged.length;i++){
-	        nodupes.add(merged[i]);
-	        bracketed_result+=merged[i].trim()+",";
-	    }
-	
-	    String[] nodupesarray = new String[nodupes.size()];
-	    int i = 0;
-	    Iterator<String> it = nodupes.iterator();
-	    while(it.hasNext()){
-	        nodupesarray[i] = it.next();
-	        
-	        i++;
-	    }
-	
-		    return bracketed_result.replaceAll(",$", "");
-	}
-	
-	private String getDateTime() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = new Date();
-		return dateFormat.format(date);
-	}
 	
 }
