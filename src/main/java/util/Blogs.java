@@ -141,8 +141,6 @@ public class Blogs extends DbConnection{
 		}
 
 		String arg2 = pars.toString();
-		//System.out.println(ids);
-		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}}}";
 		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"totalposts\":{\"order\":\"DESC\"}}}";
 
 		

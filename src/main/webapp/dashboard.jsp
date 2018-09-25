@@ -593,8 +593,10 @@
 								Most Active Location <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select>of Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									<option value="bloggers">Bloggers</option>
+									</select>of Past 
+									<select
+									class="text-primary filtersort sortbytimerange filtersort2" ><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -615,8 +617,9 @@
 								Language Usage of <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									<option value="bloggers">Bloggers</option></select> of Past 
+									<select
+									class="text-primary filtersort sortbytimerange filtersort2"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -639,8 +642,9 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Posting Frequency of Past <select
-									class="text-primary filtersort sortbytimerange"><option
+								Posting Frequency of Past 
+								<select
+									class="text-primary filtersort sortbytimerange filtersort2"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -667,8 +671,9 @@
 								Top Keywords of <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									<option value="bloggers">Bloggers</option></select> of Past
+									 <select
+									class="text-primary filtersort sortbytimerange filtersort2"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -694,8 +699,9 @@
 								Sentiment Usage of <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									<option value="bloggers">Bloggers</option></select> of Past 
+									<select
+									class="text-primary filtersort sortbytimerange filtersort2"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -725,8 +731,9 @@
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Blog Distribution of Past <select
-									class="text-primary filtersort sortbytimerange"><option
+								Blog Distribution of Past 
+								<select
+									class="text-primary filtersort sortbytimerange filtersort2"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -754,8 +761,9 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Blogger Distribution of Past <select
-									class="text-primary filtersort sortbytimerange"><option
+								Blogger Distribution of Past
+								 <select
+									class="text-primary filtersort sortbytimerange filtersort2"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -789,8 +797,9 @@
 								Most Active <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									<option value="bloggers">Bloggers</option></select> of Past 
+									<select
+									class="text-primary filtersort sortbytimerange filtersort2"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -821,8 +830,9 @@
 								Most Influential <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									<option value="bloggers">Bloggers</option></select> of Past 
+									<select
+									class="text-primary filtersort sortbytimerange filtersort2"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -858,11 +868,13 @@
 									List of Top <select
 										class="text-primary filtersort sortbydomainsrls"><option
 											value="domains">Domains</option>
-										<option value="urls">URLs</option></select> of <select
-										class="text-primary filtersort sortbyblogblogger"><option
+										<option value="urls">URLs</option></select> of 
+										<select
+										class="text-primary filtersort sortbyblogblogger "><option
 											value="blogs">Blogs</option>
-										<option value="bloggers">Bloggers</option></select> of Past <select
-										class="text-primary filtersort sortbytimerange"><option
+										<option value="bloggers">Bloggers</option></select> of Past 
+										<select
+										class="text-primary filtersort sortbytimerange filtersort2"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
 										<option value="year">Year</option></select>
@@ -2981,6 +2993,14 @@ $(".option-only").on("change",function(e){
 	$("#single_date").val(valu);
 	$('form#customformsingle').submit();
 });
+
+$(".filtersort2").on("change",function(e){
+	var valu =  $(this).val();
+	$("#single_date").val(valu);
+	$('form#customformsingle').submit();
+});
+
+
 
 $(".option-only").on("click",function(e){
 	console.log("only Click ");
