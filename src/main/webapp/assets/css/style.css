@@ -1417,7 +1417,8 @@ transition:  1.35s ease-in-out;
 }
 .notificationpanel
 {
-background: rgba(226,231, 233);
+background: rgb(226,231, 233);
+background-color:rgb(226,231, 233);
 width:100%;
 height:1000px;
 z-index:1000;

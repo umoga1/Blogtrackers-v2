@@ -341,7 +341,7 @@ if(f.exists() && !f.isDirectory()) {
 		</div> -->
 		<p class="blogname mb0">Blog Name</p>
 		<p class="noofposts mb0">No of Posts</p>
-		<p class="lastestcrawl mb0">Latest Crawl</p>
+		<p class="lastestcrawl mb0">Last Crawl</p>
 		</div>
 		
 		<div id="bloglist">
@@ -377,8 +377,9 @@ if(f.exists() && !f.isDirectory()) {
 			<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
 			</div> --%>
 				</div>
+				
 				<p class="mb0 float-right blogdateingroup"><%=dc%><!-- 2 years ago --></p>
-				<p class="mb0 float-right postcount"><%=ob.get("totalposts").toString()%></p>
+				<p class="mb0 float-right postcount"><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(ob.get("totalposts").toString())) %></p>
 				
 			</div>
 		<% }} %>
