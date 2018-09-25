@@ -67,14 +67,31 @@ public class ResponseHandler extends HttpServlet {
 				response.setStatus(200);
 				pww.write("success");		
 			}
-		}else if(action.equals("gettrackers")){			
+		}else if(action.equals("list")){			
 			if(!this.validateRequest(username,pass))
 			{
 				showError(pww,"301", "authentication required");		
 			}else {
 				this.getTrackers(pww);
 			}
-		}else{		
+		}
+		else if(action.equals("add")){			
+			if(!this.validateRequest(username,pass))
+			{
+				showError(pww,"301", "authentication required");		
+			}else {
+				this.getTrackers(pww);
+			}
+		}
+		else if(action.equals("login")){			
+			if(!this.validateRequest(username,pass))
+			{
+				showError(pww,"301", "authentication required");		
+			}else {
+				this.getTrackers(pww);
+			}
+		}
+		else{		
 			showError(pww,"401", "invalid request ");	
 		}
 	

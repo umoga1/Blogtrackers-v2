@@ -171,6 +171,20 @@ function abort_requests(){
 	}
 }
 
+function swapBlogger(){
+	$bloggerSwap = $('.bloggerswap');
+	$bloggerSwap.change(function(){
+		var value = $('bloggerSwap').val();
+		$.ajax({
+			type: "post",
+			url: "handler.jsp",
+			data:{bloggerSwap: value},
+			success:function(msg){
+				alert(msg.data);
+			}
+		})
+	})
+}
 
 function pluginAPI(){
 	var url = app_url+''

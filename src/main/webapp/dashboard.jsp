@@ -796,9 +796,8 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 								Most Active 
-								<select
-									class="text-primary filtersort sortbyblogblogger"><option
-										value="blogs">Blogs</option>
+								<select id="bloggerSwap" class="text-primary filtersort sortbyblogblogger">
+									<option value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select> of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
