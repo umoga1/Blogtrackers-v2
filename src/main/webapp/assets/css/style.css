@@ -587,6 +587,10 @@ background-color:#F9F9F9;
 {
 visibility:hidden;
 }
+.makechartinvisible
+{
+display:none !important;
+}
 .mycard
 {
 background-color: #fff;

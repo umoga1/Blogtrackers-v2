@@ -68,6 +68,7 @@ if(userpic.indexOf("http")>-1){
 
 Blogposts post  = new Blogposts();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString().replaceAll("[^a-zA-Z]", " ");
+
 String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
 ArrayList results = null;
