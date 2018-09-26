@@ -596,12 +596,9 @@
 								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-
-									<option value="bloggers">Bloggers</option>
-									</select>for Past 
-									<select
-									class="text-primary filtersort sortbytimerange filtersort2" ><option
-
+									<option value="bloggers">Bloggers</option></select>  -->
+									for Past <select
+									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -623,10 +620,9 @@
 								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-
 									<option value="bloggers">Bloggers</option></select>  -->
 									for Past <select
-									class="text-primary filtersort sortbytimerange filtersort2"><option
+									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -649,10 +645,8 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-
 								Posting Frequency for Past <select
-									class="text-primary filtersort sortbytimerange filtersort2"><option
-
+									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -680,12 +674,10 @@
 								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-
 									<option value="bloggers">Bloggers</option></select>  -->
 									
 									for Past <select
-									class="text-primary filtersort sortbytimerange filtersort2"><option
-
+									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -712,11 +704,9 @@
 							<!-- 	<select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-
 									<option value="bloggers">Bloggers</option></select>  -->
 									for Past <select
-									class="text-primary filtersort sortbytimerange filtersort2"><option
-
+									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -746,10 +736,8 @@
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-
 								Blog Distribution for Past <select
-									class="text-primary filtersort sortbytimerange filtersort2"><option
-
+									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -777,9 +765,8 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-
 								Blogger Distribution for Past <select
-									class="text-primary filtersort sortbytimerange filtersort2"><option
+									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -811,31 +798,20 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 								Most Active 
-<<<<<<< HEAD
 								<select id="swapBlogger" class="text-primary filtersort sortbyblogblogger">
 									<option value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select> of Past <select
 									class="text-primary filtersort sortbytimerange"><option
-=======
-								<select
-									class="text-primary filtersort sortbyblogblogger"><option
-										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> for Past 
-									<select
-									class="text-primary filtersort sortbytimerange filtersort2"><option
->>>>>>> 96ab2c96f7af2e2c562ba6071e18de097bc3be2d
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
 						</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
-							<div class="chart-container blog">
+							<div class="chart-container">
 								<div class="chart" id="postingfrequencybar"></div>
 							</div>
-							<div class="chart-container">
-								<div class="chart" id="postingfrequencybar2"></div>
-							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -854,18 +830,9 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-<<<<<<< HEAD
 								Most Influential  <select class="text-primary filtersort sortby" id="sortbyselect">Recent </option><option value="blogger">Influence Score</option></select>
 								 of Past <select
 									class="text-primary filtersort sortbytimerange"><option
-=======
-								Most Influential <select
-									class="text-primary filtersort sortbyblogblogger"><option
-										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> for Past 
-									<select
-									class="text-primary filtersort sortbytimerange filtersort2"><option
->>>>>>> 96ab2c96f7af2e2c562ba6071e18de097bc3be2d
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -901,13 +868,11 @@
 									List of Top <select
 										class="text-primary filtersort sortbydomainsrls"><option
 											value="domains">Domains</option>
-										<option value="urls">URLs</option></select> of 
-										<select
-										class="text-primary filtersort sortbyblogblogger "><option
+										<option value="urls">URLs</option></select> of <select
+										class="text-primary filtersort sortbyblogblogger"><option
 											value="blogs">Blogs</option>
-										<option value="bloggers">Bloggers</option></select> for Past 
-										<select
-										class="text-primary filtersort sortbytimerange filtersort2"><option
+										<option value="bloggers">Bloggers</option></select> of Past <select
+										class="text-primary filtersort sortbytimerange"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
 										<option value="year">Year</option></select>
@@ -954,7 +919,7 @@
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
         <div class="min-height-table"style="min-height: 420px;">
-          <!-- <div class="dropdown show"><p class="text-primary p15 pb5 pt0">List of Top URLs of <a class=" dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" id="blogbloggermenu1" role="button">Blogs</a> for Past <b>Week</b></p>
+          <!-- <div class="dropdown show"><p class="text-primary p15 pb5 pt0">List of Top URLs of <a class=" dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" id="blogbloggermenu1" role="button">Blogs</a> of Past <b>Week</b></p>
             <div class="dropdown-menu" aria-labelledby="blogbloggermenu1">
                <a class="dropdown-item" href="#">Action</a>
                <a class="dropdown-item" href="#">Another action</a>
@@ -962,7 +927,7 @@
              </div>
           </div> -->
 
-<div class="dropdown show text-primary p15 pb20 pt0">List of Top URLs of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> for Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select>
+<div class="dropdown show text-primary p15 pb20 pt0">List of Top URLs of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select>
 
  
 
@@ -1782,7 +1747,7 @@ $(function () {
 </script>
 
 	<!--  End of influence bar -->
-	
+
 	<!-- start of posting frequency  -->
 	<script>
 $(function () {
@@ -1868,292 +1833,6 @@ $(function () {
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
 							int size = Integer.parseInt(resu.get("postingfreq").toString());
-							if (size > 200 && p < 10) {
-								p++;%>
-    			{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-    			 <%}
-						}
-					}%>
-            //{letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},
-            
-        ];
-      
-      data = data.sort(function(a, b){
-  	    return a.frequency - b.frequency;
-  	});
-      
-      //
-      //
-      //   // Create tooltip
-        var tip = d3.tip()
-               .attr('class', 'd3-tip')
-               .offset([-10, 0])
-               .html(function(d) {
-                 if(d.type === "blogger")
-                 {
-                   return d.letter+" ("+d.frequency+")<br/> Blogger: "+d.name;
-                 }
-
-                 if(d.type === "blog")
-                 {
-                   return d.letter+" ("+d.frequency+")<br/> Blog: "+d.name;
-                 }
-
-               });
-
-           // Initialize tooltip
-           svg.call(tip);
-
-      //
-      //     // Pull out values
-      //     data.forEach(function(d) {
-      //         d.frequency = +d.frequency;
-      //     });
-      //
-      //
-      //
-      //     // Set input domains
-      //     // ------------------------------
-      //
-      //     // Horizontal
-          y.domain(data.map(function(d) { return d.letter; }))
-
-          // Vertical
-          x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
-      //
-      //
-      //     //
-      //     // Append chart elements
-      //     //
-      //
-      //     // Append axes
-      //     // ------------------------------
-      //
-          // Horizontal
-          svg.append("g")
-              .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
-              .attr("transform", "translate(0," + height + ")")
-              .call(xAxis);
-
-          // Vertical
-          var verticalAxis = svg.append("g")
-              .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
-              .style("color","yellow")
-              .call(yAxis)
-              .selectAll("text")
-   			.attr("y", -25)
-    			.attr("x", 40)
-    		.attr("dy", ".75em")
-    		.attr("transform", "rotate(-70)")
-              ;
-      //
-      //
-      //     // Add text label
-      //     verticalAxis.append("text")
-      //         .attr("transform", "rotate(-90)")
-      //         .attr("y", 10)
-      //         .attr("dy", ".71em")
-      //         .style("text-anchor", "end")
-      //         .style("fill", "#999")
-      //         .style("font-size", 12)
-      //         // .text("Frequency")
-      //         ;
-      //
-      //
-      //     // Add bars
-      
-      var colorblogs = d3.scale.linear()
-	.domain([0,1,2,3,4,5,6,10,15,20])
-	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
-
-          svg.selectAll(".d3-bar")
-              .data(data)
-              .enter()
-              .append("rect")
-                  .attr("class", "d3-bar")
-                  .attr("y", function(d) { return y(d.letter); })
-                  .attr("height", y.rangeBand())
-                  .attr("x", function(d) { return 0; })
-                  .attr("width", function(d) { return x(d.frequency); })
-                  .style("fill", function(d,i) {
-                 // maxvalue = d3.max(data, function(d) { return d.frequency; });
-                 //console.log(i)
-                /*    if(i == 0)
-                  {
-                	console.log(i)
-                    return "#17394C";
-                  }
-                   else if(i == 1)
-                   {
-                 	console.log(i)
-                     return "#FFBB78";
-                   }
-                   else
-                  {
-                    return "#78BCE4";
-                  } */
-                  //console.log(data.length - i -1)
-                  return colorblogs(data.length - i - 1);
-
-                })
-                  .on('mouseover', tip.show)
-                  .on('mouseout', tip.hide);
-
-
-                  // svg.selectAll(".d3-bar")
-                  //     .data(data)
-                  //     .enter()
-                  //     .append("rect")
-                  //         .attr("class", "d3-bar")
-                  //         .attr("x", function(d) { return x(d.letter); })
-                  //         .attr("width", x.rangeBand())
-                  //         .attr("y", function(d) { return y(d.frequency); })
-                  //         .attr("height", function(d) { return height - y(d.frequency); })
-                  //         .style("fill", function(d) { return "#58707E"; })
-                  //         .on('mouseover', tip.show)
-                  //         .on('mouseout', tip.hide);
-
-
-
-
-
-        // Resize chart
-        // ------------------------------
-
-        // Call function on window resize
-        $(window).on('resize', resize);
-
-        // Call function on sidebar width change
-        $('.sidebar-control').on('click', resize);
-
-        // Resize function
-        //
-        // Since D3 doesn't support SVG resize by default,
-        // we need to manually specify parts of the graph that need to
-        // be updated on window resize
-        function resize() {
-
-            // Layout variables
-            width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
-
-
-            // // Layout
-            // // -------------------------
-            //
-            // // Main svg width
-            container.attr("width", width + margin.left + margin.right);
-
-            // Width of appended group
-            svg.attr("width", width + margin.left + margin.right);
-            //
-            //
-            // // Axes
-            // // -------------------------
-            //
-            // // Horizontal range
-           x.range([0,width]);
-            //
-            // // Horizontal axis
-            svg.selectAll('.d3-axis-horizontal').call(xAxis);
-             // svg.selectAll('.d3-bar-vertical').call(yAxis);
-
-            //
-            // // Chart elements
-            // // -------------------------
-            //
-            // // Line path
-           svg.selectAll('.d3-bar').attr("width", function(d) { return x(d.frequency); });
-        }
-    }
-});
-</script>
-	<!-- end of posting frequency  -->
-
-	<!-- start of posting frequency2  -->
-	<script>
-$(function () {
-
-    // Initialize chart
-    postingfrequencybar2('#postingfrequencybar2', 450);
-
-    // Chart setup
-    function postingfrequencybar2(element, height) {
-
-      // Basic setup
-      // ------------------------------
-
-      // Define main variables
-      var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 60},
-          width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
-          height = height - margin.top - margin.bottom - 5;
-
-         var formatPercent = d3.format("");
-
-      // Construct scales
-      // ------------------------------
-
-      // Horizontal
-      var y = d3.scale.ordinal()
-          .rangeRoundBands([height,0], .5, .40);
-
-      // Vertical
-      var x = d3.scale.linear()
-          .range([0,width]);
-
-      // Color
-    //  var color = d3.scale.category20c();
-
-  	
-      // Create axes
-      // ------------------------------
-
-      // Horizontal
-      var xAxis = d3.svg.axis()
-          .scale(x)
-          .orient("bottom")
-          .ticks(6);
-
-      // Vertical
-      var yAxis = d3.svg.axis()
-          .scale(y)
-          .orient("left")
-          //.tickFormat(formatPercent);
-
-
-
-      // Create chart
-      // ------------------------------
-
-      // Add SVG element
-      var container = d3Container.append("svg");
-
-      // Add SVG group
-      var svg = container
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-      //         // Create tooltip
-      //             // ------------------------------
-      //
-      //
-      //
-      // // Load data
-      // // ------------------------------
-      //
-      //
-      //
-      data = [
-    		 <% if (bloggers.length() > 0) {
-						int p = 0;
-						//System.out.println(bloggers);
-						for (int y = 0; y < bloggers.length(); y++) {
-							String key = looper.get(y).toString();
-							JSONObject resu = bloggers.getJSONObject(key);
-							int size = Integer.parseInt(resu.get("totalposts").toString());
 							if (size > 200 && p < 10) {
 								p++;%>
     			{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
@@ -3330,14 +3009,6 @@ $(".option-only").on("change",function(e){
 	$("#single_date").val(valu);
 	$('form#customformsingle').submit();
 });
-
-$(".filtersort2").on("change",function(e){
-	var valu =  $(this).val();
-	$("#single_date").val(valu);
-	$('form#customformsingle').submit();
-});
-
-
 
 $(".option-only").on("click",function(e){
 	console.log("only Click ");
