@@ -596,9 +596,12 @@
 								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select>  -->
-									for Past <select
-									class="text-primary filtersort sortbytimerange"><option
+
+									<option value="bloggers">Bloggers</option>
+									</select>for Past 
+									<select
+									class="text-primary filtersort sortbytimerange filtersort2" ><option
+
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -620,9 +623,10 @@
 								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
+
 									<option value="bloggers">Bloggers</option></select>  -->
 									for Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									class="text-primary filtersort sortbytimerange filtersort2"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -645,8 +649,10 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
+
 								Posting Frequency for Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									class="text-primary filtersort sortbytimerange filtersort2"><option
+
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -674,10 +680,12 @@
 								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
+
 									<option value="bloggers">Bloggers</option></select>  -->
 									
 									for Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									class="text-primary filtersort sortbytimerange filtersort2"><option
+
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -704,9 +712,11 @@
 							<!-- 	<select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
+
 									<option value="bloggers">Bloggers</option></select>  -->
 									for Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									class="text-primary filtersort sortbytimerange filtersort2"><option
+
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -736,8 +746,10 @@
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
+
 								Blog Distribution for Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									class="text-primary filtersort sortbytimerange filtersort2"><option
+
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -765,8 +777,9 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
+
 								Blogger Distribution for Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									class="text-primary filtersort sortbytimerange filtersort2"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -798,10 +811,19 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 								Most Active 
+<<<<<<< HEAD
 								<select id="swapBlogger" class="text-primary filtersort sortbyblogblogger">
 									<option value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select> of Past <select
 									class="text-primary filtersort sortbytimerange"><option
+=======
+								<select
+									class="text-primary filtersort sortbyblogblogger"><option
+										value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option></select> for Past 
+									<select
+									class="text-primary filtersort sortbytimerange filtersort2"><option
+>>>>>>> 96ab2c96f7af2e2c562ba6071e18de097bc3be2d
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -832,9 +854,18 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
+<<<<<<< HEAD
 								Most Influential  <select class="text-primary filtersort sortby" id="sortbyselect">Recent </option><option value="blogger">Influence Score</option></select>
 								 of Past <select
 									class="text-primary filtersort sortbytimerange"><option
+=======
+								Most Influential <select
+									class="text-primary filtersort sortbyblogblogger"><option
+										value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option></select> for Past 
+									<select
+									class="text-primary filtersort sortbytimerange filtersort2"><option
+>>>>>>> 96ab2c96f7af2e2c562ba6071e18de097bc3be2d
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
@@ -870,11 +901,13 @@
 									List of Top <select
 										class="text-primary filtersort sortbydomainsrls"><option
 											value="domains">Domains</option>
-										<option value="urls">URLs</option></select> of <select
-										class="text-primary filtersort sortbyblogblogger"><option
+										<option value="urls">URLs</option></select> of 
+										<select
+										class="text-primary filtersort sortbyblogblogger "><option
 											value="blogs">Blogs</option>
-										<option value="bloggers">Bloggers</option></select> of Past <select
-										class="text-primary filtersort sortbytimerange"><option
+										<option value="bloggers">Bloggers</option></select> for Past 
+										<select
+										class="text-primary filtersort sortbytimerange filtersort2"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
 										<option value="year">Year</option></select>
@@ -921,7 +954,7 @@
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
         <div class="min-height-table"style="min-height: 420px;">
-          <!-- <div class="dropdown show"><p class="text-primary p15 pb5 pt0">List of Top URLs of <a class=" dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" id="blogbloggermenu1" role="button">Blogs</a> of Past <b>Week</b></p>
+          <!-- <div class="dropdown show"><p class="text-primary p15 pb5 pt0">List of Top URLs of <a class=" dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" id="blogbloggermenu1" role="button">Blogs</a> for Past <b>Week</b></p>
             <div class="dropdown-menu" aria-labelledby="blogbloggermenu1">
                <a class="dropdown-item" href="#">Action</a>
                <a class="dropdown-item" href="#">Another action</a>
@@ -929,7 +962,7 @@
              </div>
           </div> -->
 
-<div class="dropdown show text-primary p15 pb20 pt0">List of Top URLs of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select>
+<div class="dropdown show text-primary p15 pb20 pt0">List of Top URLs of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> for Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select>
 
  
 
@@ -3297,6 +3330,14 @@ $(".option-only").on("change",function(e){
 	$("#single_date").val(valu);
 	$('form#customformsingle').submit();
 });
+
+$(".filtersort2").on("change",function(e){
+	var valu =  $(this).val();
+	$("#single_date").val(valu);
+	$('form#customformsingle').submit();
+});
+
+
 
 $(".option-only").on("click",function(e){
 	console.log("only Click ");
