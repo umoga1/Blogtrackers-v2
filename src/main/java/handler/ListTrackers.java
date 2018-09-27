@@ -29,7 +29,7 @@ import org.json.JSONArray;
  * @author Adewale
  * 
  */
-@WebServlet("api/list")
+@WebServlet("/api/list")
 public class ListTrackers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -102,6 +102,9 @@ public class ListTrackers extends HttpServlet {
 			}catch(Exception ex) {
 				pww.write("invalid request");
 			}
+			
+		}else {
+			System.out.println("you are here");
 		}
 
 	}
