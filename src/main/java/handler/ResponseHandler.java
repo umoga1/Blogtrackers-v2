@@ -72,7 +72,7 @@ public class ResponseHandler extends HttpServlet {
 			{
 				showError(pww,"301", "authentication required");		
 			}else {
-				this.getTrackers(pww);
+				this.list(pww);
 			}
 		}
 		else if(action.equals("add")){			
@@ -80,7 +80,7 @@ public class ResponseHandler extends HttpServlet {
 			{
 				showError(pww,"301", "authentication required");		
 			}else {
-				this.getTrackers(pww);
+				this.list(pww);
 			}
 		}
 		else if(action.equals("login")){			
@@ -88,7 +88,7 @@ public class ResponseHandler extends HttpServlet {
 			{
 				showError(pww,"301", "authentication required");		
 			}else {
-				this.getTrackers(pww);
+				this.list(pww);
 			}
 		}
 		else{		
@@ -110,7 +110,7 @@ public class ResponseHandler extends HttpServlet {
 	}
 	
 	
-	private void getTrackers(PrintWriter pww) {
+	private void list(PrintWriter pww) {
 		Trackers tracker = new Trackers();
 		try {
 			ArrayList trackers = tracker._list("DESC", "", this.user, "100");
@@ -137,8 +137,15 @@ public class ResponseHandler extends HttpServlet {
 		}catch(Exception ex) {
 			showError(pww,"404", "not found");
 		}
-		
-		
+	}	
+	private void add(PrintWriter pww) {
+		HttpServletResponse  httpServletResponse = null;
+		httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+		httpServletResponse.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token, X-Csrf-Token, WWW-Authenticate, Authorization");
+		httpServletResponse.setHeader("Access-Control-Allow-Credentials", "false");
+		httpServletResponse.setHeader("Access-Control-Max-Age", "3600");	
+		pww.write("hello");
 	}
 	
 	private void showError(PrintWriter pww, String code, String message) {
