@@ -404,8 +404,8 @@ if(results.size()>0){
 	<input type="hidden" id="term" name="term" value="<%=term%>" />
  </form>
 <form action="" name="sortform" id="sortform" method="post">
-<input type="hidden" name="term" value="<%=term %>" />
-<input type="hidden" name="sortby" id="sortby" value="date" />
+	<input type="hidden" name="term" value="<%=term %>" />
+	<input type="hidden" name="sortby" id="sortby" value="date" />
 </form>
 
 
