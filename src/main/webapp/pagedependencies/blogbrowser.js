@@ -314,7 +314,10 @@ if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 		looper++;
 		trackscount++;
 		var blgs = $(".blogselection");
-		$(".total_selected").text(blgs.length);
+		//$(".total_selected").text(blgs.length);
+		console.log("total here:"+blgs.length);
+		$(".total_selected").text(trackscount);
+		$('#trackscount').html(trackscount);
 };
 
 
@@ -323,7 +326,7 @@ if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 
 // add an ajax to add blog to tracker
 
-$('#trackscount').html(trackscount);
+//$('#trackscount').html(trackscount);
 $('.tracksection').removeClass("hidden");
 $('.tracksection').show();
 }
@@ -347,7 +350,7 @@ removeBlog(this);
 trackscount--;
 
 
-$('#trackscount').html(trackscount);
+//$('#trackscount').html(trackscount);
 $('.tracksection').show();
 if(trackscount == 0)
 {

@@ -68,6 +68,7 @@ if(userpic.indexOf("http")>-1){
 
 Blogposts post  = new Blogposts();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString().replaceAll("[^a-zA-Z]", " ");
+
 String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
 ArrayList results = null;
@@ -428,7 +429,7 @@ if(results.size()>0){
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
 
-<script src="pagedependencies/blogbrowser.js?v=28999">
+<script src="pagedependencies/blogbrowser.js?v=2999">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 

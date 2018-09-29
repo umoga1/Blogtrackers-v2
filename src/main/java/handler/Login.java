@@ -29,7 +29,7 @@ import org.json.JSONArray;
  * @author Adewale
  * 
  */
-@WebServlet("api/login")
+@WebServlet("/api/login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -66,16 +66,19 @@ public class Login extends HttpServlet {
 		if(!uid.equals("") && !hash.equals("")){
 			DbConnection dbinstance = new DbConnection();
 			String sessionkey =dbinstance.md5Funct(Math.random()+"");
-			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where Username = '"+uid+"' AND Password = '"+hash+"'");		
+			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where Username = '"+uid+"' AND MessageDigest = '"+hash+"'");		
 			if(login.size()>0)
 			{		  		
 				HttpSession session = request.getSession();
 				ArrayList userinfo = (ArrayList<?>)login.get(0);
 				String user = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+				
 				session.setAttribute("key",sessionkey);
+				System.out.println(request.getAttribute("key"));
 				session.setAttribute(sessionkey,user);
+				System.out.println(sessionkey);
 				JSONObject resp = new JSONObject();
-				resp.put("key",this.user);
+				resp.put("key",user);
 				response.setStatus(200);
 				pww.write(resp.toString());		
 			}else {

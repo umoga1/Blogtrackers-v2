@@ -29,7 +29,7 @@ import org.json.JSONArray;
  * @author Adewale
  * 
  */
-@WebServlet("api/add")
+@WebServlet("/api/add")
 public class AddTracker extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

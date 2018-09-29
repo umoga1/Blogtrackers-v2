@@ -67,14 +67,31 @@ public class ResponseHandler extends HttpServlet {
 				response.setStatus(200);
 				pww.write("success");		
 			}
-		}else if(action.equals("gettrackers")){			
+		}else if(action.equals("list")){			
 			if(!this.validateRequest(username,pass))
 			{
 				showError(pww,"301", "authentication required");		
 			}else {
-				this.getTrackers(pww);
+				this.list(pww);
 			}
-		}else{		
+		}
+		else if(action.equals("add")){			
+			if(!this.validateRequest(username,pass))
+			{
+				showError(pww,"301", "authentication required");		
+			}else {
+				this.list(pww);
+			}
+		}
+		else if(action.equals("login")){			
+			if(!this.validateRequest(username,pass))
+			{
+				showError(pww,"301", "authentication required");		
+			}else {
+				this.list(pww);
+			}
+		}
+		else{		
 			showError(pww,"401", "invalid request ");	
 		}
 	
@@ -93,7 +110,7 @@ public class ResponseHandler extends HttpServlet {
 	}
 	
 	
-	private void getTrackers(PrintWriter pww) {
+	private void list(PrintWriter pww) {
 		Trackers tracker = new Trackers();
 		try {
 			ArrayList trackers = tracker._list("DESC", "", this.user, "100");
@@ -120,8 +137,15 @@ public class ResponseHandler extends HttpServlet {
 		}catch(Exception ex) {
 			showError(pww,"404", "not found");
 		}
-		
-		
+	}	
+	private void add(PrintWriter pww) {
+		HttpServletResponse  httpServletResponse = null;
+		httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+		httpServletResponse.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token, X-Csrf-Token, WWW-Authenticate, Authorization");
+		httpServletResponse.setHeader("Access-Control-Allow-Credentials", "false");
+		httpServletResponse.setHeader("Access-Control-Max-Age", "3600");	
+		pww.write("hello");
 	}
 	
 	private void showError(PrintWriter pww, String code, String message) {
@@ -143,35 +167,6 @@ public class ResponseHandler extends HttpServlet {
 
 
 	}
-	private String mergeArrays(String[] arr1, String[] arr2){
-		String bracketed_result = "";
-		String[] merged = new String[arr1.length + arr2.length];
-	    System.arraycopy(arr1, 0, merged, 0, arr1.length);
-	    System.arraycopy(arr2, 0, merged, arr1.length, arr2.length);
 	
-	    Set<String> nodupes = new HashSet<String>();
-	
-	    for(int i=0;i<merged.length;i++){
-	        nodupes.add(merged[i]);
-	        bracketed_result+=merged[i].trim()+",";
-	    }
-	
-	    String[] nodupesarray = new String[nodupes.size()];
-	    int i = 0;
-	    Iterator<String> it = nodupes.iterator();
-	    while(it.hasNext()){
-	        nodupesarray[i] = it.next();
-	        
-	        i++;
-	    }
-	
-		    return bracketed_result.replaceAll(",$", "");
-	}
-	
-	private String getDateTime() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = new Date();
-		return dateFormat.format(date);
-	}
 	
 }

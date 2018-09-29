@@ -320,43 +320,31 @@ if(f.exists() && !f.isDirectory()) {
 	 </form> -->
 	 
 	</div>
-	<!-- <table id="bloglist" style="width:100%">
-		<thead>
-		<tr>
-		<th class="text-primary">Blog Name</th>
-		<th class="text-primary">No of Post</th>
-		<th class="text-primary">Last Crawl</th>
-		<td></td>
-		</tr>
-		</thead>
-		<tbody>
-		<tr>
-		<td>gdgfdhsfghdsf</td>
-		<td>457</td>
-		<td>hdsuaydusad</td>
-		<td></td>
-		</tr>
-		<tr>
-		<td>yeuyuryeurer</td>
-		<td>453</td>
-		<td>ueywehghds</td>
-		<td></td>
-		</tr>
-		</tbody>
-	</table>  -->
-		
+	
 	<div class="col-md-12 mt10 mb50">
-		<table cellpadding="4" id="bloglist" style="width:100%">
-		<thead>
-		<tr>
-		<th class="text-primary">Blog Name</th>
-		<th class="text-primary text-center">No of Post</th>
-		<th class="text-primary text-center">Last Crawl</th>
-		<th></th>
-		</tr>
-		</thead>
-		<tbody>		
-		<!-- <div id="bloglist"> -->
+
+			
+
+		
+		<div class="form-control btn styleallblog selectallblog text-left text-primary">
+		<!-- <div class="checkblogleft">
+		<i class="navbar-brand text-primary icontrackersize checkuncheckallblog uncheckallblog cursor-pointer" data-toggle="tooltip" data-placement="top" title="Select All Blog"></i>
+		
+		</div> -->
+		<!-- id="totalblogcount" count the number of blogs for the tracker  -->
+		
+		<!-- <div class="selectsets">
+		 <select class="form-control sortby text-primary">
+		 <option>Recent</option>
+		
+		 </select>
+		</div> -->
+		<p class="blogname mb0">Blog Name</p>
+		<p class="noofposts mb0">No of Posts</p>
+		<p class="lastestcrawl mb0">Last Crawl</p>
+		</div>
+		
+		<div id="bloglist">
 		<% if (allblogs.size() > 0) {
 			for (int k = 0; k < blogs.size(); k++) {				
 				bobj = new JSONObject(bresu);			
@@ -372,18 +360,33 @@ if(f.exists() && !f.isDirectory()) {
 				}
 				
 		%>							
-		
+			<div class="form-control btn generalstyle btndefaultlook edittrackerblogindividual text-left text-primary nocursor">
+			<%-- 
+			<div class="checkblogleft">
+			<i class="navbar-brand text-primary icontrackersize checkuncheckblog cursor-pointer uncheckblog" id="<%=ob.get("blogsite_id").toString()%>_select" data-toggle="tooltip" data-placement="top" title="Select Blog"></i>
+			</div> 
+			--%>
+			<p class="float-left mb0 eachblogname"><%=ob.get("blogsite_name").toString()%></p>
+			<div class="iconsetblogs">
+			<!-- <i class="text-primary icontrackersize cursor-pointer trackblogindividual trackbloggrey float-right" data-toggle="tooltip" data-placement="top" title="Track Blog"></i> -->
 			
-			<tr>
-			<td><%=ob.get("blogsite_name").toString()%></td>
-			<td class="text-center"><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(ob.get("totalposts").toString())) %></td>
-			<td class="text-center"><%=dc%></td>
-			<td><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" id="<%=ob.get("blogsite_id").toString()%>_select" data-placement="top" title="Delete Blog"></i></td>
-			</tr>
+			<i class="text-primary icontrackersize cursor-pointer deleteblog float-right" data-toggle="tooltip" id="<%=ob.get("blogsite_id").toString()%>_select" data-placement="top" title="Delete Blog"></i>
+			<%-- <div class="setoficons makeinvisible">
+			<a href="<%=request.getContextPath()%>/analytics.jsp?bid=<%=ob.get("blogsite_id").toString()%>"><i class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i></a>
+			<i class="text-primary icontrackersize cursor-pointer refreshblog" data-toggle="tooltip" data-action="reload" data-placement="top" title="Refresh Blog"></i>
+			<i class="text-primary icontrackersize cursor-pointer deleteblog" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i>
+			</div> --%>
+				</div>
+				
+				<p class="mb0 float-right blogdateingroup"><%=dc%><!-- 2 years ago --></p>
+				<p class="mb0 float-right postcount"><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(ob.get("totalposts").toString())) %></p>
+				
+			</div>
 		<% }} %>
-		</tbody>
 		
-		</table>
+		
+		</div>
+		
 		</div>
 
 </div>
@@ -419,36 +422,7 @@ if(f.exists() && !f.isDirectory()) {
 
  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
-
 </script>
-<script type="text/javascript"
-		src="assets/vendors/DataTables/datatables.min.js"></script>
-		<script type="text/javascript"
-		src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
-	<script
-		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
-	<script
-		src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
-	<script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
-	<script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
-	<script
-		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
-	<script
-		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
-		<!-- Table cofiguration   -->
-		<script type="text/javascript">
-		$(document).ready(function() {
-		    $('#bloglist').DataTable({
-		    "paging":false,
-		    "bInfo" : false,
-		    "searching": false,
-		    "columnDefs": [ {
-		    	"targets": 3,
-		    	"orderable": false
-		    	} ]
-		    });
-		} );
-		</script>
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
 <script src="assets/js/generic.js">
