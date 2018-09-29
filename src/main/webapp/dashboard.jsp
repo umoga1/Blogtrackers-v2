@@ -223,17 +223,35 @@
 					String link = bj.get("link").toString();
 					
 					JSONObject content = new JSONObject();
-					if (outerlinks.has(link)) {
-						content = new JSONObject(outerlinks.get(link).toString());
-						int valu = Integer.parseInt(content.get("value").toString())+1;
+					String maindomain="";
+					try {
+						URI uri = new URI(link);
+						String domain = uri.getHost();
+						if (domain.startsWith("www.")) {
+							maindomain = domain.substring(4);
+						} else {
+							maindomain = domain;
+						}
+					} catch (Exception ex) {}
+
+					
+					if (outerlinks.has(maindomain)) {
+						content = new JSONObject(outerlinks.get(maindomain).toString());
+						
+						int valu = Integer.parseInt(content.get("value").toString());
+						valu++;
+						
 						content.put("value", valu);
 						content.put("link", link);
-						outerlinks.put(link, content);
+						content.put("domain", maindomain);
+						outerlinks.put(maindomain, content);
 					} else {
-						content.put("value", 1);
+						int valu = 1;
+						content.put("value", valu);
 						content.put("link", link);
-						outerlinks.put(link, content);
-						outlinklooper.add(mm, link);
+						content.put("domain", maindomain);
+						outerlinks.put(maindomain, content);
+						outlinklooper.add(mm, maindomain);
 						mm++;
 					}				
 				
@@ -363,6 +381,8 @@
 <!-- <script src="assets/js/jquery-3.2.1.slim.min.js"></script>-->
 <script src="assets/js/popper.min.js"></script>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
+
+  <script src="pagedependencies/baseurl.js"></script>
 </head>
 <body>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
@@ -865,14 +885,14 @@
 						<div style="min-height: 420px;">
 							<div>
 								<p class="text-primary p15 pb5 pt0">
-									List of Top <select
+									List of Top <select id="top-listtype" 
 										class="text-primary filtersort sortbydomainsrls"><option
 											value="domains">Domains</option>
-										<option value="urls">URLs</option></select> of <select
-										class="text-primary filtersort sortbyblogblogger"><option
+										<option value="urls">URLs</option></select> of <select id="top-sorttype"
+										class="text-primary filtersort sortbyblogblogger" ><option
 											value="blogs">Blogs</option>
 										<option value="bloggers">Bloggers</option></select> of Past <select
-										class="text-primary filtersort sortbytimerange"><option
+										class="text-primary filtersort sortbytimerange" id="top-sortdate" ><option
 											value="week">Week</option>
 										<option value="month">Month</option>
 										<option value="year">Year</option></select>
@@ -890,22 +910,22 @@
 
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="top-domain-box">
 								
 									<%
-										if (outerlinks.length() > 0) {
+										if (outlinklooper.size() > 0) {
 													//System.out.println(bloggers);
-													for (int y = 0; y < outerlinks.length(); y++) {
+													for (int y = 0; y < outlinklooper.size(); y++) {
 														String key = outlinklooper.get(y).toString();
 														JSONObject resu = outerlinks.getJSONObject(key);
 									%>
 									<tr>
-										<td class=""><%=resu.get("link")%></td>
+										<td class=""><%=resu.get("domain")%></td>
 										<td><%=resu.get("value")%></td>
 									</tr>
 									<%
 										}
-}
+									}
 									%>
 
 								</tbody>
@@ -976,7 +996,7 @@
 
 	<form action="" name="customformsingle" id="customformsingle"
 		method="post">
-		<input type="hidden" name="tid" value="<%=tid%>" /> <input
+		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" /> <input
 			type="hidden" name="single_date" id="single_date" value="" />
 	</form>
 
@@ -3537,6 +3557,48 @@ $(".option-lable").on("click",function(e){
              .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
 
  </script>
+ <script>
+
+	
+ $(document).ready(function() {
+		$('#top-sorttype').on("change",function(e){	
+			loadDomain();
+		});
+		
+		$('#top-sortdate').on("change",function(e){
+			loadDomain();
+		});
+		
+		$('#top-listtype').on("change",function(e){
+			loadDomain();		
+		});
+	});
+ 
+ function loadDomain(){
+	 $("#top-domain-box").html('<tr><td colspan="2"><div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div></td></tr>');
+		
+		$.ajax({
+			url: app_url+'subpages/topdomain.jsp',
+			method: 'POST',
+			data: {
+				tid:$("#alltid").val(),
+				sortby:$("#top-sorttype").val(),
+				sortdate:$("#top-sortdate").val(),
+				listtype:$("#top-listtype").val(),
+			},
+			error: function(response)
+			{						
+				console.log(response);		
+			},
+			success: function(response)
+			{   
+				$("#top-domain-box").html(response);
+			}
+		});
+	}
+ </script>
+ <!-- <script src="pagedependencies/dashboard.js?v=09"></script> -->
+ 
 </body>
 </html>
 
