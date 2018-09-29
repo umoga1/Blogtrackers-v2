@@ -128,7 +128,7 @@
 							maindomain = domain;
 						}
 					} catch (Exception ex) {}
-
+					maindomain = bj.get("domain").toString();
 					if(listtype.equals("urls")){
 						if (outerlinks.has(link)) {
 							content = new JSONObject(outerlinks.get(link).toString());
@@ -187,7 +187,7 @@
 									<% if(listtype.equals("urls")){ %>
 										<td class=""><%=resu.get("link")%></td>
 									<% }else{ %>
-										<td class=""><%=resu.get("domain")%></td>
+										<td class=""><%=resu.get("domain")%> </td>
 									<% } %>
 										<td><%=resu.get("value")%></td>
 									</tr>
