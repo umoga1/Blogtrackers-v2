@@ -71,7 +71,7 @@ public class Blogposts {
 
 	
 	public ArrayList _getBloggerByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=10";
+		String url = base_url+"_search?size=100";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -172,7 +172,7 @@ public class Blogposts {
 	
 	/* Fetch posts by blog ids*/
 	public String _getTotalByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=10";
+		String url = base_url+"_search?size=1";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		for(int i=0; i<args.length; i++){

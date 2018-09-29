@@ -177,7 +177,69 @@
 			
 			ArrayList blogs = blog._fetch(ids);
 			int totalblog = blogs.size();
-			//pimage = pimage.replace("build/", "");
+			
+			ArrayList allauthors = new ArrayList();
+			if(!ids.equals("")){
+				allauthors=post._getBloggerByBlogId(ids,"");
+			}
+
+			
+		  
+		    JSONObject authors = new JSONObject();
+		    
+		    JSONArray authorcount = new JSONArray();
+		    JSONObject graphyears = new JSONObject();
+		    JSONArray yearsarray = new JSONArray();
+
+			ArrayList authorlooper = new ArrayList();
+			if(allauthors.size()>0){
+				String tres = null;
+				JSONObject tresp = null;
+				String tresu = null;
+				JSONObject tobj = null;
+				int j=0;
+				int k=0;
+			for(int i=0; i< allauthors.size(); i++){
+						tres = allauthors.get(i).toString();			
+						tresp = new JSONObject(tres);
+					    tresu = tresp.get("_source").toString();
+					    tobj = new JSONObject(tresu);
+					    
+					    String auth = tobj.get("blogger").toString();
+					    Double influence =  Double.parseDouble(tobj.get("influence_score").toString());
+					  	JSONObject content = new JSONObject();
+					   
+					  	String[] dateyear=tobj.get("date").toString().split("-");
+					    String yy= dateyear[0];
+					    
+					   if(!graphyears.has(yy)){
+						   String dt = yy + "-01-01";
+						   String dte = yy + "-12-31";
+						   
+						   String totu = post._searchRangeTotal("date",dt, dte,ids);
+						   graphyears.put(yy,totu);
+				    	    //graphyears.put(yy,4);
+				    	   yearsarray.put(k,yy);							    	
+				    		k++;
+				    	}
+					   
+					    if(authors.has(auth)){
+							content = new JSONObject(authors.get(auth).toString());
+							Double inf = Double.parseDouble(content.get("influence").toString());
+							inf = inf+influence;
+							content.put("blogger", auth);
+							content.put("influence", inf);
+							authors.put(auth, content);
+						} else {
+							content.put("blogger", auth);
+							content.put("influence", influence);
+							authors.put(auth, content);
+							authorlooper.add(j,auth);
+							j++;
+						}
+				}
+			System.out.println("Authors here:"+graphyears);
+			} 
 
 			JSONObject sentimentblog = new JSONObject();
 			if (sentiments.size() > 0) {
@@ -281,6 +343,7 @@
 					String lang = bobj.get("language").toString();
 					String blogger = bobj.get("blogsite_owner").toString();
 					String blogname = bobj.get("blogsite_name").toString();
+					
 					String sentiment = "1";// bobj.get("sentiment").toString();
 					String posting = bobj.get("totalposts").toString();
 
@@ -1580,25 +1643,21 @@ $(function () {
       // // ------------------------------
       //
       //
-      //
+      //sort by influence score
       data = [
-    	  <%if (bloggers.length() > 0) {
-						//System.out.println(bloggers);
-						int q = 0;
-						for (int y = 0; y < bloggers.length(); y++) {
-							String key = looper.get(y).toString();
-							JSONObject resu = bloggers.getJSONObject(key);
-							String id = resu.get("id").toString();
-
-							int size = Integer.parseInt(resu.get("totalposts").toString());
-							if (sentimentblog.has(id) && q < 10) {
-								q++;%>
-			{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-			 <%}
-						}
-					}%>
-            //{letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},
-            
+    	  <% if (authors.length() > 0) {
+				int p = 0;
+				//System.out.println(bloggers);
+				for (int y = 0; y < authors.length(); y++) {
+					String key = authorlooper.get(y).toString();
+					JSONObject resu = authors.getJSONObject(key);
+					Double size = Double.parseDouble(resu.get("influence").toString());
+					if (p < 10) {
+						p++;%>
+		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+		 <%}
+				}
+			}%>    
         ];
       //
       //
@@ -3137,10 +3196,20 @@ $(".option-lable").on("click",function(e){
          // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
          // ];
 
-         data = [
+         data = [	
+        	[<% for(int q=0; q<yearsarray.length(); q++){ 
+     		  		String yer=yearsarray.get(q).toString(); 
+     		  		int vlue = Integer.parseInt(graphyears.get(yer).toString());
+     		  %>
+     		  			{"date":"<%=yer%>","close":<%=vlue%>},
+     		<% } %>
+     		]
+     	  
+        	 /*
            [{"date":"2014","close":400},{"date":"2015","close":600},{"date":"2016","close":1300},{"date":"2017","close":1700},{"date":"2018","close":2100}],
            [{"date":"2014","close":350},{"date":"2015","close":700},{"date":"2016","close":1500},{"date":"2017","close":1600},{"date":"2018","close":1250}],
-         ];
+         	*/
+           ];
 
          //console.log(data);
          // data = [];

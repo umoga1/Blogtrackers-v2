@@ -378,7 +378,7 @@ if(!ids.equals("")){
 			   // System.out.println(authoryears);
 			    }} 
 	//System.out.println(authoryears);
-    System.out.println(yearsarray);
+   // System.out.println(yearsarray);
     %>
     <!--  
     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
