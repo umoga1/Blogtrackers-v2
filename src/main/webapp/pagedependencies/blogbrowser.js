@@ -4,8 +4,10 @@ var looper = 0;
 $(document).ready(function() {
 
 	// tracking blogcount
-	var trackscount = 0;
+	
 	// tracker selected count
+	var blgs = $(".blogselection");
+	var trackscount = blgs.length;
 	var trackerselectedcount = 0;
 	
 //  show tooltip
@@ -275,7 +277,6 @@ if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 	trackingblog=true;
 }
 
-var blgs = $(".blogselection");
 //trackingblog = $(this).hasClass("text-success");
 if(!trackingblog)
 {
@@ -314,9 +315,8 @@ if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 		$(".blog_id_"+blog_id).addClass("text-success");
 		looper++;
 		trackscount++;
-		
-		//$(".total_selected").text(blgs.length);
-		console.log("total here:"+blgs.length);
+		console.log("total here"+);
+		var blgs = $(".blogselection"+blgs.length);
 		$(".total_selected").text(blgs.length);
 };
 
@@ -326,7 +326,7 @@ if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 
 // add an ajax to add blog to tracker
 
-$('#trackscount').html(blgs.length);
+$('#trackscount').html(trackscount);
 $('.tracksection').removeClass("hidden");
 $('.tracksection').show();
 }
@@ -349,9 +349,8 @@ console.log("Removed blog to be tracked");
 removeBlog(this);
 trackscount--;
 
-$('#trackscount').html(blgs.length);
 
-//$('#trackscount').html(trackscount);
+$('#trackscount').html(trackscount);
 $('.tracksection').show();
 if(trackscount == 0)
 {
