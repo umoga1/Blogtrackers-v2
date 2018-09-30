@@ -22,7 +22,7 @@
 		
 	
 	JSONObject bloggers = new JSONObject(bloggersstr);
-	System.out.println("bloggers here "+bloggersstr);
+	//System.out.println("bloggers here "+bloggersstr);
 %>
 			
 <div class="chart" id="postingfrequencybar"></div>
