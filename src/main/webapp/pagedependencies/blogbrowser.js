@@ -315,8 +315,9 @@ if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 		$(".blog_id_"+blog_id).addClass("text-success");
 		looper++;
 		trackscount++;
-		console.log("total here"+);
-		var blgs = $(".blogselection"+blgs.length);
+		
+		var blgs = $(".blogselection");
+		console.log("total here"+blgs.length);
 		$(".total_selected").text(blgs.length);
 };
 
