@@ -2851,7 +2851,7 @@ data = {
 				int size = Integer.parseInt(resu.get("totalposts").toString());
 				if (size > 0 && k < 15) {
 					k++;%>
-{"label":"<%=resu.get("blog")%>","name":"<%=resu.get("blogger")%>", "size":<%=resu.get("value")%>},
+{"label":"<%=resu.get("blogger")%>","name":"<%=resu.get("blog")%>", "size":<%=resu.get("value")%>},
 <%}
 			}
 		}%>
