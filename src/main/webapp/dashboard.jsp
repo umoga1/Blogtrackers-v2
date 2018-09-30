@@ -238,7 +238,7 @@
 							j++;
 						}
 				}
-			System.out.println("Authors here:"+graphyears);
+			//System.out.println("Authors here:"+graphyears);
 			} 
 
 			JSONObject sentimentblog = new JSONObject();
@@ -884,14 +884,14 @@
 								<select id="swapBlogger" class="text-primary filtersort sortbyblogblogger">
 									<option value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select> of Past <select
-									class="text-primary filtersort sortbytimerange"><option
+									class="text-primary filtersort sortbytimerange" id="active-sortdate"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
 									<option value="year">Year</option></select>
 						</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
-							<div class="chart-container">
+							<div class="chart-container" id="postingfrequencycontainer">
 								<div class="chart" id="postingfrequencybar"></div>
 							</div>
 							
@@ -1067,6 +1067,26 @@
 		<input type="hidden" name="tid" value="<%=tid%>" /> <input
 			type="hidden" name="date_start" id="date_start" value="" /> <input
 			type="hidden" name="date_end" id="date_end" value="" />
+			<textarea style="display:none" name="blogs" id="blogs" >
+			 <% if (bloggers.length() > 0) {
+						int p = 0;
+						for (int y = 0; y < bloggers.length(); y++) {
+							String key = looper.get(y).toString();
+							JSONObject resu = bloggers.getJSONObject(key);
+							int size = Integer.parseInt(resu.get("postingfreq").toString());
+							if (size > 0 && p < 15) {
+								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
+    			 <%}}}%>
+			</textarea>
+			<textarea style="display:none" name="bloggers" id="bloggers" ><%if (bloggers.length() > 0) {
+			int k = 0;for (int y = 0; y < bloggers.length(); y++) {
+				String key = looper.get(y).toString();
+				JSONObject resu = bloggers.getJSONObject(key);
+				int size = Integer.parseInt(resu.get("value").toString());
+				if (size > 0 && k < 15) {
+					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+<%}}}%></textarea>
+			</form>
 	</form>
 
 	<!-- <footer class="footer">
@@ -2110,6 +2130,7 @@ $(function () {
         }
     }
 });
+
 </script>
 	<!-- end of posting frequency  -->
 	<!--  Start of sentiment Bar Chart -->
@@ -3641,7 +3662,44 @@ $(".option-lable").on("click",function(e){
 		$('#top-listtype').on("change",function(e){
 			loadDomain();		
 		});
+		
+		$('#swapBlogger').on("change",function(e){
+				
+			console.log("blogger busta");
+			var type = $('#swapBlogger').val();
+			var blgss = $("#bloggers").val();
+			if(type=="blogs"){
+				blgss = $("#blogs").val();
+			}else{
+				blgss = $("#bloggers").val();
+			}
+			
+			console.log("type"+type);
+			$("#postingfrequencybar").html('<div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div>');
+			console.log(blgss);
+			$.ajax({
+				url: app_url+'subpages/postingfrequencybar.jsp',
+				method: 'POST',
+				data: {
+					tid:$("#alltid").val(),
+					sortby:$('#swapBlogger').val(),
+					sortdate:$("#active-sortdate").val(),
+					bloggers:blgss,
+				},
+				error: function(response)
+				{						
+					console.log(response);		
+				},
+				success: function(response)
+				{   
+					$("#postingfrequencycontainer").html(response);
+				}
+			});
+			
+		});
 	});
+
+ 
  
  function loadDomain(){
 	 $("#top-domain-box").html('<tr><td colspan="2"><div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div></td></tr>');
