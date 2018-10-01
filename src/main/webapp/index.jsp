@@ -245,7 +245,14 @@ try{
 </div>
 </div>
 
-<div class="" style="min-height:300px;">
+<div class="container bggreyhome mt30 mb50" id="featuresection">
+<div class="offset-md-2 col-md-8">
+<h3 class="whyfont text-primary text-center pt30">Why Blogtrackers?</h3>
+<p class="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to track and analyze blogs of particular interests by designing and integrating unique features. </p>
+</div>
+<div>
+
+</div>
 
 </div>
 
