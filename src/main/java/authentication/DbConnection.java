@@ -77,7 +77,8 @@ public class DbConnection {
 					Class.forName(driver);	//com.mysql.jdbc.Driver	
 					//load the connection driver
 				}catch(ClassNotFoundException ex) {									//since this class can throw ClassNotFoundException so we are catching it
-					ex.printStackTrace();											//if there is an exception, give us a stacktrace of it
+					ex.printStackTrace();
+					System.out.println("Encounter error while connecting to the database");//if there is an exception, give us a stacktrace of it
 				}
 			}
 			Connection conn = DriverManager.getConnection(connectionURL, username, password);  //create an instance of the connection using the JDBC driver

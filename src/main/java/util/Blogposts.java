@@ -22,8 +22,8 @@ public class Blogposts {
 
 	HashMap<String, String> hm = DbConnection.loadConstant();		
 
-	//String base_url = hm.get("elasticIndex")+"blogposts/";
-	String base_url = hm.get("elasticIndex")+"blogposts/";
+//	String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
+	String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
 	
 	String totalpost;		    
 
@@ -172,7 +172,7 @@ public class Blogposts {
 	
 	/* Fetch posts by blog ids*/
 	public String _getTotalByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=10";
+		String url = base_url+"_search?size=1";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		for(int i=0; i<args.length; i++){
@@ -393,7 +393,7 @@ public class Blogposts {
 	    
 	    while ((inputLine = in.readLine()) != null) {
 	     	response.append(inputLine);
-	     	System.out.println(inputLine);
+	     	//System.out.println(inputLine);
 	     	
 	     }
 	     in.close();

@@ -21,6 +21,9 @@ import util.Trackers;
 
 import java.util.*;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 /**
  * 
  * Servlet implementation class Login
@@ -30,11 +33,14 @@ import java.util.*;
 @WebServlet("/request")
 public class ResponseHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
+	String user;	    
+	   
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public ResponseHandler() {
+		
 		super();
 	}
 
@@ -43,14 +49,13 @@ public class ResponseHandler extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {           
 
-		String username = request.getParameter("email").trim();
-		String pass = request.getParameter("password").trim();
-		String submitted = request.getParameter("madeRequest");
+		String username = (null==request.getParameter("email"))?"":request.getParameter("email").trim();
+		String pass = (null==request.getParameter("password"))?"":request.getParameter("password").trim();
+		String action = (null==request.getParameter("action"))?"":request.getParameter("action").trim();
 		
 		PrintWriter pww = response.getWriter();
-		{			
-			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+username+"' AND Password = '"+pass+"'");
-			
+		if(action.equals("login")){			
+			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+username+"' AND Password = '"+pass+"'");		
 			if(login.size()>0)
 			{
 			  		
@@ -62,17 +67,93 @@ public class ResponseHandler extends HttpServlet {
 				response.setStatus(200);
 				pww.write("success");		
 			}
+		}else if(action.equals("list")){			
+			if(!this.validateRequest(username,pass))
+			{
+				showError(pww,"301", "authentication required");		
+			}else {
+				this.list(pww);
+			}
+		}
+		else if(action.equals("add")){			
+			if(!this.validateRequest(username,pass))
+			{
+				showError(pww,"301", "authentication required");		
+			}else {
+				this.list(pww);
+			}
+		}
+		else if(action.equals("login")){			
+			if(!this.validateRequest(username,pass))
+			{
+				showError(pww,"301", "authentication required");		
+			}else {
+				this.list(pww);
+			}
+		}
+		else{		
+			showError(pww,"401", "invalid request ");	
 		}
 	
 	}
 	
-	public ArrayList getTrackers() {
-		ArrayList trackerlist = new ArrayList();
+	private boolean validateRequest(String username, String password) {
+		ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+username+"' AND Password = '"+password+"'");		
+		if(login.size()>0)
+		{
+			ArrayList userinfo = (ArrayList<?>)login.get(0);
+			String user = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+			this.user = user;
+			return true;
+		}
+		return false;
+	}
+	
+	
+	private void list(PrintWriter pww) {
+		Trackers tracker = new Trackers();
 		try {
-			trackerlist = new DbConnection().query("select * from trackers where userid = ? ");				
-		} catch (Exception ex) {}
+			ArrayList trackers = tracker._list("DESC", "", this.user, "100");
+			JSONObject resp = new JSONObject();
+			resp.put("User_id",this.user);
+			JSONArray trackerjson= new JSONArray();
+			if(trackers.size()>0){
+				for (int i = 0; i < trackers.size(); i++) {
+				ArrayList resut = (ArrayList)trackers.get(i);
+				String trackerid = resut.get(0).toString();
+				String trackername = resut.get(2).toString();
+				JSONObject detail = new JSONObject();
+	
+				detail.put("tid",trackerid);
+				detail.put("tname",trackername);
+				trackerjson.put(detail);
+				}
+				
+			}
+			
+			resp.put("trackers",trackerjson);
+			pww.write(resp.toString());
 		
-		return trackerlist;
+		}catch(Exception ex) {
+			showError(pww,"404", "not found");
+		}
+	}	
+	private void add(PrintWriter pww) {
+		HttpServletResponse  httpServletResponse = null;
+		httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+		httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+		httpServletResponse.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token, X-Csrf-Token, WWW-Authenticate, Authorization");
+		httpServletResponse.setHeader("Access-Control-Allow-Credentials", "false");
+		httpServletResponse.setHeader("Access-Control-Max-Age", "3600");	
+		pww.write("hello");
+	}
+	
+	private void showError(PrintWriter pww, String code, String message) {
+		JSONObject error = new JSONObject();
+		error.put("status","error");
+		error.put("code",code);
+		error.put("message", message);
+		pww.write(error.toString());
 	}
 
 	//hello there
@@ -86,35 +167,6 @@ public class ResponseHandler extends HttpServlet {
 
 
 	}
-	private String mergeArrays(String[] arr1, String[] arr2){
-		String bracketed_result = "";
-		String[] merged = new String[arr1.length + arr2.length];
-	    System.arraycopy(arr1, 0, merged, 0, arr1.length);
-	    System.arraycopy(arr2, 0, merged, arr1.length, arr2.length);
 	
-	    Set<String> nodupes = new HashSet<String>();
-	
-	    for(int i=0;i<merged.length;i++){
-	        nodupes.add(merged[i]);
-	        bracketed_result+=merged[i].trim()+",";
-	    }
-	
-	    String[] nodupesarray = new String[nodupes.size()];
-	    int i = 0;
-	    Iterator<String> it = nodupes.iterator();
-	    while(it.hasNext()){
-	        nodupesarray[i] = it.next();
-	        
-	        i++;
-	    }
-	
-		    return bracketed_result.replaceAll(",$", "");
-	}
-	
-	private String getDateTime() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = new Date();
-		return dateFormat.format(date);
-	}
 	
 }

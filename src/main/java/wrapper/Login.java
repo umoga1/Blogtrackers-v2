@@ -21,6 +21,7 @@ import authentication.DbConnection;
  * @author Adewale
  * 
  */
+/*  login servlet*/
 @WebServlet("/login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;

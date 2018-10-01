@@ -300,7 +300,7 @@ if(f.exists() && !f.isDirectory()) {
 	
 	<div class="float-left statcontainer">
 	<b class="stattext">0</b>
-	<h6 class="text-primary labeltext">Comments</h6>
+	<h6 class="text-primary labeltext">Bloggers</h6>
 	</div>
 	<input type="hidden" id="teeid" value="<%=tid%>" />
 	</div>

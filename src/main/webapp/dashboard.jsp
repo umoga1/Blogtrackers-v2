@@ -17,6 +17,8 @@
 	Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
+	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
+
 
 	//System.out.println(date_start);
 	if (user == null || user == "") {
@@ -175,7 +177,69 @@
 			
 			ArrayList blogs = blog._fetch(ids);
 			int totalblog = blogs.size();
-			//pimage = pimage.replace("build/", "");
+			
+			ArrayList allauthors = new ArrayList();
+			if(!ids.equals("")){
+				allauthors=post._getBloggerByBlogId(ids,"");
+			}
+
+			
+		  
+		    JSONObject authors = new JSONObject();
+		    
+		    JSONArray authorcount = new JSONArray();
+		    JSONObject graphyears = new JSONObject();
+		    JSONArray yearsarray = new JSONArray();
+
+			ArrayList authorlooper = new ArrayList();
+			if(allauthors.size()>0){
+				String tres = null;
+				JSONObject tresp = null;
+				String tresu = null;
+				JSONObject tobj = null;
+				int j=0;
+				int k=0;
+			for(int i=0; i< allauthors.size(); i++){
+						tres = allauthors.get(i).toString();			
+						tresp = new JSONObject(tres);
+					    tresu = tresp.get("_source").toString();
+					    tobj = new JSONObject(tresu);
+					    
+					    String auth = tobj.get("blogger").toString();
+					    Double influence =  Double.parseDouble(tobj.get("influence_score").toString());
+					  	JSONObject content = new JSONObject();
+					   
+					  	String[] dateyear=tobj.get("date").toString().split("-");
+					    String yy= dateyear[0];
+					    
+					   if(!graphyears.has(yy)){
+						   String dt = yy + "-01-01";
+						   String dte = yy + "-12-31";
+						   
+						   String totu = post._searchRangeTotal("date",dt, dte,ids);
+						   graphyears.put(yy,totu);
+				    	    //graphyears.put(yy,4);
+				    	   yearsarray.put(k,yy);							    	
+				    		k++;
+				    	}
+					   
+					    if(authors.has(auth)){
+							content = new JSONObject(authors.get(auth).toString());
+							Double inf = Double.parseDouble(content.get("influence").toString());
+							inf = inf+influence;
+							content.put("blogger", auth);
+							content.put("influence", inf);
+							authors.put(auth, content);
+						} else {
+							content.put("blogger", auth);
+							content.put("influence", influence);
+							authors.put(auth, content);
+							authorlooper.add(j,auth);
+							j++;
+						}
+				}
+			//System.out.println("Authors here:"+graphyears);
+			} 
 
 			JSONObject sentimentblog = new JSONObject();
 			if (sentiments.size() > 0) {
@@ -221,17 +285,35 @@
 					String link = bj.get("link").toString();
 					
 					JSONObject content = new JSONObject();
-					if (outerlinks.has(link)) {
-						content = new JSONObject(outerlinks.get(link).toString());
-						int valu = Integer.parseInt(content.get("value").toString())+1;
+					String maindomain="";
+					try {
+						URI uri = new URI(link);
+						String domain = uri.getHost();
+						if (domain.startsWith("www.")) {
+							maindomain = domain.substring(4);
+						} else {
+							maindomain = domain;
+						}
+					} catch (Exception ex) {}
+
+					
+					if (outerlinks.has(maindomain)) {
+						content = new JSONObject(outerlinks.get(maindomain).toString());
+						
+						int valu = Integer.parseInt(content.get("value").toString());
+						valu++;
+						
 						content.put("value", valu);
 						content.put("link", link);
-						outerlinks.put(link, content);
+						content.put("domain", maindomain);
+						outerlinks.put(maindomain, content);
 					} else {
-						content.put("value", 1);
+						int valu = 1;
+						content.put("value", valu);
 						content.put("link", link);
-						outerlinks.put(link, content);
-						outlinklooper.add(mm, link);
+						content.put("domain", maindomain);
+						outerlinks.put(maindomain, content);
+						outlinklooper.add(mm, maindomain);
 						mm++;
 					}				
 				
@@ -261,6 +343,7 @@
 					String lang = bobj.get("language").toString();
 					String blogger = bobj.get("blogsite_owner").toString();
 					String blogname = bobj.get("blogsite_name").toString();
+					
 					String sentiment = "1";// bobj.get("sentiment").toString();
 					String posting = bobj.get("totalposts").toString();
 
@@ -361,6 +444,8 @@
 <!-- <script src="assets/js/jquery-3.2.1.slim.min.js"></script>-->
 <script src="assets/js/popper.min.js"></script>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
+
+  <script src="pagedependencies/baseurl.js"></script>
 </head>
 <body>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
@@ -595,11 +680,11 @@
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
-									for Past <select
+									<!-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
-									<option value="year">Year</option></select>
+									<option value="year">Year</option></select> -->
 							</p>
 						</div>
 						<div style="min-height: 490px;">
@@ -615,15 +700,6 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 								Language Usage 
-								<!-- <select
-									class="text-primary filtersort sortbyblogblogger"><option
-										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select>  -->
-									for Past <select
-									class="text-primary filtersort sortbytimerange"><option
-										value="week">Week</option>
-									<option value="month">Month</option>
-									<option value="year">Year</option></select>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -643,11 +719,7 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Posting Frequency for Past <select
-									class="text-primary filtersort sortbytimerange"><option
-										value="week">Week</option>
-									<option value="month">Month</option>
-									<option value="year">Year</option></select>
+								Posting Frequency 
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 300px;">
@@ -657,7 +729,13 @@
 						</div>
 					</div>
 				</div>
-
+<div class="float-right">
+					<a href="postingfrequency.jsp"><button
+							class="btn buttonportfolio2 mt10">
+							<b class="float-left semi-bold-text">Posting Frequency
+								Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b>
+						</button></a>
+				</div>
 
 			</div>
 		</div>
@@ -669,16 +747,7 @@
 						<div>
 							<p class="text-primary mt10">
 								Top Keywords
-								<!-- <select
-									class="text-primary filtersort sortbyblogblogger"><option
-										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select>  -->
-									
-									for Past <select
-									class="text-primary filtersort sortbytimerange"><option
-										value="week">Week</option>
-									<option value="month">Month</option>
-									<option value="year">Year</option></select>
+								
 							</p>
 						</div>
 						<div class="tagcloudcontainer" style="min-height: 420px;"></div>
@@ -699,15 +768,7 @@
 						<div>
 							<p class="text-primary mt10">
 								Sentiment Usage
-							<!-- 	<select
-									class="text-primary filtersort sortbyblogblogger"><option
-										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select>  -->
-									for Past <select
-									class="text-primary filtersort sortbytimerange"><option
-										value="week">Week</option>
-									<option value="month">Month</option>
-									<option value="year">Year</option></select>
+							
 							</p>
 						</div>
 						<div style="min-height: 420px;">
@@ -734,11 +795,7 @@
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Blog Distribution for Past <select
-									class="text-primary filtersort sortbytimerange"><option
-										value="week">Week</option>
-									<option value="month">Month</option>
-									<option value="year">Year</option></select>
+								Blog Distribution 
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -763,11 +820,7 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Blogger Distribution for Past <select
-									class="text-primary filtersort sortbytimerange"><option
-										value="week">Week</option>
-									<option value="month">Month</option>
-									<option value="year">Year</option></select>
+								Blogger Distribution 
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 450px;">
@@ -796,20 +849,16 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 								Most Active 
-								<select
-									class="text-primary filtersort sortbyblogblogger"><option
-										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
-									class="text-primary filtersort sortbytimerange"><option
-										value="week">Week</option>
-									<option value="month">Month</option>
-									<option value="year">Year</option></select>
-							</p>
+								<select id="swapBlogger" class="text-primary filtersort sortbyblogblogger">
+									<option value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option></select> 
+						</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
-							<div class="chart-container">
+							<div class="chart-container" id="postingfrequencycontainer">
 								<div class="chart" id="postingfrequencybar"></div>
 							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -828,14 +877,10 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Most Influential <select
-									class="text-primary filtersort sortbyblogblogger"><option
-										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
-									class="text-primary filtersort sortbytimerange"><option
-										value="week">Week</option>
-									<option value="month">Month</option>
-									<option value="year">Year</option></select>
+								Most Influential <select class="text-primary filtersort" id="sortbyselect">
+								<option>Blogs</option><option value="blogger">Bloggers</option>
+								</select>
+								 
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -865,14 +910,14 @@
 						<div style="min-height: 420px;">
 							<div>
 								<p class="text-primary p15 pb5 pt0">
-									List of Top <select
+									List of Top <select id="top-listtype" 
 										class="text-primary filtersort sortbydomainsrls"><option
 											value="domains">Domains</option>
-										<option value="urls">URLs</option></select> of <select
-										class="text-primary filtersort sortbyblogblogger"><option
+										<option value="urls">URLs</option></select> of <select id="top-sorttype"
+										class="text-primary filtersort sortbyblogblogger" ><option
 											value="blogs">Blogs</option>
 										<option value="bloggers">Bloggers</option></select> of Past <select
-										class="text-primary filtersort sortbytimerange"><option
+										class="text-primary filtersort sortbytimerange" id="top-sortdate" ><option
 											value="week">Week</option>
 										<option value="month">Month</option>
 										<option value="year">Year</option></select>
@@ -890,22 +935,22 @@
 
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="top-domain-box">
 								
 									<%
-										if (outerlinks.length() > 0) {
+										if (outlinklooper.size() > 0) {
 													//System.out.println(bloggers);
-													for (int y = 0; y < outerlinks.length(); y++) {
+													for (int y = 0; y < outlinklooper.size(); y++) {
 														String key = outlinklooper.get(y).toString();
 														JSONObject resu = outerlinks.getJSONObject(key);
 									%>
 									<tr>
-										<td class=""><%=resu.get("link")%></td>
+										<td class=""><a target="_blank" href="http://<%=resu.get("domain")%>"><%=resu.get("domain")%></a></td>
 										<td><%=resu.get("value")%></td>
 									</tr>
 									<%
 										}
-}
+									}
 									%>
 
 								</tbody>
@@ -915,59 +960,7 @@
 				</div>
 			</div>
 
-			<%-- <%--  <div class="col-md-6 mt20">
-    <div class="card card-style mt20">
-      <div class="card-body  p5 pt10 pb10">
-        <div class="min-height-table"style="min-height: 420px;">
-          <!-- <div class="dropdown show"><p class="text-primary p15 pb5 pt0">List of Top URLs of <a class=" dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" id="blogbloggermenu1" role="button">Blogs</a> of Past <b>Week</b></p>
-            <div class="dropdown-menu" aria-labelledby="blogbloggermenu1">
-               <a class="dropdown-item" href="#">Action</a>
-               <a class="dropdown-item" href="#">Another action</a>
-               <a class="dropdown-item" href="#">Something else here</a>
-             </div>
-          </div> -->
-
-<div class="dropdown show text-primary p15 pb20 pt0">List of Top URLs of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select>
-
- 
-
-</div>
-
-          <!-- Example split danger button -->
-
-         <!--  <div class="p15 pb5 pt0" role="group">
-          Export Options
-          </div> -->
-                <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>URL</th>
-                                <th>Frequency</th>
-
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <% if(bloggers.length()>0){
-							//System.out.println(bloggers);
-							for(int y=0; y<bloggers.length(); y++){
-								String key = looper.get(y).toString();
-								 JSONObject resu = bloggers.getJSONObject(key);
-						%>
-						<tr>
-                              <td><%=resu.get("blogsite_url")%></td>
-                              <td><%=resu.get("value")%></td>
-                        </tr>
-						<% }} %>
-                            
-                            
-
-                        </tbody>
-                    </table>
-        </div>
-          </div>
-    </div>
-  </div> --%>
+		
 		</div>
 
 
@@ -976,7 +969,7 @@
 
 	<form action="" name="customformsingle" id="customformsingle"
 		method="post">
-		<input type="hidden" name="tid" value="<%=tid%>" /> <input
+		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" /> <input
 			type="hidden" name="single_date" id="single_date" value="" />
 	</form>
 
@@ -984,6 +977,26 @@
 		<input type="hidden" name="tid" value="<%=tid%>" /> <input
 			type="hidden" name="date_start" id="date_start" value="" /> <input
 			type="hidden" name="date_end" id="date_end" value="" />
+			<textarea style="display:none" name="blogs" id="blogs" >
+			 <% if (bloggers.length() > 0) {
+						int p = 0;
+						for (int y = 0; y < bloggers.length(); y++) {
+							String key = looper.get(y).toString();
+							JSONObject resu = bloggers.getJSONObject(key);
+							int size = Integer.parseInt(resu.get("postingfreq").toString());
+							if (size > 0 && p < 15) {
+								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
+    			 <%}}}%>
+			</textarea>
+			<textarea style="display:none" name="bloggers" id="bloggers" ><%if (bloggers.length() > 0) {
+			int k = 0;for (int y = 0; y < bloggers.length(); y++) {
+				String key = looper.get(y).toString();
+				JSONObject resu = bloggers.getJSONObject(key);
+				int size = Integer.parseInt(resu.get("value").toString());
+				if (size > 0 && k < 15) {
+					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+<%}}}%></textarea>
+			</form>
 	</form>
 
 	<!-- <footer class="footer">
@@ -991,6 +1004,13 @@
 <p class="text-center text-medium pt10 pb10 mb0">Copyright &copy; Blogtrackers 2017 All Rights Reserved.</p>
 </div>
   </footer> -->
+<script src="pagedependencies/dashboard.js?v=209">
+</script>
+<!-- Added for interactivity for selecting tracker and favorites actions -->
+
+<script src="assets/js/generic.js">
+
+</script>
 
 
 	<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
@@ -1553,25 +1573,21 @@ $(function () {
       // // ------------------------------
       //
       //
-      //
+      //sort by influence score
       data = [
-    	  <%if (bloggers.length() > 0) {
-						//System.out.println(bloggers);
-						int q = 0;
-						for (int y = 0; y < bloggers.length(); y++) {
-							String key = looper.get(y).toString();
-							JSONObject resu = bloggers.getJSONObject(key);
-							String id = resu.get("id").toString();
-
-							int size = Integer.parseInt(resu.get("totalposts").toString());
-							if (sentimentblog.has(id) && q < 10) {
-								q++;%>
-			{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-			 <%}
-						}
-					}%>
-            //{letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},
-            
+    	  <% if (authors.length() > 0) {
+				int p = 0;
+				//System.out.println(bloggers);
+				for (int y = 0; y < authors.length(); y++) {
+					String key = authorlooper.get(y).toString();
+					JSONObject resu = authors.getJSONObject(key);
+					Double size = Double.parseDouble(resu.get("influence").toString());
+					if (p < 10) {
+						p++;%>
+		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+		 <%}
+				}
+			}%>    
         ];
       //
       //
@@ -1819,7 +1835,7 @@ $(function () {
       //
       //
       data = [
-    		 <%if (bloggers.length() > 0) {
+    		 <% if (bloggers.length() > 0) {
 						int p = 0;
 						//System.out.println(bloggers);
 						for (int y = 0; y < bloggers.length(); y++) {
@@ -2024,6 +2040,7 @@ $(function () {
         }
     }
 });
+
 </script>
 	<!-- end of posting frequency  -->
 	<!--  Start of sentiment Bar Chart -->
@@ -2744,7 +2761,7 @@ data = {
 				int size = Integer.parseInt(resu.get("totalposts").toString());
 				if (size > 0 && k < 15) {
 					k++;%>
-{"label":"<%=resu.get("blog")%>","name":"<%=resu.get("blogger")%>", "size":<%=resu.get("value")%>},
+{"label":"<%=resu.get("blogger")%>","name":"<%=resu.get("blog")%>", "size":<%=resu.get("value")%>},
 <%}
 			}
 		}%>
@@ -2775,20 +2792,23 @@ data = {
                     .attr("class", "d3-bubbles-node")
                     .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
+	var color = d3.scale.linear()
+	.domain([0,1,2,3,4,5,6,10,15,20])
+	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
             // Append circles
             node.append("circle")
                 .attr("r", function(d) { return d.r; })
                 .style("fill", function(d,i) {
-                  // return color(i);
+                   return color(i);
                   // customize Color
-                  if(i<5)
+                 /*  if(i<5)
                   {
                     return "#0080cc";
                   }
                   else if(i>=5)
                   {
                     return "#78bce4";
-                  }
+                  } */
                 })
                 .on('mouseover', tip.show)
                 .on('mouseout', tip.hide);
@@ -3093,7 +3113,7 @@ $(".option-lable").on("click",function(e){
              .attr("width", width + margin.left + margin.right)
              .attr("height", height + margin.top + margin.bottom)
              .append("g")
-                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
 
@@ -3110,11 +3130,20 @@ $(".option-lable").on("click",function(e){
          // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
          // ];
 
-         data = [
+         data = [	
+        	[<% for(int q=0; q<yearsarray.length(); q++){ 
+     		  		String yer=yearsarray.get(q).toString(); 
+     		  		int vlue = Integer.parseInt(graphyears.get(yer).toString());
+     		  %>
+     		  			{"date":"<%=yer%>","close":<%=vlue%>},
+     		<% } %>
+     		]
+     	  
+        	 /*
            [{"date":"2014","close":400},{"date":"2015","close":600},{"date":"2016","close":1300},{"date":"2017","close":1700},{"date":"2018","close":2100}],
            [{"date":"2014","close":350},{"date":"2015","close":700},{"date":"2016","close":1500},{"date":"2017","close":1600},{"date":"2018","close":1250}],
-           [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200},{"date":"2017","close":1200},{"date":"2018","close":2600}]
-         ];
+         	*/
+           ];
 
          //console.log(data);
          // data = [];
@@ -3321,7 +3350,8 @@ $(".option-lable").on("click",function(e){
                                 // .style("fill", "rgba(0,0,0,0.54)")
                                 .style("stroke-width",2)
                                 .style("stroke", "17394C")
-                                 .attr("transform", "translate("+margin.left/4.7+",0)");
+                                 .attr("transform", "translate("+margin.left/1.19+",0)");
+                                //.attr("transform", "translate(0,0)");
                                 // .datum(data)
 
                        // add point
@@ -3339,8 +3369,8 @@ $(".option-lable").on("click",function(e){
                               .style("fill","#4CAF50")
                               .attr("cx",function(d) { return x(d.date); })
                               .attr("cy", function(d){return y(d.close)})
-
-                              .attr("transform", "translate("+margin.left/4.7+",0)");
+ 								.attr("transform", "translate("+margin.left/1.19+",0)");
+                             // .attr("transform", "translate(0,0)");
 
                               svg.selectAll(".circle-point").data(data[0])
                               .on("mouseover",tip.show)
@@ -3362,7 +3392,7 @@ $(".option-lable").on("click",function(e){
                                   // .style("fill", "rgba(0,0,0,0.54)")
                                   .style("stroke-width", 2)
                                   .style("stroke", function(d,i) { return color(i);})
-                                  .attr("transform", "translate("+margin.left/4.7+",0)");
+                                  .attr("transform", "translate("+margin.left/1.19+",0)");
 
 
 
@@ -3391,7 +3421,7 @@ $(".option-lable").on("click",function(e){
                                        .attr("cx",function(d) { return x(d.date)})
                                        .attr("cy", function(d){return y(d.close)})
 
-                                       .attr("transform", "translate("+margin.left/4.7+",0)");
+                                      .attr("transform", "translate("+margin.left/1.19+",0)");
                                        svg.selectAll(".circle-point").data(mergedarray)
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
@@ -3531,6 +3561,85 @@ $(".option-lable").on("click",function(e){
              .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
 
  </script>
+ <script>
+
+	
+ $(document).ready(function() {
+		$('#top-sorttype').on("change",function(e){	
+			loadDomain();
+		});
+		
+		$('#top-sortdate').on("change",function(e){
+			loadDomain();
+		});
+		
+		$('#top-listtype').on("change",function(e){
+			loadDomain();		
+		});
+		
+		$('#swapBlogger').on("change",function(e){
+				
+			console.log("blogger busta");
+			var type = $('#swapBlogger').val();
+			var blgss = $("#bloggers").val();
+			if(type=="blogs"){
+				blgss = $("#blogs").val();
+			}else{
+				blgss = $("#bloggers").val();
+			}
+			
+			console.log("type"+type);
+			$("#postingfrequencybar").html('<div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div>');
+			console.log(blgss);
+			$.ajax({
+				url: app_url+'subpages/postingfrequencybar.jsp',
+				method: 'POST',
+				data: {
+					tid:$("#alltid").val(),
+					sortby:$('#swapBlogger').val(),
+					sortdate:$("#active-sortdate").val(),
+					bloggers:blgss,
+				},
+				error: function(response)
+				{						
+					console.log(response);		
+				},
+				success: function(response)
+				{   
+					$("#postingfrequencycontainer").html(response);
+				}
+			});
+			
+		});
+	});
+
+ 
+ 
+ function loadDomain(){
+	 $("#top-domain-box").html('<tr><td colspan="2"><div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div></td></tr>');
+		
+		$.ajax({
+			url: app_url+'subpages/topdomain.jsp',
+			method: 'POST',
+			data: {
+				tid:$("#alltid").val(),
+				sortby:$("#top-sorttype").val(),
+				sortdate:$("#top-sortdate").val(),
+				listtype:$("#top-listtype").val(),
+			},
+			error: function(response)
+			{						
+				console.log(response);		
+			},
+			success: function(response)
+			{   
+				$("#top-domain-box").html(response);
+			}
+		});
+	}
+ </script>
+ <!-- <script src="pagedependencies/dashboard.js?v=09"></script> -->
+ 
 </body>
 </html>
 

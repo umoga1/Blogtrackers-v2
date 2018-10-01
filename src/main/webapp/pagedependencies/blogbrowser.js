@@ -4,8 +4,10 @@ var looper = 0;
 $(document).ready(function() {
 
 	// tracking blogcount
-	var trackscount = 0;
+	
 	// tracker selected count
+	var blgs = $(".blogselection");
+	var trackscount = blgs.length;
 	var trackerselectedcount = 0;
 	
 //  show tooltip
@@ -313,7 +315,9 @@ if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 		$(".blog_id_"+blog_id).addClass("text-success");
 		looper++;
 		trackscount++;
+		
 		var blgs = $(".blogselection");
+		console.log("total here"+blgs.length);
 		$(".total_selected").text(blgs.length);
 };
 
@@ -500,7 +504,7 @@ function updateTracker(element,type){
 	   		 if (idd.indexOf("blogg")>-1) {
 	   		        blog_id = idd.split("_");
 	   		        blog_id = blog_id[blog_id.length-1];
-		   		     if(k<blogs.length-2){
+		   		     if(k<blogs.length-1){
 		   	    		all_blogs+=blog_id+",";
 		   	    	}else{
 		   	    		all_blogs+=blog_id;
@@ -526,7 +530,7 @@ function updateTracker(element,type){
 				success: function(response)
 				{   
 					console.log(response);
-					if(response=="true"){
+					if(response.indexOf("success")>-1){
 						toastr.success('Tracker successfully updated!','Success');
 						//location.href=app_url+"blogbrowser.jsp";
 					}else{

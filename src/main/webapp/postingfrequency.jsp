@@ -311,6 +311,7 @@ if(!ids.equals("")){
 				tresp = new JSONObject(tres);
 			    tresu = tresp.get("_source").toString();
 			    tobj = new JSONObject(tresu);
+			    
 			    String auth = tobj.get("blogger").toString();
 			    String[] dateyear=tobj.get("date").toString().split("-");
 			    String yy= dateyear[0];
@@ -377,7 +378,7 @@ if(!ids.equals("")){
 			   // System.out.println(authoryears);
 			    }} 
 	//System.out.println(authoryears);
-    System.out.println(yearsarray);
+   // System.out.println(yearsarray);
     %>
     <!--  
     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>

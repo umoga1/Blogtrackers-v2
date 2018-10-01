@@ -608,6 +608,6 @@ public String _getTotal(String url, JSONObject jsonObj) throws Exception {
 		    return bracketed_result.replaceAll(",$", "");
 	}
 	
-
+	
 
 }
