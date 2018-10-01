@@ -243,6 +243,9 @@ try{
 <div class="robotcontainer">
 
 </div>
+</div>
+
+<div class="" style="min-height:300px;">
 
 </div>
 
