@@ -245,15 +245,25 @@ try{
 </div>
 </div>
 
-<div class="container bggreyhome mt30 mb50" id="featuresection">
+<div class="container bggreyhome mt50 mb50" id="featuresection">
 <div class="offset-md-2 col-md-8">
 <h3 class="whyfont text-primary text-center pt30">Why Blogtrackers?</h3>
 <p class="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to track and analyze blogs of particular interests by designing and integrating unique features. </p>
 </div>
-<div>
+<div class="row">
+<div class="col-md-4"><p class="text-center"><i class="navbar-brand text-primary icontrackersize researchbased pt10"></i></p>
+<p class="text-center text-primary textwhy mb10">Research Based</p>
+<p class="text-center text-primary p20 pt0 pb0">Built to review user behavior in the blogosphere.</p>
+</div>
+<div class="col-md-4"><p class="text-center"><i class="navbar-brand text-primary icontrackersize userfriendly pt10"></i></p>
+<p class="text-center text-primary textwhy mb10">User Friendly</p>
+<p class="text-center text-primary p20 pt0 pb0">Easy-to-use interface for the user.</p></div>
+<div class="col-md-4"><p class="text-center"><i class="navbar-brand text-primary icontrackersize insights pt10"></i></p>
+<p class="text-center text-primary textwhy mb10">Actionable Insights</p>
+<p class="text-center text-primary p20 pt0 pb0">Track Blogs at your tips.</p></div>
 
 </div>
-
+<div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60 mt40">Start Tracking</button></div>
 </div>
 
 <div class="text-center cursor-pointer helpcontainer">

@@ -18,6 +18,38 @@ background-color:#F3F4F5;
 font-size:55px;
 font-weight:normal;	
 }
+.researchbased
+{
+background-image: url(../../images/svgs/researchbased.svg);
+background-repeat: no-repeat;
+min-height: 115px;
+width: 115px;
+display: inline-block;
+background-position: center center;	
+}
+.userfriendly
+{
+background-image: url(../../images/svgs/userfriendly.svg);
+background-repeat: no-repeat;
+min-height: 115px;
+width: 115px;
+display: inline-block;
+background-position: center center;	
+}
+.insights
+{
+background-image: url(../../images/svgs/insight.svg);
+background-repeat: no-repeat;
+min-height: 115px;
+width: 115px;
+display: inline-block;
+background-position: center center;	
+}
+.textwhy
+{
+font-size:22px;
+font-weight:500;	
+}
 /* .carousel-control-prev, .carousel-control-next
 {
 color:blue;
