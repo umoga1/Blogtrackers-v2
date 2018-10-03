@@ -66,7 +66,7 @@ public class Login extends HttpServlet {
 		if(!uid.equals("") && !hash.equals("")){
 			DbConnection dbinstance = new DbConnection();
 			String sessionkey =dbinstance.md5Funct(Math.random()+"");
-			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where Username = '"+uid+"' AND MessageDigest = '"+hash+"'");		
+			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where UserName = '"+uid+"' AND MessageDigest = '"+hash+"'");		
 			if(login.size()>0)
 			{		  		
 				HttpSession session = request.getSession();

@@ -77,7 +77,11 @@ if(term.equals("")){
 }else{
 	results = post._search(term,"0",sort);
 }
+
 String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(post._getTotal()));
+
+
+
 //pimage = pimage.replace("build/", "");
 %>
 
@@ -431,7 +435,7 @@ if(results.size()>0){
 <script>
 
 </script>
-<script src="pagedependencies/blogbrowser.js?v=29999">
+<script src="pagedependencies/blogbrowser.js?v=299">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 

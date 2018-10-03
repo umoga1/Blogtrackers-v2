@@ -56,7 +56,7 @@ public ArrayList _list(String order, String from) throws Exception {
 	 }
 	 
 	 
-     String url = base_url+"_search?size=50";
+     String url = base_url+"_search?size=5000";
      return this._getResult(url, jsonObj);   
     }
 
