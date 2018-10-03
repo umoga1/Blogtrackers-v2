@@ -227,7 +227,7 @@ if(f.exists() && !f.isDirectory()) {
 								query = query.replaceAll("blogsite_id in ", "");
 								query = query.replaceAll("\\(", "");
 								query = query.replaceAll("\\)", "");
-								
+								query=query.replaceAll(", $", "");
 								
 								String dt = "";
 								String dtmodified = "";
@@ -290,16 +290,16 @@ if(f.exists() && !f.isDirectory()) {
 	
 	<div class="col-md-12">
 	<div class="float-left statcontainer">
-	<b class="stattext"><%=totalblog%></b>
+	<b class="stattext"><%=blogs.size()%></b>
 	<h6 class="text-primary labeltext">Blogs</h6>
 	</div>
 	<div class="float-left statcontainer">
-	<b class="stattext"><%=totalpost%></b>
+	<b class="stattext1"><%=totalpost%></b>
 	<h6 class="text-primary labeltext">Posts</h6>
 	</div>
 	
 	<div class="float-left statcontainer">
-	<b class="stattext">0</b>
+	<b class="stattext2">0</b>
 	<h6 class="text-primary labeltext">Comments</h6>
 	</div>
 	<input type="hidden" id="teeid" value="<%=tid%>" />
@@ -358,7 +358,7 @@ if(f.exists() && !f.isDirectory()) {
 		<tbody>		
 		<!-- <div id="bloglist"> -->
 		<% if (allblogs.size() > 0) {
-			for (int k = 0; k < blogs.size(); k++) {				
+			for (int k = 0; k < allblogs.size(); k++) {				
 				bobj = new JSONObject(bresu);			
 				String v1 = allblogs.get(k).toString();
 				JSONObject ob = new JSONObject(v1);
