@@ -376,12 +376,67 @@ try{
 <div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60 mt40">Start Tracking</button></div>
 </div>
 <div class="bgwhite">
-<div class="container pb80 pt80" id="whatyoucando">
+<div class="container-fluid pb80 pt80" id="whatyoucando">
 <div class="offset-md-2 col-md-8 offset-md-2">
 <h3 class="sectiontitle text-primary text-center pt30">What Can You Do With It?</h3>
-<!-- <p class="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to track and analyze blogs of particular interests by designing and integrating unique features. </p> -->
+<!-- <p cl
+ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to track and analyze blogs of particular interests by designing and integrating unique features. </p> -->
 </div>
+
+<div id="featuresslides" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+     <div class="offset-md-2 col-md-8 offset-md-2">
 <div class="row mt100 mb100">
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Posting Frequency</h1>
+<p class="text-primary whatcanyoudodesc">Analyze Traffic Pattern</p>
+</div>
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Keyword<br/> Trends</h1>
+<p class="text-primary whatcanyoudodesc">Search Top Keywords</p>
+</div>
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Influence <br/>Analysis</h1>
+<p class="text-primary whatcanyoudodesc">Check influence of Blogs, Blog Posts and Bloggers</p>
+</div>
+</div>
+
+</div>
+    </div>
+    <div class="carousel-item">
+      <div class="offset-md-2 col-md-8 offset-md-2">
+<div class="row mt100 mb100">
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Sentiments Analysis</h1>
+<p class="text-primary whatcanyoudodesc">Analyze General Perception</p>
+</div>
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Network Analysis<br/> Trends</h1>
+<p class="text-primary whatcanyoudodesc">Analyze Trends on Graphs</p>
+</div>
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Cross Media Analysis</h1>
+<p class="text-primary whatcanyoudodesc">Analyze Social Media</p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+ <a class="carousel-control-prev" href="#featuresslides" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon prevfeatures" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#featuresslides" role="button" data-slide="next">
+    <span class="carousel-control-next-icon nextfeatures" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+
+<!-- <div class="row mt100 mb100">
 <div class="col-md-4 borderleftprimary">
 <h1 class="text-primary headertextwhatcanyoudo">Traffic <br/>Pattern Analysis</h1>
 <p class="text-primary whatcanyoudodesc">Search top keywords</p>
@@ -394,7 +449,7 @@ try{
 <h1 class="text-primary headertextwhatcanyoudo">Influence Detection</h1>
 <p class="text-primary whatcanyoudodesc">Check influence of Blogs, Blog Posts and Bloggers</p>
 </div>
-</div>
+</div> -->
 <div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 mb20 p40 pt10 pb10">Start Tracking</button></div>
 </div>
 </div>
@@ -442,7 +497,7 @@ try{
 </div>
 <div class="bgmaroon">
 <div class="container-fluid pb150 pt150" id="testimonials">
-<p class="text-white text-center copyright-text mb0">Testimonials</p>
+<p class="text-white text-center mb0 testmonialheadingtext">Testimonials</p>
 <div id="testimonialslides" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">

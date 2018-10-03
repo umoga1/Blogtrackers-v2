@@ -30,11 +30,16 @@ display:none;
 .headertextwhatcanyoudo
 {
 font-weight:bolder;	
-font-size:49px;
+font-size:45px;
 }
 .whatcanyoudodesc, .copyrighttext
 {
 font-size:18px;	
+}
+.testmonialheadingtext
+{
+    font-size: 52px;
+    font-weight: normal;	
 }
 .testimonial-text
 {
@@ -69,11 +74,11 @@ background-color:#F3F4F5;
 font-size:52px;
 font-weight:normal;	
 }
-.prevtestimonial,.nexttestimonial
+.prevtestimonial,.nexttestimonial,.prevfeatures, .nextfeatures
 {
 border:none !important;	
 }
-.prevtestimonial::before,.nexttestimonial::after
+.prevtestimonial::before,.nexttestimonial::after,.prevfeatures::before,.nextfeatures::after
 {
 content:"" !important;	
 }
@@ -101,6 +106,25 @@ background-position: center center;
 .nexttestimonial
 {
 background-image: url(../../images/svgs/nexticonwhite.svg) !important;
+background-repeat: no-repeat;
+min-height: 48px;
+width: 24px;
+display: inline-block;
+background-position: center center;		
+}
+.prevfeatures
+{
+background-image: url(../../images/svgs/previconblue.svg) !important;
+background-repeat: no-repeat;
+min-height: 48px;
+width: 24px;
+display: inline-block;
+background-position: center center;		
+}
+
+.nextfeatures
+{
+background-image: url(../../images/svgs/nexticonblue.svg) !important;
 background-repeat: no-repeat;
 min-height: 48px;
 width: 24px;
