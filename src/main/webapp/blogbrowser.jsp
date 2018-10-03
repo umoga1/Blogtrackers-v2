@@ -69,7 +69,7 @@ if(userpic.indexOf("http")>-1){
 Blogposts post  = new Blogposts();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString().replaceAll("[^a-zA-Z]", " ");
 
-String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
+String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby").toString();
 
 ArrayList results = null;
 if(term.equals("")){
@@ -77,11 +77,15 @@ if(term.equals("")){
 }else{
 	results = post._search(term,"0",sort);
 }
+<<<<<<< HEAD
 
 String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(post._getTotal()));
 
 
 
+=======
+String total = post._getTotal();//NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(post._getTotal()));
+>>>>>>> 5aaad4ee9b82e138293b0139db49e5d331bcf48d
 //pimage = pimage.replace("build/", "");
 %>
 
@@ -318,7 +322,7 @@ for(int i=0; i< mytrackers.size(); i++){
 
 <%}%>
 <h6 class="float-right text-primary">
-  <select class="text-primary filtersort sortby" id="sortbyselect"><option value="date" <%=(sort.equals("date"))?"selected":"" %>>Recent</option><option <%=(sort.equals("influence_score"))?"selected":"" %> value="influence_score">Influence Score</option></select>
+  <select class="text-primary filtersort sortby"  id="sortbyselect"><option value="date" <%=(sort.equals("date"))?"selected":"" %>>Recent</option><option <%=(sort.equals("influence_score"))?"selected":"" %> value="influence_score">Influence Score</option></select>
 </h6>
 </div>
 </div>
