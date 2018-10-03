@@ -85,7 +85,7 @@ try{
 <script src="assets/js/popper.min.js" ></script>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
-<body>
+<body style="background-color:none;">
 <noscript>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 </noscript>
@@ -147,7 +147,7 @@ try{
   <div class="col-lg-3">
   <ul class="nav navbar-nav" style="display:block;">
   <li class="dropdown dropdown-user cursor-pointer float-right">
-  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
+  <a class="dropdown-toggle profiletoggle"  data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
   <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
   <span><%=username%></span>
@@ -180,7 +180,73 @@ try{
     </div>
       </div>
     </nav>
+    
+    <!-- Sticky Menu  -->
+<div class="navsticky container-fluid ">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid mt10">
 
+      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+      <a class="navbar-brand text-center logohome" href="./">
+   
+      </a>
+      </div>
+      <!-- Mobile Menu -->
+      <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      </nav>
+      <!-- <div class="navbar-header ">
+      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      </div> -->
+      <!-- Mobile menu  -->
+      <div class="col-lg-6 themainmenu"  align="center">
+        <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+           <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
+          
+            </ul>
+      </div>
+
+  <div class="col-lg-3">
+  <ul class="nav navbar-nav" style="display:block;">
+  <li class="dropdown dropdown-user cursor-pointer float-right">
+  <a class="dropdown-toggle profiletoggle" id="" data-toggle="dropdown">
+    <i class="fas fa-circle" id="notificationcolor"></i>
+  <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
+  <span><%=username%></span>
+  <!-- <ul class="profilemenu dropdown-menu dropdown-menu-left">
+              <li><a href="#"> My profile</a></li>
+              <li><a href="#"> Features</a></li>
+              <li><a href="#"> Help</a></li>
+              <li><a href="#">Logout</a></li>
+  </ul> -->
+  </a>
+
+   </li>
+        </ul>
+      </div>
+
+      </div>
+      <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
+      <div class="collapse" id="navbarToggleExternalContent">
+        <ul class="navbar-nav mr-auto mobile-menu">
+              <li class="nav-item active">
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
+              </li>
+            </ul>
+    </div>
+      </div>
+    </nav>
+</div>
 <% }else{ %>
 
 <nav class="navbar navbar-inverse">
@@ -227,6 +293,50 @@ try{
 </div>
 </nav>
 
+<!-- STICKY MENU  -->
+<div class="navsticky container-fluid ">
+<nav class="navbar navbar-inverse">
+ <div class="navbar-header float-left">
+  <a class="navbar-brand text-center logohome" href="./">
+  </a>
+  </div>
+  
+   <nav class="navbar navbar-dark bg-primary float-right d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" >
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+  </button>
+  </nav>
+  
+<div class="themainmenu"  align="center">
+  <ul class="nav main-menu2 homemainmenuoveride" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+    <li><a class="bold-text" href="#">Features</a></li>
+    <li><a class="bold-text" href="#">Sponsors</a></li>
+	<li><a class="bold-text" href="#">Learn</a></li>
+	<li class="bg-white loginmenu"><a class="bold-text text-primary" href="<%=request.getContextPath()%>/login.jsp">Login</a></li>
+	
+  </ul>
+</div>
+<!-- Mobile menu -->
+  <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
+  <div class="collapse" id="navbarToggleExternalContent">
+    <ul class="navbar-nav mr-auto mobile-menu">
+          <li class="nav-item active">
+            <a class="bold-text" href="#">Features <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link bold-text" href="#">Sponsors</a>
+          </li>
+     
+
+		   <li class="nav-item">
+				<a class="nav-link bold-text" href="login.jsp">Login</a>
+			</li>         
+        </ul>
+</div>
+</div>
+</nav>
+</div>
+
 <% } %>
 
 
@@ -246,7 +356,7 @@ try{
 </div>
 
 <div class="container bggreyhome mt50 mb50" id="featuresection">
-<div class="offset-md-2 col-md-8">
+<div class="offset-md-2 col-md-8 offset-md-2">
 <h3 class="whyfont text-primary text-center pt30">Why Blogtrackers?</h3>
 <p class="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to track and analyze blogs of particular interests by designing and integrating unique features. </p>
 </div>
@@ -264,6 +374,15 @@ try{
 
 </div>
 <div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60 mt40">Start Tracking</button></div>
+</div>
+<div class="bgwhite">
+<div class="container mb50 mt50 " id="whatyoucando">
+<div class="offset-md-2 col-md-8 offset-md-2">
+<h3 class="sectiontitle text-primary text-center pt30">What Can You Do With It?</h3>
+<p class="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to track and analyze blogs of particular interests by designing and integrating unique features. </p>
+</div>
+<div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60 mt40">Start Tracking</button></div>
+</div>
 </div>
 
 <div class="text-center cursor-pointer helpcontainer">

@@ -5,6 +5,25 @@ body{
 
   background-color: #F3F4F5  ;
 }
+.nobg
+{
+background-color:none;	
+}
+.navsticky
+{
+position:fixed;	
+min-height:80px;
+width:100%;
+background-color:#073D51;
+top:0px;
+z-index:998;
+padding-left:15px;
+padding-right:15px;
+}
+.hidesticky
+{
+display:none;	
+}
 .bgwhite
 {
  background-color: #FFFFFF  ;	
@@ -13,9 +32,9 @@ body{
 {
 background-color:#F3F4F5;	
 }
-.whyfont
+.whyfont, .sectiontitle
 {
-font-size:55px;
+font-size:52px;
 font-weight:normal;	
 }
 .researchbased
