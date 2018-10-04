@@ -77,15 +77,9 @@ if(term.equals("")){
 }else{
 	results = post._search(term,"0",sort);
 }
-<<<<<<< HEAD
 
-String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(post._getTotal()));
-
-
-
-=======
 String total = post._getTotal();//NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(post._getTotal()));
->>>>>>> 5aaad4ee9b82e138293b0139db49e5d331bcf48d
+
 //pimage = pimage.replace("build/", "");
 %>
 

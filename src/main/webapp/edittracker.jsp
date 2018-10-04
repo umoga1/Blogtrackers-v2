@@ -213,6 +213,7 @@ if(f.exists() && !f.isDirectory()) {
 							ArrayList blogs = null;
 							ArrayList resut = new ArrayList();
 							int bpost = 0;
+							
 
 							for (int i = 0; i < detail.size(); i++) {
 								resut = (ArrayList<?>)detail.get(0);
@@ -227,7 +228,7 @@ if(f.exists() && !f.isDirectory()) {
 								query = query.replaceAll("blogsite_id in ", "");
 								query = query.replaceAll("\\(", "");
 								query = query.replaceAll("\\)", "");
-								query=query.replaceAll(", $", "");
+								
 								
 								String dt = "";
 								String dtmodified = "";
@@ -290,23 +291,18 @@ if(f.exists() && !f.isDirectory()) {
 	
 	<div class="col-md-12">
 	<div class="float-left statcontainer">
-	<b class="stattext"><%=blogs.size()%></b>
+	<b class="stattext"><%=totalblog%></b>
 	<h6 class="text-primary labeltext">Blogs</h6>
 	</div>
 	<div class="float-left statcontainer">
-	<b class="stattext1"><%=totalpost%></b>
+	<b class="stattext"><%=totalpost%></b>
 	<h6 class="text-primary labeltext">Posts</h6>
 	</div>
 	
-	<div class="float-left statcontainer">
-<<<<<<< HEAD
+	<!-- <div class="float-left statcontainer">
 	<b class="stattext">0</b>
-	<h6 class="text-primary labeltext">Bloggers</h6>
-=======
-	<b class="stattext2">0</b>
 	<h6 class="text-primary labeltext">Comments</h6>
->>>>>>> 5aaad4ee9b82e138293b0139db49e5d331bcf48d
-	</div>
+	</div> -->
 	<input type="hidden" id="teeid" value="<%=tid%>" />
 	</div>
 	
@@ -363,7 +359,7 @@ if(f.exists() && !f.isDirectory()) {
 		<tbody>		
 		<!-- <div id="bloglist"> -->
 		<% if (allblogs.size() > 0) {
-			for (int k = 0; k < allblogs.size(); k++) {				
+			for (int k = 0; k < blogs.size(); k++) {				
 				bobj = new JSONObject(bresu);			
 				String v1 = allblogs.get(k).toString();
 				JSONObject ob = new JSONObject(v1);

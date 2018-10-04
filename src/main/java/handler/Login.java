@@ -67,6 +67,12 @@ public class Login extends HttpServlet {
 			DbConnection dbinstance = new DbConnection();
 			String sessionkey =dbinstance.md5Funct(Math.random()+"");
 			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where UserName = '"+uid+"' AND MessageDigest = '"+hash+"'");		
+			
+			pww.write("The user id is " + uid +"\n");
+			pww.write("the hash is " + hash + "\n");
+			
+			pww.write("The size of the returned arraylist is " + login.size());
+			
 			if(login.size()>0)
 			{		  		
 				HttpSession session = request.getSession();
