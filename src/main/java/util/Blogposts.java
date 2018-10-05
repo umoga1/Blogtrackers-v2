@@ -25,7 +25,8 @@ public class Blogposts {
 //	String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
 	String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
 	
-	String totalpost;		    
+	String totalpost;
+	String date;
 
 	public ArrayList _list(String order, String from, String sortby) throws Exception {
 		int size = 5;
@@ -86,6 +87,36 @@ public class Blogposts {
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
+	}
+	
+	public String _getDate(String blog_ids,String type) throws Exception {
+		String url = base_url+"_search?size=1";
+		String dt = "";
+		String[] args = blog_ids.split(","); 
+		JSONArray pars = new JSONArray(); 
+		ArrayList<String> ar = new ArrayList<String>();	
+		for(int i=0; i<args.length; i++){
+			pars.put(args[i].replaceAll(" ", ""));
+		}
+
+		String arg2 = pars.toString();
+		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"DESC\"}}}";		
+		
+		if(type.equals("first")) {
+			que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
+		}
+
+		JSONObject jsonObj = new JSONObject(que);
+		ArrayList result =  this._getResult(url, jsonObj);
+		if(result.size()>0) {
+			String bres = result.get(0).toString();
+			JSONObject bresp = new JSONObject(bres);
+			String bresu = bresp.get("_source").toString();
+			JSONObject bobj = new JSONObject(bresu);
+			String[] date=bobj.get("date").toString().split(" ");
+			dt = date[0];
+		}
+		return dt;
 	}
 
 	public ArrayList _search(String term,String from,String sortby) throws Exception {
@@ -424,8 +455,6 @@ public class Blogposts {
 		try {
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-		
 
 		con.setDoOutput(true);
 		con.setDoInput(true);
