@@ -43,7 +43,7 @@
 			//System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
-			System.out.println("List:"+detail);
+			//System.out.println("List:"+detail);
 		}
 		
 		
