@@ -43,7 +43,7 @@
 			//System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
-			//System.out.println("List:"+detail);
+			System.out.println("List:"+detail);
 		}
 		
 		
@@ -684,11 +684,11 @@
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
-									<!-- for Past <select
+									for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week">Week</option>
 									<option value="month">Month</option>
-									<option value="year">Year</option></select> -->
+									<option value="year">Year</option></select>
 							</p>
 						</div>
 						<div style="min-height: 490px;">
@@ -704,6 +704,15 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 								Language Usage 
+								<!-- <select
+									class="text-primary filtersort sortbyblogblogger"><option
+										value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option></select>  -->
+									for Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -723,7 +732,11 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Posting Frequency 
+								Posting Frequency for Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 300px;">
@@ -733,13 +746,7 @@
 						</div>
 					</div>
 				</div>
-<div class="float-right">
-					<a href="postingfrequency.jsp"><button
-							class="btn buttonportfolio2 mt10">
-							<b class="float-left semi-bold-text">Posting Frequency
-								Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b>
-						</button></a>
-				</div>
+
 
 			</div>
 		</div>
@@ -751,7 +758,16 @@
 						<div>
 							<p class="text-primary mt10">
 								Top Keywords
-								
+								<!-- <select
+									class="text-primary filtersort sortbyblogblogger"><option
+										value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option></select>  -->
+									
+									for Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
 							</p>
 						</div>
 						<div class="tagcloudcontainer" style="min-height: 420px;"></div>
@@ -772,7 +788,15 @@
 						<div>
 							<p class="text-primary mt10">
 								Sentiment Usage
-							
+							<!-- 	<select
+									class="text-primary filtersort sortbyblogblogger"><option
+										value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option></select>  -->
+									for Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
 							</p>
 						</div>
 						<div style="min-height: 420px;">
@@ -799,7 +823,11 @@
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Blog Distribution 
+								Blog Distribution for Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -824,7 +852,11 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Blogger Distribution 
+								Blogger Distribution for Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 450px;">
@@ -855,7 +887,11 @@
 								Most Active 
 								<select id="swapBlogger" class="text-primary filtersort sortbyblogblogger">
 									<option value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> 
+									<option value="bloggers">Bloggers</option></select> of Past <select
+									class="text-primary filtersort sortbytimerange" id="active-sortdate"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
 						</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -881,10 +917,12 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Most Influential <select class="text-primary filtersort" id="sortbyselect">
-								<option>Blogs</option><option value="blogger">Bloggers</option>
-								</select>
-								 
+								Most Influential  <select class="text-primary filtersort sortby" id="sortbyselect">Recent </option><option value="blogger">Influence Score</option></select>
+								 of Past <select
+									class="text-primary filtersort sortbytimerange"><option
+										value="week">Week</option>
+									<option value="month">Month</option>
+									<option value="year">Year</option></select>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -917,14 +955,14 @@
 									List of Top <select id="top-listtype" 
 										class="text-primary filtersort sortbydomainsrls"><option
 											value="domains">Domains</option>
-										<option value="urls">URLs</option></select><!--  of <select id="top-sorttype"
+										<option value="urls">URLs</option></select> of <select id="top-sorttype"
 										class="text-primary filtersort sortbyblogblogger" ><option
 											value="blogs">Blogs</option>
 										<option value="bloggers">Bloggers</option></select> of Past <select
 										class="text-primary filtersort sortbytimerange" id="top-sortdate" ><option
 											value="week">Week</option>
 										<option value="month">Month</option>
-										<option value="year">Year</option></select> -->
+										<option value="year">Year</option></select>
 								</p>
 							</div>
 							<!--   <div class="p15 pb5 pt0" role="group">
@@ -949,7 +987,7 @@
 														JSONObject resu = outerlinks.getJSONObject(key);
 									%>
 									<tr>
-										<td class=""><a target="_blank" href="http://<%=resu.get("domain")%>"><%=resu.get("domain")%></a></td>
+										<td class=""><%=resu.get("domain")%></td>
 										<td><%=resu.get("value")%></td>
 									</tr>
 									<%
@@ -964,7 +1002,59 @@
 				</div>
 			</div>
 
-		
+			<%-- <%--  <div class="col-md-6 mt20">
+    <div class="card card-style mt20">
+      <div class="card-body  p5 pt10 pb10">
+        <div class="min-height-table"style="min-height: 420px;">
+          <!-- <div class="dropdown show"><p class="text-primary p15 pb5 pt0">List of Top URLs of <a class=" dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" id="blogbloggermenu1" role="button">Blogs</a> of Past <b>Week</b></p>
+            <div class="dropdown-menu" aria-labelledby="blogbloggermenu1">
+               <a class="dropdown-item" href="#">Action</a>
+               <a class="dropdown-item" href="#">Another action</a>
+               <a class="dropdown-item" href="#">Something else here</a>
+             </div>
+          </div> -->
+
+<div class="dropdown show text-primary p15 pb20 pt0">List of Top URLs of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select>
+
+ 
+
+</div>
+
+          <!-- Example split danger button -->
+
+         <!--  <div class="p15 pb5 pt0" role="group">
+          Export Options
+          </div> -->
+                <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>URL</th>
+                                <th>Frequency</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <% if(bloggers.length()>0){
+							//System.out.println(bloggers);
+							for(int y=0; y<bloggers.length(); y++){
+								String key = looper.get(y).toString();
+								 JSONObject resu = bloggers.getJSONObject(key);
+						%>
+						<tr>
+                              <td><%=resu.get("blogsite_url")%></td>
+                              <td><%=resu.get("value")%></td>
+                        </tr>
+						<% }} %>
+                            
+                            
+
+                        </tbody>
+                    </table>
+        </div>
+          </div>
+    </div>
+  </div> --%>
 		</div>
 
 
@@ -2796,23 +2886,20 @@ data = {
                     .attr("class", "d3-bubbles-node")
                     .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-	var color = d3.scale.linear()
-	.domain([0,1,2,3,4,5,6,10,15,20])
-	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
             // Append circles
             node.append("circle")
                 .attr("r", function(d) { return d.r; })
                 .style("fill", function(d,i) {
-                   return color(i);
+                  // return color(i);
                   // customize Color
-                 /*  if(i<5)
+                  if(i<5)
                   {
                     return "#0080cc";
                   }
                   else if(i>=5)
                   {
                     return "#78bce4";
-                  } */
+                  }
                 })
                 .on('mouseover', tip.show)
                 .on('mouseout', tip.hide);
@@ -3117,7 +3204,7 @@ $(".option-lable").on("click",function(e){
              .attr("width", width + margin.left + margin.right)
              .attr("height", height + margin.top + margin.bottom)
              .append("g")
-             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
 
@@ -3354,8 +3441,7 @@ $(".option-lable").on("click",function(e){
                                 // .style("fill", "rgba(0,0,0,0.54)")
                                 .style("stroke-width",2)
                                 .style("stroke", "17394C")
-                                 .attr("transform", "translate("+margin.left/1.19+",0)");
-                                //.attr("transform", "translate(0,0)");
+                                 .attr("transform", "translate("+margin.left/4.7+",0)");
                                 // .datum(data)
 
                        // add point
@@ -3373,8 +3459,8 @@ $(".option-lable").on("click",function(e){
                               .style("fill","#4CAF50")
                               .attr("cx",function(d) { return x(d.date); })
                               .attr("cy", function(d){return y(d.close)})
- 								.attr("transform", "translate("+margin.left/1.19+",0)");
-                             // .attr("transform", "translate(0,0)");
+
+                              .attr("transform", "translate("+margin.left/4.7+",0)");
 
                               svg.selectAll(".circle-point").data(data[0])
                               .on("mouseover",tip.show)
@@ -3396,7 +3482,7 @@ $(".option-lable").on("click",function(e){
                                   // .style("fill", "rgba(0,0,0,0.54)")
                                   .style("stroke-width", 2)
                                   .style("stroke", function(d,i) { return color(i);})
-                                  .attr("transform", "translate("+margin.left/1.19+",0)");
+                                  .attr("transform", "translate("+margin.left/4.7+",0)");
 
 
 
@@ -3425,7 +3511,7 @@ $(".option-lable").on("click",function(e){
                                        .attr("cx",function(d) { return x(d.date)})
                                        .attr("cy", function(d){return y(d.close)})
 
-                                      .attr("transform", "translate("+margin.left/1.19+",0)");
+                                       .attr("transform", "translate("+margin.left/4.7+",0)");
                                        svg.selectAll(".circle-point").data(mergedarray)
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
