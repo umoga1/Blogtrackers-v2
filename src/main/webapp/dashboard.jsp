@@ -100,7 +100,7 @@
 			Blogs blog = new Blogs();
 			Sentiments senti = new Sentiments();
 
-			Date today = new Date();
+			//Date today = new Date();
 			SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 			SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -108,8 +108,12 @@
 			SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
 			SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
 			SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
-
-			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse("2013-01-01");
+			
+			String stdate = post._getDate(ids,"first");
+			String endate = post._getDate(ids,"last");
+			
+			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
+			Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
 
 			String day = DAY_ONLY.format(today);
 			String month = MONTH_ONLY.format(today);
