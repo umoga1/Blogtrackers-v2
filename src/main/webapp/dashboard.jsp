@@ -912,9 +912,9 @@
 							<p class="text-primary mt10 float-left">
 								Blogger Distribution for Past <select
 									class="text-primary filtersort sortbytimerange"><option
-										value="week">Week</option>
-									<option value="month">Month</option>
-									<option value="year">Year</option></select>
+										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
+									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 450px;">
