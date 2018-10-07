@@ -103,7 +103,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 		"}";
 	JSONObject jsonObj = new JSONObject(que);
 	 
-    String url = base_url+"_search";
+    String url = base_url+"_search?size=100";
     return this._getResult(url,jsonObj);
 }
 

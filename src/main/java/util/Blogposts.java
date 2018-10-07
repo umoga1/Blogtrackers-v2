@@ -71,7 +71,7 @@ public class Blogposts {
 
 
 	
-	public ArrayList _getBloggerByBlogId(String blog_ids,String from) throws Exception {
+	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids) throws Exception {
 		String url = base_url+"_search?size=100";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -81,8 +81,32 @@ public class Blogposts {
 		}
 
 		String arg2 = pars.toString();
-		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
-
+		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
+		String que="{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"bool\": {\r\n" + 
+				"      \"must\": [\r\n" + 
+				"        {\r\n" + 
+				"		  \"constant_score\":{\r\n" + 
+				"					\"filter\":{\r\n" + 
+				"							\"terms\":{\r\n" + 
+				"							\"blogsite_id\":"+arg2+"\r\n" + 
+				"									}\r\n" + 
+				"							}\r\n" + 
+				"						}\r\n" + 
+				"		},\r\n" + 
+				"        {\r\n" + 
+				"		  \"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"      ]\r\n" + 
+				"    }\r\n" + 
+				"  }\r\n" + 
+				"}";
 
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
@@ -250,7 +274,7 @@ public class Blogposts {
 
 	/* Fetch posts by blog ids*/
 	public ArrayList _getPostByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=100";
+		String url = base_url+"_search?size=10";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	

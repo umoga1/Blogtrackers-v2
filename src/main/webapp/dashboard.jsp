@@ -9,6 +9,8 @@
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="java.time.LocalDateTime"%>
+	
 <%
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
@@ -19,7 +21,7 @@
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
-
+	
 	//System.out.println(date_start);
 	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
@@ -106,6 +108,7 @@
 
 			SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
 			SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
+			SimpleDateFormat SMALL_MONTH_ONLY = new SimpleDateFormat("mm");
 			SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
 			SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
 			
@@ -115,8 +118,12 @@
 			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
 			Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
 
+			Date nnow = new Date();  
+			  
 			String day = DAY_ONLY.format(today);
+			
 			String month = MONTH_ONLY.format(today);
+			String smallmonth = SMALL_MONTH_ONLY.format(today);
 			String year = YEAR_ONLY.format(today);
 
 			String dispfrom = DATE_FORMAT.format(dstart);
@@ -128,10 +135,23 @@
 			//ArrayList posts = post._list("DESC","");
 			ArrayList sentiments = senti._list("DESC", "", "id");
 			String totalpost = "0";
+			ArrayList allauthors = new ArrayList();
 
 			String possentiment = "0";
 			String negsentiment = "0";
-
+			String ddey = "31";
+			if(!single.equals("")){
+				month = MONTH_ONLY.format(nnow); 
+				day = DAY_ONLY.format(nnow); 
+				year = YEAR_ONLY.format(nnow); 
+				//System.out.println("Now:"+month+"small:"+smallmonth);
+				if(month.equals("02")){
+					ddey = (Integer.parseInt(year)%4==0)?"28":"29";
+				}else if(month.equals("09") || month.equals("04") || month.equals("05") || month.equals("11")){
+					ddey = "30";
+				}
+			}
+			
 			if (!date_start.equals("") && !date_end.equals("")) {
 				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
 				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
@@ -144,37 +164,72 @@
 				dispto = DATE_FORMAT.format(end);
 				termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 				outlinks = outl._searchByRange("date", date_start.toString(), date_end.toString(), ids);
-				
+
+				allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
 			} else if (single.equals("day")) {
 				String dt = year + "-" + month + "-" + day;
+				
+				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));			
 				totalpost = post._searchRangeTotal("date", dt, dt, ids);
 				termss = term._searchByRange("date", dt, dt, ids);
 				outlinks = outl._searchByRange("date", dt, dt, ids);
+
+				allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
+					
+			} else if (single.equals("week")) {
+				
+				String dte = year + "-" + month + "-" + day;
+				int dd = Integer.parseInt(day)-7;
+				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.DATE, -7);
+				Date dateBefore7Days = cal.getTime();
+				String dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
 				
 				
-			} else if (single.equals("month")) {
-				String dt = year + "-" + month + "-" + day;
-				String dte = year + "-" + month + "-31";
+				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));			
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 				termss = term._searchByRange("date", dt, dte, ids);
 				outlinks = outl._searchByRange("date", dt, dte, ids);
+
+				allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+					
+			} else if (single.equals("month")) {
+				String dt = year + "-" + month + "-01";
+				String dte = year + "-" + month + "-"+day;	
+				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+				
+				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+				termss = term._searchByRange("date", dt, dte, ids);
+				outlinks = outl._searchByRange("date", dt, dte, ids);
+
+				allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 				
 			} else if (single.equals("year")) {
 				String dt = year + "-01-01";
-				String dte = year + "-12-31";
+				String dte = year + "-12-"+ddey;
+				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+				
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 				termss = term._searchByRange("date", dt, dte, ids);
 				outlinks = outl._searchByRange("date", dt, dte, ids);
+				allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+				
 				
 			} else {
-
 				totalpost = post._getTotalByBlogId(ids, "");
 				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
-				
+				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);			
 				termss = term._searchByRange("date", dst, dend, ids);
 				outlinks = outl._searchByRange("date",dst, dend, ids);
 				
+				allauthors=post._getBloggerByBlogId("date",dst, dend,ids);
+				
+
 			}
 			
 			//System.out.println("Terms here:"+termss);
@@ -182,11 +237,7 @@
 			ArrayList blogs = blog._fetch(ids);
 			int totalblog = blogs.size();
 			
-			ArrayList allauthors = new ArrayList();
-			if(!ids.equals("")){
-				allauthors=post._getBloggerByBlogId(ids,"");
-			}
-
+			
 			
 		  
 		    JSONObject authors = new JSONObject();
@@ -194,7 +245,9 @@
 		    JSONArray authorcount = new JSONArray();
 		    JSONObject graphyears = new JSONObject();
 		    JSONArray yearsarray = new JSONArray();
-
+		    JSONObject language = new JSONObject();
+		    ArrayList langlooper = new ArrayList();
+		    
 			ArrayList authorlooper = new ArrayList();
 			if(allauthors.size()>0){
 				String tres = null;
@@ -203,6 +256,7 @@
 				JSONObject tobj = null;
 				int j=0;
 				int k=0;
+				int n = 0;
 			for(int i=0; i< allauthors.size(); i++){
 						tres = allauthors.get(i).toString();			
 						tresp = new JSONObject(tres);
@@ -210,6 +264,8 @@
 					    tobj = new JSONObject(tresu);
 					    
 					    String auth = tobj.get("blogger").toString();
+					    String lang = tobj.get("language").toString();
+					    
 					    Double influence =  Double.parseDouble(tobj.get("influence_score").toString());
 					  	JSONObject content = new JSONObject();
 					   
@@ -241,6 +297,18 @@
 							authorlooper.add(j,auth);
 							j++;
 						}
+					    
+					  //Object ex = language.get(lang);
+						if (language.has(lang)) {
+							int val = Integer.parseInt(language.get(lang).toString()) + 1;
+							language.put(lang, val);
+						} else {
+							//  	int val  = Integer.parseInt(ex.toString())+1;
+							language.put(lang, 1);
+							langlooper.add(n, lang);
+							n++;
+						}
+
 				}
 			//System.out.println("Authors here:"+graphyears);
 			} 
@@ -325,11 +393,11 @@
 			}
 
 			//System.out.println("senti"+ sentimentblog);
-			JSONObject language = new JSONObject();
+			
 			JSONObject bloggers = new JSONObject();
 
 			ArrayList looper = new ArrayList();
-			ArrayList langlooper = new ArrayList();
+			
 
 			if (blogs.size() > 0) {
 				String bres = null;
@@ -338,13 +406,13 @@
 				String bresu = null;
 				JSONObject bobj = null;
 				int m = 0;
-				int n = 0;
+				
 				for (int k = 0; k < blogs.size(); k++) {
 					bres = blogs.get(k).toString();
 					bresp = new JSONObject(bres);
 					bresu = bresp.get("_source").toString();
 					bobj = new JSONObject(bresu);
-					String lang = bobj.get("language").toString();
+					
 					String blogger = bobj.get("blogsite_owner").toString();
 					String blogname = bobj.get("blogsite_name").toString();
 					
@@ -392,17 +460,7 @@
 						looper.add(m, blogger);
 						m++;
 					}
-					//Object ex = language.get(lang);
-					if (language.has(lang)) {
-						int val = Integer.parseInt(language.get(lang).toString()) + 1;
-						language.put(lang, val);
-					} else {
-						//  	int val  = Integer.parseInt(ex.toString())+1;
-						language.put(lang, 1);
-						langlooper.add(n, lang);
-						n++;
-					}
-
+					
 				}
 
 			}
@@ -2558,41 +2616,7 @@ var gdpData = {
   "ZW": 5.57
 };
 // add the list of location of craweled blog here
-<%JSONObject location = new JSONObject();
-					location.put("null", "0, 0");
-					location.put("Vatican City", "41.90, 12.45");
-					location.put("Monaco", "43.73, 7.41");
-					location.put("Salt Lake City", "40.726, -111.778");
-					location.put("Kansas City", "39.092, -94.575");
-					location.put("US", "37.0902, -95.7129");
-					location.put("DE", "51.165691, 10.451526");
-					location.put("LT", "55.1694, 23.8813");
-					location.put("GB", "55.3781, -3.4360");
-					location.put("NL", "52.132633, 5.291266");
-					location.put("VE", "6.423750, -66.589729");
-					location.put("LV", "56.8796, 24.6032");
-					location.put("LV", "56.8796, 24.6032");
-					location.put("UA", "48.379433, 31.165581");
-					location.put("RU", "61.524010, 105.318756");%>
-// map marker location by longitude and latitude
-var mymarker = [
-	<%if (blogs.size() > 0) {
-						String bres = null;
-						JSONObject bresp = null;
-						String bresu = null;
-						JSONObject bobj = null;
-						for (int k = 0; k < blogs.size(); k++) {
-							bres = blogs.get(k).toString();
-							bresp = new JSONObject(bres);
-							bresu = bresp.get("_source").toString();
-							bobj = new JSONObject(bresu);
-							if (location.has(bobj.get("location").toString())) {%>
-	 		{latLng: [<%=location.get(bobj.get("location").toString())%>], name: '<%=bobj.get("location").toString()%>'},
-			<%}
-						}
-					}%>
-
-    
+/*
     
     /*
     {latLng: [39.092, -94.575], name: 'Kansas City'},
@@ -2651,7 +2675,49 @@ var mymarker = [
     {latLng: [26.02, 50.55], name: 'Bahrain'},
     
     {latLng: [0.33, 6.73], name: 'São Tomé and Príncipe'}
-    */
+    */ 
+
+<%JSONObject location = new JSONObject();
+					location.put("null", "0, 0");
+					location.put("Vatican City", "41.90, 12.45");
+					location.put("Monaco", "43.73, 7.41");
+					location.put("Salt Lake City", "40.726, -111.778");
+					location.put("Kansas City", "39.092, -94.575");
+					location.put("US", "37.0902, -95.7129");
+					location.put("DE", "51.165691, 10.451526");
+					location.put("LT", "55.1694, 23.8813");
+					location.put("GB", "55.3781, -3.4360");
+					location.put("NL", "52.132633, 5.291266");
+					location.put("VE", "6.423750, -66.589729");
+					location.put("LV", "56.8796, 24.6032");
+					location.put("UA", "48.379433, 31.165581");
+					location.put("RU", "61.524010, 105.318756");
+					location.put("PA", "8.967, -79.458");
+					location.put("TR", "38.9637, 35.2433");
+					location.put("FR", "46.2276, 2.2137");
+					location.put("PL", "51.9194, 19.1451");
+					location.put("EE", "58.5953, 25.0136");
+					location.put("ZW", "19.0154, 29.1549");
+					location.put("SK", "48.6690, 19.6990");
+					location.put("IE", "53.4129, 8.2439");
+					%>
+// map marker location by longitude and latitude
+var mymarker = [
+	<%if (blogs.size() > 0) {
+						String bres = null;
+						JSONObject bresp = null;
+						String bresu = null;
+						JSONObject bobj = null;
+						for (int k = 0; k < blogs.size(); k++) {
+							bres = blogs.get(k).toString();
+							bresp = new JSONObject(bres);
+							bresu = bresp.get("_source").toString();
+							bobj = new JSONObject(bresu);
+							if (location.has(bobj.get("location").toString())) {%>
+	 		{latLng: [<%=location.get(bobj.get("location").toString())%>], name: '<%=bobj.get("location").toString()%>'},
+			<%}
+						}
+					}%>
 ]
   </script>
 	<script type="text/javascript"
@@ -2672,8 +2738,7 @@ var mymarker = [
     	 <%if (topterms.length() > 0) {
 						for (int i = 0; i < topterms.length(); i++) {
 							JSONObject jsonObj = topterms.getJSONObject(i);
-							int size = Integer.parseInt(jsonObj.getString("frequency")) * 10;
-							System.out.println("Info" + "Key: " + jsonObj.getString("key") + ", value: " + size);%>
+							int size = Integer.parseInt(jsonObj.getString("frequency")) * 10;%>
     		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
     	 <%}
 					}%>

@@ -58,7 +58,7 @@
 			ArrayList test = new ArrayList();
 			//tracker._add("hello",test);
 			//pimage = pimage.replace("build/", "");
-			System.out.println("Result here:"+results);
+			//System.out.println("Result here:"+results);
 %>
 <!DOCTYPE html>
 <html>
