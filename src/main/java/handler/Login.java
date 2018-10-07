@@ -71,8 +71,6 @@ public class Login extends HttpServlet {
 			pww.write("The user id is " + uid +"\n");
 			pww.write("the hash is " + hash + "\n");
 			
-			pww.write("The size of the returned arraylist is " + login.size());
-			
 			if(login.size()>0)
 			{		  		
 				HttpSession session = request.getSession();
@@ -80,11 +78,11 @@ public class Login extends HttpServlet {
 				String user = (null==userinfo.get(0))?"":userinfo.get(0).toString();
 				
 				session.setAttribute("key",sessionkey);
-				System.out.println(request.getAttribute("key"));
+				pww.write("The session attribute key contains " + session.getAttribute("key") +"\n");
 				session.setAttribute(sessionkey,user);
-				System.out.println(sessionkey);
+				//pww.write("The parameter sessionkey is "+ sessionkey + "\n");
 				JSONObject resp = new JSONObject();
-				resp.put("key",user);
+				resp.put("key",sessionkey);
 				response.setStatus(200);
 				pww.write(resp.toString());		
 			}else {
