@@ -947,9 +947,9 @@
 									<option value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select> of Past <select
 									class="text-primary filtersort sortbytimerange" id="active-sortdate"><option
-										value="week">Week</option>
-									<option value="month">Month</option>
-									<option value="year">Year</option></select>
+										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
+									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
 						</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -978,9 +978,9 @@
 								Most Influential  <select class="text-primary filtersort sortby" id="sortbyselect">Recent </option><option value="blogger">Influence Score</option></select>
 								 of Past <select
 									class="text-primary filtersort sortbytimerange"><option
-										value="week">Week</option>
-									<option value="month">Month</option>
-									<option value="year">Year</option></select>
+										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
+									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -1018,9 +1018,9 @@
 											value="blogs">Blogs</option>
 										<option value="bloggers">Bloggers</option></select> of Past <select
 										class="text-primary filtersort sortbytimerange" id="top-sortdate" ><option
-											value="week">Week</option>
-										<option value="month">Month</option>
-										<option value="year">Year</option></select>
+											value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
+										<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
+										<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
 								</p>
 							</div>
 							<!--   <div class="p15 pb5 pt0" role="group">
