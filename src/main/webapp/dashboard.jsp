@@ -1069,10 +1069,11 @@
 									List of Top <select id="top-listtype" 
 										class="text-primary filtersort sortbydomainsrls"><option
 											value="domains">Domains</option>
-										<option value="urls">URLs</option></select> of <select id="top-sorttype"
+										<option value="urls">URLs</option></select> 
+										<!-- of <select id="top-sorttype"
 										class="text-primary filtersort sortbyblogblogger" ><option
 											value="blogs">Blogs</option>
-										<option value="bloggers">Bloggers</option></select> 
+										<option value="bloggers">Bloggers</option></select>  -->
 									<%-- 	of Past <select
 										class="text-primary filtersort sortbytimerange" id="top-sortdate" ><option
 											value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
