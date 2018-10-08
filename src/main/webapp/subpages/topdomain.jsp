@@ -185,9 +185,9 @@
 									%>
 									<tr>
 									<% if(listtype.equals("urls")){ %>
-										<td class=""><%=resu.get("link")%></td>
+										<td class=""><a href="<%=resu.get("link")%>" target="_blank"><%=resu.get("link")%></a></td>
 									<% }else{ %>
-										<td class=""><%=resu.get("domain")%> </td>
+										<td class=""><a href="<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a> </td>
 									<% } %>
 										<td><%=resu.get("value")%></td>
 									</tr>

@@ -85,7 +85,7 @@ try{
 <script src="assets/js/popper.min.js" ></script>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
-<body>
+<body style="background-color:none;">
 <noscript>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 </noscript>
@@ -147,7 +147,7 @@ try{
   <div class="col-lg-3">
   <ul class="nav navbar-nav" style="display:block;">
   <li class="dropdown dropdown-user cursor-pointer float-right">
-  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
+  <a class="dropdown-toggle profiletoggle"  data-toggle="dropdown">
     <i class="fas fa-circle" id="notificationcolor"></i>
   <img src="<%=profileimage%>" width="50" height="50" alt="" class="" />
   <span><%=username%></span>
@@ -180,6 +180,8 @@ try{
     </div>
       </div>
     </nav>
+    
+    <!-- Sticky Menu  -->
 
 <% }else{ %>
 
@@ -227,6 +229,50 @@ try{
 </div>
 </nav>
 
+<!-- STICKY MENU  -->
+<div class="navsticky container-fluid ">
+<nav class="navbar navbar-inverse">
+ <div class="navbar-header float-left">
+  <a class="navbar-brand text-center logohome" href="./">
+  </a>
+  </div>
+  
+   <nav class="navbar navbar-dark bg-primary float-right d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" >
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+  </button>
+  </nav>
+  
+<div class="themainmenu"  align="center">
+  <ul class="nav main-menu2 homemainmenuoveride" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+    <li><a class="bold-text" href="#">Features</a></li>
+    <li><a class="bold-text" href="#">Sponsors</a></li>
+	<li><a class="bold-text" href="#">Learn</a></li>
+	<li class="bg-white loginmenu"><a class="bold-text text-primary" href="<%=request.getContextPath()%>/login.jsp">Login</a></li>
+	
+  </ul>
+</div>
+<!-- Mobile menu -->
+  <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
+  <div class="collapse" id="navbarToggleExternalContent">
+    <ul class="navbar-nav mr-auto mobile-menu">
+          <li class="nav-item active">
+            <a class="bold-text" href="#">Features <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link bold-text" href="#">Sponsors</a>
+          </li>
+     
+
+		   <li class="nav-item">
+				<a class="nav-link bold-text" href="login.jsp">Login</a>
+			</li>         
+        </ul>
+</div>
+</div>
+</nav>
+</div>
+
 <% } %>
 
 
@@ -243,7 +289,201 @@ try{
 <div class="robotcontainer">
 
 </div>
+</div>
 
+<div class="container bggreyhome mt50 mb50" id="featuresection">
+<div class="offset-md-2 col-md-8 offset-md-2">
+<h3 class="whyfont text-primary text-center pt30">Why Blogtrackers?</h3>
+<p class="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to track and analyze blogs of particular interests by designing and integrating unique features. </p>
+</div>
+<div class="row">
+<div class="col-md-4"><p class="text-center"><i class="navbar-brand text-primary icontrackersize researchbased pt10"></i></p>
+<p class="text-center text-primary textwhy mb10">Research Based</p>
+<p class="text-center text-primary p20 pt0 pb0">Built to review user behavior in the blogosphere.</p>
+</div>
+<div class="col-md-4"><p class="text-center"><i class="navbar-brand text-primary icontrackersize userfriendly pt10"></i></p>
+<p class="text-center text-primary textwhy mb10">User Friendly</p>
+<p class="text-center text-primary p20 pt0 pb0">Easy-to-use interface for the user.</p></div>
+<div class="col-md-4"><p class="text-center"><i class="navbar-brand text-primary icontrackersize insights pt10"></i></p>
+<p class="text-center text-primary textwhy mb10">Actionable Insights</p>
+<p class="text-center text-primary p20 pt0 pb0">Track Blogs at your tips.</p></div>
+
+</div>
+<div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60 mt40">Start Tracking</button></div>
+</div>
+<div class="bgwhite">
+<div class="container-fluid pb80 pt80" id="whatyoucando">
+<div class="offset-md-2 col-md-8 offset-md-2">
+<h3 class="sectiontitle text-primary text-center pt30">What Can You Do With It?</h3>
+<!-- <p cl
+ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to track and analyze blogs of particular interests by designing and integrating unique features. </p> -->
+</div>
+
+<div id="featuresslides" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+     <div class="offset-md-2 col-md-8 offset-md-2">
+<div class="row mt100 mb100">
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Posting Frequency</h1>
+<p class="text-primary whatcanyoudodesc">Analyze Traffic Pattern</p>
+</div>
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Keyword<br/> Trends</h1>
+<p class="text-primary whatcanyoudodesc">Search Top Keywords</p>
+</div>
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Influence <br/>Analysis</h1>
+<p class="text-primary whatcanyoudodesc">Check influence of Blogs, Blog Posts and Bloggers</p>
+</div>
+</div>
+
+</div>
+    </div>
+    <div class="carousel-item">
+      <div class="offset-md-2 col-md-8 offset-md-2">
+<div class="row mt100 mb100">
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Sentiments Analysis</h1>
+<p class="text-primary whatcanyoudodesc">Analyze General Perception</p>
+</div>
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Network Analysis<br/> Trends</h1>
+<p class="text-primary whatcanyoudodesc">Analyze Trends on Graphs</p>
+</div>
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Cross Media Analysis</h1>
+<p class="text-primary whatcanyoudodesc">Analyze Social Media</p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+ <a class="carousel-control-prev" href="#featuresslides" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon prevfeatures" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#featuresslides" role="button" data-slide="next">
+    <span class="carousel-control-next-icon nextfeatures" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+
+<!-- <div class="row mt100 mb100">
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Traffic <br/>Pattern Analysis</h1>
+<p class="text-primary whatcanyoudodesc">Search top keywords</p>
+</div>
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Keyword Trends Exploration</h1>
+<p class="text-primary whatcanyoudodesc">Search top keywords</p>
+</div>
+<div class="col-md-4 borderleftprimary">
+<h1 class="text-primary headertextwhatcanyoudo">Influence Detection</h1>
+<p class="text-primary whatcanyoudodesc">Check influence of Blogs, Blog Posts and Bloggers</p>
+</div>
+</div> -->
+<div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 mb20 p40 pt10 pb10">Start Tracking</button></div>
+</div>
+</div>
+<div class="bggrey">
+<div class="container pb80 pt80" id="sponsors">
+<div class="row">
+<div class="col-md-12" align="center">
+<div class="eachlogo text-center">
+<img class="mb10" src="images/sponsors/nationalsciencefoundation.png" />
+<p class="logo-text">National Science <br/>Foundation</p>
+</div>
+
+<div class="eachlogo text-center">
+<img class="mb10" src="images/sponsors/officeofnavalresearch.png" />
+<p class="logo-text">Office of Naval <br/>Research</p>
+</div>
+
+
+<div class="eachlogo text-center">
+<img src="images/sponsors/airforceresearch.png" />
+<p class="logo-text">Air Force<br/> Research</p>
+</div>
+
+
+<div class="eachlogo text-center">
+<img class="mb10" src="images/sponsors/darpa.png" />
+<p class="logo-text">Defense Advanced Research <br/>Projects Agency</p>
+</div>
+
+<div class="eachlogo text-center">
+<img class="mb10" src="images/sponsors/armyresearchoffice.png" />
+<p class="logo-text">Army Research <br/>Office</p>
+</div>
+
+
+<div class="eachlogo text-center">
+<img class="mb10" src="images/sponsors/departmentofhomeland.png" />
+<p class="logo-text">Department of <br/>Homeland Security</p>
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+<div class="bgmaroon">
+<div class="container-fluid pb150 pt150" id="testimonials">
+<p class="text-white text-center mb0 testmonialheadingtext">Testimonials</p>
+<div id="testimonialslides" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+     <div class="offset-md-3 col-md-6 offset-md-3">
+<h1 class="text-center quote-text">”</h1>
+<h1 class="text-center testimonial-text">
+Design is not just what it looks like and feels like. Design is how it works.
+</h1>
+</div>
+    </div>
+    <div class="carousel-item">
+      <div class="offset-md-3 col-md-6 offset-md-3">
+<h1 class="text-center quote-text">”</h1>
+<h1 class="text-center testimonial-text">
+Design is not just what it looks like and feels like. Design is how it works.
+</h1>
+</div>
+    </div>
+    <div class="carousel-item">
+      <div class="offset-md-3 col-md-6 offset-md-3">
+<h1 class="text-center quote-text">”</h1>
+<h1 class="text-center testimonial-text">
+Design is not just what it looks like and feels like. Design is how it works.
+</h1>
+</div>
+    </div>
+  </div>
+   <a class="carousel-control-prev" href="#testimonialslides" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon prevtestimonial" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#testimonialslides" role="button" data-slide="next">
+    <span class="carousel-control-next-icon nexttestimonial" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<!-- <div class="offset-md-3 col-md-6 offset-md-3">
+<h1 class="text-center quote-text">”</h1>
+<h1 class="text-center testimonial-text">
+Design is not just what it looks like and feels like. Design is how it works.
+</h1>
+</div> -->
+</div>
+</div>
+<div class="bgwhite">
+<div class="container-fluid pb50 pt50" id="testimonials">
+<p class="text-center mb0 copyrighttext">Developed By</p>
+<p class="text-center mb0"><i class="navbar-brand text-primary icontrackersize cosmoslogo pt10"></i></p>
+<p class="mb0 text-center copyrighttext">Copyright &copy; 2018, COSMOS. All Rights Reserved.</p>
+</div>
 </div>
 
 <div class="text-center cursor-pointer helpcontainer">

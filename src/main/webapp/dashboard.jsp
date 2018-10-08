@@ -317,7 +317,37 @@
 				}
 			//System.out.println("Authors here:"+graphyears);
 			} 
+			
+			
+			JSONArray sortedyearsarray = new JSONArray();
+			List<String> jsonList = new ArrayList<String>();
+			for (int i = 0; i < yearsarray.length(); i++) {
+				System.out.println(yearsarray.get(i));
+				
+			    jsonList.add(yearsarray.get(i).toString());
+			}
+			
+			Collections.sort( jsonList, new Comparator<String>() {
+			    public int compare(String a, String b) {
+			        String valA = new String();
+			        String valB = new String();
 
+			        try {
+			            valA = (String) a;
+			            valB = (String) b;
+			        } 
+			        catch (Exception e) {
+			            //do something
+			        }
+			        return valA.compareTo(valB);
+			    }
+			});
+			
+			for (int i = 0; i < yearsarray.length(); i++) {
+			    sortedyearsarray.put(jsonList.get(i));
+			}
+			
+			
 			JSONObject sentimentblog = new JSONObject();
 			if (sentiments.size() > 0) {
 
@@ -3299,8 +3329,8 @@ $(".option-lable").on("click",function(e){
          // ];
 
          data = [	
-        	[<% for(int q=0; q<yearsarray.length(); q++){ 
-     		  		String yer=yearsarray.get(q).toString(); 
+        	[<% for(int q=0; q<sortedyearsarray.length(); q++){ 
+     		  		String yer=sortedyearsarray.get(q).toString(); 
      		  		int vlue = Integer.parseInt(graphyears.get(yer).toString());
      		  %>
      		  			{"date":"<%=yer%>","close":<%=vlue%>},

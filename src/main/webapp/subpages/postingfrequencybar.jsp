@@ -113,10 +113,13 @@ $(function () {
     		// {letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},      
        ];
       
+      <% if(sort.equalsIgnoreCase("blogs")){ %>
       data = data.sort(function(a, b){
   	    return a.frequency - b.frequency;
-  	});
-      
+  	}); 
+  	<% } else {%>
+		data = data;
+  	<% } %>
       //
       //
       //   // Create tooltip
@@ -187,7 +190,12 @@ $(function () {
                   .attr("width", function(d) { return x(d.frequency); })
                   .style("fill", function(d,i) {
                 
+                 // return colorblogs(data.length - i - 1);
+                  <% if(sort.equalsIgnoreCase("blogs")){ %>
                   return colorblogs(data.length - i - 1);
+                 <% } else { %>
+                 return colorblogs(i)
+                 <% } %>
 
                 })
                   .on('mouseover', tip.show)

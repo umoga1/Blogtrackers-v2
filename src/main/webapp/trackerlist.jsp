@@ -370,7 +370,7 @@
 						</button>
 
 					</div>
-					<div class="text-center mt10">
+					<!-- <div class="text-center mt10">
 						<button
 							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left"
 							style="width: 100%;">
@@ -378,7 +378,7 @@
 							<h5 class="text-primary">Comments</h5>
 						</button>
 
-					</div>
+					</div> -->
 					<div class="pt30 pb20 text-center">
 						<a
 							href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=resut.get(0).toString()%>"><i
