@@ -2861,13 +2861,13 @@ var mymarker = [
 	
 
      var color = d3.scale.linear()
-             .domain([0,1,2,3,4,5,6,10,15,20,80])
-             .range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
+             .domain([0,1,2,3,4,5,6,10,12,15,20])
+             .range(["#0080CC", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
 
      d3.layout.cloud().size([450,380])
              .words(frequency_list)
              .rotate(0)
-             .fontSize(function(d) { return d.size * 1.15; })
+             .fontSize(function(d) { return d.size * 0.9; })
              .on("end", draw)
              .start();
 
@@ -2883,7 +2883,7 @@ var mymarker = [
                  .selectAll("text")
                  .data(words)
                  .enter().append("text")
-                 .style("font-size", function(d) { return d.size + "px"; })
+                 .style("font-size", function(d) { return d.size * 0.93 + "px"; })
                  .style("fill", function(d, i) { return color(i); })
                  .attr("transform", function(d) {
                      return "translate(" + [d.x + 2, d.y + 3] + ")rotate(" + d.rotate + ")";
