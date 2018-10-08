@@ -784,11 +784,11 @@
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
-									for Past <select
+									<%-- for Past <select
 									class="text-primary filtersort sortbytimerange">
 									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
-									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
 						</div>
 						<div style="min-height: 490px;">
@@ -808,14 +808,14 @@
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
-									for Past <select
+									<%-- for Past <select
 									class="text-primary filtersort sortbytimerange">
 									
 									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
 						
-									</select>
+									</select> --%>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -835,11 +835,12 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Posting Frequency for Past <select
+								Posting Frequency 
+								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
-									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 300px;">
@@ -850,8 +851,15 @@
 					</div>
 				</div>
 
-
+<div class="float-right">
+					<a href="postingfrequency.jsp"><button
+							class="btn buttonportfolio2 mt10">
+							<b class="float-left semi-bold-text">Posting Frequency
+								Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b>
+						</button></a>
+				</div>
 			</div>
+			
 		</div>
 
 		<div class="row mb0">
@@ -866,11 +874,11 @@
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
 									
-									for Past <select
+									<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
-									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
 						</div>
 						<div class="tagcloudcontainer" style="min-height: 420px;"></div>
@@ -895,11 +903,11 @@
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
-									for Past <select
+									<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
-									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
 						</div>
 						<div style="min-height: 420px;">
@@ -926,11 +934,12 @@
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Blog Distribution for Past <select
+								Blog Distribution 
+								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
-									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -955,11 +964,12 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Blogger Distribution for Past <select
+								Blogger Distribution 
+								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
-									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 450px;">
@@ -990,11 +1000,12 @@
 								Most Active 
 								<select id="swapBlogger" class="text-primary filtersort sortbyblogblogger">
 									<option value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select> of Past <select
+									<option value="bloggers">Bloggers</option></select> 
+							<%-- 		of Past <select
 									class="text-primary filtersort sortbytimerange" id="active-sortdate"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
-									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 						</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -1020,12 +1031,12 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Most Influential  <select class="text-primary filtersort sortby" id="sortbyselect">Recent </option><option value="blogger">Influence Score</option></select>
-								 of Past <select
+								Most Influential  <select class="text-primary filtersort sortby" id="sortbyselect"><option>Recent </option><option value="blogger">Influence Score</option></select>
+								<%--  of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
-									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
@@ -1061,11 +1072,12 @@
 										<option value="urls">URLs</option></select> of <select id="top-sorttype"
 										class="text-primary filtersort sortbyblogblogger" ><option
 											value="blogs">Blogs</option>
-										<option value="bloggers">Bloggers</option></select> of Past <select
+										<option value="bloggers">Bloggers</option></select> 
+									<%-- 	of Past <select
 										class="text-primary filtersort sortbytimerange" id="top-sortdate" ><option
 											value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 										<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
-										<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
+										<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 								</p>
 							</div>
 							<!--   <div class="p15 pb5 pt0" role="group">
@@ -1090,7 +1102,7 @@
 														JSONObject resu = outerlinks.getJSONObject(key);
 									%>
 									<tr>
-										<td class=""><%=resu.get("domain")%></td>
+										<td class=""><a href="http://<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a></td>
 										<td><%=resu.get("value")%></td>
 									</tr>
 									<%
@@ -1201,13 +1213,13 @@
 <p class="text-center text-medium pt10 pb10 mb0">Copyright &copy; Blogtrackers 2017 All Rights Reserved.</p>
 </div>
   </footer> -->
-<script src="pagedependencies/dashboard.js?v=209">
-</script>
+<!-- <script src="pagedependencies/dashboard.js?v=209">
+</script> -->
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
-<script src="assets/js/generic.js">
+<!-- <script src="assets/js/generic.js">
 
-</script>
+</script> -->
 
 
 	<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
@@ -1786,6 +1798,9 @@ $(function () {
 				}
 			}%>    
         ];
+      data = data.sort(function(a, b){
+    	    return a.frequency - b.frequency;
+    	}); 
       //
       //
       //   // Create tooltip
@@ -1843,7 +1858,12 @@ $(function () {
           var verticalAxis = svg.append("g")
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
               .style("color","yellow")
-              .call(yAxis);
+              .call(yAxis)
+              .selectAll("text")
+   			.attr("y", -25)
+    		.attr("x", 20)
+    		.attr("dy", ".75em")
+    		.attr("transform", "rotate(-70)");
       //
       //
       //     // Add text label
@@ -2724,6 +2744,7 @@ var gdpData = {
 
 <%JSONObject location = new JSONObject();
 					location.put("null", "0, 0");
+					location.put("unknown", "0, 0");
 					location.put("Vatican City", "41.90, 12.45");
 					location.put("Monaco", "43.73, 7.41");
 					location.put("Salt Lake City", "40.726, -111.778");
@@ -2745,6 +2766,8 @@ var gdpData = {
 					location.put("ZW", "19.0154, 29.1549");
 					location.put("SK", "48.6690, 19.6990");
 					location.put("IE", "53.4129, 8.2439");
+					location.put("IT","41.871941,12.567380");
+					location.put("ES","40.463669,-3.749220");
 					%>
 // map marker location by longitude and latitude
 var mymarker = [
@@ -2838,19 +2861,19 @@ var mymarker = [
 
      var color = d3.scale.linear()
              .domain([0,1,2,3,4,5,6,10,15,20,80])
-             .range(["#17394C", "#F5CC0E", "#CE0202", "#1F90D0", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+             .range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
 
-     d3.layout.cloud().size([450, 300])
+     d3.layout.cloud().size([450,380])
              .words(frequency_list)
              .rotate(0)
-             .fontSize(function(d) { return d.size * 1.5; })
+             .fontSize(function(d) { return d.size * 1.15; })
              .on("end", draw)
              .start();
 
      function draw(words) {
          d3.select(".tagcloudcontainer").append("svg")
                  .attr("width", 450)
-                 .attr("height", 300)
+                 .attr("height", 400)
                  .attr("class", "wordcloud")
                  .append("g")
                  // without the transform, words words would get cutoff to the left and top, they would
@@ -2995,21 +3018,26 @@ data = {
                 .append("g")
                     .attr("class", "d3-bubbles-node")
                     .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        
+			var color = d3.scale.linear()
+			.domain([0,1,2,3,4,5,6,10,15,20])
+			.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
+
 
             // Append circles
             node.append("circle")
                 .attr("r", function(d) { return d.r; })
                 .style("fill", function(d,i) {
-                  // return color(i);
+                   return color(i);
                   // customize Color
-                  if(i<5)
+                 /*  if(i<5)
                   {
                     return "#0080cc";
                   }
                   else if(i>=5)
                   {
                     return "#78bce4";
-                  }
+                  } */
                 })
                 .on('mouseover', tip.show)
                 .on('mouseout', tip.hide);
