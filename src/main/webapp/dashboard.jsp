@@ -881,7 +881,10 @@
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
 						</div>
-						<div class="tagcloudcontainer" style="min-height: 420px;"></div>
+						<!-- <div class="tagcloudcontainer" style="min-height: 420px;"></div> -->
+						<div class="chart-container">
+								<div class="chart" id="tagcloudcontainer"></div>
+							</div>
 					</div>
 				</div>
 				<div class="float-right">
@@ -2802,6 +2805,17 @@ var mymarker = [
 
 	<!--word cloud  -->
 	<script>
+	
+	wordtagcloud("#tagcloudcontainer",450);
+	
+	function wordtagcloud(element, height) {
+		
+		var d3Container = d3.select(element),
+        margin = {top: 5, right: 50, bottom: 20, left: 60},
+        width = d3Container.node().getBoundingClientRect().width,
+        height = height - margin.top - margin.bottom - 5;
+		
+		var container = d3Container.append("svg");
 
      var frequency_list = [
     	 <%if (topterms.length() > 0) {
@@ -2812,87 +2826,98 @@ var mymarker = [
     	 <%}
 					}%>
     	
-    	/*	
-    	 
-    	 {"text":"study","size":40},
-    	 {"text":"motion","size":15},
-    	 {"text":"forces","size":10},
-    	 {"text":"electricity","size":15},
-    	 {"text":"movement","size":10},
-    	 {"text":"relation","size":5},
-    	 {"text":"things","size":10},
-    	 {"text":"force","size":5},
-    	 {"text":"ad","size":5},
-    	 {"text":"energy","size":85},
-    	 {"text":"living","size":5},
-    	 {"text":"nonliving","size":5},
-    	 {"text":"laws","size":15},
-    	 {"text":"speed","size":45},
-    	 {"text":"velocity","size":30},
-    	 {"text":"define","size":5},
-    	 {"text":"constraints","size":5},
-    	 {"text":"universe","size":10},
-    	 {"text":"distinguished","size":5},
-    	 {"text":"chemistry","size":5},
-    	 {"text":"biology","size":5},
-    	 {"text":"includes","size":5},
-    	 {"text":"radiation","size":5},
-    	 {"text":"sound","size":5},
-    	 {"text":"structure","size":5},
-    	 {"text":"atoms","size":5},
-    	 {"text":"including","size":10},
-    	 {"text":"atomic","size":10},
-    	 {"text":"nuclear","size":10},
-    	 {"text":"cryogenics","size":10},
-    	 {"text":"solid-state","size":10},
-    	 {"text":"particle","size":10},
-    	 {"text":"plasma","size":10},
-    	 {"text":"deals","size":5},
-    	 {"text":"merriam-webster","size":5},
-    	 {"text":"dictionary","size":10},
-    	 {"text":"analysis","size":5},
-    	 {"text":"conducted","size":5},
-    	 {"text":"order","size":5},
-    	 {"text":"understand","size":5},
-    	 {"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},
-    	 {"text":"power","size":5}
-    	 */
+    
     	 ];
 	
 
      var color = d3.scale.linear()
              .domain([0,1,2,3,4,5,6,10,12,15,20])
              .range(["#0080CC", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
-
-     d3.layout.cloud().size([450,380])
+     var svg =  container;
+     d3.layout.cloud().size([450,400])
              .words(frequency_list)
              .rotate(0)
              .fontSize(function(d) { return d.size * 0.9; })
              .on("end", draw)
              .start();
+    
+     
+    	  /* var zoom = d3.behavior.zoom()
+     		//.x(x)
+    		//.y(y)
+            .scaleExtent([1, 10])
+            .on("zoom", zoomed);   
+     
+             function zoomed() {
+                /* svg.select(".d3-axis-horizontal").call(xAxis);
+                svg.select(".d3-axis-vertical").call(yAxis);   
+                svg.selectAll('.d3-line').attr('d', line); 
 
+                points.selectAll('.d3-dot').attr("transform", function(d) { 
+                    return "translate(" + x(d.point.x) + "," + y(d.point.y) + ")"; } */
+                
+              /*   var g = svg.selectAll("g"); 
+            	//g.attr("transform", "translate(165,180)" + " scale(" + d3.event.scale + ")")
+            	
+            	g.attr("transform", function(d) { 
+                    return "translate(" + x(d.point.x) + "," + y(d.point.y) + ")"; }
+            	
+                );  
+            } */  
      function draw(words) {
-         d3.select(".tagcloudcontainer").append("svg")
-                 .attr("width", 450)
-                 .attr("height", 400)
-                 .attr("class", "wordcloud")
+    	 		svg
+                 .attr("width", width)
+                 .attr("height", height)
+                 //.attr("class", "wordcloud")
                  .append("g")
+                 /* .call(d3.behavior.zoom().on("zoom", function () {
+                	 
+                	    svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+                	    
+                 })) */
                  // without the transform, words words would get cutoff to the left and top, they would
                  // appear outside of the SVG area
-                 .attr("transform", "translate(155,180)")
+                 .attr("transform", "translate(165,180)")
+                  .call(d3.behavior.zoom().on("zoom", function () {
+                	var g = svg.selectAll("g"); 
+                	g.attr("transform", "translate(165,180)" + " scale(" + d3.event.scale + ")")
+                 })) 
+         		
                  .selectAll("text")
                  .data(words)
                  .enter().append("text")
                  .style("font-size", function(d) { return d.size * 0.93 + "px"; })
                  .style("fill", function(d, i) { return color(i); })
+                 .call(d3.behavior.drag()
+         		.origin(function(d) { return d; })
+         		.on("dragstart", dragstarted) 
+         		.on("drag", dragged)			
+         		)
                  .attr("transform", function(d) {
-                     return "translate(" + [d.x + 2, d.y + 3] + ")rotate(" + d.rotate + ")";
+                     return "translate(" + [d.x + 12, d.y + 3] + ")rotate(" + d.rotate + ")";
                  })
 
                  .text(function(d) { return d.text; });
+                	function dragged(d) {
+                	 var movetext = svg.select("g").selectAll("text");
+                	 movetext.attr("dx",d3.event.x)
+                	 .attr("dy",d3.event.y); 
+                	 /* g.attr("transform","translateX("+d3.event.x+")")
+                	 .attr("transform","translateY("+d3.event.y+")")
+                	 .attr("width", width)
+                     .attr("height", height); */
+                	} 
+                	function dragstarted(d){
+        				d3.event.sourceEvent.stopPropagation();
+        			}
+    	 	
+                
+                 
      }
+     
+	}
  </script>
-
+<!-- End of Tag Cloud  -->
 	<!-- Blogger Bubble Chart -->
 	<script>
 
