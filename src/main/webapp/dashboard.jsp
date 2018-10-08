@@ -785,8 +785,8 @@
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
 									for Past <select
-									class="text-primary filtersort sortbytimerange"><option
-										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
+									class="text-primary filtersort sortbytimerange">
+									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
 							</p>
@@ -809,10 +809,13 @@
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
 									for Past <select
-									class="text-primary filtersort sortbytimerange"><option
-										value="week">Week</option>
-									<option value="month">Month</option>
-									<option value="year">Year</option></select>
+									class="text-primary filtersort sortbytimerange">
+									
+									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
+									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
+						
+									</select>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
