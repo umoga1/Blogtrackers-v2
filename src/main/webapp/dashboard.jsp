@@ -140,6 +140,8 @@
 			String possentiment = "0";
 			String negsentiment = "0";
 			String ddey = "31";
+			String dt = dst;
+			String dte = dend;
 			if(!single.equals("")){
 				month = MONTH_ONLY.format(nnow); 
 				day = DAY_ONLY.format(nnow); 
@@ -159,7 +161,10 @@
 
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
 				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
-
+				
+				dt = date_start.toString();
+				dte = date_end.toString();
+				
 				dispfrom = DATE_FORMAT.format(start);
 				dispto = DATE_FORMAT.format(end);
 				termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
@@ -167,7 +172,7 @@
 
 				allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
 			} else if (single.equals("day")) {
-				String dt = year + "-" + month + "-" + day;
+				 dt = year + "-" + month + "-" + day;
 				
 				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 				dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));			
@@ -179,13 +184,13 @@
 					
 			} else if (single.equals("week")) {
 				
-				String dte = year + "-" + month + "-" + day;
+				 dte = year + "-" + month + "-" + day;
 				int dd = Integer.parseInt(day)-7;
 				
 				Calendar cal = Calendar.getInstance();
 				cal.add(Calendar.DATE, -7);
 				Date dateBefore7Days = cal.getTime();
-				String dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
+				dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
 				
 				
 				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
@@ -197,8 +202,8 @@
 				allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 					
 			} else if (single.equals("month")) {
-				String dt = year + "-" + month + "-01";
-				String dte = year + "-" + month + "-"+day;	
+				dt = year + "-" + month + "-01";
+				dte = year + "-" + month + "-"+day;	
 				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 				dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 				
@@ -209,8 +214,8 @@
 				allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 				
 			} else if (single.equals("year")) {
-				String dt = year + "-01-01";
-				String dte = year + "-12-"+ddey;
+				dt = year + "-01-01";
+				dte = year + "-12-"+ddey;
 				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 				dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 				
@@ -229,7 +234,6 @@
 				
 				allauthors=post._getBloggerByBlogId("date",dst, dend,ids);
 				
-
 			}
 			
 			//System.out.println("Terms here:"+termss);
@@ -247,6 +251,7 @@
 		    JSONArray yearsarray = new JSONArray();
 		    JSONObject language = new JSONObject();
 		    ArrayList langlooper = new ArrayList();
+		    
 		    
 			ArrayList authorlooper = new ArrayList();
 			if(allauthors.size()>0){
@@ -273,10 +278,10 @@
 					    String yy= dateyear[0];
 					    
 					   if(!graphyears.has(yy)){
-						   String dt = yy + "-01-01";
-						   String dte = yy + "-12-31";
+						   String dtu = yy + "-01-01";
+						   String dtue = yy + "-12-31";
 						   
-						   String totu = post._searchRangeTotal("date",dt, dte,ids);
+						   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
 						   graphyears.put(yy,totu);
 				    	    //graphyears.put(yy,4);
 				    	   yearsarray.put(k,yy);							    	
@@ -431,29 +436,36 @@
 							durl = domain;
 						}
 					} catch (Exception ex) {}
-
+					
+					String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
 					if (bloggers.has(blogger)) {
 						content = new JSONObject(bloggers.get(blogger).toString());
-						int valu = Integer.parseInt(content.get("value").toString())+1;
+						int valu =0;
+						if(Integer.parseInt(toty)>0){
+						 valu = Integer.parseInt(content.get("value").toString())+1;
+						}
 						content.put("blog", blogname);
 						content.put("id", bobj.get("blogsite_id").toString());
 						content.put("blogger", blogger);
 						content.put("sentiment", sentiment);
 						content.put("postingfreq", posting);
-						content.put("totalposts", bobj.get("totalposts").toString());
+						content.put("totalposts", toty);
 						content.put("value", valu);
 						content.put("blogsite_url", bobj.get("blogsite_url").toString());
 						content.put("blogsite_domain", durl);
 						bloggers.put(blogger, content);
 					} else {
-						int valu = 1;//Integer.parseInt(post._getTotalByBlogger("Miércoles","date", dst, dend));
+						int valu =0;
+						if(Integer.parseInt(toty)>0){
+							 valu = 1;
+						}
 						content.put("blog", blogname);
 						content.put("id", bobj.get("blogsite_id").toString());
 						content.put("blogger", blogger);
 						content.put("sentiment", sentiment);
 						content.put("postingfreq", posting);
 						content.put("value", valu);
-						content.put("totalposts", bobj.get("totalposts").toString());
+						content.put("totalposts", toty);
 						content.put("blogsite_url", bobj.get("blogsite_url").toString());
 						content.put("blogsite_domain", durl);
 						bloggers.put(blogger, content);
