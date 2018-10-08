@@ -66,7 +66,11 @@ public class Login extends HttpServlet {
 		if(!uid.equals("") && !hash.equals("")){
 			DbConnection dbinstance = new DbConnection();
 			String sessionkey =dbinstance.md5Funct(Math.random()+"");
-			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where Username = '"+uid+"' AND MessageDigest = '"+hash+"'");		
+			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where UserName = '"+uid+"' AND MessageDigest = '"+hash+"'");		
+			
+			pww.write("The user id is " + uid +"\n");
+			pww.write("the hash is " + hash + "\n");
+			
 			if(login.size()>0)
 			{		  		
 				HttpSession session = request.getSession();
@@ -74,11 +78,11 @@ public class Login extends HttpServlet {
 				String user = (null==userinfo.get(0))?"":userinfo.get(0).toString();
 				
 				session.setAttribute("key",sessionkey);
-				System.out.println(request.getAttribute("key"));
+				pww.write("The session attribute key contains " + session.getAttribute("key") +"\n");
 				session.setAttribute(sessionkey,user);
-				System.out.println(sessionkey);
+				//pww.write("The parameter sessionkey is "+ sessionkey + "\n");
 				JSONObject resp = new JSONObject();
-				resp.put("key",user);
+				resp.put("key",sessionkey);
 				response.setStatus(200);
 				pww.write(resp.toString());		
 			}else {

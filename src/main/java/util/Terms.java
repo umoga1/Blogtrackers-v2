@@ -56,7 +56,7 @@ public ArrayList _list(String order, String from) throws Exception {
 	 }
 	 
 	 
-     String url = base_url+"_search?size=50";
+     String url = base_url+"_search?size=500";
      return this._getResult(url, jsonObj);   
     }
 
@@ -103,7 +103,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 		"}";
 	JSONObject jsonObj = new JSONObject(que);
 	 
-    String url = base_url+"_search";
+    String url = base_url+"_search?size=100";
     return this._getResult(url,jsonObj);
 }
 
@@ -123,7 +123,7 @@ public ArrayList _search(String term,String from) throws Exception {
 	 		"}");
 	
 	 
-    String url = base_url+"_search?size=10";
+    String url = base_url+"_search?size=100";
     if(!from.equals("")) {
     	jsonObj = new JSONObject("{\r\n" + 
     			"  \"query\": {\r\n" + 

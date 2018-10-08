@@ -213,6 +213,7 @@ if(f.exists() && !f.isDirectory()) {
 							ArrayList blogs = null;
 							ArrayList resut = new ArrayList();
 							int bpost = 0;
+							
 
 							for (int i = 0; i < detail.size(); i++) {
 								resut = (ArrayList<?>)detail.get(0);
@@ -298,10 +299,10 @@ if(f.exists() && !f.isDirectory()) {
 	<h6 class="text-primary labeltext">Posts</h6>
 	</div>
 	
-	<div class="float-left statcontainer">
+	<!-- <div class="float-left statcontainer">
 	<b class="stattext">0</b>
-	<h6 class="text-primary labeltext">Bloggers</h6>
-	</div>
+	<h6 class="text-primary labeltext">Comments</h6>
+	</div> -->
 	<input type="hidden" id="teeid" value="<%=tid%>" />
 	</div>
 	
