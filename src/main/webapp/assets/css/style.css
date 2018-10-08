@@ -26,7 +26,10 @@ padding-right:15px;
 display:none;	
 }
 
-
+.featuresslides .carousel-inner .carousel-item
+{
+min-height:186px;	
+}
 .headertextwhatcanyoudo
 {
 font-weight:bolder;	
