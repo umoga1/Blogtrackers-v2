@@ -818,17 +818,17 @@
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-<<<<<<< HEAD
+
 								Posting Frequency 
 								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-=======
+
+
 								Posting Frequency for Past <select
 									class="text-primary filtersort sortbytimerange">
 									<option value="" >All</option>
 									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
->>>>>>> d325f47f8c0a2a38710834ea17f3d2498d046b68
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
