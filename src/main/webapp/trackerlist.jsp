@@ -1,8 +1,7 @@
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
-<%@page import="java.util.*"%>
 <%@page import="java.io.File"%>
-<%@page import="util.Trackers"%>
+<%@page import="util.*"%>
 <%@page import="util.Blogs"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
@@ -46,6 +45,9 @@
 			}
 			String[] user_name = name.split(" ");
 			Trackers tracker = new Trackers();
+
+			Blogposts post = new Blogposts();
+			
 			Blogs blg = new Blogs();
 			String term = (null == request.getParameter("term")) ? "" : request.getParameter("term");
 			ArrayList results = null;
@@ -307,18 +309,7 @@
 									
 									blogs = blg._fetch(query);
 									totalblog = blogs.size();
-									//System.out.println(blogs);
-									if (blogs.size() > 0) {
-										for (int k = 0; k < blogs.size(); k++) {
-											bres = blogs.get(k).toString();
-											bresp = new JSONObject(bres);
-											bresu = bresp.get("_source").toString();
-											bobj = new JSONObject(bresu);
-											bpost = Integer.parseInt(bobj.get("totalposts").toString());
-											totalpost += bpost;
-										}
-									}
-									
+									totalpost = Integer.parseInt(post._getTotalByBlogId(query, ""));
 								}
 			%>
 			

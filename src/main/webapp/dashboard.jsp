@@ -142,6 +142,8 @@
 			String ddey = "31";
 			String dt = dst;
 			String dte = dend;
+			String year_start="";
+			String year_end="";
 			if(!single.equals("")){
 				month = MONTH_ONLY.format(nnow); 
 				day = DAY_ONLY.format(nnow); 
@@ -241,14 +243,29 @@
 			ArrayList blogs = blog._fetch(ids);
 			int totalblog = blogs.size();
 			
+			JSONObject graphyears = new JSONObject();
+		    JSONArray yearsarray = new JSONArray();
+		    
+			String[] yst = dt.split("-");
+			String[] yend = dte.split("-");
+			year_start = yst[0];
+			year_end = yend[0];
+			int ystint = Integer.parseInt(year_start);
+			int yendint = Integer.parseInt(year_end);
 			
+			int b=0;
+			for(int y=ystint; y<yendint; y++){
+					   String dtu = y + "-01-01";
+					   String dtue = y + "-12-31";
+					   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
+					   graphyears.put(y+"",totu);
+			    	   yearsarray.put(b,y);	
+			    	   b++;
+			}
 			
-		  
 		    JSONObject authors = new JSONObject();
 		    
 		    JSONArray authorcount = new JSONArray();
-		    JSONObject graphyears = new JSONObject();
-		    JSONArray yearsarray = new JSONArray();
 		    JSONObject language = new JSONObject();
 		    ArrayList langlooper = new ArrayList();
 		    
@@ -277,16 +294,7 @@
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
 					    
-					   if(!graphyears.has(yy)){
-						   String dtu = yy + "-01-01";
-						   String dtue = yy + "-12-31";
-						   
-						   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
-						   graphyears.put(yy,totu);
-				    	    //graphyears.put(yy,4);
-				    	   yearsarray.put(k,yy);							    	
-				    		k++;
-				    	}
+					   
 					   
 					    if(authors.has(auth)){
 							content = new JSONObject(authors.get(auth).toString());
@@ -319,34 +327,7 @@
 			} 
 			
 			
-			JSONArray sortedyearsarray = new JSONArray();
-			List<String> jsonList = new ArrayList<String>();
-			for (int i = 0; i < yearsarray.length(); i++) {
-				System.out.println(yearsarray.get(i));
-				
-			    jsonList.add(yearsarray.get(i).toString());
-			}
-			
-			Collections.sort( jsonList, new Comparator<String>() {
-			    public int compare(String a, String b) {
-			        String valA = new String();
-			        String valB = new String();
-
-			        try {
-			            valA = (String) a;
-			            valB = (String) b;
-			        } 
-			        catch (Exception e) {
-			            //do something
-			        }
-			        return valA.compareTo(valB);
-			    }
-			});
-			
-			for (int i = 0; i < yearsarray.length(); i++) {
-			    sortedyearsarray.put(jsonList.get(i));
-			}
-			
+			JSONArray sortedyearsarray = post._sortJson(yearsarray);
 			
 			JSONObject sentimentblog = new JSONObject();
 			if (sentiments.size() > 0) {
@@ -478,7 +459,8 @@
 						content.put("id", bobj.get("blogsite_id").toString());
 						content.put("blogger", blogger);
 						content.put("sentiment", sentiment);
-						content.put("postingfreq", posting);
+						//content.put("postingfreq", posting);
+						content.put("postingfreq", toty);
 						content.put("totalposts", toty);
 						content.put("value", valu);
 						content.put("blogsite_url", bobj.get("blogsite_url").toString());
