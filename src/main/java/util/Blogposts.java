@@ -14,7 +14,6 @@ import org.json.JSONArray;
 
 import java.io.OutputStreamWriter;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

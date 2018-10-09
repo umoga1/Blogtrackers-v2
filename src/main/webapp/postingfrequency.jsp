@@ -105,7 +105,7 @@ String allpost = "0";
 ArrayList allauthors = new ArrayList();
 if(!ids.equals("")){
 	allpost = post._getTotalByBlogId(ids,"");
-	allauthors=post._getBloggerByBlogId(ids,"");
+//	allauthors=post._getBloggerByBlogId(ids,"");
 	
 	
 }
