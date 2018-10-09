@@ -1842,7 +1842,7 @@ $(function () {
           y.domain(data.map(function(d) { return d.letter; }));
 
           // Vertical
-          x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
+          x.domain([d3.min(data, function(d) { return d.frequency; }),d3.max(data, function(d) { return d.frequency; })]);
       //
       //
       //     //
