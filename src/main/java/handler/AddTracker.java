@@ -92,9 +92,9 @@ public class AddTracker extends HttpServlet {
 
 							 String addendum = "blogsite_id in ("+mergedblogs+")";
 							 
-							// System.out.println(addendum);
 							String site = resp.getString("site");
-							db.updateTable("UPDATE blogsites SET blogsite_name='"+addendum+"', blogsite_url = '"+blognum+"', site_type='11'  WHERE  tid='"+tracker_id+"'");	
+							String id = resp.getString("id");
+							db.updateTable("UPDATE blogsites SET blogsite_name='"+site+"', blogsite_url = '"+site+"', site_type='11'  WHERE  site_type='11'");	
 							
 					 }
 				pww.write("successful request");

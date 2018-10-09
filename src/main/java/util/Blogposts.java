@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL; 
 import org.json.JSONObject;
+import java.util.*;
 
 import authentication.DbConnection;
 
@@ -15,7 +16,9 @@ import org.json.JSONArray;
 import java.io.OutputStreamWriter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class Blogposts {
 
@@ -516,6 +519,34 @@ public class Blogposts {
 		}catch(Exception ex) {}
 		return  total;
 	}
+	
+	public JSONArray _sortJson(JSONArray yearsarray) {
+	JSONArray sortedyearsarray = new JSONArray();
+	List<String> jsonList = new ArrayList<String>();
+	for (int i = 0; i < yearsarray.length(); i++) {
+	    jsonList.add(yearsarray.get(i).toString());
+	}
+	
+	Collections.sort( jsonList, new Comparator<String>() {
+	    public int compare(String a, String b) {
+	        String valA = new String();
+	        String valB = new String();
 
+	        try {
+	            valA = (String) a;
+	            valB = (String) b;
+	        } 
+	        catch (Exception e) {
+	            //do something
+	        }
+	        return valA.compareTo(valB);
+	    }
+	});
+	
+	for (int i = 0; i < yearsarray.length(); i++) {
+	    sortedyearsarray.put(jsonList.get(i));
+	}
+		return sortedyearsarray;
+	}
 
 }
