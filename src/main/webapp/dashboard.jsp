@@ -824,11 +824,6 @@
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 
-
-								Posting Frequency for Past <select
-									class="text-primary filtersort sortbytimerange">
-									<option value="" >All</option>
-									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
@@ -864,16 +859,10 @@
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
 									
-<<<<<<< HEAD
 									<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-=======
-									for Past <select
-									class="text-primary filtersort sortbytimerange">
-									<option value="" >All</option>
-									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
->>>>>>> d325f47f8c0a2a38710834ea17f3d2498d046b68
+
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
@@ -903,16 +892,11 @@
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
-<<<<<<< HEAD
+
 									<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-=======
-									for Past <select
-									class="text-primary filtersort sortbytimerange">
-									<option value="" >All</option>
-									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
->>>>>>> d325f47f8c0a2a38710834ea17f3d2498d046b68
+
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
@@ -941,17 +925,11 @@
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-<<<<<<< HEAD
+
 								Blog Distribution 
 								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-=======
-								Blog Distribution for Past <select
-									class="text-primary filtersort sortbytimerange">
-									<option value="" >All</option>
-									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
->>>>>>> d325f47f8c0a2a38710834ea17f3d2498d046b68
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
@@ -978,17 +956,11 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-<<<<<<< HEAD
+
 								Blogger Distribution 
 								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-=======
-								Blogger Distribution for Past <select
-									class="text-primary filtersort sortbytimerange">
-									<option value="" >All</option>
-									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
->>>>>>> d325f47f8c0a2a38710834ea17f3d2498d046b68
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
@@ -1021,17 +993,11 @@
 								Most Active 
 								<select id="swapBlogger" class="text-primary filtersort sortbyblogblogger">
 									<option value="blogs">Blogs</option>
-<<<<<<< HEAD
+
 									<option value="bloggers">Bloggers</option></select> 
 							<%-- 		of Past <select
 									class="text-primary filtersort sortbytimerange" id="active-sortdate"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-=======
-									<option value="bloggers">Bloggers</option></select> of Past 
-									<select class="text-primary filtersort sortbytimerange" id="active-sortdate">
-									<option value="" >All</option>
-									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
->>>>>>> d325f47f8c0a2a38710834ea17f3d2498d046b68
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 						</p>
@@ -1059,18 +1025,11 @@
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-<<<<<<< HEAD
-								Most Influential  <select class="text-primary filtersort sortby" id="sortbyselect"><option>Recent </option><option value="blogger">Influence Score</option></select>
-								<%--  of Past <select
+
+								Most Influential  <%--<select class="text-primary filtersort sortby" id="sortbyselect"><option>Recent </option><option value="blogger">Influence Score</option></select>
+								  of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-=======
-								Most Influential  <select class="text-primary filtersort sortby" id="sortbyselect">Recent </option><option value="blogger">Influence Score</option></select>
-								 of Past <select
-									class="text-primary filtersort sortbytimerange">
-									<option value="" >All</option>
-									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
->>>>>>> d325f47f8c0a2a38710834ea17f3d2498d046b68
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
@@ -1109,17 +1068,11 @@
 										<!-- of <select id="top-sorttype"
 										class="text-primary filtersort sortbyblogblogger" ><option
 											value="blogs">Blogs</option>
-<<<<<<< HEAD
+
 										<option value="bloggers">Bloggers</option></select>  -->
 									<%-- 	of Past <select
 										class="text-primary filtersort sortbytimerange" id="top-sortdate" ><option
 											value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-=======
-										<option value="bloggers">Bloggers</option></select> of Past <select
-										class="text-primary filtersort sortbytimerange" id="top-sortdate" >
-										<option value="" >All</option>
-										<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
->>>>>>> d325f47f8c0a2a38710834ea17f3d2498d046b68
 										<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 										<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 								</p>
