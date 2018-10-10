@@ -1315,6 +1315,7 @@ $(document).ready(function() {
                  endDate: moment(),
                  minDate: '01/01/1947',
                  maxDate: moment(),
+                 linkedCalendars: false,
                  maxSpan: {
                      days: 50000
                  },

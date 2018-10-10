@@ -793,6 +793,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
        	          endDate: moment(),
        	          minDate: '01/01/1947',
        	          maxDate: moment(),
+       	      	 linkedCalendars: false,
        			  showDropdowns: true,
        	          showWeekNumbers: true,
        	          timePicker : false,
