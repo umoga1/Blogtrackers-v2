@@ -220,14 +220,28 @@ public class Tracker extends HttpServlet {
 			}catch(Exception ex) {
 				pww.write("false"); 
 			}
+		}else if(action.equals("setselected")) {
+			
+			try {
+				String ids= request.getParameter("blog_ids").replaceAll("\\<.*?\\>", "");
+				JSONObject jblog = new JSONObject();
+				String output = "false";
+				String[] bloggs = ids.split(",");
+				for(int k=0; k<bloggs.length; k++) {
+					jblog.put(bloggs[k], bloggs[k]);
+				}
+				session.setAttribute("selected",jblog.toString());
+				pww.write("added"); 
+			}catch(Exception ex) {
+				pww.write("false"); 
+			}
 		}else if(action.equals("delete")) {	
 			try {
 					String tid = request.getParameter("tracker_id");
 					new DbConnection().updateTable("DELETE FROM trackers WHERE  tid='"+tracker_id+"' AND userid='"+userid+"'");						
 					
 					ArrayList trackers = new DbConnection().query("SELECT * FROM trackers WHERE userid='"+userid+"'");
-		        	//sesson.setAttribute("trackers", trackers);
-		       		pww.write("true");
+		        	pww.write("true");
 				}catch(Exception ex) {
 					 pww.write("false"); 
 				}			
