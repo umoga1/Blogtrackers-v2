@@ -254,7 +254,7 @@
 			int yendint = Integer.parseInt(year_end);
 			
 			int b=0;
-			for(int y=ystint; y<yendint; y++){
+			for(int y=ystint; y<=yendint; y++){
 					   String dtu = y + "-01-01";
 					   String dtue = y + "-12-31";
 					   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
@@ -2032,10 +2032,11 @@ $(function () {
 							int size = Integer.parseInt(resu.get("postingfreq").toString());
 							if (size > 200 && p < 10) {
 								p++;%>
-    			{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-    			 <%}
-						}
-					}%>
+    							{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+    		 <% 			}
+					}
+				}
+			%>
             //{letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},
             
         ];
