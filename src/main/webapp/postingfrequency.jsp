@@ -714,6 +714,7 @@ if(!ids.equals("")){
        	      {   startDate: moment().subtract(3500, 'days'),
        	          endDate: moment(),
        	          minDate: '01/01/1947',
+       	       	  linkedCalendars: false,
        	          maxDate: moment(),
        			  showDropdowns: true,
        	          showWeekNumbers: false,
