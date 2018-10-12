@@ -46,7 +46,7 @@ $(function () {
 
       // Define main variables
       var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 60},
+          margin = {top: 5, right: 50, bottom: 20, left: 150},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
 
@@ -169,10 +169,12 @@ $(function () {
               .style("color","yellow")
               .call(yAxis)
               .selectAll("text")
-   			.attr("y", -25)
+              .style("font-size",11)
+              .style("text-transform","capitalize")
+   			/* .attr("y", -25)
     			.attr("x", 40)
     		.attr("dy", ".75em")
-    		.attr("transform", "rotate(-70)")
+    		.attr("transform", "rotate(-70)") */
      
       
       var colorblogs = d3.scale.linear()
@@ -185,7 +187,9 @@ $(function () {
               .append("rect")
                   .attr("class", "d3-bar")
                   .attr("y", function(d) { return y(d.letter); })
-                  .attr("height", y.rangeBand())
+                  //.attr("height", y.rangeBand())
+                  .attr("height", 30)
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
                   .attr("width", function(d) { return x(d.frequency); })
                   .style("fill", function(d,i) {

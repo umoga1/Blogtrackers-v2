@@ -5,6 +5,7 @@
 <%@page import="org.json.JSONObject"%>
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.net.URI"%>
+<%@page import="java.text.NumberFormat" %>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -723,7 +724,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-file-alt icondash"></i>Posts
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%=totalpost%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost)) %></h3>
 					</div>
 				</div>
 			</div>
@@ -1026,8 +1027,8 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Most Influential  <%--<select class="text-primary filtersort sortby" id="sortbyselect"><option>Recent </option><option value="blogger">Influence Score</option></select>
-								  of Past <select
+								Most Influential  <select class="text-primary filtersort sortbyblogblogger" id="sortbyselect"><option value="blog">Blog </option><option value="blogger">Blogger</option></select>
+						<%--		  of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
@@ -1457,7 +1458,7 @@ $(function () {
 
       // Define main variables
       var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 60},
+          margin = {top: 5, right: 50, bottom: 20, left: 150},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
 
@@ -1468,7 +1469,7 @@ $(function () {
 
       // Horizontal
       var y = d3.scale.ordinal()
-          .rangeRoundBands([height,0], .65, .65);
+          .rangeRoundBands([height,0], .5, .40);
 
       // Vertical
       var x = d3.scale.linear()
@@ -1592,7 +1593,10 @@ $(function () {
           var verticalAxis = svg.append("g")
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
               .style("color","yellow")
-              .call(yAxis);
+              .call(yAxis)
+              .selectAll("text")
+              .style("font-size",11)
+              .style("text-transform","capitalize");
       //
       //
       //     // Add text label
@@ -1614,7 +1618,9 @@ $(function () {
               .append("rect")
                   .attr("class", "d3-bar")
                   .attr("y", function(d) { return y(d.letter); })
-                  .attr("height", y.rangeBand())
+                  //.attr("height", y.rangeBand())
+                   .attr("height", 30)
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
                   .attr("width", function(d) { return x(d.frequency); })
                    .style("fill", function(d) {
@@ -1718,7 +1724,7 @@ $(function () {
 
       // Define main variables
       var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 60},
+          margin = {top: 5, right: 50, bottom: 20, left: 150},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
 
@@ -1836,7 +1842,7 @@ $(function () {
           y.domain(data.map(function(d) { return d.letter; }));
 
           // Vertical
-          x.domain([d3.min(data, function(d) { return d.frequency; }),d3.max(data, function(d) { return d.frequency; })]);
+          x.domain([d3.min(data, function(d) { return d.frequency-20; }),d3.max(data, function(d) { return d.frequency; })]);
       //
       //
       //     //
@@ -1858,10 +1864,12 @@ $(function () {
               .style("color","yellow")
               .call(yAxis)
               .selectAll("text")
-   			.attr("y", -25)
+              .style("font-size",11)
+              .style("text-transform","capitalize")
+   			/* .attr("y", -25)
     		.attr("x", 20)
     		.attr("dy", ".75em")
-    		.attr("transform", "rotate(-70)");
+    		.attr("transform", "rotate(-70)"); */
       //
       //
       //     // Add text label
@@ -1883,7 +1891,9 @@ $(function () {
               .append("rect")
                   .attr("class", "d3-bar")
                   .attr("y", function(d) { return y(d.letter); })
-                  .attr("height", y.rangeBand())
+                  //.attr("height", y.rangeBand())
+                  .attr("height", 30)
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
                   .attr("width", function(d) { return x(d.frequency); })
                   .style("fill", function(d) {
@@ -2131,6 +2141,7 @@ $(function () {
               .call(yAxis)
               .selectAll("text")
               .style("font-size",11)
+              .style("text-transform","capitalize")
    			//.attr("y", -25)
     		//	.attr("x", 40)
     		//.attr("dy", ".75em")
