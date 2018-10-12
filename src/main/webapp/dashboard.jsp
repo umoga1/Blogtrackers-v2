@@ -1612,7 +1612,7 @@ $(function () {
       //
       //
       //     // Add bars
-          svg.selectAll(".d3-bar")
+          transitionbar= svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
@@ -1622,7 +1622,7 @@ $(function () {
                    .attr("height", 30)
                   .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
-                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr("width", 0)
                    .style("fill", function(d) {
                   maxvalue = d3.max(data, function(d) { return d.frequency; });
                   if(d.frequency == maxvalue)
@@ -1637,7 +1637,11 @@ $(function () {
                 }) 
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
-
+          transitionbar.transition()
+          .delay(200)
+          .duration(1000)
+          .attr("width", function(d) { return x(d.frequency); })
+          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
 
                   // svg.selectAll(".d3-bar")
                   //     .data(data)
@@ -2860,10 +2864,10 @@ var mymarker = [
                  .attr("height", height)
                  //.attr("class", "wordcloud")
                  .append("g")
-                 .attr("transform", "translate("+ width/2 - 5 +",180)")
+                 .attr("transform", "translate("+ width/2 +",180)")
                   .call(d3.behavior.zoom().on("zoom", function () {
                 	var g = svg.selectAll("g"); 
-                	g.attr("transform", "translate("+width/2 - 5 +",180)" + " scale(" + d3.event.scale + ")")
+                	g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")")
                  })) 
          		
                  .selectAll("text")
