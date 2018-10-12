@@ -284,6 +284,7 @@
 
 							for (int i = 0; i < results.size(); i++) {
 								resut = (ArrayList)results.get(i);
+							
 								int totalblog =0;
 							    String id = resut.get(0).toString();
 							    query = resut.get(5).toString();//obj.get("query").toString();
