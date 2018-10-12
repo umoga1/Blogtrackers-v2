@@ -78,7 +78,8 @@ if(term.equals("")){
 	results = post._search(term,"0",sort);
 }
 
-String total = post._getTotal();//NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(post._getTotal()));
+String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(post._getTotal()));
+//NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(post._getTotal()));
 
 //pimage = pimage.replace("build/", "");
 %>
