@@ -304,7 +304,7 @@ for(int i=0; i< mytrackers.size(); i++){
 </div>
 
 
-<div class="container">
+<div class="container analyticscontainer">
 
 
 <div class="row mt50">
