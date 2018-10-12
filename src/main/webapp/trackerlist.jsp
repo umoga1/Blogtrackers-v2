@@ -237,7 +237,7 @@
 		</div>
 
 	</nav>
-	<div class="container">
+	<div class="container analyticscontainer">
 
 
 		<div class="row mt30">

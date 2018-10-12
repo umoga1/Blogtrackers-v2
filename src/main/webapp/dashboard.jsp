@@ -649,7 +649,7 @@
 	</nav>
 
 
-	<div class="container">
+	<div class="container analyticscontainer">
 		<div class="row">
 			<div class="col-md-6 ">
 				<nav class="breadcrumb">
