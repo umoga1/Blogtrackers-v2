@@ -1889,7 +1889,7 @@ $(function () {
       //
       //
       //     // Add bars
-          svg.selectAll(".d3-bar")
+          var transitionbar = svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
@@ -1899,7 +1899,7 @@ $(function () {
                   .attr("height", 30)
                   .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
-                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr("width", 0)
                   .style("fill", function(d) {
                   maxvalue = d3.max(data, function(d) { return d.frequency; });
                   if(d.frequency == maxvalue)
@@ -1914,6 +1914,12 @@ $(function () {
                 })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
+      
+          transitionbar.transition()
+          .delay(200)
+          .duration(1000)
+          .attr("width", function(d) { return x(d.frequency); })
+          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
 
 
                   // svg.selectAll(".d3-bar")
@@ -2171,7 +2177,7 @@ $(function () {
 	.domain([0,1,2,3,4,5,6,10,15,20])
 	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
 
-          svg.selectAll(".d3-bar")
+         var transitionbar =  svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
@@ -2180,7 +2186,7 @@ $(function () {
                   .attr("height", 30)
                   .attr("x", function(d) { return 0; })
                   .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
-                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr("width", 0)
                   .style("fill", function(d,i) {
                  // maxvalue = d3.max(data, function(d) { return d.frequency; });
                  //console.log(i)
@@ -2204,6 +2210,12 @@ $(function () {
                 })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
+         
+          transitionbar.transition()
+         .delay(200)
+         .duration(1000)
+         .attr("width", function(d) { return x(d.frequency); })
+         .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')'); 
 
 
                   // svg.selectAll(".d3-bar")
@@ -2429,7 +2441,7 @@ $(function () {
       //
       //
       //     // Add bars
-          svg.selectAll(".d3-bar")
+          transitionbar = svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
@@ -2439,12 +2451,16 @@ $(function () {
                   .attr("height", 30)
                   .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
-                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr("width", 0)
                   .style("fill", function(d,i) { return color(i);   })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
 
-
+          transitionbar.transition()
+          .delay(200)
+          .duration(1000)
+          .attr("width", function(d) { return x(d.frequency); })
+          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
                   // svg.selectAll(".d3-bar")
                   //     .data(data)
                   //     .enter()
