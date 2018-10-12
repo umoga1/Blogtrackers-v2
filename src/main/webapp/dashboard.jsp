@@ -2853,46 +2853,17 @@ var mymarker = [
              .on("end", draw)
              .start();
     
-     
-    	  /* var zoom = d3.behavior.zoom()
-     		//.x(x)
-    		//.y(y)
-            .scaleExtent([1, 10])
-            .on("zoom", zoomed);   
-     
-             function zoomed() {
-                /* svg.select(".d3-axis-horizontal").call(xAxis);
-                svg.select(".d3-axis-vertical").call(yAxis);   
-                svg.selectAll('.d3-line').attr('d', line); 
-
-                points.selectAll('.d3-dot').attr("transform", function(d) { 
-                    return "translate(" + x(d.point.x) + "," + y(d.point.y) + ")"; } */
-                
-              /*   var g = svg.selectAll("g"); 
-            	//g.attr("transform", "translate(165,180)" + " scale(" + d3.event.scale + ")")
-            	
-            	g.attr("transform", function(d) { 
-                    return "translate(" + x(d.point.x) + "," + y(d.point.y) + ")"; }
-            	
-                );  
-            } */  
+       
      function draw(words) {
     	 		svg
                  .attr("width", width)
                  .attr("height", height)
                  //.attr("class", "wordcloud")
                  .append("g")
-                 /* .call(d3.behavior.zoom().on("zoom", function () {
-                	 
-                	    svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
-                	    
-                 })) */
-                 // without the transform, words words would get cutoff to the left and top, they would
-                 // appear outside of the SVG area
-                 .attr("transform", "translate(165,180)")
+                 .attr("transform", "translate("+ width/2 - 5 +",180)")
                   .call(d3.behavior.zoom().on("zoom", function () {
                 	var g = svg.selectAll("g"); 
-                	g.attr("transform", "translate(165,180)" + " scale(" + d3.event.scale + ")")
+                	g.attr("transform", "translate("+width/2 - 5 +",180)" + " scale(" + d3.event.scale + ")")
                  })) 
          		
                  .selectAll("text")
