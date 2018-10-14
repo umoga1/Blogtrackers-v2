@@ -43,12 +43,11 @@
 		Outlinks outl = new Outlinks();
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
-			//System.out.println(detail);
+			System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
-			System.out.println("List:"+detail);
+			//System.out.println("List:"+detail);
 		}
-		
 		
 		boolean isowner = false;
 		JSONObject obj = null;
@@ -124,7 +123,9 @@
 			String day = DAY_ONLY.format(today);
 			
 			String month = MONTH_ONLY.format(today);
+			
 			String smallmonth = SMALL_MONTH_ONLY.format(today);
+
 			String year = YEAR_ONLY.format(today);
 
 			String dispfrom = DATE_FORMAT.format(dstart);
@@ -135,6 +136,16 @@
 
 			//ArrayList posts = post._list("DESC","");
 			ArrayList sentiments = senti._list("DESC", "", "id");
+			 
+		 	/* Liwc liwc = new Liwc();
+			
+			ArrayList liwcSent = liwc._list("DESC", ""); 
+			
+			String test = post._searchRangeTotal("date", "2013-04-01", "2018-04-01", "1");
+			
+			System.out.println(test);  */
+		
+			
 			String totalpost = "0";
 			ArrayList allauthors = new ArrayList();
 
@@ -145,6 +156,7 @@
 			String dte = dend;
 			String year_start="";
 			String year_end="";
+			
 			if(!single.equals("")){
 				month = MONTH_ONLY.format(nnow); 
 				day = DAY_ONLY.format(nnow); 
@@ -156,11 +168,13 @@
 					ddey = "30";
 				}
 			}
-			
+			//System.out.println(s)
+			//System.out.println("start date"+date_start+"end date "+date_end);
 			if (!date_start.equals("") && !date_end.equals("")) {
 				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
 				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
 				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+								
 
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
 				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());

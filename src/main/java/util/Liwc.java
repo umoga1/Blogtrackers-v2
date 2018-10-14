@@ -30,7 +30,7 @@ public class Liwc {
 				"        \"match_all\": {}\r\n" + 
 				"    },\r\n" + 
 				"	\"sort\":{\r\n" + 
-				"		\"id\":{\r\n" + 
+				"		\"_id\":{\r\n" + 
 				"			\"order\":\""+order+"\"\r\n" + 
 				"			}\r\n" + 
 				"		}\r\n" + 
@@ -42,7 +42,7 @@ public class Liwc {
 					"        \"match_all\": {}\r\n" + 
 					"    },\r\n" + 
 					"	\"sort\":{\r\n" + 
-					"		\"id\":{\r\n" + 
+					"		\"_id\":{\r\n" + 
 					"			\"order\":\"DESC\"\r\n" + 
 					"			}\r\n" + 
 					"		},\r\n" + 
@@ -64,6 +64,8 @@ public class Liwc {
 	public String _getTotal() {
 		return this.totalpost;
 	}
+	
+	
 
 	public ArrayList _searchByRange(String field,String greater, String less, String blog_ids) throws Exception {
 		String[] args = blog_ids.split(","); 
@@ -85,7 +87,7 @@ public class Liwc {
 				"		  \"constant_score\":{\r\n" + 
 				"					\"filter\":{\r\n" + 
 				"							\"terms\":{\r\n" + 
-				"							\"blogsiteid\":"+arg2+"\r\n" + 
+				"							\"blogpostid\":"+arg2+"\r\n" + 
 				"									}\r\n" + 
 				"							}\r\n" + 
 				"						}\r\n" + 
@@ -107,6 +109,50 @@ public class Liwc {
 		String url = base_url+"_search";
 		return this._getResult(url,jsonObj);
 	}
+	
+	public String _searchRangeTotal(String field,String greater, String less, String blog_ids) throws Exception {
+		String[] args = blog_ids.split(","); 
+		JSONArray pars = new JSONArray(); 
+		ArrayList<String> ar = new ArrayList<String>();	
+		for(int i=0; i<args.length; i++){
+			pars.put(args[i].replaceAll(" ", ""));
+		}
+
+		String arg2 = pars.toString();
+		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
+
+
+		String que="{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"bool\": {\r\n" + 
+				"      \"must\": [\r\n" + 
+				"        {\r\n" + 
+				"		  \"constant_score\":{\r\n" + 
+				"					\"filter\":{\r\n" + 
+				"							\"terms\":{\r\n" + 
+				"							\"blogpostid\":"+arg2+"\r\n" + 
+				"									}\r\n" + 
+				"							}\r\n" + 
+				"						}\r\n" + 
+				"		},\r\n" + 
+				"        {\r\n" + 
+				"		  \"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"      ]\r\n" + 
+				"    }\r\n" + 
+				"  }\r\n" + 
+				"}";
+		JSONObject jsonObj = new JSONObject(que);
+
+		String url = base_url+"_search";
+		return this._getTotal(url,jsonObj);
+	}
+	
 
 	public ArrayList _search(String term,String from) throws Exception {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
@@ -171,6 +217,51 @@ public class Liwc {
 		return this._getResult(url, jsonObj);
 
 	}
+	
+	public String _getTotal(String url, JSONObject jsonObj) throws Exception {
+		String total = "0";
+		try {
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+		con.setDoOutput(true);
+		con.setDoInput(true);
+
+		con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+		con.setRequestProperty("Accept", "application/json");
+		con.setRequestMethod("POST");
+
+		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+		wr.write(jsonObj.toString());
+		wr.flush();
+
+		//add request header
+		//con.setRequestProperty("User-Agent", "Mozilla/5.0");
+		int responseCode = con.getResponseCode();
+
+		BufferedReader in = new BufferedReader(
+				new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		
+		}
+		in.close();
+
+		JSONObject myResponse = new JSONObject(response.toString());
+		ArrayList<String> list = new ArrayList<String>(); 
+		//System.out.println(myResponse.get("hits"));
+		if(null!=myResponse.get("hits")) {
+			String res = myResponse.get("hits").toString();
+			JSONObject myRes1 = new JSONObject(res);          
+			total = myRes1.get("total").toString();              
+		}
+		}catch(Exception ex) {}
+		return  total;
+	}
+	
 
 	public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 		ArrayList<String> list = new ArrayList<String>(); 

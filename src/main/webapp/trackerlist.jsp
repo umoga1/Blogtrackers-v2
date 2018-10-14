@@ -307,7 +307,6 @@
 								}
 
 								if (!query.equals("") ) {
-									
 									blogs = blg._fetch(query);
 									totalblog = blogs.size();
 									totalpost = Integer.parseInt(post._getTotalByBlogId(query, ""));
