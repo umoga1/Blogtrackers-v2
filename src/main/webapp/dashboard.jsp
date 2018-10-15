@@ -463,29 +463,10 @@
 						}
 					} catch (Exception ex) {}
 					
-					String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
-					if (bloggers.has(blogger)) {
-						content = new JSONObject(bloggers.get(blogger).toString());
-						int valu =0;
-						if(Integer.parseInt(toty)>0){
-						 valu = Integer.parseInt(content.get("value").toString())+1;
-						}
-						content.put("blog", blogname);
-						content.put("id", bobj.get("blogsite_id").toString());
-						content.put("blogger", blogger);
-						content.put("sentiment", sentiment);
-						//content.put("postingfreq", posting);
-						content.put("postingfreq", toty);
-						content.put("totalposts", toty);
-						content.put("value", valu);
-						content.put("blogsite_url", bobj.get("blogsite_url").toString());
-						content.put("blogsite_domain", durl);
-						bloggers.put(blogger, content);
-					} else {
-						int valu =0;
-						if(Integer.parseInt(toty)>0){
-							 valu = 1;
-						}
+						String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
+						String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
+						int valu = Integer.parseInt(btoty);
+						
 						content.put("blog", blogname);
 						content.put("id", bobj.get("blogsite_id").toString());
 						content.put("blogger", blogger);
@@ -497,9 +478,7 @@
 						content.put("blogsite_domain", durl);
 						bloggers.put(blogger, content);
 						looper.add(m, blogger);
-						m++;
-					}
-					
+						m++;		
 				}
 
 			}
@@ -2923,7 +2902,7 @@ var mymarker = [
     	 <%if (topterms.length() > 0) {
 						for (int i = 0; i < topterms.length(); i++) {
 							JSONObject jsonObj = topterms.getJSONObject(i);
-							int size = Integer.parseInt(jsonObj.getString("frequency")) * 10;%>
+							int size = Integer.parseInt(jsonObj.getString("frequency")) * 5;%>
     		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
     	 <%}
 					}%>

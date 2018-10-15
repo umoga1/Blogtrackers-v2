@@ -89,8 +89,20 @@ public class AddTracker extends HttpServlet {
 							 
 							 jblog.put(resp.get("site").toString(), resp.get("site").toString());
 							 
+<<<<<<< HEAD
 							 
 							 
+=======
+							 for(int j=0; j<blogs.length; j++) {
+								 if(!jblog.has(blogs[j])) {
+									 mergedblogs+=blogs[j]+",";
+						 			ArrayList ex = db.query("SELECT * FROM blogsites WHERE blogsite_url='"+blogs[j]+"'");
+						 			if(ex.size()<1) {
+									 //db.updateTable("INSERT INTO blogsites (blogsite_url,site_type) VALUES ('"+blogs[j]+"','11')");	
+						 			}
+								 }
+							 }
+>>>>>>> cab9dc3bdf7da4e2fedaa9f25185f0ed2f44d3b9
 							 
 							 String[] allblogs = mergedblogs.replaceAll(",$", "").split(",");
 							 

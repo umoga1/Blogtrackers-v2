@@ -435,10 +435,15 @@ if(results.size()>0){
 
 </script>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <script src="pagedependencies/blogbrowser.js?v=29999">
 =======
 <script src="pagedependencies/blogbrowser.js?v=1299">
 >>>>>>> 6573f20a1806f7224b766ff860ce14a05ad36b79
+=======
+
+<script src="pagedependencies/blogbrowser.js?v=1299">
+>>>>>>> cab9dc3bdf7da4e2fedaa9f25185f0ed2f44d3b9
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 

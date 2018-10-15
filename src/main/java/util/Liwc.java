@@ -24,6 +24,7 @@ public class Liwc {
 
 	String totalpost;		    
 
+<<<<<<< HEAD
 	public ArrayList _list(String order, String from) throws Exception {	 
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"    \"query\": {\r\n" + 
@@ -59,6 +60,41 @@ public class Liwc {
 
 		String url = base_url+"_search?size=50";
 		return this._getResult(url, jsonObj);   
+=======
+	public ArrayList _list(String order, String from, String sortby) throws Exception {	 
+		 int size = 10;
+		 int fr = 0;
+		 JSONObject jsonObj = new JSONObject("{\r\n" + 
+			 		"    \"query\": {\r\n" + 
+			 		"        \"match_all\": {}\r\n" + 
+			 		"    },\r\n" + 
+			 		"	\"sort\":{\r\n" + 
+			 		"		\""+sortby+"\":{\r\n" + 
+			 		"			\"order\":\""+order+"\"\r\n" + 
+			 		"			}\r\n" + 
+			 		"		}\r\n" + 
+			 		"}");
+		 
+		 if(!from.equals("")) {
+			 fr = Integer.parseInt(from)*size;
+			  jsonObj = new JSONObject("{\r\n" + 
+				  		"    \"query\": {\r\n" + 
+				  		"        \"match_all\": {}\r\n" + 
+				  		"    },\r\n" + 	  		
+		     			"  	\"from\":"+fr+"," + 
+		     			"	\"size\":"+size+"," + 
+		     			"   \"sort\":{\r\n" + 
+		     			"		\""+sortby+"\":{\r\n" + 
+		     			"			\"order\":\""+order+"\"\r\n" + 
+		     			"			}\r\n" + 
+		     			"		},\r\n" + 
+		     			"}");
+			 
+		 }
+		 	 
+	     String url = base_url+"_search?size=100";
+	     return this._getResult(url, jsonObj);
+>>>>>>> cab9dc3bdf7da4e2fedaa9f25185f0ed2f44d3b9
 	}
 
 	public String _getTotal() {
