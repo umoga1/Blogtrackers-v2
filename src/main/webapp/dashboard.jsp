@@ -1920,7 +1920,7 @@ $(function () {
       //
       //
       //     // Add bars
-          var transitionbar = svg.selectAll(".d3-bar")
+          var transitionbarinfluence = svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
@@ -1945,12 +1945,21 @@ $(function () {
                 })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
-      
-          transitionbar.transition()
-          .delay(200)
-          .duration(1000)
-          .attr("width", function(d) { return x(d.frequency); })
-          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+          $(element).bind('inview', function (event, visible) {
+        	  if (visible == true) {
+        	    // element is now visible in the viewport
+        		  transitionbarinfluence.transition()
+                  .delay(200)
+                  .duration(1000)
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+        	  } else {
+        		  
+        		  transitionbarinfluence.attr("width", 0)
+        	    // element has gone out of viewport
+        	  }
+        	});
+        
 
 
                   // svg.selectAll(".d3-bar")
@@ -2181,6 +2190,7 @@ $(function () {
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
               .style("color","yellow")
               .call(yAxis)
+              .style("text-transform","lowercase")
               .selectAll("text")
               .style("font-size",11)
               .style("text-transform","capitalize")
@@ -2209,7 +2219,7 @@ $(function () {
 	.domain([0,1,2,3,4,5,6,10,15,20])
 	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
 
-         var transitionbar =  svg.selectAll(".d3-bar")
+         var transitionbarpostingfrequency =  svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
@@ -2242,12 +2252,25 @@ $(function () {
                 })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
-         
-          transitionbar.transition()
+         $(element).bind('inview', function (event, visible) {
+       	  if (visible == true) {
+       	    // element is now visible in the viewport
+       		  transitionbarpostingfrequency.transition()
+                 .delay(200)
+                 .duration(1000)
+                 .attr("width", function(d) { return x(d.frequency); })
+                 .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+       	  } else {
+       		  
+       		  transitionbarpostingfrequency.attr("width", 0)
+       	    // element has gone out of viewport
+       	  }
+       	});
+         /*  transitionbar.transition()
          .delay(200)
          .duration(1000)
          .attr("width", function(d) { return x(d.frequency); })
-         .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')'); 
+         .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');  */
 
 
                   // svg.selectAll(".d3-bar")
@@ -2473,7 +2496,7 @@ $(function () {
       //
       //
       //     // Add bars
-          transitionbar = svg.selectAll(".d3-bar")
+          transitionbarsentiment = svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
@@ -2488,11 +2511,26 @@ $(function () {
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
 
-          transitionbar.transition()
+          transitionbarsentiment.transition()
           .delay(200)
           .duration(1000)
           .attr("width", function(d) { return x(d.frequency); })
           .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+          
+          $(element).bind('inview', function (event, visible) {
+        	  if (visible == true) {
+        	    // element is now visible in the viewport
+        		  transitionbarsentiment.transition()
+                  .delay(200)
+                  .duration(1000)
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+        	  } else {
+        		  
+        		  transitionbarsentiment.attr("width", 0)
+        	    // element has gone out of viewport
+        	  }
+        	});
                   // svg.selectAll(".d3-bar")
                   //     .data(data)
                   //     .enter()
@@ -3096,7 +3134,7 @@ data = {
 
             // Append circles
             node.append("circle")
-                .attr("r", function(d) { return d.r; })
+                .attr("r", 0)
                 .style("fill", function(d,i) {
                    return color(i);
                   // customize Color
@@ -3122,9 +3160,24 @@ data = {
                 	
                 	return d.label.substring(0, d.r / 3); 
                 	
-                }) 
-                ;
-
+                });
+     
+            
+            
+            // animation effect for bubble chart
+            $(element).bind('inview', function (event, visible) {
+            	  if (visible == true) {
+            		  node.selectAll("circle").transition()
+                      .delay(200)
+                      .duration(1000)
+                      .attr("r", function(d) { return d.r; })
+            	  } else {
+            		  node.selectAll("circle")
+                      .attr("r", 0 )
+            	  }
+            	});
+           
+           
 
 
         // Returns a flattened hierarchy containing all leaf nodes under the root.
@@ -3281,7 +3334,7 @@ data = {
   bloggers = alldata;
   
   data = {
-	  bloggers
+		  bloggers
   }
   
   
@@ -3341,6 +3394,19 @@ data = {
                 
                 	
                 });
+            
+            // animation effect on bubble chart
+            $(element).bind('inview', function (event, visible) {
+          	  if (visible == true) {
+          		  node.selectAll("circle").transition()
+                    .delay(200)
+                    .duration(1000)
+                    .attr("r", function(d) { return d.r; })
+          	  } else {
+          		  node.selectAll("circle")
+                    .attr("r", 0 )
+          	  }
+          	});
 
 
 
