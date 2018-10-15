@@ -1903,7 +1903,7 @@ $(function () {
       //
       //
       //     // Add bars
-          svg.selectAll(".d3-bar")
+          var transitionbar = svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
@@ -1913,7 +1913,7 @@ $(function () {
                   .attr("height", 30)
                   .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
-                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr("width", 0)
                   .style("fill", function(d) {
                   maxvalue = d3.max(data, function(d) { return d.frequency; });
                   if(d.frequency == maxvalue)
@@ -1928,6 +1928,12 @@ $(function () {
                 })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
+      
+          transitionbar.transition()
+          .delay(200)
+          .duration(1000)
+          .attr("width", function(d) { return x(d.frequency); })
+          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
 
 
                   // svg.selectAll(".d3-bar")
@@ -2186,7 +2192,7 @@ $(function () {
 	.domain([0,1,2,3,4,5,6,10,15,20])
 	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
 
-          svg.selectAll(".d3-bar")
+         var transitionbar =  svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
@@ -2195,7 +2201,7 @@ $(function () {
                   .attr("height", 30)
                   .attr("x", function(d) { return 0; })
                   .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
-                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr("width", 0)
                   .style("fill", function(d,i) {
                  // maxvalue = d3.max(data, function(d) { return d.frequency; });
                  //console.log(i)
@@ -2219,6 +2225,12 @@ $(function () {
                 })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
+         
+          transitionbar.transition()
+         .delay(200)
+         .duration(1000)
+         .attr("width", function(d) { return x(d.frequency); })
+         .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')'); 
 
 
                   // svg.selectAll(".d3-bar")
@@ -2444,7 +2456,7 @@ $(function () {
       //
       //
       //     // Add bars
-          svg.selectAll(".d3-bar")
+          transitionbar = svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
@@ -2454,12 +2466,16 @@ $(function () {
                   .attr("height", 30)
                   .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
-                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr("width", 0)
                   .style("fill", function(d,i) { return color(i);   })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
 
-
+          transitionbar.transition()
+          .delay(200)
+          .duration(1000)
+          .attr("width", function(d) { return x(d.frequency); })
+          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
                   // svg.selectAll(".d3-bar")
                   //     .data(data)
                   //     .enter()
@@ -3004,7 +3020,7 @@ $(function () {
 
 
 data = {
- "name":"flare",
+ //"name":"flare",
  "bloggers":[
 	 <%if (bloggers.length() > 0) {
 			int k = 0;
@@ -3031,7 +3047,14 @@ data = {
  {"label":"Blogger 10","name":"Adekunle Mayowa", "size":1400}
  */
  ]
-}
+    }
+     
+        
+/* data = data.sort(function(a, b){
+	return a.bloggers.size - b.bloggers.size;
+	}); */
+   
+
 
 
             //
@@ -3076,7 +3099,12 @@ data = {
                 .style("fill", "#fff")
                 .style("font-size", 12)
                 .style("text-anchor", "middle")
-                .text(function(d) { return d.label.substring(0, d.r / 3); });
+                .text(function(d) { 
+                	
+                	return d.label.substring(0, d.r / 3); 
+                	
+                }) 
+                ;
 
 
 
@@ -3190,7 +3218,7 @@ $(function () {
 
 
 data = {
- "name":"flare",
+ //"name":"flare",
  "bloggers":[
 	 <%if (bloggers.length() > 0) {
 			//System.out.println(bloggers);
@@ -3207,6 +3235,40 @@ data = {
 		}%>
  ]
 }
+     /*  console.log(data);
+      //console.log(data.bloggers.sort())
+      
+      
+     
+     
+      
+  var mybloggers = 
+	  data.bloggers.sort(function(a, b){
+	return b.size - a.size;
+	})
+	
+	var alldata = [];
+	
+  for(i=0;i<mybloggers.length;i++)
+	{
+	var myconcat = ",";
+	if(i == mybloggers.length - 1)
+	{
+		myconcat = "";	
+	} 
+	alldata = {"label":mybloggers[i].label}+mycocat
+	console.log(mybloggers[i].label)
+	} 
+  console.log(alldata)
+	
+	data = {"bloggers":[
+		alldata.splice()
+		//console.log(mybloggers.length)
+	]}
+      
+      
+      
+      console.log(data) */
 
 
             //
@@ -3253,7 +3315,18 @@ data = {
                 .style("fill", "#fff")
                 .style("font-size", 12)
                 .style("text-anchor", "middle")
-                .text(function(d) { return d.label.substring(0, d.r / 3); });
+                .text(function(d) { 
+                	if(d.r < 30)
+                		{
+                		return "";
+                		}
+                	else
+                		{
+                		return d.label.substring(0, d.r / 3);  
+                		}
+                
+                	
+                });
 
 
 
