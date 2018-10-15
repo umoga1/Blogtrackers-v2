@@ -3005,7 +3005,7 @@ $(function () {
 
 
 data = {
- "name":"flare",
+ //"name":"flare",
  "bloggers":[
 	 <%if (bloggers.length() > 0) {
 			int k = 0;
@@ -3032,7 +3032,14 @@ data = {
  {"label":"Blogger 10","name":"Adekunle Mayowa", "size":1400}
  */
  ]
-}
+    }
+     
+        
+/* data = data.sort(function(a, b){
+	return a.bloggers.size - b.bloggers.size;
+	}); */
+   
+
 
 
             //
@@ -3077,7 +3084,12 @@ data = {
                 .style("fill", "#fff")
                 .style("font-size", 12)
                 .style("text-anchor", "middle")
-                .text(function(d) { return d.label.substring(0, d.r / 3); });
+                .text(function(d) { 
+                	
+                	return d.label.substring(0, d.r / 3); 
+                	
+                }) 
+                ;
 
 
 
@@ -3191,7 +3203,7 @@ $(function () {
 
 
 data = {
- "name":"flare",
+ //"name":"flare",
  "bloggers":[
 	 <%if (bloggers.length() > 0) {
 			//System.out.println(bloggers);
@@ -3208,6 +3220,40 @@ data = {
 		}%>
  ]
 }
+     /*  console.log(data);
+      //console.log(data.bloggers.sort())
+      
+      
+     
+     
+      
+  var mybloggers = 
+	  data.bloggers.sort(function(a, b){
+	return b.size - a.size;
+	})
+	
+	var alldata = [];
+	
+  for(i=0;i<mybloggers.length;i++)
+	{
+	var myconcat = ",";
+	if(i == mybloggers.length - 1)
+	{
+		myconcat = "";	
+	} 
+	alldata = {"label":mybloggers[i].label}+mycocat
+	console.log(mybloggers[i].label)
+	} 
+  console.log(alldata)
+	
+	data = {"bloggers":[
+		alldata.splice()
+		//console.log(mybloggers.length)
+	]}
+      
+      
+      
+      console.log(data) */
 
 
             //
@@ -3254,7 +3300,18 @@ data = {
                 .style("fill", "#fff")
                 .style("font-size", 12)
                 .style("text-anchor", "middle")
-                .text(function(d) { return d.label.substring(0, d.r / 3); });
+                .text(function(d) { 
+                	if(d.r < 30)
+                		{
+                		return "";
+                		}
+                	else
+                		{
+                		return d.label.substring(0, d.r / 3);  
+                		}
+                
+                	
+                });
 
 
 
