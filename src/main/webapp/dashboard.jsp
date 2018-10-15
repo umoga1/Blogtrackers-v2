@@ -3038,6 +3038,8 @@ data = {
 /* data = data.sort(function(a, b){
 	return a.bloggers.size - b.bloggers.size;
 	}); */
+	
+	
    
 
 
@@ -3219,10 +3221,7 @@ data = {
 			}
 		}%>
  ]
-}
-     /*  console.log(data);
-      //console.log(data.bloggers.sort())
-      
+}  
       
      
      
@@ -3232,7 +3231,9 @@ data = {
 	return b.size - a.size;
 	})
 	
-	var alldata = [];
+	
+	/* resort the bubbles chart by size */
+	var alldata=[];
 	
   for(i=0;i<mybloggers.length;i++)
 	{
@@ -3241,21 +3242,17 @@ data = {
 	{
 		myconcat = "";	
 	} 
-	alldata = {"label":mybloggers[i].label}+mycocat
-	console.log(mybloggers[i].label)
+	alldata[i]= {"label":mybloggers[i].label,"name":mybloggers[i].name,"size":mybloggers[i].size}
+
 	} 
-  console.log(alldata)
-	
-	data = {"bloggers":[
-		alldata.splice()
-		//console.log(mybloggers.length)
-	]}
-      
-      
-      
-      console.log(data) */
-
-
+/* End of sorting   */
+  bloggers = alldata;
+  
+  data = {
+	  bloggers
+  }
+  
+  
             //
             // Append chart elements
             //
