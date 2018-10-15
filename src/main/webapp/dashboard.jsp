@@ -3318,9 +3318,7 @@ data = {
 /* End of sorting   */
   bloggers = alldata;
   
-  data = {
-		  bloggers
-  }
+  data = {  bloggers  }
   
   
             //
@@ -3342,7 +3340,7 @@ data = {
 			
             // Append circles
             node.append("circle")
-                .attr("r", function(d) { return d.r; })
+                .attr("r", 0)
                 .style("fill", function(d,i) {
                   //return color(i);
                   /* if(i<5)
