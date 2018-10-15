@@ -1457,6 +1457,7 @@ $(document).ready(function() {
 	<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
 	<script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
 	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
+	<script type="text/javascript" src="assets/js/jquery.inview.js"></script>
 	<!--start of language bar chart  -->
 	<script>
 $(function () {
@@ -1626,7 +1627,7 @@ $(function () {
       //
       //
       //     // Add bars
-          transitionbar= svg.selectAll(".d3-bar")
+          var transitionbarlanguage = svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
@@ -1651,12 +1652,28 @@ $(function () {
                 }) 
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
+      
+          $(element).bind('inview', function (event, visible) {
+        	  if (visible == true) {
+        	    // element is now visible in the viewport
+        		  transitionbarlanguage.transition()
+                  .delay(200)
+                  .duration(1000)
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+        	  } else {
+        		  
+        		  transitionbarlanguage.attr("width", 0)
+        	    // element has gone out of viewport
+        	  }
+        	});
+         /*  element
           transitionbar.transition()
           .delay(200)
           .duration(1000)
           .attr("width", function(d) { return x(d.frequency); })
           .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
-
+ */
                   // svg.selectAll(".d3-bar")
                   //     .data(data)
                   //     .enter()
