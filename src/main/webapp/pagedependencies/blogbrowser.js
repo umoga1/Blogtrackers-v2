@@ -331,7 +331,7 @@ if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 			   		 if (id.indexOf("blogg")>-1) {
 			   		        blog_id = id.split("_");
 			   		        blog_id = blog_id[blog_id.length-1];
-				   		     if(k<blogs.length-1){
+				   		     if(k< blgs.length-1){
 				   	    		all_blogs+=blog_id+",";
 				   	    	}else{
 				   	    		all_blogs+=blog_id;
@@ -380,29 +380,30 @@ $(".total_selected").text(blgs.length);
 $('#trackscount').html(trackscount);
 $('.tracksection').show();
 
-var all_blogs = "";
-blgs.each(function(i,e)
-	      {
-	   		// allblogs[i] = $(this).text();
-	   		 id = $(this).attr('id');
-	   		 if (id.indexOf("blogg")>-1) {
-	   		        blog_id = id.split("_");
-	   		        blog_id = blog_id[blog_id.length-1];
-		   		     if(k<blogs.length-1){
-		   	    		all_blogs+=blog_id+",";
-		   	    	}else{
-		   	    		all_blogs+=blog_id;
-		   	    	}
-		   		     k++;
-	   		 }
-});
-setSelected(all_blogs);
-
-if(trackscount == 0)
-{
-	$('.tracksection').hide();
-}
-}
+		var all_blogs = "";
+		blgs.each(function(i,e)
+			      {
+			   		// allblogs[i] = $(this).text();
+			   		 id = $(this).attr('id');
+			   		 if (id.indexOf("blogg")>-1) {
+			   		        blog_id = id.split("_");
+			   		        blog_id = blog_id[blog_id.length-1];
+				   		     if(k<blgs.length-1){
+				   	    		all_blogs+=blog_id+",";
+				   	    	}else{
+				   	    		all_blogs+=blog_id;
+				   	    	}
+				   		     k++;
+			   		 }
+		});
+		
+		setSelected(all_blogs);
+		if(trackscount == 0)
+		{
+			$('.tracksection').hide();
+		}
+	
+	}
 });
 
 

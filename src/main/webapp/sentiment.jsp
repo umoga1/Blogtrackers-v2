@@ -1,275 +1,290 @@
+
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
 <%@page import="java.io.File"%>
+<%@page import="util.Blogposts"%>
+<%@page import="java.text.NumberFormat"%>
+<%@page import="java.util.Locale"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
 <%@page import="org.json.JSONArray"%>
-<%@page import="java.net.URI"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
 <%
-	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
-	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
+Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
+Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
+Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
+Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
+String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
-	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
-	Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
-	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
-	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
+ArrayList<?> userinfo = new ArrayList();
 
-	//System.out.println(date_start);
-	if (email == null || email == "") {
-		response.sendRedirect("index.jsp");
-	} else {
+String profileimage= "";
+String username ="";
+String name="";
+String phone="";
+String date_modified = "";
+String trackername="";
+Trackers tracker  = new Trackers();
+Blogposts post  = new Blogposts();
+Blogs blog  = new Blogs();
+Terms term  = new Terms();
+ArrayList allterms = new ArrayList(); 
 
-		ArrayList<?> userinfo = null;
-		String profileimage = "";
-		String username = "";
-		String name = "";
-		String phone = "";
-		String date_modified = "";
-		ArrayList detail = new ArrayList();
-		ArrayList termss = new ArrayList();
 
-		Trackers tracker = new Trackers();
-		Terms term = new Terms();
+userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+if (userinfo.size()<1) {
+	response.sendRedirect("login.jsp");
+}else{
+userinfo = (ArrayList<?>)userinfo.get(0);
+	try{
+	username = (null==userinfo.get(0))?"":userinfo.get(0).toString();	
+	name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());	
+	email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
+	phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
+	//date_modified = userinfo.get(11).toString();
+	
+	String userpic = userinfo.get(9).toString();
+	String[] user_name = name.split(" ");
+	username = user_name[0];
+	
+	String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
+	String filename = userinfo.get(9).toString();
+	
+	profileimage = "images/default-avatar.png";
+	if(userpic.indexOf("http")>-1){
+		profileimage = userpic;
+	}
+	
+	
+	
+	File f = new File(filename);
+	if(f.exists() && !f.isDirectory()) { 
+		profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+	}
+	}catch(Exception e){}
+	
+	}
 
-		if (tid != "") {
-			detail = tracker._fetch(tid.toString());
-		} else {
-			detail = tracker._list("DESC", "", user.toString(), "1");
+	ArrayList detail =new ArrayList();
+	if(tid!=""){
+		   detail = tracker._fetch(tid.toString());
+	}else{
+			detail = tracker._list("DESC","",user.toString(),"1");
+	}
+
+	boolean isowner = false;
+	JSONObject obj =null;
+	String ids = "";
+	
+	if (detail.size() > 0) {
+		ArrayList resp = (ArrayList<?>)detail.get(0);
+		String tracker_userid = resp.get(0).toString();
+		if (tracker_userid.equals(user.toString())) {
+			isowner = true;
+			trackername = resp.get(2).toString();
+			String query = resp.get(5).toString();//obj.get("query").toString();
+			query = query.replaceAll("blogsite_id in ", "");
+			query = query.replaceAll("\\(", "");
+			query = query.replaceAll("\\)", "");
+			ids = query;
 		}
+	}
+	
+	String dispfrom="";
+	String dispto="";
+	try{
+		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
+		SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
 
-		boolean isowner = false;
-		JSONObject obj = null;
-		String ids = "";
+		SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
+		SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
+		SimpleDateFormat SMALL_MONTH_ONLY = new SimpleDateFormat("mm");
+		SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
+		SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
+		
+		String stdate = post._getDate(ids,"first");
+		String endate = post._getDate(ids,"last");
+		
+		Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
+		Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
 
-		if (detail.size() > 0) {
-			String res = detail.get(0).toString();
+		Date nnow = new Date();  
+		  
+		String day = DAY_ONLY.format(today);
+		
+		String month = MONTH_ONLY.format(today);
+		String smallmonth = SMALL_MONTH_ONLY.format(today);
+		String year = YEAR_ONLY.format(today);
 
-			JSONObject resp = new JSONObject(res);
+		 dispfrom = DATE_FORMAT.format(dstart);
+		 dispto = DATE_FORMAT.format(today);
 
-			String resu = resp.get("_source").toString();
-			obj = new JSONObject(resu);
-			String tracker_userid = obj.get("userid").toString();
-			if (tracker_userid.equals(user.toString())) {
-				isowner = true;
-				String query = obj.get("query").toString();
-				query = query.replaceAll("blogsite_id in ", "");
-				query = query.replaceAll("\\(", "");
-				query = query.replaceAll("\\)", "");
-				ids = query;
+		String dst = DATE_FORMAT2.format(dstart);
+		String dend = DATE_FORMAT2.format(today);
+
+		//ArrayList posts = post._list("DESC","");
+		
+		String totalpost = "0";
+		ArrayList allauthors = new ArrayList();
+
+		String possentiment = "0";
+		String negsentiment = "0";
+		String ddey = "31";
+		String dt = dst;
+		String dte = dend;
+		String year_start="";
+		String year_end="";
+		if(!single.equals("")){
+			month = MONTH_ONLY.format(nnow); 
+			day = DAY_ONLY.format(nnow); 
+			year = YEAR_ONLY.format(nnow); 
+			//System.out.println("Now:"+month+"small:"+smallmonth);
+			if(month.equals("02")){
+				ddey = (Integer.parseInt(year)%4==0)?"28":"29";
+			}else if(month.equals("09") || month.equals("04") || month.equals("05") || month.equals("11")){
+				ddey = "30";
 			}
 		}
-		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
-		//System.out.println(userinfo);
-		if (userinfo.size() < 1 || !isowner) {
-			response.sendRedirect("index.jsp");
-		} else {
-			userinfo = (ArrayList<?>) userinfo.get(0);
-			try {
-				username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
+		
+		if (!date_start.equals("") && !date_end.equals("")) {
+			totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
+			possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+			negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
 
-				name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
-				email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
-				phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
-				String userpic = userinfo.get(9).toString();
-				String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
-				String filename = userinfo.get(9).toString();
+			Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
+			Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
+			
+			dt = date_start.toString();
+			dte = date_end.toString();
+			
+			dispfrom = DATE_FORMAT.format(start);
+			dispto = DATE_FORMAT.format(end);
+			allterms = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
+			allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
+		} else if (single.equals("day")) {
+			 dt = year + "-" + month + "-" + day;
+			
+			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));			
+			totalpost = post._searchRangeTotal("date", dt, dt, ids);
+			allterms = term._searchByRange("date", dt, dt,ids);
+			
+			allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
+				
+		} else if (single.equals("week")) {
+			
+			 dte = year + "-" + month + "-" + day;
+			int dd = Integer.parseInt(day)-7;
+			
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, -7);
+			Date dateBefore7Days = cal.getTime();
+			dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
+			
+			
+			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));			
+			totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			allterms = term._searchByRange("date", dt, dt,ids);
+			
+			
+			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);			
+		} else if (single.equals("month")) {
+			dt = year + "-" + month + "-01";
+			dte = year + "-" + month + "-"+day;	
+			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+			totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			allterms = term._searchByRange("date", dt, dt,ids);
+			
+			
+			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);		
+		} else if (single.equals("year")) {
+			dt = year + "-01-01";
+			dte = year + "-12-"+ddey;
+			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+			
+			totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);	
+			allterms = term._searchByRange("date", dt, dt,ids);
+		}  
+			
+			
+	}catch(Exception ex){
+		
+	}
 
-				profileimage = "images/default-avatar.png";
-				if (userpic.indexOf("http") > -1) {
-					profileimage = userpic;
-				}
+	
+	String allpost = "0";
+	float totalinfluence = 0;
+	String mostactiveblog="";
+	String mostactivebloglink="";
+	String mostactiveblogposts="0";
+	String mostactiveblogid="0";
+	
+	String mostactiveblogger="";
+	String secondactiveblogger="";
+	
+	String secondactiveblog = "";
+	String secondactiveid = "";
+	
+	String mostusedkeyword = "";
+	String fsid = "";
 
-				File f = new File(filename);
-				if (f.exists() && !f.isDirectory()) {
-					profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
-				}
-			} catch (Exception e) {
+
+	ArrayList mostactive= blog._getMostactive(ids);
+	if(mostactive.size()>0){
+		mostactiveblog = mostactive.get(0).toString();
+		mostactivebloglink = mostactive.get(1).toString();
+		mostactiveblogposts = mostactive.get(2).toString();
+		mostactiveblogid = mostactive.get(3).toString();
+		fsid = mostactiveblogid;
+		if(mostactive.size()>4){                                            
+			secondactiveblog = mostactive.get(4).toString();
+			secondactiveid = mostactive.get(7).toString();
+			fsid = mostactiveblogid+","+secondactiveid;
+		}
+	}
+	
+	
+
+	int highestfrequency = 0;
+	JSONArray topterms = new JSONArray();
+	JSONObject keys = new JSONObject();
+	if (allterms.size() > 0) {
+	
+		for (int p = 0; p < allterms.size(); p++) {
+			String bstr = allterms.get(p).toString();
+			JSONObject bj = new JSONObject(bstr);
+			bstr = bj.get("_source").toString();
+			bj = new JSONObject(bstr);
+			String frequency = bj.get("frequency").toString();
+			int freq = Integer.parseInt(frequency);
+			
+			String tm = bj.get("term").toString();
+			if(freq>highestfrequency){
+				highestfrequency = freq;
+				mostusedkeyword = tm;
 			}
-
-			String[] user_name = name.split(" ");
-			Blogposts post = new Blogposts();
-			Blogs blog = new Blogs();
-			Sentiments senti = new Sentiments();
-
-			Date today = new Date();
-			SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
-			SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
-
-			SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
-			SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
-			SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
-			SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
-
-			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse("2013-01-01");
-
-			String day = DAY_ONLY.format(today);
-			String month = MONTH_ONLY.format(today);
-			String year = YEAR_ONLY.format(today);
-
-			String dispfrom = DATE_FORMAT.format(dstart);
-			String dispto = DATE_FORMAT.format(today);
-
-			String dst = DATE_FORMAT2.format(dstart);
-			String dend = DATE_FORMAT2.format(today);
-
-			//ArrayList posts = post._list("DESC","");
-			ArrayList sentiments = senti._list("DESC", "", "id");
-			String totalpost = "0";
-
-			String possentiment = "0";
-			String negsentiment = "0";
-
-			if (!date_start.equals("") && !date_end.equals("")) {
-				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
-				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
-
-				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
-				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
-
-				dispfrom = DATE_FORMAT.format(start);
-				dispto = DATE_FORMAT.format(end);
-				termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
-			} else if (single.equals("day")) {
-				String dt = year + "-" + month + "-" + day;
-				totalpost = post._searchRangeTotal("date", dt, dt, ids);
-			} else if (single.equals("month")) {
-				String dt = year + "-" + month + "-" + day;
-				String dte = year + "-" + month + "-31";
-				totalpost = post._searchRangeTotal("date", dt, dte, ids);
-			} else if (single.equals("year")) {
-				String dt = year + "-01-01";
-				String dte = year + "-12-31";
-				totalpost = post._searchRangeTotal("date", dt, dte, ids);
-			} else {
-
-				totalpost = post._getTotalByBlogId(ids, "");
-				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
-				termss = term._fetch(ids);
+			JSONObject cont = new JSONObject();
+			cont.put("key", tm);
+			cont.put("frequency", frequency);
+			if(!keys.has(tm)){
+				keys.put(tm,tm);
+				topterms.put(cont);
 			}
+		}
+	}
 
-			ArrayList blogs = blog._fetch(ids);
-			int totalblog = blogs.size();
-			//pimage = pimage.replace("build/", "");
-
-			JSONObject sentimentblog = new JSONObject();;
-			if (sentiments.size() > 0) {
-
-				for (int p = 0; p < sentiments.size(); p++) {
-					String bstr = sentiments.get(p).toString();
-					JSONObject bj = new JSONObject(bstr);
-					bstr = bj.get("_source").toString();
-					bj = new JSONObject(bstr);
-					String id = bj.get("blogsite_id").toString();
-					//if(!sentimentblog.has(id)){
-					sentimentblog.put(id, id);
-					// }
-				}
-			}
-
-			JSONArray topterms = new JSONArray();
-			if (termss.size() > 0) {
-
-				for (int p = 0; p < termss.size(); p++) {
-					String bstr = termss.get(p).toString();
-					JSONObject bj = new JSONObject(bstr);
-					bstr = bj.get("_source").toString();
-					bj = new JSONObject(bstr);
-					String frequency = bj.get("frequency").toString();
-					String tm = bj.get("term").toString();
-					JSONObject cont = new JSONObject();
-					cont.put("key", tm);
-					cont.put("frequency", frequency);
-					topterms.put(cont);
-				}
-			}
-
-			//System.out.println("senti"+ sentimentblog);
-			JSONObject language = new JSONObject();
-			JSONObject bloggers = new JSONObject();
-
-			ArrayList looper = new ArrayList();
-			ArrayList langlooper = new ArrayList();
-
-			if (blogs.size() > 0) {
-				String bres = null;
-				JSONObject bresp = null;
-
-				String bresu = null;
-				JSONObject bobj = null;
-				int m = 0;
-				int n = 0;
-				for (int k = 0; k < blogs.size(); k++) {
-					bres = blogs.get(k).toString();
-					bresp = new JSONObject(bres);
-					bresu = bresp.get("_source").toString();
-					bobj = new JSONObject(bresu);
-					String lang = bobj.get("language").toString();
-					String blogger = bobj.get("blogsite_owner").toString();
-					String blogname = bobj.get("blogsite_name").toString();
-					String sentiment = "1";// bobj.get("sentiment").toString();
-					String posting = bobj.get("totalposts").toString();
-
-					JSONObject content = new JSONObject();
-
-					String durl = bobj.get("blogsite_url").toString();//"";
-					try {
-						URI uri = new URI(bobj.get("blogsite_url").toString());
-						String domain = uri.getHost();
-						if (domain.startsWith("www.")) {
-							durl = domain.substring(4);
-						} else {
-							durl = domain;
-						}
-					} catch (Exception ex) {
-					}
-
-					if (bloggers.has(blogger)) {
-						content = new JSONObject(bloggers.get(blogger).toString());
-						int valu = Integer.parseInt(content.get("value").toString()) + 1;
-						content.put("blog", blogname);
-						content.put("id", bobj.get("blogsite_id").toString());
-						content.put("blogger", blogger);
-						content.put("sentiment", sentiment);
-						content.put("postingfreq", posting);
-						content.put("totalposts", bobj.get("totalposts").toString());
-						content.put("value", valu);
-						content.put("blogsite_url", bobj.get("blogsite_url").toString());
-						content.put("blogsite_domain", durl);
-						bloggers.put(blogger, content);
-					} else {
-						int valu = 1;
-						content.put("blog", blogname);
-						content.put("id", bobj.get("blogsite_id").toString());
-						content.put("blogger", blogger);
-						content.put("sentiment", sentiment);
-						content.put("postingfreq", posting);
-						content.put("value", valu);
-						content.put("totalposts", bobj.get("totalposts").toString());
-						content.put("blogsite_url", bobj.get("blogsite_url").toString());
-						content.put("blogsite_domain", durl);
-						bloggers.put(blogger, content);
-						looper.add(m, blogger);
-						m++;
-					}
-					//Object ex = language.get(lang);
-					if (language.has(lang)) {
-						int val = Integer.parseInt(language.get(lang).toString()) + 1;
-						language.put(lang, val);
-					} else {
-						//  	int val  = Integer.parseInt(ex.toString())+1;
-						language.put(lang, 1);
-						langlooper.add(n, lang);
-						n++;
-					}
-
-				}
-
-			}
+//System.out.println(topterms);
 %>
 <!DOCTYPE html>
 <html>
@@ -468,7 +483,7 @@
 			<div class="col-md-6 text-right mt10">
 				<div class="text-primary demo">
 					<h6 id="reportrange">
-						Date: <span>02/21/18 - 02/28/18</span>
+						Date: <span><%=dispfrom%> - <%=dispto%></span>
 					</h6>
 				</div>
 				<div>
@@ -543,8 +558,7 @@
 				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
 				<div class="card-body p0 pt20 pb20" style="min-height: 320px;">
 					<p>
-						Influential Blog Posts of <b class="text-blue">AdNovum</b> and <b
-							class="text-success">Abel Danger</b>
+					Influential Blog Posts of <b class="text-blue">AdNovum</b> and <b class="text-success">Abel Danger</b>
 					</p>
 					<!-- <div class="p15 pb5 pt0" role="group">
           Export Options
@@ -1693,4 +1707,3 @@ $(function () {
 </html>
 
 
-<% }} %>

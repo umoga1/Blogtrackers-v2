@@ -17,6 +17,10 @@
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
+Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
+Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
+Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
+String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
 ArrayList<?> userinfo = new ArrayList();
 
@@ -30,12 +34,8 @@ Trackers tracker  = new Trackers();
 Blogposts post  = new Blogposts();
 Blogs blog  = new Blogs();
 Terms term  = new Terms();
+ArrayList allterms = new ArrayList(); 
 
-SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
-Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse("2013-01-01");
-Date today = new Date();
-String dst = DATE_FORMAT2.format(dstart);
-String dend = DATE_FORMAT2.format(today);
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
 if (userinfo.size()<1) {
@@ -106,6 +106,131 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		}
 	}
 	
+	
+	//Date today = new Date();
+		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
+		SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
+
+		SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
+		SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
+		SimpleDateFormat SMALL_MONTH_ONLY = new SimpleDateFormat("mm");
+		SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
+		SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
+		
+		String stdate = post._getDate(ids,"first");
+		String endate = post._getDate(ids,"last");
+		
+		Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
+		Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
+
+		Date nnow = new Date();  
+		  
+		String day = DAY_ONLY.format(today);
+		
+		String month = MONTH_ONLY.format(today);
+		String smallmonth = SMALL_MONTH_ONLY.format(today);
+		String year = YEAR_ONLY.format(today);
+
+		String dispfrom = DATE_FORMAT.format(dstart);
+		String dispto = DATE_FORMAT.format(today);
+
+		String dst = DATE_FORMAT2.format(dstart);
+		String dend = DATE_FORMAT2.format(today);
+
+		//ArrayList posts = post._list("DESC","");
+		
+		String totalpost = "0";
+		ArrayList allauthors = new ArrayList();
+
+		String possentiment = "0";
+		String negsentiment = "0";
+		String ddey = "31";
+		String dt = dst;
+		String dte = dend;
+		String year_start="";
+		String year_end="";
+		if(!single.equals("")){
+			month = MONTH_ONLY.format(nnow); 
+			day = DAY_ONLY.format(nnow); 
+			year = YEAR_ONLY.format(nnow); 
+			//System.out.println("Now:"+month+"small:"+smallmonth);
+			if(month.equals("02")){
+				ddey = (Integer.parseInt(year)%4==0)?"28":"29";
+			}else if(month.equals("09") || month.equals("04") || month.equals("05") || month.equals("11")){
+				ddey = "30";
+			}
+		}
+		
+		if (!date_start.equals("") && !date_end.equals("")) {
+			totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
+			possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+			negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+
+			Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
+			Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
+			
+			dt = date_start.toString();
+			dte = date_end.toString();
+			
+			dispfrom = DATE_FORMAT.format(start);
+			dispto = DATE_FORMAT.format(end);
+			allterms = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
+			allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
+		} else if (single.equals("day")) {
+			 dt = year + "-" + month + "-" + day;
+			
+			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));			
+			totalpost = post._searchRangeTotal("date", dt, dt, ids);
+			allterms = term._searchByRange("date", dt, dt,ids);
+			
+			allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
+				
+		} else if (single.equals("week")) {
+			
+			 dte = year + "-" + month + "-" + day;
+			int dd = Integer.parseInt(day)-7;
+			
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, -7);
+			Date dateBefore7Days = cal.getTime();
+			dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
+			
+			
+			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));			
+			totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			allterms = term._searchByRange("date", dt, dt,ids);
+			
+			
+			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);			
+		} else if (single.equals("month")) {
+			dt = year + "-" + month + "-01";
+			dte = year + "-" + month + "-"+day;	
+			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+			totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			allterms = term._searchByRange("date", dt, dt,ids);
+			
+			
+			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);		
+		} else if (single.equals("year")) {
+			dt = year + "-01-01";
+			dte = year + "-12-"+ddey;
+			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+			
+			totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);	
+			allterms = term._searchByRange("date", dt, dt,ids);
+			
+			
+		}  
+			
+			
+		
+
+	
 	String allpost = "0";
 	float totalinfluence = 0;
 	String mostactiveblog="";
@@ -137,13 +262,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		}
 	}
 	
-	ArrayList allauthors = new ArrayList();
-	if(!ids.equals("")){
-		allpost = post._getTotalByBlogId(ids,"");
-		allauthors=post._getBloggerByBlogId(ids,"");	
-	}
+	
 
-	ArrayList allterms = term._searchByRange("date", dst, dend, ids);
 	int highestfrequency = 0;
 	JSONArray topterms = new JSONArray();
 	JSONObject keys = new JSONObject();
@@ -435,7 +555,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String posttitle  = tobj.get("title").toString();
 										String postid  = tobj.get("blogpost_id").toString();
 										String body  = tobj.get("post").toString();
-										String dt  = tobj.get("date").toString();
+										String dat  = tobj.get("date").toString();
 										String num_comment  = tobj.get("num_comments").toString();
 										num_comment = num_comment.equals("null")?"0":num_comment;
 										

@@ -339,6 +339,49 @@ public class Blogposts {
 		String url = base_url+"_search";
 		return this._getTotal(url,jsonObj);
 	}
+	
+
+	public String _searchRangeTotalByBLogger(String field,String greater, String less, String blogger) throws Exception {
+		String[] args = blogger.split(","); 
+		JSONArray pars = new JSONArray(); 
+		ArrayList<String> ar = new ArrayList<String>();	
+		for(int i=0; i<args.length; i++){
+			pars.put(args[i].replaceAll(" ", ""));
+		}
+
+		String arg2 = pars.toString();
+		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
+
+
+		String que="{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"bool\": {\r\n" + 
+				"      \"must\": [\r\n" + 
+				"        {\r\n" + 
+				"		  \"constant_score\":{\r\n" + 
+				"					\"filter\":{\r\n" + 
+				"							\"terms\":{\r\n" + 
+				"							\"blogger\":"+arg2+"\r\n" + 
+				"									}\r\n" + 
+				"							}\r\n" + 
+				"						}\r\n" + 
+				"		},\r\n" + 
+				"        {\r\n" + 
+				"		  \"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"      ]\r\n" + 
+				"    }\r\n" + 
+				"  }\r\n" + 
+				"}";
+		JSONObject jsonObj = new JSONObject(que);
+		String url = base_url+"_search";
+		return this._getTotal(url,jsonObj);
+	}
 
 	public String _searchRangeTotal(String field,String greater, String less, String date_from, String date_to, String blog_ids) throws Exception {
 		String[] args = blog_ids.split(","); 
