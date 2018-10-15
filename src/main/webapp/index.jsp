@@ -201,8 +201,8 @@ try{
   <!-- Desktop Menu -->
 <div class="themainmenu"  align="center">
   <ul class="nav main-menu2 homemainmenuoveride" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-    <li><a class="bold-text" href="#">Features</a></li>
-    <li><a class="bold-text" href="#">Sponsors</a></li>
+    <li><a class="bold-text" href="#whatyoucando">Features</a></li>
+    <li><a class="bold-text" href="#sponsors">Sponsors</a></li>
 	<li><a class="bold-text" href="#">Learn</a></li>
 	<li class="bg-white loginmenu"><a class="bold-text text-primary" href="<%=request.getContextPath()%>/login.jsp">Login</a></li>
 	
@@ -214,12 +214,14 @@ try{
   <div class="collapse" id="navbarToggleExternalContent">
     <ul class="navbar-nav mr-auto mobile-menu">
           <li class="nav-item active">
-            <a class="bold-text" href="#">Features <span class="sr-only">(current)</span></a>
+            <a class="bold-text" href="#whatyoucando">Features <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link bold-text" href="#">Sponsors</a>
+            <a class="nav-link bold-text" href="#sponsors">Sponsors</a>
           </li>
-     
+     <li class="nav-item">
+            <a class="nav-link bold-text" href="#">Learn</a>
+          </li>
 
 		   <li class="nav-item">
 				<a class="nav-link bold-text" href="login.jsp">Login</a>
@@ -245,8 +247,8 @@ try{
   
 <div class="themainmenu"  align="center">
   <ul class="nav main-menu2 homemainmenuoveride" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-    <li><a class="bold-text" href="#">Features</a></li>
-    <li><a class="bold-text" href="#">Sponsors</a></li>
+    <li><a class="bold-text" href="#whatyoucando">Features</a></li>
+    <li><a class="bold-text" href="#sponsors">Sponsors</a></li>
 	<li><a class="bold-text" href="#">Learn</a></li>
 	<li class="bg-white loginmenu"><a class="bold-text text-primary" href="<%=request.getContextPath()%>/login.jsp">Login</a></li>
 	
@@ -257,10 +259,10 @@ try{
   <div class="collapse" id="navbarToggleExternalContent">
     <ul class="navbar-nav mr-auto mobile-menu">
           <li class="nav-item active">
-            <a class="bold-text" href="#">Features <span class="sr-only">(current)</span></a>
+            <a class="bold-text" href="#whatyoucando">Features <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link bold-text" href="#">Sponsors</a>
+            <a class="nav-link bold-text" href="#sponsors">Sponsors</a>
           </li>
      
 
@@ -349,7 +351,7 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
 </div>
 <div class="col-md-4 borderleftprimary">
 <h1 class="text-primary headertextwhatcanyoudo">Network Analysis<br/> Trends</h1>
-<p class="text-primary whatcanyoudodesc">Analyze Trends on Graphs</p>
+<p class="text-primary whatcanyoudodesc">Analyze Trends on Graphs<br/><br/></p>
 </div>
 <div class="col-md-4 borderleftprimary">
 <h1 class="text-primary headertextwhatcanyoudo">Cross Media Analysis</h1>
@@ -500,6 +502,9 @@ Design is not just what it looks like and feels like. Design is how it works.
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
 <script src="assets/js/generic.js">
+
+</script>
+<script src="assets/js/smoothscroll.js">
 
 </script>
 </body>

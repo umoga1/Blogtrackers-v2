@@ -262,7 +262,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		}
 	}
 	
-	
 
 	int highestfrequency = 0;
 	JSONArray topterms = new JSONArray();

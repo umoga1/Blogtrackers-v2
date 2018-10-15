@@ -61,12 +61,13 @@ public class AddTracker extends HttpServlet {
 				
 				DbConnection db = new DbConnection();
 					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+resp.get("id")+"' ");
-					 
+					
 					 if(tracker.size()>0){
 						 	ArrayList hd = (ArrayList)tracker.get(0);
 						 	 String que = hd.get(5).toString();
+						 	 
 						 	 String tracker_id = hd.get(0).toString();
-							
+						 	 
 							 que = que.replaceAll("blogsite_id in ", "");
 							 que = que.replaceAll("\\(", "");			 
 							 que = que.replaceAll("\\)", "");
@@ -77,7 +78,7 @@ public class AddTracker extends HttpServlet {
 							 String mergedblogs = "";
 							 
 							 jblog.put(resp.get("site").toString(), resp.get("site").toString());
-							
+							 
 							 for(int j=0; j<blogs.length; j++) {
 								 if(!jblog.has(blogs[j])) {
 									 mergedblogs+=blogs[j]+",";
@@ -89,11 +90,15 @@ public class AddTracker extends HttpServlet {
 							 }
 							 
 							 String[] allblogs = mergedblogs.replaceAll(",$", "").split(",");
+							 
+							 
 							 int blognum = allblogs.length;
 
 							 String addendum = "blogsite_id in ("+mergedblogs+")";
-													 				
-							db.updateTable("UPDATE trackers SET query='"+addendum+"', blogsites_num = '"+blognum+"' WHERE  tid='"+tracker_id+"'");	
+							 
+							String site = resp.getString("site");
+							String id = resp.getString("id");
+							db.updateTable("UPDATE blogsites SET blogsite_name='"+site+"', blogsite_url = '"+site+"', site_type='11'  WHERE  site_type='11'");	
 							
 					 }
 				pww.write("successful request");

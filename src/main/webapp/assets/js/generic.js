@@ -9,6 +9,13 @@ $(document).ready(function(e)
                   transform:  "translate(0px,0px)"} );
 
   }) ;
+	
+	 $("#profiletoggle").click(function(e){
+		  e.preventDefault();
+		  $(".modal-notifications").css( { transition: "transform 0.80s",
+		                  transform:  "translate(0px,0px)"} );
+
+		  }) ;
 
   $("#closeicon, .closesection").click(function(e){
   e.preventDefault();
