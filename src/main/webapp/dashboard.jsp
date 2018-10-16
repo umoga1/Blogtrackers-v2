@@ -43,12 +43,11 @@
 		Outlinks outl = new Outlinks();
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
-			//System.out.println(detail);
+			System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
-			System.out.println("List:"+detail);
+			//System.out.println("List:"+detail);
 		}
-		
 		
 		boolean isowner = false;
 		JSONObject obj = null;
@@ -124,7 +123,9 @@
 			String day = DAY_ONLY.format(today);
 			
 			String month = MONTH_ONLY.format(today);
+			
 			String smallmonth = SMALL_MONTH_ONLY.format(today);
+
 			String year = YEAR_ONLY.format(today);
 
 			String dispfrom = DATE_FORMAT.format(dstart);
@@ -135,6 +136,16 @@
 
 			//ArrayList posts = post._list("DESC","");
 			ArrayList sentiments = senti._list("DESC", "", "id");
+			 
+		 	/* Liwc liwc = new Liwc();
+			
+			ArrayList liwcSent = liwc._list("DESC", ""); 
+			
+			String test = post._searchRangeTotal("date", "2013-04-01", "2018-04-01", "1");
+			
+			System.out.println(test);  */
+		
+			
 			String totalpost = "0";
 			ArrayList allauthors = new ArrayList();
 
@@ -145,6 +156,7 @@
 			String dte = dend;
 			String year_start="";
 			String year_end="";
+			
 			if(!single.equals("")){
 				month = MONTH_ONLY.format(nnow); 
 				day = DAY_ONLY.format(nnow); 
@@ -156,11 +168,13 @@
 					ddey = "30";
 				}
 			}
-			
+			//System.out.println(s)
+			//System.out.println("start date"+date_start+"end date "+date_end);
 			if (!date_start.equals("") && !date_end.equals("")) {
 				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
 				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
 				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+								
 
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
 				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
@@ -229,6 +243,8 @@
 				
 				
 			} else {
+				dt = dst;
+				dte = dend;
 				totalpost = post._getTotalByBlogId(ids, "");
 				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
 				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);			
@@ -255,7 +271,7 @@
 			int yendint = Integer.parseInt(year_end);
 			
 			int b=0;
-			for(int y=ystint; y<yendint; y++){
+			for(int y=ystint; y<=yendint; y++){
 					   String dtu = y + "-01-01";
 					   String dtue = y + "-12-31";
 					   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
@@ -264,6 +280,7 @@
 			    	   b++;
 			}
 			
+			//System.out.println("grapgh yeres"+yearsarray);
 		    JSONObject authors = new JSONObject();
 		    
 		    JSONArray authorcount = new JSONArray();
@@ -296,17 +313,27 @@
 					    String yy= dateyear[0];
 					    
 					   
-					   
 					    if(authors.has(auth)){
 							content = new JSONObject(authors.get(auth).toString());
 							Double inf = Double.parseDouble(content.get("influence").toString());
 							inf = inf+influence;
+							int valu = Integer.parseInt(content.get("totalpost").toString());
 							content.put("blogger", auth);
 							content.put("influence", inf);
+							content.put("totalpost",valu);
 							authors.put(auth, content);
 						} else {
+							 
+						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
+						   // System.out.println("toty-"+btoty);
+							int valu = Integer.parseInt(btoty);
+							   if(valu==0){
+								   valu=1;
+							   }
+							   
 							content.put("blogger", auth);
 							content.put("influence", influence);
+							content.put("totalpost",valu);
 							authors.put(auth, content);
 							authorlooper.add(j,auth);
 							j++;
@@ -328,7 +355,7 @@
 			} 
 			
 			
-			JSONArray sortedyearsarray = post._sortJson(yearsarray);
+			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
 			
 			JSONObject sentimentblog = new JSONObject();
 			if (sentiments.size() > 0) {
@@ -432,7 +459,7 @@
 					
 					String blogger = bobj.get("blogsite_owner").toString();
 					String blogname = bobj.get("blogsite_name").toString();
-					
+					//System.out.println("blogger here+"+blogger);
 					String sentiment = "1";// bobj.get("sentiment").toString();
 					String posting = bobj.get("totalposts").toString();
 
@@ -449,46 +476,43 @@
 						}
 					} catch (Exception ex) {}
 					
-					String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
-					if (bloggers.has(blogger)) {
-						content = new JSONObject(bloggers.get(blogger).toString());
-						int valu =0;
-						if(Integer.parseInt(toty)>0){
-						 valu = Integer.parseInt(content.get("value").toString())+1;
-						}
-						content.put("blog", blogname);
-						content.put("id", bobj.get("blogsite_id").toString());
-						content.put("blogger", blogger);
-						content.put("sentiment", sentiment);
-						//content.put("postingfreq", posting);
-						content.put("postingfreq", toty);
-						content.put("totalposts", toty);
-						content.put("value", valu);
-						content.put("blogsite_url", bobj.get("blogsite_url").toString());
-						content.put("blogsite_domain", durl);
-						bloggers.put(blogger, content);
-					} else {
-						int valu =0;
-						if(Integer.parseInt(toty)>0){
-							 valu = 1;
-						}
-						content.put("blog", blogname);
-						content.put("id", bobj.get("blogsite_id").toString());
-						content.put("blogger", blogger);
-						content.put("sentiment", sentiment);
-						content.put("postingfreq", posting);
-						content.put("value", valu);
-						content.put("totalposts", toty);
-						content.put("blogsite_url", bobj.get("blogsite_url").toString());
-						content.put("blogsite_domain", durl);
-						bloggers.put(blogger, content);
-						looper.add(m, blogger);
-						m++;
-					}
-					
+						String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
+						//String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
+						int valu = 1;//Integer.parseInt(btoty);
+						
+						if (bloggers.has(blogger)) {
+							content = new JSONObject(bloggers.get(blogger).toString());						
+							content.put("blog", blogname);
+							content.put("id", bobj.get("blogsite_id").toString());
+							content.put("blogger", blogger);
+							content.put("sentiment", sentiment);
+							content.put("postingfreq", posting);
+							content.put("value", valu);
+							content.put("totalposts", toty);
+							content.put("blogsite_url", bobj.get("blogsite_url").toString());
+							content.put("blogsite_domain", durl);
+							bloggers.put(blogger, content);
+						} else {
+							content.put("blog", blogname);
+							content.put("id", bobj.get("blogsite_id").toString());
+							content.put("blogger", blogger);
+							content.put("sentiment", sentiment);
+							content.put("postingfreq", posting);
+							content.put("value", valu);
+							content.put("totalposts", toty);
+							content.put("blogsite_url", bobj.get("blogsite_url").toString());
+							content.put("blogsite_domain", durl);
+							bloggers.put(blogger, content);
+							looper.add(m, blogger);
+							m++;
+						}	
+						
+								
 				}
 
 			}
+			
+			System.out.println("bloggerhere"+authors);
 %>
 <!DOCTYPE html>
 <html>
@@ -1195,11 +1219,11 @@
 								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
     			 <%}}}%>
 			</textarea>
-			<textarea style="display:none" name="bloggers" id="bloggers" ><%if (bloggers.length() > 0) {
-			int k = 0;for (int y = 0; y < bloggers.length(); y++) {
-				String key = looper.get(y).toString();
-				JSONObject resu = bloggers.getJSONObject(key);
-				int size = Integer.parseInt(resu.get("value").toString());
+			<textarea style="display:none" name="bloggers" id="bloggers" ><%if (authors.length() > 0) {
+			int k = 0;for (int y = 0; y < authors.length(); y++) {
+				String key = authorlooper.get(y).toString();
+				JSONObject resu = authors.getJSONObject(key);
+				int size = Integer.parseInt(resu.get("totalpost").toString());
 				if (size > 0 && k < 15) {
 					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 <%}}}%></textarea>
@@ -2103,12 +2127,13 @@ $(function () {
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
 							int size = Integer.parseInt(resu.get("postingfreq").toString());
-							if (size > 200 && p < 10) {
+							if (size > 0 && p < 10) {
 								p++;%>
-    			{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-    			 <%}
-						}
-					}%>
+    							{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+    		 <% 			}
+					}
+				}
+			%>
             //{letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},
             
         ];
@@ -2908,7 +2933,7 @@ var mymarker = [
     	 <%if (topterms.length() > 0) {
 						for (int i = 0; i < topterms.length(); i++) {
 							JSONObject jsonObj = topterms.getJSONObject(i);
-							int size = Integer.parseInt(jsonObj.getString("frequency")) * 10;%>
+							int size = Integer.parseInt(jsonObj.getString("frequency")) * 5;%>
     		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
     	 <%}
 					}%>
@@ -3077,19 +3102,16 @@ $(function () {
 data = {
  //"name":"flare",
  "bloggers":[
-	 <%if (bloggers.length() > 0) {
+	 <%if (authors.length() > 0) {
 			int k = 0;
-			//System.out.println("Bloggers here:"+bloggers);
-			for (int y = 0; y < bloggers.length(); y++) {
-
-				String key = looper.get(y).toString();
-				JSONObject resu = bloggers.getJSONObject(key);
-				int size = Integer.parseInt(resu.get("totalposts").toString());
+			for (int y = 0; y < authors.length(); y++) {
+				String key = authorlooper.get(y).toString();
+				JSONObject resu = authors.getJSONObject(key);
+				int size = Integer.parseInt(resu.get("totalpost").toString());
 				if (size > 0 && k < 15) {
 					k++;%>
-{"label":"<%=resu.get("blogger")%>","name":"<%=resu.get("blog")%>", "size":<%=resu.get("value")%>},
-<%}
-			}
+{"label":"<%=resu.get("blogger")%>","name":"<%=resu.get("blogger")%>", "size":<%=size%>},
+<%}}
 		}%>
  /* {"label":"Blogger 2","name":"Obadimu Adewale", "size":2500},
  {"label":"Blogger 3","name":"Oluwaseun Walter", "size":2800},

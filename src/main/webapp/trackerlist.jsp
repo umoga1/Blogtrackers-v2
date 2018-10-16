@@ -284,6 +284,7 @@
 
 							for (int i = 0; i < results.size(); i++) {
 								resut = (ArrayList)results.get(i);
+							
 								int totalblog =0;
 							    String id = resut.get(0).toString();
 							    query = resut.get(5).toString();//obj.get("query").toString();
@@ -306,7 +307,6 @@
 								}
 
 								if (!query.equals("") ) {
-									
 									blogs = blg._fetch(query);
 									totalblog = blogs.size();
 									totalpost = Integer.parseInt(post._getTotalByBlogId(query, ""));

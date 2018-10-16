@@ -8,6 +8,12 @@
   Object username = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
   String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby");
 
+  Object selected = (null == session.getAttribute("selected")) ? "" : session.getAttribute("selected");
+  
+  JSONObject jblog = new JSONObject();
+  if(!selected.equals("")){
+	  jblog = new JSONObject(session.getAttribute("selected"));
+  }
   Trackers trackers  = new Trackers();
   JSONObject myblogs = new JSONObject();
   Blogs blogs  = new Blogs();
@@ -33,9 +39,9 @@
 				results = post._search(term,cpage,sort);
 			}
 			
-			System.out.println("username:"+username.toString());
+			//System.out.println("username:"+username.toString());
 			myblogs = trackers.getMyTrackedBlogs(username.toString());
-			System.out.println("Myblogs here"+myblogs);
+			//System.out.println("Myblogs here"+myblogs);
 			if(results.size()>0){
 				String res = null;
 				JSONObject resp = null;
@@ -75,13 +81,13 @@
 					     String totaltrack  = trackers.getTotalTrack(blogid);
 					     %>
 		<div class="card noborder curved-card mb30" >
-			<div class="curved-card selectcontainer border-white curve_<%=blogid%>">
+			<div class="curved-card selectcontainer border-white curve_<%=blogid%> <%=jblog.has(blogid)?"border-selected":""%>">
 			<% if(!username.equals("") || username.equals("")){ %>
-			 <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="Select to Track Blog"></i></div>
+			 <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="<%=jblog.has(blogid)?"Remove Blog from Tracker":"Select to Track Blog"%>"></i></div>
 			<% } %>
-			<h4 class="text-primary text-center p10 pt20 posttitle"><a class="blogname-<%=blogid%>" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=blogtitle%></a></h4>
+			<h4 class="text-primary text-center p10 pt20 posttitle <%=jblog.has(blogid)?"text-selected":""%>"><a class="blogname-<%=blogid%>" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><%=blogtitle%></a></h4>
 			
-			<div class="text-center mt10 mb10 trackingtracks">
+			<div class="text-center mt10 mb10 trackingtracks <%=jblog.has(blogid)?"makeinvisible":""%>">
 			<% if(myblogs.has(blogid)){ %><button class="btn btn-primary stylebutton7">TRACKING</button><% } %> <button class="btn btn-primary stylebutton8"><%=totaltrack%> Tracks</button>
 			  </div>
 			
