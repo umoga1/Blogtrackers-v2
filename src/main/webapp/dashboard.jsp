@@ -262,11 +262,13 @@
 			}
 			int b=0;
 			for(int y=ystint; y<=yendint; y++){
+				/*
 					   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
 					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
-					   
-					   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
-					   graphyears.put("Month "+y+"",totu);
+					*/   
+					   String totu = post._searchRangeTotal("date",dt, dte,ids);
+					 
+					   graphyears.put(y+"",totu);
 			    	   yearsarray.put(b,y);	
 			    	   b++;
 			}
