@@ -254,23 +254,17 @@ public class Blogposts {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
-				"            \"fields\" : [\"blogger\"],\r\n" + 
+				"            \"fields\" : [\"title\",\"blogger\",\"post\"],\r\n" + 
 				"            \"query\" : \""+blogger+"\"\r\n" + 
 				"        }\r\n" + 
-				"  },\r\n" +
+				"  },\r\n" + 
 				"   \"sort\":{\r\n" + 
-				"		\"blogpost_id\":{\r\n" + 
+				"		\""+field+"\":{\r\n" + 
 				"			\"order\":\"DESC\"\r\n" + 
-				"			}\r\n" + 
-				"		},\r\n" + 
-				" \"range\":{\r\n" + 
-				"		\"date\":{\r\n" + 
-				"			\"lte\":\""+greater+"\",\r\n" + 
-				"			\"gte\":\""+less+"\"\r\n" + 
 				"			}\r\n" + 
 				"		}\r\n" + 
 				"}");
-		
+
 		return this._getTotal(url, jsonObj);
 	}
 
@@ -345,7 +339,7 @@ public class Blogposts {
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
 		for(int i=0; i<args.length; i++){
-			pars.put(args[i].replaceAll(" ", ""));
+			pars.put(args[i]);
 		}
 
 		String arg2 = pars.toString();
