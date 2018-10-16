@@ -3747,6 +3747,7 @@ $(".option-lable").on("click",function(e){
          var newArr = returnedata.reduce((result,current) => {
          return result.concat(current);
          });
+         
 
          //console.log(newArr);
          var set = new Set(newArr);
