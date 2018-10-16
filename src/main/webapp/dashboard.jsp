@@ -2944,18 +2944,33 @@ var mymarker = [
                  .selectAll("text")
                  .data(words)
                  .enter().append("text")
-                 .style("font-size", function(d) { return d.size * 0.93 + "px"; })
+                 .style("font-size", 0)
                  .style("fill", function(d, i) { return color(i); })
                  .call(d3.behavior.drag()
          		.origin(function(d) { return d; })
          		.on("dragstart", dragstarted) 
          		.on("drag", dragged)			
          		)
+         		
                  .attr("transform", function(d) {
                      return "translate(" + [d.x + 12, d.y + 3] + ")rotate(" + d.rotate + ")";
                  })
 
                  .text(function(d) { return d.text; });
+    	 		
+    	 		// animation effect for tag cloud
+    	 		 $(element).bind('inview', function (event, visible) {
+            	  if (visible == true) {
+            		  svg.selectAll("text").transition()
+                      .delay(200)
+                      .duration(1000)
+                      .style("font-size", function(d) { return d.size * 0.93 + "px"; })
+            	  } else {
+            		  svg.selectAll("text")
+                      .style("font-size", 0)
+            	  }
+            	});
+    	 		
                 	function dragged(d) {
                 	 var movetext = svg.select("g").selectAll("text");
                 	 movetext.attr("dx",d3.event.x)
@@ -3600,10 +3615,11 @@ $(".option-lable").on("click",function(e){
               //.attr("width", x.rangeBand())
              .x(function(d) { return x(d.date); })
              .y(function(d) { return y(d.close); });
-             // .x(function(d){d.forEach(function(e){return x(d.date);})})
+         
+              // .x(function(d){d.forEach(function(e){return x(d.date);})})
              // .y(function(d){d.forEach(function(e){return y(d.close);})});
 
-
+  			
 
          // Create tooltip
          var tip = d3.tip()
@@ -3737,6 +3753,7 @@ $(".option-lable").on("click",function(e){
                       var path = svg.selectAll('.d3-line')
                                 .data(data)
                                 .enter()
+                                .append("g")
                                 .append("path")
                                 .attr("class", "d3-line d3-line-medium")
                                 .attr("d", line)
@@ -3744,6 +3761,24 @@ $(".option-lable").on("click",function(e){
                                 .style("stroke-width",2)
                                 .style("stroke", "17394C")
                                  .attr("transform", "translate("+margin.left/4.7+",0)");
+                        
+                      $(element).bind('inview', function (event, visible) {
+                    	  if (visible == true) {
+                    		  path.select("path")
+                    		  .transition()
+                              .duration(1000)
+                              .attrTween("stroke-dasharray", tweenDash);
+                              
+                    	  } else {
+                    		  //svg.selectAll("text")
+                              //.style("font-size", 0)
+                    	  }
+                    	});
+                      function tweenDash() {
+                          var l = this.getTotalLength(),
+                              i = d3.interpolateString("0," + l, l + "," + l);
+                          return function (t) { return i(t); };
+                      }
                                 // .datum(data)
 
                        // add point
@@ -3769,6 +3804,8 @@ $(".option-lable").on("click",function(e){
                               .on("mouseout",tip.hide)
                               .on("click",function(d){console.log(d.date)});
                                                  svg.call(tip)
+                                                 
+                                                
                       }
                       // handles multiple json parameter
                       else if(data.length > 1)
