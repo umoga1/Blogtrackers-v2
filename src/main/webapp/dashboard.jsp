@@ -36,6 +36,7 @@
 		ArrayList detail = new ArrayList();
 		ArrayList termss = new ArrayList();
 		ArrayList outlinks = new ArrayList();
+		ArrayList liwcpost = new ArrayList();
 
 		Trackers tracker = new Trackers();
 		Terms term = new Terms();
@@ -158,8 +159,8 @@
 			
 			if (!date_start.equals("") && !date_end.equals("")) {
 				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
-				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
 
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
 				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
@@ -167,8 +168,8 @@
 				dt = date_start.toString();
 				dte = date_end.toString();
 				
-				dispfrom = DATE_FORMAT.format(start);
-				dispto = DATE_FORMAT.format(end);
+				//dispfrom = DATE_FORMAT.format(start);
+				//dispto = DATE_FORMAT.format(end);
 				termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 				outlinks = outl._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 
@@ -176,8 +177,8 @@
 			} else if (single.equals("day")) {
 				 dt = year + "-" + month + "-" + day;
 				
-				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-				dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));			
+				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));			
 				totalpost = post._searchRangeTotal("date", dt, dt, ids);
 				termss = term._searchByRange("date", dt, dt, ids);
 				outlinks = outl._searchByRange("date", dt, dt, ids);
@@ -195,8 +196,8 @@
 				dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
 				
 				
-				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-				dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));			
+				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));			
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 				termss = term._searchByRange("date", dt, dte, ids);
 				outlinks = outl._searchByRange("date", dt, dte, ids);
@@ -206,8 +207,8 @@
 			} else if (single.equals("month")) {
 				dt = year + "-" + month + "-01";
 				dte = year + "-" + month + "-"+day;	
-				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-				dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 				
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 				termss = term._searchByRange("date", dt, dte, ids);
@@ -218,8 +219,8 @@
 			} else if (single.equals("year")) {
 				dt = year + "-01-01";
 				dte = year + "-12-"+ddey;
-				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-				dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 				
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 				termss = term._searchByRange("date", dt, dte, ids);
@@ -231,8 +232,8 @@
 				dt = dst;
 				dte = dend;
 				totalpost = post._getTotalByBlogId(ids, "");
-				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);			
+				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);			
 				termss = term._searchByRange("date", dst, dend, ids);
 				outlinks = outl._searchByRange("date",dst, dend, ids);
 				
@@ -254,19 +255,25 @@
 			year_end = yend[0];
 			int ystint = Integer.parseInt(year_start);
 			int yendint = Integer.parseInt(year_end);
-			
+			if(single.equals("month")){
+				int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
+				ystint=0;
+				yendint = diff;
+			}
 			int b=0;
 			for(int y=ystint; y<=yendint; y++){
-					   String dtu = y + "-01-01";
-					   String dtue = y + "-12-31";
+					   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
+					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
+					   
 					   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
-					   graphyears.put(y+"",totu);
+					   graphyears.put("Month "+y+"",totu);
 			    	   yearsarray.put(b,y);	
 			    	   b++;
 			}
 			
 			//System.out.println("grapgh yeres"+yearsarray);
 		    JSONObject authors = new JSONObject();
+		    JSONArray sentimentpost = new JSONArray();
 		    
 		    JSONArray authorcount = new JSONArray();
 		    JSONObject language = new JSONObject();
@@ -296,7 +303,7 @@
 					   
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
-					    
+					    sentimentpost.put(tobj.get("blogpost_id").toString());
 					   
 					    if(authors.has(auth)){
 							content = new JSONObject(authors.get(auth).toString());
@@ -339,23 +346,28 @@
 			//System.out.println("Authors here:"+graphyears);
 			} 
 			
-			
-			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
-			
-			JSONObject sentimentblog = new JSONObject();
-			if (sentiments.size() > 0) {
-
-				for (int p = 0; p < sentiments.size(); p++) {
-					String bstr = sentiments.get(p).toString();
+			ArrayList sentimentor = new Liwc()._searchByRange("date", dt, dte, sentimentpost);
+			int allposemo =0;
+			int allnegemo =0;
+			if(sentimentor.size()>0){
+				for(int v=0; v<sentimentor.size();v++){
+					String bstr = sentiments.get(v).toString();
 					JSONObject bj = new JSONObject(bstr);
 					bstr = bj.get("_source").toString();
 					bj = new JSONObject(bstr);
-					String id = bj.get("blogsite_id").toString();
-					//if(!sentimentblog.has(id)){
-					sentimentblog.put(id, id);
-					// }
+					int posemo = Integer.parseInt(bj.get("posemo").toString());
+					int negemo = Integer.parseInt(bj.get("negemo").toString());
+					allposemo+=posemo;
+					allnegemo+=negemo;
+					
 				}
 			}
+			
+			possentiment=allposemo+"";
+			negsentiment=allnegemo+"";
+			
+			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
+			
 
 			JSONArray topterms = new JSONArray();
 			if (termss.size() > 0) {

@@ -246,7 +246,7 @@ String total = post._getTotal();//NumberFormat.getNumberInstance(Locale.US).form
 
 <!-- <div class="container-fluid"> -->
 <div class="row bg-primary">
-
+<input type="hidden" name="_selected" id="selected_blogs_" value="" />
 <div class="offset-md-1 col-md-6 pl150 pt100 pb100">
 <h1 class="text-white trackertitlesize"><b class="greentext total_selected">0</b> Blog(s)</h1>
 <div class="mt30" id="selected_blog_list">
