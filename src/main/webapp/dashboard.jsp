@@ -3132,7 +3132,29 @@ data = {
 	}); */
 	
 	
-   
+	var mybloggers = 
+		  data.bloggers.sort(function(a, b){
+		return b.size - a.size;
+		})
+		
+		
+		/* resort the bubbles chart by size */
+		var alldata=[];
+		
+	  for(i=0;i<mybloggers.length;i++)
+		{
+		var myconcat = ",";
+		if(i == mybloggers.length - 1)
+		{
+			myconcat = "";	
+		} 
+		alldata[i]= {"label":mybloggers[i].label,"name":mybloggers[i].name,"size":mybloggers[i].size}
+
+		} 
+	/* End of sorting   */
+	  bloggers = alldata;
+	  
+	  data = {   bloggers  } 
 
 
 
@@ -3180,7 +3202,14 @@ data = {
                 .style("text-anchor", "middle")
                 .text(function(d) { 
                 	
-                	return d.label.substring(0, d.r / 3); 
+                	if(d.r < 30)
+            		{
+            		return "";
+            		}
+            	else
+            		{
+            		return d.label.substring(0, d.r / 3);  
+            		}
                 	
                 });
      
@@ -3355,7 +3384,7 @@ data = {
 /* End of sorting   */
   bloggers = alldata;
   
-  data = {  bloggers  }
+  data = {   bloggers  }
   
   
             //

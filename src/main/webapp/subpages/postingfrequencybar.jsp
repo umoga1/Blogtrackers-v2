@@ -118,7 +118,10 @@ $(function () {
   	    return a.frequency - b.frequency;
   	}); 
   	<% } else {%>
-		data = data;
+		//data = data;
+		 data = data.sort(function(a, b){
+  	    return a.frequency - b.frequency;
+  	}); 
   	<% } %>
       //
       //
@@ -198,7 +201,8 @@ $(function () {
                   <% if(sort.equalsIgnoreCase("blogs")){ %>
                   return colorblogs(data.length - i - 1);
                  <% } else { %>
-                 return colorblogs(i)
+                 return colorblogs(data.length - i - 1);
+                 //return colorblogs(i)
                  <% } %>
 
                 })
