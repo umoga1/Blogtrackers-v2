@@ -89,21 +89,6 @@ public class AddTracker extends HttpServlet {
 							 
 							 jblog.put(resp.get("site").toString(), resp.get("site").toString());
 							 
-<<<<<<< HEAD
-							 
-							 
-=======
-							 for(int j=0; j<blogs.length; j++) {
-								 if(!jblog.has(blogs[j])) {
-									 mergedblogs+=blogs[j]+",";
-						 			ArrayList ex = db.query("SELECT * FROM blogsites WHERE blogsite_url='"+blogs[j]+"'");
-						 			if(ex.size()<1) {
-									 //db.updateTable("INSERT INTO blogsites (blogsite_url,site_type) VALUES ('"+blogs[j]+"','11')");	
-						 			}
-								 }
-							 }
->>>>>>> cab9dc3bdf7da4e2fedaa9f25185f0ed2f44d3b9
-							 
 							 String[] allblogs = mergedblogs.replaceAll(",$", "").split(",");
 							 
 							 
@@ -117,24 +102,17 @@ public class AddTracker extends HttpServlet {
 							LocalDateTime now = LocalDateTime.now();
 							
 							System.out.println(session.getAttribute(key).toString());
-						/*	blogsite = db.query("SELECT * FROM blogsites");*/
-							/*ArrayList blog_result = (ArrayList)blogsite.get(0);
-							String blogsite_name = blog_result.get(1).toString();
-							
-							Iterator<String> dupIter = blog_result.iterator();*/
-							
-							/*while(dupIter.hasNext()) {
-								String dupWord = dupIter.next();
-								if(!blog_result.contains(dupWord));*/
-							
-							
+					
+							String checkBlog = "SELECT * FROM blogsites WHERE blogsite_url='"+site+"'";
+							ArrayList result = db.query(checkBlog);
+							if(result.size()<0) {
 							String query="INSERT INTO blogsites(blogsite_name,blogsite_url,site_type) VALUES('"+site+"', '"+site+"', 11)";
 							db.updateTable(query);
 							
 							pww.write("Successfully inserted "+site+" to the blogsite table\n");
 							
 							pww.write("Updating the tracker table ...\n");
-							
+							}
 							blogsite = db.query("SELECT * FROM blogsites ORDER BY blogsite_id DESC LIMIT 1");
 							
 							ArrayList blog_result = (ArrayList)blogsite.get(0);
