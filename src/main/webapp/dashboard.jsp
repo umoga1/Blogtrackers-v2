@@ -129,6 +129,9 @@
 
 			String dispfrom = DATE_FORMAT.format(dstart);
 			String dispto = DATE_FORMAT.format(today);
+			
+			String historyfrom = DATE_FORMAT.format(dstart);
+			String historyto = DATE_FORMAT.format(today);
 
 			String dst = DATE_FORMAT2.format(dstart);
 			String dend = DATE_FORMAT2.format(today);
@@ -168,8 +171,8 @@
 				dt = date_start.toString();
 				dte = date_end.toString();
 				
-				//dispfrom = DATE_FORMAT.format(start);
-				//dispto = DATE_FORMAT.format(end);
+				historyfrom = DATE_FORMAT.format(start);
+				historyto = DATE_FORMAT.format(end);
 				termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 				outlinks = outl._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 
@@ -360,7 +363,7 @@
 					JSONObject bj = new JSONObject(bstr);
 					bstr = bj.get("_source").toString();
 					bj = new JSONObject(bstr);
-					System.out.println("result eree"+bj);
+					//System.out.println("result eree"+bj);
 					int posemo = Integer.parseInt(bj.get("posemo").toString());
 					int negemo = Integer.parseInt(bj.get("negemo").toString());
 					allposemo+=posemo;
@@ -516,7 +519,7 @@
 
 			}
 			
-			System.out.println("bloggerhere"+authors);
+			
 %>
 <!DOCTYPE html>
 <html>
@@ -775,9 +778,9 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-clock icondash"></i>History
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%=dispfrom%>
+						<h3 class="text-blue mb0 countdash dash-label"><%=historyfrom%>
 							-
-							<%=dispto%></h3>
+							<%=historyto%></h3>
 					</div>
 				</div>
 			</div>
