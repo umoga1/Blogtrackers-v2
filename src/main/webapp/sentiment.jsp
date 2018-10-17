@@ -855,6 +855,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
        	      {   startDate: moment().subtract(29, 'days'),
        	          endDate: moment(),
        	          minDate: '01/01/1947',
+       	       	  linkedCalendars: false,
        	          maxDate: moment(),
        			  showDropdowns: true,
        	          showWeekNumbers: true,

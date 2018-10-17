@@ -69,7 +69,7 @@ if(f.exists() && !f.isDirectory()) {
   <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers-Posting Frequecy</title>
+	<title>Blogtrackers - Clustering</title>
  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
@@ -200,7 +200,7 @@ if(f.exists() && !f.isDirectory()) {
 <nav class="breadcrumb">
   <a class="breadcrumb-item text-primary" href="trackerlist.html">MY TRACKER</a>
   <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
-  <a class="breadcrumb-item active text-primary" href="postingfrequency.html">Topic Distribution</a>
+  <a class="breadcrumb-item active text-primary" href="postingfrequency.html">Clustering</a>
   </nav>
 <div>Tracking: <button class="btn btn-primary stylebutton1">All Blogs</button></div>
 </div>
@@ -246,14 +246,14 @@ if(f.exists() && !f.isDirectory()) {
     <div style="padding-right:10px !important;">
       <input type="search" class="form-control stylesearch mb20" placeholder="Search " /></div>
     <div class="scrolly" style="height:270px; padding-right:10px !important;">
-    <a class="btn btn-primary form-control stylebuttonactive mb20 activebar"> <b>Topic 1</b></a>
-    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Topic 2</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Topic 3</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Topic 4</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Topic 5</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Topic 6</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Topic 7</b></a>
-     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Topic 8</b></a>
+    <a class="btn btn-primary form-control stylebuttonactive mb20 activebar"> <b>Cluster 1</b></a>
+    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Cluster 2</b></a>
+     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Cluster 3</b></a>
+     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Cluster 4</b></a>
+     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Cluster 5</b></a>
+     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Cluster 6</b></a>
+     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Cluster 7</b></a>
+     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Cluster 8</b></a>
 
    </div>
 
@@ -266,9 +266,10 @@ if(f.exists() && !f.isDirectory()) {
   <div class="card card-style mt20">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 250px;">
-<div><p class="text-primary mt10"> <b>Individual</b> Number of Blog Post of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
+<div><p class="text-primary mt10"> Topic Trends </p></div>
+
 <div class="chart-container">
-  <div class="chart" id="d3-line-basic"></div>
+  <div class="chart" id="clusterdiagram"></div>
 </div>
       </div>
         </div>
@@ -306,18 +307,20 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 
 <div class="row mb0">
-  <div class="col-md-4 mt20 ">
+  <div class="col-md-6 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p20 pt5 pb5">
-        <div><p class="text-primary mt10">Keywords of <b class="text-blue">Topic 1</b> of Past <b class="text-success">Abel Danger</b></p></div>
-        <div class="tagcloudcontainer" style="min-height: 300px;">
+        <div><p class="text-primary mt10">Keywords of <b class="text-blue">Cluster 1</b> of Past <b class="text-success">Week</b></p></div>
+        <div class="chart-container">
+        <div id="tagcloudcontainer" style="min-height: 300px;">
 
         </div>
+      </div>
           </div>
     </div>
   </div>
 
-  <div class="col-md-4 mt20">
+  <div class="col-md-6 mt20">
     <div class="card card-style mt20">
 
 
@@ -335,34 +338,12 @@ if(f.exists() && !f.isDirectory()) {
     </div>
   </div>
 
-  <div class="col-md-4 mt20">
-    <div class="card card-style mt20">
-
-
-          <div class="card-body p0 pt0 pb20" style="min-height: 300px;">
-              <!-- <div><p class="text-primary p15 pt0 pb0 mt10">Top 5 Entities</p></div> -->
-              <div class="chart-container">
-              <div class="chart svg-center" id="clusterdiagram">
-
-              </div>
-
-
-            </div>
-
-                </div>
-
-    </div>
-  </div>
-
-
-
-
 </div>
 
 <div class="row m0 mt20 mb20 d-flex align-items-stretch" >
   <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
   <div class="card-body p0 pt20 pb20" style="min-height: 420px;">
-      <p> Posts from <b class="text-success">Topic 1</b></p>
+      <p> Posts from <b class="text-success">Cluster 1</b></p>
           <!-- <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
@@ -477,14 +458,14 @@ if(f.exists() && !f.isDirectory()) {
                 <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Topic 1</th>
-                                <th>Topic 2</th>
-                                <th>Topic 3</th>
-<th>Topic 4</th>
-<th>Topic 5</th>
-<th>Topic 6</th>
-<th>Topic 7 </th>
-<th>Topic 8</th>
+                                <th>Cluster 1</th>
+                                <th>Cluster 2</th>
+                                <th>Cluster 3</th>
+<th>Cluster 4</th>
+<th>Cluster 5</th>
+<th>Cluster 6</th>
+<th>Cluster 7 </th>
+<th>Cluster 8</th>
 
                             </tr>
                         </thead>
@@ -664,12 +645,16 @@ if(f.exists() && !f.isDirectory()) {
          };
 
          var optionSet1 =
-       	      {   startDate: moment().subtract(29, 'days'),
+       	      {   startDate: moment().subtract(120, 'days'),
        	          endDate: moment(),
+                  linkedCalendars: false,
        	          minDate: '01/01/1947',
        	          maxDate: moment(),
+                  maxSpan: {
+                    "days":1550
+                  },
        			  showDropdowns: true,
-       			linkedCalendars: false,
+              setDate:null,
        	          showWeekNumbers: true,
        	          timePicker : false,
    				  timePickerIncrement : 1,
@@ -712,7 +697,7 @@ if(f.exists() && !f.isDirectory()) {
      //
    	// else{
    		// $('#reportrange span').html('${datepicked}');
-       $('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
+      $('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
    		$('#reportrange, #custom').daterangepicker(optionSet1, cb);
    		$('#reportrange')
    		.on(
@@ -782,665 +767,94 @@ if(f.exists() && !f.isDirectory()) {
  <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
  <script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
  <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
- <script>
 
-  $(function () {
-
-      // Initialize chart
-      lineBasic('#d3-line-basic', 235);
-
-      // Chart setup
-      function lineBasic(element, height) {
-          // Basic setup
-          // ------------------------------
-
-          // Define main variables
-          var d3Container = d3.select(element),
-              margin = {top: 10, right: 10, bottom: 20, left: 50},
-              width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
-              height = height - margin.top - margin.bottom;
-
-
-          var formatPercent = d3.format("");
-          // Format data
-          // var parseDate = d3.time.format("%d-%b-%y").parse,
-          //     bisectDate = d3.bisector(function(d) { return d.date; }).left,
-          //     formatValue = d3.format(",.0f"),
-          //     formatCurrency = function(d) { return formatValue(d); }
-
-
-
-          // Construct scales
-          // ------------------------------
-
-          // Horizontal
-          var x = d3.scale.ordinal()
-              .rangeRoundBands([0, width], .72, .5);
-
-          // Vertical
-          var y = d3.scale.linear()
-              .range([height, 0]);
-
-
-
-          // Create axes
-          // ------------------------------
-
-          // Horizontal
-          var xAxis = d3.svg.axis()
-              .scale(x)
-              .orient("bottom")
-             .ticks(9)
-
-            // .tickFormat(formatPercent);
-
-
-          // Vertical
-          var yAxis = d3.svg.axis()
-              .scale(y)
-              .orient("left")
-              .ticks(6);
-
-
-
-          // Create chart
-          // ------------------------------
-
-          // Add SVG element
-          var container = d3Container.append("svg");
-
-          // Add SVG group
-          var svg = container
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
-              .append("g")
-                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-
-          // Construct chart layout
-          // ------------------------------
-
-          // Line
-
-
-          // Load data
-          // ------------------------------
-
-  // data = [[{"date": "Jan","close": 120},{"date": "Feb","close": 140},{"date": "Mar","close":160},{"date": "Apr","close": 180},{"date": "May","close": 200},{"date": "Jun","close": 220},{"date": "Jul","close": 240},{"date": "Aug","close": 260},{"date": "Sep","close": 280},{"date": "Oct","close": 300},{"date": "Nov","close": 320},{"date": "Dec","close": 340}],
-  // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
-  // ];
-
-  data = [
-    [{"date":"2014","close":400},{"date":"2015","close":600},{"date":"2016","close":1300},{"date":"2017","close":1700},{"date":"2018","close":2100}],
-    [{"date":"2014","close":350},{"date":"2015","close":700},{"date":"2016","close":1500},{"date":"2017","close":1600},{"date":"2018","close":1250}],
-    [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200},{"date":"2017","close":1200},{"date":"2018","close":2600}],
-    [{"date":"2014","close":250},{"date":"2015","close":1840},{"date":"2016","close":1400},{"date":"2017","close":1300},{"date":"2018","close":1800}]
-  ];
-
-  //console.log(data);
-  // data = [];
-
-  // data = [
-  // [
-  //   {
-  //     "date": "Jan",
-  //     "close": 1000
-  //   },
-  //   {
-  //     "date": "Feb",
-  //     "close": 1800
-  //   },
-  //   {
-  //     "date": "Mar",
-  //     "close": 1600
-  //   },
-  //   {
-  //     "date": "Apr",
-  //     "close": 1400
-  //   },
-  //   {
-  //     "date": "May",
-  //     "close": 2500
-  //   },
-  //   {
-  //     "date": "Jun",
-  //     "close": 500
-  //   },
-  //   {
-  //     "date": "Jul",
-  //     "close": 100
-  //   },
-  //   {
-  //     "date": "Aug",
-  //     "close": 500
-  //   },
-  //   {
-  //     "date": "Sep",
-  //     "close": 2300
-  //   },
-  //   {
-  //     "date": "Oct",
-  //     "close": 1500
-  //   },
-  //   {
-  //     "date": "Nov",
-  //     "close": 1900
-  //   },
-  //   {
-  //     "date": "Dec",
-  //     "close": 4170
-  //   }
-  // ]
-  // ];
-
-  // console.log(data);
-  var line = d3.svg.line()
-  .interpolate("monotone")
-       //.attr("width", x.rangeBand())
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return y(d.close); });
-      // .x(function(d){d.forEach(function(e){return x(d.date);})})
-      // .y(function(d){d.forEach(function(e){return y(d.close);})});
-
-
- var circles;
-  // Create tooltip
-  var tip = d3.tip()
-         .attr('class', 'd3-tip')
-         .offset([-10, 0])
-         .html(function(d) {
-         if(d === null)
-         {
-           return "No Information Available";
-         }
-         else if(d !== null) {
-          return d.date+" ("+d.close+")<br/> Click for more information";
-           }
-         // return "here";
-         });
-
-     // Initialize tooltip
-     //svg.call(tip);
-
-
-    // Pull out values
-    // data.forEach(function(d) {
-    //     d.frequency = +d.close;
-    //
-    // });
-
-
-              // Pull out values
-              // data.forEach(function(d) {
-              //     // d.date = parseDate(d.date);
-              //     //d.date = +d.date;
-              //     //d.date = d.date;
-              //     d.close = +d.close;
-              // });
-
-              // Sort data
-              // data.sort(function(a, b) {
-              //     return a.date - b.date;
-              // });
-
-
-              // Set input domains
-              // ------------------------------
-
-              // Horizontal
-    //  console.log(data[0])
-
-
-            // Vertical
-  // extract max value from list of json object
-  // console.log(data.length)
-      var maxvalue =
-      data.map(function(d){
-        var mvalue = [];
-        if(data.length > 1)
-      {
-        d.forEach(function(f,i){
-        mvalue[i] = f.close;
-
-        })
-      return d3.max(mvalue);
-      }
-
-      //console.log(mvalue);
-      });
-
-
-
-  ////console.log(data)
-  if(data.length == 1)
-  {
-    var returnedvalue = data[0].map(function(e){
-    return e.date
-    });
-
-  // for single json data
-  x.domain(returnedvalue);
-  // rewrite x domain
-
-  var maxvalue2 =
-  data.map(function(d){
-  return d3.max(d,function(t){return t.close});
-  });
-  y.domain([0,maxvalue2]);
-  }
-  else if(data.length > 1)
-  {
-  //console.log(data.length);
-  //console.log(data);
-
-  var returnedata = data.map(function(e){
-  // console.log(k)
-  var all = []
-  e.forEach(function(f,i){
-  all[i] = f.date;
-  //console.log(all[i])
-  })
-  return all
-  //console.log(all);
-  });
-  // console.log(returnedata);
-  // combines all the array
-  var newArr = returnedata.reduce((result,current) => {
-  return result.concat(current);
-  });
-
-  //console.log(newArr);
-  var set = new Set(newArr);
-  var filteredArray = Array.from(set);
-  //console.log(filteredArray.sort());
-  // console.log(returnedata);
-  x.domain(filteredArray);
-  y.domain([0, d3.max(maxvalue)]);
-  }
-
-
-
-
-              //
-              // Append chart elements
-              //
-
-
-
-
-  // svg.call(tip);
-               // data.map(function(d){})
-               if(data.length == 1)
-               {
-                 // Add line
-               var path = svg.selectAll('.d3-line')
-                         .data(data)
-                         .enter()
-                         .append("path")
-                         .attr("class", "d3-line d3-line-medium")
-                         .attr("d", line)
-                         // .style("fill", "rgba(0,0,0,0.54)")
-                         .style("stroke-width", 2)
-                         .style("stroke", "17394C")
-                          .attr("transform", "translate("+margin.left/4.7+",0)");
-                         // .datum(data)
-
-                // add point
-                 circles = svg.selectAll(".circle-point")
-                           .data(data[0])
-                           .enter();
-
-
-                       circles
-                       // .enter()
-                       .append("circle")
-                       .attr("class","circle-point")
-                       .attr("r",3.4)
-                       .style("stroke", "#4CAF50")
-                       .style("fill","#4CAF50")
-                       .attr("cx",function(d) { return x(d.date); })
-                       .attr("cy", function(d){return y(d.close)})
-
-                       .attr("transform", "translate("+margin.left/4.7+",0)");
-
-                       svg.selectAll(".circle-point").data(data[0])
-                       .on("mouseover",tip.show)
-                       .on("mouseout",tip.hide)
-                       .on("click",function(d){console.log(d.date)});
-                                          svg.call(tip)
-               }
-               // handles multiple json parameter
-               else if(data.length > 1)
-               {
-                 // add multiple line
-                 // var color = d3.scale.category20();
-                 var path = svg.selectAll('.d3-line')
-                           .data(data)
-                           .enter()
-                           .append("path")
-                           .attr("class", "d3-line d3-line-medium")
-                           .attr("d", line)
-                           // .style("fill", "rgba(0,0,0,0.54)")
-                           .style("stroke-width", 2)
-                           .style("stroke", function(d,i) { return color(i);})
-                           .attr("transform", "translate("+margin.left/4.7+",0)");
-
-
-
-
-                // add multiple circle points
-
-                    // data.forEach(function(e){
-                    // console.log(e)
-                    // })
-
-                    console.log(data);
-
-                       var mergedarray = [].concat(...data);
-                        console.log(mergedarray)
-                          circles = svg.selectAll(".circle-point")
-                              .data(mergedarray)
-                              .enter();
-
-                                circles
-                                // .enter()
-                                .append("circle")
-                                .attr("class","circle-point")
-                                .attr("r",3.4)
-                                .style("stroke", "#4CAF50")
-                                .style("fill","#4CAF50")
-                                .attr("cx",function(d) { return x(d.date)})
-                                .attr("cy", function(d){return y(d.close)})
-
-                                .attr("transform", "translate("+margin.left/4.7+",0)");
-                                svg.selectAll(".circle-point").data(mergedarray)
-                               .on("mouseover",tip.show)
-                               .on("mouseout",tip.hide)
-                               .on("click",function(d){console.log(d.date)});
-                          //                         svg.call(tip)
-
-                        //console.log(newi);
-
-
-                              svg.selectAll(".circle-point").data(mergedarray)
-                              .on("mouseover",tip.show)
-                              .on("mouseout",tip.hide)
-                              .on("click",function(d){console.log(d.date)});
-                                                 svg.call(tip)
-
-
-
-
-
-
-
-
-
-
-               }
-
-
-  // show data tip
-
-
-              // Append axes
-              // ------------------------------
-
-              // Horizontal
-              svg.append("g")
-                  .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
-                  .attr("transform", "translate(0," + height + ")")
-                  .call(xAxis);
-
-              // Vertical
-              var verticalAxis = svg.append("g")
-                  .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
-                  .call(yAxis);
-
-
-
-
-
-              // Add text label
-              verticalAxis.append("text")
-                  .attr("transform", "rotate(-90)")
-                  .attr("y", 10)
-                  .attr("dy", ".71em")
-                  .style("text-anchor", "end")
-                  .style("fill", "#999")
-                  .style("font-size", 12)
-                  // .text("Frequency")
-                  ;
-
-
-
-         // Resize chart
-         // ------------------------------
-
-         // Call function on window resize
-         $(window).on('resize', resize);
-
-         // Call function on sidebar width change
-         $('.sidebar-control').on('click', resize);
-
-         // Resize function
-         //
-         // Since D3 doesn't support SVG resize by default,
-         // we need to manually specify parts of the graph that need to
-         // be updated on window resize
-         function resize() {
-
-             // Layout variables
-             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
-             //
-             //
-             // // Layout
-             // // -------------------------
-             //
-             // // Main svg width
-             container.attr("width", width + margin.left + margin.right);
-             //
-             // // Width of appended group
-             svg.attr("width", width + margin.left + margin.right);
-             //
-             //
-             // // Axes
-             // // -------------------------
-             //
-             // // Horizontal range
-             x.rangeRoundBands([0, width],.72,.5);
-             //
-             // // Horizontal axis
-             svg.selectAll('.d3-axis-horizontal').call(xAxis);
-             //
-             //
-             // // Chart elements
-             // // -------------------------
-             //
-             // // Line path
-             svg.selectAll('.d3-line').attr("d", line);
-
-
-             if(data.length == 1)
-             {
-               svg.selectAll(".circle-point").attr("circle",circles)
-               .attr("cx",function(d) { return x(d.date);})
-               .attr("cy", function(d){return y(d.close)});
-             }
-             else if(data.length > 1)
-             {
-               svg.selectAll(".circle-point").attr("circle",circles)
-               .attr("cx",function(d) { return x(d.date);})
-               .attr("cy", function(d){return y(d.close)});
-             }
-             //
-             // // Crosshair
-             // svg.selectAll('.d3-crosshair-overlay').attr("width", width);
-
-         }
-     }
- });
- </script>
-<script type="text/javascript" src="assets/vendors/d3/d3.v4.min.js"></script>
- <script>
- $(function () {
-
-clusterdiagram('#clusterdiagram', 330);
-
-// Chart setup
-function clusterdiagram(element, height) {
-
-  var nodes = [
-    { id: "mammal", group: 0, label: "Mammals", level: 1 },
-    { id: "dog"   , group: 0, label: "Dogs"   , level: 2 },
-    { id: "cat"   , group: 0, label: "Cats"   , level: 2 },
-    { id: "fox"   , group: 0, label: "Foxes"  , level: 2 },
-    { id: "elk"   , group: 0, label: "Elk"    , level: 2 },
-    { id: "insect", group: 1, label: "Insects", level: 1 },
-    { id: "ant"   , group: 1, label: "Ants"   , level: 2 },
-    { id: "bee"   , group: 1, label: "Bees"   , level: 2 },
-    { id: "fish"  , group: 2, label: "Fish"   , level: 1 },
-    { id: "carp"  , group: 2, label: "Carp"   , level: 2 },
-    { id: "pike"  , group: 2, label: "Pikes"  , level: 2 }
-  ]
-
-  var links = [
-  	{ target: "mammal", source: "dog" , strength: 3.0 },
-  	{ target: "mammal", source: "dog" , strength: 3.0 },
-    { target: "mammal", source: "fox" , strength: 3.0 },
-    { target: "mammal", source: "dog" , strength: 3.0 },
-    { target: "insect", source: "ant" , strength: 0.7 },
-    { target: "insect", source: "bee" , strength: 0.7 },
-    { target: "fish"  , source: "carp", strength: 0.7 },
-    { target: "fish"  , source: "pike", strength: 0.7 },
-    { target: "cat"   , source: "elk" , strength: 0.1 },
-    { target: "carp"  , source: "ant" , strength: 0.1 },
-    { target: "elk"   , source: "bee" , strength: 0.1 },
-    { target: "dog"   , source: "cat" , strength: 0.1 },
-    { target: "fox"   , source: "ant" , strength: 0.1 },
-  	{ target: "pike"  , source: "cat" , strength: 0.1 }
-  ]
-
-     // Define main variables
-     var d3Container = d3v4.select(element),
-         margin = {top: 10, right: 10, bottom: 20, left: 20},
-         width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
-         height = height - margin.top - margin.bottom;
-
-    var colors = d3v4.scaleOrdinal(d3v4.schemeCategory10);
-
-     // Add SVG element
-     var container = d3Container.append("svg");
-
-     // Add SVG group
-     var svg = container
-         .attr("width", width + margin.left + margin.right)
-         .attr("height", height + margin.top + margin.bottom);
-        //.append("g")
-      //   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      // simulation setup with all forces
-   var linkForce = d3v4
-  .forceLink()
-  .id(function (link) { return link.id })
-  .strength(function (link) { return link.strength })
-
-      // simulation setup with all forces
-      var simulation = d3v4
-        .forceSimulation()
-        .force('link', linkForce)
-        .force('charge', d3v4.forceManyBody().strength(-50))
-        .force('center', d3v4.forceCenter(width / 2, height / 2))
-
-        var linkElements = svg.append("g")
-          .attr("class", "links")
-          .selectAll("line")
-          .data(links)
-          .enter().append("line")
-            .attr("stroke-width", 0)
-        	  .attr("stroke", "rgba(50, 50, 50, 0.2)")
-
-      function getNodeColor(node) {
-        return node.level === 1 ? 'red' : 'gray'
-      }
-
-      var nodeElements = svg.append("g")
-        .attr("class", "nodes")
-        .selectAll("circle")
-        .data(nodes)
-        .enter().append("circle")
-          .attr("r", 5)
-          .attr("fill", function (d, i) {return colors(d.group);})
-
-      var textElements = svg.append("g")
-        .attr("class", "texts")
-        .selectAll("text")
-        .data(nodes)
-        .enter().append("text")
-          .text(function (node) { return  node.label })
-      	  .attr("font-size", 15)
-      	  .attr("dx", 15)
-          .attr("dy", 4)
-
-        simulation.nodes(nodes).on('tick', () => {
-          nodeElements
-            .attr('cx', function (node) { return node.x })
-            .attr('cy', function (node) { return node.y })
-          textElements
-            .attr('x', function (node) { return node.x })
-            .attr('y', function (node) { return node.y })
-            linkElements
-    .attr('x1', function (link) { return link.source.x })
-    .attr('y1', function (link) { return link.source.y })
-    .attr('x2', function (link) { return link.target.x })
-    .attr('y2', function (link) { return link.target.y })
-        })
-
-
-simulation.force("link").links(links)
-}
-
-});
- </script>
 
 <!--word cloud  -->
  <script>
+ var color = d3.scale.linear()
+         .domain([0,3,5,7,8,9,6,10,15,20,50])
+         .range(["#17394C", "#F5CC0E", "#CE0202", "#1F90D0", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+
+ $(function () {
+
+   wordtagcloud("#tagcloudcontainer",410);
+    function wordtagcloud(element, height) {
+
+      // Define main variables of the container
+      var d3Container = d3.select(element),
+          margin = {top: 30, right: 10, bottom: 20, left: 25},
+          width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
+          height = height;
+
+    var container = d3Container.append("svg");
+
+    var color = d3.scale.linear()
+           .domain([0,1,2,3,4,5,6,10,12,15,20])
+           .range(["#0080CC", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
 
      var frequency_list = [{"text":"study","size":40},{"text":"motion","size":15},{"text":"forces","size":10},{"text":"electricity","size":15},{"text":"movement","size":10},{"text":"relation","size":5},{"text":"things","size":10},{"text":"force","size":5},{"text":"ad","size":5},{"text":"energy","size":85},{"text":"living","size":5},{"text":"nonliving","size":5},{"text":"laws","size":15},{"text":"speed","size":45},{"text":"velocity","size":30},{"text":"define","size":5},{"text":"constraints","size":5},{"text":"universe","size":10},{"text":"distinguished","size":5},{"text":"chemistry","size":5},{"text":"biology","size":5},{"text":"includes","size":5},{"text":"radiation","size":5},{"text":"sound","size":5},{"text":"structure","size":5},{"text":"atoms","size":5},{"text":"including","size":10},{"text":"atomic","size":10},{"text":"nuclear","size":10},{"text":"cryogenics","size":10},{"text":"solid-state","size":10},{"text":"particle","size":10},{"text":"plasma","size":10},{"text":"deals","size":5},{"text":"merriam-webster","size":5},{"text":"dictionary","size":10},{"text":"analysis","size":5},{"text":"conducted","size":5},{"text":"order","size":5},{"text":"understand","size":5},{"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
-
-
-     var color = d3.scale.linear()
-             .domain([0,1,2,3,4,5,6,10,15,20,50])
-             .range(["#17394C", "#F5CC0E", "#CE0202", "#1F90D0", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
-
-     d3.layout.cloud().size([300, 300])
+     var svg =  container;
+     d3.layout.cloud().size([width, height])
              .words(frequency_list)
              .rotate(0)
              .fontSize(function(d) { return d.size; })
              .on("end", draw)
              .start();
 
+
+
      function draw(words) {
-         d3.select(".tagcloudcontainer").append("svg")
-                 .attr("width", 300)
-                 .attr("height", 300)
+
+
+       //console.log(height)
+
+         // d3.select(".tagcloudcontainer").append("svg")
+         container
+                 .attr("width", width)
+                 .attr("height", height)
                  .attr("class", "wordcloud")
                  .append("g")
                  // without the transform, words words would get cutoff to the left and top, they would
                  // appear outside of the SVG area
-                 .attr("transform", "translate(80,150)")
+                 .attr("transform", "translate(165,180)")
+                 .call(d3.behavior.zoom().on("zoom", function () {
+                	var g = svg.selectAll("g");
+                	g.attr("transform", "translate(165,180)" + " scale(" + d3.event.scale + ")")
+                 }))
                  .selectAll("text")
                  .data(words)
                  .enter().append("text")
                  .style("font-size", function(d) { return d.size + "px"; })
                  .style("fill", function(d, i) { return color(i); })
+                 .call(d3.behavior.drag()
+         		.origin(function(d) { return d; })
+         		.on("dragstart", dragstarted)
+         		.on("drag", dragged)
+         		)
                  .attr("transform", function(d) {
                      return "translate(" + [d.x + 2, d.y + 3] + ")rotate(" + d.rotate + ")";
                  })
 
                  .text(function(d) { return d.text; });
+
+                 function dragged(d) {
+                	 var movetext = svg.select("g").selectAll("text");
+                	 movetext.attr("dx",d3.event.x)
+                	 .attr("dy",d3.event.y);
+                	 /* g.attr("transform","translateX("+d3.event.x+")")
+                	 .attr("transform","translateY("+d3.event.y+")")
+                	 .attr("width", width)
+                     .attr("height", height); */
+                	}
+                	function dragstarted(d){
+        				d3.event.sourceEvent.stopPropagation();
+        			}
      }
+
+}
+
+});
+
  </script>
  <script>
  /*//////////////////////////////////////////////////////////
@@ -1449,7 +863,7 @@ simulation.force("link").links(links)
 
  $(function () {
 
- chordDiagram("#chorddiagram", 300)
+ chordDiagram("#chorddiagram", 400)
 
  function chordDiagram(element, height) {
 
@@ -1956,5 +1370,126 @@ simulation.force("link").links(links)
 
 });
  </script>
+ <script type="text/javascript" src="assets/vendors/d3/d3.v4.min.js"></script>
+  <script>
+  $(function () {
+
+ clusterdiagram('#clusterdiagram', 230);
+
+ // Chart setup
+ function clusterdiagram(element, height) {
+
+   var nodes = [
+     { id: "mammal", group: 0, label: "Mammals", level: 1 },
+     { id: "dog"   , group: 0, label: "Dogs"   , level: 2 },
+     { id: "cat"   , group: 0, label: "Cats"   , level: 2 },
+     { id: "fox"   , group: 0, label: "Foxes"  , level: 2 },
+     { id: "elk"   , group: 0, label: "Elk"    , level: 2 },
+     { id: "insect", group: 1, label: "Insects", level: 1 },
+     { id: "ant"   , group: 1, label: "Ants"   , level: 2 },
+     { id: "bee"   , group: 1, label: "Bees"   , level: 2 },
+     { id: "fish"  , group: 2, label: "Fish"   , level: 1 },
+     { id: "carp"  , group: 2, label: "Carp"   , level: 2 },
+     { id: "pike"  , group: 2, label: "Pikes"  , level: 2 }
+   ]
+
+   var links = [
+   	{ target: "mammal", source: "dog" , strength: 3.0 },
+   	{ target: "mammal", source: "dog" , strength: 3.0 },
+     { target: "mammal", source: "fox" , strength: 3.0 },
+     { target: "mammal", source: "dog" , strength: 3.0 },
+     { target: "insect", source: "ant" , strength: 0.7 },
+     { target: "insect", source: "bee" , strength: 0.7 },
+     { target: "fish"  , source: "carp", strength: 0.7 },
+     { target: "fish"  , source: "pike", strength: 0.7 },
+     { target: "cat"   , source: "elk" , strength: 0.1 },
+     { target: "carp"  , source: "ant" , strength: 0.1 },
+     { target: "elk"   , source: "bee" , strength: 0.1 },
+     { target: "dog"   , source: "cat" , strength: 0.1 },
+     { target: "fox"   , source: "ant" , strength: 0.1 },
+   	{ target: "pike"  , source: "cat" , strength: 0.1 }
+   ]
+
+      // Define main variables
+      var d3Container = d3v4.select(element),
+          margin = {top: 10, right: 10, bottom: 20, left: 20},
+          width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
+          height = height - margin.top - margin.bottom;
+
+     var colors = d3v4.scaleOrdinal(d3v4.schemeCategory10);
+
+      // Add SVG element
+      var container = d3Container.append("svg");
+
+      // Add SVG group
+      var svg = container
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom);
+         //.append("g")
+       //   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+       // simulation setup with all forces
+    var linkForce = d3v4
+   .forceLink()
+   .id(function (link) { return link.id })
+   .strength(function (link) { return link.strength })
+
+       // simulation setup with all forces
+       var simulation = d3v4
+         .forceSimulation()
+         .force('link', linkForce)
+         .force('charge', d3v4.forceManyBody().strength(-50))
+         .force('center', d3v4.forceCenter(width / 2, height / 2))
+
+         var linkElements = svg.append("g")
+           .attr("class", "links")
+           .selectAll("line")
+           .data(links)
+           .enter().append("line")
+             .attr("stroke-width", 0)
+         	  .attr("stroke", "rgba(50, 50, 50, 0.2)")
+
+       function getNodeColor(node) {
+         return node.level === 1 ? 'red' : 'gray'
+       }
+
+       var nodeElements = svg.append("g")
+         .attr("class", "nodes")
+         .selectAll("circle")
+         .data(nodes)
+         .enter().append("circle")
+           .attr("r", 5)
+           .attr("fill", function (d, i) {return colors(d.group);})
+
+       var textElements = svg.append("g")
+         .attr("class", "texts")
+         .selectAll("text")
+         .data(nodes)
+         .enter().append("text")
+           .text(function (node) { return  node.label })
+       	  .attr("font-size", 15)
+       	  .attr("dx", 15)
+           .attr("dy", 4)
+
+         simulation.nodes(nodes).on('tick', () => {
+           nodeElements
+             .attr('cx', function (node) { return node.x })
+             .attr('cy', function (node) { return node.y })
+           textElements
+             .attr('x', function (node) { return node.x })
+             .attr('y', function (node) { return node.y })
+             linkElements
+     .attr('x1', function (link) { return link.source.x })
+     .attr('y1', function (link) { return link.source.y })
+     .attr('x2', function (link) { return link.target.x })
+     .attr('y2', function (link) { return link.target.y })
+         })
+
+
+ simulation.force("link").links(links)
+ }
+
+ });
+  </script>
 </body>
 </html>

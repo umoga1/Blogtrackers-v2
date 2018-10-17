@@ -5,6 +5,7 @@
 <%@page import="org.json.JSONObject"%>
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.net.URI"%>
+<%@page import="java.text.NumberFormat" %>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -43,12 +44,11 @@
 		Outlinks outl = new Outlinks();
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
-			//System.out.println(detail);
+			System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
-			System.out.println("List:"+detail);
+			//System.out.println("List:"+detail);
 		}
-		
 		
 		boolean isowner = false;
 		JSONObject obj = null;
@@ -124,7 +124,9 @@
 			String day = DAY_ONLY.format(today);
 			
 			String month = MONTH_ONLY.format(today);
+			
 			String smallmonth = SMALL_MONTH_ONLY.format(today);
+
 			String year = YEAR_ONLY.format(today);
 
 			String dispfrom = DATE_FORMAT.format(dstart);
@@ -138,6 +140,16 @@
 
 			//ArrayList posts = post._list("DESC","");
 			ArrayList sentiments = senti._list("DESC", "", "id");
+			 
+		 	/* Liwc liwc = new Liwc();
+			
+			ArrayList liwcSent = liwc._list("DESC", ""); 
+			
+			String test = post._searchRangeTotal("date", "2013-04-01", "2018-04-01", "1");
+			
+			System.out.println(test);  */
+		
+			
 			String totalpost = "0";
 			ArrayList allauthors = new ArrayList();
 
@@ -148,6 +160,7 @@
 			String dte = dend;
 			String year_start="";
 			String year_end="";
+			
 			if(!single.equals("")){
 				month = MONTH_ONLY.format(nnow); 
 				day = DAY_ONLY.format(nnow); 
@@ -159,11 +172,18 @@
 					ddey = "30";
 				}
 			}
-			
+			//System.out.println(s)
+			//System.out.println("start date"+date_start+"end date "+date_end);
 			if (!date_start.equals("") && !date_end.equals("")) {
 				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
+<<<<<<< HEAD
 				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
 				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+=======
+				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+								
+>>>>>>> 61b2869f214c958bf1a747371b103d1ddae6cc6e
 
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
 				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
@@ -681,7 +701,7 @@
 	</nav>
 
 
-	<div class="container">
+	<div class="container analyticscontainer">
 		<div class="row">
 			<div class="col-md-6 ">
 				<nav class="breadcrumb">
@@ -755,7 +775,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-file-alt icondash"></i>Posts
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%=totalpost%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost)) %></h3>
 					</div>
 				</div>
 			</div>
@@ -1058,8 +1078,8 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Most Influential  <%--<select class="text-primary filtersort sortby" id="sortbyselect"><option>Recent </option><option value="blogger">Influence Score</option></select>
-								  of Past <select
+								Most Influential  <select class="text-primary filtersort sortbyblogblogger" id="sortbyselect"><option value="blog">Blog </option><option value="blogger">Blogger</option></select>
+						<%--		  of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
@@ -1347,6 +1367,7 @@ $(document).ready(function() {
                  endDate: moment(),
                  minDate: '01/01/1947',
                  maxDate: moment(),
+                 linkedCalendars: false,
                  maxSpan: {
                      days: 50000
                  },
@@ -1473,6 +1494,7 @@ $(document).ready(function() {
 	<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
 	<script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
 	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
+	<script type="text/javascript" src="assets/js/jquery.inview.js"></script>
 	<!--start of language bar chart  -->
 	<script>
 $(function () {
@@ -1488,7 +1510,7 @@ $(function () {
 
       // Define main variables
       var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 60},
+          margin = {top: 5, right: 50, bottom: 20, left: 150},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
 
@@ -1499,7 +1521,7 @@ $(function () {
 
       // Horizontal
       var y = d3.scale.ordinal()
-          .rangeRoundBands([height,0], .65, .65);
+          .rangeRoundBands([height,0], .5, .40);
 
       // Vertical
       var x = d3.scale.linear()
@@ -1623,7 +1645,10 @@ $(function () {
           var verticalAxis = svg.append("g")
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
               .style("color","yellow")
-              .call(yAxis);
+              .call(yAxis)
+              .selectAll("text")
+              .style("font-size",11)
+              .style("text-transform","capitalize");
       //
       //
       //     // Add text label
@@ -1639,15 +1664,17 @@ $(function () {
       //
       //
       //     // Add bars
-          svg.selectAll(".d3-bar")
+          var transitionbarlanguage = svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
                   .attr("class", "d3-bar")
                   .attr("y", function(d) { return y(d.letter); })
-                  .attr("height", y.rangeBand())
+                  //.attr("height", y.rangeBand())
+                   .attr("height", 30)
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
-                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr("width", 0)
                    .style("fill", function(d) {
                   maxvalue = d3.max(data, function(d) { return d.frequency; });
                   if(d.frequency == maxvalue)
@@ -1662,8 +1689,28 @@ $(function () {
                 }) 
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
-
-
+      
+          $(element).bind('inview', function (event, visible) {
+        	  if (visible == true) {
+        	    // element is now visible in the viewport
+        		  transitionbarlanguage.transition()
+                  .delay(200)
+                  .duration(1000)
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+        	  } else {
+        		  
+        		  transitionbarlanguage.attr("width", 0)
+        	    // element has gone out of viewport
+        	  }
+        	});
+         /*  element
+          transitionbar.transition()
+          .delay(200)
+          .duration(1000)
+          .attr("width", function(d) { return x(d.frequency); })
+          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+ */
                   // svg.selectAll(".d3-bar")
                   //     .data(data)
                   //     .enter()
@@ -1749,7 +1796,7 @@ $(function () {
 
       // Define main variables
       var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 60},
+          margin = {top: 5, right: 50, bottom: 20, left: 150},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
 
@@ -1867,7 +1914,7 @@ $(function () {
           y.domain(data.map(function(d) { return d.letter; }));
 
           // Vertical
-          x.domain([d3.min(data, function(d) { return d.frequency; }),d3.max(data, function(d) { return d.frequency; })]);
+          x.domain([d3.min(data, function(d) { return d.frequency-20; }),d3.max(data, function(d) { return d.frequency; })]);
       //
       //
       //     //
@@ -1889,10 +1936,12 @@ $(function () {
               .style("color","yellow")
               .call(yAxis)
               .selectAll("text")
-   			.attr("y", -25)
+              .style("font-size",11)
+              .style("text-transform","capitalize")
+   			/* .attr("y", -25)
     		.attr("x", 20)
     		.attr("dy", ".75em")
-    		.attr("transform", "rotate(-70)");
+    		.attr("transform", "rotate(-70)"); */
       //
       //
       //     // Add text label
@@ -1908,15 +1957,17 @@ $(function () {
       //
       //
       //     // Add bars
-          svg.selectAll(".d3-bar")
+          var transitionbarinfluence = svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
                   .attr("class", "d3-bar")
                   .attr("y", function(d) { return y(d.letter); })
-                  .attr("height", y.rangeBand())
+                  //.attr("height", y.rangeBand())
+                  .attr("height", 30)
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
-                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr("width", 0)
                   .style("fill", function(d) {
                   maxvalue = d3.max(data, function(d) { return d.frequency; });
                   if(d.frequency == maxvalue)
@@ -1931,6 +1982,21 @@ $(function () {
                 })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
+          $(element).bind('inview', function (event, visible) {
+        	  if (visible == true) {
+        	    // element is now visible in the viewport
+        		  transitionbarinfluence.transition()
+                  .delay(200)
+                  .duration(1000)
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+        	  } else {
+        		  
+        		  transitionbarinfluence.attr("width", 0)
+        	    // element has gone out of viewport
+        	  }
+        	});
+        
 
 
                   // svg.selectAll(".d3-bar")
@@ -2018,7 +2084,7 @@ $(function () {
 
       // Define main variables
       var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 60},
+          margin = {top: 5, right: 50, bottom: 20, left:150},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
 
@@ -2161,11 +2227,14 @@ $(function () {
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
               .style("color","yellow")
               .call(yAxis)
+              .style("text-transform","lowercase")
               .selectAll("text")
-   			.attr("y", -25)
-    			.attr("x", 40)
-    		.attr("dy", ".75em")
-    		.attr("transform", "rotate(-70)")
+              .style("font-size",11)
+              .style("text-transform","capitalize")
+   			//.attr("y", -25)
+    		//	.attr("x", 40)
+    		//.attr("dy", ".75em")
+    		//.attr("transform", "rotate(-70)")
               ;
       //
       //
@@ -2187,15 +2256,16 @@ $(function () {
 	.domain([0,1,2,3,4,5,6,10,15,20])
 	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
 
-          svg.selectAll(".d3-bar")
+         var transitionbarpostingfrequency =  svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
                   .attr("class", "d3-bar")
                   .attr("y", function(d) { return y(d.letter); })
-                  .attr("height", y.rangeBand())
+                  .attr("height", 30)
                   .attr("x", function(d) { return 0; })
-                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
+                  .attr("width", 0)
                   .style("fill", function(d,i) {
                  // maxvalue = d3.max(data, function(d) { return d.frequency; });
                  //console.log(i)
@@ -2219,6 +2289,25 @@ $(function () {
                 })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
+         $(element).bind('inview', function (event, visible) {
+       	  if (visible == true) {
+       	    // element is now visible in the viewport
+       		  transitionbarpostingfrequency.transition()
+                 .delay(200)
+                 .duration(1000)
+                 .attr("width", function(d) { return x(d.frequency); })
+                 .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+       	  } else {
+       		  
+       		  transitionbarpostingfrequency.attr("width", 0)
+       	    // element has gone out of viewport
+       	  }
+       	});
+         /*  transitionbar.transition()
+         .delay(200)
+         .duration(1000)
+         .attr("width", function(d) { return x(d.frequency); })
+         .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');  */
 
 
                   // svg.selectAll(".d3-bar")
@@ -2305,7 +2394,7 @@ $(function () {
 
       // Define main variables
       var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 60},
+          margin = {top: 5, right: 50, bottom: 20, left: 150},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
 
@@ -2425,7 +2514,10 @@ $(function () {
           var verticalAxis = svg.append("g")
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
               .style("color","yellow")
-              .call(yAxis);
+              .call(yAxis)
+              .selectAll("text")
+              .style("font-size",11)
+              .style("text-transform","capitalize");
       //
       //
       //     // Add text label
@@ -2441,20 +2533,41 @@ $(function () {
       //
       //
       //     // Add bars
-          svg.selectAll(".d3-bar")
+          transitionbarsentiment = svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
                   .attr("class", "d3-bar")
                   .attr("y", function(d) { return y(d.letter); })
-                  .attr("height", y.rangeBand())
+                  //.attr("height", y.rangeBand())
+                  .attr("height", 30)
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
-                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr("width", 0)
                   .style("fill", function(d,i) { return color(i);   })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
 
-
+          transitionbarsentiment.transition()
+          .delay(200)
+          .duration(1000)
+          .attr("width", function(d) { return x(d.frequency); })
+          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+          
+          $(element).bind('inview', function (event, visible) {
+        	  if (visible == true) {
+        	    // element is now visible in the viewport
+        		  transitionbarsentiment.transition()
+                  .delay(200)
+                  .duration(1000)
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+        	  } else {
+        		  
+        		  transitionbarsentiment.attr("width", 0)
+        	    // element has gone out of viewport
+        	  }
+        	});
                   // svg.selectAll(".d3-bar")
                   //     .data(data)
                   //     .enter()
@@ -2867,63 +2980,49 @@ var mymarker = [
              .on("end", draw)
              .start();
     
-     
-    	  /* var zoom = d3.behavior.zoom()
-     		//.x(x)
-    		//.y(y)
-            .scaleExtent([1, 10])
-            .on("zoom", zoomed);   
-     
-             function zoomed() {
-                /* svg.select(".d3-axis-horizontal").call(xAxis);
-                svg.select(".d3-axis-vertical").call(yAxis);   
-                svg.selectAll('.d3-line').attr('d', line); 
-
-                points.selectAll('.d3-dot').attr("transform", function(d) { 
-                    return "translate(" + x(d.point.x) + "," + y(d.point.y) + ")"; } */
-                
-              /*   var g = svg.selectAll("g"); 
-            	//g.attr("transform", "translate(165,180)" + " scale(" + d3.event.scale + ")")
-            	
-            	g.attr("transform", function(d) { 
-                    return "translate(" + x(d.point.x) + "," + y(d.point.y) + ")"; }
-            	
-                );  
-            } */  
+       
      function draw(words) {
     	 		svg
                  .attr("width", width)
                  .attr("height", height)
                  //.attr("class", "wordcloud")
                  .append("g")
-                 /* .call(d3.behavior.zoom().on("zoom", function () {
-                	 
-                	    svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
-                	    
-                 })) */
-                 // without the transform, words words would get cutoff to the left and top, they would
-                 // appear outside of the SVG area
-                 .attr("transform", "translate(165,180)")
+                 .attr("transform", "translate("+ width/2 +",180)")
                   .call(d3.behavior.zoom().on("zoom", function () {
                 	var g = svg.selectAll("g"); 
-                	g.attr("transform", "translate(165,180)" + " scale(" + d3.event.scale + ")")
+                	g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")")
                  })) 
          		
                  .selectAll("text")
                  .data(words)
                  .enter().append("text")
-                 .style("font-size", function(d) { return d.size * 0.93 + "px"; })
+                 .style("font-size", 0)
                  .style("fill", function(d, i) { return color(i); })
                  .call(d3.behavior.drag()
          		.origin(function(d) { return d; })
          		.on("dragstart", dragstarted) 
          		.on("drag", dragged)			
          		)
+         		
                  .attr("transform", function(d) {
                      return "translate(" + [d.x + 12, d.y + 3] + ")rotate(" + d.rotate + ")";
                  })
 
                  .text(function(d) { return d.text; });
+    	 		
+    	 		// animation effect for tag cloud
+    	 		 $(element).bind('inview', function (event, visible) {
+            	  if (visible == true) {
+            		  svg.selectAll("text").transition()
+                      .delay(200)
+                      .duration(1000)
+                      .style("font-size", function(d) { return d.size * 0.93 + "px"; })
+            	  } else {
+            		  svg.selectAll("text")
+                      .style("font-size", 0)
+            	  }
+            	});
+    	 		
                 	function dragged(d) {
                 	 var movetext = svg.select("g").selectAll("text");
                 	 movetext.attr("dx",d3.event.x)
@@ -3028,7 +3127,7 @@ $(function () {
 
 
 data = {
- "name":"flare",
+ //"name":"flare",
  "bloggers":[
 	 <%if (authors.length() > 0) {
 			int k = 0;
@@ -3052,7 +3151,38 @@ data = {
  {"label":"Blogger 10","name":"Adekunle Mayowa", "size":1400}
  */
  ]
-}
+    }
+     
+        
+/* data = data.sort(function(a, b){
+	return a.bloggers.size - b.bloggers.size;
+	}); */
+	
+	
+	var mybloggers = 
+		  data.bloggers.sort(function(a, b){
+		return b.size - a.size;
+		})
+		
+		
+		/* resort the bubbles chart by size */
+		var alldata=[];
+		
+	  for(i=0;i<mybloggers.length;i++)
+		{
+		var myconcat = ",";
+		if(i == mybloggers.length - 1)
+		{
+			myconcat = "";	
+		} 
+		alldata[i]= {"label":mybloggers[i].label,"name":mybloggers[i].name,"size":mybloggers[i].size}
+
+		} 
+	/* End of sorting   */
+	  bloggers = alldata;
+	  
+	  data = {   bloggers  } 
+
 
 
             //
@@ -3075,7 +3205,7 @@ data = {
 
             // Append circles
             node.append("circle")
-                .attr("r", function(d) { return d.r; })
+                .attr("r", 0)
                 .style("fill", function(d,i) {
                    return color(i);
                   // customize Color
@@ -3097,8 +3227,35 @@ data = {
                 .style("fill", "#fff")
                 .style("font-size", 12)
                 .style("text-anchor", "middle")
-                .text(function(d) { return d.label.substring(0, d.r / 3); });
-
+                .text(function(d) { 
+                	
+                	if(d.r < 30)
+            		{
+            		return "";
+            		}
+            	else
+            		{
+            		return d.label.substring(0, d.r / 3);  
+            		}
+                	
+                });
+     
+            
+            
+            // animation effect for bubble chart
+            $(element).bind('inview', function (event, visible) {
+            	  if (visible == true) {
+            		  node.selectAll("circle").transition()
+                      .delay(200)
+                      .duration(1000)
+                      .attr("r", function(d) { return d.r; })
+            	  } else {
+            		  node.selectAll("circle")
+                      .attr("r", 0 )
+            	  }
+            	});
+           
+           
 
 
         // Returns a flattened hierarchy containing all leaf nodes under the root.
@@ -3211,7 +3368,7 @@ $(function () {
 
 
 data = {
- "name":"flare",
+ //"name":"flare",
  "bloggers":[
 	 <%if (bloggers.length() > 0) {
 			//System.out.println(bloggers);
@@ -3227,9 +3384,36 @@ data = {
 			}
 		}%>
  ]
-}
+}  
+      
+     
+     
+      
+  var mybloggers = 
+	  data.bloggers.sort(function(a, b){
+	return b.size - a.size;
+	})
+	
+	
+	/* resort the bubbles chart by size */
+	var alldata=[];
+	
+  for(i=0;i<mybloggers.length;i++)
+	{
+	var myconcat = ",";
+	if(i == mybloggers.length - 1)
+	{
+		myconcat = "";	
+	} 
+	alldata[i]= {"label":mybloggers[i].label,"name":mybloggers[i].name,"size":mybloggers[i].size}
 
-
+	} 
+/* End of sorting   */
+  bloggers = alldata;
+  
+  data = {   bloggers  }
+  
+  
             //
             // Append chart elements
             //
@@ -3249,7 +3433,7 @@ data = {
 			
             // Append circles
             node.append("circle")
-                .attr("r", function(d) { return d.r; })
+                .attr("r", 0)
                 .style("fill", function(d,i) {
                   //return color(i);
                   /* if(i<5)
@@ -3274,7 +3458,31 @@ data = {
                 .style("fill", "#fff")
                 .style("font-size", 12)
                 .style("text-anchor", "middle")
-                .text(function(d) { return d.label.substring(0, d.r / 3); });
+                .text(function(d) { 
+                	if(d.r < 30)
+                		{
+                		return "";
+                		}
+                	else
+                		{
+                		return d.label.substring(0, d.r / 3);  
+                		}
+                
+                	
+                });
+            
+            // animation effect on bubble chart
+            $(element).bind('inview', function (event, visible) {
+          	  if (visible == true) {
+          		  node.selectAll("circle").transition()
+                    .delay(200)
+                    .duration(1000)
+                    .attr("r", function(d) { return d.r; })
+          	  } else {
+          		  node.selectAll("circle")
+                    .attr("r", 0 )
+          	  }
+          	});
 
 
 
@@ -3485,10 +3693,11 @@ $(".option-lable").on("click",function(e){
               //.attr("width", x.rangeBand())
              .x(function(d) { return x(d.date); })
              .y(function(d) { return y(d.close); });
-             // .x(function(d){d.forEach(function(e){return x(d.date);})})
+         
+              // .x(function(d){d.forEach(function(e){return x(d.date);})})
              // .y(function(d){d.forEach(function(e){return y(d.close);})});
 
-
+  			
 
          // Create tooltip
          var tip = d3.tip()
@@ -3594,6 +3803,7 @@ $(".option-lable").on("click",function(e){
          var newArr = returnedata.reduce((result,current) => {
          return result.concat(current);
          });
+         
 
          //console.log(newArr);
          var set = new Set(newArr);
@@ -3622,6 +3832,7 @@ $(".option-lable").on("click",function(e){
                       var path = svg.selectAll('.d3-line')
                                 .data(data)
                                 .enter()
+                                .append("g")
                                 .append("path")
                                 .attr("class", "d3-line d3-line-medium")
                                 .attr("d", line)
@@ -3629,6 +3840,24 @@ $(".option-lable").on("click",function(e){
                                 .style("stroke-width",2)
                                 .style("stroke", "17394C")
                                  .attr("transform", "translate("+margin.left/4.7+",0)");
+                        
+                      $(element).bind('inview', function (event, visible) {
+                    	  if (visible == true) {
+                    		  path.select("path")
+                    		  .transition()
+                              .duration(1000)
+                              .attrTween("stroke-dasharray", tweenDash);
+                              
+                    	  } else {
+                    		  //svg.selectAll("text")
+                              //.style("font-size", 0)
+                    	  }
+                    	});
+                      function tweenDash() {
+                          var l = this.getTotalLength(),
+                              i = d3.interpolateString("0," + l, l + "," + l);
+                          return function (t) { return i(t); };
+                      }
                                 // .datum(data)
 
                        // add point
@@ -3654,6 +3883,8 @@ $(".option-lable").on("click",function(e){
                               .on("mouseout",tip.hide)
                               .on("click",function(d){console.log(d.date)});
                                                  svg.call(tip)
+                                                 
+                                                
                       }
                       // handles multiple json parameter
                       else if(data.length > 1)

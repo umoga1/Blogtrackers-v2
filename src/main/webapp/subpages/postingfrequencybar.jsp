@@ -46,7 +46,7 @@ $(function () {
 
       // Define main variables
       var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 60},
+          margin = {top: 5, right: 50, bottom: 20, left: 150},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
 
@@ -118,7 +118,10 @@ $(function () {
   	    return a.frequency - b.frequency;
   	}); 
   	<% } else {%>
-		data = data;
+		//data = data;
+		 data = data.sort(function(a, b){
+  	    return a.frequency - b.frequency;
+  	}); 
   	<% } %>
       //
       //
@@ -169,37 +172,48 @@ $(function () {
               .style("color","yellow")
               .call(yAxis)
               .selectAll("text")
-   			.attr("y", -25)
+              .style("font-size",11)
+              .style("text-transform","capitalize")
+   			/* .attr("y", -25)
     			.attr("x", 40)
     		.attr("dy", ".75em")
-    		.attr("transform", "rotate(-70)")
+    		.attr("transform", "rotate(-70)") */
      
       
       var colorblogs = d3.scale.linear()
 	.domain([0,1,2,3,4,5,6,10,15,20])
 	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
 
-          svg.selectAll(".d3-bar")
+         transitionbar =  svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
                   .attr("class", "d3-bar")
                   .attr("y", function(d) { return y(d.letter); })
-                  .attr("height", y.rangeBand())
+                  //.attr("height", y.rangeBand())
+                  .attr("height", 30)
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
-                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr("width", 0)
                   .style("fill", function(d,i) {
                 
                  // return colorblogs(data.length - i - 1);
                   <% if(sort.equalsIgnoreCase("blogs")){ %>
                   return colorblogs(data.length - i - 1);
                  <% } else { %>
-                 return colorblogs(i)
+                 return colorblogs(data.length - i - 1);
+                 //return colorblogs(i)
                  <% } %>
 
                 })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
+          
+          transitionbar.transition()
+          .delay(200)
+          .duration(1000)
+          .attr("width", function(d) { return x(d.frequency); })
+          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
 
 
         // Call function on window resize
