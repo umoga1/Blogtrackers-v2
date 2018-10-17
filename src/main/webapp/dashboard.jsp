@@ -256,17 +256,19 @@
 			int ystint = Integer.parseInt(year_start);
 			int yendint = Integer.parseInt(year_end);
 			if(single.equals("month")){
-				int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
-				ystint=0;
-				yendint = diff;
+				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
+				//ystint=0;
+				//yendint = diff;
 			}
 			int b=0;
 			for(int y=ystint; y<=yendint; y++){
 				/*
 					   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
 					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
-					*/   
-					   String totu = post._searchRangeTotal("date",dt, dte,ids);
+					*/  
+					   String dtu = y + "-01-01";
+					   String dtue = y + "-12-31";
+					   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
 					 
 					   graphyears.put(y+"",totu);
 			    	   yearsarray.put(b,y);	
@@ -351,12 +353,14 @@
 			ArrayList sentimentor = new Liwc()._searchByRange("date", dt, dte, sentimentpost);
 			int allposemo =0;
 			int allnegemo =0;
+			
 			if(sentimentor.size()>0){
 				for(int v=0; v<sentimentor.size();v++){
-					String bstr = sentiments.get(v).toString();
+					String bstr = sentimentor.get(v).toString();
 					JSONObject bj = new JSONObject(bstr);
 					bstr = bj.get("_source").toString();
 					bj = new JSONObject(bstr);
+					System.out.println("result eree"+bj);
 					int posemo = Integer.parseInt(bj.get("posemo").toString());
 					int negemo = Integer.parseInt(bj.get("negemo").toString());
 					allposemo+=posemo;
@@ -364,6 +368,7 @@
 					
 				}
 			}
+			
 			
 			possentiment=allposemo+"";
 			negsentiment=allnegemo+"";

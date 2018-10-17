@@ -613,7 +613,7 @@ public class Blogposts {
 	            monthsBetween  += (end.get(Calendar.YEAR)-start.get(Calendar.YEAR))*12;      
 	            return monthsBetween;
      }
-	
+	/*
 	public  Date addDay(Date date, int i) {
 	        Calendar cal = Calendar.getInstance();
 	        cal.setTime(date);
@@ -634,5 +634,6 @@ public class Blogposts {
         cal.add(Calendar.YEAR, i);
         return cal.getTime();
     }
+    */
 
 }
