@@ -176,14 +176,10 @@
 			//System.out.println("start date"+date_start+"end date "+date_end);
 			if (!date_start.equals("") && !date_end.equals("")) {
 				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
-<<<<<<< HEAD
-				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
-=======
+
 				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
 				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
 								
->>>>>>> 61b2869f214c958bf1a747371b103d1ddae6cc6e
 
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
 				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
