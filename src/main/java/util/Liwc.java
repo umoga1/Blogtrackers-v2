@@ -95,6 +95,9 @@ public class Liwc {
 		String url = base_url+"_search";
 		return this._getResult(url,jsonObj);
 	}
+	
+	
+	
 
 	public ArrayList _search(String term,String from) throws Exception {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
