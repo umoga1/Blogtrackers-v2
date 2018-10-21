@@ -1074,8 +1074,8 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Most Influential  <select class="text-primary filtersort sortbyblogblogger" id="sortbyselect"><option value="blog">Blog </option><option value="blogger">Blogger</option></select>
-						<%--		  of Past <select
+								Most Influential  Blogger 	<%--	<select class="text-primary filtersort sortbyblogblogger" id="sortbyselect"><option value="blog">Blog </option><option value="blogger">Blogger</option></select>
+						  of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
