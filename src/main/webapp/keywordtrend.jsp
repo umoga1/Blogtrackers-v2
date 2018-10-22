@@ -1,232 +1,698 @@
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
-<%@page import="java.util.*"%>
+<%@page import="util.*"%>
 <%@page import="java.io.File"%>
-<%@page import="util.Blogposts"%>
-<%@page import="java.text.NumberFormat" %>
-<%@page import="java.util.Locale" %>
-<%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+<%@page import="org.json.JSONArray"%>
+<%@page import="java.net.URI"%>
+<%@page import="java.text.NumberFormat" %>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="java.time.LocalDateTime"%>
+	
 <%
-Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 
-//if (email == null || email == "") {
-	//response.sendRedirect("login.jsp");
-//}else{
+	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
+	Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
+	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
+	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
+	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
-ArrayList<?> userinfo = new ArrayList();//null;
-String profileimage= "";
-String username ="";
-String name="";
-String phone="";
-String date_modified = "";
+	
+	//System.out.println(date_start);
+	if (user == null || user == "") {
+		response.sendRedirect("index.jsp");
+	} else {
 
-userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
- //System.out.println(userinfo);
-if (userinfo.size()<1) {
-	//response.sendRedirect("login.jsp");
-}else{
-userinfo = (ArrayList<?>)userinfo.get(0);
-try{
-username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
+		ArrayList<?> userinfo = null;
+		String profileimage = "";
+		String username = "";
+		String name = "";
+		String phone = "";
+		String date_modified = "";
+		ArrayList detail = new ArrayList();
+		ArrayList termss = new ArrayList();
+		ArrayList outlinks = new ArrayList();
+		ArrayList liwcpost = new ArrayList();
 
-name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
+		Trackers tracker = new Trackers();
+		Terms term = new Terms();
+		Outlinks outl = new Outlinks();
+		if (tid != "") {
+			detail = tracker._fetch(tid.toString());
+			System.out.println(detail);
+		} else {
+			detail = tracker._list("DESC", "", user.toString(), "1");
+			//System.out.println("List:"+detail);
+		}
+		
+		boolean isowner = false;
+		JSONObject obj = null;
+		String ids = "";
+		String trackername="";
+		if (detail.size() > 0) {
+			//String res = detail.get(0).toString();
+			ArrayList resp = (ArrayList<?>)detail.get(0);
 
+			String tracker_userid = resp.get(0).toString();
+			trackername = resp.get(2).toString();
+			//if (tracker_userid.equals(user.toString())) {
+				isowner = true;
+				String query = resp.get(5).toString();//obj.get("query").toString();
+				query = query.replaceAll("blogsite_id in ", "");
+				query = query.replaceAll("\\(", "");
+				query = query.replaceAll("\\)", "");
+				ids = query;
+			//}
+		}
+		
+		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
+		if (userinfo.size() < 1 || !isowner) {
+			response.sendRedirect("index.jsp");
+		} else {
+			userinfo = (ArrayList<?>) userinfo.get(0);
+			try {
+					username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
+	
+					name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
+					email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
+					phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
+					String userpic = userinfo.get(9).toString();
+					String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
+					String filename = userinfo.get(9).toString();
+	
+					profileimage = "images/default-avatar.png";
+					if (userpic.indexOf("http") > -1) {
+						profileimage = userpic;
+					}
+	
+					File f = new File(filename);
+					if (f.exists() && !f.isDirectory()) {
+						profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
+					}
+			} catch (Exception e) {
+			
+			}
 
-email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
-phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
-//date_modified = userinfo.get(11).toString();
+			String[] user_name = name.split(" ");
+			Blogposts post = new Blogposts();
+			Blogs blog = new Blogs();
+			Sentiments senti = new Sentiments();
 
-String userpic = userinfo.get(9).toString();
-String[] user_name = name.split(" ");
-username = user_name[0];
+			//Date today = new Date();
+			SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
+			SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
 
-String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
-String filename = userinfo.get(9).toString();
+			SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
+			SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
+			SimpleDateFormat SMALL_MONTH_ONLY = new SimpleDateFormat("mm");
+			SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
+			SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
+			
+			String stdate = post._getDate(ids,"first");
+			String endate = post._getDate(ids,"last");
+			
+			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
+			Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
 
-profileimage = "images/default-avatar.png";
-if(userpic.indexOf("http")>-1){
-	profileimage = userpic;
-}
+			Date nnow = new Date();  
+			  
+			String day = DAY_ONLY.format(today);
+			
+			String month = MONTH_ONLY.format(today);
+			
+			String smallmonth = SMALL_MONTH_ONLY.format(today);
 
+			String year = YEAR_ONLY.format(today);
 
+			String dispfrom = DATE_FORMAT.format(dstart);
+			String dispto = DATE_FORMAT.format(today);
+			
+			String historyfrom = DATE_FORMAT.format(dstart);
+			String historyto = DATE_FORMAT.format(today);
 
-File f = new File(filename);
-if(f.exists() && !f.isDirectory()) { 
-	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
-}
-}catch(Exception e){}
+			String dst = DATE_FORMAT2.format(dstart);
+			String dend = DATE_FORMAT2.format(today);
 
+			//ArrayList posts = post._list("DESC","");
+			//ArrayList sentiments = senti._list("DESC", "", "id");
+			 
+		 	/* Liwc liwc = new Liwc();
+			
+			ArrayList liwcSent = liwc._list("DESC", ""); 
+			
+			String test = post._searchRangeTotal("date", "2013-04-01", "2018-04-01", "1");
+			
+			System.out.println(test);  */
+		
+			
+			String totalpost = "0";
+			ArrayList allauthors = new ArrayList();
 
-}
+			String possentiment = "0";
+			String negsentiment = "0";
+			String ddey = "31";
+			String dt = dst;
+			String dte = dend;
+			String year_start="";
+			String year_end="";
+			
+			if(!single.equals("")){
+				month = MONTH_ONLY.format(nnow); 
+				day = DAY_ONLY.format(nnow); 
+				year = YEAR_ONLY.format(nnow); 
+				//System.out.println("Now:"+month+"small:"+smallmonth);
+				if(month.equals("02")){
+					ddey = (Integer.parseInt(year)%4==0)?"28":"29";
+				}else if(month.equals("09") || month.equals("04") || month.equals("05") || month.equals("11")){
+					ddey = "30";
+				}
+			}
+			//System.out.println(s)
+			//System.out.println("start date"+date_start+"end date "+date_end);
+			if (!date_start.equals("") && !date_end.equals("")) {
+				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
 
+				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+								
+
+				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
+				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
+				
+				dt = date_start.toString();
+				dte = date_end.toString();
+				
+				historyfrom = DATE_FORMAT.format(start);
+				historyto = DATE_FORMAT.format(end);
+				termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
+				//outlinks = outl._searchByRange("date", date_start.toString(), date_end.toString(), ids);
+
+				allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
+			} else if (single.equals("day")) {
+				 dt = year + "-" + month + "-" + day;
+				
+				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));			
+				totalpost = post._searchRangeTotal("date", dt, dt, ids);
+				termss = term._searchByRange("date", dt, dt, ids);
+				//outlinks = outl._searchByRange("date", dt, dt, ids);
+
+				allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
+					
+			} else if (single.equals("week")) {
+				
+				 dte = year + "-" + month + "-" + day;
+				int dd = Integer.parseInt(day)-7;
+				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.DATE, -7);
+				Date dateBefore7Days = cal.getTime();
+				dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
+				
+				
+				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));			
+				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+				termss = term._searchByRange("date", dt, dte, ids);
+				//outlinks = outl._searchByRange("date", dt, dte, ids);
+
+				allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+					
+			} else if (single.equals("month")) {
+				dt = year + "-" + month + "-01";
+				dte = year + "-" + month + "-"+day;	
+				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+				
+				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+				termss = term._searchByRange("date", dt, dte, ids);
+				//outlinks = outl._searchByRange("date", dt, dte, ids);
+
+				allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+				
+			} else if (single.equals("year")) {
+				dt = year + "-01-01";
+				dte = year + "-12-"+ddey;
+				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+				
+				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+				termss = term._searchByRange("date", dt, dte, ids);
+				//outlinks = outl._searchByRange("date", dt, dte, ids);
+				allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+				
+				
+			} else {
+				dt = dst;
+				dte = dend;
+				totalpost = post._getTotalByBlogId(ids, "");
+				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);			
+				termss = term._searchByRange("date", dst, dend, ids);
+				outlinks = outl._searchByRange("date",dst, dend, ids);
+				
+				allauthors=post._getBloggerByBlogId("date",dst, dend,ids);
+				
+			}
+			
+			//System.out.println("Terms here:"+termss);
+			
+			ArrayList blogs = blog._fetch(ids);
+			int totalblog = blogs.size();
+			
+			JSONObject graphyears = new JSONObject();
+		    JSONArray yearsarray = new JSONArray();
+		    
+			String[] yst = dt.split("-");
+			String[] yend = dte.split("-");
+			year_start = yst[0];
+			year_end = yend[0];
+			int ystint = Integer.parseInt(year_start);
+			int yendint = Integer.parseInt(year_end);
+			if(single.equals("month")){
+				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
+				//ystint=0;
+				//yendint = diff;
+			}
+			int b=0;
+			for(int y=ystint; y<=yendint; y++){
+				/*
+					   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
+					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
+					*/  
+					   String dtu = y + "-01-01";
+					   String dtue = y + "-12-31";
+					   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
+					 
+					   graphyears.put(y+"",totu);
+			    	   yearsarray.put(b,y);	
+			    	   b++;
+			}
+			
+			//System.out.println("grapgh yeres"+yearsarray);
+		    JSONObject authors = new JSONObject();
+		    //JSONArray sentimentpost = new JSONArray();
+		    
+		    JSONArray authorcount = new JSONArray();
+		    JSONObject language = new JSONObject();
+		    ArrayList langlooper = new ArrayList();
+		    
+		    
+			ArrayList authorlooper = new ArrayList();
+			if(allauthors.size()>0){
+				String tres = null;
+				JSONObject tresp = null;
+				String tresu = null;
+				JSONObject tobj = null;
+				int j=0;
+				int k=0;
+				int n = 0;
+			for(int i=0; i< allauthors.size(); i++){
+						tres = allauthors.get(i).toString();			
+						tresp = new JSONObject(tres);
+					    tresu = tresp.get("_source").toString();
+					    tobj = new JSONObject(tresu);
+					    
+					    String auth = tobj.get("blogger").toString();
+					    String lang = tobj.get("language").toString();
+					    
+					    Double influence =  Double.parseDouble(tobj.get("influence_score").toString());
+					  	JSONObject content = new JSONObject();
+					   
+					  	String[] dateyear=tobj.get("date").toString().split("-");
+					    String yy= dateyear[0];
+					 //   sentimentpost.put(tobj.get("blogpost_id").toString());
+					   
+					    if(authors.has(auth)){
+							content = new JSONObject(authors.get(auth).toString());
+							Double inf = Double.parseDouble(content.get("influence").toString());
+							inf = inf+influence;
+							int valu = Integer.parseInt(content.get("totalpost").toString());
+							content.put("blogger", auth);
+							content.put("influence", inf);
+							content.put("totalpost",valu);
+							authors.put(auth, content);
+						} else {
+							 
+						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
+						   // System.out.println("toty-"+btoty);
+							int valu = Integer.parseInt(btoty);
+							   if(valu==0){
+								   valu=1;
+							   }
+							   
+							content.put("blogger", auth);
+							content.put("influence", influence);
+							content.put("totalpost",valu);
+							authors.put(auth, content);
+							authorlooper.add(j,auth);
+							j++;
+						}
+					    
+					  //Object ex = language.get(lang);
+						if (language.has(lang)) {
+							int val = Integer.parseInt(language.get(lang).toString()) + 1;
+							language.put(lang, val);
+						} else {
+							//  	int val  = Integer.parseInt(ex.toString())+1;
+							language.put(lang, 1);
+							langlooper.add(n, lang);
+							n++;
+						}
+
+				}
+			//System.out.println("Authors here:"+graphyears);
+			} 
+			
+			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
+			
+
+			JSONArray topterms = new JSONArray();
+			if (termss.size() > 0) {
+
+				for (int p = 0; p < termss.size(); p++) {
+					String bstr = termss.get(p).toString();
+					JSONObject bj = new JSONObject(bstr);
+					bstr = bj.get("_source").toString();
+					bj = new JSONObject(bstr);
+					String frequency = bj.get("frequency").toString();
+					String tm = bj.get("term").toString();
+					JSONObject cont = new JSONObject();
+					cont.put("key", tm);
+					cont.put("frequency", frequency);
+					topterms.put(cont);
+					
+				}
+			}
+		
+			//System.out.println("senti"+ sentimentblog);
+			
+			JSONObject bloggers = new JSONObject();
+
+			ArrayList looper = new ArrayList();
+			
+
+			if (blogs.size() > 0) {
+				String bres = null;
+				JSONObject bresp = null;
+
+				String bresu = null;
+				JSONObject bobj = null;
+				int m = 0;
+				
+				for (int k = 0; k < blogs.size(); k++) {
+					bres = blogs.get(k).toString();
+					bresp = new JSONObject(bres);
+					bresu = bresp.get("_source").toString();
+					bobj = new JSONObject(bresu);
+					
+					String blogger = bobj.get("blogsite_owner").toString();
+					String blogname = bobj.get("blogsite_name").toString();
+					//System.out.println("blogger here+"+blogger);
+					String sentiment = "1";// bobj.get("sentiment").toString();
+					String posting = bobj.get("totalposts").toString();
+
+					JSONObject content = new JSONObject();
+
+					String durl = bobj.get("blogsite_url").toString();//"";
+					try {
+						URI uri = new URI(bobj.get("blogsite_url").toString());
+						String domain = uri.getHost();
+						if (domain.startsWith("www.")) {
+							durl = domain.substring(4);
+						} else {
+							durl = domain;
+						}
+					} catch (Exception ex) {}
+					
+						String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
+						//String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
+						int valu = 1;//Integer.parseInt(btoty);
+						
+						if (bloggers.has(blogger)) {
+							content = new JSONObject(bloggers.get(blogger).toString());						
+							content.put("blog", blogname);
+							content.put("id", bobj.get("blogsite_id").toString());
+							content.put("blogger", blogger);
+							content.put("sentiment", sentiment);
+							content.put("postingfreq", posting);
+							content.put("value", valu);
+							content.put("totalposts", toty);
+							content.put("blogsite_url", bobj.get("blogsite_url").toString());
+							content.put("blogsite_domain", durl);
+							bloggers.put(blogger, content);
+						} else {
+							content.put("blog", blogname);
+							content.put("id", bobj.get("blogsite_id").toString());
+							content.put("blogger", blogger);
+							content.put("sentiment", sentiment);
+							content.put("postingfreq", posting);
+							content.put("value", valu);
+							content.put("totalposts", toty);
+							content.put("blogsite_url", bobj.get("blogsite_url").toString());
+							content.put("blogsite_domain", durl);
+							bloggers.put(blogger, content);
+							looper.add(m, blogger);
+							m++;
+						}	
+						
+								
+				}
+
+			}
+			
+			
 %>
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers - Keywords Trend</title>
-  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
-  <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
-  <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
-  <!-- start of bootsrap -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
-  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css"/>
-  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"/>
-  <link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.css" />
-  <link rel="stylesheet" href="assets/fonts/iconic/css/open-iconic.css" />
- <link rel="stylesheet" href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
- <link rel="stylesheet" href="assets/css/table.css" />
- <link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blogtrackers - Keywords Trend</title>
+<link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
+<link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
+<link rel="apple-touch-icon" sizes="96x96"
+	href="images/favicons/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="144x144"
+	href="images/favicons/favicon-144x144.png">
+<!-- start of bootsrap -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700"
+	rel="stylesheet">
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css" />
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet"
+	href="assets/fonts/fontawesome/css/fontawesome-all.css" />
+<link rel="stylesheet" href="assets/fonts/iconic/css/open-iconic.css" />
+<link rel="stylesheet"
+	href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet"
+	href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
 
-  <!--end of bootsrap -->
-  <script src="assets/js/jquery-3.2.1.slim.min.js"  ></script>
-<script src="assets/js/popper.min.js" ></script>
+<!--end of bootsrap -->
+<script src="assets/js/jquery-3.2.1.slim.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
-<%@include file="subpages/googletagmanagernoscript.jsp" %>
-  <div class="modal-notifications">
-<div class="row">
-<div class="col-lg-10 closesection">
-	
+	<%@include file="subpages/googletagmanagernoscript.jsp"%>
+	<div class="modal-notifications">
+		<div class="row">
+			<div class="col-lg-10 closesection"></div>
+			<div class="col-lg-2 col-md-12 notificationpanel">
+				<div id="closeicon" class="cursor-pointer">
+					<i class="fas fa-times-circle"></i>
+				</div>
+				<div class="profilesection col-md-12 mt50">
+					<%
+						if (userinfo.size() > 0) {
+					%>
+					<div class="text-center mb10">
+						<img src="<%=profileimage%>" width="60" height="60"
+							onerror="this.src='images/default-avatar.png'" alt="" />
+					</div>
+					<div class="text-center" style="margin-left: 0px;">
+						<h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
+						<p class="text-primary profiletext"><%=email%></p>
+					</div>
+					<%
+						}
+					%>
+				</div>
+				<div id="othersection" class="col-md-12 mt10" style="clear: both">
+					<%
+						if (userinfo.size() > 0) {
+					%>
+					<a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/notifications.jsp"><h6
+							class="text-primary">
+							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
+						</h6> </a> <a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/profile.jsp"><h6
+							class="text-primary">Profile</h6></a> <a
+						class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/logout"><h6
+							class="text-primary">Log Out</h6></a>
+					<%
+						} else {
+					%>
+					<a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/login"><h6
+							class="text-primary">Login</h6></a>
+
+					<%
+						}
+					%>
+				</div>
+			</div>
+		</div>
 	</div>
-  <div class="col-lg-2 col-md-12 notificationpanel">
-    <div id="closeicon" class="cursor-pointer"><i class="fas fa-times-circle"></i></div>
-  <div class="profilesection col-md-12 mt50">
-  <% if(userinfo.size()>0){ %>
-    <div class="text-center mb10" ><img src="<%=profileimage%>" width="60" height="60" onerror="this.src='images/default-avatar.png'" alt="" /></div>
-    <div class="text-center" style="margin-left:0px;">
-      <h6 class="text-primary m0 bolder profiletext"><%=name%></h6>
-      <p class="text-primary profiletext"><%=email%></p>
-    </div>
-  <%} %>
-  </div>
-  <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <% if(userinfo.size()>0){ %>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
-  <%}else{ %>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/login"><h6 class="text-primary">Login</h6></a>
-  
-  <%} %>
-  </div>
-  </div>
-</div>
-</div>
 
-      <nav class="navbar navbar-inverse bg-primary">
-        <div class="container-fluid mt10 mb10">
+	<nav class="navbar navbar-inverse bg-primary">
+		<div class="container-fluid mt10 mb10">
 
-          <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
-         <a class="navbar-brand text-center logohomeothers" href="./">
-  </a>
-          </div>
-          <!-- Mobile Menu -->
-          <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-          </button>
-          </nav>
-          <!-- <div class="navbar-header ">
+			<div
+				class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+				<a class="navbar-brand text-center logohomeothers" href="./"> </a>
+			</div>
+			<!-- Mobile Menu -->
+			<nav
+				class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none"
+				id="menutoggle">
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarToggleExternalContent"
+					aria-controls="navbarToggleExternalContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</nav>
+			<!-- <div class="navbar-header ">
           <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
           </div> -->
-          <!-- Mobile menu  -->
-          <div class="col-lg-6 themainmenu"  align="center">
-            <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-             <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
-           
-                  </ul>
-          </div>
+			<!-- Mobile menu  -->
+			<div class="col-lg-6 themainmenu" align="center">
+				<ul class="nav main-menu2"
+					style="display: inline-flex; display: -webkit-inline-flex; display: -mozkit-inline-flex;">
+					<li><a class="bold-text"
+						href="<%=request.getContextPath()%>/blogbrowser.jsp"><i
+							class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+					<li><a class="bold-text"
+						href="<%=request.getContextPath()%>/trackerlist.jsp"><i
+							class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
+					<li><a class="bold-text"
+						href="<%=request.getContextPath()%>/favorites.jsp"><i
+							class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
 
-   
-     <div class="col-lg-3">
-  	 <% if(userinfo.size()>0){ %>
-  		
-	  <ul class="nav navbar-nav" style="display:block;">
-		  <li class="dropdown dropdown-user cursor-pointer float-right">
-		  <a class="dropdown-toggle " id="profiletoggle" data-toggle="dropdown">
-		    <i class="fas fa-circle" id="notificationcolor"></i>
-		   
-		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-		  <span><%=username%></span></a>
-			
-		   </li>
-	    </ul>
-         <% }else{ %>
-         <ul class="nav main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-        
-        	<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
-         </ul>
-        <% } %>
-      </div>
+				</ul>
+			</div>
 
-          </div>
-          <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
-          <div class="collapse" id="navbarToggleExternalContent">
-            <ul class="navbar-nav mr-auto mobile-menu">
-                        <li class="nav-item active">
-                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
-              </li>
-                </ul>
-        </div>
-          </div>
 
-          <!-- <div class="col-md-12 mt0">
+			<div class="col-lg-3">
+				<%
+					if (userinfo.size() > 0) {
+				%>
+
+				<ul class="nav navbar-nav" style="display: block;">
+					<li class="dropdown dropdown-user cursor-pointer float-right">
+						<a class="dropdown-toggle " id="profiletoggle"
+						data-toggle="dropdown"> <i class="fas fa-circle"
+							id="notificationcolor"></i> <img src="<%=profileimage%>"
+							width="50" height="50"
+							onerror="this.src='images/default-avatar.png'" alt="" class="" />
+							<span><%=username%></span></a>
+
+					</li>
+				</ul>
+				<%
+					} else {
+				%>
+				<ul class="nav main-menu2 float-right"
+					style="display: inline-flex; display: -webkit-inline-flex; display: -mozkit-inline-flex;">
+
+					<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
+				</ul>
+				<%
+					}
+				%>
+			</div>
+
+		</div>
+		<div
+			class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
+			<div class="collapse" id="navbarToggleExternalContent">
+				<ul class="navbar-nav mr-auto mobile-menu">
+					<li class="nav-item active"><a class=""
+						href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span
+							class="sr-only">(current)</span></a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- <div class="col-md-12 mt0">
           <input type="search" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" placeholder="Search Trackers" />
           </div> -->
 
-        </nav>
-<div class="container">
-<div class="row bottom-border pb20">
-<div class="col-md-6 paddi">
-<nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
-  <a class="breadcrumb-item active text-primary" href="keywordtrend.jsp">Keywords Trend</a>
-  </nav>
-<div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
-</div>
+	</nav>
+	<div class="container">
+		<div class="row bottom-border pb20">
+			<div class="col-md-6 ">
+				<nav class="breadcrumb">
+					<a class="breadcrumb-item text-primary"
+						href="<%=request.getContextPath()%>/trackerlist.jsp">My	Trackers</a> <a class="breadcrumb-item text-primary"
+						href="<%=request.getContextPath()%>/edittracker.jsp"><%=trackername%></a>
+					<a class="breadcrumb-item active text-primary" href="#">Keyword Trend</a>
+				</nav>
+				<div>
+					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
+						AS PDF</button>
+				</div>
+			</div>
 
-<div class="col-md-6 text-right mt10">
-<div class="text-primary demo"><h6 id="reportrange">Date: <span>02/21/18 - 02/28/18</span></h6></div>
-<div>
-  <div class="btn-group mt5" data-toggle="buttons">
-  <label class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder"> <input type="radio" name="options" value="day" autocomplete="off" > Day
-  	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" name="options" value="week" autocomplete="off" >Week
-  	</label>
-     <label class="btn btn-primary btn-sm nobgnoborder nobgnoborder"> <input type="radio" name="options" value="month" autocomplete="off" > Month
-  	</label>
-    <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
-  	</label>
-    <!-- <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
-  </div>
+		<div class="col-md-6 text-right mt10">
+				<div class="text-primary demo">
+					<h6 id="reportrange">
+						
+						Date: <span><%=dispfrom%> - <%=dispto%></span>
+					</h6>
+				</div>
+				<div>
+					<div class="btn-group mt5" data-toggle="buttons">
+						<label
+							class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder">
+							<input type="radio" name="options" value="day"
+							class="option-only" autocomplete="off"> Day
+						</label> <label class="btn btn-primary btn-sm nobgnoborder"> <input
+							type="radio" class="option-only" name="options" value="week"
+							autocomplete="off">Week
+						</label> <label class="btn btn-primary btn-sm nobgnoborder"> <input
+							type="radio" class="option-only" name="options" value="month"
+							autocomplete="off"> Month
+						</label> <label class="btn btn-primary btn-sm text-center nobgnoborder">Year
+							<input type="radio" class="option-only" name="options"
+							value="year" autocomplete="off">
+						</label>
+						<!-- <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label> -->
+					</div>
 
-  <!-- Day Week Month Year <b id="custom" class="text-primary">Custom</b> -->
+				</div>
+			</div>
+		</div>
 
-</div>
-</div>
-</div>
-
-<!-- <div class="row p40 border-top-bottom mt20 mb20">
+		<!-- <div class="row p40 border-top-bottom mt20 mb20">
   <div class="col-md-2">
 <small class="text-primary">Selected Keyword</small>
 <h2 class="text-primary styleheading pb10">Technology <div class="circle"></div></h2>
@@ -237,80 +703,102 @@ if(f.exists() && !f.isDirectory()) {
   </div>
 </div> -->
 
-<div class="row mt20">
-<div class="col-md-3">
+		<div class="row mt20">
+			<div class="col-md-3">
 
-<div class="card card-style mt20">
-  <div class="card-body p20 pt5 pb5 mb20">
+				<div class="card card-style mt20">
+					<div class="card-body p20 pt5 pb5 mb20">
 
-    <h6 class="mt20 mb20">Top Keywords</h6>
-    <div style="padding-right:10px !important;"><input type="search" class="form-control stylesearch mb20 inputportfolio2" placeholder="| Search Keyword" /> <i class="fas fa-search searchiconinputothers"></i> <i class="fas fa-times searchiconinputclose cursor-pointer"></i></div>
-    <!-- <h6 class="card-title mb0">Maximum Influence</h6> -->
-    <!-- <h4 class="mt20 mb0">Technology</h4> -->
+						<h6 class="mt20 mb20">Top Keywords</h6>
+						<div style="padding-right: 10px !important;">
+							<input type="search"
+								class="form-control stylesearch mb20 inputportfolio2"
+								placeholder="| Search Keyword" /> <i
+								class="fas fa-search searchiconinputothers"></i> <i
+								class="fas fa-times searchiconinputclose cursor-pointer"></i>
+						</div>
+						<!-- <h6 class="card-title mb0">Maximum Influence</h6> -->
+						<!-- <h4 class="mt20 mb0">Technology</h4> -->
 
-    <!-- <small class="text-success pb10 ">+5% from <b>Last Week</b>
+						<!-- <small class="text-success pb10 ">+5% from <b>Last Week</b>
 
     </small> -->
-   <div class="scrolly" style="height:250px; padding-right:10px !important;">
-   <a class="btn btn-primary form-control stylebuttonactive mb20 activebar"><b>Technology</b></a>
-    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Star</b></a>
-    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>AI</b></a>
-    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Stark</b></a>
-    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Nigeria</b></a>
-    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Trump</b></a>
-    <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Nato</b></a>
+						<div class="scrolly"
+							style="height: 250px; padding-right: 10px !important;">
+							
+									<%if (topterms.length() > 0) {
+													
+										for (int i = 0; i < topterms.length(); i++) {
+											JSONObject jsonObj = topterms.getJSONObject(i);
+											int size = Integer.parseInt(jsonObj.getString("frequency")) * 5;
+											String terms = jsonObj.getString("key");
+																			
+											%><a
+											class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b><%=terms%></b></a>
+											<%
+										}
+									}	
+							%>
 
 
-</div>
-  </div>
-</div>
-</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-<div class="col-md-9">
-  <div class="card card-style mt20">
-    <div class="card-body  p30 pt5 pb5">
-      <div style="min-height: 250px;">
-<div><p class="text-primary mt10 float-left">Keyword Trend of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-<div class="chart-container">
-  <div class="chart" id="d3-line-basic"></div>
-</div>
-      </div>
-        </div>
-  </div>
-  <div class="card card-style mt20">
-    <div class="card-body  p30 pt20 pb20">
-      <div class="row">
-     <div class="col-md-3 mt5 mb5">
-       <h6 class="card-title mb0">Blog Mentioned</h6>
-       <h2 class="mb0 bold-text">20</h2>
-       <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
-     </div>
+			<div class="col-md-9">
+				<div class="card card-style mt20">
+					<div class="card-body  p30 pt5 pb5">
+						<div style="min-height: 250px;">
+							<div>
+								<p class="text-primary mt10 float-left">
+									Keyword Trend of Past <select
+										class="text-primary filtersort sortbytimerange"><option
+											value="week">Week</option>
+										<option value="month">Month</option>
+										<option value="year">Year</option></select>
+								</p>
+							</div>
+							<div class="chart-container">
+								<div class="chart" id="d3-line-basic"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card card-style mt20">
+					<div class="card-body  p30 pt20 pb20">
+						<div class="row">
+							<div class="col-md-3 mt5 mb5">
+								<h6 class="card-title mb0">Blog Mentioned</h6>
+								<h2 class="mb0 bold-text">20</h2>
+								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+							</div>
 
-     <div class="col-md-3 mt5 mb5">
-       <h6 class="card-title mb0">Post Mentioned</h6>
-       <h2 class="mb0 bold-text">400</h2>
-       <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
-     </div>
+							<div class="col-md-3 mt5 mb5">
+								<h6 class="card-title mb0">Post Mentioned</h6>
+								<h2 class="mb0 bold-text">400</h2>
+								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+							</div>
 
-     <div class="col-md-3 mt5 mb5">
-       <h6 class="card-title mb0">Most Used Location</h6>
-       <h3 class="mb0 bold-text">Nigeria</h3>
-       <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
-     </div>
+							<div class="col-md-3 mt5 mb5">
+								<h6 class="card-title mb0">Most Used Location</h6>
+								<h3 class="mb0 bold-text">Nigeria</h3>
+								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+							</div>
 
-     <div class="col-md-3  mt5 mb5">
-       <h6 class="card-title mb0">Most Active Blog</h6>
-       <h2 class="mb0 bold-text">AdNovum</h2>
-       <!-- <small class="text-success"><a href=""><b>View Blog</b></a></small> -->
-     </div>
+							<div class="col-md-3  mt5 mb5">
+								<h6 class="card-title mb0">Most Active Blog</h6>
+								<h2 class="mb0 bold-text">AdNovum</h2>
+								<!-- <small class="text-success"><a href=""><b>View Blog</b></a></small> -->
+							</div>
 
-      </div>
-        </div>
-  </div>
-</div>
-</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-<!-- <div class="row mb0 d-flex align-items-stretch">
+		<!-- <div class="row mb0 d-flex align-items-stretch">
   <div class="col-md-12 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body p10 pt20 pb5">
@@ -328,242 +816,297 @@ if(f.exists() && !f.isDirectory()) {
 
 
 
-<div class="row m0 mt20 mb0 d-flex align-items-stretch" >
-  <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
-  <div class="card-body p0 pt20 pb20" style="min-height: 420px;">
-      <p>Posts that mentioned <b class="text-green">Technology</b></p>
-         <!--  <div class="p15 pb5 pt0" role="group">
+		<div class="row m0 mt20 mb0 d-flex align-items-stretch">
+			<div
+				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
+				<div class="card-body p0 pt20 pb20" style="min-height: 420px;">
+					<p>
+						Posts that mentioned <b class="text-green">Technology</b>
+					</p>
+					<!--  <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-                <table id="DataTables_Table_2_wrapper" class="display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Post title</th>
-                                <th>Occurence</th>
+					<table id="DataTables_Table_2_wrapper" class="display"
+						style="width: 100%">
+						<thead>
+							<tr>
+								<th>Post title</th>
+								<th>Occurence</th>
 
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="right">1</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">1</td>
 
 
-                          </tr>
-                          <tr>
-                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                              <td align="right">1</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">1</td>
 
 
-                          </tr>  <tr>
-                                <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                <td align="right">1</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">1</td>
 
 
-                            </tr>  <tr>
-                                  <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                  <td align="right">1</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">1</td>
 
 
-                              </tr>  <tr>
-                                    <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                    <td align="right">1</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">1</td>
 
 
-                                </tr>  <tr>
-                                      <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                      <td align="right">1</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">1</td>
 
 
-                                  </tr>  <tr>
-                                        <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                        <td align="right">1</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">1</td>
 
 
-                                    </tr>  <tr>
-                                          <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                          <td align="right">1</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">1</td>
 
 
-                                      </tr>  <tr>
-                                            <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                            <td align="right">1</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">1</td>
 
 
-                                        </tr>  <tr>
-                                              <td>#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</td>
-                                              <td align="right">1</td>
+							</tr>
+							<tr>
+								<td>#1809: Marine Links Clinton Yellen SBA women to MI-3
+									War Rooms, Serco Base One Pentagon bomb</td>
+								<td align="right">1</td>
 
 
-                                          </tr>
+							</tr>
 
-                        </tbody>
-                    </table>
-        </div>
+						</tbody>
+					</table>
+				</div>
 
-  </div>
+			</div>
 
-  <div class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
-        <div style="" class="pt20">
-          <h5 class="text-primary p20 pt0 pb0">#1809: Marine Links Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One Pentagon bomb</h5>
-          <div class="text-center mb20 mt20"><button class="btn stylebuttonorange"><b class="float-left ultra-bold-text">Michael J Fox</b><i class="far fa-user float-right blogcontenticon"></i></button> <button class="btn stylebuttonnocolor">02-01-2018, 5:30pm</button> <button class="btn stylebuttonorange"><b class="float-left ultra-bold-text">32 comments</b><i class="far fa-comments float-right blogcontenticon"></i></button></div>
+			<div
+				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
+				<div style="" class="pt20">
+					<h5 class="text-primary p20 pt0 pb0">#1809: Marine Links
+						Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One
+						Pentagon bomb</h5>
+					<div class="text-center mb20 mt20">
+						<button class="btn stylebuttonorange">
+							<b class="float-left ultra-bold-text">Michael J Fox</b><i
+								class="far fa-user float-right blogcontenticon"></i>
+						</button>
+						<button class="btn stylebuttonnocolor">02-01-2018, 5:30pm</button>
+						<button class="btn stylebuttonorange">
+							<b class="float-left ultra-bold-text">32 comments</b><i
+								class="far fa-comments float-right blogcontenticon"></i>
+						</button>
+					</div>
 
-            <div class="p20 pt0 pb10 text-blog-content" style="height:600px; overflow-y:scroll; ">
-          You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete
-          images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer.
-           Praesent nibh
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-           You can create Slideshows and Stacked galleries with Post Format: Gallery. Also you can manage - add/edit/delete images any time you want. Hyper-X comes with huge amount of gallery options, which could be previewed from Theme Customizer. Praesent nibh...
-         </div>
-    </div>
-  </div>
-</div>
+					<div class="p20 pt0 pb10 text-blog-content"
+						style="height: 600px; overflow-y: scroll;">You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh...</div>
+				</div>
+			</div>
+		</div>
 
-<div class="row mb50 d-flex align-items-stretch">
-  <div class="col-md-12 mt20 ">
-    <div class="card card-style mt20">
-      <div class="card-body p10 pt20 pb5">
+		<div class="row mb50 d-flex align-items-stretch">
+			<div class="col-md-12 mt20 ">
+				<div class="card card-style mt20">
+					<div class="card-body p10 pt20 pb5">
 
-        <div style="min-height: 420px;">
-      <!-- <p class="text-primary">Top keywords of <b>Past Week</b></p> -->
-          <!-- <div class="p15 pb5 pt0" role="group">
+						<div style="min-height: 420px;">
+							<!-- <p class="text-primary">Top keywords of <b>Past Week</b></p> -->
+							<!-- <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-                <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Keyword</th>
-                                <th>Frequency</th>
-                                <th>Post Count</th>
-<th>Blog Count</th>
-<th>Blogger Count</th>
-<th>Leading Blogger</th>
-<th>Language</th>
-<th>Location</th>
+							<table id="DataTables_Table_1_wrapper" class="display"
+								style="width: 100%">
+								<thead>
+									<tr>
+										<th>Keyword</th>
+										<th>Frequency</th>
+										<th>Post Count</th>
+										<th>Blog Count</th>
+										<th>Blogger Count</th>
+										<th>Leading Blogger</th>
+										<th>Language</th>
+										<th>Location</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Technology</td>
-                                <td>10,000</td>
-  <td>200 <sub>of 200</sub></td>
-  <td>200 <sub>of 200</sub></td>
-    <td>100 <sub>of 100</sub></td>
-<td>Matt Finnace</td>
-      <td>English</td>
-      <td>United States</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Technology</td>
+										<td>10,000</td>
+										<td>200 <sub>of 200</sub></td>
+										<td>200 <sub>of 200</sub></td>
+										<td>100 <sub>of 100</sub></td>
+										<td>Matt Finnace</td>
+										<td>English</td>
+										<td>United States</td>
 
-                            </tr>
-                            <tr>
-                                <td>Technology</td>
-                                <td>10,000</td>
-  <td>200 <sub>of 200</sub></td>
-  <td>200 <sub>of 200</sub></td>
-    <td>100 <sub>of 100</sub></td>
-<td>Matt Finnace</td>
-      <td>English</td>
-      <td>United States</td>
+									</tr>
+									<tr>
+										<td>Technology</td>
+										<td>10,000</td>
+										<td>200 <sub>of 200</sub></td>
+										<td>200 <sub>of 200</sub></td>
+										<td>100 <sub>of 100</sub></td>
+										<td>Matt Finnace</td>
+										<td>English</td>
+										<td>United States</td>
 
-                            </tr>
-                            <tr>
-                                <td>Technology</td>
-                                <td>10,000</td>
-  <td>200 <sub>of 200</sub></td>
-  <td>200 <sub>of 200</sub></td>
-    <td>100 <sub>of 100</sub></td>
-<td>Matt Finnace</td>
-      <td>English</td>
-      <td>United States</td>
+									</tr>
+									<tr>
+										<td>Technology</td>
+										<td>10,000</td>
+										<td>200 <sub>of 200</sub></td>
+										<td>200 <sub>of 200</sub></td>
+										<td>100 <sub>of 100</sub></td>
+										<td>Matt Finnace</td>
+										<td>English</td>
+										<td>United States</td>
 
-                            </tr>    <tr>
-                                    <td>Technology</td>
-                                    <td>10,000</td>
-      <td>200 <sub>of 200</sub></td>
-      <td>200 <sub>of 200</sub></td>
-        <td>100 <sub>of 100</sub></td>
-    <td>Matt Finnace</td>
-          <td>English</td>
-          <td>United States</td>
+									</tr>
+									<tr>
+										<td>Technology</td>
+										<td>10,000</td>
+										<td>200 <sub>of 200</sub></td>
+										<td>200 <sub>of 200</sub></td>
+										<td>100 <sub>of 100</sub></td>
+										<td>Matt Finnace</td>
+										<td>English</td>
+										<td>United States</td>
 
-                                </tr>    <tr>
-                                        <td>Technology</td>
-                                        <td>10,000</td>
-          <td>200 <sub>of 200</sub></td>
-          <td>200 <sub>of 200</sub></td>
-            <td>100 <sub>of 100</sub></td>
-        <td>Matt Finnace</td>
-              <td>English</td>
-              <td>United States</td>
+									</tr>
+									<tr>
+										<td>Technology</td>
+										<td>10,000</td>
+										<td>200 <sub>of 200</sub></td>
+										<td>200 <sub>of 200</sub></td>
+										<td>100 <sub>of 100</sub></td>
+										<td>Matt Finnace</td>
+										<td>English</td>
+										<td>United States</td>
 
-                                    </tr>    <tr>
-                                            <td>Technology</td>
-                                            <td>10,000</td>
-              <td>200 <sub>of 200</sub></td>
-              <td>200 <sub>of 200</sub></td>
-                <td>100 <sub>of 100</sub></td>
-            <td>Matt Finnace</td>
-                  <td>English</td>
-                  <td>United States</td>
+									</tr>
+									<tr>
+										<td>Technology</td>
+										<td>10,000</td>
+										<td>200 <sub>of 200</sub></td>
+										<td>200 <sub>of 200</sub></td>
+										<td>100 <sub>of 100</sub></td>
+										<td>Matt Finnace</td>
+										<td>English</td>
+										<td>United States</td>
 
-                                        </tr>    <tr>
-                                                <td>Technology</td>
-                                                <td>10,000</td>
-                  <td>200 <sub>of 200</sub></td>
-                  <td>200 <sub>of 200</sub></td>
-                    <td>100 <sub>of 100</sub></td>
-                <td>Matt Finnace</td>
-                      <td>English</td>
-                      <td>United States</td>
+									</tr>
+									<tr>
+										<td>Technology</td>
+										<td>10,000</td>
+										<td>200 <sub>of 200</sub></td>
+										<td>200 <sub>of 200</sub></td>
+										<td>100 <sub>of 100</sub></td>
+										<td>Matt Finnace</td>
+										<td>English</td>
+										<td>United States</td>
 
-                                            </tr>    <tr>
-                                                    <td>Technology</td>
-                                                    <td>10,000</td>
-                      <td>200 <sub>of 200</sub></td>
-                      <td>200 <sub>of 200</sub></td>
-                        <td>100 <sub>of 100</sub></td>
-                    <td>Matt Finnace</td>
-                          <td>English</td>
-                          <td>United States</td>
+									</tr>
+									<tr>
+										<td>Technology</td>
+										<td>10,000</td>
+										<td>200 <sub>of 200</sub></td>
+										<td>200 <sub>of 200</sub></td>
+										<td>100 <sub>of 100</sub></td>
+										<td>Matt Finnace</td>
+										<td>English</td>
+										<td>United States</td>
 
-                                                </tr>    <tr>
-                                                        <td>Technology</td>
-                                                        <td>10,000</td>
-                          <td>200 <sub>of 200</sub></td>
-                          <td>200 <sub>of 200</sub></td>
-                            <td>100 <sub>of 100</sub></td>
-                        <td>Matt Finnace</td>
-                              <td>English</td>
-                              <td>United States</td>
+									</tr>
+									<tr>
+										<td>Technology</td>
+										<td>10,000</td>
+										<td>200 <sub>of 200</sub></td>
+										<td>200 <sub>of 200</sub></td>
+										<td>100 <sub>of 100</sub></td>
+										<td>Matt Finnace</td>
+										<td>English</td>
+										<td>United States</td>
 
-                                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-        </div>
-          </div>
-    </div>
-  </div>
-
-</div>
+									</tr>
 
 
 
 
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 
-
-
-
-
+		</div>
 
 
 
@@ -576,34 +1119,50 @@ if(f.exists() && !f.isDirectory()) {
 
 
 
-</div>
 
 
-<!-- <footer class="footer">
+
+
+
+
+
+
+
+	</div>
+
+
+	<!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
 <p class="text-center text-medium pt10 pb10 mb0">Copyright &copy; Blogtrackers 2017 All Rights Reserved.</p>
 </div>
   </footer> -->
 
 
-  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
- <script src="assets/bootstrap/js/bootstrap.js">
+	<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.js">
  </script>
- <script src="assets/js/generic.js">
+	<script src="assets/js/generic.js">
  </script>
- <script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
- <script src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
- <!-- Start for tables  -->
- <script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
- <script type="text/javascript" src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
- <script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
- <script src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
- <script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
- <script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
- <script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
- <script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
+	<script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
+	<script
+		src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<!-- Start for tables  -->
+	<script type="text/javascript"
+		src="assets/vendors/DataTables/datatables.min.js"></script>
+	<script type="text/javascript"
+		src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
+	<script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
+	<script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
- <script>
+	<script>
  $(document).ready(function() {
      $('#DataTables_Table_1_wrapper').DataTable( {
          "scrollY": 430,
@@ -659,8 +1218,8 @@ if(f.exists() && !f.isDirectory()) {
      } );
  } );
  </script>
- <!--end for table  -->
- <script>
+	<!--end for table  -->
+	<script>
  $(document).ready(function() {
 	 
 	 $('#printdoc').on('click',function(){
@@ -791,9 +1350,9 @@ if(f.exists() && !f.isDirectory()) {
    //$('#config-demo').daterangepicker(options, function(start, end, label) { console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); });
  });
  </script>
- <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
- <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
- <script>
+	<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
+	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
+	<script>
 
  $(function () {
 
@@ -1298,8 +1857,8 @@ if(f.exists() && !f.isDirectory()) {
  });
  </script>
 
-<!--word cloud  -->
- <script>
+	<!--word cloud  -->
+	<script>
      var color = d3.scale.linear()
              .domain([0,1,2,3,4,5,6,10,15,20,80])
              .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
@@ -1314,3 +1873,5 @@ if(f.exists() && !f.isDirectory()) {
 
 </body>
 </html>
+
+<% }} %>

@@ -715,6 +715,7 @@
 			<div class="col-md-6 text-right mt10">
 				<div class="text-primary demo">
 					<h6 id="reportrange">
+				
 						Date: <span><%=dispfrom%> - <%=dispto%></span>
 					</h6>
 				</div>
@@ -922,10 +923,11 @@
 					</div>
 				</div>
 				<div class="float-right">
-					<a href="keywordtrend.jsp"><button
+					<a
+						href="<%=request.getContextPath()%>/keywordtrend.jsp?tid=<%=tid%>"><button
 							class="btn buttonportfolio2 mt10">
-							<b class="float-left semi-bold-text">Keyword Trend Analysis </b>
-							<b class="fas fa-search float-right icondash2"></b>
+							<b class="float-left semi-bold-text">Keyword Trend Analysis </b> <b
+								class="fas fa-adjust float-right icondash2"></b>
 						</button></a>
 				</div>
 			</div>
