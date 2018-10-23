@@ -109,7 +109,7 @@ $(function () {
       //
       //
       data = [
-    	  <%=bloggersstr%>
+    	  <%=bloggersstr.toString().toLowerCase()%>
     		// {letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},      
        ];
       
@@ -172,7 +172,7 @@ $(function () {
               .style("color","yellow")
               .call(yAxis)
               .selectAll("text")
-              .style("font-size",11)
+              .style("font-size",12)
               .style("text-transform","capitalize")
    			/* .attr("y", -25)
     			.attr("x", 40)

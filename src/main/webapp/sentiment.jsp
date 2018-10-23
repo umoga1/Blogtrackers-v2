@@ -620,7 +620,7 @@
 
 
 	</nav>
-	<div class="container">
+	<div class="container analyticscontainer">
 		<!-- start of print section  -->
 
 
@@ -646,7 +646,7 @@
 				</div>
 				<div>
 					<div class="btn-group mt5" data-toggle="buttons">
-						<label
+						<!-- <label
 							class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder">
 							<input type="radio" name="options" value="day" autocomplete="off">
 							Day
@@ -658,7 +658,7 @@
 						</label> <label class="btn btn-primary btn-sm text-center nobgnoborder">Year
 							<input type="radio" name="options" value="year"
 							autocomplete="off">
-						</label>
+						</label> -->
 						<!--  <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
 					</div>
 

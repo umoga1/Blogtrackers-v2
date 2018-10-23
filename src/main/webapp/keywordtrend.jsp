@@ -647,7 +647,7 @@
           </div> -->
 
 	</nav>
-	<div class="container">
+	<div class="container analyticscontainer">
 		<div class="row bottom-border pb20">
 			<div class="col-md-6 ">
 				<nav class="breadcrumb">
@@ -671,7 +671,7 @@
 				</div>
 				<div>
 					<div class="btn-group mt5" data-toggle="buttons">
-						<label
+						<!-- <label
 							class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder">
 							<input type="radio" name="options" value="day"
 							class="option-only" autocomplete="off"> Day
@@ -684,7 +684,7 @@
 						</label> <label class="btn btn-primary btn-sm text-center nobgnoborder">Year
 							<input type="radio" class="option-only" name="options"
 							value="year" autocomplete="off">
-						</label>
+						</label> -->
 						<!-- <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label> -->
 					</div>
 

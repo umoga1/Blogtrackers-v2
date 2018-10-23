@@ -720,7 +720,7 @@
 				</div>
 				<div>
 					<div class="btn-group mt5" data-toggle="buttons">
-						<label
+						<!-- <label
 							class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder">
 							<input type="radio" name="options" value="day"
 							class="option-only" autocomplete="off"> Day
@@ -733,7 +733,7 @@
 						</label> <label class="btn btn-primary btn-sm text-center nobgnoborder">Year
 							<input type="radio" class="option-only" name="options"
 							value="year" autocomplete="off">
-						</label>
+						</label> -->
 						<!-- <label class="btn btn-primary btn-sm nobgnoborder" id="custom">Custom</label> -->
 					</div>
 
@@ -917,7 +917,10 @@
 						</div>
 						<!-- <div class="tagcloudcontainer" style="min-height: 420px;"></div> -->
 						<div class="chart-container">
-								<div class="chart" id="tagcloudcontainer"></div>
+								<div class="chart" id="tagcloudcontainer">
+								<!-- <div class="jvectormap-zoomin">+</div>
+								<div class="jvectormap-zoomout">−</div> -->
+								</div>
 							</div>
 					</div>
 				</div>
@@ -1643,7 +1646,7 @@ $(function () {
               .style("color","yellow")
               .call(yAxis)
               .selectAll("text")
-              .style("font-size",11)
+              .style("font-size",12)
               .style("text-transform","capitalize");
       //
       //
@@ -1932,7 +1935,7 @@ $(function () {
               .style("color","yellow")
               .call(yAxis)
               .selectAll("text")
-              .style("font-size",11)
+              .style("font-size",12)
               .style("text-transform","capitalize")
    			/* .attr("y", -25)
     		.attr("x", 20)
@@ -2152,7 +2155,7 @@ $(function () {
 							int size = Integer.parseInt(resu.get("postingfreq").toString());
 							if (size > 0 && p < 10) {
 								p++;%>
-    							{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+    							{letter:"<%=resu.get("blog").toString().toLowerCase()%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
     		 <% 			}
 					}
 				}
@@ -2225,7 +2228,7 @@ $(function () {
               .call(yAxis)
               .style("text-transform","lowercase")
               .selectAll("text")
-              .style("font-size",11)
+              .style("font-size",12)
               .style("text-transform","capitalize")
    			//.attr("y", -25)
     		//	.attr("x", 40)
@@ -2512,7 +2515,7 @@ $(function () {
               .style("color","yellow")
               .call(yAxis)
               .selectAll("text")
-              .style("font-size",11)
+              .style("font-size",12)
               .style("text-transform","capitalize");
       //
       //
@@ -2972,7 +2975,7 @@ var mymarker = [
      d3.layout.cloud().size([450,400])
              .words(frequency_list)
              .rotate(0)
-             .fontSize(function(d) { return d.size * 0.9; })
+             .fontSize(function(d) { return d.size * 1.20; })
              .on("end", draw)
              .start();
     
@@ -2984,10 +2987,12 @@ var mymarker = [
                  //.attr("class", "wordcloud")
                  .append("g")
                  .attr("transform", "translate("+ width/2 +",180)")
+                  .on("wheel", function() { d3.event.preventDefault(); })
                   .call(d3.behavior.zoom().on("zoom", function () {
                 	var g = svg.selectAll("g"); 
                 	g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")")
                  })) 
+                
          		
                  .selectAll("text")
                  .data(words)

@@ -451,7 +451,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 
 	</nav>
-	<div class="container">
+	<div class="container analyticscontainer">
 		<div class="row bottom-border pb20">
 			<div class="col-md-6 paddi">
 				<nav class="breadcrumb">
@@ -473,7 +473,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 				</div>
 				<div>
 					<div class="btn-group mt5" data-toggle="buttons">
-						<label
+						<!-- <label
 							class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder">
 							<input type="radio" name="options" value="day" autocomplete="off">
 							Day
@@ -485,7 +485,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						</label> <label class="btn btn-primary btn-sm text-center nobgnoborder">Year
 							<input type="radio" name="options" value="year"
 							autocomplete="off">
-						</label>
+						</label> -->
 						<!--  <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
 					</div>
 

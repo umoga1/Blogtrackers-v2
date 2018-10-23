@@ -194,7 +194,7 @@ if(f.exists() && !f.isDirectory()) {
           </div> -->
 
         </nav>
-<div class="container">
+<div class="container analyticscontainer">
 <div class="row bottom-border pb20">
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
@@ -209,7 +209,7 @@ if(f.exists() && !f.isDirectory()) {
 <div class="text-primary demo"><h6 id="reportrange">Date: <span>02/21/18 - 02/28/18</span></h6></div>
 <div>
   <div class="btn-group mt5" data-toggle="buttons">
-  <label class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder"> <input type="radio" name="options" value="day" autocomplete="off" > Day
+ <!--  <label class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder"> <input type="radio" name="options" value="day" autocomplete="off" > Day
   	</label>
     <label class="btn btn-primary btn-sm nobgnoborder"> <input type="radio" name="options" value="week" autocomplete="off" >Week
   	</label>
@@ -217,7 +217,7 @@ if(f.exists() && !f.isDirectory()) {
   	</label>
     <label class="btn btn-primary btn-sm text-center nobgnoborder">Year <input type="radio" name="options" value="year" autocomplete="off" >
   	</label>
-    <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label>
+    <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
   </div>
 
   <!-- Day Week Month Year <b id="custom" class="text-primary">Custom</b> -->
