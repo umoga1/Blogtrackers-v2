@@ -66,11 +66,9 @@ public class AddTracker extends HttpServlet {
 				
 				DbConnection db = new DbConnection();
 					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+resp.get("id")+"' ");
-					
-					 
-					 
+					 			 
 					 if(tracker.size()>0){
-						
+						 
 						 	 ArrayList hd = (ArrayList)tracker.get(0);
 						 	 String que = hd.get(5).toString();
 						 	 
@@ -100,12 +98,12 @@ public class AddTracker extends HttpServlet {
 							String id = resp.getString("id");
 							
 							LocalDateTime now = LocalDateTime.now();
-							
-							System.out.println(session.getAttribute(key).toString());
+						
 					
 							String checkBlog = "SELECT * FROM blogsites WHERE blogsite_url='"+site+"'";
 							ArrayList result = db.query(checkBlog);
-							if(result.size()<0) {
+							
+							if(result.size()<1) {
 							String query="INSERT INTO blogsites(blogsite_name,blogsite_url,site_type) VALUES('"+site+"', '"+site+"', 11)";
 							db.updateTable(query);
 							
@@ -113,8 +111,9 @@ public class AddTracker extends HttpServlet {
 							
 							pww.write("Updating the tracker table ...\n");
 							}
-							blogsite = db.query("SELECT * FROM blogsites ORDER BY blogsite_id DESC LIMIT 1");
-							
+							//blogsite = db.query("SELECT * FROM blogsites ORDER BY blogsite_id DESC LIMIT 1");
+							blogsite = db.query("SELECT * FROM blogsites WHERE blogsite_url='"+site+"'");
+							System.out.println(blogsite);
 							ArrayList blog_result = (ArrayList)blogsite.get(0);
 							System.out.println(blog_result);
 							String blog_id = blog_result.get(0).toString();
@@ -133,6 +132,7 @@ public class AddTracker extends HttpServlet {
 				pww.write("successful request");
 			
 			}catch(Exception ex) {
+				ex.printStackTrace();
 				pww.write("invalid request");
 			}
 		}

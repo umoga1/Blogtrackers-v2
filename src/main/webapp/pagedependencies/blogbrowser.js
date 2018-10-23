@@ -271,6 +271,8 @@ $.each(classes, function(index, item) {
 	    }
 	});
 
+var allsel = $("#selected_blogs_").val();
+selected_blogs = allsel.split(",");
 if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 	trackingblog=false;
 }else{
@@ -297,50 +299,52 @@ $(this).attr("data-original-title","Remove Blog from Tracker");
 
 
 //console.log("Added blog to be tracked");
-
-
-if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
-		    // the element is not in the array
-		selected_blogs[looper] = blog_id;
 		
-		blogname = $(".blogname-"+blog_id);
-		blogname = $(blogname)[0];
-		blogname = $(blogname).text();
-		$("#selected_blog_list").append('<button class="col-md-9 btn text-left text-white bold-text blogselection mt10 pt10 pb10 blogg_'+blog_id+'" id="blogg_'+blog_id+'">'+blogname+'<i class="fas fa-trash float-right hidden deleteblog" id="'+blog_id+'"></i></button><br/>');
-		/*
-		$.getScript( app_url+"pagedependencies/blogbrowser.js", function( data, textStatus, jqxhr ) {				
-			
-		});
-		*/
-		$(".blog_id_"+blog_id).addClass("text-success");
-		looper++;
-		trackscount++;
 		
-		var blgs = $(".blogselection");
-		console.log("total here"+blgs.length);
-		trackscount = blgs.length;
-		$(".total_selected").text(blgs.length);
-		
-		var allblogs = [] ;    
-		var k = 0; var j=0;
-		var all_blogs = "";
-		blgs.each(function(i,e)
-			      {
-			   		// allblogs[i] = $(this).text();
-			   		 id = $(this).attr('id');
-			   		 if (id.indexOf("blogg")>-1) {
-			   		        blog_id = id.split("_");
-			   		        blog_id = blog_id[blog_id.length-1];
-				   		     if(k< blgs.length-1){
-				   	    		all_blogs+=blog_id+",";
-				   	    	}else{
-				   	    		all_blogs+=blog_id;
-				   	    	}
-				   		     k++;
-			   		 }
-		});
-		setSelected(all_blogs);
-};
+		if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
+				    // the element is not in the array
+				selected_blogs[looper] = blog_id;
+				
+				blogname = $(".blogname-"+blog_id);
+				blogname = $(blogname)[0];
+				blogname = $(blogname).text();
+				$("#selected_blog_list").append('<button class="col-md-9 btn text-left text-white bold-text blogselection mt10 pt10 pb10 blogg_'+blog_id+'" id="blogg_'+blog_id+'">'+blogname+'<i class="fas fa-trash float-right hidden deleteblog" id="'+blog_id+'"></i></button><br/>');
+				/*
+				$.getScript( app_url+"pagedependencies/blogbrowser.js", function( data, textStatus, jqxhr ) {				
+					
+				});
+				*/
+				$(".blog_id_"+blog_id).addClass("text-success");
+				looper++;
+				trackscount++;
+				
+				var blgs = $(".blogselection");
+				console.log("total here"+blgs.length);
+				trackscount = blgs.length;
+				$(".total_selected").text(blgs.length);
+				
+				var allblogs = [] ;    
+				var k = 0; var j=0;
+				var all_blogs = "";
+				blgs.each(function(i,e)
+					      {
+					   		// allblogs[i] = $(this).text();
+					   		 id = $(this).attr('id');
+					   		 if (id.indexOf("blogg")>-1) {
+					   		        blog_id = id.split("_");
+					   		        blog_id = blog_id[blog_id.length-1];
+						   		     if(k< blgs.length-1){
+						   	    		all_blogs+=blog_id+",";
+						   	    	}else{
+						   	    		all_blogs+=blog_id;
+						   	    	}
+						   		     k++;
+					   		 }
+				});
+				$("#selected_blogs_").val(all_blogs);
+				console.log("selected blogs here:"+selected_blogs);
+				setSelected(all_blogs);
+		};
 
 
 //console.log(selected_blogs);
@@ -559,7 +563,7 @@ function updateTracker(element,type){
 	   		 }
 	     });
 	   	 
-	   	console.log("All blogs:"+all_blogs);
+	  
 	   	id = $(element).attr('id');	   		 
 		    $.ajax({
 				url: app_url+'tracker',

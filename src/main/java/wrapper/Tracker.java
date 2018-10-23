@@ -60,7 +60,7 @@ public class Tracker extends HttpServlet {
 		 PrintWriter pww = response.getWriter();
 		 HttpSession session = request.getSession();
 			
-		String username = session.getAttribute("username").toString();
+		String username = (null == session.getAttribute("username")) ? "" : session.getAttribute("username").toString();
 		
         String tracker_name = (null==request.getParameter("name"))?"":request.getParameter("name").replaceAll("\\<.*?\\>", "");
         String description = (null==request.getParameter("description"))?"":request.getParameter("description").replaceAll("\\<.*?\\>", "");

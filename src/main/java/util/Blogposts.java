@@ -24,7 +24,7 @@ public class Blogposts {
 
 	HashMap<String, String> hm = DbConnection.loadConstant();		
 
-//	String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
+	//String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
 	String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
 	
 	String totalpost;
@@ -115,6 +115,53 @@ public class Blogposts {
 		return this._getResult(url, jsonObj);
 	}
 	
+	
+	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids,String sort,String order) throws Exception {
+		String url = base_url+"_search?size=200";
+		String[] args = blog_ids.split(","); 
+		JSONArray pars = new JSONArray(); 
+		ArrayList<String> ar = new ArrayList<String>();	
+		for(int i=0; i<args.length; i++){
+			pars.put(args[i].replaceAll(" ", ""));
+		}
+
+		String arg2 = pars.toString();
+		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
+		String que="{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"bool\": {\r\n" + 
+				"      \"must\": [\r\n" + 
+				"        {\r\n" + 
+				"		  \"constant_score\":{\r\n" + 
+				"					\"filter\":{\r\n" + 
+				"							\"terms\":{\r\n" + 
+				"							\"blogsite_id\":"+arg2+"\r\n" + 
+				"									}\r\n" + 
+				"							}\r\n" + 
+				"						}\r\n" + 
+				"		},\r\n" + 
+				"        {\r\n" + 
+				"		  \"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"      ]\r\n" + 
+				"    }\r\n" +  
+				"  },\r\n" + 
+				"	\"sort\":{\r\n" + 
+				"		\""+sort+"\":{\r\n" + 
+				"			\"order\":\""+order+"\"\r\n" + 
+				"			}\r\n" + 
+				"		}\r\n" +
+				"}";
+
+		JSONObject jsonObj = new JSONObject(que);
+		ArrayList result =  this._getResult(url, jsonObj);
+		return this._getResult(url, jsonObj);
+	}
 	public String _getDate(String blog_ids,String type) throws Exception {
 		String url = base_url+"_search?size=1";
 		String dt = "";
@@ -558,32 +605,82 @@ public class Blogposts {
 	}
 	
 	public JSONArray _sortJson(JSONArray yearsarray) {
-	JSONArray sortedyearsarray = new JSONArray();
-	List<String> jsonList = new ArrayList<String>();
-	for (int i = 0; i < yearsarray.length(); i++) {
-	    jsonList.add(yearsarray.get(i).toString());
-	}
+		JSONArray sortedyearsarray = new JSONArray();
+		List<String> jsonList = new ArrayList<String>();
+		for (int i = 0; i < yearsarray.length(); i++) {
+		    jsonList.add(yearsarray.get(i).toString());
+		}
+		
+		Collections.sort( jsonList, new Comparator<String>() {
+		    public int compare(String a, String b) {
+		        String valA = new String();
+		        String valB = new String();
 	
-	Collections.sort( jsonList, new Comparator<String>() {
-	    public int compare(String a, String b) {
-	        String valA = new String();
-	        String valB = new String();
-
-	        try {
-	            valA = (String) a;
-	            valB = (String) b;
-	        } 
-	        catch (Exception e) {
-	            //do something
-	        }
-	        return valA.compareTo(valB);
-	    }
-	});
-	
-	for (int i = 0; i < yearsarray.length(); i++) {
-	    sortedyearsarray.put(jsonList.get(i));
-	}
+		        try {
+		            valA = (String) a;
+		            valB = (String) b;
+		        } 
+		        catch (Exception e) {
+		            //do something
+		        }
+		        return valA.compareTo(valB);
+		    }
+		});
+		
+		for (int i = 0; i < yearsarray.length(); i++) {
+		    sortedyearsarray.put(jsonList.get(i));
+		}
 		return sortedyearsarray;
 	}
+	
+	public int monthsBetweenDates(Date startDate, Date endDate){
+
+	        Calendar start = Calendar.getInstance();
+	        start.setTime(startDate);
+	
+	        Calendar end = Calendar.getInstance();
+	        end.setTime(endDate);
+
+          	int monthsBetween = 0;
+            int dateDiff = end.get(Calendar.DAY_OF_MONTH)-start.get(Calendar.DAY_OF_MONTH);      
+
+            if(dateDiff<0) {
+	                int borrrow = end.getActualMaximum(Calendar.DAY_OF_MONTH);           
+	                 dateDiff = (end.get(Calendar.DAY_OF_MONTH)+borrrow)-start.get(Calendar.DAY_OF_MONTH);
+	                 monthsBetween--;
+	
+	                 if(dateDiff>0) {
+	                     monthsBetween++;
+	                 }
+            }
+            else {
+                monthsBetween++;
+            }      
+	            monthsBetween += end.get(Calendar.MONTH)-start.get(Calendar.MONTH);      
+	            monthsBetween  += (end.get(Calendar.YEAR)-start.get(Calendar.YEAR))*12;      
+	            return monthsBetween;
+     }
+	/*
+	public  Date addDay(Date date, int i) {
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(date);
+	        cal.add(Calendar.DAY_OF_YEAR, i);
+	        return cal.getTime();
+	}
+	
+    public  Date addMonth(Date date, int i) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, i);
+        return cal.getTime();
+    }
+    
+    public Date addYear(Date date, int i) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.YEAR, i);
+        return cal.getTime();
+    }
+    */
 
 }
