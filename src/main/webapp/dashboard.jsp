@@ -3154,7 +3154,7 @@ data = {
 	/* End of sorting   */
 	  bloggers = alldata;
 	  
-	  data = {   bloggers  } 
+	  data = {  bloggers } 
 
 
 
