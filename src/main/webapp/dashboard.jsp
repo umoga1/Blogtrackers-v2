@@ -3572,7 +3572,7 @@ $(".option-lable").on("click",function(e){
              .attr("width", width + margin.left + margin.right)
              .attr("height", height + margin.top + margin.bottom)
              .append("g")
-                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
 
@@ -3801,20 +3801,27 @@ $(".option-lable").on("click",function(e){
                       // data.map(function(d){})
                       if(data.length == 1)
                       {
-                        // Add line
+                      // Add line
+                      //0console.log(svg.selectAll(".tick"))
+                     // tick = svg.select(".d3-axis-horizontal").selectAll(".tick")
+                     // console.log(tick)
+                      //var transform = d3.transform(tick.attr("transform")).translate;
+                      //console.log(transform);
                       var path = svg.selectAll('.d3-line')
                                 .data(data)
                                 .enter()
                                 .append("g")
                                 .append("path")
                                 .attr("class", "d3-line d3-line-medium")
+                                .attr("transform", "translate(0,0)")
                                 .attr("d", line)
                                 // .style("fill", "rgba(0,0,0,0.54)")
                                 .style("stroke-width",2)
                                 .style("stroke", "17394C")
-                                 .attr("transform", "translate("+margin.left/4.7+",0)");
+                                //.attr("transform", "translate("+margin.left/4.7+",0)");
+                                // .attr("transform", "translate(40,0)");
                         
-                      $(element).bind('inview', function (event, visible) {
+                    /*   $(element).bind('inview', function (event, visible) {
                     	  if (visible == true) {
                     		  path.select("path")
                     		  .transition()
@@ -3825,7 +3832,7 @@ $(".option-lable").on("click",function(e){
                     		  //svg.selectAll("text")
                               //.style("font-size", 0)
                     	  }
-                    	});
+                    	}); */
                       function tweenDash() {
                           var l = this.getTotalLength(),
                               i = d3.interpolateString("0," + l, l + "," + l);
@@ -3834,13 +3841,15 @@ $(".option-lable").on("click",function(e){
                                 // .datum(data)
 
                        // add point
-                        circles = svg.selectAll(".circle-point")
+                        circles = svg.append("g").attr("transform", "translate(0,0)")
+                        		  .selectAll(".circle-point")
                                   .data(data[0])
                                   .enter();
 
 
                               circles
                               // .enter()
+                              
                               .append("circle")
                               .attr("class","circle-point")
                               .attr("r",3.4)
@@ -3849,7 +3858,7 @@ $(".option-lable").on("click",function(e){
                               .attr("cx",function(d) { return x(d.date); })
                               .attr("cy", function(d){return y(d.close)})
 
-                              .attr("transform", "translate("+margin.left/4.7+",0)");
+                              //.attr("transform", "translate("+margin.left/4.7+",0)");
 
                               svg.selectAll(".circle-point").data(data[0])
                               .on("mouseover",tip.show)
@@ -3887,7 +3896,7 @@ $(".option-lable").on("click",function(e){
                            // console.log(data);
 
                               var mergedarray = [].concat(...data);
-                               // console.log(mergedarray)
+                                //console.log(mergedarray);
                                  circles = svg.selectAll(".circle-point")
                                      .data(mergedarray)
                                      .enter();
@@ -3907,9 +3916,7 @@ $(".option-lable").on("click",function(e){
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
                                       .on("click",function(d){console.log(d.date)});
-                                 //                         svg.call(tip)
-
-                               //console.log(newi);
+                                 
 
 
                                      svg.selectAll(".circle-point").data(mergedarray)
@@ -3949,7 +3956,7 @@ $(".option-lable").on("click",function(e){
 
 
 
-
+					
 
                      // Add text label
                      verticalAxis.append("text")
