@@ -159,7 +159,7 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Personal
-										Content - Post <%=postno%></h5>
+										Content - Post #<%=postno%></h5>
 									<div class="personalcontent2"></div>
 								</div>
 							</div>
@@ -167,7 +167,7 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Time
-										Orientation - Post <%=postno%></h5>
+										Orientation - Post #<%=postno%></h5>
 									<div class="timeorientation2"></div>
 								</div>
 							</div>
@@ -175,7 +175,7 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Core
-										Drive and Need - Post <%=postno%></h5>
+										Drive and Need - Post #<%=postno%></h5>
 									<div class="coredriveandneed2"></div>
 								</div>
 							</div>
@@ -183,7 +183,7 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Cognitive
-										Process - Post <%=postno%></h5>
+										Process - Post #<%=postno%></h5>
 									<div class="cognitiveprocess2"></div>
 								</div>
 							</div>
@@ -191,14 +191,14 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Summary
-										Variable - Post <%=postno%></h5>
+										Variable - Post #<%=postno%></h5>
 									<div class="summaryvariable2"></div>
 								</div>
 							</div>
 							<div class="carousel-item">
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion - Post <%=postno%></h5>
+									<h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion - Post #<%=postno%></h5>
 									<div class="sentimentemotion2"></div>
 								</div>
 							</div>

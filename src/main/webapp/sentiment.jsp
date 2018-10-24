@@ -844,12 +844,18 @@
 										    
 										    String auth = tobj.get("blogger").toString();
 										    String color="";
-										    if(i<10){
-										    	color="#CC330"+i;
-										    }else if(i>9 && i<99){
-										    	color="#EE33"+i;
-										    }else{
-										    	color="#DDD"+i;
+										    if(i%2==0){
+										    	color="#CC3300";
+										    }else if(i%3 ==0){
+										    	color="#EE33FF";
+										    }else if(i%7 ==0){
+										    	color="#28a745";
+										    }else if(i%11 ==0){
+										    	color="#3728a7";
+										    }else if(i%17 ==0){
+										    	color="#17a2b8";
+										    }else {
+										    	color="#000000";
 										    }
 										    
 										    y++;
@@ -905,7 +911,7 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Personal
-										Content - Post 1</h5>
+										Content - Post #1</h5>
 									<div class="personalcontent"></div>
 								</div>
 							</div>
@@ -913,7 +919,7 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Time
-										Orientation - Post 1</h5>
+										Orientation - Post #1</h5>
 									<div class="timeorientation"></div>
 								</div>
 							</div>
@@ -921,7 +927,7 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Core
-										Drive and Need - Post 1</h5>
+										Drive and Need - Post #1</h5>
 									<div class="coredriveandneed"></div>
 								</div>
 							</div>
@@ -929,7 +935,7 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Cognitive
-										Process - Post 1</h5>
+										Process - Post #1</h5>
 									<div class="cognitiveprocess"></div>
 								</div>
 							</div>
@@ -937,14 +943,14 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Summary
-										Variable - Post 1</h5>
+										Variable - Post #1</h5>
 									<div class="summaryvariable"></div>
 								</div>
 							</div>
 							<div class="carousel-item">
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion - Post 1</h5>
+									<h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion - Post #1</h5>
 									<div class="sentimentemotion"></div>
 								</div>
 							</div>
@@ -1090,7 +1096,7 @@
    								function() {
    	var cb = function(start, end, label) {
            //console.log(start.toISOString(), end.toISOString(), label);
-           $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+          // $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
            $('#reportrange input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY')).trigger('change');
          };
 
@@ -1142,7 +1148,7 @@
      //
    	// else{
    		// $('#reportrange span').html('${datepicked}');
-       $('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
+      // $('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
    		$('#reportrange, #custom').daterangepicker(optionSet1, cb);
    		$('#reportrange')
    		.on(
