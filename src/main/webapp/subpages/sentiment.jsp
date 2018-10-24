@@ -166,7 +166,7 @@
 							JSONObject bj = new JSONObject(bstrr);
 							bstrr = bj.get("_source").toString();
 							bj = new JSONObject(bstrr);
-							System.out.println("result eree"+bj);
+							
 							death += Integer.parseInt(bj.get("death").toString());
 							work += Integer.parseInt(bj.get("work").toString());
 							leisure+=Integer.parseInt(bj.get("leisure").toString());

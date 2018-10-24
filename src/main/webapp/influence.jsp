@@ -75,67 +75,63 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	}
 
 	ArrayList detail =new ArrayList();
-	if(tid!=""){
-		   detail = tracker._fetch(tid.toString());
-	}else{
-			detail = tracker._list("DESC","",user.toString(),"1");
+	if (tid != "") {
+		detail = tracker._fetch(tid.toString());
+	} else {
+		detail = tracker._list("DESC", "", user.toString(), "1");
 	}
-
+	
 	boolean isowner = false;
 	JSONObject obj =null;
 	String ids = "";
-	
 	if (detail.size() > 0) {
 		//String res = detail.get(0).toString();
 		ArrayList resp = (ArrayList<?>)detail.get(0);
-		/*
-		JSONObject resp = new JSONObject(res);
 
-		String resu = resp.get("_source").toString();
-		obj = new JSONObject(resu);
-		*/
 		String tracker_userid = resp.get(0).toString();
-		if (tracker_userid.equals(user.toString())) {
+		trackername = resp.get(2).toString();
+		//if (tracker_userid.equals(user.toString())) {
 			isowner = true;
-			trackername = resp.get(2).toString();
 			String query = resp.get(5).toString();//obj.get("query").toString();
 			query = query.replaceAll("blogsite_id in ", "");
 			query = query.replaceAll("\\(", "");
 			query = query.replaceAll("\\)", "");
 			ids = query;
-		}
+		//}
 	}
 	
-	
 	//Date today = new Date();
-		SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
-		SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
+	SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
 
-		SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
-		SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
-		SimpleDateFormat SMALL_MONTH_ONLY = new SimpleDateFormat("mm");
-		SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
-		SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
-		
-		String stdate = post._getDate(ids,"first");
-		String endate = post._getDate(ids,"last");
-		
-		Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
-		Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
+	SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
+	SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
+	SimpleDateFormat SMALL_MONTH_ONLY = new SimpleDateFormat("mm");
+	SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
+	SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
+	
+	String stdate = post._getDate(ids,"first");
+	String endate = post._getDate(ids,"last");
+	
+	Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
+	Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
 
-		Date nnow = new Date();  
-		  
-		String day = DAY_ONLY.format(today);
-		
-		String month = MONTH_ONLY.format(today);
-		String smallmonth = SMALL_MONTH_ONLY.format(today);
-		String year = YEAR_ONLY.format(today);
+	Date nnow = new Date();  
+	  
+	String day = DAY_ONLY.format(today);
+	
+	String month = MONTH_ONLY.format(today);
+	String smallmonth = SMALL_MONTH_ONLY.format(today);
+	String year = YEAR_ONLY.format(today);
 
-		String dispfrom = DATE_FORMAT.format(dstart);
-		String dispto = DATE_FORMAT.format(today);
+	String dispfrom = DATE_FORMAT.format(dstart);
+	String dispto = DATE_FORMAT.format(today);
+	
+	String historyfrom = DATE_FORMAT.format(dstart);
+	String historyto = DATE_FORMAT.format(today);
 
-		String dst = DATE_FORMAT2.format(dstart);
-		String dend = DATE_FORMAT2.format(today);
+	String dst = DATE_FORMAT2.format(dstart);
+	String dend = DATE_FORMAT2.format(today);
 
 		//ArrayList posts = post._list("DESC","");
 		
@@ -468,7 +464,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			<div class="col-md-6 text-right mt10">
 				<div class="text-primary demo">
 					<h6 id="reportrange">
-						Date: <span>02/21/18 - 02/28/18</span>
+							Date: <span><%=dispfrom%> - <%=dispto%></span>
 					</h6>
 				</div>
 				<div>

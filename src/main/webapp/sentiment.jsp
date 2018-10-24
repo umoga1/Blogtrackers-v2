@@ -559,7 +559,7 @@
 <link rel="stylesheet"
 	href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="assets/css/table.css" />
-<link rel="stylesheet"
+  <link rel="stylesheet"
 	href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
@@ -818,6 +818,7 @@
 						style="width: 100%">
 						<thead>
 							<tr>
+								<th class="bold-text">SN</th>
 								<th class="bold-text">Post title</th>
 								<th class="bold-text">Blogger</th>
 
@@ -854,7 +855,8 @@
 										    y++;
 					    %>
 							<tr>
-								<td><a syle="cursor:pointer" class="blogpost_link" id="<%=tobj.get("blogpost_id")%>-<%=color%>" style="color:<%=color%>">#<%=(y+1)%>: <%=tobj.get("title").toString() %></a></td>
+								<td align="center"><%=(y+1)%></td>
+								<td><a syle="cursor:pointer" class="blogpost_link" id="<%=tobj.get("blogpost_id")%>-<%=color%>" style="color:<%=color%>"><%=tobj.get("title").toString() %></a></td>
 								<td align="center"><%=tobj.get("blogger").toString() %></td>
 							</tr>
 						<% }} %>
@@ -1054,9 +1056,12 @@
        } */
      } );
 
+
+	 
      $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 320,
-          "pagingType": "simple",
+         "order": [[ 0, "asc" ]],
+         "pagingType": "simple",
         /*   dom: 'Bfrtip',
 
                     "columnDefs": [
