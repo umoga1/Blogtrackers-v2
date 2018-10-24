@@ -36,7 +36,6 @@
 		ArrayList detail = new ArrayList();
 		ArrayList termss = new ArrayList();
 		ArrayList outlinks = new ArrayList();
-		ArrayList liwcpost = new ArrayList();
 		ArrayList influentialp = new ArrayList();
 
 		Trackers tracker = new Trackers();
@@ -47,7 +46,7 @@
 			//System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
-			System.out.println("List:"+detail);
+			//System.out.println("List:"+detail);
 		}
 		
 		
@@ -176,7 +175,7 @@
 				historyto = DATE_FORMAT.format(end);
 				termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 				outlinks = outl._searchByRange("date", date_start.toString(), date_end.toString(), ids);
-
+				//liwcpost = 
 				allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
 			} else if (single.equals("day")) {
 				 dt = year + "-" + month + "-" + day;
@@ -259,13 +258,29 @@
 			//System.out.println("grapgh yeres"+yearsarray);
 		    JSONObject authors = new JSONObject();
 		    JSONArray sentimentpost = new JSONArray();
+		    JSONArray sentimentpost2 = new JSONArray();
 		    
 		    JSONArray authorcount = new JSONArray();
-		    
-		    
 			ArrayList authorlooper = new ArrayList();
 			
 			
+	if(allauthors.size()>0){
+		String tres = null;
+		JSONObject tresp = null;
+		String tresu = null;
+		JSONObject tobj = null;
+	
+		for(int i=0; i< allauthors.size(); i++){
+					tres = allauthors.get(i).toString();			
+					tresp = new JSONObject(tres);
+				    tresu = tresp.get("_source").toString();
+				    tobj = new JSONObject(tresu);	
+				    sentimentpost.put(tobj.get("blogpost_id").toString());	
+				    if(i<1){
+				    	sentimentpost2.put(tobj.get("blogpost_id").toString());	
+				    }
+			}
+		} 
 			
 			
 			JSONObject graphyearspos = new JSONObject();
@@ -283,9 +298,10 @@
 				//ystint=0;
 				//yendint = diff;
 			}
+			
 			int b=0;
 			for(int y=ystint; y<=yendint; y++){
-				/*
+					/*
 					   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
 					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
 					*/  
@@ -297,18 +313,19 @@
 					   ArrayList sentimentor = new Liwc()._searchByRange("date", dtu, dtue, sentimentpost);
 						int allposemo =0;
 						int allnegemo =0;
-						
 						if(sentimentor.size()>0){
 							for(int v=0; v<sentimentor.size();v++){
-								String bstr = sentimentor.get(v).toString();
-								JSONObject bj = new JSONObject(bstr);
-								bstr = bj.get("_source").toString();
-								bj = new JSONObject(bstr);
-								//System.out.println("result eree"+bj);
-								int posemo = Integer.parseInt(bj.get("posemo").toString());
-								int negemo = Integer.parseInt(bj.get("negemo").toString());
-								allposemo+=posemo;
-								allnegemo+=negemo;
+								//if(v<1){
+									String bstr = sentimentor.get(v).toString();
+									JSONObject bj = new JSONObject(bstr);
+									bstr = bj.get("_source").toString();
+									bj = new JSONObject(bstr);
+									//System.out.println("result eree"+bj);
+									int posemo = Integer.parseInt(bj.get("posemo").toString());
+									int negemo = Integer.parseInt(bj.get("negemo").toString());
+									allposemo+=posemo;
+									allnegemo+=negemo;
+								//}
 								
 							}
 						}
@@ -317,8 +334,8 @@
 						possentiment=allposemo+"";
 						negsentiment=allnegemo+"";
 					   
-					   graphyearspos.put(y+"",possentiment);
-					   graphyearsneg.put(y+"",possentiment);
+					   graphyearspos.put(y+"",allposemo);
+					   graphyearsneg.put(y+"",allnegemo);
 			    	   yearsarray.put(b,y);	
 			    	   b++;
 			}
@@ -418,8 +435,7 @@
 
 			int highestfrequency = 0;
 			JSONObject keys = new JSONObject();
-			if (termss.size() > 0) {
-			
+			if (termss.size() > 0) {			
 				for (int p = 0; p < termss.size(); p++) {
 					String bstr = termss.get(p).toString();
 					JSONObject bj = new JSONObject(bstr);
@@ -443,6 +459,81 @@
 				}
 			}
 			
+			ArrayList sentimentor =new ArrayList();
+			
+			int death =0;
+			int work =0;
+			int leisure =0;
+			int religion =0;
+			int home =0;
+			int money =0;
+			int focuspast=0;
+			int focuspresent =0;
+			int focusfuture=0;
+			int affiliation=0;
+			int achieve=0;
+			int risk=0;
+			int reward =0;
+			int power=0;
+			int insight=0;
+			int differ=0;
+			int cause=0;
+			int discrep=0;
+			int certain=0;
+			int tentat=0;
+			int analytic=0;
+			int tone=0;
+			int clout=0;
+			int authentic=0;
+			int posemo=0;
+			int negemo=0;
+			int anger=0;
+			int anx=0;
+			int sad=0;
+					
+		
+				ArrayList sentimentor2 = new Liwc()._searchByRange("date", dt, dte, sentimentpost2);
+				
+				if(sentimentor2.size()>0){
+					for(int v=0; v<sentimentor2.size();v++){
+						String bstr = sentimentor2.get(v).toString();
+						JSONObject bj = new JSONObject(bstr);
+						bstr = bj.get("_source").toString();
+						bj = new JSONObject(bstr);
+						//System.out.println("result eree"+bj);
+						death += Integer.parseInt(bj.get("death").toString());
+						work += Integer.parseInt(bj.get("work").toString());
+						leisure+=Integer.parseInt(bj.get("leisure").toString());
+						religion+=Integer.parseInt(bj.get("religion").toString());
+						home+=Integer.parseInt(bj.get("home").toString());
+						money+=Integer.parseInt(bj.get("money").toString());
+						
+						focuspast+=Integer.parseInt(bj.get("focuspast").toString());
+						focuspresent+=Integer.parseInt(bj.get("focuspresent").toString());
+						focusfuture+=Integer.parseInt(bj.get("focusfuture").toString());
+						affiliation+=Integer.parseInt(bj.get("affiliation").toString());
+						achieve+=Integer.parseInt(bj.get("achieve").toString());
+						risk+=Integer.parseInt(bj.get("risk").toString());
+						reward+=Integer.parseInt(bj.get("reward").toString());
+						power+=Integer.parseInt(bj.get("power").toString());
+						insight+=Integer.parseInt(bj.get("insight").toString());
+						differ+=Integer.parseInt(bj.get("differ").toString());
+						cause+=Integer.parseInt(bj.get("cause").toString());
+						discrep+=Integer.parseInt(bj.get("discrep").toString());
+						certain+=Integer.parseInt(bj.get("certain").toString());
+						tentat+=Integer.parseInt(bj.get("tentat").toString());
+						analytic+=Integer.parseInt(bj.get("analytic").toString());
+						tone+=Integer.parseInt(bj.get("tone").toString());
+						clout+=Integer.parseInt(bj.get("clout").toString());
+						authentic+=Integer.parseInt(bj.get("authentic").toString());
+						posemo+=Integer.parseInt(bj.get("posemo").toString());
+						negemo+=Integer.parseInt(bj.get("negemo").toString());
+						anger+=Integer.parseInt(bj.get("anger").toString());
+						anx+=Integer.parseInt(bj.get("anx").toString());
+						sad+=Integer.parseInt(bj.get("sad").toString());
+					}
+			} 
+						
 %>
 <!DOCTYPE html>
 <html>
@@ -751,11 +842,19 @@
 										    tobj = new JSONObject(tresu);
 										    
 										    String auth = tobj.get("blogger").toString();
-										    String lang = tobj.get("language").toString();
+										    String color="";
+										    if(i<10){
+										    	color="#CC330"+i;
+										    }else if(i>9 && i<99){
+										    	color="#EE33"+i;
+										    }else{
+										    	color="#DDD"+i;
+										    }
+										    
 										    y++;
 					    %>
 							<tr>
-								<td>#<%=(y+1)%>: <%=tobj.get("title").toString() %></td>
+								<td><a syle="cursor:pointer" class="blogpost_link" id="<%=tobj.get("blogpost_id")%>-<%=color%>" style="color:<%=color%>">#<%=(y+1)%>: <%=tobj.get("title").toString() %></a></td>
 								<td align="center"><%=tobj.get("blogger").toString() %></td>
 							</tr>
 						<% }} %>
@@ -767,9 +866,8 @@
 
 			</div>
 
-			<div
-				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
-				<div style="" class="pt20">
+			<div class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
+				<div style="" id="mainCarInd" class="pt20">
 
 
 					<!-- <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:586px;">
@@ -800,7 +898,7 @@
 								title="Sentiment/Emotion"></li>
 
 						</ol>
-						<div class="carousel-inner">
+						<div class="carousel-inner" id="carouseller">
 							<div class="carousel-item active">
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
@@ -867,7 +965,10 @@
 
 
 
-
+	<form name="date-form" action="">
+		<input type="hidden" value="<%=dt%>" id="date_from" />
+		<input type="hidden" value="<%=dte%>" id="date_to"/>
+	</form>
 
 	</div>
 
@@ -1127,138 +1228,61 @@ $(function () {
 
     var personalcontent = [
           [//iPhone
-          {axis:"Death",value:0.22},
-          {axis:"Work",value:0.28},
-          {axis:"Leisure",value:0.29},
-          {axis:"Religion",value:0.17},
-          {axis:"Home",value:0.22},
-          {axis:"Money",value:0.02}
-          ],[//Samsung
-          {axis:"Death",value:0.27},
-          {axis:"Work",value:0.16},
-          {axis:"Leisure",value:0.35},
-          {axis:"Religion",value:0.13},
-          {axis:"Home",value:0.20},
-          {axis:"Money",value:0.13}
-          ],[//Nokia Smartphone
-          {axis:"Death",value:0.26},
-          {axis:"Work",value:0.10},
-          {axis:"Leisure",value:0.30},
-          {axis:"Religion",value:0.14},
-          {axis:"Home",value:0.22},
-          {axis:"Money",value:0.04}
+          {axis:"Death",value:<%=death%>},
+          {axis:"Work",value:<%=work%>},
+          {axis:"Leisure",value:<%=leisure%>},
+          {axis:"Religion",value:<%=religion%>},
+          {axis:"Home",value:<%=home%>},
+          {axis:"Money",value:<%=money%>}
           ]
         ];
+	
 
         var timeorientation = [
               [//iPhone
-              {axis:"Past Focus",value:0.02},
-              {axis:"Present Focus",value:0.21},
-              {axis:"Future Focus",value:0.50}
-              ],[//Samsung
-
-              {axis:"Past Focus",value:0.13},
-              {axis:"Present Focus",value:0.35},
-              {axis:"Future Focus",value:0.38}
-              ],[//Nokia Smartphone
-
-              {axis:"Past Focus",value:0.04},
-              {axis:"Present Focus",value:0.41},
-              {axis:"Future Focus",value:0.30}
+              {axis:"Past Focus",value:<%=focuspast%>},
+              {axis:"Present Focus",value:<%=focuspresent%>},
+              {axis:"Future Focus",value:<%=focusfuture%>}
               ]
             ];
 
             var coredriveandneed = [
                   [//iPhone
-                  {axis:"Affiliation",value:0.22},
-                  {axis:"Achievement",value:0.28},
-                  {axis:"Risk/Prevention Focus",value:0.29},
-                  {axis:"Reward Focus",value:0.22},
-                  {axis:"Power",value:0.02},
-                  ]
-                  ,[//Samsung
-                  {axis:"Affiliation",value:0.27},
-                  {axis:"Achievement",value:0.16},
-                  {axis:"Risk/Prevention Focus",value:0.35},
-
-                  {axis:"Reward Focus",value:0.35},
-                  {axis:"Power",value:0.38}
-                  ],
-                  [//Nokia Smartphone
-                  {axis:"Affiliation",value:0.26},
-                  {axis:"Achievement",value:0.10},
-                  {axis:"Risk/Prevention Focus",value:0.30},
-                  {axis:"Reward Focus",value:0.14},
-                  {axis:"Power",value:0.22}
+                  {axis:"Affiliation",value:<%=affiliation%>},
+                  {axis:"Achievement",value:<%=achieve%>},
+                  {axis:"Risk/Prevention Focus",value:<%=risk%>},
+                  {axis:"Reward Focus",value:<%=reward%>},
+                  {axis:"Power",value:<%=power%>},
                   ]
                 ];
-
+        
                 var cognitiveprocess = [
                       [//iPhone
-                      {axis:"Insight",value:0.22},
-                      {axis:"Differentiation",value:0.28},
-                      {axis:"Cause",value:0.29},
-                      {axis:"Discrepancies",value:0.17},
-                      {axis:"Certainty",value:0.22},
-                      {axis:"Tentativeness",value:0.02}
-                      ],[//Samsung
-                      {axis:"Insight",value:0.16},
-                      {axis:"Differentiation",value:0.35},
-                      {axis:"Cause",value:0.13},
-                      {axis:"Discrepancies",value:0.20},
-                      {axis:"Certainty",value:0.13},
-                      {axis:"Tentativeness",value:0.35}
-                      ],[//Nokia Smartphone
-                      {axis:"Battery Life",value:0.26},
-                      {axis:"Brand",value:0.10},
-                      {axis:"Contract Cost",value:0.30},
-                      {axis:"Design And Quality",value:0.14},
-                      {axis:"Have Internet Connectivity",value:0.22},
-                      {axis:"Large Screen",value:0.04},
-                      {axis:"Price Of Device",value:0.41},
-                      {axis:"To Be A Smartphone",value:0.30}
+                      {axis:"Insight",value:<%=insight%>},
+                      {axis:"Differentiation",value:<%=differ%>},
+                      {axis:"Cause",value:<%=cause%>},
+                      {axis:"Discrepancies",value:<%=discrep%>},
+                      {axis:"Certainty",value:<%=certain%>},
+                      {axis:"Tentativeness",value:<%=tentat%>}
                       ]
                     ];
 
                     var summaryvariable = [
                           [//iPhone
-                          {axis:"Analytical Thinking",value:0.29},
-                          {axis:"Emotional Tone",value:0.17},
-                          {axis:"Clout",value:0.22},
-                          {axis:"Authentic",value:0.02}
-                          ],[//Samsung
-                          {axis:"Analytical Thinking",value:0.27},
-                          {axis:"Emotional Tone",value:0.16},
-                          {axis:"Clout",value:0.35},
-                          {axis:"Authentic",value:0.13}
-                          ],[//Nokia Smartphone
-                          {axis:"Analytical Thinking",value:0.22},
-                          {axis:"Emotional Tone",value:0.04},
-                          {axis:"Clout",value:0.41},
-                          {axis:"Authentic",value:0.30}
+                          {axis:"Analytical Thinking",value:<%=analytic%>},
+                          {axis:"Emotional Tone",value:<%=tone%>},
+                          {axis:"Clout",value:<%=clout%>},
+                          {axis:"Authentic",value:<%=authentic%>}
                           ]
                         ];
 
                         var sentimentemotion = [
                               [//iPhone
-                              {axis:"Positive Emotion",value:0.22},
-                              {axis:"Sadness",value:0.28},
-                              {axis:"Negative Emotion",value:0.29},
-                              {axis:"Anger",value:0.21},
-                              {axis:"Anxiety",value:0.50}
-                              ],[//Samsung
-                              {axis:"Positive Emotion",value:0.27},
-                              {axis:"Sadness",value:0.35},
-                              {axis:"Negative Emotion",value:0.20},
-                              {axis:"Anger",value:0.13},
-                              {axis:"Anxiety",value:0.35}
-                              ],[//Nokia Smartphone
-                              {axis:"Battery Life",value:0.26},
-                              {axis:"Positive Emotion",value:0.30},
-                              {axis:"Sadness",value:0.14},
-                              {axis:"Negative Emotion",value:0.22},
-                              {axis:"Anger",value:0.04},
-                              {axis:"Anxiety",value:0.41}
+                              {axis:"Positive Emotion",value:<%=posemo%>},
+                              {axis:"Sadness",value:<%=sad%>},
+                              {axis:"Negative Emotion",value:<%=anger%>},
+                              {axis:"Anger",value:<%=anger%>},
+                              {axis:"Anxiety",value:<%=anx%>}
                               ]
                             ];
     //////////////////////////////////////////////////////////////
@@ -1422,12 +1446,6 @@ $(function () {
          // data = [[{"date": "Jan","close": 120},{"date": "Feb","close": 140},{"date": "Mar","close":160},{"date": "Apr","close": 180},{"date": "May","close": 200},{"date": "Jun","close": 220},{"date": "Jul","close": 240},{"date": "Aug","close": 260},{"date": "Sep","close": 280},{"date": "Oct","close": 300},{"date": "Nov","close": 320},{"date": "Dec","close": 340}],
          // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
          // ];
-		/*
-         data = [
-           [{"date":"2014","close":350},{"date":"2015","close":700},{"date":"2016","close":1500},{"date":"2017","close":1600},{"date":"2018","close":1250}],
-           [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200},{"date":"2017","close":1200},{"date":"2018","close":2600}]
-         ];
-		*/
          data = [	
          	[<% for(int q=0; q<yearsarray.length(); q++){ 
       		  		String yer=yearsarray.get(q).toString(); 
@@ -1850,6 +1868,9 @@ $(function () {
   });
   </script>
 
+ <script src="pagedependencies/baseurl.js?v=3"></script>
+ 
+<script src="pagedependencies/sentiment.js?v=1339"></script>
 
 
 </body>
