@@ -64,7 +64,7 @@ public class Liwc {
 	}
 
 	public ArrayList _searchByRange(String field,String greater, String less, JSONArray post_ids) throws Exception {
-	
+		
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -91,7 +91,6 @@ public class Liwc {
 				"  }\r\n" + 
 				"}";
 		JSONObject jsonObj = new JSONObject(que);
-
 		String url = base_url+"_search";
 		return this._getResult(url,jsonObj);
 	}
