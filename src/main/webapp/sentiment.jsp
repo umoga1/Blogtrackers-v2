@@ -855,8 +855,8 @@
 										    y++;
 					    %>
 							<tr>
-								<td align="center"><%=(y+1)%></td>
-								<td><a syle="cursor:pointer" class="blogpost_link" id="<%=tobj.get("blogpost_id")%>-<%=color%>" style="color:<%=color%>"><%=tobj.get("title").toString() %></a></td>
+								<td align="center"><%=(y)%></td>
+								<td><a syle="cursor:pointer" class="blogpost_link" id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" style="color:<%=color%>"><%=tobj.get("title").toString() %></a></td>
 								<td align="center"><%=tobj.get("blogger").toString() %></td>
 							</tr>
 						<% }} %>
@@ -905,7 +905,7 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Personal
-										Content</h5>
+										Content - Post 1</h5>
 									<div class="personalcontent"></div>
 								</div>
 							</div>
@@ -913,7 +913,7 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Time
-										Orientation</h5>
+										Orientation - Post 1</h5>
 									<div class="timeorientation"></div>
 								</div>
 							</div>
@@ -921,7 +921,7 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Core
-										Drive and Need</h5>
+										Drive and Need - Post 1</h5>
 									<div class="coredriveandneed"></div>
 								</div>
 							</div>
@@ -929,7 +929,7 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Cognitive
-										Process</h5>
+										Process - Post 1</h5>
 									<div class="cognitiveprocess"></div>
 								</div>
 							</div>
@@ -937,14 +937,14 @@
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
 									<h5 class="text-primary p20 pt0 pb0 text-center">Summary
-										Variable</h5>
+										Variable - Post 1</h5>
 									<div class="summaryvariable"></div>
 								</div>
 							</div>
 							<div class="carousel-item">
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion</h5>
+									<h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion - Post 1</h5>
 									<div class="sentimentemotion"></div>
 								</div>
 							</div>

@@ -10,95 +10,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-
-					<!-- <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:586px;">
-          <h5 class="text-primary p20 pt0 pb0 text-center">Personal Content</h5>
-          	<div class="personalcontent"></div>
-         </div> -->
-
-					<div id="carouselExampleIndicators" class="carousel slide"
-						data-ride="carousel">
-						<ol class="carousel-indicators">
-							<li data-target="#carouselExampleIndicators" data-slide-to="0"
-								class="active" data-toggle="tooltip" data-placement="top"
-								title="Personal Content"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="1"
-								data-toggle="tooltip" data-placement="top"
-								title="Time Orientation"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="2"
-								data-toggle="tooltip" data-placement="top"
-								title="Core Drive and Need"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="3"
-								data-toggle="tooltip" data-placement="top"
-								title="Cognitive Process"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="4"
-								data-toggle="tooltip" data-placement="top"
-								title="Summary Variable"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="5"
-								data-toggle="tooltip" data-placement="top"
-								title="Sentiment/Emotion"></li>
-
-						</ol>
-						<div class="carousel-inner" id="carouseller">
-							<div class="carousel-item active">
-								<div class="p20 pt0 pb20 text-blog-content text-primary"
-									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Personal
-										Content</h5>
-									<div class="personalcontent2"></div>
-								</div>
-							</div>
-							<div class="carousel-item">
-								<div class="p20 pt0 pb20 text-blog-content text-primary"
-									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Time
-										Orientation</h5>
-									<div class="timeorientation2"></div>
-								</div>
-							</div>
-							<div class="carousel-item">
-								<div class="p20 pt0 pb20 text-blog-content text-primary"
-									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Core
-										Drive and Need</h5>
-									<div class="coredriveandneed2"></div>
-								</div>
-							</div>
-							<div class="carousel-item">
-								<div class="p20 pt0 pb20 text-blog-content text-primary"
-									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Cognitive
-										Process</h5>
-									<div class="cognitiveprocess2"></div>
-								</div>
-							</div>
-							<div class="carousel-item">
-								<div class="p20 pt0 pb20 text-blog-content text-primary"
-									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Summary
-										Variable</h5>
-									<div class="summaryvariable2"></div>
-								</div>
-							</div>
-							<div class="carousel-item">
-								<div class="p20 pt0 pb20 text-blog-content text-primary"
-									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion</h5>
-									<div class="sentimentemotion2"></div>
-								</div>
-							</div>
-						</div>
-						<a class="carousel-control-prev" href="#carouselExampleIndicators"
-							role="button" data-slide="prev"> <span
-							class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-							class="sr-only">Previous</span>
-						</a> <a class="carousel-control-next"
-							href="#carouselExampleIndicators" role="button" data-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="sr-only">Next</span>
-						</a>
-					</div>
-<%
+	<%
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 
@@ -107,7 +19,8 @@
 	String value= request.getParameter("value").replaceAll("\\<.*?\\>", "");
 	String source = request.getParameter("source").replaceAll("\\<.*?\\>", "");
 	String section = request.getParameter("section").replaceAll("\\<.*?\\>", "");
-	String color = request.getParameter("color").replaceAll("\\<.*?\\>", "");
+	String color = request.getParameter("color");
+	String postno = request.getParameter("postno");
 	String dt= request.getParameter("date_from");
 	String dte= request.getParameter("date_to");
 	
@@ -212,6 +125,95 @@
 	 }	
 
 %>
+
+					<!-- <div class="p20 pt0 pb20 text-blog-content text-primary" style="height:586px;">
+          <h5 class="text-primary p20 pt0 pb0 text-center">Personal Content</h5>
+          	<div class="personalcontent"></div>
+         </div> -->
+
+					<div id="carouselExampleIndicators" class="carousel slide"
+						data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carouselExampleIndicators" data-slide-to="0"
+								class="active" data-toggle="tooltip" data-placement="top"
+								title="Personal Content"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="1"
+								data-toggle="tooltip" data-placement="top"
+								title="Time Orientation"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="2"
+								data-toggle="tooltip" data-placement="top"
+								title="Core Drive and Need"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="3"
+								data-toggle="tooltip" data-placement="top"
+								title="Cognitive Process"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="4"
+								data-toggle="tooltip" data-placement="top"
+								title="Summary Variable"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="5"
+								data-toggle="tooltip" data-placement="top"
+								title="Sentiment/Emotion"></li>
+
+						</ol>
+						<div class="carousel-inner" id="carouseller">
+							<div class="carousel-item active">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt0 pb0 text-center">Personal
+										Content - Post <%=postno%></h5>
+									<div class="personalcontent2"></div>
+								</div>
+							</div>
+							<div class="carousel-item">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt0 pb0 text-center">Time
+										Orientation - Post <%=postno%></h5>
+									<div class="timeorientation2"></div>
+								</div>
+							</div>
+							<div class="carousel-item">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt0 pb0 text-center">Core
+										Drive and Need - Post <%=postno%></h5>
+									<div class="coredriveandneed2"></div>
+								</div>
+							</div>
+							<div class="carousel-item">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt0 pb0 text-center">Cognitive
+										Process - Post <%=postno%></h5>
+									<div class="cognitiveprocess2"></div>
+								</div>
+							</div>
+							<div class="carousel-item">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt0 pb0 text-center">Summary
+										Variable - Post <%=postno%></h5>
+									<div class="summaryvariable2"></div>
+								</div>
+							</div>
+							<div class="carousel-item">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion - Post <%=postno%></h5>
+									<div class="sentimentemotion2"></div>
+								</div>
+							</div>
+						</div>
+						<a class="carousel-control-prev" href="#carouselExampleIndicators"
+							role="button" data-slide="prev"> <span
+							class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+							class="sr-only">Previous</span>
+						</a> <a class="carousel-control-next"
+							href="#carouselExampleIndicators" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+
 
 	<script>
 $(function () {

@@ -19,6 +19,7 @@ $('.blogpost_link').on("click", function(){
 			section:"time_orientation",
 			date_from:$("#date_from").val(),
 			date_to:$("#date_to").val(),
+			postno:post_id[2],
 			color:post_id[1]
 		},
 		error: function(response)
