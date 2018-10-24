@@ -1,5 +1,6 @@
 
 package handler;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -51,10 +52,24 @@ public class AddTracker extends HttpServlet {
 		HttpSession session = request.getSession();
 		String usession = (null==request.getHeader("session"))?"":request.getHeader("session").trim();
 		String key= (null == session.getAttribute("key")) ? "" : session.getAttribute("key").toString();
-		String data = (null == request.getParameter("data"))? "" : request.getParameter("data").trim();
+		//String data = (null == request.getParameter("data"))? "" : request.getParameter("data").trim();
 		
 		PrintWriter pww = response.getWriter();
 		
+		  String data = "";   
+		    StringBuilder builder = new StringBuilder();
+		    BufferedReader reader = request.getReader();
+		    String line;
+		    while ((line = reader.readLine()) != null) {
+		        builder.append(line);
+		    }
+		    data = builder.toString();
+		    JSONObject object = new JSONObject(data);
+		    
+		   // System.out.println("The id is " + object.get("id"));
+		   // System.out.println("The site is " + object.get("site"));
+		    
+		    
 		if(usession.equals(key) && !key.equals("")){ //check if supplied session key is valid
 			
 			try {
@@ -65,8 +80,8 @@ public class AddTracker extends HttpServlet {
 				
 				
 				DbConnection db = new DbConnection();
-					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+resp.get("id")+"' ");
-					 			 
+					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+object.get("id")+"' ");
+					
 					 if(tracker.size()>0){
 						 
 						 	 ArrayList hd = (ArrayList)tracker.get(0);
@@ -85,37 +100,38 @@ public class AddTracker extends HttpServlet {
 							 
 							 String mergedblogs = "";
 							 
-							 jblog.put(resp.get("site").toString(), resp.get("site").toString());
+							 jblog.put(object.get("site").toString(), object.get("site").toString());
 							 
 							 String[] allblogs = mergedblogs.replaceAll(",$", "").split(",");
 							 
 							 
-							int blognum = allblogs.length;
+							 int blognum = allblogs.length;
 
-							String addendum = "blogsite_id in ("+mergedblogs+")";
+							 String addendum = "blogsite_id in ("+mergedblogs+")";
 							 
-							String site = resp.getString("site");
-							String id = resp.getString("id");
+							 String site = object.get("site").toString();
+							 String id = object.get("id").toString();
 							
-							LocalDateTime now = LocalDateTime.now();
+							 LocalDateTime now = LocalDateTime.now();
 						
 					
-							String checkBlog = "SELECT * FROM blogsites WHERE blogsite_url='"+site+"'";
-							ArrayList result = db.query(checkBlog);
+							 String checkBlog = "SELECT * FROM blogsites WHERE blogsite_url='"+site+"'";
+							 ArrayList result = db.query(checkBlog);
 							
-							if(result.size()<1) {
-							String query="INSERT INTO blogsites(blogsite_name,blogsite_url,site_type) VALUES('"+site+"', '"+site+"', 11)";
-							db.updateTable(query);
+							// System.out.println(result.size());
+							 if(result.size()<1) {
+								 String query="INSERT INTO blogsites(blogsite_name,blogsite_url,site_type) VALUES('"+site+"', '"+site+"', 11)";
+								 db.updateTable(query);
 							
 							pww.write("Successfully inserted "+site+" to the blogsite table\n");
 							
 							pww.write("Updating the tracker table ...\n");
-							}
+							
 							//blogsite = db.query("SELECT * FROM blogsites ORDER BY blogsite_id DESC LIMIT 1");
 							blogsite = db.query("SELECT * FROM blogsites WHERE blogsite_url='"+site+"'");
-							System.out.println(blogsite);
+							//System.out.println(blogsite);
 							ArrayList blog_result = (ArrayList)blogsite.get(0);
-							System.out.println(blog_result);
+							//System.out.println(blog_result);
 							String blog_id = blog_result.get(0).toString();
 							
 							for(int j=0; j<blogs.length; j++) {
@@ -127,9 +143,11 @@ public class AddTracker extends HttpServlet {
 							 String updatedQuery = "blogsite_id in ("+mergedblogs+")";
 							
 							db.updateTable("UPDATE trackers SET query='"+ updatedQuery +"', date_modified='"+now+"' WHERE tid='"+tracker_id+"'");
-							
+							 }
+					 }else {
+						 pww.write("invalid tracker id");
 					 }
-				pww.write("successful request");
+				//pww.write("successful request");
 			
 			}catch(Exception ex) {
 				ex.printStackTrace();
