@@ -31,6 +31,8 @@ $('.blogpost_link').on("click", function(){
 		{   
 			console.log(response);
 			$("#mainCarInd").html(response);
+			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
+			  });*/
 		}
 	});
 	
