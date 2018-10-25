@@ -1222,7 +1222,7 @@
 	<script src="assets/vendors/radarchart/radarChart.js"></script>
 	<script>
 $(function () {
-    /* Radar chart design created by Nadieh Bremer - VisualCinnamon.com */
+    
 
     //////////////////////////////////////////////////////////////
     //////////////////////// Set-Up //////////////////////////////

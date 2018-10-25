@@ -3561,7 +3561,8 @@ $(".option-lable").on("click",function(e){
 
          // Horizontal
          var x = d3.scale.ordinal()
-             .rangeRoundBands([0, width], .72, .5);
+             //.rangeRoundBands([0, width], .72, .5);
+         .rangeRoundBands([0, width]);
 
          // Vertical
          var y = d3.scale.linear()
@@ -3587,7 +3588,7 @@ $(".option-lable").on("click",function(e){
              .orient("left")
              .ticks(6);
 
-
+        
 
          // Create chart
          // ------------------------------
@@ -3829,6 +3830,8 @@ $(".option-lable").on("click",function(e){
                       // data.map(function(d){})
                       if(data.length == 1)
                       {
+                    	  
+                    	
                       // Add line
                       //0console.log(svg.selectAll(".tick"))
                      // tick = svg.select(".d3-axis-horizontal").selectAll(".tick")
@@ -3839,9 +3842,11 @@ $(".option-lable").on("click",function(e){
                                 .data(data)
                                 .enter()
                                 .append("g")
+                                .attr("class","linecontainer")
+                               // .attr("transform", "translate(106,0)")
                                 .append("path")
                                 .attr("class", "d3-line d3-line-medium")
-                                .attr("transform", "translate(0,0)")
+                                //.attr("transform", "translate("+129.5/6+",0)")
                                 .attr("d", line)
                                 // .style("fill", "rgba(0,0,0,0.54)")
                                 .style("stroke-width",2)
@@ -3867,9 +3872,20 @@ $(".option-lable").on("click",function(e){
                           return function (t) { return i(t); };
                       }
                                 // .datum(data)
-
+                     // firsttick =  return x(d.date[0]);
+                       //         console.log(firsttick);
                        // add point
-                        circles = svg.append("g").attr("transform", "translate(0,0)")
+                       
+                       //svg.call(xAxis).selectAll(".tick").each(function(tickdata) {
+                        // var tick = svg.call(xAxis).selectAll(".tick").style("stroke",0);
+                         //console.log(tick);
+                          // pull the transform data out of the tick
+                         //var transform = d3.transform(tick[0].g.attr("transform")).translate;
+                          //console.log(tick);
+                         // console.log("each tick", tickdata, transform); 
+                      // });
+                        circles =  svg.append("g").attr("class","circlecontainer")
+                                 // .attr("transform", "translate("+106+",0)")
                         		  .selectAll(".circle-point")
                                   .data(data[0])
                                   .enter();
@@ -3880,7 +3896,7 @@ $(".option-lable").on("click",function(e){
                               
                               .append("circle")
                               .attr("class","circle-point")
-                              .attr("r",3.4)
+                              .attr("r",3.0)
                               .style("stroke", "#4CAF50")
                               .style("fill","#4CAF50")
                               .attr("cx",function(d) { return x(d.date); })
@@ -3996,6 +4012,17 @@ $(".option-lable").on("click",function(e){
                          .style("font-size", 12)
                          // .text("Frequency")
                          ;
+                     
+                     if(data.length == 1 )
+                    	 {
+                    	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+                        transformfirsttick =  tick[0][0].attributes[1].value;
+                        //transformfirsttick = "translate(31.5,0)"
+                        console.log(transformfirsttick);
+                        svg.select(".circlecontainer").attr("transform", transformfirsttick);
+                        svg.select(".linecontainer").attr("transform", transformfirsttick);
+                    	 }
+                    
 
 
 
@@ -4042,7 +4069,7 @@ $(".option-lable").on("click",function(e){
            // // -------------------------
            //
            // // Horizontal range
-           x.rangeRoundBands([0, width],.72,.5);
+           x.rangeRoundBands([0, width]);
            //
            // // Horizontal axis
            svg.selectAll('.d3-axis-horizontal').call(xAxis);
@@ -4059,6 +4086,16 @@ $(".option-lable").on("click",function(e){
              svg.selectAll(".circle-point")
              .attr("cx",function(d) { return x(d.date);})
              .attr("cy", function(d){return y(d.close)});
+             
+             if(data.length == 1 )
+        	 {
+        	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+            transformfirsttick =  tick[0][0].attributes[1].value;
+            //transformfirsttick = "translate(31.5,0)"
+            console.log(transformfirsttick);
+            svg.select(".circlecontainer").attr("transform", transformfirsttick);
+            svg.select(".linecontainer").attr("transform", transformfirsttick);
+        	 }
 
 
            //
