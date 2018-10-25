@@ -1121,22 +1121,16 @@ userinfo = (ArrayList<?>)userinfo.get(0);
            [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200},{"date":"2017","close":1200},{"date":"2018","close":2600}]
          ];
 		*/
-         data = [<% for(int p=0; p<authorcount.length(); p++){ 
+		data = [<% for(int p=0; p<authorcount.length(); p++){ 
  	  		String au = authorcount.get(p).toString();
  	  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
  	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
-<<<<<<< HEAD
- 		  		 String yearss=yearsarray.get(q).toString(); 
- 		  		if(specific_auth.has(yearss)){ %>
- 		  			{"date":"<%=yearss%>","close":<%=specific_auth.get(yearss) %>},
-=======
  		  		String yer=yearsarray.get(q).toString(); 
  		  		if(specific_auth.has(yer)){ %>
  		  			{"date":"<%=year%>","close":<%=specific_auth.get(yer) %>},
->>>>>>> ad5ca252a1f49f3b402322457f355b4f63a209e0
  			<%
  		  		}else{ %>
- 		  			{"date":"<%=yearss%>","close":0},
+ 		  			{"date":"<%=year%>","close":0},
  	   		<% } %>
  		<%  
  	  		}%>]<% if(p<authorcount.length()-1){%>,<%}%>
