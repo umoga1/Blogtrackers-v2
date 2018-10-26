@@ -14,15 +14,12 @@
 <%
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
-
 	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 	Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
-	
-	//System.out.println(date_start);
 	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
 	} else {
@@ -177,6 +174,7 @@
 				outlinks = outl._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 				//liwcpost = 
 				allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
+				
 			} else if (single.equals("day")) {
 				 dt = year + "-" + month + "-" + day;
 				
@@ -186,7 +184,7 @@
 				termss = term._searchByRange("date", dt, dt, ids);
 				outlinks = outl._searchByRange("date", dt, dt, ids);
 
-				allauthors=post._getBloggerByBlogId("date",dt, dt,ids,"influence_score","DESC");
+				allauthors = post._getBloggerByBlogId("date",dt, dt,ids,"influence_score","DESC");
 					
 			} else if (single.equals("week")) {
 				
@@ -500,7 +498,8 @@
 						JSONObject bj = new JSONObject(bstr);
 						bstr = bj.get("_source").toString();
 						bj = new JSONObject(bstr);
-						//System.out.println("result eree"+bj);
+						System.out.println("result eree"+bj);
+						
 						death += Integer.parseInt(bj.get("death").toString());
 						work += Integer.parseInt(bj.get("work").toString());
 						leisure+=Integer.parseInt(bj.get("leisure").toString());
@@ -807,8 +806,7 @@
 				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
 				<div class="card-body p0 pt20 pb20" style="min-height: 320px;">
 					<p>
-						Influential Blog Posts of <b class="text-blue"><%=mostactiveblogger%></b> and <b
-							class="text-success"><%=secondactiveblogger%></b>
+						Blog Posts <b class="text-blue"><%=mostactiveblogger%></b>
 					</p>
 					<!-- <div class="p15 pb5 pt0" role="group">
           Export Options
@@ -1752,7 +1750,8 @@ $(function () {
                                        svg.selectAll(".circle-point").data(mergedarray)
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
-                                      .on("click",function(d){console.log(d.date)});
+                                      .on("click",function(d){						
+                                          console.log(d.date)});
                                  //                         svg.call(tip)
 
                                //console.log(newi);
@@ -1761,7 +1760,7 @@ $(function () {
                                      svg.selectAll(".circle-point").data(mergedarray)
                                      .on("mouseover",tip.show)
                                      .on("mouseout",tip.hide)
-                                     .on("click",function(d){console.log(d.date)});
+                                     .on("click",function(d){console.log("The clicked date is "+d.date)});
                                                         svg.call(tip)
 
 
