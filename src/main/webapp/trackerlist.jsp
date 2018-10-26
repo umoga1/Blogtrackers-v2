@@ -52,7 +52,7 @@
 			String term = (null == request.getParameter("term")) ? "" : request.getParameter("term");
 			ArrayList results = null;
 			if (term.equals("")) {
-				results = tracker._list("DESC", "", username, "10");
+				results = tracker._list("DESC", "", username, "30");
 			} else {
 				results = tracker._search(term, "");
 			}

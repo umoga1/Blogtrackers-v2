@@ -498,7 +498,8 @@
 						JSONObject bj = new JSONObject(bstr);
 						bstr = bj.get("_source").toString();
 						bj = new JSONObject(bstr);
-						//System.out.println("result eree"+bj);
+						System.out.println("result eree"+bj);
+						
 						death += Integer.parseInt(bj.get("death").toString());
 						work += Integer.parseInt(bj.get("work").toString());
 						leisure+=Integer.parseInt(bj.get("leisure").toString());
@@ -1749,7 +1750,8 @@ $(function () {
                                        svg.selectAll(".circle-point").data(mergedarray)
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
-                                      .on("click",function(d){console.log(d.date)});
+                                      .on("click",function(d){						
+                                          console.log(d.date)});
                                  //                         svg.call(tip)
 
                                //console.log(newi);
@@ -1758,7 +1760,7 @@ $(function () {
                                      svg.selectAll(".circle-point").data(mergedarray)
                                      .on("mouseover",tip.show)
                                      .on("mouseout",tip.hide)
-                                     .on("click",function(d){console.log(d.date)});
+                                     .on("click",function(d){console.log("The clicked date is "+d.date)});
                                                         svg.call(tip)
 
 

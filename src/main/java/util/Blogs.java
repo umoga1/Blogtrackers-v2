@@ -86,7 +86,7 @@ public class Blogs extends DbConnection{
 			jsonObj = new JSONObject("{\r\n" + 
 					"  \"query\": {\r\n" + 
 					"        \"query_string\" : {\r\n" + 
-					"            \"fields\" : [\"blogsite_name\",\"blogsite_authors\"],\r\n" +
+					"            \"fields\" : [\"blogsite_name\",\"blogsite_name\"],\r\n" +
 					"            \"query\" : \""+term+"\"\r\n" + 
 					"        }\r\n" + 
 					"  },\r\n" + 

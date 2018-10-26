@@ -480,7 +480,7 @@
 					bresu = bresp.get("_source").toString();
 					bobj = new JSONObject(bresu);
 					
-					String blogger = bobj.get("blogsite_owner").toString();
+					String blogger = bobj.get("blogsite_name").toString();
 					String blogname = bobj.get("blogsite_name").toString();
 					//System.out.println("blogger here+"+blogger);
 					String sentiment = "1";// bobj.get("sentiment").toString();
