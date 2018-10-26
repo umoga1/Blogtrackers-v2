@@ -132,17 +132,25 @@ $(function () {
                .html(function(d) {
                  if(d.type === "blogger")
                  {
-                   return d.letter+" ("+formatNumber(d.frequency)+")<br/> Blogger: "+d.name;
+                   return "Blogger Name: "+toTitleCase(d.name)+ "<br/>Total Blogposts: "+formatNumber(d.frequency) 
                  }
 
                  if(d.type === "blog")
                  {
-                   return d.letter+" ("+formatNumber(d.frequency)+")<br/> Blog: "+d.name;
+                   return "Blog Name: "+toTitleCase(d.name)+ "<br/>Total Blogposts: "+formatNumber(d.frequency) 
                  }
 
                });
-
       
+
+        function toTitleCase(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        }
         function formatNumber(num) {
          	  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
          	}

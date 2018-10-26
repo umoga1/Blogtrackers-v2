@@ -1885,7 +1885,7 @@ $(function () {
                .html(function(d) {
                  if(d.type === "blogger")
                  {
-                   return d.letter+" ("+d.frequency+")<br/> Blogger: "+d.name;
+                   return "Blogger Name: "+d.name+"<br/> Influence Score: "+d.frequency;
                  }
 
                  if(d.type === "blog")
@@ -2155,7 +2155,7 @@ $(function () {
 							int size = Integer.parseInt(resu.get("postingfreq").toString());
 							if (size > 0 && p < 10) {
 								p++;%>
-    							{letter:"<%=resu.get("blog").toString().toLowerCase()%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+    							{letter:"<%=resu.get("blog").toString().toLowerCase()%>", frequency:<%=size%>, name:"<%=resu.get("blogger").toString().toLowerCase()%>", type:"blogger"},
     		 <% 			}
 					}
 				}
@@ -2178,7 +2178,8 @@ $(function () {
                  if(d.type === "blogger")
                  {
                 	 thefrequency = formatNumber(d.frequency); 
-                   return d.letter+" ("+thefrequency+")<br/> Blogger: "+d.name;
+                   return "Blog Name: "+toTitleCase(d.letter)+"<br/> Total Blogposts: "+ thefrequency
+                   //d.letter+" ("+thefrequency+")<br/> Blogger: "+d.name;
                  }
 
                  if(d.type === "blog")
@@ -2192,6 +2193,14 @@ $(function () {
         function formatNumber(num) {
         	  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
         	}
+        function toTitleCase(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        }
 
            // Initialize tooltip
            svg.call(tip);
