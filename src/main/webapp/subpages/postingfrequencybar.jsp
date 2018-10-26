@@ -132,16 +132,20 @@ $(function () {
                .html(function(d) {
                  if(d.type === "blogger")
                  {
-                   return d.letter+" ("+d.frequency+")<br/> Blogger: "+d.name;
+                   return d.letter+" ("+formatNumber(d.frequency)+")<br/> Blogger: "+d.name;
                  }
 
                  if(d.type === "blog")
                  {
-                   return d.letter+" ("+d.frequency+")<br/> Blog: "+d.name;
+                   return d.letter+" ("+formatNumber(d.frequency)+")<br/> Blog: "+d.name;
                  }
 
                });
 
+      
+        function formatNumber(num) {
+         	  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+         	}
            // Initialize tooltip
            svg.call(tip);
 

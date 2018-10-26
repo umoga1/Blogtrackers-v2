@@ -2177,15 +2177,21 @@ $(function () {
                .html(function(d) {
                  if(d.type === "blogger")
                  {
-                   return d.letter+" ("+d.frequency+")<br/> Blogger: "+d.name;
+                	 thefrequency = formatNumber(d.frequency); 
+                   return d.letter+" ("+thefrequency+")<br/> Blogger: "+d.name;
                  }
 
                  if(d.type === "blog")
                  {
-                   return d.letter+" ("+d.frequency+")<br/> Blog: "+d.name;
+                   thefrequency = formatNumber(d.frequency); 	 
+                   return d.letter+" ("+thefrequency+")<br/> Blog: "+d.name;
                  }
 
                });
+      
+        function formatNumber(num) {
+        	  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        	}
 
            // Initialize tooltip
            svg.call(tip);
@@ -3103,7 +3109,9 @@ $(function () {
             .attr('class', 'd3-tip')
             .offset([-5, 0])
             .html(function(d) {
-                return d.label+"<br/>"+d.className + ": " + format(d.value);;
+                return "Blogger: "+d.label+"<br/>"
+                //+d.className + ": " 
+                + format(d.value) + " post(s)";
             });
 
         // Initialize tooltip
@@ -3713,11 +3721,14 @@ $(".option-lable").on("click",function(e){
                   return "No Information Available";
                 }
                 else if(d !== null) {
-                 return d.date+" ("+d.close+")<br/> Click for more information";
+                 return d.date+" ("+formatNumber(d.close)+")<br/>";
                   }
                 // return "here";
                 });
-
+         function formatNumber(num) {
+       	  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+       	}
+         
             // Initialize tooltip
             //svg.call(tip);
 
@@ -4020,7 +4031,7 @@ $(".option-lable").on("click",function(e){
                     	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
                         transformfirsttick =  tick[0][0].attributes[1].value;
                         //transformfirsttick = "translate(31.5,0)"
-                        console.log(transformfirsttick);
+                        //console.log(transformfirsttick);
                         svg.select(".circlecontainer").attr("transform", transformfirsttick);
                         svg.select(".linecontainer").attr("transform", transformfirsttick);
                     	 }
