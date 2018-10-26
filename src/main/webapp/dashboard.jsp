@@ -3109,20 +3109,28 @@ $(function () {
             .attr('class', 'd3-tip')
             .offset([-5, 0])
             .html(function(d) {
-                return "Blogger: "+d.label+"<br/>"
+                return "Blogger Name: "+toTitleCase(d.label)+"<br/> Total Blogposts: "
                 //+d.className + ": " 
-                + format(d.value) + " post(s)";
+                + format(d.value) ;
             });
 
         // Initialize tooltip
         svg.call(tip);
 
-
+        function toTitleCase(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        }
 
         // Construct chart layout
         // ------------------------------
 
         // Pack
+        
         var bubble = d3.layout.pack()
             .sort(null)
             .size([diameter, diameter])
@@ -3146,7 +3154,7 @@ data = {
 				int size = Integer.parseInt(resu.get("totalpost").toString());
 				if (size > 0 && k < 15) {
 					k++;%>
-{"label":"<%=resu.get("blogger")%>","name":"<%=resu.get("blogger")%>", "size":<%=size%>},
+{"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=size%>},
 <%}}
 		}%>
  /* {"label":"Blogger 2","name":"Obadimu Adewale", "size":2500},
@@ -3234,6 +3242,7 @@ data = {
             node.append("text")
                 .attr("dy", ".3em")
                 .style("fill", "#fff")
+                .style("text-transform","capitalize")
                 .style("font-size", 12)
                 .style("text-anchor", "middle")
                 .text(function(d) { 
@@ -3352,15 +3361,22 @@ $(function () {
             .attr('class', 'd3-tip')
             .offset([-5, 0])
             .html(function(d) {
-                return "Blog: "+d.label+"<br/>"
+                return "Blog Name: "+toTitleCase(d.label)+"<br/> Total Blogposts: "
                 //+d.className + ": " 
-                + format(d.value)+" post(s)";
+                + format(d.value);
             });
 
         // Initialize tooltip
         svg.call(tip);
 
-
+        function toTitleCase(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        }
 
         // Construct chart layout
         // ------------------------------
@@ -3390,7 +3406,7 @@ data = {
 				int size = Integer.parseInt(resu.get("totalposts").toString());
 				if (size > 0 && k < 15) {
 					k++;%>
-{"label":"<%=resu.get("blogger")%>","name":"<%=resu.get("blogger")%>", "size":<%=resu.get("totalposts")%>},
+{"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=resu.get("totalposts")%>},
 <%}
 			}
 		}%>
@@ -3467,7 +3483,9 @@ data = {
             node.append("text")
                 .attr("dy", ".3em")
                 .style("fill", "#fff")
+                .style("text-transform","lowercase")
                 .style("font-size", 12)
+                .style("text-transform","capitalize")
                 .style("text-anchor", "middle")
                 .text(function(d) { 
                 	if(d.r < 30)
