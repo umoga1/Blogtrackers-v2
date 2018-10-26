@@ -3344,7 +3344,9 @@ $(function () {
             .attr('class', 'd3-tip')
             .offset([-5, 0])
             .html(function(d) {
-                return d.label+"<br/>"+d.className + ": " + format(d.value);;
+                return "Blog: "+d.label+"<br/>"
+                //+d.className + ": " 
+                + format(d.value)+" post(s)";
             });
 
         // Initialize tooltip
