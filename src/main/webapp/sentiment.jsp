@@ -807,7 +807,7 @@
 		<div class="row m0 mt20 mb50 d-flex align-items-stretch">
 			<div
 				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
-				<div class="card-body p0 pt20 pb20" style="min-height: 320px;">
+				<div class="card-body p0 pt20 pb20" style="min-height: 320px;" id="postConainer">
 					<p>
 						Blog Posts <b class="text-blue"><%=mostactiveblogger%></b>
 					</p>
@@ -977,6 +977,7 @@
 	<form name="date-form" action="">
 		<input type="hidden" value="<%=dt%>" id="date_from" />
 		<input type="hidden" value="<%=dte%>" id="date_to"/>
+		<input type="hidden" value="<%=ids%>" id="blog_ids"/>
 	</form>
 
 	</div>
@@ -1012,6 +1013,9 @@
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
 	<script
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
+
+ <script src="pagedependencies/baseurl.js?v=3"></script>
+<script src="pagedependencies/sentiment.js?v=16339"></script>
 
 	<script>
  $(document).ready(function() {
@@ -1768,7 +1772,11 @@ $(function () {
                                      svg.selectAll(".circle-point").data(mergedarray)
                                      .on("mouseover",tip.show)
                                      .on("mouseout",tip.hide)
-                                     .on("click",function(d){console.log("The clicked date is "+d.date)});
+                                     .on("click",function(d){
+                                    	 
+                                    	 console.log("The clicked date is "+d.date);
+                                    	 loadPost(d.date);
+                                     }); 
                                                         svg.call(tip)
 
 
@@ -1887,9 +1895,6 @@ $(function () {
   });
   </script>
 
- <script src="pagedependencies/baseurl.js?v=3"></script>
- 
-<script src="pagedependencies/sentiment.js?v=1339"></script>
 
 
 </body>
