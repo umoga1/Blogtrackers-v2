@@ -715,7 +715,7 @@
 			<div class="col-md-6 text-right mt10">
 				<div class="text-primary demo">
 					<h6 id="reportrange">
-						Date: <span><%=dispfrom%> - <%=dispto%></span>
+						Date: <span><%=historyfrom%> - <%=historyto%></span>
 					</h6>
 				</div>
 				<div>
@@ -794,9 +794,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-clock icondash"></i>History
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%=historyfrom%>
-							-
-							<%=historyto%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=dispfrom%> - <%=dispto%></h3>
 					</div>
 				</div>
 			</div>
@@ -1077,16 +1075,16 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Most Influential  Blogger 	<%--	<select class="text-primary filtersort sortbyblogblogger" id="sortbyselect"><option value="blog">Blog </option><option value="blogger">Blogger</option></select>
-						  of Past <select
+								Most Influential 	<select class="text-primary filtersort sortbyblogblogger" id="swapInfluence"><option value="blogs">Blogs </option><option value="bloggers">Bloggers</option></select>
+						<%--   of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
-									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
+									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>  --%>
 							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
-							<div class="chart-container">
+							<div class="chart-container" id="influencecontainer">
 								<div class="chart" id="influencebar"></div>
 							</div>
 						</div>
@@ -1253,8 +1251,8 @@
 				if (size > 0 && k < 15) {
 					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 <%}}}%></textarea>
-			</form>
-	</form>
+</form>
+
 
 	<!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
@@ -4180,9 +4178,12 @@ $(".option-lable").on("click",function(e){
 		
 		$('#swapBlogger').on("change",function(e){
 				
-			console.log("blogger busta");
+			//console.log("blogger busta");
 			var type = $('#swapBlogger').val();
 			var blgss = $("#bloggers").val();
+			console.log(blgss);
+			
+			
 			if(type=="blogs"){
 				blgss = $("#blogs").val();
 			}else{
@@ -4212,7 +4213,42 @@ $(".option-lable").on("click",function(e){
 			});
 			
 		});
+		
+ $('#swapInfluence').on("change",function(e){
+			
+		var type = $('#swapInfluence').val();
+		
+		//var blgss = $("#bloggers").val();
+		if(type=="blogs"){
+			blgss = $("#blogs").val();
+		}else{
+			blgss = $("#bloggers").val();
+		}
+		
+		$("#influencebar").html('<div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div>');
+		//console.log(blgss);
+		$.ajax({
+			url: app_url+'subpages/influencebar.jsp',
+			method: 'POST',
+			data: {
+				tid:$("#alltid").val(),
+				sortby:$('#swapBlogger').val(),
+				sortdate:$("#active-sortdate").val(),
+				bloggers:blgss,
+			},
+			error: function(response)
+			{						
+				console.log(response);		
+			},
+			success: function(response)
+			{   
+				console.log(response);
+				$("#influencecontainer").html(response);
+			}
+		});
+		
 	});
+});
 
  
  
