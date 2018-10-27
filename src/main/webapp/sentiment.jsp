@@ -1701,7 +1701,12 @@ $(function () {
                               svg.selectAll(".circle-point").data(data[0])
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
-                              .on("click",function(d){console.log(d.date)});
+                              .on("click",function(d){
+                            	  
+                            	  console.log("point clicked");
+                            	  console.log(d.date);
+                            	  
+                              });
                                                  svg.call(tip)
                       }
                       // handles multiple json parameter
