@@ -20,7 +20,7 @@
 	String value= request.getParameter("value").replaceAll("\\<.*?\\>", "");
 	String source = request.getParameter("source").replaceAll("\\<.*?\\>", "");
 	String section = request.getParameter("section").replaceAll("\\<.*?\\>", "");
-	String year = request.getParameter("date").replaceAll("\\<.*?\\>", "");
+	String year = value;//request.getParameter("date").replaceAll("\\<.*?\\>", "");
 	String blogids = request.getParameter("blog_ids");
 	
 	 String date_start = year + "-01-01";

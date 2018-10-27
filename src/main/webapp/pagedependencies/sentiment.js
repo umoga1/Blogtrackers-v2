@@ -72,7 +72,11 @@ function loadPost(date){
 			var first = $('.blogpost_link')[0];
 			cosole.log(first);
 			var post_id = $(first).attr("id");
+<<<<<<< HEAD
 			loadChart(post_id);
+=======
+			loadChart(post_id);	
+>>>>>>> 69202c717976bf761a1ca1d199dfb77cda4fb541
 		}
 	});
 	
