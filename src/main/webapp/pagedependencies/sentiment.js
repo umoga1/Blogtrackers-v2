@@ -70,7 +70,7 @@ function loadPost(date){
 			$("#postConainer").html(response);
 			
 			var first = $('.blogpost_link')[0];
-			cosole.log(first);
+			console.log(first);
 			var post_id = $(first).attr("id");
 			loadChart(post_id);	
 		}
