@@ -52,7 +52,7 @@
 			String term = (null == request.getParameter("term")) ? "" : request.getParameter("term");
 			ArrayList results = null;
 			if (term.equals("")) {
-				results = tracker._list("DESC", "", username, "10");
+				results = tracker._list("DESC", "", username, "30");
 			} else {
 				results = tracker._search(term, "");
 			}
@@ -237,7 +237,7 @@
 		</div>
 
 	</nav>
-	<div class="container">
+	<div class="container analyticscontainer">
 
 
 		<div class="row mt30">
@@ -284,6 +284,7 @@
 
 							for (int i = 0; i < results.size(); i++) {
 								resut = (ArrayList)results.get(i);
+							
 								int totalblog =0;
 							    String id = resut.get(0).toString();
 							    query = resut.get(5).toString();//obj.get("query").toString();
@@ -306,7 +307,6 @@
 								}
 
 								if (!query.equals("") ) {
-									
 									blogs = blg._fetch(query);
 									totalblog = blogs.size();
 									totalpost = Integer.parseInt(post._getTotalByBlogId(query, ""));

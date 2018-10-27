@@ -242,7 +242,7 @@ border-spacing:15pt;
 } */
 .dash-label
 {
-    font-size: 1.62rem;
+    font-size: 1.56rem;
 }
 .border-white
 {
@@ -3282,3 +3282,19 @@ background-size: cover;
         line-height: 18px;
     }
 }
+
+@media (min-width: 1500px)
+{
+.analyticscontainer {
+    max-width: 85% ;
+}
+
+.analyticscontainer .card-columns
+{
+column-count: 4;
+webkit-column-count: 4;
+ -moz-column-count: 4;	
+}
+	
+}
+

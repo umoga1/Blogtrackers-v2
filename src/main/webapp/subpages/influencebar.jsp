@@ -22,10 +22,10 @@
 		
 	
 	JSONObject bloggers = new JSONObject(bloggersstr);
-	//System.out.println("bloggers here "+bloggersstr);
+	System.out.println("bloggers here "+bloggersstr);
 %>
 			
-<div class="chart" id="postingfrequencybar"></div>
+<div class="chart" id="influencebar"></div>
 <script>
 /**
  * 
@@ -36,7 +36,7 @@
 $(function () {
 
     // Initialize chart
-    postingfrequencybar('#postingfrequencybar', 450);
+    postingfrequencybar('#influencebar', 450);
 
     // Chart setup
     function postingfrequencybar(element, height) {
@@ -107,6 +107,25 @@ $(function () {
       // // ------------------------------
       //
       //
+      data = [
+    	  <% if (authors.length() > 0) {
+				int p = 0;
+				//System.out.println(bloggers);
+				for (int y = 0; y < authors.length(); y++) {
+					String key = authorlooper.get(y).toString();
+					JSONObject resu = authors.getJSONObject(key);
+					Double size = Double.parseDouble(resu.get("influence").toString());
+					if (p < 10) {
+						p++;%>
+		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+		 <%}
+				}
+			}%>    
+        ];
+      data = data.sort(function(a, b){
+    	    return a.frequency - b.frequency;
+    	}); 
+  	
       //
       data = [
     	  <%=bloggersstr.toString().toLowerCase()%>

@@ -447,7 +447,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 
 	</nav>
-	<div class="container">
+	<div class="container analyticscontainer">
 		<div class="row bottom-border pb20">
 			<div class="col-md-6 paddi">
 				<nav class="breadcrumb">
@@ -469,7 +469,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 				</div>
 				<div>
 					<div class="btn-group mt5" data-toggle="buttons">
-						<label
+						<!-- <label
 							class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder">
 							<input type="radio" name="options" value="day" autocomplete="off">
 							Day
@@ -481,7 +481,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						</label> <label class="btn btn-primary btn-sm text-center nobgnoborder">Year
 							<input type="radio" name="options" value="year"
 							autocomplete="off">
-						</label>
+						</label> -->
 						<!--  <label class="btn btn-primary btn-sm nobgnoborder " id="custom">Custom</label> -->
 					</div>
 
@@ -908,6 +908,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
        	          endDate: moment(),
        	          minDate: '01/01/1947',
        	          maxDate: moment(),
+       	      	 linkedCalendars: false,
        			  showDropdowns: true,
        	          showWeekNumbers: true,
        	          timePicker : false,
@@ -1120,7 +1121,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
            [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200},{"date":"2017","close":1200},{"date":"2018","close":2600}]
          ];
 		*/
-         data = [<% for(int p=0; p<authorcount.length(); p++){ 
+		data = [<% for(int p=0; p<authorcount.length(); p++){ 
  	  		String au = authorcount.get(p).toString();
  	  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
  	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 

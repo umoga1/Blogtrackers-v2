@@ -86,7 +86,7 @@ public class Blogs extends DbConnection{
 			jsonObj = new JSONObject("{\r\n" + 
 					"  \"query\": {\r\n" + 
 					"        \"query_string\" : {\r\n" + 
-					"            \"fields\" : [\"blogsite_name\",\"blogsite_authors\"],\r\n" +
+					"            \"fields\" : [\"blogsite_name\",\"blogsite_name\"],\r\n" +
 					"            \"query\" : \""+term+"\"\r\n" + 
 					"        }\r\n" + 
 					"  },\r\n" + 
@@ -142,7 +142,6 @@ public class Blogs extends DbConnection{
 
 		String arg2 = pars.toString();
 		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"totalposts\":{\"order\":\"DESC\"}}}";
-
 		
 		JSONObject jsonObj = new JSONObject(que);
 		String url = base_url+"_search";
