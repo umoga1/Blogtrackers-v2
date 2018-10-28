@@ -489,6 +489,7 @@
 			int anx=0;
 			int sad=0;
 					
+			System.out.println(sentimentpost2);
 		
 				ArrayList sentimentor2 = new Liwc()._searchByRange("date", dt, dte, sentimentpost2);
 				
@@ -496,9 +497,11 @@
 					for(int v=0; v<sentimentor2.size();v++){
 						String bstr = sentimentor2.get(v).toString();
 						JSONObject bj = new JSONObject(bstr);
+						
 						bstr = bj.get("_source").toString();
+						
 						bj = new JSONObject(bstr);
-						System.out.println("result eree"+bj);
+						//System.out.println("result eree"+bj);
 						
 						death += Integer.parseInt(bj.get("death").toString());
 						work += Integer.parseInt(bj.get("work").toString());
