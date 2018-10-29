@@ -221,7 +221,17 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			allterms = term._searchByRange("date", dt, dt,ids);
 			
 			
-		}  
+		}else {
+			dt = dst;
+			dte = dend;
+			totalpost = post._getTotalByBlogId(ids, "");
+			//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+			//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);			
+			allterms = term._searchByRange("date", dst, dend, ids);
+			
+			allauthors=post._getBloggerByBlogId("date",dst, dend,ids);
+			
+		}    
 			
 			
 		
@@ -645,7 +655,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										   // System.out.println(authoryears);
 										    }} 
 								//System.out.println(authoryears);
-							    System.out.println(yearsarray);
+							   // System.out.println(yearsarray);
 							    %>
 
 
@@ -952,7 +962,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
      //
    	// else{
    		// $('#reportrange span').html('${datepicked}');
-       $('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
+       //$('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
    		$('#reportrange, #custom').daterangepicker(optionSet1, cb);
    		$('#reportrange')
    		.on(
