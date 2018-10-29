@@ -4,8 +4,13 @@ $('.blogpost_link').on("click", function(){
 
 	var post_id = $(this).attr("id");
 	//alert(post_id);
+	loadChart(post_id);
+
+});
+
+function loadChart(postid){
+	var post_id = postid;
 	post_id= post_id.split("-");
-	console.log(post_id);
 	$("#mainCarInd").html("images/loading.gif");
 	//grab all id of blog and perform an ajax request
 	$.ajax({
@@ -37,5 +42,40 @@ $('.blogpost_link').on("click", function(){
 	});
 	
 
-});
+}
+
+function loadPost(date){
+
+	$("#postConainer").html("images/loading.gif");
+	//grab all id of blog and perform an ajax request
+	$.ajax({
+		url: app_url+"subpages/sentimentpost.jsp",
+		method: 'POST',
+		data: {
+			action:"getpost",
+			key:"date",
+			value:date,
+			source:"sentiment",
+			section:"influential_blogpost",
+			blog_ids:$("#blog_ids").val(),
+		},
+		error: function(response)
+		{						
+			console.log(response);
+			//$("#carouseller").html(response);
+		},
+		success: function(response)
+		{   
+			//console.log(response);
+			$("#postConainer").html(response);
+			
+			var first = $('.blogpost_link')[0];
+			console.log(first);
+			var post_id = $(first).attr("id");
+			loadChart(post_id);
+
+		}
+	});
+	
+}
 
