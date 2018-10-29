@@ -67,6 +67,10 @@ function loadPost(date){
 		success: function(response)
 		{   
 			//console.log(response);
+			/* $.getScript("assets/js/toastr.js", function(data, textStatus, jqxhr) {
+				 loadCSS("assets/css/toastr.css");
+				 toastr.error("Tracker Creation Canceled","Action Succesful");
+			  });*/
 			$("#postConainer").html(response);
 			
 			var first = $('.blogpost_link')[0];
