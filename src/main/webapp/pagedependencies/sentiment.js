@@ -72,7 +72,8 @@ function loadPost(date){
 			var first = $('.blogpost_link')[0];
 			console.log(first);
 			var post_id = $(first).attr("id");
-			loadChart(post_id);	
+			loadChart(post_id);
+
 		}
 	});
 	
