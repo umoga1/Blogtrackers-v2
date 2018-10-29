@@ -81,7 +81,7 @@
 					    %>
 							<tr>
 								<td align="center"><%=(y)%></td>
-								<td><a syle="cursor:pointer" class="blogpost_link" id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" style="color:<%=color%>"><%=tobj.get("title").toString() %></a></td>
+								<td><a syle="cursor:pointer" class="blogpost_link" id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" onclick="loadChart('<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>')" style="color:<%=color%>"><%=tobj.get("title").toString() %></a></td>
 								<td align="center"><%=tobj.get("blogger").toString() %></td>
 							</tr>
 						<% }} %>

@@ -972,7 +972,18 @@
 		</div>
 
 
+		<form action="" name="customformsingle" id="customformsingle"
+		method="post">
+		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" /> <input
+			type="hidden" name="single_date" id="single_date" value="" />
+	</form>
 
+	<form action="" name="customform" id="customform" method="post">
+		<input type="hidden" name="tid" value="<%=tid%>" /> <input
+			type="hidden" name="date_start" id="date_start" value="" /> <input
+			type="hidden" name="date_end" id="date_end" value="" />
+</form>
+	
 
 	<form name="date-form" action="">
 		<input type="hidden" value="<%=dt%>" id="date_from" />
@@ -1015,7 +1026,7 @@
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
  <script src="pagedependencies/baseurl.js?v=3"></script>
-<script src="pagedependencies/sentiment.js?v=16339"></script>
+<script src="pagedependencies/sentiment.js?v=17839"></script>
 
 	<script>
  $(document).ready(function() {
@@ -1181,6 +1192,14 @@
    									+ " to "
    									+ picker.endDate
    											.format('MMMM D, YYYY')); */
+   					var start = picker.startDate.format('YYYY-MM-DD');
+   	            	var end = picker.endDate.format('YYYY-MM-DD');
+   	            	//console.log("End:"+end);
+   	            	
+   	            	$("#date_start").val(start);
+   	            	$("#date_end").val(end);
+   	            	//toastr.success('Date changed!','Success');
+   	            	$("form#customform").submit();
    				});
    $('#reportrange')
    		.on(
@@ -1888,7 +1907,27 @@ $(function () {
      }
  });
  </script>
+<script>
+$(".option-only").on("change",function(e){
+	console.log("only changed ");
+	var valu =  $(this).val();
+	$("#single_date").val(valu);
+	$('form#customformsingle').submit();
+});
 
+$(".option-only").on("click",function(e){
+	console.log("only Click ");
+	$("#single_date").val($(this).val());
+	//$('form#customformsingle').submit();
+});
+
+$(".option-lable").on("click",function(e){
+	console.log("Label Click ");
+	
+	$("#single_date").val($(this).val());
+	//$('form#customformsingle').submit();
+});
+</script>
 	<script>
   $('.carousel').carousel({
       interval: false
