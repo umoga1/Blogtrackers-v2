@@ -487,10 +487,11 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject authoryears = new JSONObject();
 								JSONObject authormonths = new JSONObject();
 								JSONArray authorcount = new JSONArray();
+								JSONArray blogcount = new JSONArray();
 								JSONArray posttodisplay = new JSONArray();
 								JSONObject years = new JSONObject();
 								JSONArray yearsarray = new JSONArray();
-								HashSet uniqueAuthors = new HashSet();
+								
 								int l=0;
 								int qc=0;
 								if(allauthors.size()>0){
@@ -510,6 +511,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String auth  = tobj.get("blogger").toString();
 										String posttitle  = tobj.get("title").toString();
 										String postid  = tobj.get("blogpost_id").toString();
+										String blogid  = tobj.get("blogsite_id").toString();
 										String body  = tobj.get("post").toString();
 										String dat  = tobj.get("date").toString();
 										String num_comment  = tobj.get("num_comments").toString();
@@ -536,64 +538,15 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 											
 									    	authors.put(auth, auth);
 									    	authorcount.put(j, auth);
-									    	/*
-									    	JSONObject postyear = new JSONObject();
-									    	JSONObject postmonth = new JSONObject();
+									    	blogcount.put(j, blogid);
 									    	
-									    	postyear.put(yy, 1);
-									    	postmonth.put(yy, 1);
-									    	
-									    	if(!years.has(yy)){
-									    		years.put(yy,yy);
-									    		
-									    		yearsarray.put(k,yy);
-									    		k++;
-									    	}
-									    	*/
-									    	
-									    	//authoryears.put(auth,postyear);
-									    	//authormonths.put(auth,postmonth);
 									    	j++;
 									    	
 									    	%>
 
 							    			<a class="btn btn-primary form-control stylebuttonactive mb20 <% if(!auth.equals(mostactiveblogger) && !auth.equals(secondactiveblogger)){ %>text-primary opacity53<%}else{%> btn-primary <% } %>blogger-select" id="<%=auth.replaceAll(" ", "_")%>" ><b><%=tobj.get("blogger")%></b></a>
 							    			<% }else{
-							    				/*
-								    				JSONObject postyear = new JSONObject();
-											    	JSONObject postmonth = new JSONObject();
-											    	
-											    	//String oot = authoryears.get(auth.toString()).toString();
-											    	
-											    	JSONObject byyear = new JSONObject(authoryears.get(auth).toString());
-											    	JSONObject bymonth = new JSONObject(authormonths.get(auth).toString());
-											    	if(!years.has(yy)){
-											    		years.put(yy,yy);
-											    		yearsarray.put(k,yy);
-											    		k++;
-											    	}
-											    	
-											    	if(!byyear.has(yy)){
-											    		postyear.put(yy,1);				    		
-												    }else{
-												    	int prev = Integer.parseInt(byyear.get(yy).toString());
-												    	prev++;
-												    	postyear.put(yy,prev);			    	
-												    }
-												    
-												  
-												    if(!bymonth.has(mm)){
-												    	postmonth.put(mm,1);
-												    }else{
-												    	int prev = Integer.parseInt(bymonth.get(mm).toString());
-												    	prev++;
-												    	postmonth.put(mm,prev);			    	
-												    }
-											    	
-											    	//authoryears.put(auth,postyear);
-											    	//authormonths.put(auth,postmonth);
-											    	*/
-											    	
+							    					
 							    			   }
 									    		
 											    if(auth.equals(mostactiveblogger) || auth.equals(secondactiveblogger) ){
@@ -612,7 +565,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										    }} 
 								//System.out.println(authoryears);
 							   // System.out.println(yearsarray);
-							  		yearsarray = post._sortJson(yearsarray);
+							  		//yearsarray = post._sortJson(yearsarray);
 							    %>
         <!--  
     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
@@ -640,14 +593,13 @@ year_end = yend[0];
 int ystint = Integer.parseInt(year_start);
 int yendint = Integer.parseInt(year_end);
 
-for(int n=0; n<authors.length();n++){
+for(int n=0; n<authorcount.length();n++){
 	int b=0;
 	JSONObject postyear =new JSONObject();
 	for(int y=ystint; y<=yendint; y++){ 
 			   String dtu = y + "-01-01";
 			   String dtue = y + "-12-31";
-			   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
-			 	
+			   String totu = post._searchRangeTotal("date",dtu, dtue,blogcount.get(n).toString());		 	
 			   if(!years.has(y+"")){
 		    		years.put(y+"",y);
 		    		yearsarray.put(b,y);
@@ -658,8 +610,6 @@ for(int n=0; n<authors.length();n++){
 	}
 	authoryears.put(authorcount.get(n).toString(),postyear);
 }
-
-
 %>
 
 <div class="col-md-9">
