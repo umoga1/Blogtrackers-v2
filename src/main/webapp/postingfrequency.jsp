@@ -175,6 +175,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 			historyfrom = DATE_FORMAT.format(start);
 			historyto = DATE_FORMAT.format(end);
+			
 			allterms = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 			
 			allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
