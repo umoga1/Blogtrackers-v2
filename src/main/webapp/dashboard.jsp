@@ -1997,7 +1997,7 @@ $(function () {
         	});
         
           svg.append("g")
-          .attr("transform", "translate(50,0)")
+          .attr("transform", "translate("+x(50)+",0)")
           .append("line")
           .attr("y2", height)
           .style("stroke", "#2ecc71")
