@@ -46,7 +46,7 @@ function loadChart(postid){
 
 function loadPost(date){
 
-	$("#postConainer").html("images/loading.gif");
+	$("#postConainer").html("<div><img style='margin-left: auto !important;margin-right: auto !important; display: block !important;' src='images/loading.gif' /></div>");
 	//grab all id of blog and perform an ajax request
 	$.ajax({
 		url: app_url+"subpages/sentimentpost.jsp",
@@ -71,7 +71,7 @@ function loadPost(date){
 				 loadCSS("assets/css/toastr.css");
 				 toastr.error("Tracker Creation Canceled","Action Succesful");
 			  });*/
-			$("#postConainer").html(response);
+		$("#postConainer").delay(3000).html("<div><img style='margin-left: auto !important;margin-right: auto !important; display: block !important;' src='images/loading.gif' /></div>").delay(2000).html(response);
 			
 			var first = $('.blogpost_link')[0];
 			console.log(first);
