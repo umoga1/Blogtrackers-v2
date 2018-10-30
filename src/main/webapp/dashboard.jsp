@@ -1996,13 +1996,12 @@ $(function () {
         	  }
         	});
         
-          svg.append("line")
-          .style("stroke", "black")
-          .style("opacity", .2)
-          .attr("x1", 0)
-          .attr("y1", height)
-          .attr("x2", width)
-          .attr("y2", height);
+          svg.append("g")
+          .attr("transform", "translate(50,0)")
+          .append("line")
+          .attr("y2", height)
+          .style("stroke", "#2ecc71")
+          .style("stroke-width", "1px")
 
 
                   // svg.selectAll(".d3-bar")
