@@ -863,7 +863,7 @@
 					    %>
 							<tr>
 								<td align="center"><%=(y)%></td>
-								<td><a syle="cursor:pointer" class="blogpost_link" id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" style="color:<%=color%>"><%=tobj.get("title").toString() %></a></td>
+								<td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" style="color:<%=color%>"><%=tobj.get("title").toString() %></a></td>
 								<td align="center"><%=tobj.get("blogger").toString() %></td>
 							</tr>
 						<% }} %>
@@ -1427,7 +1427,7 @@ $(function () {
 
          // Horizontal
          var x = d3.scale.ordinal()
-             .rangeRoundBands([0, width], .72, .5);
+             .rangeRoundBands([0, width]);
 
          // Vertical
          var y = d3.scale.linear()
@@ -1702,7 +1702,7 @@ $(function () {
                                 // .style("fill", "rgba(0,0,0,0.54)")
                                 .style("stroke-width", 2)
                                 .style("stroke", "17394C")
-                                 .attr("transform", "translate("+margin.left/4.7+",0)");
+                                 //.attr("transform", "translate("+margin.left/4.7+",0)");
                                 // .datum(data)
 
                        // add point
@@ -1721,7 +1721,7 @@ $(function () {
                               .attr("cx",function(d) { return x(d.date); })
                               .attr("cy", function(d){return y(d.close)})
 
-                              .attr("transform", "translate("+margin.left/4.7+",0)");
+                              //.attr("transform", "translate("+margin.left/4.7+",0)");
 
                               svg.selectAll(".circle-point").data(data[0])
                               .on("mouseover",tip.show)
@@ -1742,13 +1742,15 @@ $(function () {
                         var path = svg.selectAll('.d3-line')
                                   .data(data)
                                   .enter()
+                                  .append("g")
+                                  .attr("class","linecontainer")
                                   .append("path")
                                   .attr("class", "d3-line d3-line-medium")
                                   .attr("d", line)
                                   // .style("fill", "rgba(0,0,0,0.54)")
                                   .style("stroke-width", 2)
                                   .style("stroke", function(d,i) { return color(i);})
-                                  .attr("transform", "translate("+margin.left/4.7+",0)");
+                                  //.attr("transform", "translate("+margin.left/4.7+",0)");
 
 
 
@@ -1763,7 +1765,8 @@ $(function () {
 
                               var mergedarray = [].concat(...data);
                                console.log(mergedarray)
-                                 circles = svg.selectAll(".circle-point")
+                                 circles = svg.append("g").attr("class","circlecontainer")
+                                     .selectAll(".circle-point")
                                      .data(mergedarray)
                                      .enter();
 
@@ -1777,7 +1780,7 @@ $(function () {
                                        .attr("cx",function(d) { return x(d.date)})
                                        .attr("cy", function(d){return y(d.close)})
 
-                                       .attr("transform", "translate("+margin.left/4.7+",0)");
+                                       //.attr("transform", "translate("+margin.left/4.7+",0)");
                                        svg.selectAll(".circle-point").data(mergedarray)
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
@@ -1842,7 +1845,15 @@ $(function () {
                          .style("font-size", 12)
                          // .text("Frequency")
                          ;
-
+                     if(data.length > 1 )
+                	 {
+                	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+                    transformfirsttick =  tick[0][0].attributes[1].value;
+                    //transformfirsttick = "translate(31.5,0)"
+                    //console.log(transformfirsttick);
+                    svg.selectAll(".circlecontainer").attr("transform", transformfirsttick);
+                    svg.selectAll(".linecontainer").attr("transform", transformfirsttick);
+                	 }
 
          // Resize chart
          // ------------------------------

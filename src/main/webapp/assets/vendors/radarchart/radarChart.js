@@ -53,7 +53,7 @@ function RadarChart(id, data, options) {
 			.attr("class", "radar"+id);
 	//Append a g element
 	var g = svg.append("g")
-			.attr("transform", "translate(" + (cfg.w/1.5 + cfg.margin.left) + "," + (cfg.h/2 + cfg.margin.top) + ")");
+			.attr("transform", "translate(" + (cfg.w + cfg.margin.left/2) + "," + (cfg.h/2 + cfg.margin.top) + ")");
 
 	/////////////////////////////////////////////////////////
 	////////// Glow filter for some extra pizzazz ///////////

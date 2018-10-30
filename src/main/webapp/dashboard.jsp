@@ -1996,6 +1996,13 @@ $(function () {
         	  }
         	});
         
+          svg.append("line")
+          .style("stroke", "black")
+          .style("opacity", .2)
+          .attr("x1", 0)
+          .attr("y1", height)
+          .attr("x2", width)
+          .attr("y2", height);
 
 
                   // svg.selectAll(".d3-bar")
