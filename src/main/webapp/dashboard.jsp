@@ -3011,7 +3011,7 @@ var mymarker = [
                   .on("wheel", function() { d3.event.preventDefault(); })
                   .call(d3.behavior.zoom().on("zoom", function () {
                 	var g = svg.selectAll("g"); 
-                	g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")")
+                	g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")").style("cursor","zoom-out")
                  })) 
                 
          		
@@ -3048,7 +3048,8 @@ var mymarker = [
                 	function dragged(d) {
                 	 var movetext = svg.select("g").selectAll("text");
                 	 movetext.attr("dx",d3.event.x)
-                	 .attr("dy",d3.event.y); 
+                	 .attr("dy",d3.event.y)
+                	 .style("cursor","move"); 
                 	 /* g.attr("transform","translateX("+d3.event.x+")")
                 	 .attr("transform","translateY("+d3.event.y+")")
                 	 .attr("width", width)

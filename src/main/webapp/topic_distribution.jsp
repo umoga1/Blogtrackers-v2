@@ -268,7 +268,7 @@ if(f.exists() && !f.isDirectory()) {
       <div style="min-height: 250px;">
 <div><p class="text-primary mt10"> <b>Individual</b> Number of Blog Post of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
 <div class="chart-container">
-  <div class="chart" id="d3-line-basic"></div>
+  <div class="chart" id="topicstream"></div>
 </div>
       </div>
         </div>
@@ -784,503 +784,547 @@ if(f.exists() && !f.isDirectory()) {
  <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
  <script>
 
-  $(function () {
+ $(function () {
 
-      // Initialize chart
-      lineBasic('#d3-line-basic', 235);
+	    streamgraph('#topicstream', 230); // initialize chart
 
-      // Chart setup
-      function lineBasic(element, height) {
-          // Basic setup
-          // ------------------------------
+	    // Chart setup
+	    function streamgraph(element, height) {
 
-          // Define main variables
-          var d3Container = d3.select(element),
-              margin = {top: 10, right: 10, bottom: 20, left: 50},
-              width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
-              height = height - margin.top - margin.bottom;
 
+	        // Basic setup
+	        // ------------------------------
 
-          var formatPercent = d3.format("");
-          // Format data
-          // var parseDate = d3.time.format("%d-%b-%y").parse,
-          //     bisectDate = d3.bisector(function(d) { return d.date; }).left,
-          //     formatValue = d3.format(",.0f"),
-          //     formatCurrency = function(d) { return formatValue(d); }
+	        // Define main variables
+	        var d3Container = d3.select(element),
+	            margin = {top: 5, right: 50, bottom: 40, left: 50},
+	            width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
+	            height = height - margin.top - margin.bottom,
+	            tooltipOffset = 30;
 
+	        // Tooltip
+	        var tooltip = d3Container
+	            .append("div")
+	            .attr("class", "d3-tip e")
+	            .style("display", "none")
 
+	        // Format date
+	        var format = d3.time.format("%m/%d/%y %H:%M");
+	        var formatDate = d3.time.format("%H:%M");
 
-          // Construct scales
-          // ------------------------------
+	        // Colors
+	        var colorrange = ['#03A9F4', '#29B6F6', '#4FC3F7', "#17394C", "#F5CC0E", "#CE0202"];
 
-          // Horizontal
-          var x = d3.scale.ordinal()
-              .rangeRoundBands([0, width], .72, .5);
-
-          // Vertical
-          var y = d3.scale.linear()
-              .range([height, 0]);
-
-
-
-          // Create axes
-          // ------------------------------
-
-          // Horizontal
-          var xAxis = d3.svg.axis()
-              .scale(x)
-              .orient("bottom")
-             .ticks(9)
-
-            // .tickFormat(formatPercent);
-
-
-          // Vertical
-          var yAxis = d3.svg.axis()
-              .scale(y)
-              .orient("left")
-              .ticks(6);
-
-
-
-          // Create chart
-          // ------------------------------
-
-          // Add SVG element
-          var container = d3Container.append("svg");
-
-          // Add SVG group
-          var svg = container
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
-              .append("g")
-                  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-
-          // Construct chart layout
-          // ------------------------------
-
-          // Line
-
-
-          // Load data
-          // ------------------------------
-
-  // data = [[{"date": "Jan","close": 120},{"date": "Feb","close": 140},{"date": "Mar","close":160},{"date": "Apr","close": 180},{"date": "May","close": 200},{"date": "Jun","close": 220},{"date": "Jul","close": 240},{"date": "Aug","close": 260},{"date": "Sep","close": 280},{"date": "Oct","close": 300},{"date": "Nov","close": 320},{"date": "Dec","close": 340}],
-  // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
-  // ];
-
-  data = [
-    [{"date":"2014","close":400},{"date":"2015","close":600},{"date":"2016","close":1300},{"date":"2017","close":1700},{"date":"2018","close":2100}],
-    [{"date":"2014","close":350},{"date":"2015","close":700},{"date":"2016","close":1500},{"date":"2017","close":1600},{"date":"2018","close":1250}],
-    [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200},{"date":"2017","close":1200},{"date":"2018","close":2600}],
-    [{"date":"2014","close":250},{"date":"2015","close":1840},{"date":"2016","close":1400},{"date":"2017","close":1300},{"date":"2018","close":1800}]
-  ];
-
-  //console.log(data);
-  // data = [];
-
-  // data = [
-  // [
-  //   {
-  //     "date": "Jan",
-  //     "close": 1000
-  //   },
-  //   {
-  //     "date": "Feb",
-  //     "close": 1800
-  //   },
-  //   {
-  //     "date": "Mar",
-  //     "close": 1600
-  //   },
-  //   {
-  //     "date": "Apr",
-  //     "close": 1400
-  //   },
-  //   {
-  //     "date": "May",
-  //     "close": 2500
-  //   },
-  //   {
-  //     "date": "Jun",
-  //     "close": 500
-  //   },
-  //   {
-  //     "date": "Jul",
-  //     "close": 100
-  //   },
-  //   {
-  //     "date": "Aug",
-  //     "close": 500
-  //   },
-  //   {
-  //     "date": "Sep",
-  //     "close": 2300
-  //   },
-  //   {
-  //     "date": "Oct",
-  //     "close": 1500
-  //   },
-  //   {
-  //     "date": "Nov",
-  //     "close": 1900
-  //   },
-  //   {
-  //     "date": "Dec",
-  //     "close": 4170
-  //   }
-  // ]
-  // ];
-
-  // console.log(data);
-  var line = d3.svg.line()
-  .interpolate("monotone")
-       //.attr("width", x.rangeBand())
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return y(d.close); });
-      // .x(function(d){d.forEach(function(e){return x(d.date);})})
-      // .y(function(d){d.forEach(function(e){return y(d.close);})});
-
-
- var circles;
-  // Create tooltip
-  var tip = d3.tip()
-         .attr('class', 'd3-tip')
-         .offset([-10, 0])
-         .html(function(d) {
-         if(d === null)
-         {
-           return "No Information Available";
-         }
-         else if(d !== null) {
-          return d.date+" ("+d.close+")<br/> Click for more information";
-           }
-         // return "here";
-         });
-
-     // Initialize tooltip
-     //svg.call(tip);
-
-
-    // Pull out values
-    // data.forEach(function(d) {
-    //     d.frequency = +d.close;
-    //
-    // });
-
-
-              // Pull out values
-              // data.forEach(function(d) {
-              //     // d.date = parseDate(d.date);
-              //     //d.date = +d.date;
-              //     //d.date = d.date;
-              //     d.close = +d.close;
-              // });
-
-              // Sort data
-              // data.sort(function(a, b) {
-              //     return a.date - b.date;
-              // });
-
-
-              // Set input domains
-              // ------------------------------
-
-              // Horizontal
-    //  console.log(data[0])
-
-
-            // Vertical
-  // extract max value from list of json object
-  // console.log(data.length)
-      var maxvalue =
-      data.map(function(d){
-        var mvalue = [];
-        if(data.length > 1)
-      {
-        d.forEach(function(f,i){
-        mvalue[i] = f.close;
-
-        })
-      return d3.max(mvalue);
-      }
-
-      //console.log(mvalue);
-      });
-
-
-
-  ////console.log(data)
-  if(data.length == 1)
-  {
-    var returnedvalue = data[0].map(function(e){
-    return e.date
-    });
-
-  // for single json data
-  x.domain(returnedvalue);
-  // rewrite x domain
-
-  var maxvalue2 =
-  data.map(function(d){
-  return d3.max(d,function(t){return t.close});
-  });
-  y.domain([0,maxvalue2]);
-  }
-  else if(data.length > 1)
-  {
-  //console.log(data.length);
-  //console.log(data);
-
-  var returnedata = data.map(function(e){
-  // console.log(k)
-  var all = []
-  e.forEach(function(f,i){
-  all[i] = f.date;
-  //console.log(all[i])
-  })
-  return all
-  //console.log(all);
-  });
-  // console.log(returnedata);
-  // combines all the array
-  var newArr = returnedata.reduce((result,current) => {
-  return result.concat(current);
-  });
-
-  //console.log(newArr);
-  var set = new Set(newArr);
-  var filteredArray = Array.from(set);
-  //console.log(filteredArray.sort());
-  // console.log(returnedata);
-  x.domain(filteredArray);
-  y.domain([0, d3.max(maxvalue)]);
-  }
-
-
-
-
-              //
-              // Append chart elements
-              //
-
-
-
-
-  // svg.call(tip);
-               // data.map(function(d){})
-               if(data.length == 1)
-               {
-                 // Add line
-               var path = svg.selectAll('.d3-line')
-                         .data(data)
-                         .enter()
-                         .append("path")
-                         .attr("class", "d3-line d3-line-medium")
-                         .attr("d", line)
-                         // .style("fill", "rgba(0,0,0,0.54)")
-                         .style("stroke-width", 2)
-                         .style("stroke", "17394C")
-                          .attr("transform", "translate("+margin.left/4.7+",0)");
-                         // .datum(data)
-
-                // add point
-                 circles = svg.selectAll(".circle-point")
-                           .data(data[0])
-                           .enter();
-
-
-                       circles
-                       // .enter()
-                       .append("circle")
-                       .attr("class","circle-point")
-                       .attr("r",3.4)
-                       .style("stroke", "#4CAF50")
-                       .style("fill","#4CAF50")
-                       .attr("cx",function(d) { return x(d.date); })
-                       .attr("cy", function(d){return y(d.close)})
-
-                       .attr("transform", "translate("+margin.left/4.7+",0)");
-
-                       svg.selectAll(".circle-point").data(data[0])
-                       .on("mouseover",tip.show)
-                       .on("mouseout",tip.hide)
-                       .on("click",function(d){console.log(d.date)});
-                                          svg.call(tip)
-               }
-               // handles multiple json parameter
-               else if(data.length > 1)
-               {
-                 // add multiple line
-                 // var color = d3.scale.category20();
-                 var path = svg.selectAll('.d3-line')
-                           .data(data)
-                           .enter()
-                           .append("path")
-                           .attr("class", "d3-line d3-line-medium")
-                           .attr("d", line)
-                           // .style("fill", "rgba(0,0,0,0.54)")
-                           .style("stroke-width", 2)
-                           .style("stroke", function(d,i) { return color(i);})
-                           .attr("transform", "translate("+margin.left/4.7+",0)");
-
-
-
-
-                // add multiple circle points
-
-                    // data.forEach(function(e){
-                    // console.log(e)
-                    // })
-
-                    console.log(data);
-
-                       var mergedarray = [].concat(...data);
-                        console.log(mergedarray)
-                          circles = svg.selectAll(".circle-point")
-                              .data(mergedarray)
-                              .enter();
-
-                                circles
-                                // .enter()
-                                .append("circle")
-                                .attr("class","circle-point")
-                                .attr("r",3.4)
-                                .style("stroke", "#4CAF50")
-                                .style("fill","#4CAF50")
-                                .attr("cx",function(d) { return x(d.date)})
-                                .attr("cy", function(d){return y(d.close)})
-
-                                .attr("transform", "translate("+margin.left/4.7+",0)");
-                                svg.selectAll(".circle-point").data(mergedarray)
-                               .on("mouseover",tip.show)
-                               .on("mouseout",tip.hide)
-                               .on("click",function(d){console.log(d.date)});
-                          //                         svg.call(tip)
-
-                        //console.log(newi);
-
-
-                              svg.selectAll(".circle-point").data(mergedarray)
-                              .on("mouseover",tip.show)
-                              .on("mouseout",tip.hide)
-                              .on("click",function(d){console.log(d.date)});
-                                                 svg.call(tip)
-
-
-
-
-
-
-
-
-
-
-               }
-
-
-  // show data tip
-
-
-              // Append axes
-              // ------------------------------
-
-              // Horizontal
-              svg.append("g")
-                  .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
-                  .attr("transform", "translate(0," + height + ")")
-                  .call(xAxis);
-
-              // Vertical
-              var verticalAxis = svg.append("g")
-                  .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
-                  .call(yAxis);
-
-
-
-
-
-              // Add text label
-              verticalAxis.append("text")
-                  .attr("transform", "rotate(-90)")
-                  .attr("y", 10)
-                  .attr("dy", ".71em")
-                  .style("text-anchor", "end")
-                  .style("fill", "#999")
-                  .style("font-size", 12)
-                  // .text("Frequency")
-                  ;
-
-
-
-         // Resize chart
-         // ------------------------------
-
-         // Call function on window resize
-         $(window).on('resize', resize);
-
-         // Call function on sidebar width change
-         $('.sidebar-control').on('click', resize);
-
-         // Resize function
-         //
-         // Since D3 doesn't support SVG resize by default,
-         // we need to manually specify parts of the graph that need to
-         // be updated on window resize
-         function resize() {
-
-             // Layout variables
-             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
-             //
-             //
-             // // Layout
-             // // -------------------------
-             //
-             // // Main svg width
-             container.attr("width", width + margin.left + margin.right);
-             //
-             // // Width of appended group
-             svg.attr("width", width + margin.left + margin.right);
-             //
-             //
-             // // Axes
-             // // -------------------------
-             //
-             // // Horizontal range
-             x.rangeRoundBands([0, width],.72,.5);
-             //
-             // // Horizontal axis
-             svg.selectAll('.d3-axis-horizontal').call(xAxis);
-             //
-             //
-             // // Chart elements
-             // // -------------------------
-             //
-             // // Line path
-             svg.selectAll('.d3-line').attr("d", line);
-
-
-             if(data.length == 1)
-             {
-               svg.selectAll(".circle-point").attr("circle",circles)
-               .attr("cx",function(d) { return x(d.date);})
-               .attr("cy", function(d){return y(d.close)});
-             }
-             else if(data.length > 1)
-             {
-               svg.selectAll(".circle-point").attr("circle",circles)
-               .attr("cx",function(d) { return x(d.date);})
-               .attr("cy", function(d){return y(d.close)});
-             }
-             //
-             // // Crosshair
-             // svg.selectAll('.d3-crosshair-overlay').attr("width", width);
-
-         }
-     }
- });
+
+
+	        // Construct scales
+	        // ------------------------------
+
+	        // Horizontal
+	        var x = d3.time.scale().range([0, width]);
+
+	        // Vertical
+	        var y = d3.scale.linear().range([height, 0]);
+
+	        // Colors
+	        var z = d3.scale.ordinal().range(colorrange);
+
+
+
+	        // Create axes
+	        // ------------------------------
+
+	        // Horizontal
+	        var xAxis = d3.svg.axis()
+	            .scale(x)
+	            .orient("bottom")
+	            .ticks(d3.time.date, 2)
+	            .innerTickSize(4)
+	            .tickPadding(8)
+	            .tickFormat(d3.time.format("%m/%d/%y")); // Display date in month day and year
+
+	        // Left vertical
+	        var yAxis = d3.svg.axis()
+	            .scale(y)
+	            .ticks(6)
+	            .innerTickSize(4)
+	            .outerTickSize(0)
+	            .tickPadding(8)
+	            // remove comma seperator
+	             // .tickFormat(function (d) { return (d); });
+
+	        // Right vertical
+	        var yAxis2 = yAxis;
+
+	        // Dash lines
+	        var gridAxis = d3.svg.axis()
+	            .scale(y)
+	            .orient("left")
+	            .ticks(6)
+	            .tickPadding(8)
+	            .tickFormat("")
+	            .tickSize(-width, 0, 0);
+
+
+
+	        // Create chart
+	        // ------------------------------
+
+	        // Container
+	        var container = d3Container.append("svg")
+
+	        // SVG element
+	        var svg = container
+	            .attr('width', width + margin.left + margin.right)
+	            .attr("height", height + margin.top + margin.bottom)
+	            .append("g")
+	            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+	        // Construct chart layout
+	        // ------------------------------
+
+	        // Stack
+	        var stack = d3.layout.stack()
+	            .offset("silhouette")
+	            .values(function(d) { return d.values; })
+	            .x(function(d) { return d.date; })
+	            .y(function(d) { return d.value; });
+
+	        // Nest
+	        var nest = d3.nest()
+	            .key(function(d) { return d.key; });
+
+	        // Area
+	        var area = d3.svg.area()
+	            .interpolate("cardinal")
+	            .x(function(d) { return x(d.date); })
+	            .y0(function(d) { return y(d.y0); })
+	            .y1(function(d) { return y(d.y0 + d.y); });
+
+
+
+	        // Load data
+	        // ------------------------------
+
+	        // d3.json("convertcsv.json", function (error, data){
+	data = [
+	 {
+	   "key": "Financial impact migrants",
+	   "value": 0.221,
+	   "date": "03/01/15 0:00"
+	 },
+	 {
+	   "key": "Financial impact migrants",
+	   "value": 0.226,
+	   "date": "03/02/15 0:00"
+	 },
+	 {
+	   "key": "Financial impact migrants",
+	   "value": 0.22,
+	   "date": "03/05/15 0:00"
+	 },
+	 {
+	   "key": "Financial impact migrants",
+	   "value": 0.266,
+	   "date": "03/07/15 0:00"
+	 },
+	 {
+	   "key": "Financial impact migrants",
+	   "value": 0.266,
+	   "date": "03/10/15 0:00"
+	 },
+	 {
+	   "key": "Financial impact migrants",
+	   "value": 0.245,
+	   "date": "3/12/15 0:00"
+	 },
+	 {
+	   "key": "Financial impact migrants",
+	   "value": 0.241,
+	   "date": "3/13/15 0:00"
+	 },
+	 {
+	   "key": "Financial impact migrants",
+	   "value": 0.4,
+	   "date": "3/14/15 0:00"
+	 },
+	 {
+	   "key": "Financial impact migrants",
+	   "value": 0.269,
+	   "date": "3/15/15 0:00"
+	 },
+	 {
+	   "key": "Financial impact migrants",
+	   "value": 0.211,
+	   "date": "03/18/15 0:00"
+	 },
+	 {
+	   "key": "EU migrant crisis",
+	   "value": 0.152,
+	   "date": "03/01/15 00:00"
+	 },
+	 {
+	   "key": "EU migrant crisis",
+	   "value": 0.17,
+	   "date": "03/02/15 01:00"
+	 },
+	 {
+	   "key": "EU migrant crisis",
+	   "value": 0.168,
+	   "date": "03/05/15 02:00"
+	 },
+	 {
+	   "key": "EU migrant crisis",
+	   "value": 0.159,
+	   "date": "03/07/15 03:00"
+	 },
+	 {
+	   "key": "EU migrant crisis",
+	   "value": 0,
+	   "date": "03/10/15 05:00"
+	 },
+	 {
+	   "key": "EU migrant crisis",
+	   "value": 0.152,
+	   "date": "03/12/15 06:00"
+	 },
+	 {
+	   "key": "EU migrant crisis",
+	   "value": 0.171,
+	   "date": "03/13/15 07:00"
+	 },
+	 {
+	   "key": "EU migrant crisis",
+	   "value": 0.154,
+	   "date": "03/14/15 08:00"
+	 },
+	 {
+	   "key": "EU migrant crisis",
+	   "value": 0.166,
+	   "date": "03/15/15 09:00"
+	 },
+	 {
+	   "key": "EU migrant crisis",
+	   "value": 0.166,
+	   "date": "03/18/15 09:00"
+	 }
+	]
+	            // Pull out values
+	            data.forEach(function (d) {
+	                d.date = format.parse(d.date);
+	                d.value = +d.value;
+	            });
+
+	            // // Stack and nest layers
+	           var layers = stack(nest.entries(data));
+
+
+
+	            // Set input domains
+	            // ------------------------------
+
+	            // Horizontal
+	            x.domain(d3.extent(data, function(d, i) { return d.date; }));
+
+	            // Vertical
+	           y.domain([0, d3.max(data, function(d) { return d.y0+d.y; })]);
+
+
+
+	            // Add grid
+	            // ------------------------------
+
+	            // Horizontal grid. Must be before the group
+	            svg.append("g")
+	                .attr("class", "d3-grid-dashed")
+	                .call(gridAxis);
+
+
+
+	            // //
+	            // // Append chart elements
+	            // //
+	            //
+	            // // Stream layers
+	            // // ------------------------------
+	            //
+	            // Create group
+	            var group = svg.append('g')
+	                .attr('class', 'streamgraph-layers-group');
+
+	            // And append paths to this group
+	            var layer = group.selectAll(".streamgraph-layer")
+	                .data(layers)
+	                .enter()
+	                    .append("path")
+	                    .attr("class", "streamgraph-layer")
+	                    .attr("d", function(d) { return area(d.values); })
+	                    .style('stroke', '#fff')
+	                    .style('stroke-width', 0.5)
+	                    .style("fill", function(d, i) { return z(i); });
+
+	            // Add transition
+	            var layerTransition = layer
+	                .style('opacity', 0)
+	                .transition()
+	                    .duration(750)
+	                    .delay(function(d, i) { return i * 50; })
+	                    .style('opacity', 1)
+
+
+
+	            // // Append axes
+	            // // ------------------------------
+	            //
+	            // //
+	            // // Left vertical
+	            // //
+	            //
+	            svg.append("g")
+	                .attr("class", "d3-axis d3-axis-left d3-axis-solid")
+	                .call(yAxis.orient("left"));
+
+	            // // Hide first tick
+	            d3.select(svg.selectAll('.d3-axis-left .tick text')[0][0])
+	                .style("visibility", "hidden");
+
+	            //
+	            // //
+	            // // Right vertical
+	            // //
+	            //
+	            svg.append("g")
+	                .attr("class", "d3-axis d3-axis-right d3-axis-solid")
+	                .attr("transform", "translate(" + width + ", 0)")
+	                .call(yAxis2.orient("right"));
+
+	            // // Hide first tick
+	            d3.select(svg.selectAll('.d3-axis-right .tick text')[0][0])
+	                .style("visibility", "hidden");
+
+
+	            // //
+	            // // Horizontal
+	            // //
+	            //
+	            var xaxisg = svg.append("g")
+	                .attr("class", "d3-axis d3-axis-horizontal d3-axis-solid")
+	                .attr("transform", "translate(0," + height + ")")
+	                .call(xAxis);
+
+	            // Add extra subticks for hidden hours
+	            xaxisg.selectAll(".d3-axis-subticks")
+	                .data(x.ticks(d3.time.date), function(d) { return d; })
+	                .enter()
+	                .append("line")
+	                .attr("class", "d3-axis-subticks")
+	                .attr("y1", 0)
+	                .attr("y2", 4)
+	                .attr("x1", x)
+	                .attr("x2", x);
+
+
+
+	            // Add hover line and pointer
+	            // ------------------------------
+
+	            // Append group to the group of paths to prevent appearance outside chart area
+	            var hoverLineGroup = group.append("g")
+	                .attr("class", "hover-line");
+
+	            // Add line
+	            var hoverLine = hoverLineGroup
+	                .append("line")
+	                .attr("y1", 0)
+	                .attr("y2", height)
+	                .style('fill', 'none')
+	                .style('stroke', '#fff')
+	                .style('stroke-width', 1)
+	                .style('pointer-events', 'none')
+	                .style('shape-rendering', 'crispEdges')
+	                .style("opacity", 0);
+
+	            // Add pointer
+	            var hoverPointer = hoverLineGroup
+	                .append("rect")
+	                .attr("x", 2)
+	                .attr("y", 2)
+	                .attr("width", 6)
+	                .attr("height", 6)
+	                .style('fill', '#03A9F4')
+	                .style('stroke', '#fff')
+	                .style('stroke-width', 1)
+	                .style('shape-rendering', 'crispEdges')
+	                .style('pointer-events', 'none')
+	                .style("opacity", 0);
+
+
+
+	            // Append events to the layers group
+	            // ------------------------------
+
+	            layerTransition.each("end", function() {
+	                layer
+	                    .on("mouseover", function (d, i) {
+	                        svg.selectAll(".streamgraph-layer")
+	                            .transition()
+	                            .duration(250)
+	                            .style("opacity", function (d, j) {
+	                                return j != i ? 0.75 : 1; // Mute all except hovered
+	                            });
+	                    })
+
+	                    .on("mousemove", function (d, i) {
+	                        mouse = d3.mouse(this);
+	                        mousex = mouse[0];
+	                        mousey = mouse[1];
+	                        datearray = [];
+	                        var invertedx = x.invert(mousex);
+	                        invertedx = invertedx.getHours();
+	                        var selected = (d.values);
+	                        for (var k = 0; k < selected.length; k++) {
+	                            datearray[k] = selected[k].date
+	                            datearray[k] = datearray[k].getHours();
+	                        }
+	                        mousedate = datearray.indexOf(invertedx);
+	                        pro = d.values[mousedate].value;
+
+
+	                        // Display mouse pointer
+	                        hoverPointer
+	                            .attr("x", mousex - 3)
+	                            .attr("y", mousey - 6)
+	                            .style("opacity", 1);
+
+	                        hoverLine
+	                            .attr("x1", mousex)
+	                            .attr("x2", mousex)
+	                            .style("opacity", 1);
+
+
+	                        // Tooltip
+
+
+	                        // Tooltip data
+	                        tooltip.html(
+	                            "<ul class='list-unstyled mb-5'>" +
+	                                "<li>" + "<div class='text-size-base mt-5 mb-5'><i class='icon-circle-left2 position-left'></i>" + d.key + "</div>" + "</li>" +
+	                                "<li>" + "Percentage: &nbsp;" + "<span class='text-semibold pull-right'>" + pro + "</span>" + "</li>" +
+	                                "<li>" + "Date: &nbsp; " + "<span class='text-semibold pull-right'>" + format(d.values[mousedate].date) + "</span>" + "</li>" +
+	                            "</ul>"
+	                        )
+	                        .style("display", "block");
+
+	                        // Tooltip arrow
+	                        tooltip.append('div').attr('class', 'd3-tip-arrow');
+	                    })
+
+	                    .on("mouseout", function (d, i) {
+
+	                        // Revert full opacity to all paths
+	                        svg.selectAll(".streamgraph-layer")
+	                            .transition()
+	                            .duration(250)
+	                            .style("opacity", 1);
+
+	                        // Hide cursor pointer
+	                        hoverPointer.style("opacity", 0);
+
+	                        // Hide tooltip
+	                        tooltip.style("display", "none");
+
+	                        hoverLine.style("opacity", 0);
+	                    });
+	                });
+
+
+	            // Append events to the chart container
+	            // ------------------------------
+	            d3Container
+	                .on("mousemove", function (d, i) {
+	                    mouse = d3.mouse(this);
+	                    mousex = mouse[0];
+	                    mousey = mouse[1];
+
+	                    // Display hover line
+	                    // .style("opacity", 1);
+
+
+	                    // Move tooltip vertically
+	                    tooltip.style("top", (mousey - ($('.d3-tip').outerHeight() / 2)) - 2 + "px") // Half tooltip height - half arrow width
+
+	                    // Move tooltip horizontally
+	                    if(mousex >= ($(element).outerWidth() - $('.d3-tip').outerWidth() - margin.right - (tooltipOffset * 2))) {
+	                        tooltip
+	                            .style("left", (mousex - $('.d3-tip').outerWidth() - tooltipOffset) + "px") // Change tooltip direction from right to left to keep it inside graph area
+	                            .attr("class", "d3-tip w");
+	                    }
+	                    else {
+	                        tooltip
+	                            .style("left", (mousex + tooltipOffset) + "px" )
+	                            .attr("class", "d3-tip e");
+	                    }
+	                });
+
+	        //});
+
+
+
+	        // Resize chart
+	        // ------------------------------
+
+	        // Call function on window resize
+	        $(window).on('resize', resizeStream);
+
+	        // Call function on sidebar width change
+	        // $('.sidebar-control').on('click', resizeStream);
+
+	        // Resize function
+	        //
+	        // Since D3 doesn't support SVG resize by default,
+	        // we need to manually specify parts of the graph that need to
+	        // be updated on window resize
+	        function resizeStream() {
+
+	            // Layout
+	            // -------------------------
+
+	            // Define width
+	            width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
+
+	            // Main svg width
+	            container.attr("width", width + margin.left + margin.right);
+
+	            // Width of appended group
+	            svg.attr("width", width + margin.left + margin.right);
+
+	            // Horizontal range
+	            x.range([0, width]);
+
+
+	            // Chart elements
+	            // -------------------------
+
+	            // Horizontal axis
+	            svg.selectAll('.d3-axis-horizontal').call(xAxis);
+
+	            // Horizontal axis subticks
+	            svg.selectAll('.d3-axis-subticks').attr("x1", x).attr("x2", x);
+
+	            // Grid lines width
+	            svg.selectAll(".d3-grid-dashed").call(gridAxis.tickSize(-width, 0, 0))
+
+	            // Right vertical axis
+	            svg.selectAll(".d3-axis-right").attr("transform", "translate(" + width + ", 0)");
+
+	            // Area paths
+	            svg.selectAll('.streamgraph-layer').attr("d", function(d) { return area(d.values); });
+	        }
+	    }
+
+	});
  </script>
 <script type="text/javascript" src="assets/vendors/d3/d3.v4.min.js"></script>
  <script>
