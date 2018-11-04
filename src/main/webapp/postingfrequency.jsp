@@ -579,6 +579,8 @@ if (allterms.size() > 0) {
 }
 
 
+
+
 String[] yst = dt.split("-");
 String[] yend = dte.split("-");
 year_start = yst[0];

@@ -342,7 +342,7 @@ $(this).attr("data-original-title","Remove Blog from Tracker");
 					   		 }
 				});
 				$("#selected_blogs_").val(all_blogs);
-				console.log("selected blogs here:"+selected_blogs);
+				console.log("selected blogs here:"+all_blogs);
 				setSelected(all_blogs);
 		};
 
