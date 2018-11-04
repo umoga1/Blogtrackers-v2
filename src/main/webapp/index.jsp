@@ -452,7 +452,7 @@ Design is not just what it looks like and feels like. Design is how it works.
 <h1 class="text-center testimonial-text">
 Design is not just what it looks like and feels like. Design is how it works.
 </h1>
-</div>
+</div
     </div>
     <div class="carousel-item">
       <div class="offset-md-3 col-md-6 offset-md-3">
