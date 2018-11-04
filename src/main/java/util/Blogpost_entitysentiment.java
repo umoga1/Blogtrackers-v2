@@ -50,14 +50,6 @@ public class Blogpost_entitysentiment {
 				"							}\r\n" + 
 				"						}\r\n" + 
 				"		},\r\n" + 
-				"        {\r\n" + 
-				"		  \"range\" : {\r\n" + 
-				"            \""+field+"\" : {\r\n" + 
-				"                \"gte\" : "+greater+",\r\n" + 
-				"                \"lte\" : "+less+",\r\n" + 
-				"				},\r\n" +
-				"			}\r\n" + 
-				"		}\r\n" + 
 				"      ]\r\n" + 
 				"    }\r\n" + 
 				"  }\r\n" + 
