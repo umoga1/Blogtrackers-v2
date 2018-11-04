@@ -809,8 +809,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						style="height: 600px; overflow-y: scroll;">
 						<%=postdetjson.get("body")%>
 						</div>
+					<% } %>
 				</div>
-				<% } %>
+				
 			</div>
 		</div>
 
