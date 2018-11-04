@@ -144,7 +144,7 @@ public class Blogs extends DbConnection{
 		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"totalposts\":{\"order\":\"DESC\"}}}";
 		
 		JSONObject jsonObj = new JSONObject(que);
-		String url = base_url+"_search";
+		String url = base_url+"_search?size=200";
 		return this._getResult(url, jsonObj);
 
 	}

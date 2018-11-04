@@ -2,7 +2,6 @@
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
 <%@page import="java.io.File"%>
-<%@page import="util.Blogposts"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.util.ArrayList"%>
@@ -36,7 +35,9 @@ Trackers tracker  = new Trackers();
 Blogposts post  = new Blogposts();
 Blogs blog  = new Blogs();
 Terms term  = new Terms();
+Blogpost_entitysentiment blogpostsentiment  = new Blogpost_entitysentiment();
 ArrayList allterms = new ArrayList(); 
+ArrayList allentitysentiments = new ArrayList(); 
 
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
@@ -162,8 +163,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		}
 		
 		if (!date_start.equals("") && !date_end.equals("")) {
-			totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
-
+			
 			possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
 			negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
 							
@@ -175,20 +175,19 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 			historyfrom = DATE_FORMAT.format(start);
 			historyto = DATE_FORMAT.format(end);
+<<<<<<< HEAD
 			
 			allterms = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 			
 			allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
+=======
+>>>>>>> 24efde7de7813060af2c70861903740046c19484
 			
 		} else if (single.equals("day")) {
 			 dt = year + "-" + month + "-" + day;
 			
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));			
-			totalpost = post._searchRangeTotal("date", dt, dt, ids);
-			allterms = term._searchByRange("date", dt, dt,ids);
-			
-			allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
 				
 		} else if (single.equals("week")) {
 			
@@ -202,49 +201,34 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 			
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));			
-			totalpost = post._searchRangeTotal("date", dt, dte, ids);
-			allterms = term._searchByRange("date", dt, dt,ids);
-			
-			
-			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);			
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));					
 		} else if (single.equals("month")) {
 			dt = year + "-" + month + "-01";
 			dte = year + "-" + month + "-"+day;	
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
-			totalpost = post._searchRangeTotal("date", dt, dte, ids);
-			allterms = term._searchByRange("date", dt, dt,ids);
-			
-			
-			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);		
 		} else if (single.equals("year")) {
 			dt = year + "-01-01";
 			dte = year + "-12-"+ddey;
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
-			totalpost = post._searchRangeTotal("date", dt, dte, ids);
-			allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
-			allterms = term._searchByRange("date", dt, dt,ids);
 			
 		}else {
 			dt = dst;
 			dte = dend;
-			totalpost = post._getTotalByBlogId(ids, "");
-			//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-			//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);			
-			allterms = term._searchByRange("date", dst, dend, ids);
-			
-			allauthors=post._getBloggerByBlogId("date",dst, dend,ids);
 			
 		}  
+		
+		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+		totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			
 			
 	
 	String allpost = "0";
 	float totalinfluence = 0;
 	String mostactiveblog="";
+	String toplocation="";
 	String mostactivebloglink="";
 	String mostactiveblogposts="0";
 	String mostactiveblogid="0";
@@ -274,32 +258,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	}
 	
 
-	int highestfrequency = 0;
-	JSONArray topterms = new JSONArray();
-	JSONObject keys = new JSONObject();
-	if (allterms.size() > 0) {
-		for (int p = 0; p < allterms.size(); p++) {
-			String bstr = allterms.get(p).toString();
-			JSONObject bj = new JSONObject(bstr);
-			bstr = bj.get("_source").toString();
-			bj = new JSONObject(bstr);
-			String frequency = bj.get("frequency").toString();
-			int freq = Integer.parseInt(frequency);
-			
-			String tm = bj.get("term").toString();
-			if(freq>highestfrequency){
-				highestfrequency = freq;
-				mostusedkeyword = tm;
-			}
-			JSONObject cont = new JSONObject();
-			cont.put("key", tm);
-			cont.put("frequency", frequency);
-			if(!keys.has(tm)){
-				keys.put(tm,tm);
-				topterms.put(cont);
-			}
-		}
-	}
+	
 
 %>
 <!DOCTYPE html>
@@ -486,15 +445,18 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								
 								JSONObject authors = new JSONObject();
 								JSONObject authoryears = new JSONObject();
-								JSONObject authormonths = new JSONObject();
 								JSONArray authorcount = new JSONArray();
 								JSONArray blogcount = new JSONArray();
 								JSONArray posttodisplay = new JSONArray();
 								JSONObject years = new JSONObject();
 								JSONArray yearsarray = new JSONArray();
+								JSONObject locations = new JSONObject();
+								
+								String selectedid="";
 								
 								int l=0;
 								int qc=0;
+								int tloc =0;
 								if(allauthors.size()>0){
 									
 									String tres = null;
@@ -518,6 +480,19 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String num_comment  = tobj.get("num_comments").toString();
 										num_comment = num_comment.equals("null")?"0":num_comment;
 										
+										String country = tobj.get("location").toString();
+										if(locations.has(country)){
+											int val = Integer.parseInt(locations.get(country).toString());
+											
+											locations.put(country,val);
+											if(val>tloc){
+												tloc = val;
+												toplocation = country;
+											}
+										}else{
+											locations.put(country,1);
+										}
+										
 										float influence = Float.parseFloat(tobj.get("influence_score").toString());
 										totalinfluence+=influence;
 										
@@ -528,12 +503,11 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    if(!authors.has(auth)){
 									    	if(l==0){
 												mostactiveblogger = auth;
+												selectedid = blogid;
+												allterms = term._searchByRange("date", dt, dte, blogid);
+												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
+										
 											}
-									    	
-									    	if(l==1){
-												secondactiveblogger = auth;
-											}
-									    	
 									    	
 											l++;
 											
@@ -545,12 +519,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	
 									    	%>
 
-							    			<a class="btn btn-primary form-control stylebuttonactive mb20 <% if(!auth.equals(mostactiveblogger) && !auth.equals(secondactiveblogger)){ %>text-primary opacity53<%}else{%> btn-primary <% } %>blogger-select" id="<%=auth.replaceAll(" ", "_")%>" ><b><%=tobj.get("blogger")%></b></a>
-							    			<% }else{
-							    					
-							    			   }
+							    			<a class="blogger-select btn btn-primary form-control stylebuttonactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %>text-primary opacity53<%}else{%> btn-primary <% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
+							    			<% }
 									    		
-											    if(auth.equals(mostactiveblogger) || auth.equals(secondactiveblogger) ){
+											    if(auth.equals(mostactiveblogger) ){
 												    	JSONObject disp = new JSONObject();
 												    	disp.put("title",posttitle);
 												    	disp.put("influence",influence);
@@ -564,10 +536,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 											    }
 										   // System.out.println(authoryears);
 										    }} 
-								//System.out.println(authoryears);
-							   // System.out.println(yearsarray);
-							  		//yearsarray = post._sortJson(yearsarray);
-							    %>
+	
+								
+								
+	%>
         <!--  
     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
      <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Abel Danger</b></a>
@@ -585,7 +557,36 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 </div>
 
 <%
-//JSONArray yearsarray = new JSONArray();
+
+int highestfrequency = 0;
+JSONArray topterms = new JSONArray();
+JSONObject keys = new JSONObject();
+if (allterms.size() > 0) {
+	for (int p = 0; p < allterms.size(); p++) {
+		String bstr = allterms.get(p).toString();
+		JSONObject bj = new JSONObject(bstr);
+		bstr = bj.get("_source").toString();
+		bj = new JSONObject(bstr);
+		String frequency = bj.get("frequency").toString();
+		int freq = Integer.parseInt(frequency);
+		
+		String tm = bj.get("term").toString();
+		if(freq>highestfrequency){
+			highestfrequency = freq;
+			mostusedkeyword = tm;
+		}
+		JSONObject cont = new JSONObject();
+		cont.put("key", tm);
+		cont.put("frequency", frequency);
+		if(!keys.has(tm)){
+			keys.put(tm,tm);
+			topterms.put(cont);
+		}
+	}
+}
+
+
+
 
 String[] yst = dt.split("-");
 String[] yend = dte.split("-");
@@ -594,22 +595,24 @@ year_end = yend[0];
 int ystint = Integer.parseInt(year_start);
 int yendint = Integer.parseInt(year_end);
 
-for(int n=0; n<authorcount.length();n++){
-	int b=0;
-	JSONObject postyear =new JSONObject();
-	for(int y=ystint; y<=yendint; y++){ 
-			   String dtu = y + "-01-01";
-			   String dtue = y + "-12-31";
-			   String totu = post._searchRangeTotal("date",dtu, dtue,blogcount.get(n).toString());		 	
-			   if(!years.has(y+"")){
-		    		years.put(y+"",y);
-		    		yearsarray.put(b,y);
-		    		b++;
-		    	}
-			   
-			   postyear.put(y+"",totu);
+if(authorcount.length()>0){
+	for(int n=0; n<1;n++){
+		int b=0;
+		JSONObject postyear =new JSONObject();
+		for(int y=ystint; y<=yendint; y++){ 
+				   String dtu = y + "-01-01";
+				   String dtue = y + "-12-31";
+				   String totu = post._searchRangeTotal("date",dtu, dtue,blogcount.get(n).toString());		 	
+				   if(!years.has(y+"")){
+			    		years.put(y+"",y);
+			    		yearsarray.put(b,y);
+			    		b++;
+			    	}
+				   
+				   postyear.put(y+"",totu);
+		}
+		authoryears.put(authorcount.get(n).toString(),postyear);
 	}
-	authoryears.put(authorcount.get(n).toString(),postyear);
 }
 %>
 
@@ -618,9 +621,9 @@ for(int n=0; n<authorcount.length();n++){
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 250px;">
 <div><p class="text-primary mt10"> <b>Individual</b> Number of Blog Post of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
-<div class="chart-container">
-  <div class="chart" id="d3-line-basic"></div>
-</div>
+		<div class="chart-container">
+		  <div class="chart" id="d3-line-basic"></div>
+		</div>
       </div>
         </div>
   </div>
@@ -641,7 +644,7 @@ for(int n=0; n<authorcount.length();n++){
 
      <div class="col-md-3 mt5 mb5">
        <h6 class="card-title mb0">Top Post Location</h6>
-       <h3 class="mb0 bold-text">United States</h3>
+       <h3 class="mb0 bold-text"><%=toplocation%></h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
@@ -660,12 +663,13 @@ for(int n=0; n<authorcount.length();n++){
   <div class="col-md-6 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Keywords of <b class="text-blue"><%=mostactiveblog%></b> and <b
-									class="text-success"><%=secondactiveblog%></b></p></div>
+        <div><p class="text-primary mt10">Keywords of <b class="text-blue"><%=mostactiveblog%></b></p></div>
+        <div id="tagcloudbox">
         <div class="tagcloudcontainer" style="min-height: 420px;">
 
         </div>
-          </div>
+        </div>
+       </div>
     </div>
   </div>
 
@@ -679,6 +683,7 @@ for(int n=0; n<authorcount.length();n++){
                   <div class="p15 pb5 pt20" role="group">
                 
                   </div> 
+                  <div id="entity_table">
                         <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
                                 <thead>
                                     <tr>
@@ -690,44 +695,30 @@ for(int n=0; n<authorcount.length();n++){
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <%
+                                if(allentitysentiments.size()>0){							
+									String tres = null;
+									JSONObject tresp = null;
+									String tresu = null;
+									JSONObject tobj = null;
+									int j=0;
+									int k=0;
+									for(int i=0; i< allentitysentiments.size(); i++){
+										tres = allentitysentiments.get(i).toString();	
+										tresp = new JSONObject(tres);
+										tresu = tresp.get("_source").toString();
+										tobj = new JSONObject(tresu);
+									%>
                                     <tr>
-                                        <td>Name</td>
-                                        <td>Type</td>
-                                        <td>23</td>
-                                        <td>+13.43</td>
-
+                                        <td><%=tobj.get("entity").toString() %></td>
+                                        <td><%=tobj.get("type").toString() %></td>
+                                        <td></td>
+                                        <td><%=tobj.get("sentiment").toString() %></td>
                                     </tr>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>Type</td>
-                                        <td>23</td>
-                                        <td>+13.43</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>Type</td>
-                                        <td>23</td>
-                                        <td>+13.43</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>Type</td>
-                                        <td>23</td>
-                                        <td>+13.43</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>Type</td>
-                                        <td>23</td>
-                                        <td>+13.43</td>
-
-                                    </tr>
-
+                                    <% }} %>
                                 </tbody>
                             </table>
+                          </div>
                 </div>
 
     </div>
@@ -741,18 +732,16 @@ for(int n=0; n<authorcount.length();n++){
 <div class="row m0 mt20 mb50 d-flex align-items-stretch" >
   <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
   <div class="card-body p0 pt20 pb20" style="min-height: 420px;">
-      <p>Influential Blog Posts of <b class="text-blue"><%=mostactiveblogger%></b> and <b
-							class="text-success"><%=secondactiveblogger%></b></p>
+      <p>Influential Blog Posts of <b class="text-blue"><%=mostactiveblogger%></b></p>
          <!--  <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
+          
                 <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Post title</th>
                                 <th>Influence Score</th>
-
-
                             </tr>
                         </thead>
                         <tbody>
@@ -805,14 +794,16 @@ for(int n=0; n<authorcount.length();n++){
 </div>
 
 <form action="" name="customformsingle" id="customformsingle" method="post">
-		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" /> 
+		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" />
+		<input type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" /> 
 		<input type="hidden" name="single_date" id="single_date" value="" />
 	</form>
 
 	<form action="" name="customform" id="customform" method="post">
-		<input type="hidden" name="tid" value="<%=tid%>" /> 
-		<input type="hidden" name="date_start" id="date_start" value="" /> 
-		<input type="hidden" name="date_end" id="date_end" value="" />			
+		<input type="hidden" name="tid" id="tid" value="<%=tid%>" /> 
+		<input type="hidden" name="date_start" id="date_start" value="<%=dt%>" /> 
+		<input type="hidden" name="date_end" id="date_end" value="<%=dte%>" />
+			
 	</form>
 
 
@@ -1109,20 +1100,21 @@ for(int n=0; n<authorcount.length();n++){
   // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
   // ];
 
-  data = [<% for(int p=0; p<authorcount.length(); p++){ 
+  data = [<% if(authorcount.length()>0){
+	  for(int p=0; p<1; p++){ 
 	  		String au = authorcount.get(p).toString();
 	  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
 	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
 		  		String yearr=yearsarray.get(q).toString(); 
 		  		if(specific_auth.has(yearr)){ %>
-		  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr) %>},
+		  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr)%>},
 			<%
 		  		}else{ %>
 		  			{"date":"<%=yearr%>","close":0},
 	   		<% } %>
 		<%  
 	  		}%>]<% if(p<authorcount.length()-1){%>,<%}%>
-	  <%	}
+	  <%	}}
 	  %> ];
 	/*
 data2 = [
@@ -1588,8 +1580,7 @@ console.log("here");
      }
  </script>
 <script src="pagedependencies/baseurl.js?v=3"></script>
- 
-<script src="pagedependencies/influence.js?v=39"></script>
+<script src="pagedependencies/postingfrequency.js?v=39"></script>
 
 </body>
 </html>
