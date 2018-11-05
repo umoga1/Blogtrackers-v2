@@ -938,27 +938,27 @@ if(f.exists() && !f.isDirectory()) {
 	 {
 	   "key": "Financial impact migrants",
 	   "value": 0.245,
-	   "date": "3/12/15 0:00"
+	   "date": "3/12/15 00:00"
 	 },
 	 {
 	   "key": "Financial impact migrants",
 	   "value": 0.241,
-	   "date": "3/13/15 0:00"
+	   "date": "3/13/15 00:00"
 	 },
 	 {
 	   "key": "Financial impact migrants",
 	   "value": 0.4,
-	   "date": "3/14/15 0:00"
+	   "date": "3/14/15 00:00"
 	 },
 	 {
 	   "key": "Financial impact migrants",
 	   "value": 0.269,
-	   "date": "3/15/15 0:00"
+	   "date": "3/15/15 00:00"
 	 },
 	 {
 	   "key": "Financial impact migrants",
 	   "value": 0.211,
-	   "date": "03/18/15 0:00"
+	   "date": "03/18/15 00:00"
 	 },
 	 {
 	   "key": "EU migrant crisis",
@@ -968,47 +968,47 @@ if(f.exists() && !f.isDirectory()) {
 	 {
 	   "key": "EU migrant crisis",
 	   "value": 0.17,
-	   "date": "03/02/15 01:00"
+	   "date": "03/02/15 00:00"
 	 },
 	 {
 	   "key": "EU migrant crisis",
 	   "value": 0.168,
-	   "date": "03/05/15 02:00"
+	   "date": "03/05/15 00:00"
 	 },
 	 {
 	   "key": "EU migrant crisis",
 	   "value": 0.159,
-	   "date": "03/07/15 03:00"
+	   "date": "03/07/15 00:00"
 	 },
 	 {
 	   "key": "EU migrant crisis",
 	   "value": 0,
-	   "date": "03/10/15 05:00"
+	   "date": "03/10/15 00:00"
 	 },
 	 {
 	   "key": "EU migrant crisis",
 	   "value": 0.152,
-	   "date": "03/12/15 06:00"
+	   "date": "03/12/15 00:00"
 	 },
 	 {
 	   "key": "EU migrant crisis",
 	   "value": 0.171,
-	   "date": "03/13/15 07:00"
+	   "date": "03/13/15 00:00"
 	 },
 	 {
 	   "key": "EU migrant crisis",
 	   "value": 0.154,
-	   "date": "03/14/15 08:00"
+	   "date": "03/14/15 00:00"
 	 },
 	 {
 	   "key": "EU migrant crisis",
 	   "value": 0.166,
-	   "date": "03/15/15 09:00"
+	   "date": "03/15/15 00:00"
 	 },
 	 {
 	   "key": "EU migrant crisis",
 	   "value": 0.166,
-	   "date": "03/18/15 09:00"
+	   "date": "03/18/15 00:00"
 	 }
 	]
 	            // Pull out values
@@ -1182,11 +1182,11 @@ if(f.exists() && !f.isDirectory()) {
 	                        mousey = mouse[1];
 	                        datearray = [];
 	                        var invertedx = x.invert(mousex);
-	                        invertedx = invertedx.getHours();
+	                        invertedx = invertedx.getDate();
 	                        var selected = (d.values);
 	                        for (var k = 0; k < selected.length; k++) {
 	                            datearray[k] = selected[k].date
-	                            datearray[k] = datearray[k].getHours();
+	                            datearray[k] = datearray[k].getDate();
 	                        }
 	                        mousedate = datearray.indexOf(invertedx);
 	                        pro = d.values[mousedate].value;
