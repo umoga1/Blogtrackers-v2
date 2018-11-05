@@ -614,7 +614,7 @@ if(authorcount.length()>0){
   <div class="card card-style mt20">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 250px;">
-<div><p class="text-primary mt10"> <b>Individual</b> Number of Blog Post of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
+<div><p class="text-primary mt10"> <b>Individual</b> Number of Blog Post <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
 		<div class="chart-container">
 		  <div class="chart" id="d3-line-basic"></div>
 		</div>
@@ -657,24 +657,17 @@ if(authorcount.length()>0){
   <div class="col-md-6 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p30 pt5 pb5">
-<<<<<<< HEAD
-        <div><p class="text-primary mt10">Keywords of <b class="text-blue"><%=mostactiveblog%></b> and <b
-									class="text-success"><%=secondactiveblog%></b></p></div>
-        <div class="chart-container">
-								<div class="chart" id="tagcloudcontainer">
-								
-								</div>
-							</div>
-          </div>
-=======
         <div><p class="text-primary mt10">Keywords of <b class="text-blue"><%=mostactiveblog%></b></p></div>
         <div id="tagcloudbox">
-        <div class="tagcloudcontainer" style="min-height: 420px;">
-
-        </div>
+        <div class="chart-container">
+								<div class="chart" id="tagcloudcontainer">
+								<!-- <div class="jvectormap-zoomin">+</div>
+								<div class="jvectormap-zoomout">−</div> -->
+								</div>
+							</div>
         </div>
        </div>
->>>>>>> 06c1b07c8943d307987586326512bafd96123bb8
+
     </div>
   </div>
 
@@ -755,7 +748,7 @@ if(authorcount.length()>0){
 								JSONObject postjson = new JSONObject(posttodisplay.get(y).toString());
 						%>
 							<tr>
-								<td><a href="#" class="blogpost_link" id="<%=postjson.get("blogpost_id")%>" >#<%=(y+1)%>: <%=postjson.get("title") %></a></td>
+								<td><a class="blogpost_link cursor-pointer" id="<%=postjson.get("blogpost_id")%>" >#<%=(y+1)%>: <%=postjson.get("title") %></a></td>
 								<td align="center"><%=postjson.get("influence") %></td>
 							</tr>
 						<% }} %>                        </tbody>
@@ -1625,7 +1618,7 @@ function draw(words) {
            	function dragged(d) {
            	 var movetext = svg.select("g").selectAll("text");
            	 movetext.attr("dx",d3.event.x)
-           	 .attr("dy",d3.event.y); 
+           	 .attr("dy",d3.event.y)
            	.style("cursor","move"); 
            	 /* g.attr("transform","translateX("+d3.event.x+")")
            	 .attr("transform","translateY("+d3.event.y+")")

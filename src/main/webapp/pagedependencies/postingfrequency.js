@@ -105,7 +105,7 @@ function loadTerms(blogger,blog_id){
 
 
 function loadSentiments(blogger,blog_id){
-	$("#entity_table").html("images/loading.gif");
+	$("#entity_table").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	
 	$.ajax({
 		url: app_url+"subpages/postingfrequencysentiment.jsp",
@@ -125,7 +125,7 @@ function loadSentiments(blogger,blog_id){
 		success: function(response)
 		{   
 			console.log(response);
-			$("#entity_table").html(response);
+			$("#entity_table").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}
