@@ -175,13 +175,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 			historyfrom = DATE_FORMAT.format(start);
 			historyto = DATE_FORMAT.format(end);
-<<<<<<< HEAD
-			
-			allterms = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
-			
-			allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
-=======
->>>>>>> 24efde7de7813060af2c70861903740046c19484
+
 			
 		} else if (single.equals("day")) {
 			 dt = year + "-" + month + "-" + day;
