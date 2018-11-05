@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -9,12 +10,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>Blogtrackers-v2</name>
-	
+
 	<url>http://http://blogtrackers.host.ualr.edu/Blogtrackers</url>
 
-	<!-- FIXME change it to the project's website 
-	<url>http://locahost:8080/Blogtrackers</url>
--->
+	<!-- FIXME change it to the project's website <url>http://locahost:8080/Blogtrackers</url> -->
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -47,20 +46,25 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-		  <dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>6.0.6</version>
 		</dependency>
-<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
-<dependency>
-    <groupId>org.glassfish.jersey.core</groupId>
-    <artifactId>jersey-client</artifactId>
-    <version>2.27</version>
-</dependency>
 
-    
-		
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java <dependency> 
+			<groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> <version>8.0.11</version> 
+			</dependency> -->
+
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>2.27</version>
+		</dependency>
+
+
+
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<dependency>
 			<groupId>org.json</groupId>
@@ -96,8 +100,8 @@
 			<artifactId>elasticsearch</artifactId>
 			<version>6.2.4</version>
 		</dependency>
-		
-	
+
+
 		<!-- https://mvnrepository.com/artifact/io.searchbox/jest -->
 		<dependency>
 			<groupId>io.searchbox</groupId>
@@ -108,30 +112,27 @@
 
 		<!-- https://developers.google.com/api-client-library/java/apis/gmail/v1 -->
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
-		<!-- <dependency>
+		<!-- <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId> 
+			<version>1.4</version> </dependency> -->
+
+		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
-			<version>1.4</version>
-		</dependency> -->
-		
-		<dependency>
-        <groupId>javax.mail</groupId>
-        <artifactId>mail</artifactId>
-        <version>1.4.5</version>
-  		</dependency>
-		
-		<dependency>
-        <groupId>javax.activation</groupId>
-        <artifactId>activation</artifactId>
-        <version>1.1.1</version>
-    	</dependency>		
+			<version>1.4.5</version>
+		</dependency>
 
-<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet-core -->
-<dependency>
-    <groupId>org.glassfish.jersey.containers</groupId>
-    <artifactId>jersey-container-servlet-core</artifactId>
-    <version>2.27</version>
-</dependency>
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet-core -->
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet-core</artifactId>
+			<version>2.27</version>
+		</dependency>
 
 
 	</dependencies>

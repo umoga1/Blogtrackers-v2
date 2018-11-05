@@ -11,7 +11,7 @@ $('.blogpost_link').on("click", function(){
 function loadChart(postid){
 	var post_id = postid;
 	post_id= post_id.split("-");
-	$("#mainCarInd").html("images/loading.gif");
+	$("#mainCarInd").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	//grab all id of blog and perform an ajax request
 	$.ajax({
 		url: app_url+"subpages/sentiment.jsp",
@@ -35,7 +35,7 @@ function loadChart(postid){
 		success: function(response)
 		{   
 			console.log(response);
-			$("#mainCarInd").html(response);
+			$("#mainCarInd").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}
@@ -46,7 +46,7 @@ function loadChart(postid){
 
 function loadPost(date){
 
-	$("#postConainer").html("images/loading.gif");
+	$("#postConainer").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	//grab all id of blog and perform an ajax request
 	$.ajax({
 		url: app_url+"subpages/sentimentpost.jsp",
@@ -67,7 +67,11 @@ function loadPost(date){
 		success: function(response)
 		{   
 			//console.log(response);
-			$("#postConainer").html(response);
+			/* $.getScript("assets/js/toastr.js", function(data, textStatus, jqxhr) {
+				 loadCSS("assets/css/toastr.css");
+				 toastr.error("Tracker Creation Canceled","Action Succesful");
+			  });*/
+		$("#postConainer").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			
 			var first = $('.blogpost_link')[0];
 			console.log(first);

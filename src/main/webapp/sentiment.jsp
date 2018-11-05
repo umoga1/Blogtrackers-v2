@@ -10,7 +10,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.time.LocalDateTime"%>
-	
+
 <%
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
@@ -18,7 +18,9 @@
 	Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
-	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
+	String sort = (null == request.getParameter("sortby"))
+			? "blog"
+			: request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
 	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
@@ -45,54 +47,53 @@
 			detail = tracker._list("DESC", "", user.toString(), "1");
 			//System.out.println("List:"+detail);
 		}
-		
-		
+
 		boolean isowner = false;
 		JSONObject obj = null;
 		String ids = "";
-		String trackername="";
+		String trackername = "";
 		if (detail.size() > 0) {
 			//String res = detail.get(0).toString();
-			ArrayList resp = (ArrayList<?>)detail.get(0);
+			ArrayList resp = (ArrayList<?>) detail.get(0);
 
 			String tracker_userid = resp.get(0).toString();
 			trackername = resp.get(2).toString();
 			//if (tracker_userid.equals(user.toString())) {
-				isowner = true;
-				String query = resp.get(5).toString();//obj.get("query").toString();
-				query = query.replaceAll("blogsite_id in ", "");
-				query = query.replaceAll("\\(", "");
-				query = query.replaceAll("\\)", "");
-				ids = query;
+			isowner = true;
+			String query = resp.get(5).toString();//obj.get("query").toString();
+			query = query.replaceAll("blogsite_id in ", "");
+			query = query.replaceAll("\\(", "");
+			query = query.replaceAll("\\)", "");
+			ids = query;
 			//}
 		}
-		
+
 		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
 		if (userinfo.size() < 1 || !isowner) {
 			response.sendRedirect("index.jsp");
 		} else {
 			userinfo = (ArrayList<?>) userinfo.get(0);
 			try {
-					username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
-	
-					name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
-					email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
-					phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
-					String userpic = userinfo.get(9).toString();
-					String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
-					String filename = userinfo.get(9).toString();
-	
-					profileimage = "images/default-avatar.png";
-					if (userpic.indexOf("http") > -1) {
-						profileimage = userpic;
-					}
-	
-					File f = new File(filename);
-					if (f.exists() && !f.isDirectory()) {
-						profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
-					}
+				username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
+
+				name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
+				email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
+				phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
+				String userpic = userinfo.get(9).toString();
+				String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
+				String filename = userinfo.get(9).toString();
+
+				profileimage = "images/default-avatar.png";
+				if (userpic.indexOf("http") > -1) {
+					profileimage = userpic;
+				}
+
+				File f = new File(filename);
+				if (f.exists() && !f.isDirectory()) {
+					profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
+				}
 			} catch (Exception e) {
-			
+
 			}
 
 			String[] user_name = name.split(" ");
@@ -109,24 +110,24 @@
 			SimpleDateFormat SMALL_MONTH_ONLY = new SimpleDateFormat("mm");
 			SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
 			SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
-			
-			String stdate = post._getDate(ids,"first");
-			String endate = post._getDate(ids,"last");
-			
+
+			String stdate = post._getDate(ids, "first");
+			String endate = post._getDate(ids, "last");
+
 			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
 			Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
 
-			Date nnow = new Date();  
-			  
+			Date nnow = new Date();
+
 			String day = DAY_ONLY.format(today);
-			
+
 			String month = MONTH_ONLY.format(today);
 			String smallmonth = SMALL_MONTH_ONLY.format(today);
 			String year = YEAR_ONLY.format(today);
 
 			String dispfrom = DATE_FORMAT.format(dstart);
 			String dispto = DATE_FORMAT.format(today);
-			
+
 			String historyfrom = DATE_FORMAT.format(dstart);
 			String historyto = DATE_FORMAT.format(today);
 
@@ -143,9 +144,9 @@
 			String ddey = "31";
 			String dt = dst;
 			String dte = dend;
-			String year_start="";
-			String year_end="";
-			if(!single.equals("")){
+			String year_start = "";
+			String year_end = "";
+			/* if(!single.equals("")){
 				month = MONTH_ONLY.format(nnow); 
 				day = DAY_ONLY.format(nnow); 
 				year = YEAR_ONLY.format(nnow); 
@@ -155,8 +156,8 @@
 				}else if(month.equals("09") || month.equals("04") || month.equals("05") || month.equals("11")){
 					ddey = "30";
 				}
-			}
-			
+			} */
+
 			if (!date_start.equals("") && !date_end.equals("")) {
 				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
 				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
@@ -164,31 +165,32 @@
 
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
 				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
-				
+
 				dt = date_start.toString();
 				dte = date_end.toString();
-				
+
 				historyfrom = DATE_FORMAT.format(start);
 				historyto = DATE_FORMAT.format(end);
+
 				termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 				outlinks = outl._searchByRange("date", date_start.toString(), date_end.toString(), ids);
-				//liwcpost = 
-				allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
-				
-			} else if (single.equals("day")) {
-				 dt = year + "-" + month + "-" + day;
+
+				allauthors = post._getBloggerByBlogId("date", date_start.toString(), date_end.toString(), ids);
+
+			} /*  else if (single.equals("day")) {
+				dt = year + "-" + month + "-" + day;
 				
 				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));			
 				totalpost = post._searchRangeTotal("date", dt, dt, ids);
 				termss = term._searchByRange("date", dt, dt, ids);
 				outlinks = outl._searchByRange("date", dt, dt, ids);
-
-				allauthors = post._getBloggerByBlogId("date",dt, dt,ids,"influence_score","DESC");
-					
-			} else if (single.equals("week")) {
 				
-				 dte = year + "-" + month + "-" + day;
+				allauthors = post._getBloggerByBlogId("date",dt, dt,ids,"influence_score","DESC");
+				
+				} else if (single.equals("week")) {
+				
+				dte = year + "-" + month + "-" + day;
 				int dd = Integer.parseInt(day)-7;
 				
 				Calendar cal = Calendar.getInstance();
@@ -202,11 +204,11 @@
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 				termss = term._searchByRange("date", dt, dte, ids);
 				outlinks = outl._searchByRange("date", dt, dte, ids);
-
+				
 				allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 				
-					
-			} else if (single.equals("month")) {
+				
+				} else if (single.equals("month")) {
 				dt = year + "-" + month + "-01";
 				dte = year + "-" + month + "-"+day;	
 				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
@@ -215,11 +217,11 @@
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 				termss = term._searchByRange("date", dt, dte, ids);
 				outlinks = outl._searchByRange("date", dt, dte, ids);
-
+				
 				allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 				
 				
-			} else if (single.equals("year")) {
+				} else if (single.equals("year")) {
 				dt = year + "-01-01";
 				dte = year + "-12-"+ddey;
 				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
@@ -232,132 +234,127 @@
 				
 				
 				
-			} else {
+				} */ else {
 				dt = dst;
 				dte = dend;
 				totalpost = post._getTotalByBlogId(ids, "");
 				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
 				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);			
 				termss = term._searchByRange("date", dst, dend, ids);
-				outlinks = outl._searchByRange("date",dst, dend, ids);
-				
-				allauthors=post._getBloggerByBlogId("date",dst, dend,ids,"influence_score","DESC");
-				
-				
+				outlinks = outl._searchByRange("date", dst, dend, ids);
+
+				allauthors = post._getBloggerByBlogId("date", dst, dend, ids, "influence_score", "DESC");
+
 			}
-			
+
 			//System.out.println("Terms here:"+termss);
-			
+
 			ArrayList blogs = blog._fetch(ids);
 			int totalblog = blogs.size();
-			
-		
-			
+
 			//System.out.println("grapgh yeres"+yearsarray);
-		    JSONObject authors = new JSONObject();
-		    JSONArray sentimentpost = new JSONArray();
-		    JSONArray sentimentpost2 = new JSONArray();
-		    
-		    JSONArray authorcount = new JSONArray();
+			JSONObject authors = new JSONObject();
+			JSONArray sentimentpost = new JSONArray();
+			JSONArray sentimentpost2 = new JSONArray();
+
+			JSONArray authorcount = new JSONArray();
 			ArrayList authorlooper = new ArrayList();
-			
-			
-	if(allauthors.size()>0){
-		String tres = null;
-		JSONObject tresp = null;
-		String tresu = null;
-		JSONObject tobj = null;
-	
-		for(int i=0; i< allauthors.size(); i++){
-					tres = allauthors.get(i).toString();			
+
+			if (allauthors.size() > 0) {
+				String tres = null;
+				JSONObject tresp = null;
+				String tresu = null;
+				JSONObject tobj = null;
+
+				for (int i = 0; i < allauthors.size(); i++) {
+					tres = allauthors.get(i).toString();
 					tresp = new JSONObject(tres);
-				    tresu = tresp.get("_source").toString();
-				    tobj = new JSONObject(tresu);	
-				    sentimentpost.put(tobj.get("blogpost_id").toString());	
-				    if(i<1){
-				    	sentimentpost2.put(tobj.get("blogpost_id").toString());	
-				    }
+					tresu = tresp.get("_source").toString();
+					tobj = new JSONObject(tresu);
+					sentimentpost.put(tobj.get("blogpost_id").toString());
+					if (i < 1) {
+						sentimentpost2.put(tobj.get("blogpost_id").toString());
+					}
+				}
 			}
-		} 
-			
-			
+
 			JSONObject graphyearspos = new JSONObject();
 			JSONObject graphyearsneg = new JSONObject();
-		    JSONArray yearsarray = new JSONArray();
-		    
+			JSONArray yearsarray = new JSONArray();
+
 			String[] yst = dt.split("-");
 			String[] yend = dte.split("-");
 			year_start = yst[0];
 			year_end = yend[0];
 			int ystint = Integer.parseInt(year_start);
 			int yendint = Integer.parseInt(year_end);
-			if(single.equals("month")){
+			
+			/* if (single.equals("month")) {
 				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
 				//ystint=0;
 				//yendint = diff;
 			}
-			
-			int b=0;
-			for(int y=ystint; y<=yendint; y++){
-					/*
-					   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
-					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
-					*/  
-					   String dtu = y + "-01-01";
-					   String dtue = y + "-12-31";
-					   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
-					 	
-					   
-					   ArrayList sentimentor = new Liwc()._searchByRange("date", dtu, dtue, sentimentpost);
-						int allposemo =0;
-						int allnegemo =0;
-						if(sentimentor.size()>0){
-							for(int v=0; v<sentimentor.size();v++){
-								//if(v<1){
-									String bstr = sentimentor.get(v).toString();
-									JSONObject bj = new JSONObject(bstr);
-									bstr = bj.get("_source").toString();
-									bj = new JSONObject(bstr);
-									//System.out.println("result eree"+bj);
-									int posemo = Integer.parseInt(bj.get("posemo").toString());
-									int negemo = Integer.parseInt(bj.get("negemo").toString());
-									allposemo+=posemo;
-									allnegemo+=negemo;
-								//}
-								
-							}
-						}
+ */
+			int b = 0;
+			for (int y = ystint; y <= yendint; y++) {
+				/*
+				   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
+				   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
+				*/
+				String dtu = y + "-01-01";
+				String dtue = y + "-12-31";
+				System.out.println(dtu);
+				String totu = post._searchRangeTotal("date", dtu, dtue, ids);
+				//System.out.println(totu);
+
+				ArrayList sentimentor = new Liwc()._searchByRange("date", dtu, dtue, sentimentpost);
+				//System.out.print(sentimentor);
+				int allposemo = 0;
+				int allnegemo = 0;
+				if (sentimentor.size() > 0) {
+					for (int v = 0; v < sentimentor.size(); v++) {
+						//if(v<1){
+						String bstr = sentimentor.get(v).toString();
 						
-						
-						possentiment=allposemo+"";
-						negsentiment=allnegemo+"";
-					   
-					   graphyearspos.put(y+"",allposemo);
-					   graphyearsneg.put(y+"",allnegemo);
-			    	   yearsarray.put(b,y);	
-			    	   b++;
+						JSONObject bj = new JSONObject(bstr);
+						bstr = bj.get("_source").toString();
+						bj = new JSONObject(bstr);
+						//System.out.println("result eree"+bj);
+						int posemo = Integer.parseInt(bj.get("posemo").toString());
+						int negemo = Integer.parseInt(bj.get("negemo").toString());
+						allposemo += posemo;
+						allnegemo += negemo;
+						//}
+
+					}
+				}
+
+				possentiment = allposemo + "";
+				negsentiment = allnegemo + "";
+
+				graphyearspos.put(y + "", allposemo);
+				graphyearsneg.put(y + "", allnegemo);
+				yearsarray.put(b, y);
+				b++;
 			}
-			
-			
+
 			//JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
-			
 
 			JSONArray topterms = new JSONArray();
-		
-			
+
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
 			if (outlinks.size() > 0) {
-				int mm=0;
+				int mm = 0;
 				for (int p = 0; p < outlinks.size(); p++) {
 					String bstr = outlinks.get(p).toString();
 					JSONObject bj = new JSONObject(bstr);
 					bstr = bj.get("_source").toString();
 					bj = new JSONObject(bstr);
 					String link = bj.get("link").toString();
-					
+
 					JSONObject content = new JSONObject();
-					String maindomain="";
+					String maindomain = "";
 					try {
 						URI uri = new URI(link);
 						String domain = uri.getHost();
@@ -366,15 +363,15 @@
 						} else {
 							maindomain = domain;
 						}
-					} catch (Exception ex) {}
+					} catch (Exception ex) {
+					}
 
-					
 					if (outerlinks.has(maindomain)) {
 						content = new JSONObject(outerlinks.get(maindomain).toString());
-						
+
 						int valu = Integer.parseInt(content.get("value").toString());
 						valu++;
-						
+
 						content.put("value", valu);
 						content.put("link", link);
 						content.put("domain", maindomain);
@@ -387,53 +384,50 @@
 						outerlinks.put(maindomain, content);
 						outlinklooper.add(mm, maindomain);
 						mm++;
-					}				
-				
+					}
+
 				}
 			}
 
 			//System.out.println("senti"+ sentimentblog);
-			
+
 			JSONObject bloggers = new JSONObject();
 
 			ArrayList looper = new ArrayList();
-			
 
 			String allpost = "0";
 			float totalinfluence = 0;
-			String mostactiveblog="";
-			String mostactivebloglink="";
-			String mostactiveblogposts="0";
-			String mostactiveblogid="0";
-			
-			String mostactiveblogger="";
-			String secondactiveblogger="";
-			
+			String mostactiveblog = "";
+			String mostactivebloglink = "";
+			String mostactiveblogposts = "0";
+			String mostactiveblogid = "0";
+
+			String mostactiveblogger = "";
+			String secondactiveblogger = "";
+
 			String secondactiveblog = "";
 			String secondactiveid = "";
-			
+
 			String mostusedkeyword = "";
 			String fsid = "";
 
-
-			ArrayList mostactive= blog._getMostactive(ids);
-			if(mostactive.size()>0){
+			ArrayList mostactive = blog._getMostactive(ids);
+			if (mostactive.size() > 0) {
 				mostactiveblog = mostactive.get(0).toString();
 				mostactivebloglink = mostactive.get(1).toString();
 				mostactiveblogposts = mostactive.get(2).toString();
 				mostactiveblogid = mostactive.get(3).toString();
 				fsid = mostactiveblogid;
-				if(mostactive.size()>4){
+				if (mostactive.size() > 4) {
 					secondactiveblog = mostactive.get(4).toString();
 					secondactiveid = mostactive.get(7).toString();
-					fsid = mostactiveblogid+","+secondactiveid;
+					fsid = mostactiveblogid + "," + secondactiveid;
 				}
 			}
-			
 
 			int highestfrequency = 0;
 			JSONObject keys = new JSONObject();
-			if (termss.size() > 0) {			
+			if (termss.size() > 0) {
 				for (int p = 0; p < termss.size(); p++) {
 					String bstr = termss.get(p).toString();
 					JSONObject bj = new JSONObject(bstr);
@@ -441,101 +435,100 @@
 					bj = new JSONObject(bstr);
 					String frequency = bj.get("frequency").toString();
 					int freq = Integer.parseInt(frequency);
-					
+
 					String tm = bj.get("term").toString();
-					if(freq>highestfrequency){
+					if (freq > highestfrequency) {
 						highestfrequency = freq;
 						mostusedkeyword = tm;
 					}
 					JSONObject cont = new JSONObject();
 					cont.put("key", tm);
 					cont.put("frequency", frequency);
-					if(!keys.has(tm)){
-						keys.put(tm,tm);
+					if (!keys.has(tm)) {
+						keys.put(tm, tm);
 						topterms.put(cont);
 					}
 				}
 			}
-			
-			ArrayList sentimentor =new ArrayList();
-			
-			int death =0;
-			int work =0;
-			int leisure =0;
-			int religion =0;
-			int home =0;
-			int money =0;
-			int focuspast=0;
-			int focuspresent =0;
-			int focusfuture=0;
-			int affiliation=0;
-			int achieve=0;
-			int risk=0;
-			int reward =0;
-			int power=0;
-			int insight=0;
-			int differ=0;
-			int cause=0;
-			int discrep=0;
-			int certain=0;
-			int tentat=0;
-			int analytic=0;
-			int tone=0;
-			int clout=0;
-			int authentic=0;
-			int posemo=0;
-			int negemo=0;
-			int anger=0;
-			int anx=0;
-			int sad=0;
-					
+
+			ArrayList sentimentor = new ArrayList();
+
+			int death = 0;
+			int work = 0;
+			int leisure = 0;
+			int religion = 0;
+			int home = 0;
+			int money = 0;
+			int focuspast = 0;
+			int focuspresent = 0;
+			int focusfuture = 0;
+			int affiliation = 0;
+			int achieve = 0;
+			int risk = 0;
+			int reward = 0;
+			int power = 0;
+			int insight = 0;
+			int differ = 0;
+			int cause = 0;
+			int discrep = 0;
+			int certain = 0;
+			int tentat = 0;
+			int analytic = 0;
+			int tone = 0;
+			int clout = 0;
+			int authentic = 0;
+			int posemo = 0;
+			int negemo = 0;
+			int anger = 0;
+			int anx = 0;
+			int sad = 0;
+
 			System.out.println(sentimentpost2);
-		
-				ArrayList sentimentor2 = new Liwc()._searchByRange("date", dt, dte, sentimentpost2);
-				
-				if(sentimentor2.size()>0){
-					for(int v=0; v<sentimentor2.size();v++){
-						String bstr = sentimentor2.get(v).toString();
-						JSONObject bj = new JSONObject(bstr);
-						
-						bstr = bj.get("_source").toString();
-						
-						bj = new JSONObject(bstr);
-						//System.out.println("result eree"+bj);
-						
-						death += Integer.parseInt(bj.get("death").toString());
-						work += Integer.parseInt(bj.get("work").toString());
-						leisure+=Integer.parseInt(bj.get("leisure").toString());
-						religion+=Integer.parseInt(bj.get("religion").toString());
-						home+=Integer.parseInt(bj.get("home").toString());
-						money+=Integer.parseInt(bj.get("money").toString());
-						
-						focuspast+=Integer.parseInt(bj.get("focuspast").toString());
-						focuspresent+=Integer.parseInt(bj.get("focuspresent").toString());
-						focusfuture+=Integer.parseInt(bj.get("focusfuture").toString());
-						affiliation+=Integer.parseInt(bj.get("affiliation").toString());
-						achieve+=Integer.parseInt(bj.get("achieve").toString());
-						risk+=Integer.parseInt(bj.get("risk").toString());
-						reward+=Integer.parseInt(bj.get("reward").toString());
-						power+=Integer.parseInt(bj.get("power").toString());
-						insight+=Integer.parseInt(bj.get("insight").toString());
-						differ+=Integer.parseInt(bj.get("differ").toString());
-						cause+=Integer.parseInt(bj.get("cause").toString());
-						discrep+=Integer.parseInt(bj.get("discrep").toString());
-						certain+=Integer.parseInt(bj.get("certain").toString());
-						tentat+=Integer.parseInt(bj.get("tentat").toString());
-						analytic+=Integer.parseInt(bj.get("analytic").toString());
-						tone+=Integer.parseInt(bj.get("tone").toString());
-						clout+=Integer.parseInt(bj.get("clout").toString());
-						authentic+=Integer.parseInt(bj.get("authentic").toString());
-						posemo+=Integer.parseInt(bj.get("posemo").toString());
-						negemo+=Integer.parseInt(bj.get("negemo").toString());
-						anger+=Integer.parseInt(bj.get("anger").toString());
-						anx+=Integer.parseInt(bj.get("anx").toString());
-						sad+=Integer.parseInt(bj.get("sad").toString());
-					}
-			} 
-						
+
+			ArrayList sentimentor2 = new Liwc()._searchByRange("date", dt, dte, sentimentpost2);
+
+			if (sentimentor2.size() > 0) {
+				for (int v = 0; v < sentimentor2.size(); v++) {
+					String bstr = sentimentor2.get(v).toString();
+					JSONObject bj = new JSONObject(bstr);
+
+					bstr = bj.get("_source").toString();
+
+					bj = new JSONObject(bstr);
+					System.out.println("result eree"+bj);
+
+					death += Integer.parseInt(bj.get("death").toString());
+					work += Integer.parseInt(bj.get("work").toString());
+					leisure += Integer.parseInt(bj.get("leisure").toString());
+					religion += Integer.parseInt(bj.get("religion").toString());
+					home += Integer.parseInt(bj.get("home").toString());
+					money += Integer.parseInt(bj.get("money").toString());
+
+					focuspast += Integer.parseInt(bj.get("focuspast").toString());
+					focuspresent += Integer.parseInt(bj.get("focuspresent").toString());
+					focusfuture += Integer.parseInt(bj.get("focusfuture").toString());
+					affiliation += Integer.parseInt(bj.get("affiliation").toString());
+					achieve += Integer.parseInt(bj.get("achieve").toString());
+					risk += Integer.parseInt(bj.get("risk").toString());
+					reward += Integer.parseInt(bj.get("reward").toString());
+					power += Integer.parseInt(bj.get("power").toString());
+					insight += Integer.parseInt(bj.get("insight").toString());
+					differ += Integer.parseInt(bj.get("differ").toString());
+					cause += Integer.parseInt(bj.get("cause").toString());
+					discrep += Integer.parseInt(bj.get("discrep").toString());
+					certain += Integer.parseInt(bj.get("certain").toString());
+					tentat += Integer.parseInt(bj.get("tentat").toString());
+					analytic += Integer.parseInt(bj.get("analytic").toString());
+					tone += Integer.parseInt(bj.get("tone").toString());
+					clout += Integer.parseInt(bj.get("clout").toString());
+					authentic += Integer.parseInt(bj.get("authentic").toString());
+					posemo += Integer.parseInt(bj.get("posemo").toString());
+					negemo += Integer.parseInt(bj.get("negemo").toString());
+					anger += Integer.parseInt(bj.get("anger").toString());
+					anx += Integer.parseInt(bj.get("anx").toString());
+					sad += Integer.parseInt(bj.get("sad").toString());
+				}
+			}
 %>
 <!DOCTYPE html>
 <html>
@@ -561,7 +554,7 @@
 <link rel="stylesheet"
 	href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="assets/css/table.css" />
-  <link rel="stylesheet"
+<link rel="stylesheet"
 	href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
@@ -573,9 +566,9 @@
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
-<noscript>
-<%@include file="subpages/googletagmanagernoscript.jsp" %>
-</noscript>
+	<noscript>
+		<%@include file="subpages/googletagmanagernoscript.jsp"%>
+	</noscript>
 	<div class="modal-notifications">
 		<div class="row">
 			<div class="col-lg-10 closesection"></div>
@@ -722,9 +715,10 @@
 			<div class="col-md-6 ">
 				<nav class="breadcrumb">
 					<a class="breadcrumb-item text-primary"
-						href="<%=request.getContextPath()%>/trackerlist.jsp">My	Trackers</a> <a class="breadcrumb-item text-primary"
+						href="<%=request.getContextPath()%>/trackerlist.jsp">My
+						Trackers</a> <a class="breadcrumb-item text-primary"
 						href="<%=request.getContextPath()%>/edittracker.jsp"><%=trackername%></a>
-					<a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
+					<a class="breadcrumb-item active text-primary" href="#">Sentiment Analysis</a>
 				</nav>
 				<div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
@@ -785,11 +779,12 @@
 							<div>
 								<p class="text-primary mt10">
 									<b>Aggregate</b> of <b class="text-success">Positive</b> and <b
-										class="text-danger">Negative</b> Sentiment of post Past <select
+										class="text-danger">Negative</b> Sentiment of post
+									<!-- Past <select
 										class="text-primary filtersort sortbytimerange"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
-										<option value="year">Year</option></select>
+										<option value="year">Year</option></select> -->
 								</p>
 							</div>
 							<div class="chart-container">
@@ -807,14 +802,15 @@
 		<div class="row m0 mt20 mb50 d-flex align-items-stretch">
 			<div
 				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
-				<div class="card-body p0 pt20 pb20" style="min-height: 320px;" id="postConainer">
+				<div class="card-body p0 pt20 pb20" style="min-height: 320px;"
+					id="postConainer">
 					<p>
 						Blog Posts <b class="text-blue"><%=mostactiveblogger%></b>
 					</p>
 					<!-- <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-          
+
 					<table id="DataTables_Table_0_wrapper" class="display"
 						style="width: 100%">
 						<thead>
@@ -827,55 +823,63 @@
 							</tr>
 						</thead>
 						<tbody>
-							
-							<%	int y=0; if(allauthors.size()>0){
-								String tres = null;
-								JSONObject tresp = null;
-								String tresu = null;
-								JSONObject tobj = null;
-								int j=0;
-								int k=0;
-								int n = 0;
-								for(int i=0; i< allauthors.size(); i++){
-									
-											tres = allauthors.get(i).toString();			
-											tresp = new JSONObject(tres);
-										    tresu = tresp.get("_source").toString();
-										    tobj = new JSONObject(tresu);
-										    
-										    String auth = tobj.get("blogger").toString();
-										    String color="";
-										    if(i%2==0){
-										    	color="#CC3300";
-										    }else if(i%3 ==0){
-										    	color="#EE33FF";
-										    }else if(i%7 ==0){
-										    	color="#28a745";
-										    }else if(i%11 ==0){
-										    	color="#3728a7";
-										    }else if(i%17 ==0){
-										    	color="#17a2b8";
-										    }else {
-										    	color="#000000";
-										    }
-										    
-										    y++;
-					    %>
+
+							<%
+								int y = 0;
+										if (allauthors.size() > 0) {
+											String tres = null;
+											JSONObject tresp = null;
+											String tresu = null;
+											JSONObject tobj = null;
+											int j = 0;
+											int k = 0;
+											int n = 0;
+											for (int i = 0; i < allauthors.size(); i++) {
+
+												tres = allauthors.get(i).toString();
+												tresp = new JSONObject(tres);
+												tresu = tresp.get("_source").toString();
+												tobj = new JSONObject(tresu);
+
+												String auth = tobj.get("blogger").toString();
+												String color = "";
+												if (i % 2 == 0) {
+													color = "#CC3300";
+												} else if (i % 3 == 0) {
+													color = "#EE33FF";
+												} else if (i % 7 == 0) {
+													color = "#28a745";
+												} else if (i % 11 == 0) {
+													color = "#3728a7";
+												} else if (i % 17 == 0) {
+													color = "#17a2b8";
+												} else {
+													color = "#000000";
+												}
+
+												y++;
+							%>
 							<tr>
 								<td align="center"><%=(y)%></td>
-								<td><a syle="cursor:pointer" class="blogpost_link" id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" style="color:<%=color%>"><%=tobj.get("title").toString() %></a></td>
-								<td align="center"><%=tobj.get("blogger").toString() %></td>
+								<td><a class="blogpost_link cursor-pointer"
+									id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>"
+									style="color:<%=color%>"><%=tobj.get("title").toString()%></a></td>
+								<td align="center"><%=tobj.get("blogger").toString()%></td>
 							</tr>
-						<% }} %>
-							
-							
+							<%
+								}
+										}
+							%>
+
+
 						</tbody>
 					</table>
 				</div>
 
 			</div>
 
-			<div class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
+			<div
+				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
 				<div style="" id="mainCarInd" class="pt20">
 
 
@@ -951,7 +955,8 @@
 							<div class="carousel-item">
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion - Post #1</h5>
+									<h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion
+										- Post #1</h5>
 									<div class="sentimentemotion"></div>
 								</div>
 							</div>
@@ -973,23 +978,23 @@
 
 
 		<form action="" name="customformsingle" id="customformsingle"
-		method="post">
-		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" /> <input
-			type="hidden" name="single_date" id="single_date" value="" />
-	</form>
+			method="post">
+			<input type="hidden" name="tid" id="alltid" value="<%=tid%>" /> <input
+				type="hidden" name="single_date" id="single_date" value="" />
+		</form>
 
-	<form action="" name="customform" id="customform" method="post">
-		<input type="hidden" name="tid" value="<%=tid%>" /> <input
-			type="hidden" name="date_start" id="date_start" value="" /> <input
-			type="hidden" name="date_end" id="date_end" value="" />
-</form>
-	
+		<form action="" name="customform" id="customform" method="post">
+			<input type="hidden" name="tid" value="<%=tid%>" /> <input
+				type="hidden" name="date_start" id="date_start" value="" /> <input
+				type="hidden" name="date_end" id="date_end" value="" />
+		</form>
 
-	<form name="date-form" action="">
-		<input type="hidden" value="<%=dt%>" id="date_from" />
-		<input type="hidden" value="<%=dte%>" id="date_to"/>
-		<input type="hidden" value="<%=ids%>" id="blog_ids"/>
-	</form>
+
+		<form name="date-form" action="">
+			<input type="hidden" value="<%=dt%>" id="date_from" /> <input
+				type="hidden" value="<%=dte%>" id="date_to" /> <input type="hidden"
+				value="<%=ids%>" id="blog_ids" />
+		</form>
 
 	</div>
 
@@ -1025,8 +1030,8 @@
 	<script
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
- <script src="pagedependencies/baseurl.js?v=3"></script>
-<script src="pagedependencies/sentiment.js?v=17839"></script>
+	<script src="pagedependencies/baseurl.js?v=3"></script>
+	<script src="pagedependencies/sentiment.js?v=7839"></script>
 
 	<script>
  $(document).ready(function() {
@@ -1427,7 +1432,7 @@ $(function () {
 
          // Horizontal
          var x = d3.scale.ordinal()
-             .rangeRoundBands([0, width], .72, .5);
+             .rangeRoundBands([0, width]);
 
          // Vertical
          var y = d3.scale.linear()
@@ -1483,16 +1488,14 @@ $(function () {
          // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
          // ];
          data = [	
-         	[<% for(int q=0; q<yearsarray.length(); q++){ 
-      		  		String yer=yearsarray.get(q).toString(); 
-      		  		int vlue = Integer.parseInt(graphyearspos.get(yer).toString());
-      		  %>{"date":"<%=yer%>","close":<%=vlue%>},
-      		<% } %>],
-      		[<% for(int q=0; q<yearsarray.length(); q++){ 
-  		  		String yer=yearsarray.get(q).toString(); 
-  		  		int vlue = Integer.parseInt(graphyearsneg.get(yer).toString());
-  		  %>{"date":"<%=yer%>","close":<%=vlue%>},
-  		<% } %>]     	
+         	[<%for (int q = 0; q < yearsarray.length(); q++) {
+						String yer = yearsarray.get(q).toString();
+						int vlue = Integer.parseInt(graphyearspos.get(yer).toString());%>{"date":"<%=yer%>","close":<%=vlue%>},
+      		<%}%>],
+      		[<%for (int q = 0; q < yearsarray.length(); q++) {
+						String yer = yearsarray.get(q).toString();
+						int vlue = Integer.parseInt(graphyearsneg.get(yer).toString());%>{"date":"<%=yer%>","close":<%=vlue%>},
+  		<%}%>]     	
          	];
          //console.log(data);
          // data = [];
@@ -1702,7 +1705,7 @@ $(function () {
                                 // .style("fill", "rgba(0,0,0,0.54)")
                                 .style("stroke-width", 2)
                                 .style("stroke", "17394C")
-                                 .attr("transform", "translate("+margin.left/4.7+",0)");
+                                 //.attr("transform", "translate("+margin.left/4.7+",0)");
                                 // .datum(data)
 
                        // add point
@@ -1721,7 +1724,7 @@ $(function () {
                               .attr("cx",function(d) { return x(d.date); })
                               .attr("cy", function(d){return y(d.close)})
 
-                              .attr("transform", "translate("+margin.left/4.7+",0)");
+                              //.attr("transform", "translate("+margin.left/4.7+",0)");
 
                               svg.selectAll(".circle-point").data(data[0])
                               .on("mouseover",tip.show)
@@ -1742,13 +1745,15 @@ $(function () {
                         var path = svg.selectAll('.d3-line')
                                   .data(data)
                                   .enter()
+                                  .append("g")
+                                  .attr("class","linecontainer")
                                   .append("path")
                                   .attr("class", "d3-line d3-line-medium")
                                   .attr("d", line)
                                   // .style("fill", "rgba(0,0,0,0.54)")
                                   .style("stroke-width", 2)
                                   .style("stroke", function(d,i) { return color(i);})
-                                  .attr("transform", "translate("+margin.left/4.7+",0)");
+                                  //.attr("transform", "translate("+margin.left/4.7+",0)");
 
 
 
@@ -1763,7 +1768,8 @@ $(function () {
 
                               var mergedarray = [].concat(...data);
                                console.log(mergedarray)
-                                 circles = svg.selectAll(".circle-point")
+                                 circles = svg.append("g").attr("class","circlecontainer")
+                                     .selectAll(".circle-point")
                                      .data(mergedarray)
                                      .enter();
 
@@ -1777,7 +1783,7 @@ $(function () {
                                        .attr("cx",function(d) { return x(d.date)})
                                        .attr("cy", function(d){return y(d.close)})
 
-                                       .attr("transform", "translate("+margin.left/4.7+",0)");
+                                       //.attr("transform", "translate("+margin.left/4.7+",0)");
                                        svg.selectAll(".circle-point").data(mergedarray)
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
@@ -1842,7 +1848,15 @@ $(function () {
                          .style("font-size", 12)
                          // .text("Frequency")
                          ;
-
+                     if(data.length > 1 )
+                	 {
+                	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+                    transformfirsttick =  tick[0][0].attributes[1].value;
+                    //transformfirsttick = "translate(31.5,0)"
+                    //console.log(transformfirsttick);
+                    svg.selectAll(".circlecontainer").attr("transform", transformfirsttick);
+                    svg.selectAll(".linecontainer").attr("transform", transformfirsttick);
+                	 }
 
          // Resize chart
          // ------------------------------
@@ -1907,7 +1921,7 @@ $(function () {
      }
  });
  </script>
-<script>
+	<script>
 $(".option-only").on("change",function(e){
 	console.log("only changed ");
 	var valu =  $(this).val();

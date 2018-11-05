@@ -433,7 +433,7 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
 </div>
 </div>
 </div>
-<div class="bgmaroon">
+<!-- <div class="bgmaroon">
 <div class="container-fluid pb150 pt150" id="testimonials">
 <p class="text-white text-center mb0 testmonialheadingtext">Testimonials</p>
 <div id="testimonialslides" class="carousel slide" data-ride="carousel">
@@ -452,7 +452,7 @@ Design is not just what it looks like and feels like. Design is how it works.
 <h1 class="text-center testimonial-text">
 Design is not just what it looks like and feels like. Design is how it works.
 </h1>
-</div>
+</div
     </div>
     <div class="carousel-item">
       <div class="offset-md-3 col-md-6 offset-md-3">
@@ -472,14 +472,14 @@ Design is not just what it looks like and feels like. Design is how it works.
     <span class="sr-only">Next</span>
   </a>
 </div>
-<!-- <div class="offset-md-3 col-md-6 offset-md-3">
+<div class="offset-md-3 col-md-6 offset-md-3">
 <h1 class="text-center quote-text">”</h1>
 <h1 class="text-center testimonial-text">
 Design is not just what it looks like and feels like. Design is how it works.
 </h1>
+</div>
+</div>
 </div> -->
-</div>
-</div>
 <div class="bgwhite">
 <div class="container-fluid pb50 pt50" id="testimonials">
 <p class="text-center mb0 copyrighttext">Developed By</p>

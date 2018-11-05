@@ -175,6 +175,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 			historyfrom = DATE_FORMAT.format(start);
 			historyto = DATE_FORMAT.format(end);
+
 			
 		} else if (single.equals("day")) {
 			 dt = year + "-" + month + "-" + day;
