@@ -56,6 +56,7 @@ public class AddTracker extends HttpServlet {
 		
 		PrintWriter pww = response.getWriter();
 		
+		
 		  String data = "";   
 		    StringBuilder builder = new StringBuilder();
 		    BufferedReader reader = request.getReader();
@@ -71,7 +72,7 @@ public class AddTracker extends HttpServlet {
 		    
 		    
 		if(usession.equals(key) && !key.equals("")){ //check if supplied session key is valid
-			
+			pww.write("here");	
 			try {
 			
 				JSONObject resp = new JSONObject(data);
