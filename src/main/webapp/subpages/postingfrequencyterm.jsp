@@ -109,7 +109,7 @@ function wordtagcloud(element, height) {
 	            .selectAll("text")
 	            .data(words)
 	            .enter().append("text")
-	            .style("font-size", 0)
+	            .style("font-size", function(d) { return d.size * 0.93 + "px"; })
 	            .style("fill", function(d, i) { return color(i); })
 	            .call(d3.behavior.drag()
 	    		.origin(function(d) { return d; })
