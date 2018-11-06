@@ -128,7 +128,7 @@ public class Blogposts {
 		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
 
-		
+		/*
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -148,14 +148,25 @@ public class Blogposts {
 				"                \"gte\" : "+greater+",\r\n" + 
 				"                \"lte\" : "+less+",\r\n" + 
 				"				},\r\n" +
-				"			}\r\n" + 
-				"		}\r\n" + 			
-				"    \"aggs\" : {\r\n" + 
-				"        \"total\" : { \"sum\" : { \"field\" : \"influence_score\" } }\r\n" + 
-				"    }\r\n" + 
+				"			}\r\n" +
+				"      ]\r\n" +
+				"		}\r\n" + 
 				"      ]\r\n" + 
 				"    }\r\n" + 
 				"  }\r\n" + 
+				"}";
+				*/
+		String que="{\r\n" + 
+				"    \"query\" : {\r\n" + 
+				"        \"constant_score\" : {\r\n" + 
+				"            \"filter\" : {\r\n" + 
+				"                \"range\" : { \"date\" : { \"from\" :  "+greater+", \"to\" : "+less+" }}\r\n" + 
+				"            }\r\n" + 
+				"        }\r\n" + 
+				"    },\r\n" + 
+				"    \"aggs\" : {\r\n" + 
+				"        \"total\" : { \"sum\" : { \"field\" : \"influence_score\" } }\r\n" + 
+				"    }\r\n" + 
 				"}";
 			/*
 		String que="{\r\n" + 
@@ -172,6 +183,7 @@ public class Blogposts {
 				"}";
 		*/
 		JSONObject jsonObj = new JSONObject(que);
+		//System.out.println(jsonObj.toString());
 
 		String url = base_url+"_search?size=1";
 		return this._getAggregate(url,jsonObj);
@@ -706,11 +718,14 @@ public class Blogposts {
 		//System.out.println(myResponse.get("hits"));
 		if(null!=myResponse.get("aggregations")) {
 			String res = myResponse.get("aggregations").toString();
-			JSONObject myRes1 = new JSONObject(res);   
+			JSONObject myRes1 = new JSONObject(res); 
+			
+			
 			String res2 = myRes1.get("total").toString();
 			
 			JSONObject myRes2 = new JSONObject(res2);   
-			total = myRes2.get("value").toString();              
+			total = myRes2.get("value").toString(); 
+			System.out.println("total here:"+total);
 		}
 		}catch(Exception ex) {}
 		return  total;

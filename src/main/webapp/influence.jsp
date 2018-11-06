@@ -1110,21 +1110,22 @@ if(authorcount.length()>0){
            [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200},{"date":"2017","close":1200},{"date":"2018","close":2600}]
          ];
 		*/
-		data = [<% for(int p=0; p<authorcount.length(); p++){ 
- 	  		String au = authorcount.get(p).toString();
- 	  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
- 	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
- 		  		String yer=yearsarray.get(q).toString(); 
- 		  		if(specific_auth.has(yer)){ %>
- 		  			{"date":"<%=year%>","close":<%=specific_auth.get(yer) %>},
- 			<%
- 		  		}else{ %>
- 		  			{"date":"<%=year%>","close":0},
- 	   		<% } %>
- 		<%  
- 	  		}%>]<% if(p<authorcount.length()-1){%>,<%}%>
- 	  <%	}
- 	  %> ];
+		data = [<% if(authorcount.length()>0){
+			  for(int p=0; p<1; p++){ 
+			  		String au = authorcount.get(p).toString();
+			  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
+			  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
+				  		String yearr=yearsarray.get(q).toString(); 
+				  		if(specific_auth.has(yearr)){ %>
+				  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr)%>},
+					<%
+				  		}else{ %>
+				  			{"date":"<%=yearr%>","close":0},
+			   		<% } %>
+				<%  
+			  		}%>]<% if(p<authorcount.length()-1){%>,<%}%>
+			  <%	}}
+			  %> ];
          //console.log(data);
          // data = [];
 
@@ -1987,60 +1988,13 @@ if(authorcount.length()>0){
 	<script>
 
      //var frequency_list = [{"text":"study","size":40},{"text":"motion","size":15},{"text":"forces","size":10},{"text":"electricity","size":15},{"text":"movement","size":10},{"text":"relation","size":5},{"text":"things","size":10},{"text":"force","size":5},{"text":"ad","size":5},{"text":"energy","size":85},{"text":"living","size":5},{"text":"nonliving","size":5},{"text":"laws","size":15},{"text":"speed","size":45},{"text":"velocity","size":30},{"text":"define","size":5},{"text":"constraints","size":5},{"text":"universe","size":10},{"text":"distinguished","size":5},{"text":"chemistry","size":5},{"text":"biology","size":5},{"text":"includes","size":5},{"text":"radiation","size":5},{"text":"sound","size":5},{"text":"structure","size":5},{"text":"atoms","size":5},{"text":"including","size":10},{"text":"atomic","size":10},{"text":"nuclear","size":10},{"text":"cryogenics","size":10},{"text":"solid-state","size":10},{"text":"particle","size":10},{"text":"plasma","size":10},{"text":"deals","size":5},{"text":"merriam-webster","size":5},{"text":"dictionary","size":10},{"text":"analysis","size":5},{"text":"conducted","size":5},{"text":"order","size":5},{"text":"understand","size":5},{"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
-	     var frequency_list = [
-	    	 <%if (topterms.length() > 0) {
-					for (int i = 0; i < topterms.length(); i++) {
-						JSONObject jsonObj = topterms.getJSONObject(i);
-						int size = Integer.parseInt(jsonObj.getString("frequency"));%>
-		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
-	 <%}
-				}%>
-    	
-    	/*	    	 
-    	 {"text":"study","size":40},
-    	 {"text":"motion","size":15},
-    	 {"text":"forces","size":10},
-    	 {"text":"electricity","size":15},
-    	 {"text":"movement","size":10},
-    	 {"text":"relation","size":5},
-    	 {"text":"things","size":10},
-    	 {"text":"force","size":5},
-    	 {"text":"ad","size":5},
-    	 {"text":"energy","size":85},
-    	 {"text":"living","size":5},
-    	 {"text":"nonliving","size":5},
-    	 {"text":"laws","size":15},
-    	 {"text":"speed","size":45},
-    	 {"text":"velocity","size":30},
-    	 {"text":"define","size":5},
-    	 {"text":"constraints","size":5},
-    	 {"text":"universe","size":10},
-    	 {"text":"distinguished","size":5},
-    	 {"text":"chemistry","size":5},
-    	 {"text":"biology","size":5},
-    	 {"text":"includes","size":5},
-    	 {"text":"radiation","size":5},
-    	 {"text":"sound","size":5},
-    	 {"text":"structure","size":5},
-    	 {"text":"atoms","size":5},
-    	 {"text":"including","size":10},
-    	 {"text":"atomic","size":10},
-    	 {"text":"nuclear","size":10},
-    	 {"text":"cryogenics","size":10},
-    	 {"text":"solid-state","size":10},
-    	 {"text":"particle","size":10},
-    	 {"text":"plasma","size":10},
-    	 {"text":"deals","size":5},
-    	 {"text":"merriam-webster","size":5},
-    	 {"text":"dictionary","size":10},
-    	 {"text":"analysis","size":5},
-    	 {"text":"conducted","size":5},
-    	 {"text":"order","size":5},
-    	 {"text":"understand","size":5},
-    	 {"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},
-    	 {"text":"power","size":5}
-    	 */
-    	 ];
+	     var frequency_list = [ <%if (topterms.length() > 0) {
+				for (int i = 0; i < topterms.length(); i++) {
+					JSONObject jsonObj = topterms.getJSONObject(i);
+					int size = Integer.parseInt(jsonObj.getString("frequency"));%>
+	{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
+ <%}
+			}%>];
 
      var color = d3.scale.linear()
              .domain([0,1,2,3,4,5,6,10,15,20,80])
