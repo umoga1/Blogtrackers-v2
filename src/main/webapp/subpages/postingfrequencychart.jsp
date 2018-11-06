@@ -65,7 +65,9 @@ Blogs blog  = new Blogs();
 				}
 				authoryears.put(bloggerstr,postyear);
 %>
-<div class="chart" id="d3-line-basic"></div>		
+<div class="chart-container">
+		  <div class="chart" id="d3-line-basic"></div>
+		</div>	
 <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
  <script>
 

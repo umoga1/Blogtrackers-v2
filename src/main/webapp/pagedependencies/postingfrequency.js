@@ -20,8 +20,15 @@ $('.blogger-select').on("click", function(){
 
 $('.blogpost_link').on("click", function(){
 	var post_id = $(this).attr("id");
+<<<<<<< HEAD
 	console.log(post_id);
 	$("#blogpost_detail").html("<img src='"+app_url+"images/loading.gif'");
+=======
+	//alert(post_id);
+	//console.log(post_id);
+	$("#blogpost_detail").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
+	//grab all id of blog and perform an ajax request
+>>>>>>> 30fd1215d38da1059185aa781e644be57cf8c33a
 	$.ajax({
 		url: app_url+'tracker',
 		method: 'POST',
@@ -34,14 +41,19 @@ $('.blogpost_link').on("click", function(){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			//console.log(response);
 			$("#blogpost_detail").html(response);
 		},
 		success: function(response)
 		{   
+<<<<<<< HEAD
 			console.log(response);
 			$("#blogpost_detail").html(response);
 			
+=======
+			//console.log(response);
+			$("#blogpost_detail").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
+>>>>>>> 30fd1215d38da1059185aa781e644be57cf8c33a
 		}
 	});
 	
@@ -49,7 +61,11 @@ $('.blogpost_link').on("click", function(){
 
 
 function loadChart(blogger,blog_id){
+<<<<<<< HEAD
 	$(".chart-container").html("<img src='"+app_url+"images/loading.gif'");
+=======
+	$("#chart-container").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
+>>>>>>> 30fd1215d38da1059185aa781e644be57cf8c33a
 	$.ajax({
 		url: app_url+"subpages/postingfrequencychart.jsp",
 		method: 'POST',
@@ -63,12 +79,12 @@ function loadChart(blogger,blog_id){
 		error: function(response)
 		{						
 			console.log(response);
-			$(".chart-container").html(response);
+			$("#chart-container").html(response);
 		},
 		success: function(response)
 		{   
-			console.log(response);
-			$(".chart-container").html(response);
+			//console.log(response);
+			$("#chart-container").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}
@@ -106,7 +122,11 @@ function loadInfluence(blogger,blog_id){
 
 
 function loadTerms(blogger,blog_id){
+<<<<<<< HEAD
 	$("#tagcloudbox").html("<img src='"+app_url+"images/loading.gif'");
+=======
+	$("#tagcloudbox").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
+>>>>>>> 30fd1215d38da1059185aa781e644be57cf8c33a
 	
 	$.ajax({
 		url: app_url+"subpages/postingfrequencyterm.jsp",
@@ -120,13 +140,13 @@ function loadTerms(blogger,blog_id){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			//console.log(response);
 			$("#tagcloudbox").html(response);
 		},
 		success: function(response)
 		{   
-			console.log(response);
-			$("#tagcloudbox").html(response);
+			//console.log(response);
+			$("#tagcloudbox").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}
@@ -154,11 +174,12 @@ function loadSentiments(blogger,blog_id){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			//console.log(response);
 			$("#entity_table").html(response);
 		},
 		success: function(response)
 		{   
+<<<<<<< HEAD
 			console.log(response);
 <<<<<<< HEAD
 			$("#entity_table").html(response);
@@ -173,6 +194,9 @@ function loadSentiments(blogger,blog_id){
 			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js", function(data, textStatus, jqxhr) {	});
 	
 =======
+=======
+			//console.log(response);
+>>>>>>> 30fd1215d38da1059185aa781e644be57cf8c33a
 			$("#entity_table").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 >>>>>>> f456893b1fddeb3df7bf74d22963733eaefdec28
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
