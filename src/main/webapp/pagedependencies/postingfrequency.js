@@ -2,6 +2,9 @@ $('.blogger-select').on("click", function(){
 	
 	//$(".blogger-select").removeClass("btn-primary");
 	//$(".blogger-select").addClass("text-primary opacity53");
+	
+	$(".blogger-select").addClass("opacity53");
+	$(this).removeClass("opacity53");
 	var blogger = $(this).attr("id");
 	$("#"+blogger).addClass("btn-primary");
 	var blg = blogger.split("***");

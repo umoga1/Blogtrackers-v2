@@ -513,7 +513,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	
 									    	%>
 
-							    			<a class="blogger-select btn btn-primary form-control stylebuttonactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %>text-primary opacity53<%}else{%> btn-primary <% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
+							    			<a class="blogger-select btn btn-primary form-control stylebuttonactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %>text-primary <%}else{%> btn-primary stylebuttonactive<% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
 							    			<% }
 									    		
 											    if(auth.equals(mostactiveblogger) ){
