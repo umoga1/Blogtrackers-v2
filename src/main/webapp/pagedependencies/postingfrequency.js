@@ -136,7 +136,11 @@ function loadTerms(blogger,blog_id){
 
 
 function loadSentiments(blogger,blog_id){
+<<<<<<< HEAD
 	$("#entity_table").html("<img src='"+app_url+"images/loading.gif'");
+=======
+	$("#entity_table").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
+>>>>>>> f456893b1fddeb3df7bf74d22963733eaefdec28
 	
 	$.ajax({
 		url: app_url+"subpages/postingfrequencysentiment.jsp",
@@ -156,6 +160,7 @@ function loadSentiments(blogger,blog_id){
 		success: function(response)
 		{   
 			console.log(response);
+<<<<<<< HEAD
 			$("#entity_table").html(response);
 			$.getScript("assets/vendors/DataTables/datatables.min.js", function(data, textStatus, jqxhr) {	});
 			 $.getScript("assets/vendors/DataTables/dataTables.bootstrap4.min.js", function(data, textStatus, jqxhr) {	});
@@ -167,6 +172,9 @@ function loadSentiments(blogger,blog_id){
 			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js", function(data, textStatus, jqxhr) {	});
 			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js", function(data, textStatus, jqxhr) {	});
 	
+=======
+			$("#entity_table").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
+>>>>>>> f456893b1fddeb3df7bf74d22963733eaefdec28
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}
