@@ -16,20 +16,13 @@
 <%
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
-
 Object blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
-
 Object blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
-
 String bloggerstr = blogger.toString().replaceAll("_"," ");
-
 System.out.println("blogger here :"+blogger);
-
 Trackers tracker  = new Trackers();
 Blogposts post  = new Blogposts();
 Blogs blog  = new Blogs();
-
-
 		String dt = date_start.toString();
 		String dte = date_end.toString();
 		String year_start="";
@@ -41,7 +34,6 @@ Blogs blog  = new Blogs();
 		JSONObject authoryears = new JSONObject();
 		JSONObject years = new JSONObject();
 		JSONArray yearsarray = new JSONArray();
-
 		String[] yst = dt.split("-");
 		String[] yend = dte.split("-");
 		year_start = yst[0];
@@ -70,96 +62,63 @@ Blogs blog  = new Blogs();
 		</div>	
 <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
  <script>
-
   $(function () {
-
       // Initialize chart
       lineBasic('#d3-line-basic', 235);
-
       // Chart setup
       function lineBasic(element, height) {
-
-
           // Basic setup
           // ------------------------------
-
           // Define main variables
           var d3Container = d3.select(element),
               margin = {top: 10, right: 10, bottom: 20, left: 50},
               width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
               height = height - margin.top - margin.bottom;
-
-
           var formatPercent = d3.format("");
           // Format data
           // var parseDate = d3.time.format("%d-%b-%y").parse,
           //     bisectDate = d3.bisector(function(d) { return d.date; }).left,
           //     formatValue = d3.format(",.0f"),
           //     formatCurrency = function(d) { return formatValue(d); }
-
-
-
           // Construct scales
           // ------------------------------
-
           // Horizontal
           var x = d3.scale.ordinal()
               .rangeRoundBands([0, width], .72, .5);
-
           // Vertical
           var y = d3.scale.linear()
               .range([height, 0]);
-
-
-
           // Create axes
           // ------------------------------
-
           // Horizontal
           var xAxis = d3.svg.axis()
               .scale(x)
               .orient("bottom")
              .ticks(9)
-
             // .tickFormat(formatPercent);
-
-
           // Vertical
           var yAxis = d3.svg.axis()
               .scale(y)
               .orient("left")
               .ticks(6);
-
-
-
           // Create chart
           // ------------------------------
-
           // Add SVG element
           var container = d3Container.append("svg");
-
           // Add SVG group
           var svg = container
               .attr("width", width + margin.left + margin.right)
               .attr("height", height + margin.top + margin.bottom)
               .append("g")
                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-
           // Construct chart layout
           // ------------------------------
-
           // Line
-
-
           // Load data
           // ------------------------------
-
   // data = [[{"date": "Jan","close": 120},{"date": "Feb","close": 140},{"date": "Mar","close":160},{"date": "Apr","close": 180},{"date": "May","close": 200},{"date": "Jun","close": 220},{"date": "Jul","close": 240},{"date": "Aug","close": 260},{"date": "Sep","close": 280},{"date": "Oct","close": 300},{"date": "Nov","close": 320},{"date": "Dec","close": 340}],
   // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
   // ];
-
   data = [<% 
 	  		String au = bloggerstr;
 	  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
@@ -174,11 +133,9 @@ Blogs blog  = new Blogs();
 		<%  
 	  		}%>]
 	  ];
-
   console.log(data);
  // console.log(data2);
   // data = [];
-
   // data = [
   // [
   //   {
@@ -231,7 +188,6 @@ Blogs blog  = new Blogs();
   //   }
   // ]
   // ];
-
   // console.log(data);
   var line = d3.svg.line()
   .interpolate("monotone")
@@ -240,8 +196,6 @@ Blogs blog  = new Blogs();
       .y(function(d) { return y(d.close); });
       // .x(function(d){d.forEach(function(e){return x(d.date);})})
       // .y(function(d){d.forEach(function(e){return y(d.close);})});
-
-
  var circles;
   // Create tooltip
   var tip = d3.tip()
@@ -257,18 +211,13 @@ Blogs blog  = new Blogs();
            }
          // return "here";
          });
-
      // Initialize tooltip
      //svg.call(tip);
-
-
     // Pull out values
     // data.forEach(function(d) {
     //     d.frequency = +d.close;
     //
     // });
-
-
               // Pull out values
               // data.forEach(function(d) {
               //     // d.date = parseDate(d.date);
@@ -276,20 +225,14 @@ Blogs blog  = new Blogs();
               //     //d.date = d.date;
               //     d.close = +d.close;
               // });
-
               // Sort data
               // data.sort(function(a, b) {
               //     return a.date - b.date;
               // });
-
-
               // Set input domains
               // ------------------------------
-
               // Horizontal
     //  console.log(data[0])
-
-
             // Vertical
   // extract max value from list of json object
   // console.log(data.length)
@@ -300,27 +243,20 @@ Blogs blog  = new Blogs();
       {
         d.forEach(function(f,i){
         mvalue[i] = f.close;
-
         })
       return d3.max(mvalue);
       }
-
       //console.log(mvalue);
       });
-
-
-
   ////console.log(data)
   if(data.length == 1)
   {
     var returnedvalue = data[0].map(function(e){
     return e.date
     });
-
   // for single json data
   x.domain(returnedvalue);
   // rewrite x domain
-
   var maxvalue2 =
   data.map(function(d){
   return d3.max(d,function(t){return t.close});
@@ -331,7 +267,6 @@ Blogs blog  = new Blogs();
   {
   //console.log(data.length);
   //console.log(data);
-
   var returnedata = data.map(function(e){
   // console.log(k)
   var all = []
@@ -347,7 +282,6 @@ Blogs blog  = new Blogs();
   var newArr = returnedata.reduce((result,current) => {
   return result.concat(current);
   });
-
   //console.log(newArr);
   var set = new Set(newArr);
   var filteredArray = Array.from(set);
@@ -356,17 +290,9 @@ Blogs blog  = new Blogs();
   x.domain(filteredArray);
   y.domain([0, d3.max(maxvalue)]);
   }
-
-
-
-
               //
               // Append chart elements
               //
-
-
-
-
   // svg.call(tip);
                // data.map(function(d){})
                if(data.length == 1)
@@ -383,13 +309,10 @@ Blogs blog  = new Blogs();
                          .style("stroke", "17394C")
                           .attr("transform", "translate("+margin.left/4.7+",0)");
                          // .datum(data)
-
                 // add point
                  circles = svg.selectAll(".circle-point")
                            .data(data[0])
                            .enter();
-
-
                        circles
                        // .enter()
                        .append("circle")
@@ -399,9 +322,7 @@ Blogs blog  = new Blogs();
                        .style("fill","#4CAF50")
                        .attr("cx",function(d) { return x(d.date); })
                        .attr("cy", function(d){return y(d.close)})
-
                        .attr("transform", "translate("+margin.left/4.7+",0)");
-
                        svg.selectAll(".circle-point").data(data[0])
                        .on("mouseover",tip.show)
                        .on("mouseout",tip.hide)
@@ -423,24 +344,16 @@ Blogs blog  = new Blogs();
                            .style("stroke-width", 2)
                            .style("stroke", function(d,i) { return color(i);})
                            .attr("transform", "translate("+margin.left/4.7+",0)");
-
-
-
-
                 // add multiple circle points
-
                     // data.forEach(function(e){
                     // console.log(e)
                     // })
-
                     console.log(data);
-
                        var mergedarray = [].concat(...data);
                         console.log(mergedarray)
                           circles = svg.selectAll(".circle-point")
                               .data(mergedarray)
                               .enter();
-
                                 circles
                                 // .enter()
                                 .append("circle")
@@ -450,56 +363,31 @@ Blogs blog  = new Blogs();
                                 .style("fill","#4CAF50")
                                 .attr("cx",function(d) { return x(d.date)})
                                 .attr("cy", function(d){return y(d.close)})
-
                                 .attr("transform", "translate("+margin.left/4.7+",0)");
                                 svg.selectAll(".circle-point").data(mergedarray)
                                .on("mouseover",tip.show)
                                .on("mouseout",tip.hide)
                                .on("click",function(d){console.log(d.date)});
                           //                         svg.call(tip)
-
                         //console.log(newi);
-
-
                               svg.selectAll(".circle-point").data(mergedarray)
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
                               .on("click",function(d){console.log(d.date)});
                                                  svg.call(tip)
-
-
-
-
-
-
-
-
-
-
                }
-
-
   // show data tip
-
-
               // Append axes
               // ------------------------------
-
               // Horizontal
               svg.append("g")
                   .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
                   .attr("transform", "translate(0," + height + ")")
                   .call(xAxis);
-
               // Vertical
               var verticalAxis = svg.append("g")
                   .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
                   .call(yAxis);
-
-
-
-
-
               // Add text label
               verticalAxis.append("text")
                   .attr("transform", "rotate(-90)")
@@ -510,25 +398,18 @@ Blogs blog  = new Blogs();
                   .style("font-size", 12)
                   // .text("Frequency")
                   ;
-
-
-
          // Resize chart
          // ------------------------------
-
          // Call function on window resize
          $(window).on('resize', resize);
-
          // Call function on sidebar width change
          $('.sidebar-control').on('click', resize);
-
          // Resize function
          //
          // Since D3 doesn't support SVG resize by default,
          // we need to manually specify parts of the graph that need to
          // be updated on window resize
          function resize() {
-
              // Layout variables
              width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
              //
@@ -558,8 +439,6 @@ Blogs blog  = new Blogs();
              //
              // // Line path
              svg.selectAll('.d3-line').attr("d", line);
-
-
              if(data.length == 1)
              {
                svg.selectAll(".circle-point").attr("circle",circles)
@@ -575,7 +454,6 @@ Blogs blog  = new Blogs();
              //
              // // Crosshair
              // svg.selectAll('.d3-crosshair-overlay').attr("width", width);
-
          }
      }
  });

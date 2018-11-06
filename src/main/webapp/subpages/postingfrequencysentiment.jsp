@@ -16,25 +16,17 @@
 <%
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
-
 Object blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
-
 Object blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
-
 String bloggerstr = blogger.toString().replaceAll("_"," ");
-
 System.out.println("blogger here :"+blogger);
-
 Blogpost_entitysentiment blogpostsentiment  = new Blogpost_entitysentiment();
 ArrayList allentitysentiments = new ArrayList(); 
-
-
 String dt = date_start.toString();
 String dte = date_end.toString();
 String year_start="";
 String year_end="";		
 allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blog_id.toString());
-
 %>
 <link rel="stylesheet" href="assets/css/table.css" />
 <link rel="stylesheet" href="assets/css/style.css" />
@@ -106,10 +98,7 @@ allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blog_id.
          ]
        } */
      } );
-
-
 	 
-
  } );
  </script>
 	<!--end for table  -->

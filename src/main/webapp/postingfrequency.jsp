@@ -214,7 +214,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 		}  
 		
-		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);	
+		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+		totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			
 			
 	
 	String allpost = "0";
@@ -498,8 +500,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 												selectedid = blogid;
 												allterms = term._searchByRange("date", dt, dte, blogid);
 												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
-												totalpost = post._searchRangeTotal("date", dt, dte, ids);
-												
+										
 											}
 									    	
 											l++;
@@ -508,17 +509,11 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	authorcount.put(j, auth);
 									    	blogcount.put(j, blogid);
 									    	
-									    	String blg_name="";
-									    	ArrayList blogname= blog._getMostactive(blogid);
-									    	if(blogname.size()>0){
-									    		blg_name = mostactive.get(0).toString();
-									    	}
-									    	
 									    	j++;
 									    	
 									    	%>
 
-							    			<a class="blogger-select btn btn-primary form-control stylebuttonactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %>text-primary opacity53<%}else{%> btn-primary <% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>***<%=blg_name.replaceAll(" ","_")%>" ><b><%=tobj.get("blogger")%></b></a>
+							    			<a class="blogger-select btn btn-primary form-control stylebuttonactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %>text-primary opacity53<%}else{%> btn-primary <% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
 							    			<% }
 									    		
 											    if(auth.equals(mostactiveblogger) ){
@@ -633,7 +628,7 @@ if(authorcount.length()>0){
       <div class="row">
      <div class="col-md-3 mt5 mb5">
        <h6 class="card-title mb0">Total Posts</h6>
-       <h3 class="mb0 bold-text"><%=totalpost%></h3>
+       <h3 class="mb0 bold-text"><%=allpost%></h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
@@ -664,7 +659,7 @@ if(authorcount.length()>0){
   <div class="col-md-6 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Keywords of <b class="text-blue active-blog" ><%=mostactiveblog%></b></p></div>
+        <div><p class="text-primary mt10">Keywords of <b class="text-blue"><%=mostactiveblog%></b></p></div>
         <div id="tagcloudbox">
         <div class="chart-container">
 								<div class="chart" id="tagcloudcontainer"></div>
@@ -734,11 +729,11 @@ if(authorcount.length()>0){
 <div class="row m0 mt20 mb50 d-flex align-items-stretch" >
   <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
   <div class="card-body p0 pt20 pb20" style="min-height: 420px;">
-      <p>Influential Blog Posts of <b class="text-blue active-blogger"><%=mostactiveblogger%></b></p>
+      <p>Influential Blog Posts of <b class="text-blue"><%=mostactiveblogger%></b></p>
          <!--  <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-          <div id="influence_table">
+          
                 <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -752,16 +747,11 @@ if(authorcount.length()>0){
 								JSONObject postjson = new JSONObject(posttodisplay.get(y).toString());
 						%>
 							<tr>
-<<<<<<< HEAD
-								<td><a  class="blogpost_link" id="<%=postjson.get("blogpost_id")%>" >#<%=(y+1)%>: <%=postjson.get("title") %></a></td>
-=======
 								<td><a class="blogpost_link cursor-pointer" id="<%=postjson.get("blogpost_id")%>" >#<%=(y+1)%>: <%=postjson.get("title") %></a></td>
->>>>>>> f456893b1fddeb3df7bf74d22963733eaefdec28
 								<td align="center"><%=postjson.get("influence") %></td>
 							</tr>
 						<% }} %>                        </tbody>
                     </table>
-         </div>
         </div>
 
   </div>
@@ -787,9 +777,8 @@ if(authorcount.length()>0){
 						style="height: 600px; overflow-y: scroll;">
 						<%=postdetjson.get("body")%>
 						</div>
-				
-				<% } %>
 				</div>
+				<% } %>
 			</div>
     </div>
   </div>
@@ -1643,7 +1632,7 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=3"></script>
-<script src="pagedependencies/postingfrequency.js?v=309"></script>
+<script src="pagedependencies/postingfrequency.js?v=39"></script>
 
 </body>
 </html>
