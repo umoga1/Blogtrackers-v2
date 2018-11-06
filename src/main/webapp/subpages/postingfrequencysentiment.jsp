@@ -78,25 +78,7 @@ allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blog_id.
 			<script>
  $(document).ready(function() {
 	 
-	/*  function PrintElem(elem)
-	 {
-	     var mywindow = window.open('', 'PRINT', 'height=400,width=600');
-
-	     mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-	     mywindow.document.write('</head><body >');
-	     mywindow.document.write('<h1>' + document.title  + '</h1>');
-	     mywindow.document.write(document.getElementById(elem).innerHTML);
-	     mywindow.document.write('</body></html>');
-
-	     mywindow.document.close(); // necessary for IE >= 10
-	     mywindow.focus(); // necessary for IE >= 10*/
-
-	   /*  mywindow.print();
-	     mywindow.close();
-
-	     return true;
-	 } */
- 
+	 
 	$('#printdoc').on('click',function(){
 		print();
 	}) 
@@ -127,26 +109,7 @@ allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blog_id.
 
 
 	 
-     $('#DataTables_Table_0_wrapper').DataTable( {
-         "scrollY": 320,
-         "order": [[ 0, "asc" ]],
-         "pagingType": "simple",
-        /*   dom: 'Bfrtip',
 
-                    "columnDefs": [
-                 { "width": "80%", "targets": 0 }
-               ] */
-    /*  ,
-       buttons:{
-         buttons: [
-             { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
-             {extend:'csv',className: 'btn-primary stylebutton1'},
-             {extend:'excel',className: 'btn-primary stylebutton1'},
-            // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
-             {extend:'print',className: 'btn-primary stylebutton1'},
-         ]
-       } */
-     } );
  } );
  </script>
 	<!--end for table  -->

@@ -18,8 +18,8 @@ $('.blogpost_link').on("click", function(){
 
 	var post_id = $(this).attr("id");
 	//alert(post_id);
-	console.log(post_id);
-	$("#blogpost_detail").html("images/loading.gif");
+	//console.log(post_id);
+	$("#blogpost_detail").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	//grab all id of blog and perform an ajax request
 	$.ajax({
 		url: app_url+'tracker',
@@ -33,20 +33,20 @@ $('.blogpost_link').on("click", function(){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			//console.log(response);
 			$("#blogpost_detail").html(response);
 		},
 		success: function(response)
 		{   
-			console.log(response);
-			$("#blogpost_detail").html(response);
+			//console.log(response);
+			$("#blogpost_detail").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 		}
 	});
 	
 });
 
 function loadChart(blogger,blog_id){
-	$(".chart-container").html("images/loading.gif");
+	$("#chart-container").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	$.ajax({
 		url: app_url+"subpages/postingfrequencychart.jsp",
 		method: 'POST',
@@ -60,12 +60,12 @@ function loadChart(blogger,blog_id){
 		error: function(response)
 		{						
 			console.log(response);
-			$(".chart-container").html(response);
+			$("#chart-container").html(response);
 		},
 		success: function(response)
 		{   
-			console.log(response);
-			$(".chart-container").html(response);
+			//console.log(response);
+			$("#chart-container").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}
@@ -75,7 +75,7 @@ function loadChart(blogger,blog_id){
 
 
 function loadTerms(blogger,blog_id){
-	$("#tagcloudbox").html("images/loading.gif");
+	$("#tagcloudbox").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	
 	$.ajax({
 		url: app_url+"subpages/postingfrequencyterm.jsp",
@@ -89,13 +89,13 @@ function loadTerms(blogger,blog_id){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			//console.log(response);
 			$("#tagcloudbox").html(response);
 		},
 		success: function(response)
 		{   
-			console.log(response);
-			$("#tagcloudbox").html(response);
+			//console.log(response);
+			$("#tagcloudbox").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}
@@ -119,12 +119,12 @@ function loadSentiments(blogger,blog_id){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			//console.log(response);
 			$("#entity_table").html(response);
 		},
 		success: function(response)
 		{   
-			console.log(response);
+			//console.log(response);
 			$("#entity_table").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/

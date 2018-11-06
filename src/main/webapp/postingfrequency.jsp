@@ -615,8 +615,10 @@ if(authorcount.length()>0){
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 250px;">
 <div><p class="text-primary mt10"> <b>Individual</b> Number of Blog Post <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+		<div id="chart-container">
 		<div class="chart-container">
 		  <div class="chart" id="d3-line-basic"></div>
+		</div>
 		</div>
       </div>
         </div>
@@ -660,10 +662,7 @@ if(authorcount.length()>0){
         <div><p class="text-primary mt10">Keywords of <b class="text-blue"><%=mostactiveblog%></b></p></div>
         <div id="tagcloudbox">
         <div class="chart-container">
-								<div class="chart" id="tagcloudcontainer">
-								<!-- <div class="jvectormap-zoomin">+</div>
-								<div class="jvectormap-zoomout">−</div> -->
-								</div>
+								<div class="chart" id="tagcloudcontainer"></div>
 							</div>
         </div>
        </div>
