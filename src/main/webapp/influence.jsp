@@ -214,7 +214,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 		}  
 		
-		allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");	
+		allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+		//post._getBloggerByBlogId("date",dt, dte,ids);
 			
 	
 
@@ -486,6 +487,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject authormonths = new JSONObject();
 								JSONArray authorcount = new JSONArray();
 								JSONArray posttodisplay = new JSONArray();
+								
+								JSONObject influecechart = new JSONObject();
+								
 								JSONArray blogcount = new JSONArray();
 								JSONObject years = new JSONObject();
 								JSONArray yearsarray = new JSONArray();
@@ -523,25 +527,26 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String yy= dateyear[0];
 									    String mm = dateyear[1];
 									    
-									    if(!authors.has(auth)){
-									    	if(l==0){
-												mostactiveblogger = auth;
-											}
-									    	
+									    if(!authors.has(auth)){								    									    	
 									    	if(l==0){
 												mostactiveblogger = auth;
 												selectedid = blogid;
 												allterms = term._searchByRange("date", dt, dte, blogid);
 												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
-												totalpost = post._searchRangeTotal("date", dt, dte, ids);
-												
+												totalpost = post._searchRangeTotal("date", dt, dte, ids);												
 											}
 									    	
+									    	JSONObject xy = new JSONObject();
 									    	
+									    	String x =  post._searchRangeTotal("date", dt, dte, blogid);
+									    	String y =  post._searchRangeAggregate("date", dt, dte, blogid);
+									    	xy.put("x",x);
+									    	xy.put("y",y);
 											l++;
 											
 									    
 									    	authors.put(auth, auth);
+									    	influecechart.put(auth,xy);
 									    	authorcount.put(j, auth);
 									    	blogcount.put(j, blogid);
 									    	
@@ -587,6 +592,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <!--  Populate terms and influence score json for chart-->
 <%
 
+System.out.println("Terms is:"+allterms);
 int highestfrequency = 0;
 JSONArray topterms = new JSONArray();
 JSONObject keys = new JSONObject();
@@ -643,6 +649,8 @@ if(authorcount.length()>0){
 		authoryears.put(authorcount.get(n).toString(),postyear);
 	}
 }
+
+
 %>
 
 
@@ -677,7 +685,7 @@ if(authorcount.length()>0){
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Total Posts</h6>
-								<h2 class="mb0 bold-text"><%=allpost%></h2>
+								<h2 class="mb0 bold-text"><%=totalpost%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
@@ -1616,15 +1624,20 @@ if(authorcount.length()>0){
          // Load data
          // ------------------------------
          //
-         data = [
-           [{"x":12,"y":40},{"x":15,"y":30},{"x":18,"y":12.5},{"x":11,"y":22},{"x":5,"y":19}],
-           [{"x":8,"y":35},{"x":14,"y":22},{"x":27,"y":33},{"x":11.5,"y":-16},{"x":-12,"y":-11}],
-            [{"x":17,"y":50},{"x":18,"y":30},{"x":19,"y":17.7},{"x":10,"y":25},{"x":9,"y":15},{"x":23,"y":20},{"x":1,"y":20},{"x":20,"y":23},{"x":11.5,"y":-11},{"x":-11,"y":-15},{"x":7,"y":40},{"x":20,"y":30},{"x":8,"y":-12.5},{"x":6,"y":15},{"x":15,"y":25},{"x":-8,"y":14},{"x":-14,"y":25}]
+         data = [[<% if(authorcount.length()>0){ for(int p=0; p<authorcount.length(); p++){ 
+   					String au = authorcount.get(p).toString();
+   			  		JSONObject jxy = new JSONObject(influecechart.get(au).toString());
+   			  		int x = Integer.parseInt(jxy.get("x").toString());
+   			  		int y = Integer.parseInt(jxy.get("y").toString()); %>{"x":<%=x%>,"y":<%=y%>},<% }} %>]   		
          ];
 
-         //console.log(data);
          // data = [];
-
+		
+         /*
+	           [{"x":12,"y":40},{"x":15,"y":30},{"x":18,"y":12.5},{"x":11,"y":22},{"x":5,"y":19}],
+	           [{"x":8,"y":35},{"x":14,"y":22},{"x":27,"y":33},{"x":11.5,"y":-16},{"x":-12,"y":-11}],
+	            [{"x":17,"y":50},{"x":18,"y":30},{"x":19,"y":17.7},{"x":10,"y":25},{"x":9,"y":15},{"x":23,"y":20},{"x":1,"y":20},{"x":20,"y":23},{"x":11.5,"y":-11},{"x":-11,"y":-15},{"x":7,"y":40},{"x":20,"y":30},{"x":8,"y":-12.5},{"x":6,"y":15},{"x":15,"y":25},{"x":-8,"y":14},{"x":-14,"y":25}]
+	   		*/
 
          // data = [
          //   [{"x":12,"y":40},{"x":15,"y":30},{"x":18,"y":12.5},{"x":11,"y":22},{"x":5,"y":19},{"x":8,"y":35},{"x":14,"y":22},{"x":27,"y":33},{"x":11.5,"y":-16},{"x":-12,"y":-11},{"x":17,"y":50},{"x":18,"y":30},{"x":19,"y":17.7},{"x":10,"y":25},{"x":9,"y":15},{"x":23,"y":20},{"x":1,"y":20},{"x":20,"y":23},{"x":11.5,"y":-11},{"x":-11,"y":-15},{"x":7,"y":40},{"x":20,"y":30},{"x":8,"y":-12.5},{"x":6,"y":15},{"x":15,"y":25},{"x":-8,"y":14},{"x":-14,"y":25}]
@@ -1992,7 +2005,7 @@ if(authorcount.length()>0){
 				for (int i = 0; i < topterms.length(); i++) {
 					JSONObject jsonObj = topterms.getJSONObject(i);
 					int size = Integer.parseInt(jsonObj.getString("frequency"));%>
-	{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
+	{"text":"<%=jsonObj.getString("key")%>","size":<%=size*5%>},
  <%}
 			}%>];
 

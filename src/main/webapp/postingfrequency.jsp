@@ -1553,7 +1553,7 @@ console.log("here");
 					for (int i = 0; i < topterms.length(); i++) {
 						JSONObject jsonObj = topterms.getJSONObject(i);
 						int size = Integer.parseInt(jsonObj.getString("frequency"));%>
-		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
+		{"text":"<%=jsonObj.getString("key")%>","size":<%=size*5%>},
 	 <%}
 				}%>
 	 ];
