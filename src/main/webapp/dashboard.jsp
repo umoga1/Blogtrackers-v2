@@ -991,7 +991,7 @@
 					</div>
 				</div>
 				<div class="float-right">
-					<a href="blogportfolio.jsp"><button
+					<a href="blogportfolio.jsp?tid=<%=tid%>"><button
 							class="btn buttonportfolio2 mt10">
 							<b class="float-left semi-bold-text">Blog Portfolio Analysis</b>
 							<b class="fas fa-file-alt float-right icondash2"></b>
@@ -1022,7 +1022,7 @@
 					</div>
 				</div>
 				<div class="float-right">
-					<a href="bloggerportfolio.jsp"><button
+					<a href="bloggerportfolio.jsp?tid=<%=tid%>"><button
 							class="btn buttonportfolio2 mt10">
 							<b class="float-left semi-bold-text">Blogger Portfolio
 								Analysis </b> <b class="fas fa-user float-right icondash2"></b>
@@ -1060,7 +1060,7 @@
 					</div>
 				</div>
 				<div class="float-right">
-					<a href="postingfrequency.jsp"><button
+					<a href="postingfrequency.jsp?tid=<%=tid%>"><button
 							class="btn buttonportfolio2 mt10">
 							<b class="float-left semi-bold-text">Posting Frequency
 								Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b>
@@ -1093,7 +1093,7 @@
 					</div>
 				</div>
 				<div class="float-right">
-					<a href="influence.jsp"><button
+					<a href="influence.jsp?tid=<%=tid%>"><button
 							class="btn buttonportfolio2 mt10">
 							<b class="float-left semi-bold-text">Influence Analysis </b> <b
 								class="fas fa-exchange-alt float-right icondash2"></b>
