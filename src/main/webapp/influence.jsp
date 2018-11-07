@@ -1631,7 +1631,6 @@ if(authorcount.length()>0){
    			  		int y = Integer.parseInt(jxy.get("y").toString()); %>{"x":<%=x%>,"y":<%=y%>},<% }} %>]   		
          ];
 
-         console.log("influencet data here"+data);
          // data = [];
 		
          /*
