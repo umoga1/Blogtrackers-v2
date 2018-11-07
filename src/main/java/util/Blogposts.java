@@ -128,7 +128,7 @@ public class Blogposts {
 		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
 
-		/*
+		
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -148,19 +148,22 @@ public class Blogposts {
 				"                \"gte\" : "+greater+",\r\n" + 
 				"                \"lte\" : "+less+",\r\n" + 
 				"				},\r\n" +
-				"			}\r\n" +
-				"      ]\r\n" +
+				"			}\r\n" + 
 				"		}\r\n" + 
 				"      ]\r\n" + 
 				"    }\r\n" + 
-				"  }\r\n" + 
+				"  },\r\n" + 
+				"    \"aggs\" : {\r\n" + 
+				"        \"total\" : { \"sum\" : { \"field\" : \"influence_score\" } }\r\n" + 
+				"    }\r\n" + 
 				"}";
-				*/
-		String que="{\r\n" + 
+				
+		/*
+		String que2="{\r\n" + 
 				"    \"query\" : {\r\n" + 
 				"        \"constant_score\" : {\r\n" + 
-				"            \"filter\" : {\r\n" + 
-				"                \"range\" : { \"date\" : { \"from\" :  "+greater+", \"to\" : "+less+" }}\r\n" + 
+				"            \"filter\" : {\r\n" +  
+				"                \"range\" : { \"date\" : { \"gte\" :  "+greater+", \"lte\" : "+less+" }}\r\n" + 
 				"            }\r\n" + 
 				"        }\r\n" + 
 				"    },\r\n" + 
@@ -168,22 +171,9 @@ public class Blogposts {
 				"        \"total\" : { \"sum\" : { \"field\" : \"influence_score\" } }\r\n" + 
 				"    }\r\n" + 
 				"}";
-			/*
-		String que="{\r\n" + 
-				"    \"query\" : {\r\n" + 
-				"        \"constant_score\" : {\r\n" + 
-				"            \"filter\" : {\r\n" + 
-				"                \"range\" : { \"timestamp\" : { \"from\" : \"now/1d+9.5h\", \"to\" : \"now/1d+16h\" }}\r\n" + 
-				"            }\r\n" + 
-				"        }\r\n" + 
-				"    },\r\n" + 
-				"    \"aggs\" : {\r\n" + 
-				"        \"intraday_return\" : { \"sum\" : { \"field\" : \"influence_score\" } }\r\n" + 
-				"    }\r\n" + 
-				"}";
 		*/
+	
 		JSONObject jsonObj = new JSONObject(que);
-		//System.out.println(jsonObj.toString());
 
 		String url = base_url+"_search?size=1";
 		return this._getAggregate(url,jsonObj);
@@ -725,7 +715,6 @@ public class Blogposts {
 			
 			JSONObject myRes2 = new JSONObject(res2);   
 			total = myRes2.get("value").toString(); 
-			System.out.println("total here:"+total);
 		}
 		}catch(Exception ex) {}
 		return  total;
