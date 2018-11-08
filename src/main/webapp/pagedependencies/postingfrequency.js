@@ -3,10 +3,10 @@ $('.blogger-select').on("click", function(){
 	//$(".blogger-select").removeClass("btn-primary");
 	//$(".blogger-select").addClass("text-primary opacity53");
 	
-	$(".blogger-select").addClass("opacity53");
-	$(this).removeClass("opacity53");
+	$(".blogger-select").removeClass("abloggerselected");
+	$(this).addClass("abloggerselected");
 	var blogger = $(this).attr("id");
-	$("#"+blogger).addClass("btn-primary");
+//	$("#"+blogger).addClass("btn-primary");
 	var blg = blogger.split("***");
 	loadChart(blg[0],blg[1]);
 	loadTerms(blg[0],blg[1]);

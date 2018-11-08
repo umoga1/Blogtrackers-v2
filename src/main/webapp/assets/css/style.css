@@ -1674,6 +1674,20 @@ color: #ffffff !important;
 {
 color: #ffffff !important;	
 }
+.bloggerinactive
+{
+border-radius:15px;
+border: 2px solid #17394C;
+color: #5E5E5E !important;
+background-color: transparent;	
+
+}
+.bloggerinactive:hover, .abloggerselected
+{
+background-color:#0080CC;
+border: 2px solid #0080CC;
+color: #ffffff !important;
+}
 .stylebuttoninactive
 {
   border:2px solid #17394C;
