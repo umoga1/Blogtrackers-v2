@@ -467,6 +467,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										
 										String auth  = tobj.get("blogger").toString();
 										String posttitle  = tobj.get("title").toString();
+										String posturl = tobj.get("permalink").toString();
 										String postid  = tobj.get("blogpost_id").toString();
 										String blogid  = tobj.get("blogsite_id").toString();
 										String body  = tobj.get("post").toString();
@@ -521,6 +522,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 												    	disp.put("title",posttitle);
 												    	disp.put("influence",influence);
 												    	disp.put("body",body);
+												    	disp.put("posturl",posturl);
 												    	disp.put("blogger",auth);
 												    	disp.put("date",dt);
 												    	disp.put("blogpost_id",postid);
@@ -747,7 +749,8 @@ if(authorcount.length()>0){
 								JSONObject postjson = new JSONObject(posttodisplay.get(y).toString());
 						%>
 							<tr>
-								<td><a class="blogpost_link cursor-pointer" id="<%=postjson.get("blogpost_id")%>" >#<%=(y+1)%>: <%=postjson.get("title") %></a></td>
+								<td><a class="blogpost_link cursor-pointer" id="<%=postjson.get("blogpost_id")%>" >#<%=(y+1)%>: <%=postjson.get("title") %></a><br/>
+								<a class="mt20 viewpost makeinvisible" href="<%=postjson.get("posturl") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
 								<td align="center"><%=postjson.get("influence") %></td>
 							</tr>
 						<% }} %>                        </tbody>

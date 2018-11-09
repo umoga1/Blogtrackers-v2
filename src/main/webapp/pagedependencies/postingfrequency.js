@@ -22,6 +22,8 @@ $('.blogpost_link').on("click", function(){
 	//alert(post_id);
 	//console.log(post_id);
 	$("#blogpost_detail").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
+	$(".viewpost").addClass("makeinvisible");
+	$(this).parent().children(".viewpost").removeClass("makeinvisible");
 	//grab all id of blog and perform an ajax request
 	$.ajax({
 		url: app_url+'tracker',
@@ -41,7 +43,8 @@ $('.blogpost_link').on("click", function(){
 		success: function(response)
 		{   
 			//console.log(response);
-			$("#blogpost_detail").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
+			$("#blogpost_detail").html(response).hide();
+			$("#blogpost_detail").fadeIn(700);
 		}
 	});
 	
