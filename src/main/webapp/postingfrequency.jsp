@@ -1046,7 +1046,7 @@ if(authorcount.length()>0){
 
           // Horizontal
           var x = d3.scale.ordinal()
-              .rangeRoundBands([0, width], .72, .5);
+              .rangeRoundBands([0, width]);
 
           // Vertical
           var y = d3.scale.linear()
@@ -1324,42 +1324,84 @@ console.log("here");
                // data.map(function(d){})
                if(data.length == 1)
                {
-                 // Add line
-               var path = svg.selectAll('.d3-line')
-                         .data(data)
-                         .enter()
-                         .append("path")
-                         .attr("class", "d3-line d3-line-medium")
-                         .attr("d", line)
-                         // .style("fill", "rgba(0,0,0,0.54)")
-                         .style("stroke-width", 2)
-                         .style("stroke", "17394C")
-                          .attr("transform", "translate("+margin.left/4.7+",0)");
-                         // .datum(data)
+            		
+                   // Add line
+                   //0console.log(svg.selectAll(".tick"))
+                  // tick = svg.select(".d3-axis-horizontal").selectAll(".tick")
+                  // console.log(tick)
+                   //var transform = d3.transform(tick.attr("transform")).translate;
+                   //console.log(transform);
+                   var path = svg.selectAll('.d3-line')
+                             .data(data)
+                             .enter()
+                             .append("g")
+                             .attr("class","linecontainer")
+                            // .attr("transform", "translate(106,0)")
+                             .append("path")
+                             .attr("class", "d3-line d3-line-medium")
+                             //.attr("transform", "translate("+129.5/6+",0)")
+                             .attr("d", line)
+                             // .style("fill", "rgba(0,0,0,0.54)")
+                             .style("stroke-width",2)
+                             .style("stroke", "17394C")
+                             //.attr("transform", "translate("+margin.left/4.7+",0)");
+                             // .attr("transform", "translate(40,0)");
+                     
+                 /*   $(element).bind('inview', function (event, visible) {
+                 	  if (visible == true) {
+                 		  path.select("path")
+                 		  .transition()
+                           .duration(1000)
+                           .attrTween("stroke-dasharray", tweenDash);
+                           
+                 	  } else {
+                 		  //svg.selectAll("text")
+                           //.style("font-size", 0)
+                 	  }
+                 	}); */
+                   function tweenDash() {
+                       var l = this.getTotalLength(),
+                           i = d3.interpolateString("0," + l, l + "," + l);
+                       return function (t) { return i(t); };
+                   }
+                             // .datum(data)
+                  // firsttick =  return x(d.date[0]);
+                    //         console.log(firsttick);
+                    // add point
+                    
+                    //svg.call(xAxis).selectAll(".tick").each(function(tickdata) {
+                     // var tick = svg.call(xAxis).selectAll(".tick").style("stroke",0);
+                      //console.log(tick);
+                       // pull the transform data out of the tick
+                      //var transform = d3.transform(tick[0].g.attr("transform")).translate;
+                       //console.log(tick);
+                      // console.log("each tick", tickdata, transform); 
+                   // });
+                     circles =  svg.append("g").attr("class","circlecontainer")
+                              // .attr("transform", "translate("+106+",0)")
+                     		  .selectAll(".circle-point")
+                               .data(data[0])
+                               .enter();
 
-                // add point
-                 circles = svg.selectAll(".circle-point")
-                           .data(data[0])
-                           .enter();
 
+                           circles
+                           // .enter()
+                           
+                           .append("circle")
+                           .attr("class","circle-point")
+                           .attr("r",3.0)
+                           .style("stroke", "#4CAF50")
+                           .style("fill","#4CAF50")
+                           .attr("cx",function(d) { return x(d.date); })
+                           .attr("cy", function(d){return y(d.close)})
 
-                       circles
-                       // .enter()
-                       .append("circle")
-                       .attr("class","circle-point")
-                       .attr("r",3.4)
-                       .style("stroke", "#4CAF50")
-                       .style("fill","#4CAF50")
-                       .attr("cx",function(d) { return x(d.date); })
-                       .attr("cy", function(d){return y(d.close)})
+                           //.attr("transform", "translate("+margin.left/4.7+",0)");
 
-                       .attr("transform", "translate("+margin.left/4.7+",0)");
-
-                       svg.selectAll(".circle-point").data(data[0])
-                       .on("mouseover",tip.show)
-                       .on("mouseout",tip.hide)
-                       .on("click",function(d){console.log(d.date)});
-                                          svg.call(tip)
+                           svg.selectAll(".circle-point").data(data[0])
+                           .on("mouseover",tip.show)
+                           .on("mouseout",tip.hide)
+                           .on("click",function(d){console.log(d.date)});
+                                              svg.call(tip)
                }
                // handles multiple json parameter
                else if(data.length > 1)
@@ -1464,6 +1506,15 @@ console.log("here");
                   // .text("Frequency")
                   ;
 
+              if(data.length == 1 )
+         	 {
+         	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+             transformfirsttick =  tick[0][0].attributes[1].value;
+             //transformfirsttick = "translate(31.5,0)"
+             //console.log(transformfirsttick);
+             svg.select(".circlecontainer").attr("transform", transformfirsttick);
+             svg.select(".linecontainer").attr("transform", transformfirsttick);
+         	 }
 
 
          // Resize chart
@@ -1525,6 +1576,17 @@ console.log("here");
                .attr("cx",function(d) { return x(d.date);})
                .attr("cy", function(d){return y(d.close)});
              }
+             
+             if(data.length == 1 )
+        	 {
+        	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+            transformfirsttick =  tick[0][0].attributes[1].value;
+            //transformfirsttick = "translate(31.5,0)"
+            console.log(transformfirsttick);
+            svg.select(".circlecontainer").attr("transform", transformfirsttick);
+            svg.select(".linecontainer").attr("transform", transformfirsttick);
+        	 }
+
              //
              // // Crosshair
              // svg.selectAll('.d3-crosshair-overlay').attr("width", width);
