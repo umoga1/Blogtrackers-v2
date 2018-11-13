@@ -796,7 +796,8 @@ if(authorcount.length()>0){
 
 <form action="" name="customformsingle" id="customformsingle" method="post">
 		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" />
-		<input type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" /> 
+		<input type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" />
+		<input type="hidden" name="author" id="author" value="<%=mostactiveblogger%>" /> 
 		<input type="hidden" name="single_date" id="single_date" value="" />
 	</form>
 
@@ -1357,7 +1358,13 @@ console.log("here");
                        svg.selectAll(".circle-point").data(data[0])
                        .on("mouseover",tip.show)
                        .on("mouseout",tip.hide)
-                       .on("click",function(d){console.log(d.date)});
+                       .on("click",function(d){
+                    	   console.log(d.date);
+                    	   var d1 = 	  d.date + "-01-01";
+                    	   var d2 = 	  d.date + "-12-31";
+          				
+                    	   loadInfluence(d1,d2);   
+                       });
                                           svg.call(tip)
                }
                // handles multiple json parameter
@@ -1407,16 +1414,19 @@ console.log("here");
                                 svg.selectAll(".circle-point").data(mergedarray)
                                .on("mouseover",tip.show)
                                .on("mouseout",tip.hide)
-                               .on("click",function(d){console.log(d.date)});
+                               .on("click",function(d){
+                            	   console.log("post here");
+                            	  
+                            	   var d1 = 	  d.date + "-01-01";
+                            	   var d2 = 	  d.date + "-12-31";
+                   				
+                            	   loadInfluence(d1,d2);
+                            	});
                           //                         svg.call(tip)
 
                         //console.log(newi);
 
 
-                              svg.selectAll(".circle-point").data(mergedarray)
-                              .on("mouseover",tip.show)
-                              .on("mouseout",tip.hide)
-                              .on("click",function(d){console.log(d.date)});
                                                  svg.call(tip)
 
 
@@ -1581,7 +1591,7 @@ console.log("here");
      }
  </script>
 <script src="pagedependencies/baseurl.js?v=3"></script>
-<script src="pagedependencies/postingfrequency.js?v=309"></script>
+<script src="pagedependencies/postingfrequency.js?v=3909"></script>
 
 </body>
 </html>

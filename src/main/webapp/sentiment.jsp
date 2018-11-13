@@ -307,8 +307,9 @@
 				String totu = post._searchRangeTotal("date", dtu, dtue, ids);
 				//System.out.println(totu);
 
-				ArrayList sentimentor = new Liwc()._searchByRange("date", dtu, dtue, sentimentpost);
+				//ArrayList sentimentor = new Liwc()._searchByRange("date", dtu, dtue, sentimentpost);
 				//System.out.print(sentimentor);
+				/*
 				int allposemo = 0;
 				int allnegemo = 0;
 				if (sentimentor.size() > 0) {
@@ -328,12 +329,15 @@
 
 					}
 				}
+				*/
+				possentiment=new Liwc()._searchRangeAggregate("date", dtu, dtue, sentimentpost,"posemo");
+				negsentiment=new Liwc()._searchRangeAggregate("date", dtu, dtue, sentimentpost,"negemo");
+				
+				//possentiment = allposemo + "";
+				//negsentiment = allnegemo + "";
 
-				possentiment = allposemo + "";
-				negsentiment = allnegemo + "";
-
-				graphyearspos.put(y + "", allposemo);
-				graphyearsneg.put(y + "", allnegemo);
+				graphyearspos.put(y + "", Integer.parseInt(possentiment));
+				graphyearsneg.put(y + "", Integer.parseInt(negsentiment));
 				yearsarray.put(b, y);
 				b++;
 			}
