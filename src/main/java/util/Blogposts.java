@@ -31,7 +31,7 @@ public class Blogposts {
 	String date;
 
 	public ArrayList _list(String order, String from, String sortby) throws Exception {
-		int size = 5;
+		int size = 10;
 
 		int fr = 0;
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
