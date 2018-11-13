@@ -778,7 +778,7 @@ if(authorcount.length()>0){
 					</div>
 					<div class="p20 pt0 pb20 text-blog-content text-primary"
 						style="height: 600px; overflow-y: scroll;">
-						<%=postdetjson.get("body")%>
+						<%=postdetjson.get("post")%>
 						</div>
 				
 				<% } %>
