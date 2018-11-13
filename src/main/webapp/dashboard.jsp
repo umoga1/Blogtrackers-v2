@@ -177,8 +177,8 @@
 			if (!date_start.equals("") && !date_end.equals("")) {
 				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
 
-				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
 								
 
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
@@ -279,6 +279,7 @@
 				//ystint=0;
 				//yendint = diff;
 			}
+			
 			int b=0;
 			for(int y=ystint; y<=yendint; y++){
 				/*
@@ -294,14 +295,23 @@
 			    	   b++;
 			}
 			
-			//System.out.println("grapgh yeres"+yearsarray);
-		    JSONObject authors = new JSONObject();
-		    JSONArray sentimentpost = new JSONArray();
-		    
-		    JSONArray authorcount = new JSONArray();
-		    JSONObject language = new JSONObject();
-		    ArrayList langlooper = new ArrayList();
-		    
+			ArrayList sentimentor = new Liwc()._searchByRange("date", dt, dte, sentimentpost);
+			//System.out.print(sentimentor);
+			int allposemo = 0;
+			int allnegemo = 0;
+			if (sentimentor.size() > 0) {
+				for (int v = 0; v < sentimentor.size(); v++) {
+					String bstr = sentimentor.get(v).toString();					
+					JSONObject bj = new JSONObject(bstr);
+					bstr = bj.get("_source").toString();
+					bj = new JSONObject(bstr);
+					int posemo = Integer.parseInt(bj.get("posemo").toString());
+					int negemo = Integer.parseInt(bj.get("negemo").toString());
+					allposemo += posemo;
+					allnegemo += negemo;
+					//}
+
+			}
 		    
 			ArrayList authorlooper = new ArrayList();
 			if(allauthors.size()>0){
@@ -368,6 +378,7 @@
 				}
 			//System.out.println("Authors here:"+graphyears);
 			} 
+			
 			
 			ArrayList sentimentor = new Liwc()._searchByRange("date", dt, dte, sentimentpost);
 			int allposemo =0;
@@ -2405,7 +2416,6 @@ $(function () {
 
     // Initialize chart
     sentimentbar('#sentimentbar', 400);
-
     // Chart setup
     function sentimentbar(element, height) {
 
@@ -2478,8 +2488,8 @@ $(function () {
       //
       //
       data = [
-            {letter:"Negative", frequency:<%=negsentiment%>},
-            {letter:"Positive", frequency:<%=possentiment%>}
+            {letter:"Negative", frequency:<%=allnegemo%>},
+            {letter:"Positive", frequency:<%=allposemo%>}
         ];
       //
       //
