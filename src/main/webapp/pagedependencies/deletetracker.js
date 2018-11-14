@@ -1,4 +1,6 @@
 $(document).ready(function(){	
+	var theme =  Cookies.get('theme');
+	console.log(theme);	
 // handles individual tracker deletion
 $('.deletetracker').on("click", function(){
 var tid = $(this).children(".tid").val();

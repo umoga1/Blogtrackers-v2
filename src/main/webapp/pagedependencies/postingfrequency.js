@@ -20,9 +20,12 @@ $('.blogpost_link').on("click", function(){
 
 	var post_id = $(this).attr("id");
 	//alert(post_id);
-	//console.log(post_id);
+	console.log(post_id);
+	console.log("nddshhfjsdfjhds")
 	$("#blogpost_detail").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	$(".viewpost").addClass("makeinvisible");
+	$('.blogpost_link').removeClass("activeselectedblog");
+	$('#'+post_id).addClass("activeselectedblog");
 	$(this).parent().children(".viewpost").removeClass("makeinvisible");
 	//grab all id of blog and perform an ajax request
 	$.ajax({

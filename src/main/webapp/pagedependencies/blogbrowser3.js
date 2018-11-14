@@ -3,7 +3,12 @@ var selected_blogs = new Array();
 var looper = 0;
 
 $(document).ready(function() {
-
+	console.log("hjhjdfj");
+	// create a cookie that is accessible anywhere on the site
+	Cookies.set('theme', 'green', {path : '/'});
+	// retrieve the value of the theme cookie
+	var theme =  Cookies.get('theme');
+	console.log(theme+"hgg");
 	// tracking blogcount
 	
 	// tracker selected count

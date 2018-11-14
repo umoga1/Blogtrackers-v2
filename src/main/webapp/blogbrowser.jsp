@@ -423,6 +423,8 @@ if(results.size()>0){
 <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
+<script src="js/jscookie.js">
+</script>
 <script type="text/javascript" src="assets/vendors/tags/tagsinput.min.js"></script>
 <script type="text/javascript" src="assets/vendors/tags/tokenfield.min.js"></script>
 <script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>

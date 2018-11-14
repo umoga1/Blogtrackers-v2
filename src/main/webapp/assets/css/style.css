@@ -5,6 +5,10 @@ body{
 
   background-color: #F3F4F5  ;
 }
+.activeselectedblog
+{
+color:#1F90D0 !important;	
+}
 .nobg
 {
 background-color:none;	
