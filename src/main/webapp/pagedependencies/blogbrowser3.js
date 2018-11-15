@@ -4,7 +4,7 @@ var looper = 0;
 
 $(document).ready(function() {
 	//console.log("hjhjdfj");
-	//Cookies.set('selectedblogs', "", {path : '/'});	
+	Cookies.set('selectedblogs', "", {path : '/'});	
 	//console.log(theme);
 	// tracking blogcount
 	

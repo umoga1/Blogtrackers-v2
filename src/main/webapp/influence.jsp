@@ -689,17 +689,28 @@ if(authorcount.length()>0){
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
-							<div class="col-md-3 mt5 mb5">
+							<%-- <div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Most Used Keyword</h6>
 								<h2 class="mb0 bold-text"><%=mostusedkeyword%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
-							</div>
+							</div> --%>
+							
+							<div class="col-md-3 mt5 mb5">
+								<h6 class="card-title mb0">Overall Sentiment</h6>
+								<h2 class="mb0 bold-text"></h2>
+								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+							</div> 
 
-							<div class="col-md-3  mt5 mb5">
+							<%-- <div class="col-md-3  mt5 mb5">
 								<h6 class="card-title mb0">Most Active Blog</h6>
 								<h2 class="mb0 bold-text"><%=mostactiveblog%></h2>
 								<small class="text-success"><a href="<%=mostactivebloglink%>" target="_blank"><b>View Blog</b></a></small>
-							</div>
+							</div> --%>
+							<div class="col-md-3 mt5 mb5">
+								<h6 class="card-title mb0">Comments</h6>
+								<h2 class="mb0 bold-text">0</h2>
+								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+							</div> 
 
 						</div>
 					</div>
@@ -791,9 +802,10 @@ if(authorcount.length()>0){
 								class="far fa-comments float-right blogcontenticon"></i>
 						</button>
 					</div>
-					<div class="p20 pt0 pb20 text-blog-content text-primary"
-						style="height: 600px; overflow-y: scroll;">
+					<div style="height: 600px;">
+					<div class="p20 pt0 pb20 text-blog-content text-primary" style="height: 550px; overflow-y: scroll;">
 						<%=postdetjson.get("body")%>
+						</div>
 						</div>
 					<% } %>
 				</div>
