@@ -169,7 +169,7 @@ public class Blogposts {
 
 		String arg2 = pars.toString();
 	
-		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
+		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -192,13 +192,8 @@ public class Blogposts {
 				"			}\r\n" + 
 				"		}\r\n" + 
 				"      ]\r\n" + 
-				"    }\r\n" +  
-				"  },\r\n" + 
-				"	\"sort\":{\r\n" + 
-				"		\""+sort+"\":{\r\n" + 
-				"			\"order\":\""+order+"\"\r\n" + 
-				"			}\r\n" + 
-				"	}\r\n" +
+				"    }\r\n" + 
+				"  }\r\n" + 
 				"}";
 
 		JSONObject jsonObj = new JSONObject(que);

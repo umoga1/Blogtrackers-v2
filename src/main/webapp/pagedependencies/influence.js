@@ -25,7 +25,8 @@ $('.blogger-select').on("click", function(){
 	getTotalInfluence(bloog,blg[1]);
 	loadChart(bloog,blg[1]);
 	loadTerms(bloog,blg[1]);
-	loadInfluence(date_start,date_end);
+
+	loadInfluence(bloog,blg[1]);
 });
 
 
@@ -93,14 +94,10 @@ function loadChart(blogger,blog_id){
 	});
 }
 
-
-function loadInfluence(date_start,date_end){
+function loadInfluence(blogger,blog_id){
 	$("#influence_table").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	$("#blogpost_detail").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	
-	var blogger = $("#author").val();
-	var blog_id = $("#blogid").val();
-	$(".activeblogger").html(blogger);
 	
 	$.ajax({
 		url: app_url+"subpages/postingfrequencyinfluence.jsp",
@@ -110,8 +107,8 @@ function loadInfluence(date_start,date_end){
 			blogger:blogger,
 			blog_id:blog_id,
 			sort:"influence_score",
-			date_start:date_start,
-			date_end:date_end,
+			date_start:$("#date_start").val(),
+			date_end:$("#date_end").val(),
 		},
 		error: function(response)
 		{						
@@ -122,14 +119,22 @@ function loadInfluence(date_start,date_end){
 		{   
 			console.log(response);
 			$("#influence_table").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
-
+			 $.getScript("assets/vendors/DataTables/datatables.min.js", function(data, textStatus, jqxhr) {	});
+			 $.getScript("assets/vendors/DataTables/dataTables.bootstrap4.min.js", function(data, textStatus, jqxhr) {	});
+			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js", function(data, textStatus, jqxhr) {	});
+			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js", function(data, textStatus, jqxhr) {	});
+			 
+			 $.getScript("assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js", function(data, textStatus, jqxhr) {	});
+			 $.getScript("assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js", function(data, textStatus, jqxhr) {	});
+			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js", function(data, textStatus, jqxhr) {	});
+			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js", function(data, textStatus, jqxhr) {	});
+	
 			//$("#influence_table").html(response);
 			loadSinglePost(blogger,blog_id);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}
 	});
-	
 }
 
 

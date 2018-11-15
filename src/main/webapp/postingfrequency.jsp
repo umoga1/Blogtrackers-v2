@@ -1732,7 +1732,7 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=80090"></script>
+<script src="pagedependencies/postingfrequency.js?v=190"></script>
 
 </body>
 </html>
