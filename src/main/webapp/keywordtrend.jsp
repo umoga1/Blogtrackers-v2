@@ -775,22 +775,23 @@
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
-								<h6 class="card-title mb0">Post Mentioned</h6>
+								<h6 class="card-title mb0">Bloggers Mentioned</h6>
+								<h2 class="mb0 bold-text">400</h2>
+								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+							</div>
+							
+							<div class="col-md-3 mt5 mb5">
+								<h6 class="card-title mb0">Posts Mentioned</h6>
 								<h2 class="mb0 bold-text">400</h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
-								<h6 class="card-title mb0">Most Used Location</h6>
+								<h6 class="card-title mb0">Top Posting Location</h6>
 								<h3 class="mb0 bold-text">Nigeria</h3>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
-							<div class="col-md-3  mt5 mb5">
-								<h6 class="card-title mb0">Most Active Blog</h6>
-								<h2 class="mb0 bold-text">AdNovum</h2>
-								<!-- <small class="text-success"><a href=""><b>View Blog</b></a></small> -->
-							</div>
 
 						</div>
 					</div>

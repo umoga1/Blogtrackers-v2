@@ -1,4 +1,6 @@
 $(document).ready(function() {
+	
+	console.log(Cookies.get('selectedblogs'));
 	// tracking blogcount
 	var trackscount = 0;
 	// tracker selected count
