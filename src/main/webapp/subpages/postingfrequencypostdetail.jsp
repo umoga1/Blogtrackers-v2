@@ -66,7 +66,7 @@ ArrayList allauthors=post._getBloggerByBlogId("date",dt, dte,blog_id.toString())
 										</div>
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 600px; overflow-y: scroll;">
-											<%=tobj.get("body")%>
+											<%=tobj.get("post")%>
 										</div>                      
                      		<% }} %>
                                
