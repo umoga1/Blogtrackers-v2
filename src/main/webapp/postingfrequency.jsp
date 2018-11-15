@@ -214,7 +214,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 		}  
 		
-		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);	
+		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+			
 			
 	
 	String allpost = "0";
@@ -251,7 +252,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	
 
 	
-
+	ArrayList allposts = new ArrayList();
 %>
 <!DOCTYPE html>
 <html>
@@ -465,6 +466,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										
 										String auth  = tobj.get("blogger").toString();
 										String posttitle  = tobj.get("title").toString();
+										String posturl = tobj.get("permalink").toString();
 										String postid  = tobj.get("blogpost_id").toString();
 										String blogid  = tobj.get("blogsite_id").toString();
 										String body  = tobj.get("post").toString();
@@ -498,8 +500,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 												selectedid = blogid;
 												allterms = term._searchByRange("date", dt, dte, blogid);
 												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
-												totalpost = post._searchRangeTotal("date", dt, dte, ids);
-												
+
+												totalpost = post._searchRangeTotalByBlogger("date", dt, dte, auth);
+												allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"date","DESC");
+										
 											}
 									    	
 											l++;
@@ -508,31 +512,14 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	authorcount.put(j, auth);
 									    	blogcount.put(j, blogid);
 									    	
-									    	String blg_name="";
-									    	ArrayList blogname= blog._getMostactive(blogid);
-									    	if(blogname.size()>0){
-									    		blg_name = mostactive.get(0).toString();
-									    	}
-									    	
 									    	j++;
 									    	
 									    	%>
 
-							    			<a class="blogger-select btn btn-primary form-control stylebuttonactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %>text-primary opacity53<%}else{%> btn-primary <% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>***<%=blg_name.replaceAll(" ","_")%>" ><b><%=tobj.get("blogger")%></b></a>
+							    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %> <%}else{%> btn-primary bloggerinactive<% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
 							    			<% }
 									    		
-											    if(auth.equals(mostactiveblogger) ){
-												    	JSONObject disp = new JSONObject();
-												    	disp.put("title",posttitle);
-												    	disp.put("influence",influence);
-												    	disp.put("body",body);
-												    	disp.put("blogger",auth);
-												    	disp.put("date",dt);
-												    	disp.put("blogpost_id",postid);
-												    	disp.put("num_comments",num_comment);
-												    	posttodisplay.put(qc,disp);
-												    	qc++;
-											    }
+											   
 										   // System.out.println(authoryears);
 										    }} 
 	
@@ -601,7 +588,8 @@ if(authorcount.length()>0){
 		for(int y=ystint; y<=yendint; y++){ 
 				   String dtu = y + "-01-01";
 				   String dtue = y + "-12-31";
-				   String totu = post._searchRangeTotal("date",dtu, dtue,blogcount.get(n).toString());		 	
+				   String totu = post._searchRangeTotalByBlogger("date",dtu, dtue,authorcount.get(n).toString());
+				   
 				   if(!years.has(y+"")){
 			    		years.put(y+"",y);
 			    		yearsarray.put(b,y);
@@ -613,15 +601,19 @@ if(authorcount.length()>0){
 		authoryears.put(authorcount.get(n).toString(),postyear);
 	}
 }
+
+
 %>
 
 <div class="col-md-9">
   <div class="card card-style mt20">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 250px;">
-<div><p class="text-primary mt10"> <b>Individual</b> Number of Blog Post of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
+<div><p class="text-primary mt10"> <b>Individual</b> Number of Blog Post <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+		<div id="chart-container">
 		<div class="chart-container">
 		  <div class="chart" id="d3-line-basic"></div>
+		</div>
 		</div>
       </div>
         </div>
@@ -631,25 +623,25 @@ if(authorcount.length()>0){
       <div class="row">
      <div class="col-md-3 mt5 mb5">
        <h6 class="card-title mb0">Total Posts</h6>
-       <h3 class="mb0 bold-text"><%=totalpost%></h3>
+       <h3 class="mb0 bold-text total-post"><%=totalpost%></h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
      <div class="col-md-3 mt5 mb5">
       <h6 class="card-title mb0">Overall Sentiment</h6>
-       <h3 class="mb0 bold-text">Positive</h3>
+       <h3 class="mb0 bold-text overall-sentiment">Positive</h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
      <div class="col-md-3 mt5 mb5">
        <h6 class="card-title mb0">Top Post Location</h6>
-       <h3 class="mb0 bold-text"><%=toplocation%></h3>
+       <h3 class="mb0 bold-text top-location"><%=toplocation%></h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
      <div class="col-md-3  mt5 mb5">
        <h6 class="card-title mb0">Most Used Keyword</h6>
-       <h3 class="mb0 bold-text"><%=mostusedkeyword%></h3>
+       <h3 class="mb0 bold-text most-used-keyword"><%=mostusedkeyword%></h3>
      </div>
 
       </div>
@@ -662,13 +654,14 @@ if(authorcount.length()>0){
   <div class="col-md-6 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Keywords of <b class="text-blue active-blog" ><%=mostactiveblog%></b></p></div>
+        <div><p class="text-primary mt10">Keywords of <b class="text-blue activeblog"><%=mostactiveblog%></b></p></div>
         <div id="tagcloudbox">
-        <div class="tagcloudcontainer" style="min-height: 420px;">
-
-        </div>
+        <div class="chart-container">
+								<div class="chart" id="tagcloudcontainer"></div>
+							</div>
         </div>
        </div>
+
     </div>
   </div>
 
@@ -731,7 +724,7 @@ if(authorcount.length()>0){
 <div class="row m0 mt20 mb50 d-flex align-items-stretch" >
   <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
   <div class="card-body p0 pt20 pb20" style="min-height: 420px;">
-      <p>Influential Blog Posts of <b class="text-blue active-blogger"><%=mostactiveblogger%></b></p>
+      <p>Influential Blog Posts of <b class="text-blue activeblogger"><%=mostactiveblogger%></b></p>
          <!--  <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
@@ -744,47 +737,75 @@ if(authorcount.length()>0){
                             </tr>
                         </thead>
                         <tbody>
-                            <% if(posttodisplay.length()>0){ 
-							for(int y=0; y<posttodisplay.length(); y++){
-								JSONObject postjson = new JSONObject(posttodisplay.get(y).toString());
-						%>
-							<tr>
-								<td><a  class="blogpost_link" id="<%=postjson.get("blogpost_id")%>" >#<%=(y+1)%>: <%=postjson.get("title") %></a></td>
-								<td align="center"><%=postjson.get("influence") %></td>
-							</tr>
-						<% }} %>                        </tbody>
+                            
+						<%
+                                if(allposts.size()>0){							
+									String tres = null;
+									JSONObject tresp = null;
+									String tresu = null;
+									JSONObject tobj = null;
+									int j=0;
+									int k=0;
+									for(int i=0; i< allposts.size(); i++){
+										tres = allposts.get(i).toString();	
+										tresp = new JSONObject(tres);
+										tresu = tresp.get("_source").toString();
+										tobj = new JSONObject(tresu);
+										k++;
+									%>
+                                    <tr>
+                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" >#<%=(k+1)%>: <%=tobj.get("title") %></a><br/>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
+								<td align="center"><%=tobj.get("influence") %></td>
+                                     </tr>
+                                    <% }} %>
+						
+						 </tbody>
                     </table>
-         </div>
+        </div>
         </div>
 
   </div>
 
   <div class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
        <div style="" class="pt20" id="blogpost_detail">
-				<% if(posttodisplay.length()>0){ 
-							JSONObject postdetjson = new JSONObject(posttodisplay.get(0).toString());
-					%>
-					<h5 class="text-primary p20 pt0 pb0">#1: <%=postdetjson.get("title")%></h5>
-					<div class="text-center mb20 mt20">
-						<button class="btn stylebuttonblue">
-							<b class="float-left ultra-bold-text"><%=postdetjson.get("blogger")%></b> <i
-								class="far fa-user float-right blogcontenticon"></i>
-						</button>
-						<button class="btn stylebuttonnocolor"><%=postdetjson.get("date")%></button>
-						<button class="btn stylebuttonorange">
-							<b class="float-left ultra-bold-text"><%=postdetjson.get("num_comments")%> comments</b><i
-								class="far fa-comments float-right blogcontenticon"></i>
-						</button>
-					</div>
-					<div class="p20 pt0 pb20 text-blog-content text-primary"
-						style="height: 600px; overflow-y: scroll;">
-						<%=postdetjson.get("body")%>
-						</div>
-				
-				<% } %>
-				</div>
+  		
+				<%
+                                if(allposts.size()>0){							
+									String tres = null;
+									JSONObject tresp = null;
+									String tresu = null;
+									JSONObject tobj = null;
+									int j=0;
+									int k=0;
+									for(int i=0; i< 1; i++){
+										tres = allposts.get(i).toString();	
+										tresp = new JSONObject(tres);
+										tresu = tresp.get("_source").toString();
+										tobj = new JSONObject(tresu);
+										k++;
+									%>                                    
+                                    <h5 class="text-primary p20 pt0 pb0">#1: <%=tobj.get("title")%></h5>
+										<div class="text-center mb20 mt20">
+											<button class="btn stylebuttonblue">
+												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
+													class="far fa-user float-right blogcontenticon"></i>
+											</button>
+											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
+											<button class="btn stylebuttonorange">
+												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
+													class="far fa-comments float-right blogcontenticon"></i>
+											</button>
+										</div>
+										<div class="p20 pt0 pb20 text-blog-content text-primary"
+											style="height: 600px; overflow-y: scroll;">
+											<%=tobj.get("post")%>
+										</div>                      
+                     		<% }} %>
+                               
 			</div>
     </div>
+    
   </div>
 </div>
 
@@ -794,7 +815,7 @@ if(authorcount.length()>0){
 
 </div>
 
-<form action="" name="customformsingle" id="customformsingle" method="post">
+	<form action="" name="customformsingle" id="customformsingle" method="post">
 		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" />
 		<input type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" />
 		<input type="hidden" name="author" id="author" value="<%=mostactiveblogger%>" /> 
@@ -1011,6 +1032,7 @@ if(authorcount.length()>0){
  <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
  <script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
  <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
+ <script type="text/javascript" src="assets/js/jquery.inview.js"></script>
  <script>
 
   $(function () {
@@ -1046,7 +1068,7 @@ if(authorcount.length()>0){
 
           // Horizontal
           var x = d3.scale.ordinal()
-              .rangeRoundBands([0, width], .72, .5);
+              .rangeRoundBands([0, width]);
 
           // Vertical
           var y = d3.scale.linear()
@@ -1324,48 +1346,93 @@ console.log("here");
                // data.map(function(d){})
                if(data.length == 1)
                {
-                 // Add line
-               var path = svg.selectAll('.d3-line')
-                         .data(data)
-                         .enter()
-                         .append("path")
-                         .attr("class", "d3-line d3-line-medium")
-                         .attr("d", line)
-                         // .style("fill", "rgba(0,0,0,0.54)")
-                         .style("stroke-width", 2)
-                         .style("stroke", "17394C")
-                          .attr("transform", "translate("+margin.left/4.7+",0)");
-                         // .datum(data)
 
-                // add point
-                 circles = svg.selectAll(".circle-point")
-                           .data(data[0])
-                           .enter();
+            		
+                   // Add line
+                   //0console.log(svg.selectAll(".tick"))
+                  // tick = svg.select(".d3-axis-horizontal").selectAll(".tick")
+                  // console.log(tick)
+                   //var transform = d3.transform(tick.attr("transform")).translate;
+                   //console.log(transform);
+                   var path = svg.selectAll('.d3-line')
+                             .data(data)
+                             .enter()
+                             .append("g")
+                             .attr("class","linecontainer")
+                            // .attr("transform", "translate(106,0)")
+                             .append("path")
+                             .attr("class", "d3-line d3-line-medium")
+                             //.attr("transform", "translate("+129.5/6+",0)")
+                             .attr("d", line)
+                             // .style("fill", "rgba(0,0,0,0.54)")
+                             .style("stroke-width",2)
+                             .style("stroke", "17394C")
+                             //.attr("transform", "translate("+margin.left/4.7+",0)");
+                             // .attr("transform", "translate(40,0)");
+                     
+                 /*   $(element).bind('inview', function (event, visible) {
+                 	  if (visible == true) {
+                 		  path.select("path")
+                 		  .transition()
+                           .duration(1000)
+                           .attrTween("stroke-dasharray", tweenDash);
+                           
+                 	  } else {
+                 		  //svg.selectAll("text")
+                           //.style("font-size", 0)
+                 	  }
+                 	}); */
+                   function tweenDash() {
+                       var l = this.getTotalLength(),
+                           i = d3.interpolateString("0," + l, l + "," + l);
+                       return function (t) { return i(t); };
+                   }
+                             // .datum(data)
+                  // firsttick =  return x(d.date[0]);
+                    //         console.log(firsttick);
+                    // add point
+                    
+                    //svg.call(xAxis).selectAll(".tick").each(function(tickdata) {
+                     // var tick = svg.call(xAxis).selectAll(".tick").style("stroke",0);
+                      //console.log(tick);
+                       // pull the transform data out of the tick
+                      //var transform = d3.transform(tick[0].g.attr("transform")).translate;
+                       //console.log(tick);
+                      // console.log("each tick", tickdata, transform); 
+                   // });
+                     circles =  svg.append("g").attr("class","circlecontainer")
+                              // .attr("transform", "translate("+106+",0)")
+                     		  .selectAll(".circle-point")
+                               .data(data[0])
+                               .enter();
 
 
-                       circles
-                       // .enter()
-                       .append("circle")
-                       .attr("class","circle-point")
-                       .attr("r",3.4)
-                       .style("stroke", "#4CAF50")
-                       .style("fill","#4CAF50")
-                       .attr("cx",function(d) { return x(d.date); })
-                       .attr("cy", function(d){return y(d.close)})
+                           circles
+                           // .enter()
+                           
+                           .append("circle")
+                           .attr("class","circle-point")
+                           .attr("r",3.0)
+                           .style("stroke", "#4CAF50")
+                           .style("fill","#4CAF50")
+                           .attr("cx",function(d) { return x(d.date); })
+                           .attr("cy", function(d){return y(d.close)})
 
-                       .attr("transform", "translate("+margin.left/4.7+",0)");
+                           //.attr("transform", "translate("+margin.left/4.7+",0)");
 
-                       svg.selectAll(".circle-point").data(data[0])
-                       .on("mouseover",tip.show)
-                       .on("mouseout",tip.hide)
-                       .on("click",function(d){
-                    	   console.log(d.date);
-                    	   var d1 = 	  d.date + "-01-01";
-                    	   var d2 = 	  d.date + "-12-31";
-          				
-                    	   loadInfluence(d1,d2);   
-                       });
-                                          svg.call(tip)
+                           svg.selectAll(".circle-point").data(data[0])
+                           .on("mouseover",tip.show)
+                           .on("mouseout",tip.hide)
+                           .on("click",function(d){
+                        	   console.log(d.date);
+                        	   console.log(d.date);
+                        	   var d1 = 	  d.date + "-01-01";
+                        	   var d2 = 	  d.date + "-12-31";
+              				
+                        	   loadInfluence(d1,d2);  
+                        	   
+                           });
+                                              svg.call(tip)
                }
                // handles multiple json parameter
                else if(data.length > 1)
@@ -1473,6 +1540,15 @@ console.log("here");
                   // .text("Frequency")
                   ;
 
+              if(data.length == 1 )
+         	 {
+         	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+             transformfirsttick =  tick[0][0].attributes[1].value;
+             //transformfirsttick = "translate(31.5,0)"
+             //console.log(transformfirsttick);
+             svg.select(".circlecontainer").attr("transform", transformfirsttick);
+             svg.select(".linecontainer").attr("transform", transformfirsttick);
+         	 }
 
 
          // Resize chart
@@ -1534,6 +1610,17 @@ console.log("here");
                .attr("cx",function(d) { return x(d.date);})
                .attr("cy", function(d){return y(d.close)});
              }
+             
+             if(data.length == 1 )
+        	 {
+        	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+            transformfirsttick =  tick[0][0].attributes[1].value;
+            //transformfirsttick = "translate(31.5,0)"
+            console.log(transformfirsttick);
+            svg.select(".circlecontainer").attr("transform", transformfirsttick);
+            svg.select(".linecontainer").attr("transform", transformfirsttick);
+        	 }
+
              //
              // // Crosshair
              // svg.selectAll('.d3-crosshair-overlay').attr("width", width);
@@ -1541,10 +1628,22 @@ console.log("here");
          }
      }
  });
+  var color = d3.scale.linear()
+  .domain([0,1,2,3,4,5,6,10,15,20,80])
+  .range(["#17394C", "#F5CC0E", "#CE0202", "#1F90D0", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
  </script>
+ 
 
 <!--word cloud  -->
  <script>
+ wordtagcloud("#tagcloudcontainer",450);
+ function wordtagcloud(element, height) {
+	 var d3Container = d3.select(element),
+     margin = {top: 5, right: 50, bottom: 20, left: 60},
+     width = d3Container.node().getBoundingClientRect().width,
+     height = height - margin.top - margin.bottom - 5;
+		
+		var container = d3Container.append("svg");
 /*
      var frequency_list = [{"text":"study","size":40},{"text":"motion","size":15},{"text":"forces","size":10},{"text":"electricity","size":15},{"text":"movement","size":10},{"text":"relation","size":5},{"text":"things","size":10},{"text":"force","size":5},{"text":"ad","size":5},{"text":"energy","size":85},{"text":"living","size":5},{"text":"nonliving","size":5},{"text":"laws","size":15},{"text":"speed","size":45},{"text":"velocity","size":30},{"text":"define","size":5},{"text":"constraints","size":5},{"text":"universe","size":10},{"text":"distinguished","size":5},{"text":"chemistry","size":5},{"text":"biology","size":5},{"text":"includes","size":5},{"text":"radiation","size":5},{"text":"sound","size":5},{"text":"structure","size":5},{"text":"atoms","size":5},{"text":"including","size":10},{"text":"atomic","size":10},{"text":"nuclear","size":10},{"text":"cryogenics","size":10},{"text":"solid-state","size":10},{"text":"particle","size":10},{"text":"plasma","size":10},{"text":"deals","size":5},{"text":"merriam-webster","size":5},{"text":"dictionary","size":10},{"text":"analysis","size":5},{"text":"conducted","size":5},{"text":"order","size":5},{"text":"understand","size":5},{"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
 
@@ -1553,45 +1652,87 @@ console.log("here");
 	 <%if (topterms.length() > 0) {
 					for (int i = 0; i < topterms.length(); i++) {
 						JSONObject jsonObj = topterms.getJSONObject(i);
-						int size = Integer.parseInt(jsonObj.getString("frequency"));%>
-		{"text":"<%=jsonObj.getString("key")%>","size":<%=size*5%>},
+						int size = Integer.parseInt(jsonObj.getString("frequency"))*2;%>
+		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
 	 <%}
 				}%>
 	 ];
-     var color = d3.scale.linear()
-             .domain([0,1,2,3,4,5,6,10,15,20,80])
-             .range(["#17394C", "#F5CC0E", "#CE0202", "#1F90D0", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+var color = d3.scale.linear()
+.domain([0,1,2,3,4,5,6,10,12,15,20])
+.range(["#0080CC", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
 
-     d3.layout.cloud().size([450, 300])
-             .words(frequency_list)
-             .rotate(0)
-             .fontSize(function(d) { return d.size; })
-             .on("end", draw)
-             .start();
+var svg =  container;
+d3.layout.cloud().size([450,400])
+        .words(frequency_list)
+        .rotate(0)
+        .fontSize(function(d) { return d.size * 1.20; })
+        .on("end", draw)
+        .start();
 
-     function draw(words) {
-         d3.select(".tagcloudcontainer").append("svg")
-                 .attr("width", 450)
-                 .attr("height", 300)
-                 .attr("class", "wordcloud")
-                 .append("g")
-                 // without the transform, words words would get cutoff to the left and top, they would
-                 // appear outside of the SVG area
-                 .attr("transform", "translate(155,180)")
-                 .selectAll("text")
-                 .data(words)
-                 .enter().append("text")
-                 .style("font-size", function(d) { return d.size + "px"; })
-                 .style("fill", function(d, i) { return color(i); })
-                 .attr("transform", function(d) {
-                     return "translate(" + [d.x + 2, d.y + 3] + ")rotate(" + d.rotate + ")";
-                 })
+  
+function draw(words) {
+	 		svg
+            .attr("width", width)
+            .attr("height", height)
+            //.attr("class", "wordcloud")
+            .append("g")
+            .attr("transform", "translate("+ width/2 +",180)")
+             .on("wheel", function() { d3.event.preventDefault(); })
+             .call(d3.behavior.zoom().on("zoom", function () {
+           	var g = svg.selectAll("g"); 
+           	g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")")
+            })) 
+           
+    		
+            .selectAll("text")
+            .data(words)
+            .enter().append("text")
+            .style("font-size", 0)
+            .style("fill", function(d, i) { return color(i); })
+            .call(d3.behavior.drag()
+    		.origin(function(d) { return d; })
+    		.on("dragstart", dragstarted) 
+    		.on("drag", dragged)			
+    		)
+    		
+            .attr("transform", function(d) {
+                return "translate(" + [d.x + 12, d.y + 3] + ")rotate(" + d.rotate + ")";
+            })
 
-                 .text(function(d) { return d.text; });
+            .text(function(d) { return d.text; });
+	 		
+	 		// animation effect for tag cloud
+	 		 $(element).bind('inview', function (event, visible) {
+       	  if (visible == true) {
+       		  svg.selectAll("text").transition()
+                 .delay(200)
+                 .duration(1000)
+                 .style("font-size", function(d) { return d.size * 0.93 + "px"; })
+       	  } else {
+       		  svg.selectAll("text")
+                 .style("font-size", 0)
+       	  }
+       	});
+	 		
+           	function dragged(d) {
+           	 var movetext = svg.select("g").selectAll("text");
+           	 movetext.attr("dx",d3.event.x)
+           	 .attr("dy",d3.event.y)
+           	.style("cursor","move"); 
+           	 /* g.attr("transform","translateX("+d3.event.x+")")
+           	 .attr("transform","translateY("+d3.event.y+")")
+           	 .attr("width", width)
+                .attr("height", height); */
+           	} 
+           	function dragstarted(d){
+   				d3.event.sourceEvent.stopPropagation();
+   			}
      }
+     
+ }
  </script>
-<script src="pagedependencies/baseurl.js?v=3"></script>
-<script src="pagedependencies/postingfrequency.js?v=3909"></script>
+<script src="pagedependencies/baseurl.js?v=93"></script>
+<script src="pagedependencies/postingfrequency.js?v=80090"></script>
 
 </body>
 </html>

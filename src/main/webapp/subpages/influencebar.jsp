@@ -107,7 +107,7 @@ $(function () {
       // // ------------------------------
       //
       //
-      data = [
+     <%--  data = [
     	  <% if (authors.length() > 0) {
 				int p = 0;
 				//System.out.println(bloggers);
@@ -141,7 +141,7 @@ $(function () {
 		 data = data.sort(function(a, b){
   	    return a.frequency - b.frequency;
   	}); 
-  	<% } %>
+  	<% } %> --%>
       //
       //
       //   // Create tooltip

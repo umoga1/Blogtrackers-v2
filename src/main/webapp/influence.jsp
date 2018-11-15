@@ -215,10 +215,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		}  
 		
 		allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-		//post._getBloggerByBlogId("date",dt, dte,ids);
-			
-	
-
+		
 	
 	String allpost = "0";
 	float totalinfluence = 0;
@@ -245,7 +242,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	}
 	
 
-
+	ArrayList allposts = new ArrayList();
 
 //System.out.println(topterms);
 %>
@@ -533,7 +530,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 												selectedid = blogid;
 												allterms = term._searchByRange("date", dt, dte, blogid);
 												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
-												totalpost = post._searchRangeTotal("date", dt, dte, ids);												
+												totalpost = post._searchRangeTotal("date", dt, dte, ids);	
+												allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"date","DESC");
+												
+												//System.out.println("Author ha:"+auth);
 											}
 									    	
 									    	JSONObject xy = new JSONObject();
@@ -559,22 +559,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	j++;
 									    	
 									    	%>
-									    	<a class="blogger-select btn btn-primary form-control stylebuttonactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %>text-primary opacity53<%}else{%> btn-primary <% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>***<%=blg_name.replaceAll(" ","_")%>" ><b><%=tobj.get("blogger")%></b></a>
-							    			
+									    	<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %> <%}else{%> btn-primary bloggerinactive<% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
 									    	<% }
 									    		
-											    if(auth.equals(mostactiveblogger)){
-												    	JSONObject disp = new JSONObject();
-												    	disp.put("title",posttitle);
-												    	disp.put("influence",influence);
-												    	disp.put("body",body);
-												    	disp.put("blogger",auth);
-												    	disp.put("date",dt);
-												    	disp.put("blogpost_id",postid);
-												    	disp.put("num_comments",num_comment);
-												    	posttodisplay.put(qc,disp);
-												    	qc++;
-											    }
 										   // System.out.println(authoryears);
 										    }} 
 								//System.out.println(authoryears);
@@ -668,8 +655,10 @@ if(authorcount.length()>0){
 										<option value="year">Year</option></select>
 								</p>
 							</div>
+							<div id="chart-container">
 							<div class="chart-container">
 								<div class="chart" id="d3-line-basic"></div>
+							</div>
 							</div>
 						</div>
 					</div>
@@ -679,19 +668,19 @@ if(authorcount.length()>0){
 						<div class="row">
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Influence Score</h6>
-								<h2 class="mb0 bold-text"><%=totalinfluence%></h2>
+								<h2 class="mb0 bold-text total-influence"><%=totalinfluence%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Total Posts</h6>
-								<h2 class="mb0 bold-text"><%=totalpost%></h2>
+								<h2 class="mb0 bold-text total-post"><%=totalpost%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Most Used Keyword</h6>
-								<h2 class="mb0 bold-text"><%=mostusedkeyword%></h2>
+								<h2 class="mb0 bold-text most-used-keyword"><%=mostusedkeyword%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
@@ -713,7 +702,7 @@ if(authorcount.length()>0){
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10">
-								Keywords of <b class="text-blue"><%=mostactiveblog%></b>
+								Keywords of <b class="text-blue activeblog"><%=mostactiveblog%></b>
 							</p>
 						</div>
 						<div class="tagcloudcontainer" style="min-height: 420px;"></div>
@@ -742,11 +731,12 @@ if(authorcount.length()>0){
 			<div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
 				<div class="card-body p0 pt20 pb20" style="min-height: 420px;" id="influential-post-box">
 					<p>
-						Influential Blog Posts of <b class="text-blue"><%=mostactiveblogger%></b>
+						Influential Blog Posts of <b class="text-blue activeblogger"><%=mostactiveblogger%></b>
 					</p>
 					<!--   <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
+          <div id="influence_table">
 					<table id="DataTables_Table_0_wrapper" class="display"
 						style="width: 100%">
 						<thead>
@@ -757,18 +747,33 @@ if(authorcount.length()>0){
 
 							</tr>
 						</thead>
-						<tbody>
-						<% if(posttodisplay.length()>0){ 
-							for(int y=0; y<posttodisplay.length(); y++){
-								JSONObject postjson = new JSONObject(posttodisplay.get(y).toString());
-						%>
-							<tr>
-								<td><a href="#" class="blogpost_link" id="<%=postjson.get("blogpost_id")%>" >#<%=(y+1)%>: <%=postjson.get("title") %></a></td>
-								<td align="center"><%=postjson.get("influence") %></td>
-							</tr>
-						<% }} %>
-													</tbody>
+						  <tbody>
+                            
+						<%
+                                if(allposts.size()>0){							
+									String tres = null;
+									JSONObject tresp = null;
+									String tresu = null;
+									JSONObject tobj = null;
+									int j=0;
+									int k=0;
+									for(int i=0; i< allposts.size(); i++){
+										tres = allposts.get(i).toString();	
+										tresp = new JSONObject(tres);
+										tresu = tresp.get("_source").toString();
+										tobj = new JSONObject(tresu);
+										k++;
+									%>
+                                    <tr>
+                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" >#<%=(k+1)%>: <%=tobj.get("title") %></a><br/>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
+								<td align="center"><%=tobj.get("influence") %></td>
+                                     </tr>
+                                    <% }} %>
+						
+						 </tbody>
 					</table>
+					</div>
 				</div>
 
 			</div>
@@ -776,26 +781,38 @@ if(authorcount.length()>0){
 			<div
 				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
 				<div style="" class="pt20" id="blogpost_detail">
-				<% if(posttodisplay.length()>0){ 
-							JSONObject postdetjson = new JSONObject(posttodisplay.get(0).toString());
-					%>
-					<h5 class="text-primary p20 pt0 pb0">#1: <%=postdetjson.get("title")%></h5>
-					<div class="text-center mb20 mt20">
-						<button class="btn stylebuttonblue">
-							<b class="float-left ultra-bold-text"><%=postdetjson.get("blogger")%></b> <i
-								class="far fa-user float-right blogcontenticon"></i>
-						</button>
-						<button class="btn stylebuttonnocolor"><%=postdetjson.get("date")%></button>
-						<button class="btn stylebuttonorange">
-							<b class="float-left ultra-bold-text"><%=postdetjson.get("num_comments")%> comments</b><i
-								class="far fa-comments float-right blogcontenticon"></i>
-						</button>
-					</div>
-					<div class="p20 pt0 pb20 text-blog-content text-primary"
-						style="height: 600px; overflow-y: scroll;">
-						<%=postdetjson.get("body")%>
-						</div>
-					<% } %>
+					<%
+                                if(allposts.size()>0){							
+									String tres = null;
+									JSONObject tresp = null;
+									String tresu = null;
+									JSONObject tobj = null;
+									int j=0;
+									int k=0;
+									for(int i=0; i< 1; i++){
+										tres = allposts.get(i).toString();	
+										tresp = new JSONObject(tres);
+										tresu = tresp.get("_source").toString();
+										tobj = new JSONObject(tresu);
+										k++;
+									%>                                    
+                                    <h5 class="text-primary p20 pt0 pb0">#1: <%=tobj.get("title")%></h5>
+										<div class="text-center mb20 mt20">
+											<button class="btn stylebuttonblue">
+												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
+													class="far fa-user float-right blogcontenticon"></i>
+											</button>
+											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
+											<button class="btn stylebuttonorange">
+												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
+													class="far fa-comments float-right blogcontenticon"></i>
+											</button>
+										</div>
+										<div class="p20 pt0 pb20 text-blog-content text-primary"
+											style="height: 600px; overflow-y: scroll;">
+											<%=tobj.get("post")%>
+										</div>                      
+                     		<% }} %>
 				</div>
 				
 			</div>
@@ -807,7 +824,19 @@ if(authorcount.length()>0){
 
 	</div>
 
+	<form action="" name="customformsingle" id="customformsingle" method="post">
+		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" />
+		<input type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" />
+		<input type="hidden" name="author" id="author" value="<%=mostactiveblogger%>" /> 
+		<input type="hidden" name="single_date" id="single_date" value="" />
+	</form>
 
+	<form action="" name="customform" id="customform" method="post">
+		<input type="hidden" name="tid" id="tid" value="<%=tid%>" /> 
+		<input type="hidden" name="date_start" id="date_start" value="<%=dt%>" /> 
+		<input type="hidden" name="date_end" id="date_end" value="<%=dte%>" />			
+	</form>
+	
 	<!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
 <p class="text-center text-medium pt10 pb10 mb0">Copyright &copy; Blogtrackers 2017 All Rights Reserved.</p>
@@ -2041,9 +2070,9 @@ if(authorcount.length()>0){
                  .text(function(d) { return d.text; });
      }
  </script>
- <script src="pagedependencies/baseurl.js?v=3"></script>
+<script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/influence.js?v=39"></script>
+<script src="pagedependencies/influence.js?v=1089839"></script>
 	
 </body>
 </html>

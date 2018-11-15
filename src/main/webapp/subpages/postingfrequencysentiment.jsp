@@ -16,27 +16,20 @@
 <%
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
-
 Object blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
-
 Object blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
-
 String bloggerstr = blogger.toString().replaceAll("_"," ");
-
 System.out.println("blogger here :"+blogger);
-
 Blogpost_entitysentiment blogpostsentiment  = new Blogpost_entitysentiment();
 ArrayList allentitysentiments = new ArrayList(); 
-
-
 String dt = date_start.toString();
 String dte = date_end.toString();
 String year_start="";
 String year_end="";		
 allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blog_id.toString());
-
 %>
-
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
 <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
                                 <thead>
                                     <tr>
@@ -72,3 +65,40 @@ allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blog_id.
                                 </tbody>
                             </table>
 
+<script type="text/javascript"
+		src="assets/vendors/DataTables/datatables.min.js"></script>
+			<script>
+ $(document).ready(function() {
+	 
+	 
+	$('#printdoc').on('click',function(){
+		print();
+	}) 
+	
+	 $(function () {
+		    $('[data-toggle="tooltip"]').tooltip()
+		  })
+		  
+     $('#DataTables_Table_1_wrapper').DataTable( {
+         "scrollY": 250,
+          "pagingType": "simple",
+         /*  dom: 
+        	   'Bfrtip', 
+                    "columnDefs": [
+                 { "width": "80%", "targets": 0 }
+               ]  */
+  /*    ,
+       buttons:{
+         buttons: [
+             { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
+             {extend:'csv',className: 'btn-primary stylebutton1'},
+             {extend:'excel',className: 'btn-primary stylebutton1'},
+            // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
+             {extend:'print',className: 'btn-primary stylebutton1'},
+         ]
+       } */
+     } );
+	 
+ } );
+ </script>
+	<!--end for table  -->

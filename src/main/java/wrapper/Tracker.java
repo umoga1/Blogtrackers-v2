@@ -331,10 +331,11 @@ public class Tracker extends HttpServlet {
 									"								class='far fa-comments float-right blogcontenticon'></i>" + 
 									"						</button>" + 
 									"					</div>" + 
-									"					<div class='p20 pt0 pb20 text-blog-content text-primary'" + 
-									"						style='height: 600px; overflow-y: scroll;'>" + 
+									
+									"					<div style=\"height: 600px;\"><div class='p20 pt0 pb20 text-blog-content text-primary'" + 
+									"						style='height: 550px; overflow-y: scroll;'>" + 
 									"						"+bj.get("post").toString()+""+ 
-									"						</div>";
+									"						</div></div>";
 									
 							
 						}

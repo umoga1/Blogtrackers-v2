@@ -5,6 +5,10 @@ body{
 
   background-color: #F3F4F5  ;
 }
+.activeselectedblog
+{
+color:#1F90D0 !important;	
+}
 .nobg
 {
 background-color:none;	
@@ -1668,6 +1672,30 @@ padding: 0.375rem 0.75rem !important;
 .stylebuttonactive
 {
 border-radius:15px;
+color: #ffffff !important;
+}
+.stylebuttonactive:hover
+{
+color: #ffffff !important;	
+}
+.bloggerinactive
+{
+border-radius:15px;
+border: 2px solid #17394C;
+color: #5E5E5E !important;
+background-color: transparent;	
+
+}
+.visitpost
+{
+font-size:12px;
+border-radius:10px;
+padding:3px 6px;	
+}
+.bloggerinactive:hover, .abloggerselected
+{
+background-color:#0080CC;
+border: 2px solid #0080CC;
 color: #ffffff !important;
 }
 .stylebuttoninactive

@@ -1,8 +1,14 @@
+// adekunle tweak version of blog browser page
 var selected_blogs = new Array();
 var looper = 0;
 
 $(document).ready(function() {
-
+	console.log("hjhjdfj");
+	// create a cookie that is accessible anywhere on the site
+	Cookies.set('theme', 'green', {path : '/'});
+	// retrieve the value of the theme cookie
+	var theme =  Cookies.get('theme');
+	console.log(theme+"hgg");
 	// tracking blogcount
 	
 	// tracker selected count
@@ -262,7 +268,7 @@ console.log("You removed from favorites")
 //select a blog to track
 $(document).on("click",".trackblog",function(e){
 // check the status if the blog is tracked
-blog_id = "";
+var blog_id = "";
 classes = $(this).attr('class').split(/\s+/);
 $.each(classes, function(index, item) {
 	    if (item.indexOf("blog_id")>-1) {
@@ -270,14 +276,28 @@ $.each(classes, function(index, item) {
 	        blog_id = blog_id[blog_id.length-1];
 	    }
 	});
-
+var trackingblog = false;
 var allsel = $("#selected_blogs_").val();
-selected_blogs = allsel.split(",");
-if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
+var selected_blogs = allsel.split(",");
+isblogselected = $(".blog_id_"+blog_id).hasClass("text-selected");
+//console.log("blog is selected " + isblogselected);
+if(!isblogselected)
+{
+	if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
+	trackingblog=false;
+	}
+	
+}
+else if(isblogselected)
+{
+	trackingblog=true;
+}
+
+/*if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 	trackingblog=false;
 }else{
 	trackingblog=true;
-}
+}*/
 
 //trackingblog = $(this).hasClass("text-success");
 if(!trackingblog)
@@ -288,7 +308,8 @@ $(".curve_"+blog_id).addClass("border-selected");
 $(".curve_"+blog_id).find(".posttitle a").addClass("text-selected");
 $(".curve_"+blog_id).find(".trackingtracks").addClass("makeinvisible");
 $(".blog_id_"+blog_id).attr("data-original-title","Remove Blog from Tracker");
-
+// add a class that make similar blog selected
+$(".blog_id_"+blog_id).addClass("text-selected");
 
 $(this).parent().parent().addClass("border-selected");
 $(this).parent().parent().find(".posttitle a").addClass("text-selected");
@@ -298,23 +319,25 @@ $(this).attr("data-original-title","Remove Blog from Tracker");
 
 
 
-//console.log("Added blog to be tracked");
+      //console.log("Added blog to be tracked");
 		
-		
-		if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
+       console.log("Let's see: "+jQuery.inArray(blog_id,selected_blogs));
+       console.log("Changed Array: "+selected_blogs);
+		if((jQuery.inArray(blog_id,selected_blogs) >= -1) && blog_id!=""){
 				    // the element is not in the array
 				selected_blogs[looper] = blog_id;
 				
 				blogname = $(".blogname-"+blog_id);
 				blogname = $(blogname)[0];
 				blogname = $(blogname).text();
-				$("#selected_blog_list").append('<button class="col-md-9 btn text-left text-white bold-text blogselection mt10 pt10 pb10 blogg_'+blog_id+'" id="blogg_'+blog_id+'">'+blogname+'<i class="fas fa-trash float-right hidden deleteblog" id="'+blog_id+'"></i></button><br/>');
+				// fix break number one; 
+				$("#selected_blog_list").append('<button class="col-md-9 btn text-left text-white bold-text blogselection mt10 pt10 pb10 blogg_'+blog_id+'" id="blogg_'+blog_id+'">'+blogname+'<i class="fas fa-trash float-right hidden deleteblog" id="'+blog_id+'"></i></button>');
 				/*
 				$.getScript( app_url+"pagedependencies/blogbrowser.js", function( data, textStatus, jqxhr ) {				
 					
 				});
 				*/
-				$(".blog_id_"+blog_id).addClass("text-success");
+				$(".blog_id_"+blog_id).addClass("text-selected");
 				looper++;
 				trackscount++;
 				
@@ -364,7 +387,7 @@ else if(trackingblog)
 	$(".curve_"+blog_id).find(".posttitle a").removeClass("text-selected");
 	$(".curve_"+blog_id).find(".trackingtracks").removeClass("makeinvisible");
 	$(".blog_id_"+blog_id).attr("data-original-title","Add Blog from Tracker");
-
+	$(".blog_id_"+blog_id).removeClass("text-selected");
 	
 $(this).parent().parent().removeClass("border-selected");
 $(this).parent().parent().find(".posttitle a").removeClass("text-selected");
@@ -372,12 +395,12 @@ $(this).parent().parent().find(".trackingtracks").removeClass("makeinvisible");
 $(this).attr("data-original-title","Add Blog from Tracker");
 
 console.log("Removed blog to be tracked");
-removeBlog(this);
-trackscount--;
+removeBlog(this,blog_id,selected_blogs);
+//trackscount--;
 
 var blgs = $(".blogselection");
-console.log("total here"+blgs.length);
-trackscount = blgs.length;
+//console.log("total here"+blgs.length);
+//trackscount = blgs.length;
 $(".total_selected").text(blgs.length);
 
 
@@ -411,6 +434,36 @@ $('.tracksection').show();
 });
 
 
+function removeBlog(element,blog_id,selected_blogs){
+	blog_id = "";
+	classes = $(element).attr('class').split(/\s+/);
+	$.each(classes, function(index, item) {
+	    if (item.indexOf("blog_id")>-1) {
+	        blog_id = item.split("_");
+	        blog_id = blog_id[blog_id.length-1];
+	    }
+	});
+
+	console.log("Selected blog in deselecting blog: "+selected_blogs);
+	if(jQuery.inArray(blog_id,selected_blogs) != -1 && blog_id!=""){
+			    // the element is not in the array
+		var index = selected_blogs.indexOf(blog_id);
+		if (index > -1) {
+			selected_blogs.splice(index, 1);
+			if(trackscount > 0)
+			{
+			trackscount--;	
+			}
+		}
+		$(".total_selected").text(selected_blogs.length);		
+			$(".blogg_"+blog_id).remove();
+		//trackscount--;
+		var blgs = $(".blogselection");
+		$(".total_selected").text(blgs.length);
+		$(".blog_id_"+blog_id).removeClass("text-selected");
+					
+	}
+}
 
 
 // call to action to start tracking blogs
@@ -595,31 +648,6 @@ function updateTracker(element,type){
 }
 
 
-function removeBlog(element){
-	blog_id = "";
-	classes = $(element).attr('class').split(/\s+/);
-	$.each(classes, function(index, item) {
-	    if (item.indexOf("blog_id")>-1) {
-	        blog_id = item.split("_");
-	        blog_id = blog_id[blog_id.length-1];
-	    }
-	});
-
-	if(jQuery.inArray(blog_id,selected_blogs) != -1 && blog_id!=""){
-			    // the element is not in the array
-		var index = selected_blogs.indexOf(blog_id);
-		if (index > -1) {
-			selected_blogs.splice(index, 1);
-		}
-		$(".total_selected").text(selected_blogs.length);		
-		$(".blogg_"+blog_id).remove();
-		//trackscount--;
-		var blgs = $(".blogselection");
-		$(".total_selected").text(blgs.length);
-		$(".blog_id_"+blog_id).removeClass("text-success");
-					
-	}
-}
 
 
 function setSelected(all_blogs){

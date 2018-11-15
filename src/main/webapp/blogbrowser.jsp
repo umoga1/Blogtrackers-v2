@@ -226,7 +226,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 	   <div class="col-md-12 mt0">
 
       <form method="search" method="post" autocomplete="off" action="<%=request.getContextPath()%>/blogbrowser.jsp">
-      	<input type="search" autocomplete="off" name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" <% if(!term.equals("")){ %> placeholder="Searching for <%=term%>" <% } else { %>placeholder="Search for a keyword"<% } %> />
+      	<input type="search" autocomplete="off"  name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" <% if(!term.equals("")){ %> placeholder="Searching for <%=term%>" <% } else { %>placeholder="Search for a keyword"<% } %> />
       </form>
       </div>
 
@@ -423,6 +423,8 @@ if(results.size()>0){
 <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
+<script src="js/jscookie.js">
+</script>
 <script type="text/javascript" src="assets/vendors/tags/tagsinput.min.js"></script>
 <script type="text/javascript" src="assets/vendors/tags/tokenfield.min.js"></script>
 <script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>
@@ -437,7 +439,7 @@ if(results.size()>0){
 
 
 
-<script src="pagedependencies/blogbrowser.js?v=1299">
+<script src="pagedependencies/blogbrowser3.js?v=1300">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 

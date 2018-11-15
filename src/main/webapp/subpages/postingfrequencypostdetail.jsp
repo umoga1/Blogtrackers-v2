@@ -20,10 +20,10 @@ Object date_end = (null == request.getParameter("date_end")) ? "" : request.getP
 Object blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 
 Object blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
+Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
+Object sort = (null == request.getParameter("sort")) ? "" : request.getParameter("sort");
 
 String bloggerstr = blogger.toString().replaceAll("_"," ");
-
-System.out.println("blogger here :"+blogger);
 
 Blogposts post  = new Blogposts();
 ArrayList allentitysentiments = new ArrayList(); 
@@ -34,7 +34,13 @@ String dte = date_end.toString();
 String year_start="";
 String year_end="";	
 
-ArrayList allauthors=post._getBloggerByBlogId("date",dt, dte,blog_id.toString());
+if(action.toString().equals("gettotal")){
+%>	
+<%=post._searchRangeTotalByBlogger("date", dt, dte, blogger.toString())%>
+<%}else if(action.toString().equals("gettotalinfluence")){%>
+<%=post._searchRangeAggregateByBloggers("date", dt, dte, blogger.toString())%>	
+<% }else{
+ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
 %>
 
 <%
@@ -45,7 +51,7 @@ ArrayList allauthors=post._getBloggerByBlogId("date",dt, dte,blog_id.toString())
 									JSONObject tobj = null;
 									int j=0;
 									int k=0;
-									for(int i=0; i< allauthors.size(); i++){
+									for(int i=0; i< 1; i++){
 										tres = allauthors.get(i).toString();	
 										tresp = new JSONObject(tres);
 										tresu = tresp.get("_source").toString();
@@ -70,3 +76,4 @@ ArrayList allauthors=post._getBloggerByBlogId("date",dt, dte,blog_id.toString())
 										</div>                      
                      		<% }} %>
                                
+<% } %>

@@ -52,8 +52,8 @@ function loadMoreResult(){
 				}else{
 				
 						$("#appendee").append("<div>"+data+"</div>");	
-						$.getScript( app_url+"pagedependencies/blogbrowser.js", function( data, textStatus, jqxhr ) {
-					});
+						//$.getScript( app_url+"pagedependencies/blogbrowser.js", function( data, textStatus, jqxhr ) {
+					//});
 					
 
 				//  show tooltip

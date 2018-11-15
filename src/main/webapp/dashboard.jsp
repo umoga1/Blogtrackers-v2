@@ -2967,7 +2967,7 @@ var mymarker = [
 
 	<!--word cloud  -->
 	<script>
-	
+
 	wordtagcloud("#tagcloudcontainer",450);
 	
 	function wordtagcloud(element, height) {
@@ -3014,7 +3014,7 @@ var mymarker = [
                   .on("wheel", function() { d3.event.preventDefault(); })
                   .call(d3.behavior.zoom().on("zoom", function () {
                 	var g = svg.selectAll("g"); 
-                	g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")")
+                	g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")").style("cursor","zoom-out")
                  })) 
                 
          		
@@ -3051,7 +3051,8 @@ var mymarker = [
                 	function dragged(d) {
                 	 var movetext = svg.select("g").selectAll("text");
                 	 movetext.attr("dx",d3.event.x)
-                	 .attr("dy",d3.event.y); 
+                	 .attr("dy",d3.event.y)
+                	 .style("cursor","move"); 
                 	 /* g.attr("transform","translateX("+d3.event.x+")")
                 	 .attr("transform","translateY("+d3.event.y+")")
                 	 .attr("width", width)
@@ -3064,8 +3065,60 @@ var mymarker = [
                 
                  
      }
-     
+     // Resize chart
+     // ------------------------------
+
+     // Call function on window resize
+     $(window).on('resize', resize);
+
+     // Call function on sidebar width change
+     $('.sidebar-control').on('click', resize);
+
+     // Resize function
+     //
+     // Since D3 doesn't support SVG resize by default,
+     // we need to manually specify parts of the graph that need to
+     // be updated on window resize
+     function resize() {
+
+       // Layout variables
+       width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
+       //
+       //
+       // // Layout
+       // // -------------------------
+       //
+       // // Main svg width
+       container.attr("width", width + margin.left + margin.right);
+       //
+       // // Width of appended group
+       svg.attr("width", width + margin.left + margin.right);
+       //
+       //
+       // // Axes
+       // // -------------------------
+       //
+       // // Horizontal range
+       //x.rangeRoundBands([0, width]);
+       //
+       // // Horizontal axis
+      // svg.selectAll('.d3-axis-horizontal').call(xAxis);
+       //
+       //
+       // // Chart elements
+       // // -------------------------
+       //
+       // // Line path
+      
+
+       //
+       // // Crosshair
+       // svg.selectAll('.d3-crosshair-overlay').attr("width", width);
+
+     }
 	}
+	
+
  </script>
 <!-- End of Tag Cloud  -->
 	<!-- Blogger Bubble Chart -->

@@ -20,7 +20,7 @@ Object date_end = (null == request.getParameter("date_end")) ? "" : request.getP
 Object blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 
 Object blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
-
+Object order = (null == request.getParameter("order")) ? "" : request.getParameter("order");
 String bloggerstr = blogger.toString().replaceAll("_"," ");
 
 System.out.println("blogger here :"+blogger);
@@ -34,7 +34,7 @@ String dte = date_end.toString();
 String year_start="";
 String year_end="";	
 
-ArrayList allauthors=post._getBloggerByBlogId("date",dt, dte,blog_id.toString());
+ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),order.toString(),"DESC");
 
 %>
     <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">

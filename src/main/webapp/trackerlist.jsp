@@ -511,6 +511,8 @@ trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-
 	  }); 
 	});
 </script>
+<script src="js/jscookie.js">
+</script>
 
 <script src="pagedependencies/deletetracker.js">
 
