@@ -444,6 +444,11 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject years = new JSONObject();
 								JSONArray yearsarray = new JSONArray();
 								JSONObject locations = new JSONObject();
+								JSONObject bloggersort = new JSONObject();
+
+								JSONObject bloggersortdet = new JSONObject();
+
+								
 								
 								String selectedid="";
 								
@@ -496,13 +501,14 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    
 									    String bloggerselect="";
 									    if(!authors.has(auth)){
+									    	String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
 									    	if(l==0){
 												mostactiveblogger = auth;
 												selectedid = blogid;
 												allterms = term._searchByRange("date", dt, dte, blogid);
 												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
 
-												totalpost = post._searchRangeTotalByBlogger("date", dt, dte, auth);
+												totalpost = postcount;
 												allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"date","DESC");
 												bloggerselect = "abloggerselected";
 											}else{
@@ -510,23 +516,39 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 											}
 									    	
 											l++;
+											bloggersort.put(auth,Integer.parseInt(postcount));
+											JSONObject bloggerj = new JSONObject();
+											bloggerj.put("blogger",auth);
+											bloggerj.put("blogid",blogid);
+											bloggerj.put("selected",bloggerselect);
 											
+
+										    bloggersortdet.put(auth,bloggerj);
 									    	authors.put(auth, auth);
 									    	authorcount.put(j, auth);
 									    	blogcount.put(j, blogid);
 									    	
 									    	j++;
 									    	
-									    	%>
-
-							    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=bloggerselect%> <% if(!auth.equals(mostactiveblogger) ){ %> <%}else{%> btn-primary bloggerinactive<% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
-							    			<% }
-									    		
-											   
+									    	 }  
 										   // System.out.println(authoryears);
-										    }} 
-	
+										    }
+									} 
 								
+				//bloggersort = post._sortJson(bloggersort);
+				for(int m=0; m<bloggersort.length(); m++){
+					String au = authorcount.get(m).toString();
+			  		JSONObject det= new JSONObject(bloggersortdet.get(au).toString());
+					String dselected = "";
+					if(m==0){
+						dselected = "abloggerselected";
+					}
+			    	%>
+
+	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>  id="<%=au.replaceAll(" ","_")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
+	    			<% 
+					//JSONObject jsonObj = bloggersort.getJSONObject(m);
+				}
 								
 	%>
         <!--  
@@ -647,12 +669,8 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 
      <div class="col-md-3 mt5 mb5">
       <h6 class="card-title mb0">Overall Sentiment</h6>
-<<<<<<< HEAD
-       <h3 class="mb0 bold-text overall-sentiment">Positive</h3>
-       <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
-=======
+
        <h3 class="mb0 bold-text" style="color:<%=sentimentcolor %>;"><%=sentimentval%></h3>
->>>>>>> 36b0e27d6f9a8fce4c9951293293c9d61b09c535
      </div>
 
      <div class="col-md-3 mt5 mb5">

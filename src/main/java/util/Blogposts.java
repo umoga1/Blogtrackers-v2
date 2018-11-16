@@ -168,7 +168,27 @@ public class Blogposts {
 		}
 
 		String arg2 = pars.toString();
-	
+		String que = "{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"        \"query_string\" : {\r\n" + 
+				"            \"fields\" : [\"blogger\"],\r\n" + 
+				"            \"query\" : \""+bloggers+"\"\r\n" + 
+				"        }\r\n" + 
+				"  },\r\n" + 
+				"   \"sort\":{\r\n" + 
+				"		\""+sort+"\":{\r\n" + 
+				"			\"order\":\"DESC\"\r\n" + 
+				"			}\r\n" + 
+				"		},\r\n" + 
+				"		\"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"		}\r\n" + 
+				"}";
+		
+		/*
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
@@ -195,7 +215,7 @@ public class Blogposts {
 				"    }\r\n" + 
 				"  }\r\n" + 
 				"}";
-
+	*/
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
@@ -360,6 +380,7 @@ public class Blogposts {
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
 	}
+	
 	public String _getDate(String blog_ids,String type) throws Exception {
 		String url = base_url+"_search?size=1";
 		String dt = "";
@@ -587,6 +608,21 @@ public class Blogposts {
 
 		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
+		String que = "{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"        \"query_string\" : {\r\n" + 
+				"            \"fields\" : [\"blogger\"],\r\n" + 
+				"            \"query\" : \""+bloggers+"\"\r\n" + 
+				"        }\r\n" + 
+				"  },\r\n" + 
+				"		\"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"		}\r\n" + 
+				"}";
+		/*
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -612,6 +648,7 @@ public class Blogposts {
 				"    }\r\n" + 
 				"  }\r\n" + 
 				"}";
+				*/
 		JSONObject jsonObj = new JSONObject(que);
 
 		String url = base_url+"_search";
