@@ -396,8 +396,8 @@
 			*/
 
 			
-			possentiment=new Liwc()._searchRangeAggregate("date", yst[0], yend[0], sentimentpost,"posemo");
-			negsentiment=new Liwc()._searchRangeAggregate("date", yst[0], yend[0], sentimentpost,"negemo");
+			possentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-12", sentimentpost,"posemo");
+			negsentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-12", sentimentpost,"negemo");
 			
 			
 			//possentiment=allposemo+"";

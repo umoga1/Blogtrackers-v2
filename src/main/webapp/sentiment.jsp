@@ -247,6 +247,8 @@
 				//allauthors=post._getBloggerByBlogId("date",dst, dend,ids);
 			}
 			
+			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+
 			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 
 			//System.out.println("Terms here:"+termss);
