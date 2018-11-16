@@ -243,9 +243,11 @@
 				termss = term._searchByRange("date", dst, dend, ids);
 				outlinks = outl._searchByRange("date", dst, dend, ids);
 
-				allauthors = post._getBloggerByBlogId("date", dst, dend, ids, "influence_score", "DESC");
-
+				
+				//allauthors=post._getBloggerByBlogId("date",dst, dend,ids);
 			}
+			
+			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 
 			//System.out.println("Terms here:"+termss);
 
@@ -278,6 +280,7 @@
 				}
 			}
 
+			System.out.println("sentiment posts here:"+sentimentpost);
 			JSONObject graphyearspos = new JSONObject();
 			JSONObject graphyearsneg = new JSONObject();
 			JSONArray yearsarray = new JSONArray();
@@ -302,9 +305,12 @@
 				   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
 				*/
 				String dtu = y + "-01-01";
+				if(b==0){
+					dtu = dt;
+				}
 				String dtue = y + "-12-31";
-				System.out.println(dtu);
-				String totu = post._searchRangeTotal("date", dtu, dtue, ids);
+				//System.out.println(dtu);
+				//String totu = post._searchRangeAggregateTotal("date", dtu, dtue, ids);
 				//System.out.println(totu);
 
 				//ArrayList sentimentor = new Liwc()._searchByRange("date", dtu, dtue, sentimentpost);

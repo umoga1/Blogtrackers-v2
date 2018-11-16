@@ -531,7 +531,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 												allterms = term._searchByRange("date", dt, dte, blogid);
 												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
 												totalpost = post._searchRangeTotal("date", dt, dte, ids);	
-												allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"date","DESC");
+												allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"influence_score","DESC");
 												
 												//System.out.println("Author ha:"+auth);
 											}
@@ -1442,7 +1442,14 @@ if(authorcount.length()>0){
                                        svg.selectAll(".circle-point").data(mergedarray)
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
-                                      .on("click",function(d){console.log(d.date)});
+                                      .on("click",function(d){
+                                    	  console.log(d.date);
+                                    	  var d1 = 	  d.date + "-01-01";
+                                   	   var d2 = 	  d.date + "-12-31";
+                         				
+                                   	   loadInfluence(d1,d2); 
+                                   	   console.log("reloaded");  
+                                      });
                                  //                         svg.call(tip)
 
                                //console.log(newi);
@@ -1451,7 +1458,15 @@ if(authorcount.length()>0){
                                      svg.selectAll(".circle-point").data(mergedarray)
                                      .on("mouseover",tip.show)
                                      .on("mouseout",tip.hide)
-                                     .on("click",function(d){console.log(d.date)});
+                                     .on("click",function(d){
+                                    	 console.log(d.date);
+                                    	 var d1 = 	  d.date + "-01-01";
+                                  	   var d2 = 	  d.date + "-12-31";
+                        				
+                                  	   loadInfluence(d1,d2); 
+                                  	   console.log("reloaded");
+                                    	 
+                                     });
                                                         svg.call(tip)
 
 

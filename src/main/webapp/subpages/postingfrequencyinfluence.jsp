@@ -40,7 +40,7 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
                         <thead>
                             <tr>
                                 <th>Post title</th>
-                                <th>Influence Score</th>
+                                <th><% if(sort.toString().equals("date")){ %> Date<% }else{ %>Influence Score <% }  %></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,8 +60,11 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
 										k++;
 									%>
                                     <tr>
-                                        <td><a  class="blogpost_link" id="<%=tobj.get("blogpost_id")%>" >#<%=(k)%>: <%=tobj.get("title") %></a></td>
-                                        <td align="center"><%=tobj.get("influence_score") %></td>
+                                        <td><a  class="blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a></td>
+                                        <td align="center">
+                                        <% if(sort.toString().equals("date")){ %> <%=tobj.get("date") %><% }else{ %><%=tobj.get("influence_score") %><% }  %>
+                                        
+                                        </td>
                                     </tr>
                                     <% }} %>
                                 </tbody>

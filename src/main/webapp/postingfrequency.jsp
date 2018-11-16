@@ -494,6 +494,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String yy= dateyear[0];
 									    String mm = dateyear[1];
 									    
+									    String bloggerselect="";
 									    if(!authors.has(auth)){
 									    	if(l==0){
 												mostactiveblogger = auth;
@@ -503,7 +504,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 												totalpost = post._searchRangeTotalByBlogger("date", dt, dte, auth);
 												allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"date","DESC");
-										
+												bloggerselect = "abloggerselected";
+											}else{
+												bloggerselect="";
 											}
 									    	
 											l++;
@@ -516,7 +519,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	
 									    	%>
 
-							    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %> <%}else{%> btn-primary bloggerinactive<% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
+							    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=bloggerselect%> <% if(!auth.equals(mostactiveblogger) ){ %> <%}else{%> btn-primary bloggerinactive<% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
 							    			<% }
 									    		
 											   
@@ -733,7 +736,7 @@ if(authorcount.length()>0){
                         <thead>
                             <tr>
                                 <th>Post title</th>
-                                <th>Influence Score</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -754,9 +757,9 @@ if(authorcount.length()>0){
 										k++;
 									%>
                                     <tr>
-                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" >#<%=(k+1)%>: <%=tobj.get("title") %></a><br/>
+                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=(k)%> <%=tobj.get("title") %></a><br/>
 								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
-								<td align="center"><%=tobj.get("influence") %></td>
+								<td align="center"><%=tobj.get("date") %></td>
                                      </tr>
                                     <% }} %>
 						
@@ -785,7 +788,7 @@ if(authorcount.length()>0){
 										tobj = new JSONObject(tresu);
 										k++;
 									%>                                    
-                                    <h5 class="text-primary p20 pt0 pb0">#1: <%=tobj.get("title")%></h5>
+                                    <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
 										<div class="text-center mb20 mt20">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
@@ -1428,8 +1431,10 @@ console.log("here");
                         	   console.log(d.date);
                         	   var d1 = 	  d.date + "-01-01";
                         	   var d2 = 	  d.date + "-12-31";
-              				
-                        	   loadInfluence(d1,d2);  
+              					
+
+                        	   console.log("reloaded");
+                        	   loadInfluence(d1,d2); 
                         	   
                            });
                                               svg.call(tip)
@@ -1459,7 +1464,7 @@ console.log("here");
                     // console.log(e)
                     // })
 
-                    console.log(data);
+                   // console.log(data);
 
                        var mergedarray = [].concat(...data);
                         console.log(mergedarray)
@@ -1732,7 +1737,7 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=19980"></script>
+<script src="pagedependencies/postingfrequency.js?v=100880"></script>
 
 </body>
 </html>

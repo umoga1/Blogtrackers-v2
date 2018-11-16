@@ -6,7 +6,7 @@ $('.blogger-select').on("click", function(){
 	$(this).addClass("abloggerselected");
 
 	var date_start = $("#date_start").val();
-	var date_end = $("#date_start").val();
+	var date_end = $("#date_end").val();
 	var blogger = $(this).attr("id");
 	
 	var blg = blogger.split("***");
@@ -26,7 +26,9 @@ $('.blogger-select').on("click", function(){
 	loadChart(bloog,blg[1]);
 	loadTerms(bloog,blg[1]);
 
-	loadInfluence(bloog,blg[1]);
+	//loadInfluence(bloog,blg[1]);
+
+	loadInfluence(date_start,date_end);
 });
 
 
@@ -94,10 +96,12 @@ function loadChart(blogger,blog_id){
 	});
 }
 
-function loadInfluence(blogger,blog_id){
+function loadInfluence(start_date,end_date){
 	$("#influence_table").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	$("#blogpost_detail").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	
+	var blogger = $("#author").val();
+	var blog_id =$("#blogid").val();
 	
 	$.ajax({
 		url: app_url+"subpages/postingfrequencyinfluence.jsp",
@@ -107,8 +111,8 @@ function loadInfluence(blogger,blog_id){
 			blogger:blogger,
 			blog_id:blog_id,
 			sort:"influence_score",
-			date_start:$("#date_start").val(),
-			date_end:$("#date_end").val(),
+			date_start:start_date,
+			date_end:end_date,
 		},
 		error: function(response)
 		{						

@@ -58,7 +58,7 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
 										tobj = new JSONObject(tresu);
 										k++;
 									%>                                    
-                                    <h5 class="text-primary p20 pt0 pb0">#1: <%=tobj.get("title")%></h5>
+                                    <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
 										<div class="text-center mb20 mt20">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i

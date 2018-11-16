@@ -751,7 +751,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr><%				
+							<%				
 									String tres = null;
 									JSONObject tresp = null;
 									String tresu = null;
