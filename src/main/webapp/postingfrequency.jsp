@@ -610,6 +610,17 @@ if(authorcount.length()>0){
 		authoryears.put(authorcount.get(n).toString(),postyear);
 	}
 }
+
+String sentimentval = "Positive";
+String sentimentcolor = "";
+if(sentimentval.equalsIgnoreCase("negative"))
+{
+	sentimentcolor = "#FF7D7D";
+}
+else if(sentimentval.equalsIgnoreCase("positive"))
+{
+	sentimentcolor = "#72C28E";
+}
 %>
 
 <div class="col-md-9">
@@ -636,8 +647,7 @@ if(authorcount.length()>0){
 
      <div class="col-md-3 mt5 mb5">
       <h6 class="card-title mb0">Overall Sentiment</h6>
-       <h3 class="mb0 bold-text">Positive</h3>
-       <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+       <h3 class="mb0 bold-text" style="color:<%=sentimentcolor %>;"><%=sentimentval%></h3>
      </div>
 
      <div class="col-md-3 mt5 mb5">

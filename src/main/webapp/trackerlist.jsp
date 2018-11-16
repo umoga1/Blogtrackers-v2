@@ -330,14 +330,14 @@
 
 						<%
 						String description  = String.valueOf(resut.get(6));
-						if(description.equalsIgnoreCase("null"))
+						 if(description.equalsIgnoreCase("null") || description.equalsIgnoreCase(""))
 						{
 							description = "No Description";	
 						}
 						else
 						{
 						description = description;	
-						}
+						} 
 						%>
 						
 						<%=description	%>

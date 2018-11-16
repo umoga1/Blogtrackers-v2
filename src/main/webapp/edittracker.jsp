@@ -286,7 +286,20 @@ if(f.exists() && !f.isDirectory()) {
 	
 	<div class="col-md-12 trackerdescription">
 	<p class="edittrackerdesc text-primary">
-	<%=resut.get(6)%></p>
+	<%
+						String description  = String.valueOf(resut.get(6));
+						 if(description.equalsIgnoreCase("null") || description.equalsIgnoreCase(""))
+						{
+							description = "No Description";	
+						}
+						else
+						{
+						description = description;	
+						} 
+						%>
+						
+						<%=description	%>
+						</p>
 	</div>
 	
 	<div class="col-md-12">
