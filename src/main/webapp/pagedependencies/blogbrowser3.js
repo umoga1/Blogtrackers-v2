@@ -455,6 +455,8 @@ function removeBlog(element,blog_id,selected_blogs){
 		if (index > -1) {
 			selected_blogs.splice(index, 1);
 			Cookies.set('selectedblogs', selected_blogs, {path : '/'});
+			// clear the cookie
+			//Cookies.clear('selectedblogs');
 			console.log(Cookies.get('selectedblogs'));
 			if(trackscount > 0)
 			{
