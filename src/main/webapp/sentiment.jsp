@@ -243,9 +243,13 @@
 				termss = term._searchByRange("date", dst, dend, ids);
 				outlinks = outl._searchByRange("date", dst, dend, ids);
 
-				allauthors = post._getBloggerByBlogId("date", dst, dend, ids, "influence_score", "DESC");
-
+				
+				//allauthors=post._getBloggerByBlogId("date",dst, dend,ids);
 			}
+			
+			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+
+			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 
 			//System.out.println("Terms here:"+termss);
 
@@ -278,6 +282,7 @@
 				}
 			}
 
+			System.out.println("sentiment posts here:"+sentimentpost);
 			JSONObject graphyearspos = new JSONObject();
 			JSONObject graphyearsneg = new JSONObject();
 			JSONArray yearsarray = new JSONArray();
@@ -303,12 +308,20 @@
 				*/
 				String dtu = y + "-01-01";
 				String dtue = y + "-12-31";
-				System.out.println(dtu);
-				String totu = post._searchRangeTotal("date", dtu, dtue, ids);
+				
+				if(b==0){
+					dtu = dt;
+				}else if(b==yendint){
+					dtue = dte;
+				}
+				
+				//System.out.println(dtu);
+				//String totu = post._searchRangeAggregateTotal("date", dtu, dtue, ids);
 				//System.out.println(totu);
 
-				ArrayList sentimentor = new Liwc()._searchByRange("date", dtu, dtue, sentimentpost);
+				//ArrayList sentimentor = new Liwc()._searchByRange("date", dtu, dtue, sentimentpost);
 				//System.out.print(sentimentor);
+				/*
 				int allposemo = 0;
 				int allnegemo = 0;
 				if (sentimentor.size() > 0) {
@@ -328,12 +341,15 @@
 
 					}
 				}
+				*/
+				possentiment=new Liwc()._searchRangeAggregate("date", dtu, dtue, sentimentpost,"posemo");
+				negsentiment=new Liwc()._searchRangeAggregate("date", dtu, dtue, sentimentpost,"negemo");
+				
+				//possentiment = allposemo + "";
+				//negsentiment = allnegemo + "";
 
-				possentiment = allposemo + "";
-				negsentiment = allnegemo + "";
-
-				graphyearspos.put(y + "", allposemo);
-				graphyearsneg.put(y + "", allnegemo);
+				graphyearspos.put(y + "", Integer.parseInt(possentiment));
+				graphyearsneg.put(y + "", Integer.parseInt(negsentiment));
 				yearsarray.put(b, y);
 				b++;
 			}
@@ -1490,11 +1506,11 @@ $(function () {
          data = [	
          	[<%for (int q = 0; q < yearsarray.length(); q++) {
 						String yer = yearsarray.get(q).toString();
-						int vlue = Integer.parseInt(graphyearspos.get(yer).toString());%>{"date":"<%=yer%>","close":<%=vlue%>},
+						int vlue = Integer.parseInt(graphyearsneg.get(yer).toString());%>{"date":"<%=yer%>","close":<%=vlue%>},
       		<%}%>],
       		[<%for (int q = 0; q < yearsarray.length(); q++) {
 						String yer = yearsarray.get(q).toString();
-						int vlue = Integer.parseInt(graphyearsneg.get(yer).toString());%>{"date":"<%=yer%>","close":<%=vlue%>},
+						int vlue = Integer.parseInt(graphyearspos.get(yer).toString());%>{"date":"<%=yer%>","close":<%=vlue%>},
   		<%}%>]     	
          	];
          //console.log(data);

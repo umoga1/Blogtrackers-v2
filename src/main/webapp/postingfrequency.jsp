@@ -215,7 +215,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		}  
 		
 		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-		totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			
 			
 	
@@ -253,7 +252,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	
 
 	
-
+	ArrayList allposts = new ArrayList();
 %>
 <!DOCTYPE html>
 <html>
@@ -495,13 +494,19 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String yy= dateyear[0];
 									    String mm = dateyear[1];
 									    
+									    String bloggerselect="";
 									    if(!authors.has(auth)){
 									    	if(l==0){
 												mostactiveblogger = auth;
 												selectedid = blogid;
 												allterms = term._searchByRange("date", dt, dte, blogid);
 												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
-										
+
+												totalpost = post._searchRangeTotalByBlogger("date", dt, dte, auth);
+												allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"date","DESC");
+												bloggerselect = "abloggerselected";
+											}else{
+												bloggerselect="";
 											}
 									    	
 											l++;
@@ -514,22 +519,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	
 									    	%>
 
-							    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %> <%}else{%> btn-primary bloggerinactive<% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
+							    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=bloggerselect%> <% if(!auth.equals(mostactiveblogger) ){ %> <%}else{%> btn-primary bloggerinactive<% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
 							    			<% }
 									    		
-											    if(auth.equals(mostactiveblogger) ){
-												    	JSONObject disp = new JSONObject();
-												    	disp.put("title",posttitle);
-												    	disp.put("influence",influence);
-												    	disp.put("body",body);
-												    	disp.put("posturl",posturl);
-												    	disp.put("blogger",auth);
-												    	disp.put("date",dt);
-												    	disp.put("blogpost_id",postid);
-												    	disp.put("num_comments",num_comment);
-												    	posttodisplay.put(qc,disp);
-												    	qc++;
-											    }
+											   
 										   // System.out.println(authoryears);
 										    }} 
 	
@@ -598,7 +591,13 @@ if(authorcount.length()>0){
 		for(int y=ystint; y<=yendint; y++){ 
 				   String dtu = y + "-01-01";
 				   String dtue = y + "-12-31";
-				   String totu = post._searchRangeTotal("date",dtu, dtue,blogcount.get(n).toString());		 	
+				   if(b==0){
+						dtu = dt;
+					}else if(b==yendint){
+						dtue = dte;
+					}
+				   String totu = post._searchRangeTotalByBlogger("date",dtu, dtue,authorcount.get(n).toString());
+				   
 				   if(!years.has(y+"")){
 			    		years.put(y+"",y);
 			    		yearsarray.put(b,y);
@@ -610,6 +609,8 @@ if(authorcount.length()>0){
 		authoryears.put(authorcount.get(n).toString(),postyear);
 	}
 }
+
+
 %>
 
 <div class="col-md-9">
@@ -630,25 +631,25 @@ if(authorcount.length()>0){
       <div class="row">
      <div class="col-md-3 mt5 mb5">
        <h6 class="card-title mb0">Total Posts</h6>
-       <h3 class="mb0 bold-text"><%=allpost%></h3>
+       <h3 class="mb0 bold-text total-post"><%=totalpost%></h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
      <div class="col-md-3 mt5 mb5">
       <h6 class="card-title mb0">Overall Sentiment</h6>
-       <h3 class="mb0 bold-text">Positive</h3>
+       <h3 class="mb0 bold-text overall-sentiment">Positive</h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
      <div class="col-md-3 mt5 mb5">
        <h6 class="card-title mb0">Top Post Location</h6>
-       <h3 class="mb0 bold-text"><%=toplocation%></h3>
+       <h3 class="mb0 bold-text top-location"><%=toplocation%></h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
      <div class="col-md-3  mt5 mb5">
        <h6 class="card-title mb0">Most Used Keyword</h6>
-       <h3 class="mb0 bold-text"><%=mostusedkeyword%></h3>
+       <h3 class="mb0 bold-text most-used-keyword"><%=mostusedkeyword%></h3>
      </div>
 
       </div>
@@ -661,7 +662,7 @@ if(authorcount.length()>0){
   <div class="col-md-6 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Keywords of <b class="text-blue"><%=mostactiveblog%></b></p></div>
+        <div><p class="text-primary mt10">Keywords of <b class="text-blue activeblog"><%=mostactiveblog%></b></p></div>
         <div id="tagcloudbox">
         <div class="chart-container">
 								<div class="chart" id="tagcloudcontainer"></div>
@@ -731,60 +732,88 @@ if(authorcount.length()>0){
 <div class="row m0 mt20 mb50 d-flex align-items-stretch" >
   <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
   <div class="card-body p0 pt20 pb20" style="min-height: 420px;">
-      <p>Influential Blog Posts of <b class="text-blue"><%=mostactiveblogger%></b></p>
+      <p>Influential Blog Posts of <b class="text-blue activeblogger"><%=mostactiveblogger%></b></p>
          <!--  <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-          
+          <div id="influence_table">
                 <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Post title</th>
-                                <th>Influence Score</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <% if(posttodisplay.length()>0){ 
-							for(int y=0; y<posttodisplay.length(); y++){
-								JSONObject postjson = new JSONObject(posttodisplay.get(y).toString());
-						%>
-							<tr>
-								<td><a class="blogpost_link cursor-pointer" id="<%=postjson.get("blogpost_id")%>" >#<%=(y+1)%>: <%=postjson.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=postjson.get("posturl") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
-								<td align="center"><%=postjson.get("influence") %></td>
-							</tr>
-						<% }} %>                        </tbody>
+                            
+						<%
+                                if(allposts.size()>0){							
+									String tres = null;
+									JSONObject tresp = null;
+									String tresu = null;
+									JSONObject tobj = null;
+									int j=0;
+									int k=0;
+									for(int i=0; i< allposts.size(); i++){
+										tres = allposts.get(i).toString();	
+										tresp = new JSONObject(tres);
+										tresu = tresp.get("_source").toString();
+										tobj = new JSONObject(tresu);
+										k++;
+									%>
+                                    <tr>
+                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=(k)%> <%=tobj.get("title") %></a><br/>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
+								<td align="center"><%=tobj.get("date") %></td>
+                                     </tr>
+                                    <% }} %>
+						
+						 </tbody>
                     </table>
+        </div>
         </div>
 
   </div>
 
   <div class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
        <div style="" class="pt20" id="blogpost_detail">
-				<% if(posttodisplay.length()>0){ 
-							JSONObject postdetjson = new JSONObject(posttodisplay.get(0).toString());
-					%>
-					<h5 class="text-primary p20 pt0 pb0">#1: <%=postdetjson.get("title")%></h5>
-					<div class="text-center mb20 mt20">
-						<button class="btn stylebuttonblue">
-							<b class="float-left ultra-bold-text"><%=postdetjson.get("blogger")%></b> <i
-								class="far fa-user float-right blogcontenticon"></i>
-						</button>
-						<button class="btn stylebuttonnocolor"><%=postdetjson.get("date")%></button>
-						<button class="btn stylebuttonorange">
-							<b class="float-left ultra-bold-text"><%=postdetjson.get("num_comments")%> comments</b><i
-								class="far fa-comments float-right blogcontenticon"></i>
-						</button>
-					</div>
-					<div style="height: 600px;">
-					<div class="p20 pt0 pb20 text-blog-content text-primary" style="height: 550px; overflow-y: scroll;">
-						<%=postdetjson.get("body")%>
-						</div>
-					</div>
-				</div>
-				<% } %>
+  		
+				<%
+                                if(allposts.size()>0){							
+									String tres = null;
+									JSONObject tresp = null;
+									String tresu = null;
+									JSONObject tobj = null;
+									int j=0;
+									int k=0;
+									for(int i=0; i< 1; i++){
+										tres = allposts.get(i).toString();	
+										tresp = new JSONObject(tres);
+										tresu = tresp.get("_source").toString();
+										tobj = new JSONObject(tresu);
+										k++;
+									%>                                    
+                                    <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
+										<div class="text-center mb20 mt20">
+											<button class="btn stylebuttonblue">
+												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
+													class="far fa-user float-right blogcontenticon"></i>
+											</button>
+											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
+											<button class="btn stylebuttonorange">
+												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
+													class="far fa-comments float-right blogcontenticon"></i>
+											</button>
+										</div>
+										<div class="p20 pt0 pb20 text-blog-content text-primary"
+											style="height: 600px; overflow-y: scroll;">
+											<%=tobj.get("post")%>
+										</div>                      
+                     		<% }} %>
+                               
 			</div>
     </div>
+    
   </div>
 </div>
 
@@ -794,9 +823,10 @@ if(authorcount.length()>0){
 
 </div>
 
-<form action="" name="customformsingle" id="customformsingle" method="post">
+	<form action="" name="customformsingle" id="customformsingle" method="post">
 		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" />
-		<input type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" /> 
+		<input type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" />
+		<input type="hidden" name="author" id="author" value="<%=mostactiveblogger%>" /> 
 		<input type="hidden" name="single_date" id="single_date" value="" />
 	</form>
 
@@ -1324,6 +1354,7 @@ console.log("here");
                // data.map(function(d){})
                if(data.length == 1)
                {
+
             		
                    // Add line
                    //0console.log(svg.selectAll(".tick"))
@@ -1400,7 +1431,17 @@ console.log("here");
                            svg.selectAll(".circle-point").data(data[0])
                            .on("mouseover",tip.show)
                            .on("mouseout",tip.hide)
-                           .on("click",function(d){console.log(d.date)});
+                           .on("click",function(d){
+                        	   console.log(d.date);
+                        	   console.log(d.date);
+                        	   var d1 = 	  d.date + "-01-01";
+                        	   var d2 = 	  d.date + "-12-31";
+              					
+
+                        	   console.log("reloaded");
+                        	   loadInfluence(d1,d2); 
+                        	   
+                           });
                                               svg.call(tip)
                }
                // handles multiple json parameter
@@ -1428,7 +1469,7 @@ console.log("here");
                     // console.log(e)
                     // })
 
-                    console.log(data);
+                   // console.log(data);
 
                        var mergedarray = [].concat(...data);
                         console.log(mergedarray)
@@ -1450,16 +1491,19 @@ console.log("here");
                                 svg.selectAll(".circle-point").data(mergedarray)
                                .on("mouseover",tip.show)
                                .on("mouseout",tip.hide)
-                               .on("click",function(d){console.log(d.date)});
+                               .on("click",function(d){
+                            	   console.log("post here");
+                            	  
+                            	   var d1 = 	  d.date + "-01-01";
+                            	   var d2 = 	  d.date + "-12-31";
+                   				
+                            	   loadInfluence(d1,d2);
+                            	});
                           //                         svg.call(tip)
 
                         //console.log(newi);
 
 
-                              svg.selectAll(".circle-point").data(mergedarray)
-                              .on("mouseover",tip.show)
-                              .on("mouseout",tip.hide)
-                              .on("click",function(d){console.log(d.date)});
                                                  svg.call(tip)
 
 
@@ -1618,8 +1662,8 @@ console.log("here");
 	 <%if (topterms.length() > 0) {
 					for (int i = 0; i < topterms.length(); i++) {
 						JSONObject jsonObj = topterms.getJSONObject(i);
-						int size = Integer.parseInt(jsonObj.getString("frequency"));%>
-		{"text":"<%=jsonObj.getString("key")%>","size":<%=size*5%>},
+						int size = Integer.parseInt(jsonObj.getString("frequency"))*2;%>
+		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
 	 <%}
 				}%>
 	 ];
@@ -1697,8 +1741,8 @@ function draw(words) {
      
  }
  </script>
-<script src="pagedependencies/baseurl.js?v=3"></script>
-<script src="pagedependencies/postingfrequency.js?v=39"></script>
+<script src="pagedependencies/baseurl.js?v=93"></script>
+<script src="pagedependencies/postingfrequency.js?v=100880"></script>
 
 </body>
 </html>

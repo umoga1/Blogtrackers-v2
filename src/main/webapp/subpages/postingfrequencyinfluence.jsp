@@ -20,10 +20,10 @@ Object date_end = (null == request.getParameter("date_end")) ? "" : request.getP
 Object blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 
 Object blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
+Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
+Object sort = (null == request.getParameter("sort")) ? "" : request.getParameter("sort");
 
 String bloggerstr = blogger.toString().replaceAll("_"," ");
-
-System.out.println("blogger here :"+blogger);
 
 Blogposts post  = new Blogposts();
 ArrayList allentitysentiments = new ArrayList(); 
@@ -34,14 +34,13 @@ String dte = date_end.toString();
 String year_start="";
 String year_end="";	
 
-ArrayList allauthors=post._getBloggerByBlogId("date",dt, dte,blog_id.toString());
-
+ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
 %>
     <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Post title</th>
-                                <th>Influence Score</th>
+                                <th><% if(sort.toString().equals("date")){ %> Date<% }else{ %>Influence Score <% }  %></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,8 +60,11 @@ ArrayList allauthors=post._getBloggerByBlogId("date",dt, dte,blog_id.toString())
 										k++;
 									%>
                                     <tr>
-                                        <td><a  class="blogpost_link" id="<%=tobj.get("blogpost_id")%>" >#<%=(k)%>: <%=tobj.get("title") %></a></td>
-                                        <td align="center"><%=tobj.get("influence_score") %></td>
+                                        <td><a  class="blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a></td>
+                                        <td align="center">
+                                        <% if(sort.toString().equals("date")){ %> <%=tobj.get("date") %><% }else{ %><%=tobj.get("influence_score") %><% }  %>
+                                        
+                                        </td>
                                     </tr>
                                     <% }} %>
                                 </tbody>
