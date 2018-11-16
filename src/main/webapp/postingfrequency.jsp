@@ -387,8 +387,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
   <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="#"><%=trackername%></a>
-  <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/edittracker.jsp">Posting Frequency</a>
+  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
+  <a class="breadcrumb-item active text-primary" href="">Posting Frequency</a>
   </nav>
 <div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
 </div>
