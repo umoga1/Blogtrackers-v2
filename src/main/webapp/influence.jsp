@@ -624,6 +624,11 @@ if(authorcount.length()>0){
 		for(int y=ystint; y<=yendint; y++){ 
 				   String dtu = y + "-01-01";
 				   String dtue = y + "-12-31";
+				   if(b==0){
+						dtu = dt;
+					}else if(b==yendint){
+						dtue = dte;
+					}
 				   String totu = post._searchRangeAggregate("date",dtu, dtue,blogcount.get(n).toString());		 	
 				   if(!years.has(y+"")){
 			    		years.put(y+"",y);
