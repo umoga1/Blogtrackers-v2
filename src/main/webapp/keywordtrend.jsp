@@ -568,7 +568,7 @@
 				<nav class="breadcrumb">
 					<a class="breadcrumb-item text-primary"
 						href="<%=request.getContextPath()%>/trackerlist.jsp">My	Trackers</a> <a class="breadcrumb-item text-primary"
-						href="<%=request.getContextPath()%>/edittracker.jsp"><%=trackername%></a>
+						href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
 					<a class="breadcrumb-item active text-primary" href="#">Keyword Trend</a>
 				</nav>
 				<div>
@@ -690,22 +690,23 @@
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
-								<h6 class="card-title mb0">Post Mentioned</h6>
+								<h6 class="card-title mb0">Bloggers Mentioned</h6>
+								<h2 class="mb0 bold-text">400</h2>
+								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+							</div>
+							
+							<div class="col-md-3 mt5 mb5">
+								<h6 class="card-title mb0">Posts Mentioned</h6>
 								<h2 class="mb0 bold-text">400</h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
-								<h6 class="card-title mb0">Most Used Location</h6>
+								<h6 class="card-title mb0">Top Posting Location</h6>
 								<h3 class="mb0 bold-text">Nigeria</h3>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
-							<div class="col-md-3  mt5 mb5">
-								<h6 class="card-title mb0">Most Active Blog</h6>
-								<h2 class="mb0 bold-text">AdNovum</h2>
-								<!-- <small class="text-success"><a href=""><b>View Blog</b></a></small> -->
-							</div>
 
 						</div>
 					</div>
@@ -781,6 +782,7 @@
 
 			<div
 				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
+
 				<div style="" class="pt20" id="blogpost_detail">
 					<%
                                 if(allposts.size()>0){							
@@ -814,6 +816,8 @@
 											<%=tobj.get("post")%>
 										</div>                      
                      		<% }} %>
+
+				</div>
 				</div>
 			</div>
 		</div>

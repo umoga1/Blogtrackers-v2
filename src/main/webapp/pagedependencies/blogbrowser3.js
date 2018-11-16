@@ -3,12 +3,9 @@ var selected_blogs = new Array();
 var looper = 0;
 
 $(document).ready(function() {
-	console.log("hjhjdfj");
-	// create a cookie that is accessible anywhere on the site
-	Cookies.set('theme', 'green', {path : '/'});
-	// retrieve the value of the theme cookie
-	var theme =  Cookies.get('theme');
-	console.log(theme+"hgg");
+	//console.log("hjhjdfj");
+	Cookies.set('selectedblogs', "", {path : '/'});	
+	//console.log(theme);
 	// tracking blogcount
 	
 	// tracker selected count
@@ -285,6 +282,7 @@ if(!isblogselected)
 {
 	if(jQuery.inArray(blog_id,selected_blogs) == -1 && blog_id!=""){
 	trackingblog=false;
+	
 	}
 	
 }
@@ -321,8 +319,8 @@ $(this).attr("data-original-title","Remove Blog from Tracker");
 
       //console.log("Added blog to be tracked");
 		
-       console.log("Let's see: "+jQuery.inArray(blog_id,selected_blogs));
-       console.log("Changed Array: "+selected_blogs);
+       //console.log("Let's see: "+jQuery.inArray(blog_id,selected_blogs));
+      // console.log("Changed Array: "+selected_blogs);
 		if((jQuery.inArray(blog_id,selected_blogs) >= -1) && blog_id!=""){
 				    // the element is not in the array
 				selected_blogs[looper] = blog_id;
@@ -342,7 +340,7 @@ $(this).attr("data-original-title","Remove Blog from Tracker");
 				trackscount++;
 				
 				var blgs = $(".blogselection");
-				console.log("total here"+blgs.length);
+				//console.log("total here"+blgs.length);
 				trackscount = blgs.length;
 				$(".total_selected").text(blgs.length);
 				
@@ -364,8 +362,14 @@ $(this).attr("data-original-title","Remove Blog from Tracker");
 						   		     k++;
 					   		 }
 				});
+				// create a cookie that is accessible anywhere on the site
+				// set a cookie for the selected blog to make it easier
+				Cookies.set('selectedblogs', all_blogs, {path : '/'});
+				// retrieve the value of the theme cookie
+				console.log(Cookies.get('selectedblogs'));
+				//var alltheselectedblogcookie =  Cookies.get('selectedblogs');
 				$("#selected_blogs_").val(all_blogs);
-				console.log("selected blogs here:"+all_blogs);
+				//console.log("selected blogs here:"+all_blogs);
 				setSelected(all_blogs);
 		};
 
@@ -450,6 +454,10 @@ function removeBlog(element,blog_id,selected_blogs){
 		var index = selected_blogs.indexOf(blog_id);
 		if (index > -1) {
 			selected_blogs.splice(index, 1);
+			Cookies.set('selectedblogs', selected_blogs, {path : '/'});
+			// clear the cookie
+			//Cookies.clear('selectedblogs');
+			console.log(Cookies.get('selectedblogs'));
 			if(trackscount > 0)
 			{
 			trackscount--;	
@@ -587,6 +595,12 @@ $('#sortbyselect').on("change",function(e){
 	$('form#sortform').submit();
 });
 
+
+//onload function to select again tracked blog
+
+$(window).on("load",function(){
+	console.log(Cookies.get('selectedblogs'));	
+});
 });
 
 
@@ -634,10 +648,12 @@ function updateTracker(element,type){
 				{   
 					console.log(response);
 					if(response.indexOf("success")>-1){
+						Cookies.set('selectedblogs', "", {path : '/'});
 						toastr.success('Tracker successfully updated!','Success');
 						//location.href=app_url+"blogbrowser.jsp";
 					}else{
 						if(type=="update"){
+							Cookies.set('selectedblogs', "", {path : '/'});
 							toastr.error('Blog already exist in tracker','Error');
 						}else{
 							//toastr.error('Blog already exist in tracker','Error');
@@ -668,3 +684,7 @@ function setSelected(all_blogs){
 		}
 	});
 }
+
+
+
+

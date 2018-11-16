@@ -408,9 +408,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		<div class="row bottom-border pb20">
 			<div class="col-md-6 paddi">
 				<nav class="breadcrumb">
-					<a class="breadcrumb-item text-primary" href="trackerlist.jsp">MY
-						TRACKER</a> <a class="breadcrumb-item text-primary" href="#"><%=trackername%></a> <a class="breadcrumb-item active text-primary"
-						href="influence.jsp">Influence</a>
+					<a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY
+						TRACKER</a> <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
+						 <a class="breadcrumb-item active text-primary"	href="<%=request.getContextPath()%>influence.jsp?tid=<%=tid%>">Influence</a>
 				</nav>
 				<div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
@@ -683,17 +683,28 @@ if(authorcount.length()>0){
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
-							<div class="col-md-3 mt5 mb5">
+							<%-- <div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Most Used Keyword</h6>
 								<h2 class="mb0 bold-text most-used-keyword"><%=mostusedkeyword%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
-							</div>
+							</div> --%>
+							
+							<div class="col-md-3 mt5 mb5">
+								<h6 class="card-title mb0">Overall Sentiment</h6>
+								<h2 class="mb0 bold-text"></h2>
+								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+							</div> 
 
-							<div class="col-md-3  mt5 mb5">
+							<%-- <div class="col-md-3  mt5 mb5">
 								<h6 class="card-title mb0">Most Active Blog</h6>
 								<h2 class="mb0 bold-text"><%=mostactiveblog%></h2>
 								<small class="text-success"><a href="<%=mostactivebloglink%>" target="_blank"><b>View Blog</b></a></small>
-							</div>
+							</div> --%>
+							<div class="col-md-3 mt5 mb5">
+								<h6 class="card-title mb0">Comments</h6>
+								<h2 class="mb0 bold-text">0</h2>
+								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+							</div> 
 
 						</div>
 					</div>
@@ -786,6 +797,7 @@ if(authorcount.length()>0){
 			<div
 				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
 				<div style="" class="pt20" id="blogpost_detail">
+
 					<%
                                 if(allposts.size()>0){							
 									String tres = null;
@@ -818,6 +830,7 @@ if(authorcount.length()>0){
 											<%=tobj.get("post")%>
 										</div>                      
                      		<% }} %>
+
 				</div>
 				
 			</div>

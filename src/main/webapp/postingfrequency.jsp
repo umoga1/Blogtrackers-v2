@@ -386,8 +386,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
   <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
-  <a class="breadcrumb-item text-primary" href="#"><%=trackername%></a>
-  <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/edittracker.jsp">Posting Frequency</a>
+  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
+  <a class="breadcrumb-item active text-primary" href="">Posting Frequency</a>
   </nav>
 <div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
 </div>
@@ -611,6 +611,16 @@ if(authorcount.length()>0){
 }
 
 
+String sentimentval = "Positive";
+String sentimentcolor = "";
+if(sentimentval.equalsIgnoreCase("negative"))
+{
+	sentimentcolor = "#FF7D7D";
+}
+else if(sentimentval.equalsIgnoreCase("positive"))
+{
+	sentimentcolor = "#72C28E";
+}
 %>
 
 <div class="col-md-9">
@@ -637,8 +647,12 @@ if(authorcount.length()>0){
 
      <div class="col-md-3 mt5 mb5">
       <h6 class="card-title mb0">Overall Sentiment</h6>
+<<<<<<< HEAD
        <h3 class="mb0 bold-text overall-sentiment">Positive</h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
+=======
+       <h3 class="mb0 bold-text" style="color:<%=sentimentcolor %>;"><%=sentimentval%></h3>
+>>>>>>> 36b0e27d6f9a8fce4c9951293293c9d61b09c535
      </div>
 
      <div class="col-md-3 mt5 mb5">

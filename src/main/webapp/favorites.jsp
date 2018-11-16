@@ -441,7 +441,7 @@ if(f.exists() && !f.isDirectory()) {
 <script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>
 <script type="text/javascript" src="assets/vendors/typeahead/typeahead.bundle.min.js"></script>
 <script type="text/javascript" src="assets/js/form_tags_input.js"></script>
-
+<script src="js/jscookie.js"></script>
 <script src="pagedependencies/favorites.js">
 </script>
 <!--end for table  -->
