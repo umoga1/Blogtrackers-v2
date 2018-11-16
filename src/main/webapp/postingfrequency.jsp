@@ -545,7 +545,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					}
 			    	%>
 
-	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>  id="<%=au.replaceAll(" ","_")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
+	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","_")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
 	    			<% 
 					//JSONObject jsonObj = bloggersort.getJSONObject(m);
 				}
