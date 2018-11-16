@@ -511,6 +511,7 @@ public class Blogposts {
 				"}");
 
 		return this._getTotal(url, jsonObj);
+		
 	}
 
 	/* Fetch posts by blog ids*/
