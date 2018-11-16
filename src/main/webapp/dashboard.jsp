@@ -288,10 +288,15 @@
 					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
 					*/  
 					   String dtu = y + "-01-01";
+
+					   String dtue = y + "-12-31";
+					   
 					   if(b==0){
 							dtu = dt;
+						}else if(b==yendint){
+							dtue = dte;
 						}
-					   String dtue = y + "-12-31";
+					   
 					   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
 					 
 					   graphyears.put(y+"",totu);
@@ -396,8 +401,8 @@
 			*/
 
 			
-			possentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-12", sentimentpost,"posemo");
-			negsentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-12", sentimentpost,"negemo");
+			possentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"posemo");
+			negsentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"negemo");
 			
 			
 			//possentiment=allposemo+"";

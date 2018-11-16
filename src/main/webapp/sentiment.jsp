@@ -307,10 +307,14 @@
 				   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
 				*/
 				String dtu = y + "-01-01";
+				String dtue = y + "-12-31";
+				
 				if(b==0){
 					dtu = dt;
+				}else if(b==yendint){
+					dtue = dte;
 				}
-				String dtue = y + "-12-31";
+				
 				//System.out.println(dtu);
 				//String totu = post._searchRangeAggregateTotal("date", dtu, dtue, ids);
 				//System.out.println(totu);
@@ -1502,11 +1506,11 @@ $(function () {
          data = [	
          	[<%for (int q = 0; q < yearsarray.length(); q++) {
 						String yer = yearsarray.get(q).toString();
-						int vlue = Integer.parseInt(graphyearspos.get(yer).toString());%>{"date":"<%=yer%>","close":<%=vlue%>},
+						int vlue = Integer.parseInt(graphyearsneg.get(yer).toString());%>{"date":"<%=yer%>","close":<%=vlue%>},
       		<%}%>],
       		[<%for (int q = 0; q < yearsarray.length(); q++) {
 						String yer = yearsarray.get(q).toString();
-						int vlue = Integer.parseInt(graphyearsneg.get(yer).toString());%>{"date":"<%=yer%>","close":<%=vlue%>},
+						int vlue = Integer.parseInt(graphyearspos.get(yer).toString());%>{"date":"<%=yer%>","close":<%=vlue%>},
   		<%}%>]     	
          	];
          //console.log(data);
