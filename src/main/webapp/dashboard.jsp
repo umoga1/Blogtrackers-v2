@@ -899,7 +899,7 @@
 				</div>
 
 <div class="float-right">
-					<a href="postingfrequency.jsp"><button
+					<a href="postingfrequency.jsp?tid=<%=tid%>"><button
 							class="btn buttonportfolio2 mt10">
 							<b class="float-left semi-bold-text">Posting Frequency
 								Analysis</b> <b class="fas fa-comment-alt float-right icondash2"></b>
