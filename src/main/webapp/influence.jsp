@@ -408,9 +408,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		<div class="row bottom-border pb20">
 			<div class="col-md-6 paddi">
 				<nav class="breadcrumb">
-					<a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a> 
-				<a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
-				<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
+					<a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY
+						TRACKER</a> <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
 						 <a class="breadcrumb-item active text-primary"	href="<%=request.getContextPath()%>influence.jsp?tid=<%=tid%>">Influence</a>
 				</nav>
 				<div>
@@ -800,33 +799,7 @@ if(authorcount.length()>0){
 			<div
 				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
 				<div style="" class="pt20" id="blogpost_detail">
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
-				<% if(posttodisplay.length()>0){ 
-							JSONObject postdetjson = new JSONObject(posttodisplay.get(0).toString());
-					%>
-					<h5 class="text-primary p20 pt0 pb0">#1: <%=postdetjson.get("title")%></h5>
-					<div class="text-center mb20 mt20">
-						<button class="btn stylebuttonblue">
-							<b class="float-left ultra-bold-text"><%=postdetjson.get("blogger")%></b> <i
-								class="far fa-user float-right blogcontenticon"></i>
-						</button>
-						<button class="btn stylebuttonnocolor"><%=postdetjson.get("date")%></button>
-						<button class="btn stylebuttonorange">
-							<b class="float-left ultra-bold-text"><%=postdetjson.get("num_comments")%> comments</b><i
-								class="far fa-comments float-right blogcontenticon"></i>
-						</button>
-					</div>
-					<div style="height: 600px;">
-					<div class="p20 pt0 pb20 text-blog-content text-primary" style="height: 550px; overflow-y: scroll;">
-						<%=postdetjson.get("body")%>
-						</div>
-						</div>
-					<% } %>
-=======
->>>>>>> b9b1c08d439887fa8658eed2272c443dff675d99
 					<%
                                 if(allposts.size()>0){							
 									String tres = null;
@@ -859,11 +832,7 @@ if(authorcount.length()>0){
 											<%=tobj.get("post")%>
 										</div>                      
                      		<% }} %>
-<<<<<<< HEAD
 
-=======
->>>>>>> deada8becbcb83011be12fe96d3ee0bf19fb5f2f
->>>>>>> b9b1c08d439887fa8658eed2272c443dff675d99
 				</div>
 				
 			</div>
