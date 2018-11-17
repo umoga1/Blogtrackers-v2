@@ -22,10 +22,11 @@ $('.blogger-select').on("click", function(){
 
 	getTotalPost(bloog,blg[1]);
 	getTopLocation(bloog,blg[1]);
+	
 	loadTopKeyword(bloog,blg[1]);
+	loadTerms(bloog,blg[1]);
 	
 	loadChart(bloog,blg[1]);
-	loadTerms(bloog,blg[1]);
 	loadSentiments(bloog,blg[1]);
 	
 	loadInfluence(date_start,date_end);
@@ -179,8 +180,7 @@ function loadTerms(blogger,blog_id){
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}
-	});
-	
+	});	
 }
 
 function loadTopKeyword(blogger,blog_id){

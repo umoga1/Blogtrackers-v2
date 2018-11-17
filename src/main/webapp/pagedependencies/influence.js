@@ -144,14 +144,14 @@ function loadInfluence(start_date,end_date){
 
 function loadTerms(blogger,blog_id){
 	$("#tagcloudbox").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
-	
+	var blger = blogger.replaceAll(" ","_");
 	$.ajax({
 		url: app_url+"subpages/postingfrequencyterm.jsp",
 		method: 'POST',
 		data: {
 			action:"getchart",
 			blogger:blogger,
-			blog_id:blog_id,
+			post_ids:$("#postby"+blger).val(),
 			date_start:$("#date_start").val(),
 			date_end:$("#date_end").val(),
 		},
@@ -167,8 +167,7 @@ function loadTerms(blogger,blog_id){
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}
-	});
-	
+	});	
 }
 
 

@@ -27,11 +27,6 @@
 			
 <div class="chart" id="postingfrequencybar"></div>
 <script>
-/**
- * 
- */
-
-
 
 $(function () {
 

@@ -19,6 +19,8 @@ Object date_end = (null == request.getParameter("date_end")) ? "" : request.getP
 Object blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 Object blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
 
+Object sort = (null == request.getParameter("sort")) ? "" : request.getParameter("sort");
+
 String bloggerstr = blogger.toString().replaceAll("_"," ");
 
 Trackers tracker  = new Trackers();
@@ -44,8 +46,13 @@ Blogs blog  = new Blogs();
 				for(int y=ystint; y<=yendint; y++){ 
 						   String dtu = y + "-01-01";
 						   String dtue = y + "-12-31";
-						   //String totu = post._searchRangeTotal("date",dtu, dtue,blog_id.toString());
-						   String totu = post._searchRangeTotalByBlogger("date",dtu, dtue,blogger.toString());	
+						   String totu = "0";
+						   if(sort.toString().equals("influence_score")){
+							   	totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,blogger.toString());	
+						   }else{
+						   	    totu = post._searchRangeTotalByBlogger("date",dtu, dtue,blogger.toString());
+						   }
+						   
 						   if(!years.has(y+"")){
 					    		years.put(y+"",y);
 					    		yearsarray.put(b,y);
