@@ -197,13 +197,15 @@ $('.deleteblog').on('click', function(){
 
 //delete blog from tracker 
 $('.deleteblog').on('click', function(){
-	var confirmdeleteofblog = confirm("Are you sure you want to delete");
+	var confirmdeleteofblog = confirm("Are you sure you want to delete this blog");
 	if(confirmdeleteofblog )
 		{
 		eachblogdelete = $(this);
 		var id = $(this).attr("id");
 		id = id.split("_");
 		allid = id[0];
+		console.log(allid);
+		console.log($("#teeid").val());
 		toastr.success("Deleting blog...","Success");
 		$.ajax({
 			url: app_url+'tracker',
@@ -227,7 +229,7 @@ $('.deleteblog').on('click', function(){
 						$('.tooltip').hide();
 						
 						numberofblogs = $('.edittrackerblogindividual').length;
-						$('#totalblogcount').html(numberofblogs);
+						//$('#totalblogcount').html(numberofblogs);
 						var initc = $(".stattext").html();
 						initc = parseInt(initc)-1;
 						$(".stattext").html(initc);
@@ -236,6 +238,7 @@ $('.deleteblog').on('click', function(){
 //						console.log(countselectedfromdefault);
 						blogselectedcount = countselectedfromdefault;
 						$('#selectedblogcount').html(blogselectedcount);
+						setTimeout(function(){location.reload();},2000);
 					
 				}else{
 					toastr.error('Blogs could not be removed!','Error');
