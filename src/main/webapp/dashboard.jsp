@@ -481,6 +481,7 @@
 
 			ArrayList looper = new ArrayList();
 			
+			System.out.println(blogs);
 
 			if (blogs.size() > 0) {
 				String bres = null;
@@ -1091,9 +1092,9 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Most Influential Blogger	<%--<select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
-								<option value="blogs">Blogs </option>
-								<option value="bloggers">Bloggers</option></select>
+								Most Influential <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
+								<option value="InfluencialBlogs">Blogs </option>
+								<option value="InfluentialBloggers">Bloggers</option></select>  <%-- 
 						   of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
@@ -4294,34 +4295,17 @@ $(".option-lable").on("click",function(e){
 			
 		var type = $('#swapInfluence').val();
 		
-		//var blgss = $("#bloggers").val();
+		var blgss = $("#bloggers").val();
 		if(type=="blogs"){
 			blgss = $("#blogs").val();
 		}else{
 			blgss = $("#bloggers").val();
+			console.log(blgss+ "selected");
 		}
 		
 		$("#influencebar").html('<div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div>');
 		//console.log(blgss);
-		$.ajax({
-			url: app_url+'subpages/influencebar.jsp',
-			method: 'POST',
-			data: {
-				tid:$("#alltid").val(),
-				sortby:$('#swapBlogger').val(),
-				sortdate:$("#active-sortdate").val(),
-				bloggers:blgss,
-			},
-			error: function(response)
-			{						
-				console.log(response);		
-			},
-			success: function(response)
-			{   
-				console.log(response);
-				$("#influencecontainer").html(response);
-			}
-		});
+		
 		
 	});
 });
