@@ -17,12 +17,16 @@
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 Object blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
+
+Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
+
 String dt = date_start.toString();
 String dte = date_end.toString();
 ArrayList allterms = new Terms()._searchByRange("date", dt, dte, blog_id.toString());
 int highestfrequency = 0;
 JSONArray topterms = new JSONArray();
 JSONObject keys = new JSONObject();
+String mostusedkeyword="";
 if (allterms.size() > 0) {
 	for (int p = 0; p < allterms.size(); p++) {
 		String bstr = allterms.get(p).toString();
@@ -35,7 +39,9 @@ if (allterms.size() > 0) {
 		String tm = bj.get("term").toString();
 		if(freq>highestfrequency){
 			highestfrequency = freq;
+			mostusedkeyword = tm;
 		}
+		
 		JSONObject cont = new JSONObject();
 		cont.put("key", tm);
 		cont.put("frequency", frequency);
@@ -45,7 +51,11 @@ if (allterms.size() > 0) {
 		}
 	}
 }
+
+if(action.toString().equals("gettopkeyword")){
 %>
+<%=mostusedkeyword%>
+<%}else{ %>
 <!-- <div class="tagcloudcontainer" style="min-height: 420px;">
 </div> -->	
 
@@ -152,3 +162,4 @@ function wordtagcloud(element, height) {
 	     
 	 }
  </script>
+ <% } %>
