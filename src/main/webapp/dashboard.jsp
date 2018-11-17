@@ -189,19 +189,11 @@
 				
 				historyfrom = DATE_FORMAT.format(start);
 				historyto = DATE_FORMAT.format(end);
-				termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
-				outlinks = outl._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 
 				//allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
 			} else if (single.equals("day")) {
 				 dt = year + "-" + month + "-" + day;
 				
-				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));			
-				totalpost = post._searchRangeTotal("date", dt, dt, ids);
-				termss = term._searchByRange("date", dt, dt, ids);
-				outlinks = outl._searchByRange("date", dt, dt, ids);
-
 				//allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
 					
 			} else if (single.equals("week")) {
@@ -215,50 +207,29 @@
 				dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
 				
 				
-				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));			
-				totalpost = post._searchRangeTotal("date", dt, dte, ids);
-				termss = term._searchByRange("date", dt, dte, ids);
-				outlinks = outl._searchByRange("date", dt, dte, ids);
 
 				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 					
 			} else if (single.equals("month")) {
 				dt = year + "-" + month + "-01";
 				dte = year + "-" + month + "-"+day;	
-				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
-				
-				totalpost = post._searchRangeTotal("date", dt, dte, ids);
-				termss = term._searchByRange("date", dt, dte, ids);
-				outlinks = outl._searchByRange("date", dt, dte, ids);
 
 				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 				
 			} else if (single.equals("year")) {
 				dt = year + "-01-01";
 				dte = year + "-12-"+ddey;
-				//dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-				//dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
-				
-				totalpost = post._searchRangeTotal("date", dt, dte, ids);
-				termss = term._searchByRange("date", dt, dte, ids);
-				outlinks = outl._searchByRange("date", dt, dte, ids);
-				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 				
 				
 			} else {
 				dt = dst;
 				dte = dend;
-				totalpost = post._getTotalByBlogId(ids, "");
-				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);			
-				termss = term._searchByRange("date", dst, dend, ids);
-				outlinks = outl._searchByRange("date",dst, dend, ids);
-				
-				//allauthors=post._getBloggerByBlogId("date",dst, dend,ids);
 				
 			}
+			
+			totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid");
+			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 

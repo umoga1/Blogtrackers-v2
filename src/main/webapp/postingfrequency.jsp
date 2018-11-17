@@ -443,6 +443,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject years = new JSONObject();
 								JSONArray yearsarray = new JSONArray();
 								JSONObject locations = new JSONObject();
+								JSONObject authorposts = new JSONObject();
 								JSONObject bloggersort = new JSONObject();
 
 								JSONObject bloggersortdet = new JSONObject();
@@ -491,6 +492,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 											locations.put(country,1);
 										}
 										
+										
+										
 										float influence = Float.parseFloat(tobj.get("influence_score").toString());
 										totalinfluence+=influence;
 										
@@ -498,9 +501,22 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String yy= dateyear[0];
 									    String mm = dateyear[1];
 									    
+									    JSONArray postauth = new JSONArray();
+								    	if(!authorposts.has(auth)){
+								    		postauth.put(postid);
+										}else{
+											System.out.println("t here"+authorposts.get(auth));
+											postauth = new JSONArray(authorposts.get(auth).toString());
+											postauth.put(postid);
+											
+										}
+								    	
+								    	authorposts.put(auth,postauth);
+									    
 									    String bloggerselect="";
 									    if(!authors.has(auth)){
 									    	String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
+									    	
 									    	
 											l++;
 											bloggersort.put(auth,Integer.parseInt(postcount));
@@ -509,9 +525,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 											bloggerj.put("blogid",blogid);
 											bloggerj.put("selected",bloggerselect);
 											bloggerj.put("totalpost",postcount);
+											bloggerj.put("postarray",postauth);
 											bloggerarr.put(Integer.parseInt(postcount)+"___"+auth);
 											
-
 										    bloggersortdet.put(auth,bloggerj);
 									    	authors.put(auth, auth);
 									    	authorcount.put(j, auth);
@@ -520,12 +536,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	
 									    	 }  
 										   // System.out.println(authoryears);
-										    }
+										}
 									} 
 								
 				
 				 bloggerarr = post._sortJson(bloggerarr);
-				 System.out.println("unsorted"+bloggerarr);
+				 
 				for(int m=(bloggerarr.length()-1); m>=0; m--){
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
@@ -533,10 +549,17 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			  		JSONObject det= new JSONObject(bloggersortdet.get(au).toString());
 					String dselected = "";
 					
+					JSONArray selposts = new JSONArray(det.get("postarray").toString());
+					String postids = "";
+					for(int r=0; r<selposts.length(); r++){
+						postids += selposts.get(r).toString()+",";
+					}
+					
 					if(m==(bloggerarr.length()-1)){
 						dselected = "abloggerselected";
 							mostactiveblogger = au;
-							allterms = term._searchByRange("date", dt, dte,det.get("blogid").toString());
+							
+							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid");
 							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, det.get("blogid").toString());
 							selectedid=det.get("blogid").toString();
 							totalpost = det.get("totalpost").toString();
@@ -544,7 +567,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									
 					}
 			    	%>
-
+					<input type="hidden" id="postby<%=det.get("blogid").toString()%>" value="<%=postids%>" />
 	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","_")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
 	    			<% 
 					//JSONObject jsonObj = bloggersort.getJSONObject(m);
@@ -694,7 +717,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
   <div class="col-md-6 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p30 pt5 pb5">
-        <div><p class="text-primary mt10">Keywords of <b class="text-blue activeblog"><%=mostactiveblog%></b></p></div>
+        <div><p class="text-primary mt10">Keywords of <b class="text-blue activeblogger"><%=mostactiveblogger%></b></p></div>
         <div id="tagcloudbox">
         <div class="chart-container">
 								<div class="chart" id="tagcloudcontainer"></div>
@@ -1772,7 +1795,7 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=198900"></script>
+<script src="pagedependencies/postingfrequency.js?v=98889"></script>
 
 </body>
 </html>

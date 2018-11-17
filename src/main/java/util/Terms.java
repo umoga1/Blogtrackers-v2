@@ -64,7 +64,7 @@ public String _getTotal() {
 	return this.totalpost;
 }
 
-public ArrayList _searchByRange(String field,String greater, String less, String blog_ids) throws Exception {
+public ArrayList _searchByRange(String field,String greater, String less, String blog_ids,String filter) throws Exception {
 	String[] args = blog_ids.split(","); 
 	 JSONArray pars = new JSONArray(); 
 	 ArrayList<String> ar = new ArrayList<String>();	
@@ -84,7 +84,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 		"		  \"constant_score\":{\r\n" + 
 	 		"					\"filter\":{\r\n" + 
 	 		"							\"terms\":{\r\n" + 
-		 	"							\"blogsiteid\":"+arg2+"\r\n" + 
+		 	"							\""+filter+"\":"+arg2+"\r\n" + 
 	 		"									}\r\n" + 
 	 		"							}\r\n" + 
 	 		"						}\r\n" + 

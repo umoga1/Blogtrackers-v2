@@ -302,7 +302,7 @@
 			    	if(l==0){
 						mostactiveblogger = auth;
 						selectedid = blogid;
-						allterms = term._searchByRange("date", dt, dte, blogid);
+						allterms = term._searchByRange("date", dt, dte, blogid,"blogsiteid");
 						
 						totalpost = post._searchRangeTotalByBlogger("date", dt, dte, auth);
 						allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"date","DESC");
