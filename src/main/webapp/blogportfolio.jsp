@@ -328,7 +328,7 @@ if(f.exists() && !f.isDirectory()) {
   <div class="card card-style mt20 ">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 475px;">
-<div><p class="text-primary mt10 float-left"><b class="text-blue">Posts</b> Published by <b class="text-blue">Advonum</b> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
+<div><p class="text-primary mt10 float-left"><b class="text-blue">Posts</b> Published by <b class="text-blue">Advonum</b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
 <!-- <svg class="linesvg" width="960" height="400"></svg> -->
 <!-- <div id="lineplot" style="min-height: 380px;"></div> -->
 
@@ -351,7 +351,7 @@ if(f.exists() && !f.isDirectory()) {
       <div class="card-body  p5 pt10 pb10">
 
         <div style="min-height: 420px;">
-          <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u>Advonum</u></b> Day of the Week Posting Pattern of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
+          <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u>Advonum</u></b> Day of the Week Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
           <div class="chart" id="d3-bar-horizontal">
 
           </div>
@@ -364,7 +364,7 @@ if(f.exists() && !f.isDirectory()) {
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
         <div class="min-height-table" style="min-height: 420px;">
-          <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u>Advonum</u></b> Yearly Posting Pattern of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
+          <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u>Advonum</u></b> Yearly Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
           <div class="chart" id="yearlypattern">
 
           </div>
