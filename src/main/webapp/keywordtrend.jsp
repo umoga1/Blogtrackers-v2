@@ -782,7 +782,61 @@
 
 			<div
 				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+				<div style="" class="pt20">
+					<h5 class="text-primary p20 pt0 pb0">#1809: Marine Links
+						Clinton Yellen SBA women to MI-3 War Rooms, Serco Base One
+						Pentagon bomb</h5>
+					<div class="text-center mb20 mt20">
+						<button class="btn stylebuttonblue">
+							<b class="float-left ultra-bold-text">Blogger Name</b><i
+								class="far fa-user float-right blogcontenticon"></i>
+						</button>
+						<button class="btn stylebuttonnocolor">02-01-2018, 5:30pm</button>
+						<button class="btn stylebuttonorange">
+							<b class="float-left ultra-bold-text">Blog Name</b><i
+								class="far fa-comments float-right blogcontenticon"></i>
+						</button>
+					</div>
+					<div style="height: 600px;">
+					<div class="p20 pt0 pb10 text-blog-content" style="height: 550px; overflow-y: scroll;">You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh... You can create
+						Slideshows and Stacked galleries with Post Format: Gallery. Also
+						you can manage - add/edit/delete images any time you want. Hyper-X
+						comes with huge amount of gallery options, which could be
+						previewed from Theme Customizer. Praesent nibh...</div>
+=======
+>>>>>>> b9b1c08d439887fa8658eed2272c443dff675d99
 				<div style="" class="pt20" id="blogpost_detail">
 					<%
                                 if(allposts.size()>0){							
@@ -816,7 +870,11 @@
 											<%=tobj.get("post")%>
 										</div>                      
                      		<% }} %>
+<<<<<<< HEAD
 
+=======
+>>>>>>> deada8becbcb83011be12fe96d3ee0bf19fb5f2f
+>>>>>>> b9b1c08d439887fa8658eed2272c443dff675d99
 				</div>
 				</div>
 			</div>
