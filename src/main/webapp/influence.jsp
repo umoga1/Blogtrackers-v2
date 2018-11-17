@@ -531,7 +531,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	if(l==0){
 												mostactiveblogger = auth;
 												selectedid = blogid;
-												allterms = term._searchByRange("date", dt, dte, blogid);
+												allterms = term._searchByRange("date", dt, dte, blogid,"blogsiteid");
 												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
 												totalpost = post._searchRangeTotal("date", dt, dte, ids);	
 												allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"influence_score","DESC");

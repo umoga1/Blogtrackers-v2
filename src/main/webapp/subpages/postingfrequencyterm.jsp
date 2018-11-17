@@ -16,14 +16,16 @@
 <%
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
-Object blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
+Object post_ids = (null == request.getParameter("post_ids")) ? "" : request.getParameter("post_ids");
 
 Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
 
 String dt = date_start.toString();
 String dte = date_end.toString();
-ArrayList allterms = new Terms()._searchByRange("date", dt, dte, blog_id.toString());
+ArrayList allterms = new Terms()._searchByRange("date", dt, dte, post_ids.toString(),"blogpostid");
 int highestfrequency = 0;
+
+
 JSONArray topterms = new JSONArray();
 JSONObject keys = new JSONObject();
 String mostusedkeyword="";
@@ -55,7 +57,8 @@ if (allterms.size() > 0) {
 if(action.toString().equals("gettopkeyword")){
 %>
 <%=mostusedkeyword%>
-<%}else{ %>
+<%}else{ 
+%>
 <!-- <div class="tagcloudcontainer" style="min-height: 420px;">
 </div> -->	
 

@@ -39,6 +39,44 @@ if(action.toString().equals("gettotal")){
 <%=post._searchRangeTotalByBlogger("date", dt, dte, blogger.toString())%>
 <%}else if(action.toString().equals("gettotalinfluence")){%>
 <%=post._searchRangeAggregateByBloggers("date", dt, dte, blogger.toString())%>	
+<% }else if(action.toString().equals("getmostacticelocation")){ 
+	ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
+	
+	JSONObject locations = new JSONObject();
+	
+	String toplocation="";
+	int tloc =0;
+	if(allauthors.size()>0){
+		
+		String tres = null;
+		JSONObject tresp = null;
+		String tresu = null;
+		JSONObject tobj = null;
+		int j=0;
+		int k=0;
+		for(int i=0; i< allauthors.size(); i++){
+			tres = allauthors.get(i).toString();	
+			tresp = new JSONObject(tres);
+			tresu = tresp.get("_source").toString();
+			tobj = new JSONObject(tresu);
+			
+			String country = tobj.get("location").toString();
+			if(locations.has(country)){
+				int val = Integer.parseInt(locations.get(country).toString());
+				
+				locations.put(country,val);
+				if(val>tloc){
+					tloc = val;
+					toplocation = country;
+				}
+			}else{
+				locations.put(country,1);
+			}
+			
+			}
+		} 
+%>
+<%=toplocation%>	
 <% }else{
 ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
 %>

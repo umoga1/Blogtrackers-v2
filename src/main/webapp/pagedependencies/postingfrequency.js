@@ -21,6 +21,7 @@ $('.blogger-select').on("click", function(){
 	
 
 	getTotalPost(bloog,blg[1]);
+	getTopLocation(bloog,blg[1]);
 	loadTopKeyword(bloog,blg[1]);
 	
 	loadChart(bloog,blg[1]);
@@ -155,14 +156,14 @@ function loadInfluence(start_date,end_date){
 
 function loadTerms(blogger,blog_id){
 	$("#tagcloudbox").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
-	
+	var blger = blogger.replaceAll(" ","_");
 	$.ajax({
 		url: app_url+"subpages/postingfrequencyterm.jsp",
 		method: 'POST',
 		data: {
 			action:"getchart",
 			blogger:blogger,
-			blog_id:blog_id,
+			post_ids:$("#postby"+blger).val(),
 			date_start:$("#date_start").val(),
 			date_end:$("#date_end").val(),
 		},
@@ -184,13 +185,14 @@ function loadTerms(blogger,blog_id){
 
 function loadTopKeyword(blogger,blog_id){
 	$(".most-used-keyword").html("");
+	var blger = blogger.replaceAll(" ","_");
 	$.ajax({
 		url: app_url+"subpages/postingfrequencyterm.jsp",
 		method: 'POST',
 		data: {
 			action:"gettopkeyword",
 			blogger:blogger,
-			blog_id:blog_id,
+			post_ids:$("#postby"+blger).val(),
 			date_start:$("#date_start").val(),
 			date_end:$("#date_end").val(),
 		},
@@ -294,7 +296,32 @@ function getTotalPost(blogger,blog_id){
 			$(".activeblog").html(sel);
 				
 		}
-	});
-	
+	});	
 }
 
+
+function getTopLocation(blogger,blog_id){
+	$(".top-location").html("");
+	$.ajax({
+		url: app_url+"subpages/postingfrequencypostdetail.jsp",
+		method: 'POST',
+		data: {
+			action:"getmostacticelocation",
+			blogger:blogger,
+			blog_id:blog_id,
+			date_start:$("#date_start").val(),
+			date_end:$("#date_end").val(),
+		},
+		error: function(response)
+		{						
+			console.log(response);
+			$(".total-post").html(response);
+		},
+		success: function(response)
+		{   
+			console.log(response);
+			$(".top-location").html(response);
+				
+		}
+	});	
+}
