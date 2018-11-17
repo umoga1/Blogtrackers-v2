@@ -1241,6 +1241,23 @@
 				if (size > 0 && k < 15) {
 					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 <%}}}%></textarea>
+	<textarea style="display:none" name="influencialBlogs" id="influencialBlogs" ><%if (authors.length() > 0) {
+			int k = 0;for (int y = 0; y < authors.length(); y++) {
+				String key = authorlooper.get(y).toString();
+				JSONObject resu = authors.getJSONObject(key);
+				int size = Integer.parseInt(resu.get("totalpost").toString());
+				if (size > 0 && k < 15) {
+					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+<%}}}%></textarea>
+<textarea style="display:none" name="influencialBloggers" id="InfluencialBloggers" ><%if (authors.length() > 0) {
+			int k = 0;for (int y = 0; y < authors.length(); y++) {
+				String key = authorlooper.get(y).toString();
+				JSONObject resu = authors.getJSONObject(key);
+				int size = Integer.parseInt(resu.get("totalpost").toString());
+				if (size > 0 && k < 15) {
+					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+<%}}}%></textarea>
+
 </form>
 
 
@@ -4266,7 +4283,7 @@ $(".option-lable").on("click",function(e){
 			
 		var type = $('#swapInfluence').val();
 		
-		var blgss = $("#bloggers").val();
+		var blgss = $('#InfluenceBloggers').val();
 		if(type=="blogs"){
 			blgss = $("#blogs").val();
 		}else{
