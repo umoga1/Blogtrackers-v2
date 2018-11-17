@@ -811,18 +811,19 @@
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
 										</div>
+										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
-											style="height: 600px; overflow-y: scroll;">
+											style="height: 550px; overflow-y: scroll;">
 											<%=tobj.get("post")%>
-										</div>                      
+										</div>                  
+										</div>    
                      		<% }} %>
 
 				</div>
 				</div>
 			</div>
-		</div>
-
-		<div class="row mb50 d-flex align-items-stretch">
+			
+				<div class="row mb50 d-flex align-items-stretch">
 			<div class="col-md-12 mt20 ">
 				<div class="card card-style mt20">
 					<div class="card-body p10 pt20 pb5">
@@ -959,6 +960,10 @@
 			</div>
 
 		</div>
+		
+		</div>
+
+	
 
 
 

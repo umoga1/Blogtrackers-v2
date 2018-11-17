@@ -1207,7 +1207,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
 		  		String yearr=yearsarray.get(q).toString(); 
 		  		if(specific_auth.has(yearr)){ %>
-		  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr)%>},
+		  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr) %>},
 			<%
 		  		}else{ %>
 		  			{"date":"<%=yearr%>","close":0},
