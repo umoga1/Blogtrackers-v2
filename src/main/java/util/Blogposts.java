@@ -115,7 +115,92 @@ public class Blogposts {
 		return this._getResult(url, jsonObj);
 	}
 	
+	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers) throws Exception {
+		String url = base_url+"_search?size=200";
+		String[] args = bloggers.split(","); 
+		JSONArray pars = new JSONArray(); 
+		ArrayList<String> ar = new ArrayList<String>();	
+		for(int i=0; i<args.length; i++){
+			pars.put(args[i]);
+		}
+
+		String arg2 = pars.toString();
+		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
+		String que="{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"bool\": {\r\n" + 
+				"      \"must\": [\r\n" + 
+				"        {\r\n" + 
+				"		  \"constant_score\":{\r\n" + 
+				"					\"filter\":{\r\n" + 
+				"							\"terms\":{\r\n" + 
+				"							\"blogger\":"+arg2+"\r\n" + 
+				"									}\r\n" + 
+				"							}\r\n" + 
+				"						}\r\n" + 
+				"		},\r\n" + 
+				"        {\r\n" + 
+				"		  \"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"      ]\r\n" + 
+				"    }\r\n" + 
+				"  }\r\n" + 
+				"}";
+
+		JSONObject jsonObj = new JSONObject(que);
+		ArrayList result =  this._getResult(url, jsonObj);
+		return this._getResult(url, jsonObj);
+	}
 	
+	
+	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
+		String url = base_url+"_search?size=200";
+		String[] args = bloggers.split(","); 
+		JSONArray pars = new JSONArray(); 
+		ArrayList<String> ar = new ArrayList<String>();	
+		for(int i=0; i<args.length; i++){
+			pars.put(args[i]);
+		}
+
+		String arg2 = pars.toString();
+	
+		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
+		String que="{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"bool\": {\r\n" + 
+				"      \"must\": [\r\n" + 
+				"        {\r\n" + 
+				"		  \"constant_score\":{\r\n" + 
+				"					\"filter\":{\r\n" + 
+				"							\"terms\":{\r\n" + 
+				"							\"blogger\":"+arg2+"\r\n" + 
+				"									}\r\n" + 
+				"							}\r\n" + 
+				"						}\r\n" + 
+				"		},\r\n" + 
+				"        {\r\n" + 
+				"		  \"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"      ]\r\n" + 
+				"    }\r\n" + 
+				"  }\r\n" + 
+				"}";
+
+		JSONObject jsonObj = new JSONObject(que);
+		ArrayList result =  this._getResult(url, jsonObj);
+		return this._getResult(url, jsonObj);
+	}
+
 
 	public String _searchRangeAggregate(String field,String greater, String less, String blog_ids) throws Exception {
 		String[] args = blog_ids.split(","); 
@@ -179,6 +264,54 @@ public class Blogposts {
 		return this._getAggregate(url,jsonObj);
 	}
 	
+	
+	public String _searchRangeAggregateByBloggers(String field,String greater, String less, String bloggers) throws Exception {
+		String[] args = bloggers.split(","); 
+		JSONArray pars = new JSONArray(); 
+		ArrayList<String> ar = new ArrayList<String>();	
+		for(int i=0; i<args.length; i++){
+			pars.put(args[i]);
+		}
+
+		String arg2 = pars.toString();
+		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
+
+		
+		String que="{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"bool\": {\r\n" + 
+				"      \"must\": [\r\n" + 
+				"        {\r\n" + 
+				"		  \"constant_score\":{\r\n" + 
+				"					\"filter\":{\r\n" + 
+				"							\"terms\":{\r\n" + 
+				"							\"blogger\":"+arg2+"\r\n" + 
+				"									}\r\n" + 
+				"							}\r\n" + 
+				"						}\r\n" + 
+				"		},\r\n" + 
+				"        {\r\n" + 
+				"		  \"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"      ]\r\n" + 
+				"    }\r\n" + 
+				"  },\r\n" + 
+				"    \"aggs\" : {\r\n" + 
+				"        \"total\" : { \"sum\" : { \"field\" : \"influence_score\" } }\r\n" + 
+				"    }\r\n" + 
+				"}";
+
+	
+		JSONObject jsonObj = new JSONObject(que);
+
+		String url = base_url+"_search?size=1";
+		return this._getAggregate(url,jsonObj);
+	}
 	
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids,String sort,String order) throws Exception {
@@ -366,7 +499,7 @@ public class Blogposts {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
-				"            \"fields\" : [\"title\",\"blogger\",\"post\"],\r\n" + 
+				"            \"fields\" : [\"blogger\"],\r\n" + 
 				"            \"query\" : \""+blogger+"\"\r\n" + 
 				"        }\r\n" + 
 				"  },\r\n" + 
@@ -412,8 +545,6 @@ public class Blogposts {
 
 		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
-
-
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -445,19 +576,17 @@ public class Blogposts {
 		return this._getTotal(url,jsonObj);
 	}
 	
-
-	public String _searchRangeTotalByBLogger(String field,String greater, String less, String blogger) throws Exception {
-		String[] args = blogger.split(","); 
-		JSONArray pars = new JSONArray(); 
-		ArrayList<String> ar = new ArrayList<String>();	
+	
+	public String _searchRangeTotalByBlogger(String field,String greater, String less, String bloggers) throws Exception {
+		String[] args = bloggers.split(","); 
+		JSONArray pars = new JSONArray(); 	
 		for(int i=0; i<args.length; i++){
 			pars.put(args[i]);
+			
 		}
 
 		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
-
-
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -484,6 +613,7 @@ public class Blogposts {
 				"  }\r\n" + 
 				"}";
 		JSONObject jsonObj = new JSONObject(que);
+
 		String url = base_url+"_search";
 		return this._getTotal(url,jsonObj);
 	}
@@ -566,7 +696,6 @@ public class Blogposts {
 
 		String url = base_url+"_search?size=10";
 		return this._getResult(url, jsonObj);
-
 	}
 
 	public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {

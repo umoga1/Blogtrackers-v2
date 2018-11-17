@@ -177,8 +177,8 @@
 			if (!date_start.equals("") && !date_end.equals("")) {
 				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
 
-				possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
 								
 
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
@@ -192,7 +192,7 @@
 				termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 				outlinks = outl._searchByRange("date", date_start.toString(), date_end.toString(), ids);
 
-				allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
+				//allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
 			} else if (single.equals("day")) {
 				 dt = year + "-" + month + "-" + day;
 				
@@ -202,7 +202,7 @@
 				termss = term._searchByRange("date", dt, dt, ids);
 				outlinks = outl._searchByRange("date", dt, dt, ids);
 
-				allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
+				//allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
 					
 			} else if (single.equals("week")) {
 				
@@ -221,7 +221,7 @@
 				termss = term._searchByRange("date", dt, dte, ids);
 				outlinks = outl._searchByRange("date", dt, dte, ids);
 
-				allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 					
 			} else if (single.equals("month")) {
 				dt = year + "-" + month + "-01";
@@ -233,7 +233,7 @@
 				termss = term._searchByRange("date", dt, dte, ids);
 				outlinks = outl._searchByRange("date", dt, dte, ids);
 
-				allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 				
 			} else if (single.equals("year")) {
 				dt = year + "-01-01";
@@ -244,7 +244,7 @@
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 				termss = term._searchByRange("date", dt, dte, ids);
 				outlinks = outl._searchByRange("date", dt, dte, ids);
-				allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 				
 				
 			} else {
@@ -256,10 +256,12 @@
 				termss = term._searchByRange("date", dst, dend, ids);
 				outlinks = outl._searchByRange("date",dst, dend, ids);
 				
-				allauthors=post._getBloggerByBlogId("date",dst, dend,ids);
+				//allauthors=post._getBloggerByBlogId("date",dst, dend,ids);
 				
 			}
 			
+			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+
 			//System.out.println("Terms here:"+termss);
 			
 			ArrayList blogs = blog._fetch(ids);
@@ -286,7 +288,15 @@
 					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
 					*/  
 					   String dtu = y + "-01-01";
+
 					   String dtue = y + "-12-31";
+					   
+					   if(b==0){
+							dtu = dt;
+						}else if(b==yendint){
+							dtue = dte;
+						}
+					   
 					   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
 					 
 					   graphyears.put(y+"",totu);
@@ -369,6 +379,7 @@
 			//System.out.println("Authors here:"+graphyears);
 			} 
 			
+			/*
 			ArrayList sentimentor = new Liwc()._searchByRange("date", dt, dte, sentimentpost);
 			int allposemo =0;
 			int allnegemo =0;
@@ -387,10 +398,15 @@
 					
 				}
 			}
+			*/
+
+			
+			possentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"posemo");
+			negsentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"negemo");
 			
 			
-			possentiment=allposemo+"";
-			negsentiment=allnegemo+"";
+			//possentiment=allposemo+"";
+			//negsentiment=allnegemo+"";
 			
 			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
 			
@@ -2405,7 +2421,6 @@ $(function () {
 
     // Initialize chart
     sentimentbar('#sentimentbar', 400);
-
     // Chart setup
     function sentimentbar(element, height) {
 
