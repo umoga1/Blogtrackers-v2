@@ -223,11 +223,16 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 </div>
 
-<div class="row p0 pt40 pb40 border-top-bottom mt20 mb20">
+<div class="row p0 pt20 pb20 border-top-bottom mt20 mb20">
   <div class="col-md-2 animated fadeInLeft">
-<small class="text-primary">Select Blog</small><br/>
-<select></select>
+  <div class="card nocoloredcard mt10 mb10">
+<div class="card-body p0 pt5 pb5">
+<h5 class="text-primary mb0">Select Blog</h5>
+<!-- <small class="text-primary"></small><br/> -->
+<h6 class="mt5"><select><option>Advonum</option></select></h6>
 <!-- <h2 class="styleheading text-blue">AdNovum <div class="circle"></div></h2> -->
+</div>
+</div>
 </div>
 <div class="col-md-2">
 				<div class="card nocoloredcard mt10 mb10">

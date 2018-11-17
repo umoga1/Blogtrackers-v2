@@ -228,11 +228,18 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 </div>
 
-<div class="row p0 pt40 pb40 border-top-bottom mt20 mb20">
+<div class="row p0 pt20 pb20 border-top-bottom mt20 mb20">
   <div class="col-md-2 animated fadeInLeft">
-<small class="text-primary">Select Blogger</small><br/>
-<select></select>
+  <div class="card nocoloredcard mt10 mb10">
+					<div class="card-body p0 pt5 pb5">
+<!-- <small class="text-primary">Select Blogger</small> -->
+<h5 class="text-primary mb0">
+							<i class="icondash"></i>Select Blogger
+						</h5>
+<h6 class="mt5"><select><option>Advonum</option></select></h6>
 <!-- <h2 class="textblue styleheading">AdNovum <div class="circle"></div></h2> -->
+</div>
+</div>
 </div>
 <div class="col-md-2">
 				<div class="card nocoloredcard mt10 mb10">
@@ -278,8 +285,13 @@ if(f.exists() && !f.isDirectory()) {
 				</div>
 			</div>
 <div class="col-md-2 text-right">
-<small class="text-primary">Blogsite of <b class="text-blue"><u>Advonum</u></b></small><br/>
-<button class="btn buttonportfolio"><b class="float-left">AdNovum</b> <b class="far fa-file-alt float-right iconportfolio"></b></button>
+<div class="card nocoloredcard mt10 mb10">
+					<div class="card-body p0 pt5 pb5">
+<!-- <small class="text-primary">Blogsite of <b class="text-blue"><u>Advonum</u></b></small><br/> -->
+<h5 class="text-primary mb0">Blogsite</h5>
+<h3><button class="btn buttonportfolio"><b class="float-left">Visit Site</b> <b class="far fa-file-alt float-right iconportfolio"></b></button></h3>
+</div>
+</div>
 </div>
   <!-- <div class="col-md-3">
   <small class="text-primary">Find Blogger</small>
