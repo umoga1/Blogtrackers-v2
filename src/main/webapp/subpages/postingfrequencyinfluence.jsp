@@ -36,6 +36,8 @@ String year_end="";
 
 ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
 %>
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
     <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -60,7 +62,8 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
 										k++;
 									%>
                                     <tr>
-                                        <td><a  class="blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a></td>
+                                        <td><a  class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %><br/>
+                                        <a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></a></td>
                                         <td align="center">
                                         <% if(sort.toString().equals("date")){ %> <%=tobj.get("date") %><% }else{ %><%=tobj.get("influence_score") %><% }  %>
                                         
@@ -70,3 +73,40 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
                                 </tbody>
                             </table>
 
+<script type="text/javascript"
+		src="assets/vendors/DataTables/datatables.min.js"></script>
+			<script>
+ $(document).ready(function() {
+	 
+	 
+	$('#printdoc').on('click',function(){
+		print();
+	}) 
+	
+	 $(function () {
+		    $('[data-toggle="tooltip"]').tooltip()
+		  })
+		  
+     $('#DataTables_Table_0_wrapper').DataTable( {
+         "scrollY": 430,
+          "pagingType": "simple",
+         /*  dom: 
+        	   'Bfrtip', 
+                    "columnDefs": [
+                 { "width": "80%", "targets": 0 }
+               ]  */
+  /*    ,
+       buttons:{
+         buttons: [
+             { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
+             {extend:'csv',className: 'btn-primary stylebutton1'},
+             {extend:'excel',className: 'btn-primary stylebutton1'},
+            // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
+             {extend:'print',className: 'btn-primary stylebutton1'},
+         ]
+       } */
+     } );
+	 
+ } );
+ </script>
+	<!--end for table  -->

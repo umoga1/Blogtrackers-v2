@@ -385,9 +385,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <div class="row bottom-border pb20">
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
+  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
   <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
-  <a class="breadcrumb-item active text-primary" href="">Posting Frequency</a>
+  <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
+  <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/postingfrequency.jsp?tid=<%=tid%>">Posting Frequency</a>
   </nav>
 <div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
 </div>
@@ -839,10 +840,12 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
 										</div>
+										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
-											style="height: 600px; overflow-y: scroll;">
+											style="height: 550px; overflow-y: scroll;">
 											<%=tobj.get("post")%>
-										</div>                      
+										</div>
+										</div>       
                      		<% }} %>
                                
 			</div>
