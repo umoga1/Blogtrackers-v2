@@ -308,7 +308,7 @@ if(f.exists() && !f.isDirectory()) {
 	<h6 class="text-primary labeltext">Blogs</h6>
 	</div>
 	<div class="float-left statcontainer">
-	<b class="stattext"><%=totalpost%></b>
+	<b class="stattext"><%=NumberFormat.getNumberInstance(Locale.US).format(totalpost)%></b>
 	<h6 class="text-primary labeltext">Posts</h6>
 	</div>
 	

@@ -4,6 +4,7 @@
 <%@page import="util.*"%>
 <%@page import="util.Blogs"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.text.NumberFormat" %>
 <%@page import="org.json.JSONObject"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -356,7 +357,7 @@
 						<button
 							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left"
 							style="width: 100%;">
-							<h1 class="text-success mb0"><%=totalpost%></h1>
+							<h1 class="text-success mb0"><%=NumberFormat.getNumberInstance(Locale.US).format(totalpost)%></h1>
 							<h5 class="text-primary">Posts</h5>
 						</button>
 

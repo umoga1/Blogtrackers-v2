@@ -643,6 +643,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 {
 	sentimentcolor = "#72C28E";
 }
+
 %>
 
 <div class="col-md-9">
@@ -671,6 +672,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
       <h6 class="card-title mb0">Overall Sentiment</h6>
 
        <h3 class="mb0 bold-text" style="color:<%=sentimentcolor %>;"><%=sentimentval%></h3>
+
      </div>
 
      <div class="col-md-3 mt5 mb5">
