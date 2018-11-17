@@ -567,8 +567,9 @@
 			<div class="col-md-6 ">
 				<nav class="breadcrumb">
 					<a class="breadcrumb-item text-primary"
-						href="<%=request.getContextPath()%>/trackerlist.jsp">My	Trackers</a> <a class="breadcrumb-item text-primary"
+						href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a> <a class="breadcrumb-item text-primary"
 						href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
+						<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
 					<a class="breadcrumb-item active text-primary" href="#">Keyword Trend</a>
 				</nav>
 				<div>
