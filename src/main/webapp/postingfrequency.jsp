@@ -567,7 +567,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									
 					}
 			    	%>
-					<input type="hidden" id="postby<%=det.get("blogid").toString()%>" value="<%=postids%>" />
+					<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>" value="<%=postids%>" />
 	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","_")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
 	    			<% 
 					//JSONObject jsonObj = bloggersort.getJSONObject(m);
@@ -1795,7 +1795,7 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=98889"></script>
+<script src="pagedependencies/postingfrequency.js?v=9890889"></script>
 
 </body>
 </html>

@@ -58,8 +58,6 @@ if(action.toString().equals("gettopkeyword")){
 %>
 <%=mostusedkeyword%>
 <%}else{ 
-	System.out.println("all terms here"+allterms);
-	System.out.println("top terms here"+topterms);
 %>
 <!-- <div class="tagcloudcontainer" style="min-height: 420px;">
 </div> -->	
@@ -91,7 +89,7 @@ function wordtagcloud(element, height) {
 	 <%if (topterms.length() > 0) {
 					for (int i = 0; i < topterms.length(); i++) {
 						JSONObject jsonObj = topterms.getJSONObject(i);
-						int size = Integer.parseInt(jsonObj.getString("frequency")) * 5;%>
+						int size = Integer.parseInt(jsonObj.getString("frequency")) * 2;%>
 		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
 	 <%}
 				}%>
