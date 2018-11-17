@@ -74,7 +74,7 @@ public class Blogposts {
 
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids) throws Exception {
-		String url = base_url+"_search?size=200";
+		String url = base_url+"_search?size=20";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -116,7 +116,7 @@ public class Blogposts {
 	}
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers) throws Exception {
-		String url = base_url+"_search?size=200";
+		String url = base_url+"_search?size=20";
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -134,7 +134,7 @@ public class Blogposts {
 				"		  \"constant_score\":{\r\n" + 
 				"					\"filter\":{\r\n" + 
 				"							\"terms\":{\r\n" + 
-				"							\"blogger\":"+arg2+"\r\n" + 
+				"							\"blogger\":"+bloggers+"\r\n" + 
 				"									}\r\n" + 
 				"							}\r\n" + 
 				"						}\r\n" + 
@@ -159,17 +159,20 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
-		String url = base_url+"_search?size=200";
+		String url = base_url+"_search?size=20";
+	
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
 		for(int i=0; i<args.length; i++){
-			pars.put(args[i]);
+			pars.put(args[i].toLowerCase());
 		}
 
 		String arg2 = pars.toString();
-	
+		//System.out.println("Bloggers ree :"+pars+". greater:"+greater+":Less"+less);
+		
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
+		
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -189,13 +192,14 @@ public class Blogposts {
 				"                \"gte\" : "+greater+",\r\n" + 
 				"                \"lte\" : "+less+",\r\n" + 
 				"				},\r\n" +
-				"			}\r\n" + 
+				"			},\r\n" + 
 				"		}\r\n" + 
 				"      ]\r\n" + 
 				"    }\r\n" + 
 				"  }\r\n" + 
 				"}";
-
+		
+	
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
@@ -243,21 +247,6 @@ public class Blogposts {
 				"    }\r\n" + 
 				"}";
 				
-		/*
-		String que2="{\r\n" + 
-				"    \"query\" : {\r\n" + 
-				"        \"constant_score\" : {\r\n" + 
-				"            \"filter\" : {\r\n" +  
-				"                \"range\" : { \"date\" : { \"gte\" :  "+greater+", \"lte\" : "+less+" }}\r\n" + 
-				"            }\r\n" + 
-				"        }\r\n" + 
-				"    },\r\n" + 
-				"    \"aggs\" : {\r\n" + 
-				"        \"total\" : { \"sum\" : { \"field\" : \"influence_score\" } }\r\n" + 
-				"    }\r\n" + 
-				"}";
-		*/
-	
 		JSONObject jsonObj = new JSONObject(que);
 
 		String url = base_url+"_search?size=1";
@@ -270,7 +259,7 @@ public class Blogposts {
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
 		for(int i=0; i<args.length; i++){
-			pars.put(args[i]);
+			pars.put(args[i].toLowerCase());
 		}
 
 		String arg2 = pars.toString();
@@ -315,7 +304,7 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids,String sort,String order) throws Exception {
-		String url = base_url+"_search?size=200";
+		String url = base_url+"_search?size=20";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -360,6 +349,7 @@ public class Blogposts {
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
 	}
+	
 	public String _getDate(String blog_ids,String type) throws Exception {
 		String url = base_url+"_search?size=1";
 		String dt = "";
@@ -581,12 +571,11 @@ public class Blogposts {
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 	
 		for(int i=0; i<args.length; i++){
-			pars.put(args[i]);
-			
+			pars.put(args[i].toLowerCase());
 		}
 
 		String arg2 = pars.toString();
-		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
+		
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -612,6 +601,7 @@ public class Blogposts {
 				"    }\r\n" + 
 				"  }\r\n" + 
 				"}";
+				
 		JSONObject jsonObj = new JSONObject(que);
 
 		String url = base_url+"_search";

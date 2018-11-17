@@ -523,7 +523,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String[] dateyear=tobj.get("date").toString().split("-");
 										String yy= dateyear[0];
 									    String mm = dateyear[1];
-									    
+									    String bloggerselect = "";
 									    if(!authors.has(auth)){								    									    	
 									    	if(l==0){
 												mostactiveblogger = auth;
@@ -532,8 +532,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
 												totalpost = post._searchRangeTotal("date", dt, dte, ids);	
 												allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"influence_score","DESC");
-												
+												bloggerselect = "abloggerselected";
 												//System.out.println("Author ha:"+auth);
+											}else{
+												bloggerselect = "";
 											}
 									    	
 									    	JSONObject xy = new JSONObject();
@@ -559,7 +561,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	j++;
 									    	
 									    	%>
-									    	<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %> <%}else{%> btn-primary bloggerinactive<% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
+									    	<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=bloggerselect%>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
 									    	<% }
 									    		
 										   // System.out.println(authoryears);
@@ -798,6 +800,9 @@ if(authorcount.length()>0){
 				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
 				<div style="" class="pt20" id="blogpost_detail">
 <<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
 				<% if(posttodisplay.length()>0){ 
 							JSONObject postdetjson = new JSONObject(posttodisplay.get(0).toString());
 					%>
@@ -820,6 +825,7 @@ if(authorcount.length()>0){
 						</div>
 					<% } %>
 =======
+>>>>>>> b9b1c08d439887fa8658eed2272c443dff675d99
 					<%
                                 if(allposts.size()>0){							
 									String tres = null;
@@ -852,7 +858,11 @@ if(authorcount.length()>0){
 											<%=tobj.get("post")%>
 										</div>                      
                      		<% }} %>
+<<<<<<< HEAD
+
+=======
 >>>>>>> deada8becbcb83011be12fe96d3ee0bf19fb5f2f
+>>>>>>> b9b1c08d439887fa8658eed2272c443dff675d99
 				</div>
 				
 			</div>

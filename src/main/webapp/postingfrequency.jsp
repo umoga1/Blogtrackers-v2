@@ -439,11 +439,15 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject authors = new JSONObject();
 								JSONObject authoryears = new JSONObject();
 								JSONArray authorcount = new JSONArray();
-								JSONArray blogcount = new JSONArray();
 								JSONArray posttodisplay = new JSONArray();
 								JSONObject years = new JSONObject();
 								JSONArray yearsarray = new JSONArray();
 								JSONObject locations = new JSONObject();
+								JSONObject bloggersort = new JSONObject();
+
+								JSONObject bloggersortdet = new JSONObject();
+								JSONArray bloggerarr = new JSONArray();
+								
 								
 								String selectedid="";
 								
@@ -496,37 +500,55 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    
 									    String bloggerselect="";
 									    if(!authors.has(auth)){
-									    	if(l==0){
-												mostactiveblogger = auth;
-												selectedid = blogid;
-												allterms = term._searchByRange("date", dt, dte, blogid);
-												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
-
-												totalpost = post._searchRangeTotalByBlogger("date", dt, dte, auth);
-												allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"date","DESC");
-												bloggerselect = "abloggerselected";
-											}else{
-												bloggerselect="";
-											}
+									    	String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
 									    	
 											l++;
+											bloggersort.put(auth,Integer.parseInt(postcount));
+											JSONObject bloggerj = new JSONObject();
+											bloggerj.put("blogger",auth);
+											bloggerj.put("blogid",blogid);
+											bloggerj.put("selected",bloggerselect);
+											bloggerj.put("totalpost",postcount);
+											bloggerarr.put(Integer.parseInt(postcount)+"___"+auth);
 											
+
+										    bloggersortdet.put(auth,bloggerj);
 									    	authors.put(auth, auth);
 									    	authorcount.put(j, auth);
-									    	blogcount.put(j, blogid);
 									    	
 									    	j++;
 									    	
-									    	%>
-
-							    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=bloggerselect%> <% if(!auth.equals(mostactiveblogger) ){ %> <%}else{%> btn-primary bloggerinactive<% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
-							    			<% }
-									    		
-											   
+									    	 }  
 										   // System.out.println(authoryears);
-										    }} 
-	
+										    }
+									} 
 								
+				
+				 bloggerarr = post._sortJson(bloggerarr);
+				 System.out.println("unsorted"+bloggerarr);
+				for(int m=(bloggerarr.length()-1); m>=0; m--){
+					String key = bloggerarr.get(m).toString();
+					String[] splitter = key.split("___");
+					String au = splitter[1];
+			  		JSONObject det= new JSONObject(bloggersortdet.get(au).toString());
+					String dselected = "";
+					
+					if(m==(bloggerarr.length()-1)){
+						dselected = "abloggerselected";
+							mostactiveblogger = au;
+							allterms = term._searchByRange("date", dt, dte,det.get("blogid").toString());
+							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, det.get("blogid").toString());
+							selectedid=det.get("blogid").toString();
+							totalpost = det.get("totalpost").toString();
+							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");
+									
+					}
+			    	%>
+
+	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","_")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
+	    			<% 
+					//JSONObject jsonObj = bloggersort.getJSONObject(m);
+				}
 								
 	%>
         <!--  
@@ -610,7 +632,7 @@ if(authorcount.length()>0){
 	}
 }
 
-<<<<<<< HEAD
+
 String sentimentval = "Positive";
 String sentimentcolor = "";
 if(sentimentval.equalsIgnoreCase("negative"))
@@ -621,9 +643,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 {
 	sentimentcolor = "#72C28E";
 }
-=======
 
->>>>>>> b9b1c08d439887fa8658eed2272c443dff675d99
 %>
 
 <div class="col-md-9">
@@ -650,12 +670,9 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 
      <div class="col-md-3 mt5 mb5">
       <h6 class="card-title mb0">Overall Sentiment</h6>
-<<<<<<< HEAD
+
        <h3 class="mb0 bold-text" style="color:<%=sentimentcolor %>;"><%=sentimentval%></h3>
-=======
-       <h3 class="mb0 bold-text overall-sentiment">Positive</h3>
-       <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
->>>>>>> b9b1c08d439887fa8658eed2272c443dff675d99
+
      </div>
 
      <div class="col-md-3 mt5 mb5">
@@ -779,7 +796,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 										k++;
 									%>
                                     <tr>
-                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=(k)%> <%=tobj.get("title") %></a><br/>
+                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
 								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
 								<td align="center"><%=tobj.get("date") %></td>
                                      </tr>
@@ -1449,8 +1466,6 @@ console.log("here");
                            .on("mouseover",tip.show)
                            .on("mouseout",tip.hide)
                            .on("click",function(d){
-                        	   console.log(d.date);
-                        	   console.log(d.date);
                         	   var d1 = 	  d.date + "-01-01";
                         	   var d2 = 	  d.date + "-12-31";
               					
@@ -1759,7 +1774,7 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=100880"></script>
+<script src="pagedependencies/postingfrequency.js?v=198900"></script>
 
 </body>
 </html>

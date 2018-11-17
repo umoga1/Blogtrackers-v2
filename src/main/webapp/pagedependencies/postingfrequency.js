@@ -21,7 +21,8 @@ $('.blogger-select').on("click", function(){
 	
 
 	getTotalPost(bloog,blg[1]);
-	//getTotalInfluence(bloog,blg[1]);
+	loadTopKeyword(bloog,blg[1]);
+	
 	loadChart(bloog,blg[1]);
 	loadTerms(bloog,blg[1]);
 	loadSentiments(bloog,blg[1]);
@@ -181,6 +182,31 @@ function loadTerms(blogger,blog_id){
 	
 }
 
+function loadTopKeyword(blogger,blog_id){
+	$(".most-used-keyword").html("");
+	$.ajax({
+		url: app_url+"subpages/postingfrequencyterm.jsp",
+		method: 'POST',
+		data: {
+			action:"gettopkeyword",
+			blogger:blogger,
+			blog_id:blog_id,
+			date_start:$("#date_start").val(),
+			date_end:$("#date_end").val(),
+		},
+		error: function(response)
+		{						
+			//console.log(response);
+			$(".most-used-keyword").html(response);
+		},
+		success: function(response)
+		{   
+			$(".most-used-keyword").html(response);
+		}
+	});
+	
+}
+
 
 function loadSentiments(blogger,blog_id){
 	$("#entity_table").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
@@ -237,15 +263,6 @@ function loadSinglePost(blogger,blog_id){
 			//$("#blogpost_detail").html(response);
 			$("#blogpost_detail").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			
-			 $.getScript("assets/vendors/DataTables/datatables.min.js", function(data, textStatus, jqxhr) {	});
-			 $.getScript("assets/vendors/DataTables/dataTables.bootstrap4.min.js", function(data, textStatus, jqxhr) {	});
-			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js", function(data, textStatus, jqxhr) {	});
-			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js", function(data, textStatus, jqxhr) {	});
-			 
-			 $.getScript("assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js", function(data, textStatus, jqxhr) {	});
-			 $.getScript("assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js", function(data, textStatus, jqxhr) {	});
-			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js", function(data, textStatus, jqxhr) {	});
-			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js", function(data, textStatus, jqxhr) {	});
 	
 		}
 	});
@@ -253,6 +270,7 @@ function loadSinglePost(blogger,blog_id){
 }
 
 function getTotalPost(blogger,blog_id){
+	var sel= $(".activeblog").html();
 	$(".total-post").html("");
 	$.ajax({
 		url: app_url+"subpages/postingfrequencypostdetail.jsp",
@@ -273,6 +291,7 @@ function getTotalPost(blogger,blog_id){
 		{   
 			console.log(response);
 			$(".total-post").html(response);
+			$(".activeblog").html(sel);
 				
 		}
 	});
