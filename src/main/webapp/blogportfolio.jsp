@@ -225,21 +225,67 @@ if(f.exists() && !f.isDirectory()) {
 
 <div class="row p0 pt40 pb40 border-top-bottom mt20 mb20">
   <div class="col-md-2 animated fadeInLeft">
-<small class="text-primary">Selected Blog</small>
-<h2 class="styleheading text-blue">AdNovum <div class="circle"></div></h2>
+<small class="text-primary">Select Blog</small><br/>
+<select></select>
+<!-- <h2 class="styleheading text-blue">AdNovum <div class="circle"></div></h2> -->
 </div>
-<div class="offset-md-4 col-md-3 text-right">
-<small class="text-primary cursor-pointer"><a href="">Visit Blog</a></small><br/>
+<div class="col-md-2">
+				<div class="card nocoloredcard mt10 mb10">
+					<div class="card-body p0 pt5 pb5">
+						<h5 class="text-primary mb0">
+							<i class="fas fa-exchange-alt icondash"></i>Influence
+						</h5>
+						<h3 class="text-blue mb0 countdash dash-label">649</h3>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-2">
+				<div class="card nocoloredcard mt10 mb10">
+					<div class="card-body p0 pt5 pb5">
+						<h5 class="text-primary mb0">
+							<i class="fas fa-search icondash"></i>Top Keyword
+						</h5>
+						<h3 class="text-blue mb0 countdash dash-label">Krymu</h3>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-2">
+				<div class="card nocoloredcard mt10 mb10">
+					<div class="card-body p0 pt5 pb5">
+						<h5 class="text-primary mb0">
+							<i class="fas fa-file-alt icondash"></i>Posts
+						</h5>
+						<h3 class="text-blue mb0 countdash dash-label">70</h3>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-2">
+				<div class="card nocoloredcard mt10 mb10">
+					<div class="card-body p0 pt5 pb5">
+						<h5 class="text-primary mb0">
+							<i class="fas fa-adjust icondash"></i>Sentiment
+						</h5>
+						<h3 class="text-blue mb0 countdash dash-label">3</h3>
+					</div>
+				</div>
+			</div>
+
+
+<div class="col-md-2 text-right">
+<!-- <small class="text-primary cursor-pointer"><a href="">Visit Blog</a></small> --><br/>
 <button class="btn buttonportfolio"><b class="float-left">AdNovum</b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
 </div>
-  <div class="col-md-3">
+ <!--  <div class="col-md-3">
   <small class="text-primary">Find Blog</small>
   <input class="form-control inputboxstyle opacity53 inputportfolio" placeholder="| Search" /><i class="fas fa-search searchiconinput"></i>
-  </div>
+  </div> -->
 </div>
 
 <div class="row mt40">
-<div class="col-md-3">
+<!-- <div class="col-md-3">
   <div class="card card-style mt20 opacity53 cursor-pointer">
     <div class="card-body  p30 p30 pt10 pb10">
       <h6 class="card-title mb0">Maximum Influence</h6>
@@ -277,8 +323,8 @@ if(f.exists() && !f.isDirectory()) {
       <a href="bloggerportfolio" class="link"><small class="link">Blogger Portfolio</small></a>
         </div>
   </div>
-</div>
-<div class="col-md-9">
+</div> -->
+<div class="col-md-12">
   <div class="card card-style mt20 ">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 475px;">
@@ -329,12 +375,15 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 
 <div class="row mb50">
-  <div class="col-md-6 mt20 ">
+  <div class="col-md-12 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
 
         <div style="min-height: 420px;">
-          <div><p class="text-primary p15 pb5 pt0">List of Domains of <b class="text-blue">Advonum</b></p></div>
+          <div><p class="text-primary p15 pb5 pt0">List of <select id="top-listtype" 
+										class="text-primary filtersort sortbydomainsrls"><option
+											value="domains">Domains</option>
+										<option value="urls">URLs</option></select> of <b class="text-blue">Advonum</b></p></div>
          <!--  <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
@@ -416,91 +465,6 @@ if(f.exists() && !f.isDirectory()) {
     </div>
   </div>
 
-  <div class="col-md-6 mt20">
-    <div class="card card-style mt20">
-      <div class="card-body  p5 pt10 pb10">
-        <div class="min-height-table"style="min-height: 420px;">
-          <div><p class="text-primary p15 pb5 pt0">List of URLs of <b class="text-blue">Advonum</b></p></div>
-          <!-- <div class="p15 pb5 pt0" role="group">
-          Export Options
-          </div> -->
-                <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>URL</th>
-                                <th>Frequency</th>
-
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>URL</td>
-                                <td>1</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>3</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>6</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>5</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>3</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>1</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>2</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>4</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>1</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>URL</td>
-                                <td>2</td>
-
-
-                            </tr>
-
-                        </tbody>
-                    </table>
-        </div>
-          </div>
-    </div>
-  </div>
 </div>
 
 
@@ -752,7 +716,7 @@ if(f.exists() && !f.isDirectory()) {
 
          // Horizontal
          var x = d3.scale.ordinal()
-             .rangeRoundBands([0, width], .72, .5);
+             .rangeRoundBands([0, width]);
 
          // Vertical
          var y = d3.scale.linear()
@@ -1007,23 +971,22 @@ if(f.exists() && !f.isDirectory()) {
               var path = svg.selectAll('.d3-line')
                         .data(data)
                         .enter()
+                        .append("g")
+                        .attr("class","linecontainer")
                         .append("path")
                         .attr("class", "d3-line d3-line-medium")
                         .attr("d", line)
                         // .style("fill", "rgba(0,0,0,0.54)")
                         .style("stroke-width", 2)
                         .style("stroke", "0080CC")
-                         .attr("transform", "translate("+margin.left/4.7+",0)");
-                        // .datum(data)
 
                // add point
-                circles = svg.selectAll(".circle-point")
+                circles = svg.append("g").attr("class","circlecontainer").selectAll(".circle-point")
                           .data(data[0])
                           .enter();
 
 
                       circles
-                      // .enter()
                       .append("circle")
                       .attr("class","circle-point")
                       .attr("r",3.4)
@@ -1032,7 +995,7 @@ if(f.exists() && !f.isDirectory()) {
                       .attr("cx",function(d) { return x(d.date); })
                       .attr("cy", function(d){return y(d.close)})
 
-                      .attr("transform", "translate("+margin.left/4.7+",0)");
+                     /*  .attr("transform", "translate("+margin.left/4.7+",0)"); */
 
 
 
@@ -1056,7 +1019,7 @@ if(f.exists() && !f.isDirectory()) {
                           // .style("fill", "rgba(0,0,0,0.54)")
                           .style("stroke-width", 2)
                           .style("stroke", "17394C")
-                          .attr("transform", "translate("+margin.left/4.7+",0)");
+                          /* .attr("transform", "translate("+margin.left/4.7+",0)"); */
 
 
 
@@ -1085,7 +1048,7 @@ if(f.exists() && !f.isDirectory()) {
                                .attr("cx",function(d) { return x(d.date)})
                                .attr("cy", function(d){return y(d.close)})
 
-                               .attr("transform", "translate("+margin.left/4.7+",0)");
+                               /* .attr("transform", "translate("+margin.left/4.7+",0)"); */
                                svg.selectAll(".circle-point").data(mergedarray)
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
@@ -1145,7 +1108,15 @@ if(f.exists() && !f.isDirectory()) {
                  // .text("Frequency")
                  ;
 
-
+             if(data.length == 1 )
+        	 {
+        	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+            transformfirsttick =  tick[0][0].attributes[1].value;
+            //transformfirsttick = "translate(31.5,0)"
+            //console.log(transformfirsttick);
+            svg.select(".circlecontainer").attr("transform", transformfirsttick);
+            svg.select(".linecontainer").attr("transform", transformfirsttick);
+        	 }
 
 
 
@@ -1209,6 +1180,15 @@ if(f.exists() && !f.isDirectory()) {
              .attr("cx",function(d) { return x(d.date);})
              .attr("cy", function(d){return y(d.close)});
            }
+           if(data.length == 1 )
+      	 {
+      	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+          transformfirsttick =  tick[0][0].attributes[1].value;
+          //transformfirsttick = "translate(31.5,0)"
+          console.log(transformfirsttick);
+          svg.select(".circlecontainer").attr("transform", transformfirsttick);
+          svg.select(".linecontainer").attr("transform", transformfirsttick);
+      	 }
              // Crosshair
              //svg.selectAll('.d3-crosshair-overlay').attr("width", width);
          }
@@ -1376,9 +1356,11 @@ if(f.exists() && !f.isDirectory()) {
                .append("rect")
                    .attr("class", "d3-bar")
                    .attr("y", function(d) { return y(d.letter); })
-                   .attr("height", y.rangeBand())
+                   //.attr("height", y.rangeBand())
+                   .attr("height",30)
                    .attr("x", function(d) { return 0; })
                    .attr("width", function(d) { return x(d.frequency); })
+                   .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                    .style("fill", function(d) {
                    maxvalue = d3.max(data, function(d) { return d.frequency; });
                    if(d.frequency == maxvalue)
@@ -1498,7 +1480,7 @@ if(f.exists() && !f.isDirectory()) {
 
          // Horizontal
          var x = d3.scale.ordinal()
-             .rangeRoundBands([0, width], .72, .5);
+             .rangeRoundBands([0, width]);
 
          // Vertical
          var y = d3.scale.linear()
@@ -1753,17 +1735,19 @@ if(f.exists() && !f.isDirectory()) {
               var path = svg.selectAll('.d3-line')
                         .data(data)
                         .enter()
+                        .append("g")
+                        .attr("class","linecontainer")
                         .append("path")
                         .attr("class", "d3-line d3-line-medium")
                         .attr("d", line)
                         // .style("fill", "rgba(0,0,0,0.54)")
                         .style("stroke-width", 2)
                         .style("stroke", "0080CC")
-                         .attr("transform", "translate("+margin.left/4.7+",0)");
+                         //.attr("transform", "translate("+margin.left/4.7+",0)");
                         // .datum(data)
 
                // add point
-                circles = svg.selectAll(".circle-point")
+                circles = svg.append("g").attr("class","circlecontainer").selectAll(".circle-point")
                           .data(data[0])
                           .enter();
 
@@ -1778,7 +1762,7 @@ if(f.exists() && !f.isDirectory()) {
                       .attr("cx",function(d) { return x(d.date); })
                       .attr("cy", function(d){return y(d.close)})
 
-                      .attr("transform", "translate("+margin.left/4.7+",0)");
+                      //.attr("transform", "translate("+margin.left/4.7+",0)");
 
 
 
@@ -1787,6 +1771,8 @@ if(f.exists() && !f.isDirectory()) {
                       .on("mouseout",tip.hide)
                       .on("click",function(d){console.log(d.date)});
                                          svg.call(tip)
+                                         
+                       
               }
               // handles multiple json parameter
               else if(data.length > 1)
@@ -1892,7 +1878,15 @@ if(f.exists() && !f.isDirectory()) {
                  ;
 
 
-
+             if(data.length == 1 )
+        	 {
+        	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+            transformfirsttick =  tick[0][0].attributes[1].value;
+            //transformfirsttick = "translate(31.5,0)"
+            //console.log(transformfirsttick);
+            svg.select(".circlecontainer").attr("transform", transformfirsttick);
+            svg.select(".linecontainer").attr("transform", transformfirsttick);
+        	 }
 
 
 
@@ -1955,6 +1949,16 @@ if(f.exists() && !f.isDirectory()) {
              .attr("cx",function(d) { return x(d.date);})
              .attr("cy", function(d){return y(d.close)});
            }
+           
+           if(data.length == 1 )
+      	 {
+      	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+          transformfirsttick =  tick[0][0].attributes[1].value;
+          //transformfirsttick = "translate(31.5,0)"
+          console.log(transformfirsttick);
+          svg.select(".circlecontainer").attr("transform", transformfirsttick);
+          svg.select(".linecontainer").attr("transform", transformfirsttick);
+      	 }
              // Crosshair
              //svg.selectAll('.d3-crosshair-overlay').attr("width", width);
          }
