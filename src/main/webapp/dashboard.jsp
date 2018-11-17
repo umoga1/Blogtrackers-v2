@@ -3521,7 +3521,7 @@ data = {
 /* End of sorting   */
   bloggers = alldata;
   
-  data = {   bloggers  }
+  data = {  bloggers  }
   
   
             //
@@ -3957,10 +3957,8 @@ $(".option-lable").on("click",function(e){
                                 .enter()
                                 .append("g")
                                 .attr("class","linecontainer")
-                               // .attr("transform", "translate(106,0)")
                                 .append("path")
                                 .attr("class", "d3-line d3-line-medium")
-                                //.attr("transform", "translate("+129.5/6+",0)")
                                 .attr("d", line)
                                 // .style("fill", "rgba(0,0,0,0.54)")
                                 .style("stroke-width",2)
