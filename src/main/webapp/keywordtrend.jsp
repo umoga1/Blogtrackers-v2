@@ -566,11 +566,11 @@
 		<div class="row bottom-border pb20">
 			<div class="col-md-6 ">
 				<nav class="breadcrumb">
-					<a class="breadcrumb-item text-primary"
-						href="<%=request.getContextPath()%>/trackerlist.jsp">My	Trackers</a> <a class="breadcrumb-item text-primary"
-						href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
-					<a class="breadcrumb-item active text-primary" href="#">Keyword Trend</a>
-				</nav>
+  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
+  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
+  <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
+  <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/postingfrequency.jsp?tid=<%=tid%>">Keyword Trend</a>
+  </nav>
 				<div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
 						AS PDF</button>
@@ -769,7 +769,7 @@
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" >#<%=(k+1)%>: <%=tobj.get("title") %></a><br/>
 								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
-								<td align="center"><%=tobj.get("influence") %></td>
+								<td align="center"><%=tobj.get("influence_score") %></td>
                                      </tr>
                                     <% }%>
 							</tr>						

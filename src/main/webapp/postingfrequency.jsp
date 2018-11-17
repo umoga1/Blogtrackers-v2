@@ -1,3 +1,5 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
@@ -385,9 +387,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <div class="row bottom-border pb20">
 <div class="col-md-6 paddi">
 <nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">MY TRACKER</a>
+  <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
   <a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
-  <a class="breadcrumb-item active text-primary" href="">Posting Frequency</a>
+  <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
+  <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/postingfrequency.jsp?tid=<%=tid%>">Posting Frequency</a>
   </nav>
 <div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
 </div>
@@ -666,6 +669,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 {
 	sentimentcolor = "#72C28E";
 }
+
 %>
 
 <div class="col-md-9">
@@ -694,6 +698,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
       <h6 class="card-title mb0">Overall Sentiment</h6>
 
        <h3 class="mb0 bold-text" style="color:<%=sentimentcolor %>;"><%=sentimentval%></h3>
+
      </div>
 
      <div class="col-md-3 mt5 mb5">
@@ -787,7 +792,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 <div class="row m0 mt20 mb50 d-flex align-items-stretch" >
   <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
   <div class="card-body p0 pt20 pb20" style="min-height: 420px;">
-      <p>Influential Blog Posts of <b class="text-blue activeblogger"><%=mostactiveblogger%></b></p>
+      <p>Blog Posts of <b class="text-blue activeblogger"><%=mostactiveblogger%></b></p>
          <!--  <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
@@ -802,7 +807,8 @@ else if(sentimentval.equalsIgnoreCase("positive"))
                         <tbody>
                             
 						<%
-                                if(allposts.size()>0){							
+                                if(allposts.size()>0){	
+                                
 									String tres = null;
 									JSONObject tresp = null;
 									String tresu = null;
@@ -814,12 +820,17 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 										tresp = new JSONObject(tres);
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
+										String dat = tobj.get("date").toString().substring(0,10);
+										LocalDate datee = LocalDate.parse(dat);
+										DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+										String date = dtf.format(datee);
+										
 										k++;
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
 								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
-								<td align="center"><%=tobj.get("date") %></td>
+								<td align="center"><%=date %></td>
                                      </tr>
                                     <% }} %>
 						
@@ -860,10 +871,12 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
 										</div>
+										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
-											style="height: 600px; overflow-y: scroll;">
+											style="height: 550px; overflow-y: scroll;">
 											<%=tobj.get("post")%>
-										</div>                      
+										</div>
+										</div>       
                      		<% }} %>
                                
 			</div>

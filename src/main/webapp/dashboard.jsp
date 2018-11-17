@@ -452,6 +452,7 @@
 
 			ArrayList looper = new ArrayList();
 			
+			
 
 			if (blogs.size() > 0) {
 				String bres = null;
@@ -689,9 +690,9 @@
 			<div class="col-md-6 ">
 				<nav class="breadcrumb">
 					<a class="breadcrumb-item text-primary"
-						href="<%=request.getContextPath()%>/trackerlist.jsp">My	Trackers</a> 
+						href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a> 
 						<a class="breadcrumb-item text-primary"	href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
-					<a class="breadcrumb-item active text-primary" href="#">Dashboard</a>
+					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
 				</nav>
 				<div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
@@ -910,7 +911,7 @@
 					</div>
 				</div>
 				<div class="float-right">
-					<a href="keywordtrend.jsp"><button
+					<a href="<%=request.getContextPath()%>/keywordtrend.jsp?tid=<%=tid%>"><button
 							class="btn buttonportfolio2 mt10">
 							<b class="float-left semi-bold-text">Keyword Trend Analysis </b>
 							<b class="fas fa-search float-right icondash2"></b>
@@ -1062,9 +1063,9 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Most Influential Blogger	<%--<select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
-								<option value="blogs">Blogs </option>
-								<option value="bloggers">Bloggers</option></select>
+								Most Influential <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
+								<option value="InfluencialBlogs">Blogs </option>
+								<option value="InfluentialBloggers">Bloggers</option></select>  <%-- 
 						   of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
@@ -4228,7 +4229,7 @@ $(".option-lable").on("click",function(e){
 			//console.log("blogger busta");
 			var type = $('#swapBlogger').val();
 			var blgss = $("#bloggers").val();
-			console.log(blgss);
+			//console.log(blgss);
 			
 			
 			if(type=="blogs"){
@@ -4265,34 +4266,17 @@ $(".option-lable").on("click",function(e){
 			
 		var type = $('#swapInfluence').val();
 		
-		//var blgss = $("#bloggers").val();
+		var blgss = $("#bloggers").val();
 		if(type=="blogs"){
 			blgss = $("#blogs").val();
 		}else{
 			blgss = $("#bloggers").val();
+			console.log(blgss+ "selected");
 		}
 		
 		$("#influencebar").html('<div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div>');
 		//console.log(blgss);
-		$.ajax({
-			url: app_url+'subpages/influencebar.jsp',
-			method: 'POST',
-			data: {
-				tid:$("#alltid").val(),
-				sortby:$('#swapBlogger').val(),
-				sortdate:$("#active-sortdate").val(),
-				bloggers:blgss,
-			},
-			error: function(response)
-			{						
-				console.log(response);		
-			},
-			success: function(response)
-			{   
-				console.log(response);
-				$("#influencecontainer").html(response);
-			}
-		});
+		
 		
 	});
 });

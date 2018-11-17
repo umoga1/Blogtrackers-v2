@@ -228,79 +228,23 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 </div>
 
-<div class="row p0 pt20 pb20 border-top-bottom mt20 mb20">
+<div class="row p0 pt40 pb40 border-top-bottom mt20 mb20">
   <div class="col-md-2 animated fadeInLeft">
-  <div class="card nocoloredcard mt10 mb10">
-					<div class="card-body p0 pt5 pb5">
-<!-- <small class="text-primary">Select Blogger</small> -->
-<h5 class="text-primary mb0">
-							<i class="icondash"></i>Select Blogger
-						</h5>
-<h6 class="mt5"><select><option>Advonum</option></select></h6>
-<!-- <h2 class="textblue styleheading">AdNovum <div class="circle"></div></h2> -->
+<small class="text-primary">Selected Blogger</small>
+<h2 class="textblue styleheading">AdNovum <div class="circle"></div></h2>
 </div>
+<div class="offset-md-4 col-md-3 text-right">
+<small class="text-primary">Blogsite of <b class="text-blue"><u>Advonum</u></b></small><br/>
+<button class="btn buttonportfolio"><b class="float-left">AdNovum</b> <b class="far fa-file-alt float-right iconportfolio"></b></button>
 </div>
-</div>
-<div class="col-md-2">
-				<div class="card nocoloredcard mt10 mb10">
-					<div class="card-body p0 pt5 pb5">
-						<h5 class="text-primary mb0">
-							<i class="fas fa-exchange-alt icondash"></i>Influence
-						</h5>
-						<h3 class="text-blue mb0 countdash dash-label">649</h3>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-2">
-				<div class="card nocoloredcard mt10 mb10">
-					<div class="card-body p0 pt5 pb5">
-						<h5 class="text-primary mb0">
-							<i class="fas fa-search icondash"></i>Top Keyword
-						</h5>
-						<h3 class="text-blue mb0 countdash dash-label">Krymu</h3>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-2">
-				<div class="card nocoloredcard mt10 mb10">
-					<div class="card-body p0 pt5 pb5">
-						<h5 class="text-primary mb0">
-							<i class="fas fa-file-alt icondash"></i>Posts
-						</h5>
-						<h3 class="text-blue mb0 countdash dash-label">70</h3>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-2">
-				<div class="card nocoloredcard mt10 mb10">
-					<div class="card-body p0 pt5 pb5">
-						<h5 class="text-primary mb0">
-							<i class="fas fa-adjust icondash"></i>Sentiment
-						</h5>
-						<h3 class="text-blue mb0 countdash dash-label">3</h3>
-					</div>
-				</div>
-			</div>
-<div class="col-md-2 text-right">
-<div class="card nocoloredcard mt10 mb10">
-					<div class="card-body p0 pt5 pb5">
-<!-- <small class="text-primary">Blogsite of <b class="text-blue"><u>Advonum</u></b></small><br/> -->
-<h5 class="text-primary mb0">Blogsite</h5>
-<h3><button class="btn buttonportfolio"><b class="float-left">Visit Site</b> <b class="far fa-file-alt float-right iconportfolio"></b></button></h3>
-</div>
-</div>
-</div>
-  <!-- <div class="col-md-3">
+  <div class="col-md-3">
   <small class="text-primary">Find Blogger</small>
   <input class="form-control inputboxstyle opacity53 inputportfolio" placeholder="| Search" /><i class="fas fa-search searchiconinput"></i>
-  </div>-->
-</div> 
+  </div>
+</div>
 
 <div class="row mt40">
-<!-- <div class="col-md-3">
+<div class="col-md-3">
   <div class="card card-style mt20 opacity53 cursor-pointer">
     <div class="card-body  p30 pt10 pb10">
       <h6 class="card-title mb0">Maximum Influence</h6>
@@ -333,12 +277,12 @@ if(f.exists() && !f.isDirectory()) {
         </div>
   </div>
 
-</div> -->
-<div class="col-md-12">
+</div>
+<div class="col-md-9">
   <div class="card card-style mt20">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 365px;">
-<div><p class="text-primary mt10 float-left"><b class="text-green">Posts</b> Published by <b class="textblue"><u>Advonum</u></b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+<div><p class="text-primary mt10 float-left"><b class="text-green">Posts</b> Published by <b class="textblue"><u>Advonum</u></b> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
 <!-- <svg class="linesvg" width="960" height="400"></svg> -->
 <!-- <div id="lineplot" style="min-height: 380px;"></div> -->
 
@@ -360,7 +304,7 @@ if(f.exists() && !f.isDirectory()) {
       <div class="card-body  p5 pt10 pb10">
 
         <div style="min-height: 420px;">
-          <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u>Advonum</u></b> Day of the Week Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+          <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u>Advonum</u></b> Day of the Week Posting Pattern of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
           <div class="chart" id="d3-bar-horizontal">
 
           </div>
@@ -373,7 +317,7 @@ if(f.exists() && !f.isDirectory()) {
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
         <div class="min-height-table"style="min-height: 420px;">
-          <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u>Advonum</u></b> Yearly Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+          <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u>Advonum</u></b> Yearly Posting Pattern of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select></p></div>
           <div class="chart" id="yearlypattern">
 
           </div>
@@ -384,13 +328,10 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 
 <div class="row mb50">
-  <div class="col-md-12 mt20 ">
+  <div class="col-md-6 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
-        <p class="p15 pb5 pt0 text-primary">List of <select id="top-listtype" 
-										class="text-primary filtersort sortbydomainsrls"><option
-											value="domains">Domains</option>
-										<option value="urls">URLs</option></select> of <b class="textblue">AdNovum</b></p>
+        <p class="p15 pb5 pt0 text-primary">List of URLs of <b class="textblue">AdNovum</b></p>
         <div style="min-height: 420px;">
          <!--  <div class="p15 pb5 pt0" role="group">
           Export
@@ -471,7 +412,92 @@ if(f.exists() && !f.isDirectory()) {
           </div>
     </div>
   </div>
-  
+
+  <div class="col-md-6 mt20">
+    <div class="card card-style mt20">
+      <div class="card-body  p5 pt10 pb10">
+        <p class="p15 pb5 pt0 text-primary">List of URLs of <b class="textblue">AdNovum</b></p>
+        <div class="min-height-table"style="min-height: 420px;">
+        <!--   <div class="p15 pb5 pt0" role="group">
+          Export
+          </div> -->
+                <table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>URL</th>
+                                <th>Frequency</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                              <td>URL</td>
+                              <td>1</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>URL</td>
+                              <td>3</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>URL</td>
+                              <td>6</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>URL</td>
+                              <td>5</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>URL</td>
+                              <td>3</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>URL</td>
+                              <td>1</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>URL</td>
+                              <td>2</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>URL</td>
+                              <td>4</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>URL</td>
+                              <td>1</td>
+
+
+                          </tr>
+                          <tr>
+                              <td>URL</td>
+                              <td>2</td>
+
+
+                          </tr>
+
+                        </tbody>
+                    </table>
+        </div>
+          </div>
+    </div>
+  </div>
 </div>
 </div>
 
@@ -688,7 +714,7 @@ if(f.exists() && !f.isDirectory()) {
  $(function () {
 
      // Initialize chart
-     lineBasic('#d3-line-basic', 400);
+     lineBasic('#d3-line-basic', 300);
 
      // Chart setup
      function lineBasic(element, height) {
@@ -718,7 +744,7 @@ if(f.exists() && !f.isDirectory()) {
 
          // Horizontal
          var x = d3.scale.ordinal()
-             .rangeRoundBands([0, width]);
+             .rangeRoundBands([0, width], .72, .5);
 
          // Vertical
          var y = d3.scale.linear()
@@ -733,7 +759,7 @@ if(f.exists() && !f.isDirectory()) {
          var xAxis = d3.svg.axis()
              .scale(x)
              .orient("bottom")
-            .ticks(9)
+            .ticks(2)
 
            // .tickFormat(formatPercent);
 
@@ -973,33 +999,32 @@ if(f.exists() && !f.isDirectory()) {
               var path = svg.selectAll('.d3-line')
                         .data(data)
                         .enter()
-                        .append("g")
-                        .attr("class","linecontainer")
                         .append("path")
                         .attr("class", "d3-line d3-line-medium")
                         .attr("d", line)
                         // .style("fill", "rgba(0,0,0,0.54)")
                         .style("stroke-width", 2)
                         .style("stroke", "0080CC")
+                         .attr("transform", "translate("+margin.left/4.7+",0)");
+                        // .datum(data)
 
                // add point
-                circles = svg.append("g").attr("class","circlecontainer").selectAll(".circle-point")
+                circles = svg.selectAll(".circle-point")
                           .data(data[0])
                           .enter();
 
 
                       circles
+                      // .enter()
                       .append("circle")
                       .attr("class","circle-point")
                       .attr("r",3.4)
-                      .style("stroke", "#0080CC")
-                      .style("fill","#0080CC")
+                      .style("stroke", "#4CAF50")
+                      .style("fill","#4CAF50")
                       .attr("cx",function(d) { return x(d.date); })
                       .attr("cy", function(d){return y(d.close)})
 
-                     /*  .attr("transform", "translate("+margin.left/4.7+",0)"); */
-
-
+                      .attr("transform", "translate("+margin.left/4.7+",0)");
 
                       svg.selectAll(".circle-point").data(data[0])
                       .on("mouseover",tip.show)
@@ -1021,7 +1046,7 @@ if(f.exists() && !f.isDirectory()) {
                           // .style("fill", "rgba(0,0,0,0.54)")
                           .style("stroke-width", 2)
                           .style("stroke", "17394C")
-                          /* .attr("transform", "translate("+margin.left/4.7+",0)"); */
+                          .attr("transform", "translate("+margin.left/4.7+",0)");
 
 
 
@@ -1050,7 +1075,7 @@ if(f.exists() && !f.isDirectory()) {
                                .attr("cx",function(d) { return x(d.date)})
                                .attr("cy", function(d){return y(d.close)})
 
-                               /* .attr("transform", "translate("+margin.left/4.7+",0)"); */
+                               .attr("transform", "translate("+margin.left/4.7+",0)");
                                svg.selectAll(".circle-point").data(mergedarray)
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
@@ -1110,15 +1135,7 @@ if(f.exists() && !f.isDirectory()) {
                  // .text("Frequency")
                  ;
 
-             if(data.length == 1 )
-        	 {
-        	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-            transformfirsttick =  tick[0][0].attributes[1].value;
-            //transformfirsttick = "translate(31.5,0)"
-            //console.log(transformfirsttick);
-            svg.select(".circlecontainer").attr("transform", transformfirsttick);
-            svg.select(".linecontainer").attr("transform", transformfirsttick);
-        	 }
+
 
 
 
@@ -1127,7 +1144,7 @@ if(f.exists() && !f.isDirectory()) {
          // ------------------------------
 
          // Call function on window resize
-         $(window).on('resize', resize);
+          $(window).on('resize', resize);
 
          // Call function on sidebar width change
          $('.sidebar-control').on('click', resize);
@@ -1182,17 +1199,6 @@ if(f.exists() && !f.isDirectory()) {
              .attr("cx",function(d) { return x(d.date);})
              .attr("cy", function(d){return y(d.close)});
            }
-           if(data.length == 1 )
-      	 {
-      	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-          transformfirsttick =  tick[0][0].attributes[1].value;
-          //transformfirsttick = "translate(31.5,0)"
-          console.log(transformfirsttick);
-          svg.select(".circlecontainer").attr("transform", transformfirsttick);
-          svg.select(".linecontainer").attr("transform", transformfirsttick);
-      	 }
-             // Crosshair
-             //svg.selectAll('.d3-crosshair-overlay').attr("width", width);
          }
      }
  });
@@ -1354,11 +1360,9 @@ if(f.exists() && !f.isDirectory()) {
                .append("rect")
                    .attr("class", "d3-bar")
                    .attr("y", function(d) { return y(d.letter); })
-                   //.attr("height", y.rangeBand())
-                   .attr("height",30)
+                   .attr("height", y.rangeBand())
                    .attr("x", function(d) { return 0; })
                    .attr("width", function(d) { return x(d.frequency); })
-                   .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                    .style("fill", function(d) {
                    maxvalue = d3.max(data, function(d) { return d.frequency; });
                    if(d.frequency == maxvalue)
@@ -1443,7 +1447,7 @@ if(f.exists() && !f.isDirectory()) {
  });
  </script>
 
-<!-- Yearly patterns  -->
+ <!-- Yearly patterns  -->
  <script>
  $(function () {
 
@@ -1478,7 +1482,7 @@ if(f.exists() && !f.isDirectory()) {
 
          // Horizontal
          var x = d3.scale.ordinal()
-             .rangeRoundBands([0, width]);
+             .rangeRoundBands([0, width], .72, .5);
 
          // Vertical
          var y = d3.scale.linear()
@@ -1733,19 +1737,17 @@ if(f.exists() && !f.isDirectory()) {
               var path = svg.selectAll('.d3-line')
                         .data(data)
                         .enter()
-                        .append("g")
-                        .attr("class","linecontainer")
                         .append("path")
                         .attr("class", "d3-line d3-line-medium")
                         .attr("d", line)
                         // .style("fill", "rgba(0,0,0,0.54)")
                         .style("stroke-width", 2)
                         .style("stroke", "0080CC")
-                         //.attr("transform", "translate("+margin.left/4.7+",0)");
+                         .attr("transform", "translate("+margin.left/4.7+",0)");
                         // .datum(data)
 
                // add point
-                circles = svg.append("g").attr("class","circlecontainer").selectAll(".circle-point")
+                circles = svg.selectAll(".circle-point")
                           .data(data[0])
                           .enter();
 
@@ -1760,7 +1762,7 @@ if(f.exists() && !f.isDirectory()) {
                       .attr("cx",function(d) { return x(d.date); })
                       .attr("cy", function(d){return y(d.close)})
 
-                      //.attr("transform", "translate("+margin.left/4.7+",0)");
+                      .attr("transform", "translate("+margin.left/4.7+",0)");
 
 
 
@@ -1769,8 +1771,6 @@ if(f.exists() && !f.isDirectory()) {
                       .on("mouseout",tip.hide)
                       .on("click",function(d){console.log(d.date)});
                                          svg.call(tip)
-                                         
-                       
               }
               // handles multiple json parameter
               else if(data.length > 1)
@@ -1876,15 +1876,7 @@ if(f.exists() && !f.isDirectory()) {
                  ;
 
 
-             if(data.length == 1 )
-        	 {
-        	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-            transformfirsttick =  tick[0][0].attributes[1].value;
-            //transformfirsttick = "translate(31.5,0)"
-            //console.log(transformfirsttick);
-            svg.select(".circlecontainer").attr("transform", transformfirsttick);
-            svg.select(".linecontainer").attr("transform", transformfirsttick);
-        	 }
+
 
 
 
@@ -1947,16 +1939,6 @@ if(f.exists() && !f.isDirectory()) {
              .attr("cx",function(d) { return x(d.date);})
              .attr("cy", function(d){return y(d.close)});
            }
-           
-           if(data.length == 1 )
-      	 {
-      	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-          transformfirsttick =  tick[0][0].attributes[1].value;
-          //transformfirsttick = "translate(31.5,0)"
-          console.log(transformfirsttick);
-          svg.select(".circlecontainer").attr("transform", transformfirsttick);
-          svg.select(".linecontainer").attr("transform", transformfirsttick);
-      	 }
              // Crosshair
              //svg.selectAll('.d3-crosshair-overlay').attr("width", width);
          }
@@ -1965,5 +1947,6 @@ if(f.exists() && !f.isDirectory()) {
 
 
  </script>
+
 </body>
 </html>

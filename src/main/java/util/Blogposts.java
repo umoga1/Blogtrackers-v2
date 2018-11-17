@@ -196,7 +196,12 @@ public class Blogposts {
 				"		}\r\n" + 
 				"      ]\r\n" + 
 				"    }\r\n" + 
-				"  }\r\n" + 
+				"  },\r\n" + 
+				"	\"sort\":{\r\n" + 
+				"		\""+sort+"\":{\r\n" + 
+				"			\"order\":\""+order+"\"\r\n" + 
+				"			}\r\n" + 
+				"	}\r\n" +
 				"}";
 		
 	
