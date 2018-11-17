@@ -4257,7 +4257,7 @@ $(".option-lable").on("click",function(e){
 			//console.log("blogger busta");
 			var type = $('#swapBlogger').val();
 			var blgss = $("#bloggers").val();
-			console.log(blgss);
+			//console.log(blgss);
 			
 			
 			if(type=="blogs"){
