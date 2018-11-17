@@ -439,7 +439,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject authors = new JSONObject();
 								JSONObject authoryears = new JSONObject();
 								JSONArray authorcount = new JSONArray();
-								JSONArray blogcount = new JSONArray();
 								JSONArray posttodisplay = new JSONArray();
 								JSONObject years = new JSONObject();
 								JSONArray yearsarray = new JSONArray();
@@ -447,7 +446,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject bloggersort = new JSONObject();
 
 								JSONObject bloggersortdet = new JSONObject();
-
+								JSONArray bloggerarr = new JSONArray();
 								
 								
 								String selectedid="";
@@ -502,18 +501,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    String bloggerselect="";
 									    if(!authors.has(auth)){
 									    	String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
-									    	if(l==0){
-												mostactiveblogger = auth;
-												selectedid = blogid;
-												allterms = term._searchByRange("date", dt, dte, blogid);
-												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
-
-												totalpost = postcount;
-												allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"date","DESC");
-												bloggerselect = "abloggerselected";
-											}else{
-												bloggerselect="";
-											}
 									    	
 											l++;
 											bloggersort.put(auth,Integer.parseInt(postcount));
@@ -521,12 +508,13 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 											bloggerj.put("blogger",auth);
 											bloggerj.put("blogid",blogid);
 											bloggerj.put("selected",bloggerselect);
+											bloggerj.put("totalpost",postcount);
+											bloggerarr.put(Integer.parseInt(postcount)+"___"+auth);
 											
 
 										    bloggersortdet.put(auth,bloggerj);
 									    	authors.put(auth, auth);
 									    	authorcount.put(j, auth);
-									    	blogcount.put(j, blogid);
 									    	
 									    	j++;
 									    	
@@ -535,13 +523,25 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										    }
 									} 
 								
-				//bloggersort = post._sortJson(bloggersort);
-				for(int m=0; m<bloggersort.length(); m++){
-					String au = authorcount.get(m).toString();
+				
+				 bloggerarr = post._sortJson(bloggerarr);
+				 System.out.println("unsorted"+bloggerarr);
+				for(int m=(bloggerarr.length()-1); m>=0; m--){
+					String key = bloggerarr.get(m).toString();
+					String[] splitter = key.split("___");
+					String au = splitter[1];
 			  		JSONObject det= new JSONObject(bloggersortdet.get(au).toString());
 					String dselected = "";
-					if(m==0){
+					
+					if(m==(bloggerarr.length()-1)){
 						dselected = "abloggerselected";
+							mostactiveblogger = au;
+							allterms = term._searchByRange("date", dt, dte,det.get("blogid").toString());
+							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, det.get("blogid").toString());
+							selectedid=det.get("blogid").toString();
+							totalpost = det.get("totalpost").toString();
+							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");
+									
 					}
 			    	%>
 
@@ -794,7 +794,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 										k++;
 									%>
                                     <tr>
-                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=(k)%> <%=tobj.get("title") %></a><br/>
+                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
 								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
 								<td align="center"><%=tobj.get("date") %></td>
                                      </tr>
@@ -1464,8 +1464,6 @@ console.log("here");
                            .on("mouseover",tip.show)
                            .on("mouseout",tip.hide)
                            .on("click",function(d){
-                        	   console.log(d.date);
-                        	   console.log(d.date);
                         	   var d1 = 	  d.date + "-01-01";
                         	   var d2 = 	  d.date + "-12-31";
               					
@@ -1774,7 +1772,7 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=100880"></script>
+<script src="pagedependencies/postingfrequency.js?v=198900"></script>
 
 </body>
 </html>

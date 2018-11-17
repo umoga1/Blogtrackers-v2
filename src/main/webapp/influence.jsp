@@ -523,7 +523,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String[] dateyear=tobj.get("date").toString().split("-");
 										String yy= dateyear[0];
 									    String mm = dateyear[1];
-									    
+									    String bloggerselect = "";
 									    if(!authors.has(auth)){								    									    	
 									    	if(l==0){
 												mostactiveblogger = auth;
@@ -532,8 +532,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogid);
 												totalpost = post._searchRangeTotal("date", dt, dte, ids);	
 												allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"influence_score","DESC");
-												
+												bloggerselect = "abloggerselected";
 												//System.out.println("Author ha:"+auth);
+											}else{
+												bloggerselect = "";
 											}
 									    	
 									    	JSONObject xy = new JSONObject();
@@ -559,7 +561,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	j++;
 									    	
 									    	%>
-									    	<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <% if(!auth.equals(mostactiveblogger) ){ %> <%}else{%> btn-primary bloggerinactive<% } %>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
+									    	<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=bloggerselect%>" id="<%=auth.replaceAll(" ","_")%>***<%=blogid%>" ><b><%=tobj.get("blogger")%></b></a>
 									    	<% }
 									    		
 										   // System.out.println(authoryears);
