@@ -1,3 +1,5 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
@@ -790,7 +792,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 <div class="row m0 mt20 mb50 d-flex align-items-stretch" >
   <div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
   <div class="card-body p0 pt20 pb20" style="min-height: 420px;">
-      <p>Influential Blog Posts of <b class="text-blue activeblogger"><%=mostactiveblogger%></b></p>
+      <p>Blog Posts of <b class="text-blue activeblogger"><%=mostactiveblogger%></b></p>
          <!--  <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
@@ -805,7 +807,8 @@ else if(sentimentval.equalsIgnoreCase("positive"))
                         <tbody>
                             
 						<%
-                                if(allposts.size()>0){							
+                                if(allposts.size()>0){	
+                                
 									String tres = null;
 									JSONObject tresp = null;
 									String tresu = null;
@@ -817,12 +820,17 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 										tresp = new JSONObject(tres);
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
+										String dat = tobj.get("date").toString().substring(0,10);
+										LocalDate datee = LocalDate.parse(dat);
+										DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+										String date = dtf.format(datee);
+										
 										k++;
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
 								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
-								<td align="center"><%=tobj.get("date") %></td>
+								<td align="center"><%=date %></td>
                                      </tr>
                                     <% }} %>
 						
