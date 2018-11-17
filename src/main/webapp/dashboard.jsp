@@ -2001,12 +2001,12 @@ $(function () {
         	  }
         	});
         
-          svg.append("g")
+         /*  svg.append("g")
           .attr("transform", "translate("+x(50)+",0)")
           .append("line")
           .attr("y2", height)
           .style("stroke", "#2ecc71")
-          .style("stroke-width", "1px")
+          .style("stroke-width", "1px") */
 
 
                   // svg.selectAll(".d3-bar")
