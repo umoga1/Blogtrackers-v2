@@ -1,3 +1,5 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
@@ -379,10 +381,13 @@ if(f.exists() && !f.isDirectory()) {
 				
 				String dtc =ob.get("last_crawled").toString();
 				String dc ="";
-				
+				String date = "";
 				if (!dtc.equals("null")){
 					String[] ddt2 = dtc.split("T");
 					dc = ddt2[0];
+					LocalDate datee = LocalDate.parse(dc);
+					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+				    date = dtf.format(datee);
 				}
 				
 		%>							
@@ -391,7 +396,7 @@ if(f.exists() && !f.isDirectory()) {
 			<tr>
 			<td><%=ob.get("blogsite_name").toString()%></td>
 			<td class="text-center"><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(ob.get("totalposts").toString())) %></td>
-			<td class="text-center"><%=dc%></td>
+			<td class="text-center"><%=date %></td>
 			<td><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" id="<%=ob.get("blogsite_id").toString()%>_select" data-placement="top" title="Delete Blog"></i></td>
 			</tr>
 		<% }} %>

@@ -1115,7 +1115,7 @@
 							<!--   <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-							<table id="DataTables_Table_0_wrapper" class="display"
+							<table id="DataTables_Table_0_wrapper" class="display nowrap"
 								style="width: 100%">
 								<thead>
 									<tr>
@@ -1317,7 +1317,7 @@ $(document).ready(function() {
   // datatable setup
     $('#DataTables_Table_1_wrapper').DataTable( {
         "scrollY": 430,
-        "scrollX": false,
+        "scrollX": true,
          "pagingType": "simple"
       /*    ,
          dom: 'Bfrtip',
@@ -1338,7 +1338,7 @@ $(document).ready(function() {
 // table set up 2
     $('#DataTables_Table_0_wrapper').DataTable( {
         "scrollY": 430,
-        "scrollX": false,
+        "scrollX": true,
          "pagingType": "simple"
     /*      ,
          dom: 'Bfrtip',
@@ -2011,12 +2011,12 @@ $(function () {
         	  }
         	});
         
-          svg.append("g")
+         /*  svg.append("g")
           .attr("transform", "translate("+x(50)+",0)")
           .append("line")
           .attr("y2", height)
           .style("stroke", "#2ecc71")
-          .style("stroke-width", "1px")
+          .style("stroke-width", "1px") */
 
 
                   // svg.selectAll(".d3-bar")
