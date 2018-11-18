@@ -1119,7 +1119,7 @@
 							<!--   <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-							<table id="DataTables_Table_0_wrapper" class="display"
+							<table id="DataTables_Table_0_wrapper" class="display nowrap"
 								style="width: 100%">
 								<thead>
 									<tr>
@@ -1307,7 +1307,7 @@ $(document).ready(function() {
   // datatable setup
     $('#DataTables_Table_1_wrapper').DataTable( {
         "scrollY": 430,
-        "scrollX": false,
+        "scrollX": true,
          "pagingType": "simple"
       /*    ,
          dom: 'Bfrtip',
@@ -1328,7 +1328,7 @@ $(document).ready(function() {
 // table set up 2
     $('#DataTables_Table_0_wrapper').DataTable( {
         "scrollY": 430,
-        "scrollX": false,
+        "scrollX": true,
          "pagingType": "simple"
     /*      ,
          dom: 'Bfrtip',
