@@ -449,6 +449,84 @@ public class Blogposts {
 		return this._getResult(url, jsonObj);
 	}
 
+	
+	public ArrayList _searchByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
+
+		int size = 20;
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"        \"query_string\" : {\r\n" + 
+				"            \"fields\" : [\"title\",\"post\"],\r\n" + 
+				"            \"query\" : \""+term+"\"\r\n" + 
+				"        }\r\n" + 
+				"  },\r\n" + 
+				"   \"sort\":{\r\n" + 
+				"		\""+sortby+"\":{\r\n" + 
+				"			\"order\":\"DESC\"\r\n" + 
+				"			}\r\n" + 
+				"	}\r\n" + 
+				"}");
+	
+		String url = base_url+"_search?size="+size; 
+		//System.out.println(url);
+		return this._getResult(url, jsonObj);
+	}
+	
+	public String _searchTotalByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"        \"query_string\" : {\r\n" + 
+				"            \"fields\" : [\"title\",\"post\"],\r\n" + 
+				"            \"query\" : \""+term+"\"\r\n" + 
+				"        }\r\n" + 
+				"  },\r\n" + 
+				"   \"sort\":{\r\n" + 
+				"		\""+sortby+"\":{\r\n" + 
+				"			\"order\":\"DESC\"\r\n" + 
+				"			}\r\n" + 
+				"	}\r\n" + 
+				"}");
+	
+		String url = base_url+"_search?size=1"; 
+		return this._getTotal(url, jsonObj);
+	}
+	
+	public String _searchTotalAndUnique(String term,String sortby, String start, String end, String filter ) throws Exception {
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"        \"query_string\" : {\r\n" + 
+				"            \"fields\" : [\"title\",\"post\"],\r\n" + 
+				"            \"query\" : \""+term+"\"\r\n" + 
+				"        }\r\n" + 
+				"  },\r\n" +
+				"\"aggs\": {\r\n" + 
+				"    \"top-uids\": {\r\n" + 
+				"      \"terms\": {\r\n" + 
+				"        \"field\": \"blogsite_id\"\r\n" + 
+				"      },\r\n" + 
+				"      \"aggs\": {\r\n" + 
+				"        \"top_uids_hits\": {\r\n" + 
+				"          \"top_hits\": {\r\n" + 
+				"            \"sort\": [\r\n" + 
+				"              {\r\n" + 
+				"                \"_score\": {\r\n" + 
+				"                  \"order\": \"desc\"\r\n" + 
+				"                }\r\n" + 
+				"              }\r\n" + 
+				"            ],\r\n" + 
+				"            \"size\": 1\r\n" + 
+				"          }\r\n" + 
+				"        }\r\n" + 
+				"      }\r\n" + 
+				"    }\r\n" + 
+				"  }"+
+				"}");
+	
+		String url = base_url+"_search?size=1"; 
+		return this._getTotal(url, jsonObj);
+	}
+
+	
 	public ArrayList _getPostByBlogger(String blogger)throws Exception {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 

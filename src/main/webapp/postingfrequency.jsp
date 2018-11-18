@@ -562,7 +562,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						dselected = "abloggerselected";
 							mostactiveblogger = au;
 							
-							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid");
+							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid","50");
 							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
 							selectedid=det.get("blogid").toString();
 							totalpost = det.get("totalpost").toString();

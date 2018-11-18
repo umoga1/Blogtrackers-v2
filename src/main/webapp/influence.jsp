@@ -612,7 +612,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						dselected = "abloggerselected";
 							mostactiveblogger = au;
 							
-							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid");
+							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid","50");
 							selectedid=det.get("blogid").toString();
 							totalpost = det.get("totalpost").toString();
 							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"influence_score","DESC");
