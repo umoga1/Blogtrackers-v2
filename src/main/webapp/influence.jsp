@@ -2160,7 +2160,7 @@ if(authorcount.length()>0){
  </script>
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/influence.js?v=9989979"></script>
+<script src="pagedependencies/influence.js?v=90979"></script>
 	
 </body>
 </html>
