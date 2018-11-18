@@ -562,8 +562,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						dselected = "abloggerselected";
 							mostactiveblogger = au;
 							
-							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid");
-							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, det.get("blogid").toString());
+							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid","50");
+							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
 							selectedid=det.get("blogid").toString();
 							totalpost = det.get("totalpost").toString();
 							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");
@@ -1809,7 +1809,7 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=9890889"></script>
+<script src="pagedependencies/postingfrequency.js?v=88909"></script>
 
 </body>
 </html>

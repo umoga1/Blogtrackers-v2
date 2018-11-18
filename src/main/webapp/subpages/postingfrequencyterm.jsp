@@ -22,7 +22,7 @@ Object action = (null == request.getParameter("action")) ? "" : request.getParam
 
 String dt = date_start.toString();
 String dte = date_end.toString();
-ArrayList allterms = new Terms()._searchByRange("date", dt, dte, post_ids.toString(),"blogpostid");
+ArrayList allterms = new Terms()._searchByRange("date", dt, dte, post_ids.toString(),"blogpostid","50");
 int highestfrequency = 0;
 
 
