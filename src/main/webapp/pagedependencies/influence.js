@@ -182,6 +182,7 @@ function loadSinglePost(blogger,blog_id){
 			action:"getchart",
 			blogger:blogger,
 			blog_id:blog_id,
+			sort:"influence_score",
 			date_start:$("#date_start").val(),
 			date_end:$("#date_end").val(),
 		},
