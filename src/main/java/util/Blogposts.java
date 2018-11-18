@@ -502,7 +502,7 @@ public class Blogposts {
 				"\"aggs\": {\r\n" + 
 				"    \"top-uids\": {\r\n" + 
 				"      \"terms\": {\r\n" + 
-				"        \"field\": \"blogsite_id\"\r\n" + 
+				"        \"field\": \""+filter+"\"\r\n" + 
 				"      },\r\n" + 
 				"      \"aggs\": {\r\n" + 
 				"        \"top_uids_hits\": {\r\n" + 
