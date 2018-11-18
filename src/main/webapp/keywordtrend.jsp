@@ -140,16 +140,7 @@
 			String dst = DATE_FORMAT2.format(dstart);
 			String dend = DATE_FORMAT2.format(today);
 
-			//ArrayList posts = post._list("DESC","");
-			//ArrayList sentiments = senti._list("DESC", "", "id");
-			 
-		 	/* Liwc liwc = new Liwc();
 			
-			ArrayList liwcSent = liwc._list("DESC", ""); 
-			
-			String test = post._searchRangeTotal("date", "2013-04-01", "2018-04-01", "1");
-			
-			System.out.println(test);  */
 		
 			
 			String totalpost = "0";
@@ -302,7 +293,6 @@
 			    	if(l==0){
 						mostactiveblogger = auth;
 						selectedid = blogid;
-						allterms = term._searchByRange("date", dt, dte, blogid,"blogsiteid");
 						
 						totalpost = post._searchRangeTotalByBlogger("date", dt, dte, auth);
 						allposts = post._getBloggerByBloggerName("date",dt, dte,auth,"date","DESC");
@@ -321,6 +311,8 @@
 
 				    }} 
 
+		allterms = term._searchByRange("date", dt, dte, ids,"blogsiteid");
+		
 		
 		int highestfrequency = 0;
 		JSONArray topterms = new JSONArray();

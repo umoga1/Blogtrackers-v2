@@ -21,7 +21,8 @@ $('.blogger-select').on("click", function(){
 	
 	
 	loadInfluence(date_start,date_end);
-
+	getTotalPost(bloog,blg[1]);
+	loadChart(bloog,blg[1]);
 
 });
 
@@ -104,11 +105,10 @@ function loadInfluence(start_date,end_date){
 	$("#date_start").val(start_date);
 	$("#date_end").val(end_date);
 	
-	getTotalPost(blogger,blog_id);
+
 	getTopLocation(blogger,blog_id);
 	loadTopKeyword(blogger,blog_id);
 	
-	loadChart(blogger,blog_id);
 	loadTerms(blogger,blog_id);
 	loadSentiments(blogger,blog_id);
 	

@@ -13,6 +13,8 @@
 	pageEncoding="UTF-8"%>
 
 <%
+try{
+	
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 
@@ -38,6 +40,7 @@ Terms term  = new Terms();
 Blogpost_entitysentiment blogpostsentiment  = new Blogpost_entitysentiment();
 ArrayList allterms = new ArrayList(); 
 ArrayList allentitysentiments = new ArrayList(); 
+
 
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
@@ -93,14 +96,16 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 		String tracker_userid = resp.get(0).toString();
 		trackername = resp.get(2).toString();
-		//if (tracker_userid.equals(user.toString())) {
+		if (tracker_userid.equals(user.toString())) {
 			isowner = true;
 			String query = resp.get(5).toString();//obj.get("query").toString();
 			query = query.replaceAll("blogsite_id in ", "");
 			query = query.replaceAll("\\(", "");
 			query = query.replaceAll("\\)", "");
 			ids = query;
-		//}
+		}else{
+			response.sendRedirect("index.jsp");
+		}
 	}
 	
 
@@ -115,6 +120,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	
 	String stdate = post._getDate(ids,"first");
 	String endate = post._getDate(ids,"last");
+	
+	
+	
+	System.out.println("Start:"+stdate+", End:"+endate);
 	
 	Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
 	Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
@@ -2167,8 +2176,14 @@ if(authorcount.length()>0){
  </script>
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/influence.js?v=90979"></script>
+<script src="pagedependencies/influence.js?v=979"></script>
 	
 </body>
 </html>
+<%
+}catch(Exception e){
+	
+	//response.sendRedirect("index.jsp");
+}
+%>
 

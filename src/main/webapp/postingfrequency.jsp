@@ -1808,7 +1808,7 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=9689"></script>
+<script src="pagedependencies/postingfrequency.js?v=88909"></script>
 
 </body>
 </html>
