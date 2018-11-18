@@ -232,7 +232,7 @@
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-
+			
 			//System.out.println("Terms here:"+termss);
 			
 			ArrayList blogs = blog._fetch(ids);
@@ -467,7 +467,6 @@
 					bresp = new JSONObject(bres);
 					bresu = bresp.get("_source").toString();
 					bobj = new JSONObject(bresu);
-					
 					String blogger = bobj.get("blogsite_name").toString();
 					String blogname = bobj.get("blogsite_name").toString();
 					//System.out.println("blogger here+"+blogger);
@@ -490,7 +489,6 @@
 						String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
 						//String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
 						int valu = 1;//Integer.parseInt(btoty);
-						
 						if (bloggers.has(blogger)) {
 							content = new JSONObject(bloggers.get(blogger).toString());						
 							content.put("blog", blogname);
@@ -517,8 +515,6 @@
 							looper.add(m, blogger);
 							m++;
 						}	
-						
-								
 				}
 
 			}
@@ -1063,9 +1059,9 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Most Influential <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
+								Most Influential Blogger <!-- <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
 								<option value="InfluencialBlogs">Blogs </option>
-								<option value="InfluentialBloggers">Bloggers</option></select>  <%-- 
+								<option value="InfluentialBloggers">Bloggers</option></select> -->  <%-- 
 						   of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
@@ -1241,22 +1237,36 @@
 				if (size > 0 && k < 15) {
 					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 <%}}}%></textarea>
-	<textarea style="display:none" name="influencialBlogs" id="influencialBlogs" ><%if (authors.length() > 0) {
-			int k = 0;for (int y = 0; y < authors.length(); y++) {
-				String key = authorlooper.get(y).toString();
-				JSONObject resu = authors.getJSONObject(key);
-				int size = Integer.parseInt(resu.get("totalpost").toString());
-				if (size > 0 && k < 15) {
-					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-<%}}}%></textarea>
-<textarea style="display:none" name="influencialBloggers" id="InfluencialBloggers" ><%if (authors.length() > 0) {
-			int k = 0;for (int y = 0; y < authors.length(); y++) {
-				String key = authorlooper.get(y).toString();
-				JSONObject resu = authors.getJSONObject(key);
-				int size = Integer.parseInt(resu.get("totalpost").toString());
-				if (size > 0 && k < 15) {
-					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-<%}}}%></textarea>
+
+<!-- Influence Bar chart loader -->
+	<textarea style="display:none" name="influencialBlogs" id="influencialBlogs" >
+ <% if (bloggers.length() > 0) {
+						int p = 0;
+						for (int y = 0; y < bloggers.length(); y++) {
+							String key = looper.get(y).toString();
+							JSONObject resu = bloggers.getJSONObject(key);
+							
+							int size = Integer.parseInt(resu.get("postingfreq").toString());
+							if (size > 0 && p < 15) {
+								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
+    			 <%}}}%>
+			 </textarea>
+        </textarea>
+
+<textarea style="display:none" name="influencialBloggers" id="InfluencialBloggers" >
+	 <% if (authors.length() > 0) {
+				int p = 0;
+				//System.out.println(bloggers);
+				for (int y = 0; y < authors.length(); y++) {
+					String key = authorlooper.get(y).toString();
+					JSONObject resu = authors.getJSONObject(key);
+					Double size = Double.parseDouble(resu.get("influence").toString());
+					if (p < 10) {
+						p++;%>
+		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+		 <%}
+				}
+			}%> </textarea>
 
 </form>
 
@@ -4285,15 +4295,32 @@ $(".option-lable").on("click",function(e){
 		
 		var blgss = $('#InfluenceBloggers').val();
 		if(type=="blogs"){
-			blgss = $("#blogs").val();
+			blgss = $("#InfluenceBlogs").val();
 		}else{
 			blgss = $("#bloggers").val();
-			console.log(blgss+ "selected");
 		}
 		
 		$("#influencebar").html('<div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div>');
 		//console.log(blgss);
 		
+		$.ajax({
+			url: app_url+'subpages/influencebar.jsp',
+			method: 'POST',
+			data: {
+				tid:$("#alltid").val(),
+				sortby:$('#swapInfluence').val(),
+				sortdate:$("#active-sortdate").val(),
+				bloggers:blgss,
+			},
+			error: function(response)
+			{						
+				console.log(response);		
+			},
+			success: function(response)
+			{   
+				$("#influencecontainer").html(response);
+			}
+		});
 		
 	});
 });

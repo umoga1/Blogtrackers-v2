@@ -31,7 +31,7 @@ public class Blogposts {
 	String date;
 
 	public ArrayList _list(String order, String from, String sortby) throws Exception {
-		int size = 10;
+		int size = 20;
 
 		int fr = 0;
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
@@ -74,7 +74,7 @@ public class Blogposts {
 
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -116,7 +116,7 @@ public class Blogposts {
 	}
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -159,7 +159,7 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 	
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -309,7 +309,7 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids,String sort,String order) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -670,7 +670,7 @@ public class Blogposts {
 				"}");
 
 
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 		return this._getResult(url, jsonObj);
 
 	}
@@ -689,7 +689,7 @@ public class Blogposts {
 				"}");
 
 
-		String url = base_url+"_search?size=10";
+		String url = base_url+"_search?size=1000";
 		return this._getResult(url, jsonObj);
 	}
 
