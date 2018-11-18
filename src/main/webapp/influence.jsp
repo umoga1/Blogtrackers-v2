@@ -606,7 +606,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid");
 							selectedid=det.get("blogid").toString();
 							totalpost = det.get("totalpost").toString();
-							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");
+							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"influence_score","DESC");
 									
 					}
 			    	%>

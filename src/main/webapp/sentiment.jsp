@@ -172,9 +172,6 @@
 				historyfrom = DATE_FORMAT.format(start);
 				historyto = DATE_FORMAT.format(end);
 
-				outlinks = outl._searchByRange("date", date_start.toString(), date_end.toString(), ids);
-
-				allauthors = post._getBloggerByBlogId("date", date_start.toString(), date_end.toString(), ids);
 
 			} /*  else if (single.equals("day")) {
 				dt = year + "-" + month + "-" + day;
@@ -236,17 +233,13 @@
 				} */ else {
 				dt = dst;
 				dte = dend;
-				totalpost = post._getTotalByBlogId(ids, "");
-				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
-				outlinks = outl._searchByRange("date", dst, dend, ids);
-
 				
-				//allauthors=post._getBloggerByBlogId("date",dst, dend,ids);
 			}
 			
-			termss = term._searchByRange("date", date_start.toString(), date_end.toString(), ids,"blogsiteid");
+			totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid");
 			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+			outlinks = outl._searchByRange("date", dst, dend, ids);
 
 			//System.out.println("Terms here:"+termss);
 
