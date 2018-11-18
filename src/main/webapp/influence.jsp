@@ -1953,6 +1953,11 @@ if(authorcount.length()>0){
                               .on("click",function(d){
                                 // console.log(d.date)
                                 // sconsole.log(d.y);
+                            	  var d1 = 	  d.date + "-01-01";
+                           	   var d2 = 	  d.date + "-12-31";
+                  				
+                           	   loadInfluence(d1,d2);
+                                
                               });
                                                  svg.call(tip)
                       }
@@ -1990,7 +1995,9 @@ if(authorcount.length()>0){
                                      svg.selectAll(".circle-point").data(mergedarray)
                                      .on("mouseover",tip.show)
                                      .on("mouseout",tip.hide)
-                                     .on("click",function(d){console.log(d.y)});
+                                     .on("click",function(d){
+                                    	 console.log(d.y);
+                                    	 });
                                                         svg.call(tip)
 
                       }

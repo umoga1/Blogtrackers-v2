@@ -45,7 +45,7 @@ public class Blogpost_entitysentiment {
 				"		  \"constant_score\":{\r\n" + 
 				"					\"filter\":{\r\n" + 
 				"							\"terms\":{\r\n" + 
-				"							\"blogsite_id\":"+arg2+"\r\n" + 
+				"							\"blogpost_id\":"+arg2+"\r\n" + 
 				"									}\r\n" + 
 				"							}\r\n" + 
 				"						}\r\n" + 

@@ -21,10 +21,7 @@ $('.blogger-select').on("click", function(){
 	$("#blogid").val(blg[1]);
 	
 
-	getTotalPost(bloog,blg[1]);
-	getTotalInfluence(bloog,blg[1]);
-	loadChart(bloog,blg[1]);
-	loadTerms(bloog,blg[1]);
+	
 
 	//loadInfluence(bloog,blg[1]);
 
@@ -102,6 +99,17 @@ function loadInfluence(start_date,end_date){
 	
 	var blogger = $("#author").val();
 	var blog_id =$("#blogid").val();
+	
+	
+	
+	$("#date_start").val(start_date);
+	$("#date_end").val(end_date);
+	
+	getTotalPost(blogger,blog_id);
+	getTotalInfluence(blogger,blog_id);
+	
+	loadChart(blogger,blog_id);
+	loadTerms(blogger,blog_id);
 	
 	$.ajax({
 		url: app_url+"subpages/postingfrequencyinfluence.jsp",
