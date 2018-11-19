@@ -88,7 +88,7 @@ String[] user_name = name.split(" ");
 </head>
 <body style="background-color:#ffffff;">
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
-    
+<% if(userinfo.size()>0){%>    
 <div class="modal-notifications">
 <div class="row">
 <div class="col-lg-10 closesection">
@@ -172,8 +172,59 @@ String[] user_name = name.split(" ");
               </li>
               </ul>
       </div>
-        </div>
+      </div>
+<%} else { %>
+<nav class="navbar navbar-inverse bg-primary">
+          <div class="container-fluid mt10 mb10">
 
+      <div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+      <a class="navbar-brand text-center logohomeothers" href="./">
+  </a>
+      </div>
+      <!-- Mobile Menu -->
+      <nav class="navbar navbar-dark bg-primary float-left d-md-block d-sm-block d-xs-block d-lg-none d-xl-none" id="menutoggle">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      </nav>
+      <!-- <div class="navbar-header ">
+      <a class="navbar-brand text-center" href="#"><img src="images/blogtrackers.png" /></a>
+      </div> -->
+      <!-- Mobile menu  -->
+      <div class="col-lg-6 themainmenu"  align="center">
+        <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+        <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
+        
+            </ul>
+      </div>
+
+  <div class="col-lg-3">
+  <ul class="nav main-menu2 float-right" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
+
+        	<li class="cursor-pointer"><a href="login.jsp">Login</a></li>
+         </ul>
+        </ul>
+      </div>
+
+      </div>
+        <div class="col-md-12 bg-dark d-md-block d-sm-block d-xs-block d-lg-none d-xl-none p0 mt20">
+        <div class="collapse" id="navbarToggleExternalContent">
+          <ul class="navbar-nav mr-auto mobile-menu">
+                <li class="nav-item active">
+                <a class="" href="<%=request.getContextPath()%>/blogbrowser.jsp">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/favorites.jsp">Favorites</a>
+              </li>
+              </ul>
+      </div>
+      </div>
+<% } %>
 <%
 Blogs blogs = new Blogs();
 JSONObject bresp = null;
