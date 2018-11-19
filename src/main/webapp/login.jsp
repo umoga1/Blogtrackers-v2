@@ -57,7 +57,7 @@
 <script src="pagedependencies/baseurl.js">
 	
 </script>
-
+<script src="js/jscookie.js"></script>
 <script src="https://apis.google.com/js/platform.js"></script>
 
 <script type="text/javascript" src="js/login_validation.js?v=907"></script>

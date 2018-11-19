@@ -3,6 +3,10 @@ var selected_blogs = new Array();
 var looper = 0;
 
 $(document).ready(function() {
+	
+	var loggedinstatus = Cookies.get("loggedinstatus");
+	
+	//console.log(loggedinstatus);
 	//console.log("hjhjdfj");
 	Cookies.set('selectedblogs', "", {path : '/'});	
 	//console.log(theme);
@@ -366,7 +370,7 @@ $(this).attr("data-original-title","Remove Blog from Tracker");
 				// set a cookie for the selected blog to make it easier
 				Cookies.set('selectedblogs', all_blogs, {path : '/'});
 				// retrieve the value of the theme cookie
-				console.log(Cookies.get('selectedblogs'));
+				//console.log(Cookies.get('selectedblogs'));
 				//var alltheselectedblogcookie =  Cookies.get('selectedblogs');
 				$("#selected_blogs_").val(all_blogs);
 				//console.log("selected blogs here:"+all_blogs);
@@ -497,8 +501,17 @@ $('.trackcreationsection1').removeClass('hidden');
 
 // show the create tracker from dialog handler 
 $('.createtrackerbtn').on("click", function(){
-$('.trackcreationsection2').removeClass('hidden');
-$('.trackcreationsection1').addClass('hidden');
+	//console.log(typeof loggedinstatus)
+	if(loggedinstatus === "true")
+	{
+	$('.trackcreationsection2').removeClass('hidden');
+	$('.trackcreationsection1').addClass('hidden');
+	}
+	else if(loggedinstatus === "false")
+	{
+	toastr.error('You must be logged in to create a tracker','Error');
+	}
+
 });
 
 // cancel tracker creattion 
