@@ -811,9 +811,11 @@
 					<%
                                 if(firstpost.length()>0){	
 									JSONObject tobj = firstpost;
+									String title = tobj.get("title").toString();
+									String body = tobj.get("post").toString();
 									
 									%>                                    
-                                    <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
+                                    <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,"<span style='background:red;color:#fff'>"+mostactiveterm+"</span>")%></h5>
 										<div class="text-center mb20 mt20">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
@@ -827,7 +829,7 @@
 										</div>
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 600px; overflow-y: scroll;">
-											<%=tobj.get("post")%>
+											body.replaceAll(mostactiveterm,"<span style='background:red;color:#fff'>"+mostactiveterm+"</span>")
 										</div>                      
                      		<% } %>
 
