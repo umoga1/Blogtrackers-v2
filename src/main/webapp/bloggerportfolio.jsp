@@ -227,16 +227,18 @@
 				
 			}
 			
-			totalpost = post._searchRangeTotal("date", dt, dte, ids);
-			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","50");
-			outlinks = outl._searchByRange("date", dt, dte, ids);
+			String[] idss = ids.split(",");
+			String selectedblogid = idss[0];
+			totalpost = post._searchRangeTotal("date", dt, dte, selectedblogid);
+			termss = term._searchByRange("date", dt, dte, selectedblogid,"blogsiteid","50");
+			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
 			
-			String totalinfluence = post._searchRangeAggregate("date", dt, dte, ids);
+			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
 			String mostactiveterm ="";
 			String mostactiveblog ="";
 			
 			
-			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+			allauthors = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");
 
 			//System.out.println("Terms here:"+termss);
 			
@@ -250,6 +252,10 @@
 			String[] yend = dte.split("-");
 			year_start = yst[0];
 			year_end = yend[0];
+			
+			String month_start = yst[1];
+			String month_end = yend[1];
+			
 			int ystint = Integer.parseInt(year_start);
 			int yendint = Integer.parseInt(year_end);
 			if(single.equals("month")){
@@ -258,6 +264,19 @@
 				//yendint = diff;
 			}
 			int b=0;
+			int jan=0;
+			int feb=0;
+			int march=0;
+			int apr=0;
+			int may=0;
+			int june=0;
+			int july=0;
+			int aug=0;
+			int sep=0;
+			int oct=0;
+			int nov=0;
+			int dec=0;
+			
 			for(int y=ystint; y<=yendint; y++){
 				/*
 					   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
@@ -273,8 +292,51 @@
 							dtue = dte;
 						}
 					   
-					   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
-					 
+					   
+					   String totu = post._searchRangeTotal("date",dtu, dtue,selectedblogid);
+					   
+					   //if(1 >= Integer.parseInt(month_start)){
+					   		jan += Integer.parseInt(post._searchRangeTotal("date",y + "-01-01", y + "-01-31",selectedblogid));
+					   //}
+					   
+					   //if(2>=Integer.parseInt(month_start) && y>=ystint){
+						   feb += Integer.parseInt(post._searchRangeTotal("date",y + "-02-01", y + "-02-29",selectedblogid));
+					   //}
+					   
+					   //if(3>=Integer.parseInt(month_start) && y>=ystint){						
+					   		march += Integer.parseInt(post._searchRangeTotal("date",y + "-03-01", y + "-03-31",selectedblogid));
+					   //}
+					   
+					   //if(4>=Integer.parseInt(month_start) && y>=ystint){						
+					   	apr += Integer.parseInt(post._searchRangeTotal("date",y + "-04-01", y + "-04-30",selectedblogid));
+					   //}
+					   
+					   //if(5>=Integer.parseInt(month_start) && y>=ystint){							
+					  	 may += Integer.parseInt(post._searchRangeTotal("date",y + "-05-01", y + "-05-31",selectedblogid));
+					   //}
+					   
+					   //if( 6 >=Integer.parseInt(month_start) && y>=ystint){							
+					   	june += Integer.parseInt(post._searchRangeTotal("date",y + "-06-01", y + "-06-30",selectedblogid));
+					   //}
+					  // if(7 >= Integer.parseInt(month_start) && y>=ystint){							
+					   	july += Integer.parseInt(post._searchRangeTotal("date",y + "-07-01", y + "-07-31",selectedblogid));
+					   //}
+					   //if(8 >= Integer.parseInt(month_start) && y>=ystint){							
+					   	aug += Integer.parseInt(post._searchRangeTotal("date",y + "-08-01", y + "-08-31",selectedblogid));
+					   //}
+					   //if(9 >= Integer.parseInt(month_start) && y>=ystint){					
+					   	sep += Integer.parseInt(post._searchRangeTotal("date",y + "-09-01", y + "-09-30",selectedblogid));
+					  // }
+					   //if(10 >= Integer.parseInt(month_start) && y>=ystint){			
+					   oct += Integer.parseInt(post._searchRangeTotal("date",y + "-10-01", y + "-10-31",selectedblogid));
+					   //}
+					   //if(11 >= Integer.parseInt(month_start) && y>=ystint){						
+					   		nov += Integer.parseInt(post._searchRangeTotal("date",y + "-11-01", y + "-11-30",selectedblogid));
+					   //}
+					   //if(12 >= Integer.parseInt(month_start) && y>=ystint){						
+					   	dec += Integer.parseInt(post._searchRangeTotal("date",y + "-12-01", y + "-12-31",selectedblogid));
+					   //}
+					   
 					   graphyears.put(y+"",totu);
 			    	   yearsarray.put(b,y);	
 			    	   b++;
@@ -282,6 +344,7 @@
 			
 			//System.out.println("grapgh yeres"+yearsarray);
 		    JSONObject authors = new JSONObject();
+		    JSONObject blgers = new JSONObject();
 		    JSONArray sentimentpost = new JSONArray();
 		    
 		    JSONArray authorcount = new JSONArray();
@@ -312,16 +375,24 @@
 					   
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
-					    sentimentpost.put(tobj.get("blogpost_id").toString());
+					    
+					    if(selectedblogid.equals(tobj.get("blogpost_id").toString())){
+					    	sentimentpost.put(tobj.get("blogpost_id").toString());
+					    }
 					   
+					    
 					    if(authors.has(auth)){
 							content = new JSONObject(authors.get(auth).toString());
 							Double inf = Double.parseDouble(content.get("influence").toString());
 							inf = inf+influence;
 							int valu = Integer.parseInt(content.get("totalpost").toString());
+							String pids = content.get("postids").toString();
+							pids = pids+","+tobj.get("blogpost_id").toString();
+							
 							content.put("blogger", auth);
 							content.put("influence", inf);
 							content.put("totalpost",valu);
+							content.put("postids", pids);
 							authors.put(auth, content);
 						} else {
 							 
@@ -335,6 +406,7 @@
 							content.put("blogger", auth);
 							content.put("influence", influence);
 							content.put("totalpost",valu);
+							content.put("postids", tobj.get("blogpost_id").toString());
 							authors.put(auth, content);
 							authorlooper.add(j,auth);
 							j++;

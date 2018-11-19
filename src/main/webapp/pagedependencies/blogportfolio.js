@@ -42,18 +42,19 @@ function loadStat(blog_id){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			console.log("The error log is "+response);
 			$("#overall-chart").html(response);
 		},
 		success: function(response)
 		{   
+			
 		
-		
+		response = response.trim();
 		var data = JSON.parse(response);
-		$("#total-influence").html(data.totalinfluence);
-		$("#total-post").html(data.totalpost);
-		$("#total-sentiment").html(data.totalsentiment);
-		$("#top-keyword").html(data.topterms);
+		$(".total-influence").html(data.totalinfluence);
+		$(".total-post").html(data.totalpost);
+		$(".total-sentiment").html(data.totalsentiment);
+		$(".top-keyword").html(data.topterm);
 		//$("#overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
