@@ -11,14 +11,13 @@ $('.blogger-select').on("change", function(){
 	var blg = blogger.split("_");
 	
 	var blog_id = blg[0];
-	var post_ids = blg[1];
 	
-	$(".active-blog").html(blg[2]);
+	$(".active-blog").html(blg[1]);
 	
 	
 	//loadInfluence(bloog,blg[1]);
 
-	loadStat(blog_id,post_ids);
+	loadStat(blog_id);
 	loadChart(blog_id);
 	loadYearlyChart(blog_id)
 	loadUrls(blog_id);
@@ -26,7 +25,7 @@ $('.blogger-select').on("change", function(){
 
 
 
-function loadStat(blog_id,post_ids){
+function loadStat(blog_id){
 	$("#total-influence").html("<img src='images/loading.gif' />");
 	$("#total-post").html("<img src='images/loading.gif' />");
 	$("#total-sentiment").html("<img src='images/loading.gif' />");
@@ -39,7 +38,6 @@ function loadStat(blog_id,post_ids){
 			blog_id:blog_id,
 			date_start:$("#date_start").val(),
 			date_end:$("#date_end").val(),
-			post_ids:post_ids,
 		},
 		error: function(response)
 		{						

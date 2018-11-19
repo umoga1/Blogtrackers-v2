@@ -238,7 +238,7 @@
 			String mostactiveblog ="";
 			
 			
-			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+			allauthors = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");
 
 			//System.out.println("Terms here:"+termss);
 			
@@ -394,7 +394,6 @@
 							content.put("totalpost",valu);
 							content.put("postids", pids);
 							authors.put(auth, content);
-							blgers.put(tobj.get("blogpost_id").toString(),pids);
 						} else {
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
@@ -409,7 +408,6 @@
 							content.put("totalpost",valu);
 							content.put("postids", tobj.get("blogpost_id").toString());
 							authors.put(auth, content);
-							blgers.put(tobj.get("blogpost_id").toString(),tobj.get("blogpost_id").toString());
 							authorlooper.add(j,auth);
 							j++;
 						}
@@ -813,12 +811,11 @@
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
 							int size = Integer.parseInt(resu.get("postingfreq").toString());
-							
-							String postids = blgers.get(resu.get("postingfreq").toString()).toString();
+							String blogname = resu.get("blog").toString();
 							if (size > 0 && p < 15) {
 								p++;
 							%>
-								<option value="<%=resu.get("blogsite_id").toString()%>_<%=postids%>"><%=resu.get("blog")%></option>
+								<option value="<%=resu.get("blogsite_id").toString()%>_<%=blogname%>"><%=resu.get("blog")%></option>
     			 <%}}}%>
 </select>
 </h6>
