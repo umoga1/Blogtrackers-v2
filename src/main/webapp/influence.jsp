@@ -709,11 +709,11 @@ if(authorcount.length()>0){
 							<div>
 								<p class="text-primary mt10">
 									<b class="text-primary">Individual</b> Influence Score of
-									Bloggers of Past <select
+									Bloggers <!-- of  Past <select
 										class="text-primary filtersort sortbytimerange"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
-										<option value="year">Year</option></select>
+										<option value="year">Year</option></select> -->
 								</p>
 							</div>
 							<div id="chart-container">
