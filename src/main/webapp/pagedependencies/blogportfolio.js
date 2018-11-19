@@ -1,7 +1,7 @@
 // delete all blog from tracker action
 
 
-$('.blogger-select').on("change", function(){
+$('#blogger-changed').on("change", function(){
 
 
 	var date_start = $("#date_start").val();
