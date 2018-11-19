@@ -807,6 +807,8 @@
 <!-- <small class="text-primary"></small><br/> -->
 <h6 class="mt5">
 <select id="blogger-changed">
+
+
 <% if (bloggers.length() > 0) {
 						int p = 0;
 						for (int y = 0; y < bloggers.length(); y++) {
