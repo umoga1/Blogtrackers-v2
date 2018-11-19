@@ -263,7 +263,7 @@
 				
 				
 				String tm = bj.get("term").toString();
-				String blogpostid = bj.get("blogpost_id").toString();
+				String blogpostid = bj.get("blogpostid").toString();
 				
 				if(freq>highestfrequency){
 					highestfrequency = freq;
