@@ -578,7 +578,22 @@ else
 				console.log(response);
 				if(response.indexOf("success")>-1){
 					toastr.success('Tracker successfully created!','Success');
-					location.href=app_url+"blogbrowser.jsp";
+					$('.trackcreationsection2').addClass("hidden");
+					$('.trackcreationsection1').removeClass('hidden');
+					$('.trackerlist').html("");
+					$.ajax({
+					url:app_url+"subpages/gettrackerlistaftertrackercreation.jsp",
+					method:"GET",
+					error:function(response)
+					{
+					console.log(response);	
+					},
+					success: function(response)
+					{
+					console.log(response);	
+					}
+					});
+					//location.href=app_url+"blogbrowser.jsp";
 				}else{
 					toastr.error(response,'Error');
 				}
@@ -631,7 +646,7 @@ function updateTracker(element,type){
 	     });
 	   	 
 	  
-	   	id = $(element).attr('id');	   		 
+	   		id = $(element).attr('id');	   		 
 		    $.ajax({
 				url: app_url+'tracker',
 				method: 'POST',
