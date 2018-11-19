@@ -837,9 +837,7 @@
 				</div>
 				</div>
 			</div>
-		</div>
-
-		<div class="row mb50 d-flex align-items-stretch">
+			<div class="row mb50 d-flex align-items-stretch">
 			<div class="col-md-12 mt20 ">
 				<div class="card card-style mt20">
 					<div class="card-body p10 pt20 pb5">
@@ -907,6 +905,9 @@
 			</div>
 
 		</div>
+		</div>
+
+		
 
 
 
