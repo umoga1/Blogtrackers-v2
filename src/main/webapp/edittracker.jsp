@@ -366,7 +366,7 @@ if(f.exists() && !f.isDirectory()) {
 		<thead>
 		<tr>
 		<th class="text-primary">Blog Name</th>
-		<th class="text-primary text-center">No of Post</th>
+		<th class="text-primary text-center">No of Posts</th>
 		<th class="text-primary text-center">Last Crawl</th>
 		<th></th>
 		</tr>
