@@ -1411,7 +1411,7 @@ $(function () {
  $(function () {
 
      // Initialize chart
-     lineBasic('#d3-line-basic', 200);
+     lineBasic('#d3-line-basic', 300);
 
      // Chart setup
      function lineBasic(element, height) {

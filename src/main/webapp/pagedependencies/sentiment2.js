@@ -1,11 +1,11 @@
-
+var color = "#0080CC";
 $('.blogpost_link').on("click", function(){
 
 	var post_id = $(this).attr("id");
 	$('.blogpost_link').removeClass("activeselectedblog");
 	$(this).addClass("activeselectedblog");
-	var color = "#0080CC";
 	//alert(post_id);
+	var color = "#0080CC";
 	loadChart(post_id,color);
 
 });
