@@ -577,20 +577,22 @@ else
 			{   
 				console.log(response);
 				if(response.indexOf("success")>-1){
-					toastr.success('Tracker successfully created!','Success');
+					toastr.success('Tracker successfully created and Updated!','Success');
 					$('.trackcreationsection2').addClass("hidden");
 					$('.trackcreationsection1').removeClass('hidden');
-					$('.trackerlist').html("");
+					$('.trackinitiated, .modalbackdrop').hide();
+					console.log(app_url)
 					$.ajax({
-					url:app_url+"subpages/gettrackerlistaftertrackercreation.jsp",
-					method:"GET",
+					url:app_url+"subpages/gettrackerlist.jsp",
+					method:"POST",
 					error:function(response)
 					{
 					console.log(response);	
 					},
 					success: function(response)
 					{
-					console.log(response);	
+						console.log(response);		
+					$('.trackerlist').html(response);
 					}
 					});
 					//location.href=app_url+"blogbrowser.jsp";
@@ -668,10 +670,10 @@ function updateTracker(element,type){
 						//location.href=app_url+"blogbrowser.jsp";
 					}else{
 						if(type=="update"){
-							Cookies.set('selectedblogs', "", {path : '/'});
+							Cookies.clear('selectedblogs', "", {path : '/'});
 							toastr.error('Blog already exist in tracker','Error');
 						}else{
-							//toastr.error('Blog already exist in tracker','Error');
+							toastr.error('Blog already exist in tracker','Error');
 						}
 					}
 				}

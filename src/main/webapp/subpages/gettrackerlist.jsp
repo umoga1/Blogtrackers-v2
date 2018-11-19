@@ -12,6 +12,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+
+Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+
 ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";
 String username ="";
@@ -61,6 +64,7 @@ if(userpic.indexOf("http")>-1){
 	
 
 }catch(Exception e){}
+}
 
  %>
  <%
@@ -71,3 +75,6 @@ for(int i=0; i< mytrackers.size(); i++){
 %>
 <button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text" id="<%=resut.get(0).toString()%>"><%=resut.get(2).toString()%> <i class="fas fa-check float-right hidden checktracker"></i></button>
 <% }} %>
+
+<script src="pagedependencies/blogbrowser3.js">
+</script>
