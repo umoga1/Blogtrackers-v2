@@ -1318,7 +1318,8 @@ $(document).ready(function() {
     $('#DataTables_Table_1_wrapper').DataTable( {
         "scrollY": 430,
         "scrollX": true,
-         "pagingType": "simple"
+         "pagingType": "simple",
+        	 "bLengthChange": false
       /*    ,
          dom: 'Bfrtip',
          "columnDefs": [
@@ -1339,7 +1340,8 @@ $(document).ready(function() {
     $('#DataTables_Table_0_wrapper').DataTable( {
         "scrollY": 430,
         "scrollX": true,
-         "pagingType": "simple"
+         "pagingType": "simple",
+        	 "bLengthChange": false
     /*      ,
          dom: 'Bfrtip',
 

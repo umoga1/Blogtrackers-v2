@@ -234,6 +234,8 @@ if(f.exists() && !f.isDirectory()) {
 								
 								String dt = "";
 								String dtmodified = "";
+								String datemodified = "";
+								String createddate = "";
 								
 								String dtt =resut.get(3).toString();
 								String dtt2 = "";//(null==resut.get(4))?resut.get(4).toString():"";
@@ -266,15 +268,23 @@ if(f.exists() && !f.isDirectory()) {
 										}
 									}
 								}
+								
+								/* LocalDate datee2 = LocalDate.parse(dtmodified);*/
+								LocalDate datee3 = LocalDate.parse(dt);
+								DateTimeFormatter dtff = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+								createddate = dtff.format(datee3);
+							   /* datemodified = dtff.format(datee2); */
+							   System.out.println(dtmodified);
 			%>
 	<div class="row m50 mt40">
 	<div class="col-md-9">
 	<h1 class="text-primary edittrackertitle mb0" style=""><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
-	<p><button class="btn metadata text-primary mt10">Created  :  <%=dt%></button> 
+	<p><button class="btn metadata text-primary mt10">Created  :  <%=createddate%></button> 
 	<% if(!dtmodified.toString().equalsIgnoreCase("")) { %>
 	<button class="btn metadata text-primary mt10">Modified :  <%=dtmodified %></button> 
 	<% } %>
-	<button class="btn metadata text-primary mt10">Crawled :  22-07-2018 . 05:30pm</button></p>
+	<!-- <button class="btn metadata text-primary mt10">Crawled :  22-07-2018 . 05:30pm</button> -->
+	</p>
 	</div>
 	<div class="col-md-3 text-right pt10">
 	<a
