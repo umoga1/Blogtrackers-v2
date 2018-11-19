@@ -60,7 +60,7 @@
 
 <script src="https://apis.google.com/js/platform.js"></script>
 
-<script type="text/javascript" src="js/login_validation.js?v=97"></script>
+<script type="text/javascript" src="js/login_validation.js?v=907"></script>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 
