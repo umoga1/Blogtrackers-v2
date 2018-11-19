@@ -1550,7 +1550,7 @@
                       .on("mouseover",tip.show)
                       .on("mouseout",tip.hide)
                       .on("click",function(d){
-                    	  console.log(d.date);
+                    	  //console.log(d.date);
                     	  var d1 = 	  d.date + "-01-01";
                    	      var d2 = 	  d.date + "-12-31";
           				
@@ -2429,7 +2429,7 @@
            // // -------------------------
            //
            // // Horizontal range
-           x.rangeRoundBands([0, width],.72,.5);
+           x.rangeRoundBands([0, width]);
            //
            // // Horizontal axis
            svg.selectAll('.d3-axis-horizontal').call(xAxis);
