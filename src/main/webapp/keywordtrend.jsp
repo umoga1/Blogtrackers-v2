@@ -267,7 +267,7 @@
 				
 				if(freq>highestfrequency){
 					highestfrequency = freq;
-					mostactiveterm = tm;
+					//mostactiveterm = tm;
 				}
 				
 				String postc = "0";
@@ -312,6 +312,7 @@
 				if(p==0){
 					allposts =  term._searchByRange("date",dt,dte, tm,"term","10");
 					toplocation = location;
+					mostactiveterm = tm;
 					//postm   = post._searchByTitleAndBodyTotal(tm,"date",dt,dte);
 				}
 				JSONObject cont = new JSONObject();
@@ -829,7 +830,7 @@
 										</div>
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 600px; overflow-y: scroll;">
-											body.replaceAll(mostactiveterm,"<span style='background:red;color:#fff'>"+mostactiveterm+"</span>")
+											<%=body.replaceAll(mostactiveterm,"<span style='background:red;color:#fff'>"+mostactiveterm+"</span>")%>
 										</div>                      
                      		<% } %>
 
