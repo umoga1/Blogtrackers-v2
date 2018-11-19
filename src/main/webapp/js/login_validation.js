@@ -121,6 +121,8 @@ $(function() {
 						$("#loggin").html(btntext);
 					}else if(login_status == "success"){
 						toastr.success('Login successfull!','Success');
+						// set a cookie for logged in user
+						Cookies.set('loggedinstatus', true , {path : '/'});
 						window.location.href = baseurl+"index.jsp";
 					}else if(login_status == "confirmed"){
 						window.location.href = baseurl+"index.jsp";

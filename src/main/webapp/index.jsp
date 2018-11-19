@@ -84,6 +84,7 @@ try{
   <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
+
 </head>
 <body style="background-color:none;">
 <noscript>
@@ -501,9 +502,9 @@ Design is not just what it looks like and feels like. Design is how it works.
 <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
 </script>
-<script src="assets/js/generic.js">
-
-</script>
+<script src="js/jscookie.js"></script>
+<%@include file="templates/checkloginstatus.jsp" %>
+<script src="assets/js/generic.js"></script>
 <script src="assets/js/smoothscroll.js">
 
 </script>
