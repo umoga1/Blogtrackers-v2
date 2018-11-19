@@ -267,7 +267,7 @@
 				
 				if(freq>highestfrequency){
 					highestfrequency = freq;
-					mostactiveterm = tm;
+					//mostactiveterm = tm;
 				}
 				
 				String postc = "0";
@@ -312,6 +312,7 @@
 				if(p==0){
 					allposts =  term._searchByRange("date",dt,dte, tm,"term","10");
 					toplocation = location;
+					mostactiveterm = tm;
 					//postm   = post._searchByTitleAndBodyTotal(tm,"date",dt,dte);
 				}
 				JSONObject cont = new JSONObject();
@@ -662,7 +663,7 @@
 						<div style="min-height: 250px;">
 							<div>
 								<p class="text-primary mt10 float-left">
-									Keyword Trend <!--   of Past <select
+									Keyword Trend <!--of Past <select
 										class="text-primary filtersort sortbytimerange"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
@@ -811,9 +812,11 @@
 					<%
                                 if(firstpost.length()>0){	
 									JSONObject tobj = firstpost;
+									String title = tobj.get("title").toString();
+									String body = tobj.get("post").toString();
 									
 									%>                                    
-                                    <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
+                                    <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,"<span style='background:red;color:#fff'>"+mostactiveterm+"</span>")%></h5>
 										<div class="text-center mb20 mt20">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
@@ -827,7 +830,7 @@
 										</div>
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 600px; overflow-y: scroll;">
-											<%=tobj.get("post")%>
+											<%=body.replaceAll(mostactiveterm,"<span style='background:red;color:#fff'>"+mostactiveterm+"</span>")%>
 										</div>                      
                      		<% } %>
 
@@ -1248,10 +1251,10 @@
   	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
   		  		String yearr=yearsarray.get(q).toString(); 
   		  		if(specific_auth.has(yearr)){ %>
-  		  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr)%>},
+  		  			{"date":"<%=yearr%>","close":"<%=specific_auth.get(yearr)%>"},
   			<%
   		  		}else{ %>
-  		  			{"date":"<%=yearr%>","close":0},
+  		  			{"date":"<%=yearr%>","close":0,
   	   		<% } %>
   		<%  
   	  		}%>]<% if(p<termscount.length()-1){%>,<%}%>
