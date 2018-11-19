@@ -263,7 +263,7 @@
 				
 				
 				String tm = bj.get("term").toString();
-				String blogpostid = bj.get("blogpost_id").toString();
+				String blogpostid = bj.get("blogpostid").toString();
 				
 				if(freq>highestfrequency){
 					highestfrequency = freq;
@@ -277,10 +277,6 @@
 				String leadingblogger="";
 				String location="";
 				
-				if(p==allterms.size()-1){
-					allposts =  term._searchByRange("date",dt,dte, tm,"term","10");
-					//postm   = post._searchByTitleAndBodyTotal(tm,"date",dt,dte);
-				}
 				
 				postc = post._searchTotalByTitleAndBody(tm,"date", dt,dte);
 				blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
@@ -311,6 +307,13 @@
 					}
 				}
 				
+				
+
+				if(p==0){
+					allposts =  term._searchByRange("date",dt,dte, tm,"term","10");
+					toplocation = location;
+					//postm   = post._searchByTitleAndBodyTotal(tm,"date",dt,dte);
+				}
 				JSONObject cont = new JSONObject();
 				cont.put("key", tm);
 				cont.put("frequency", frequency);
@@ -659,11 +662,11 @@
 						<div style="min-height: 250px;">
 							<div>
 								<p class="text-primary mt10 float-left">
-									Keyword Trend of Past <select
+									Keyword Trend <!--   of Past <select
 										class="text-primary filtersort sortbytimerange"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
-										<option value="year">Year</option></select>
+										<option value="year">Year</option></select> -->
 								</p>
 							</div>
 							<div class="chart-container">
@@ -695,7 +698,7 @@
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Top Posting Location</h6>
-								<h3 class="mb0 bold-text">Nigeria</h3>
+								<h3 class="mb0 bold-text"><%=toplocation%></h3>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
@@ -822,24 +825,18 @@
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
 										</div>
-										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
-											style="height: 550px; overflow-y: scroll;">
+											style="height: 600px; overflow-y: scroll;">
 											<%=tobj.get("post")%>
-<<<<<<< HEAD
-										</div>                  
-										</div>    
-                     		<% }} %>
-=======
 										</div>                      
                      		<% } %>
->>>>>>> bc5576d9808e78c3b5ccdd0811c6cb52b5d7bcc2
 
 				</div>
 				</div>
 			</div>
-			
-				<div class="row mb50 d-flex align-items-stretch">
+		</div>
+
+		<div class="row mb50 d-flex align-items-stretch">
 			<div class="col-md-12 mt20 ">
 				<div class="card card-style mt20">
 					<div class="card-body p10 pt20 pb5">
@@ -907,10 +904,6 @@
 			</div>
 
 		</div>
-		
-		</div>
-
-	
 
 
 
