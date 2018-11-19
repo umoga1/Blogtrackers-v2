@@ -849,7 +849,7 @@
 
 												String auth = tobj.get("blogger").toString();
 												String color = "";
-												if (i % 2 == 0) {
+												/* if (i % 2 == 0) {
 													color = "#CC3300";
 												} else if (i % 3 == 0) {
 													color = "#EE33FF";
@@ -861,6 +861,10 @@
 													color = "#17a2b8";
 												} else {
 													color = "#000000";
+												} */
+												if(i <= 0)
+												{
+												color = "#0080CC";	
 												}
 
 												y++;
@@ -868,8 +872,7 @@
 							<tr>
 								<td align="center"><%=(y)%></td>
 								<td><a class="blogpost_link cursor-pointer"
-									id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>"
-									style="color:<%=color%>"><%=tobj.get("title").toString()%></a></td>
+									id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" <%-- style="color:<%=color%>" --%>  ><%=tobj.get("title").toString()%></a></td>
 								<td align="center"><%=tobj.get("blogger").toString()%></td>
 							</tr>
 							<%
@@ -1337,7 +1340,7 @@ $(function () {
     //////////////////////////////////////////////////////////////
 
     var color = d3.scale.ordinal()
-      .range(["#EDC951","#CC333F","#00A0B0"]);
+      .range(["#0080CC","#CC333F","#00A0B0"]);
 
     var radarChartOptions1 = {
       w: width,
@@ -1786,6 +1789,7 @@ $(function () {
                                        .attr("r",3.4)
                                        .style("stroke", "#4CAF50")
                                        .style("fill","#4CAF50")
+                                      // .style("fill",function(d,i){ return color(i);})
                                        .attr("cx",function(d) { return x(d.date)})
                                        .attr("cy", function(d){return y(d.close)})
 
@@ -1898,7 +1902,7 @@ $(function () {
            // // -------------------------
            //
            // // Horizontal range
-           x.rangeRoundBands([0, width],.72,.5);
+           x.rangeRoundBands([0, width]);
            //
            // // Horizontal axis
            svg.selectAll('.d3-axis-horizontal').call(xAxis);
@@ -1923,6 +1927,15 @@ $(function () {
              .attr("cx",function(d) { return x(d.date);})
              .attr("cy", function(d){return y(d.close)});
            }
+           if(data.length > 1 )
+      	 {
+      	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+          transformfirsttick =  tick[0][0].attributes[1].value;
+          //transformfirsttick = "translate(31.5,0)"
+          //console.log(transformfirsttick);
+          svg.selectAll(".circlecontainer").attr("transform", transformfirsttick);
+          svg.selectAll(".linecontainer").attr("transform", transformfirsttick);
+      	 }
          }
      }
  });

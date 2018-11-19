@@ -1,5 +1,7 @@
+<% Object emailcheck = (null == session.getAttribute("email")) ? "" : session.getAttribute("email"); %> 
+
 <script>
-<% if(email.toString().equalsIgnoreCase(null) || email.toString().equalsIgnoreCase(""))
+<% if(emailcheck.toString().equalsIgnoreCase(null) || emailcheck.toString().equalsIgnoreCase(""))
 	{ %>
 	Cookies.set('loggedinstatus', false , {path : '/'});
 	<%} else {%>
