@@ -277,10 +277,6 @@
 				String leadingblogger="";
 				String location="";
 				
-				if(p==allterms.size()-1){
-					allposts =  term._searchByRange("date",dt,dte, tm,"term","10");
-					//postm   = post._searchByTitleAndBodyTotal(tm,"date",dt,dte);
-				}
 				
 				postc = post._searchTotalByTitleAndBody(tm,"date", dt,dte);
 				blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
@@ -311,6 +307,13 @@
 					}
 				}
 				
+				
+
+				if(p==0){
+					allposts =  term._searchByRange("date",dt,dte, tm,"term","10");
+					toplocation = location;
+					//postm   = post._searchByTitleAndBodyTotal(tm,"date",dt,dte);
+				}
 				JSONObject cont = new JSONObject();
 				cont.put("key", tm);
 				cont.put("frequency", frequency);
@@ -695,7 +698,7 @@
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Top Posting Location</h6>
-								<h3 class="mb0 bold-text">Nigeria</h3>
+								<h3 class="mb0 bold-text"><%=toplocation%></h3>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
