@@ -259,6 +259,53 @@ public class Blogposts {
 	}
 	
 	
+	public String _searchRangeAggregate(String field,String greater, String less, String blog_ids, String filter) throws Exception {
+		String[] args = blog_ids.split(","); 
+		JSONArray pars = new JSONArray(); 
+		ArrayList<String> ar = new ArrayList<String>();	
+		for(int i=0; i<args.length; i++){
+			pars.put(args[i].replaceAll(" ", ""));
+		}
+
+		String arg2 = pars.toString();
+		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
+
+		
+		String que="{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"bool\": {\r\n" + 
+				"      \"must\": [\r\n" + 
+				"        {\r\n" + 
+				"		  \"constant_score\":{\r\n" + 
+				"					\"filter\":{\r\n" + 
+				"							\"terms\":{\r\n" + 
+				"							\"blogsite_id\":"+arg2+"\r\n" + 
+				"									}\r\n" + 
+				"							}\r\n" + 
+				"						}\r\n" + 
+				"		},\r\n" + 
+				"        {\r\n" + 
+				"		  \"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"      ]\r\n" + 
+				"    }\r\n" + 
+				"  },\r\n" + 
+				"    \"aggs\" : {\r\n" + 
+				"        \"total\" : { \"sum\" : { \"field\" : \""+filter+"\" } }\r\n" + 
+				"    }\r\n" + 
+				"}";
+				
+		JSONObject jsonObj = new JSONObject(que);
+
+		String url = base_url+"_search?size=1";
+		return this._getAggregate(url,jsonObj);
+	}
+	
 	public String _searchRangeAggregateByBloggers(String field,String greater, String less, String bloggers) throws Exception {
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 

@@ -232,7 +232,12 @@
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+<<<<<<< HEAD
 			
+=======
+
+			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
+>>>>>>> 97716eb622af536dcb0f6025bb6d0d51c41b17ea
 			//System.out.println("Terms here:"+termss);
 			
 			ArrayList blogs = blog._fetch(ids);
@@ -766,7 +771,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-comment icondash"></i>Comments
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label">3</h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=totalcomment%></h3>
 					</div>
 				</div>
 			</div>
