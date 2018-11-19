@@ -66,11 +66,7 @@ public class AddTracker extends HttpServlet {
 		    }
 		    data = builder.toString();
 		    JSONObject object = new JSONObject(data);
-		    
-		   // System.out.println("The id is " + object.get("id"));
-		    //System.out.println("The site is " + object.get("site"));
-		    
-		    
+		 
 		if(usession.equals(key) && !key.equals("")){ //check if supplied session key is valid
 		
 			try {
@@ -81,8 +77,9 @@ public class AddTracker extends HttpServlet {
 				
 				
 				DbConnection db = new DbConnection();
-					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+object.get("id")+"' ");
-					
+					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+object.getJSONArray("id")+"' ");
+					 System.out.println(tracker);
+					 
 					 if(tracker.size()>0){
 						 	
 						 	 ArrayList hd = (ArrayList)tracker.get(0);
