@@ -1,7 +1,7 @@
 // delete all blog from tracker action
 
 
-$('.blogger-select').on("change", function(){
+$('#blogger-changed').on("change", function(){
 
 
 	var date_start = $("#date_start").val();
@@ -11,22 +11,22 @@ $('.blogger-select').on("change", function(){
 	var blg = blogger.split("_");
 	
 	var blog_id = blg[0];
-	var post_ids = blg[1];
 	
-	$(".active-blog").html(blg[2]);
+	$(".active-blog").html(blg[1]);
+	$("#blogid").val(blog_id);
 	
 	
 	//loadInfluence(bloog,blg[1]);
 
-	loadStat(blog_id,post_ids);
+	loadStat(blog_id);
 	loadChart(blog_id);
 	loadYearlyChart(blog_id)
-	loadUrls(blog_id);
+	loadUrls(date_start,date_end);
 });
 
 
 
-function loadStat(blog_id,post_ids){
+function loadStat(blog_id){
 	$("#total-influence").html("<img src='images/loading.gif' />");
 	$("#total-post").html("<img src='images/loading.gif' />");
 	$("#total-sentiment").html("<img src='images/loading.gif' />");
@@ -39,7 +39,6 @@ function loadStat(blog_id,post_ids){
 			blog_id:blog_id,
 			date_start:$("#date_start").val(),
 			date_end:$("#date_end").val(),
-			post_ids:post_ids,
 		},
 		error: function(response)
 		{						
@@ -70,8 +69,8 @@ function loadChart(blog_id){
 		data: {
 			action:"getchart",
 			blog_id:blog_id,
-			date_start:$("#date_start").val(),
-			date_end:$("#date_end").val(),
+			date_start:date_start,
+			date_end:date_end,
 		},
 		error: function(response)
 		{						
@@ -116,16 +115,16 @@ function loadYearlyChart(blog_id){
 
 
 
-function loadUrls(blogid){
+function loadUrls(date_start,date_end){
 	$("#url-table").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 		
 		$.ajax({
 			url: app_url+'subpages/blogportfoliodomain.jsp',
 			method: 'POST',
 			data: {
-				blog_id:$("#alltid").val(),
-				date_start:$("#date_start").val(),
-				date_end:$("#date_end").val(),
+				blog_id:$("#blogid").val(),
+				date_start:date_start,
+				date_end:date_end,
 			},
 			error: function(response)
 			{						

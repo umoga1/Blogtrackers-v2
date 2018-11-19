@@ -38,7 +38,7 @@ Terms term  = new Terms();
 		JSONObject graphyears = new JSONObject();
 	    JSONArray yearsarray = new JSONArray();
 	    
-	    if(!action.toString().equals("getstat")){
+	   
 	    
 		String[] yst = dt.split("-");
 		String[] yend = dte.split("-");
@@ -65,6 +65,7 @@ Terms term  = new Terms();
 		int nov=0;
 		int dec=0;
 		
+	if(!action.toString().equals("getstat")){
 		for(int y=ystint; y<=yendint; y++){
 				   String dtu = y + "-01-01";
 
@@ -127,17 +128,34 @@ Terms term  = new Terms();
 		    	   b++;
 		}
 		
-		JSONArray sortedyearsarray = yearsarray;
 	    }
+
+	JSONArray sortedyearsarray = yearsarray;
 %>
 
 <%  
-if(action.toString().equals("getstat")){
-	String [] selids = post_ids.toString().split(",");
+if(action.toString().equals("getstat")){	
 	JSONArray sentimentpost = new JSONArray();
-	for(int p=0;p<selids.length; p++){
-		sentimentpost.put(selids[p]);
-	}
+	ArrayList allauthors = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");
+
+	if(allauthors.size()>0){
+		String tres = null;
+		JSONObject tresp = null;
+		String tresu = null;
+		JSONObject tobj = null;
+		int j=0;
+		int k=0;
+		int n = 0;
+		for(int i=0; i< allauthors.size(); i++){
+					tres = allauthors.get(i).toString();			
+					tresp = new JSONObject(tres);
+				    tresu = tresp.get("_source").toString();
+				    tobj = new JSONObject(tresu);
+				    
+				    sentimentpost.put(tobj.get("blogpost_id").toString());
+			}
+	} 
+	
 	String totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), selectedblogid);
 	String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
 	

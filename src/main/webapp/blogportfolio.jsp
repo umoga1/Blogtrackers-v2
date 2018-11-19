@@ -238,7 +238,7 @@
 			String mostactiveblog ="";
 			
 			
-			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+			allauthors = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");
 
 			//System.out.println("Terms here:"+termss);
 			
@@ -394,7 +394,6 @@
 							content.put("totalpost",valu);
 							content.put("postids", pids);
 							authors.put(auth, content);
-							blgers.put(tobj.get("blogpost_id").toString(),pids);
 						} else {
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
@@ -409,7 +408,6 @@
 							content.put("totalpost",valu);
 							content.put("postids", tobj.get("blogpost_id").toString());
 							authors.put(auth, content);
-							blgers.put(tobj.get("blogpost_id").toString(),tobj.get("blogpost_id").toString());
 							authorlooper.add(j,auth);
 							j++;
 						}
@@ -815,12 +813,11 @@
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
 							int size = Integer.parseInt(resu.get("postingfreq").toString());
-							
-							String postids = blgers.get(resu.get("postingfreq").toString()).toString();
+							String blogname = resu.get("blog").toString();
 							if (size > 0 && p < 15) {
 								p++;
 							%>
-								<option value="<%=resu.get("blogsite_id").toString()%>_<%=postids%>"><%=resu.get("blog")%></option>
+								<option value="<%=resu.get("blogsite_id").toString()%>_<%=blogname%>"><%=resu.get("blog")%></option>
     			 <%}}}%>
 </select>
 </h6>
@@ -1041,6 +1038,8 @@
 <form name="">
 <input type="hidden" id="date_start" value="<%=dt%>" />
 <input type="hidden" id="date_end" value="<%=dte%>" />
+
+<input type="hidden" id="blogid" value="<%=selectedblogid%>" />
 </form>>
 
   <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
@@ -1550,7 +1549,14 @@
                       svg.selectAll(".circle-point").data(data[0])
                       .on("mouseover",tip.show)
                       .on("mouseout",tip.hide)
-                      .on("click",function(d){console.log(d.date)});
+                      .on("click",function(d){
+                    	  console.log(d.date);
+                    	  var d1 = 	  d.date + "-01-01";
+                   	      var d2 = 	  d.date + "-12-31";
+          				
+                   	      loadUrls(d1,d2);
+                    	  
+                      });
                                          svg.call(tip)
               }
               // handles multiple json parameter
@@ -2468,7 +2474,7 @@
  </script>
 
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/blogportfolio.js?v=88909"></script>
+<script src="pagedependencies/blogportfolio.js?v=788909"></script>
 
 </body>
 </html>
