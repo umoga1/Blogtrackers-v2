@@ -69,8 +69,8 @@ function loadChart(blog_id){
 		data: {
 			action:"getchart",
 			blog_id:blog_id,
-			date_start:date_start,
-			date_end:date_end,
+			date_start:$("#date_start").val(),
+			date_end:$("#date_end").val(),
 		},
 		error: function(response)
 		{						
