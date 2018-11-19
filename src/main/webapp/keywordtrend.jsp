@@ -814,7 +814,7 @@
 									JSONObject tobj = firstpost;
 									String title = tobj.get("title").toString();
 									String body = tobj.get("post").toString();
-									
+									String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,"<span style='background:red;color:#fff'>"+mostactiveterm+"</span>")%></h5>
 										<div class="text-center mb20 mt20">
@@ -830,7 +830,7 @@
 										</div>
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 600px; overflow-y: scroll;">
-											<%=body.replaceAll(mostactiveterm,"<span style='background:red;color:#fff'>"+mostactiveterm+"</span>")%>
+											<%=body.replaceAll(mostactiveterm,replace)%>
 										</div>                      
                      		<% } %>
 
