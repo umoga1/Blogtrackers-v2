@@ -817,7 +817,7 @@
 							if (size > 0 && p < 15) {
 								p++;
 							%>
-								<option value="<%=resu.get("blogsite_id").toString()%>_<%=blogname%>"><%=resu.get("blog")%></option>
+								<option value="<%=resu.get("id").toString()%>_<%=blogname%>"><%=resu.get("blog")%></option>
     			 <%}}}%>
 </select>
 </h6>
@@ -2474,7 +2474,7 @@
  </script>
 
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/blogportfolio.js?v=788909"></script>
+<script src="pagedependencies/blogportfolio.js?v=7988909"></script>
 
 </body>
 </html>
