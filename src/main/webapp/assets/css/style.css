@@ -9,6 +9,17 @@ body{
 {
 color:#1F90D0 !important;	
 }
+
+.custom-select {
+  font-size: inherit;
+  width:180px;
+}
+
+.custom-select option
+{
+width:180px;	
+}
+
 .nobg
 {
 background-color:none;	
@@ -3223,6 +3234,11 @@ font-weight:normal;
 .text-statistics
 {
 font-size: 1.73rem;
+}
+.styleactiveblog
+{
+font-size:13px;
+text-transform:capitalize;	
 }
 /* .statcontainer:after {
     content: ""; /* This is necessary for the pseudo element to work. */

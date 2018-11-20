@@ -803,8 +803,8 @@
 <div class="card-body p0 pt5 pb5">
 <h5 class="text-primary mb0">Select Blog</h5>
 <!-- <small class="text-primary"></small><br/> -->
-<h6 class="mt5">
-<select id="blogger-changed">
+<div class="mt5 " >
+<select id="blogger-changed" class="custom-select">
 
 
 <% if (bloggers.length() > 0) {
@@ -817,10 +817,10 @@
 							if (size > 0 && p < 15) {
 								p++;
 							%>
-								<option value="<%=resu.get("id").toString()%>_<%=blogname%>"><%=resu.get("blog")%></option>
+								<option value="<%=resu.get("id").toString()%>_<%=blogname%>"><%=resu.get("blog").toString().toLowerCase()%></option>
     			 <%}}}%>
 </select>
-</h6>
+</div>
 </div>
 </div>
 </div>
@@ -871,7 +871,7 @@
 
 <div class="col-md-2 text-right">
 <!-- <small class="text-primary cursor-pointer"><a href="">Visit Blog</a></small> --><br/>
-<button class="btn buttonportfolio"><b class="float-left active-blog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
+<button class="btn buttonportfolio"><b class="float-left active-blog styleactiveblog"><%=mostactiveblog.toLowerCase() %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
 </div>
  <!--  <div class="col-md-3">
   <small class="text-primary">Find Blog</small>
