@@ -44,7 +44,7 @@
 		Outlinks outl = new Outlinks();
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
-			System.out.println(detail);
+			//System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
 			//System.out.println("List:"+detail);
@@ -67,6 +67,7 @@
 				query = query.replaceAll("\\(", "");
 				query = query.replaceAll("\\)", "");
 				ids = query;
+				//ids contains the blogsite ids from the query column in tracker table
 			//}
 		}
 		
@@ -226,11 +227,15 @@
 				dte = dend;
 				
 			}
+			System.out.println(dt+dte);
 			
 			String[] idss = ids.split(",");
+		
 			String selectedblogid = idss[0];
 			totalpost = post._searchRangeTotal("date", dt, dte, selectedblogid);
-			termss = term._searchByRange("date", dt, dte, selectedblogid,"blogsiteid","50");
+			termss = term._searchByRange("date", dt, dte, selectedblogid,"blogsite_id","100");
+			System.out.println(termss);
+		
 			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
 			
 			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
@@ -354,6 +359,7 @@
 		    
 			ArrayList authorlooper = new ArrayList();
 			if(allauthors.size()>0){
+				
 				String tres = null;
 				JSONObject tresp = null;
 				String tresu = null;
@@ -365,6 +371,7 @@
 						tres = allauthors.get(i).toString();			
 						tresp = new JSONObject(tres);
 					    tresu = tresp.get("_source").toString();
+					    
 					    tobj = new JSONObject(tresu);
 					    
 					    String auth = tobj.get("blogger").toString();
