@@ -233,7 +233,7 @@
 		
 			String selectedblogid = idss[0];
 			totalpost = post._searchRangeTotal("date", dt, dte, selectedblogid);
-			termss = term._searchByRange("date", dt, dte, selectedblogid,"blogsite_id","100");
+			termss = term._searchByRange("date", dt, dte, selectedblogid,"blogsiteid","100");
 			System.out.println(termss);
 		
 			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);

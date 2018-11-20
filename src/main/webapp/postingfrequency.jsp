@@ -676,7 +676,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
   <div class="card card-style mt20">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 250px;">
-<div><p class="text-primary mt10"> <b>Individual</b> Number of Blog Post <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+<div><p class="text-primary mt10"> Posting Trend of selected Blogger <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
 		<div id="chart-container">
 		<div class="chart-container">
 		  <div class="chart" id="d3-line-basic"></div>
