@@ -878,7 +878,7 @@
 
 <div class="col-md-2 text-right">
 <!-- <small class="text-primary cursor-pointer"><a href="">Visit Blog</a></small> --><br/>
-<button class="btn buttonportfolio"><b class="float-left active-blog styleactiveblog"><%=mostactiveblog.toLowerCase() %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
+<button class="btn buttonportfolio"><b class="float-left active-blog styleactiveblog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
 </div>
  <!--  <div class="col-md-3">
   <small class="text-primary">Find Blog</small>

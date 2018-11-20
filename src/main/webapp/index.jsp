@@ -395,39 +395,130 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
 <div class="bggrey">
 <div class="container pb80 pt80" id="sponsors">
 <div class="row">
+
+
 <div class="col-md-12" align="center">
-<div class="eachlogo text-center">
-<img class="mb10" src="images/sponsors/nationalsciencefoundation.png" />
+<div class="row sponsor-region">
+            <div class="col-md-2">
+              <div class="card mb-4 box-shadow">
+              <div class="logocontainer">
+                <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/nationalsciencefoundation.png" data-holder-rendered="true">
+                </div>
+                <div class="card-body">
+         <p class="logo-text">National Science <br/>Foundation</p>
+                 </div>
+              </div>
+            </div>
+            
+              <div class="col-md-2">
+              <div class="card mb-4 box-shadow">
+               <div class="logocontainer">
+                <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/officeofnavalresearch.png" data-holder-rendered="true">
+               </div>
+                <div class="card-body">
+                 <p class="logo-text">Office of Naval <br/>Research</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-2">
+              <div class="card mb-4 box-shadow">
+               <div class="logocontainer">
+                <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/airforceresearch.png" data-holder-rendered="true">
+               </div>
+                <div class="card-body">
+                <p class="logo-text">Air Force Research Laboratory</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-2">
+              <div class="card mb-4 box-shadow">
+               <div class="logocontainer">
+                <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/darpa.png" data-holder-rendered="true">
+               </div>
+                <div class="card-body">
+                <p class="logo-text">Defense Advanced Research <br/>Projects Agency</p>
+                </div>
+              </div>
+            </div>
+            
+             <div class="col-md-2">
+              <div class="card mb-4 box-shadow">
+               <div class="logocontainer">
+                <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/armyresearchoffice.png" data-holder-rendered="true">
+               </div>
+                <div class="card-body">
+             <p class="logo-text">Army Research <br/>Office</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-2">
+              <div class="card mb-4 box-shadow">
+               <div class="logocontainer">
+                <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/departmentofhomeland.png" data-holder-rendered="true">
+               </div>
+                <div class="card-body">
+            <p class="logo-text">Department of <br/>Homeland Security</p>
+                </div>
+              </div>
+            </div>
+            
+            
+           
+            
+
+            
+           
+
+           
+            
+           
+          </div>
+
+<!-- <div class="eachlogo text-center">
+<div class="logocontainer mb10">
+<img class="" src="images/sponsors/nationalsciencefoundation.png" />
+</div>
 <p class="logo-text">National Science <br/>Foundation</p>
 </div>
 
 <div class="eachlogo text-center">
-<img class="mb10" src="images/sponsors/officeofnavalresearch.png" />
+<div class="logocontainer mb10">
+<img class="" src="images/sponsors/officeofnavalresearch.png" /></div>
 <p class="logo-text">Office of Naval <br/>Research</p>
 </div>
 
 
 <div class="eachlogo text-center">
+<div class="logocontainer mb10">
 <img src="images/sponsors/airforceresearch.png" />
-<p class="logo-text">Air Force<br/> Research</p>
+</div>
+<p class="logo-text">Air Force<br/> Research Laboratory</p>
 </div>
 
 
 <div class="eachlogo text-center">
-<img class="mb10" src="images/sponsors/darpa.png" />
+<div class="logocontainer mb10">
+<img class="" src="images/sponsors/darpa.png" />
+</div>
 <p class="logo-text">Defense Advanced Research <br/>Projects Agency</p>
 </div>
 
 <div class="eachlogo text-center">
-<img class="mb10" src="images/sponsors/armyresearchoffice.png" />
+<div class="logocontainer mb10">
+<img class="" src="images/sponsors/armyresearchoffice.png" />
+</div>
 <p class="logo-text">Army Research <br/>Office</p>
 </div>
 
 
 <div class="eachlogo text-center">
-<img class="mb10" src="images/sponsors/departmentofhomeland.png" />
+<div class="logocontainer mb10">
+<img class="" src="images/sponsors/departmentofhomeland.png" /></div>
 <p class="logo-text">Department of <br/>Homeland Security</p>
-</div>
+</div> -->
 
 
 </div>
@@ -484,8 +575,13 @@ Design is not just what it looks like and feels like. Design is how it works.
 <div class="bgwhite">
 <div class="container-fluid pb50 pt50" id="testimonials">
 <p class="text-center mb0 copyrighttext">Developed By</p>
-<p class="text-center mb0"><i class="navbar-brand text-primary icontrackersize cosmoslogo pt10"></i></p>
-<p class="mb0 text-center copyrighttext">Copyright &copy; 2018, COSMOS. All Rights Reserved.</p>
+<p class="text-center mb0"><i class="navbar-brand text-primary icontrackersize cosmoslogo mt30 mb10"></i></p>
+</div>
+</div>
+
+<div class="bg-primary">
+<div class="container-fluid pb10 pt10">
+<p class="mb0 text-center copyrighttext text-white">Copyright &copy; 2018, COSMOS. All Rights Reserved.</p>
 </div>
 </div>
 
