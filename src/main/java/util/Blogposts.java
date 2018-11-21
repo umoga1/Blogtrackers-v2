@@ -126,6 +126,7 @@ public class Blogposts {
 
 		String arg2 = pars.toString();
 		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
+		/*
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -151,8 +152,30 @@ public class Blogposts {
 				"    }\r\n" + 
 				"  }\r\n" + 
 				"}";
-
-		JSONObject jsonObj = new JSONObject(que);
+				
+				*/
+		JSONObject jsonObj  = new JSONObject("{\r\n" + 
+				"       \"query\": {\r\n" + 
+				"          \"bool\": { \r\n" + 
+				"               \"must\": {\r\n" + 
+				"                    \"query_string\" : {\r\n" + 
+				"            			\"fields\" : [\"blogger\"],\r\n" + 
+				"            			\"query\" : \""+bloggers+"\"\r\n" + 
+				"                    }\r\n" + 
+				"                },\r\n" + 
+				"                \"filter\": {\r\n" + 
+				"                    \"range\" : {\r\n" + 
+				"                        \"date\" : {\r\n" + 
+				"                            \"gte\": \""+greater+"\",\r\n" + 
+				"                            \"lte\": \""+less+"\"\r\n" + 
+				"                        }\r\n" + 
+				"                    }\r\n" + 
+				"                }\r\n" + 
+				"            }\r\n" + 
+				"        }\r\n" + 
+				"    }");
+		
+		//JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
 	}
@@ -168,11 +191,37 @@ public class Blogposts {
 			pars.put(args[i].toLowerCase());
 		}
 
-		String arg2 = pars.toString();
-		//System.out.println("Bloggers ree :"+pars+". greater:"+greater+":Less"+less);
+		String arg2 =pars.toString();
 		
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
 		
+		JSONObject jsonObj  = new JSONObject("{\r\n" + 
+				"       \"query\": {\r\n" + 
+				"          \"bool\": { \r\n" + 
+				"               \"must\": {\r\n" + 
+				"                    \"query_string\" : {\r\n" + 
+				"            			\"fields\" : [\"blogger\"],\r\n" + 
+				"            			\"query\" : \""+bloggers+"\"\r\n" + 
+				"                    }\r\n" + 
+				"                },\r\n" + 
+				"                \"filter\": {\r\n" + 
+				"                    \"range\" : {\r\n" + 
+				"                        \"date\" : {\r\n" + 
+				"                            \"gte\": \""+greater+"\",\r\n" + 
+				"                            \"lte\": \""+less+"\"\r\n" + 
+				"                        }\r\n" + 
+				"                    }\r\n" + 
+				"                }\r\n" + 
+				"            }\r\n" + 
+				"        },\r\n" + 
+				"		\"sort\":{\r\n" + 
+				"		\""+sort+"\":{\r\n" + 
+				"			\"order\":\""+order+"\"\r\n" + 
+				"			}\r\n" + 
+				"		}\r\n" +
+				"    }");
+		
+		/*
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -203,9 +252,9 @@ public class Blogposts {
 				"			}\r\n" + 
 				"	}\r\n" +
 				"}";
-		
+		*/
 	
-		JSONObject jsonObj = new JSONObject(que);
+		//JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
 	}
@@ -608,6 +657,41 @@ public class Blogposts {
 		return this._getTotal(url, jsonObj);
 	}
 
+	public String _searchTotalAndUniqueBlogger(String term,String sortby, String start, String end, String filter ) throws Exception {
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"        \"query_string\" : {\r\n" + 
+				"            \"fields\" : [\"title\",\"post\",\"blogger\"],\r\n" + 
+				"            \"query\" : \""+term+"\"\r\n" + 
+				"        }\r\n" + 
+				"  },\r\n" +
+				"\"aggs\": {\r\n" + 
+				"    \"top-uids\": {\r\n" + 
+				"      \"terms\": {\r\n" + 
+				"        \"field\": \""+filter+"\"\r\n" + 
+				"      },\r\n" + 
+				"      \"aggs\": {\r\n" + 
+				"        \"top_uids_hits\": {\r\n" + 
+				"          \"top_hits\": {\r\n" + 
+				"            \"sort\": [\r\n" + 
+				"              {\r\n" + 
+				"                \"_score\": {\r\n" + 
+				"                  \"order\": \"desc\"\r\n" + 
+				"                }\r\n" + 
+				"              }\r\n" + 
+				"            ],\r\n" + 
+				"            \"size\": 1\r\n" + 
+				"          }\r\n" + 
+				"        }\r\n" + 
+				"      }\r\n" + 
+				"    }\r\n" + 
+				"  }"+
+				"}");
+	
+		String url = base_url+"_search?size=1"; 
+		return this._getTotal(url, jsonObj);
+	}
+	
 	
 	public ArrayList _getPostByBlogger(String blogger)throws Exception {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
@@ -741,33 +825,28 @@ public class Blogposts {
 
 		String arg2 = pars.toString();
 		
-		String que="{\r\n" + 
-				"  \"query\": {\r\n" + 
-				"    \"bool\": {\r\n" + 
-				"      \"must\": [\r\n" + 
-				"        {\r\n" + 
-				"		  \"constant_score\":{\r\n" + 
-				"					\"filter\":{\r\n" + 
-				"							\"terms\":{\r\n" + 
-				"							\"blogger\":"+arg2+"\r\n" + 
-				"									}\r\n" + 
-				"							}\r\n" + 
-				"						}\r\n" + 
-				"		},\r\n" + 
-				"        {\r\n" + 
-				"		  \"range\" : {\r\n" + 
-				"            \""+field+"\" : {\r\n" + 
-				"                \"gte\" : "+greater+",\r\n" + 
-				"                \"lte\" : "+less+",\r\n" + 
-				"				},\r\n" +
-				"			}\r\n" + 
-				"		}\r\n" + 
-				"      ]\r\n" + 
-				"    }\r\n" + 
-				"  }\r\n" + 
-				"}";
-				
-		JSONObject jsonObj = new JSONObject(que);
+		JSONObject jsonObj  = new JSONObject("{\r\n" + 
+				"       \"query\": {\r\n" + 
+				"          \"bool\": { \r\n" + 
+				"               \"must\": {\r\n" + 
+				"                    \"query_string\" : {\r\n" + 
+				"            			\"fields\" : [\"blogger\"],\r\n" + 
+				"            			\"query\" : \""+bloggers+"\"\r\n" + 
+				"                    }\r\n" + 
+				"                },\r\n" + 
+				"                \"filter\": {\r\n" + 
+				"                    \"range\" : {\r\n" + 
+				"                        \"date\" : {\r\n" + 
+				"                            \"gte\": \""+greater+"\",\r\n" + 
+				"                            \"lte\": \""+less+"\"\r\n" + 
+				"                        }\r\n" + 
+				"                    }\r\n" + 
+				"                }\r\n" + 
+				"            }\r\n" + 
+				"        }\r\n" + 
+				"    }");
+		
+		//JSONObject jsonObj = new JSONObject(que);
 
 		String url = base_url+"_search";
 		return this._getTotal(url,jsonObj);
