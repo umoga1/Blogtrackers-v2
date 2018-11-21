@@ -3264,6 +3264,14 @@ font-size: 1.73rem;
 font-size:13px;
 text-transform:capitalize;	
 }
+.zoombutton#zoom_in
+{
+top:40px;	
+}
+.zoombutton#zoom_out
+{
+top:70px;	
+}
 /* .statcontainer:after {
     content: ""; /* This is necessary for the pseudo element to work. */
     /* display: block; /* This will put the pseudo element on its own line. */
