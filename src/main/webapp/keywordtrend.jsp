@@ -279,13 +279,7 @@
 				String location="";
 				
 				
-				postc = post._searchTotalByTitleAndBody(tm,"date", dt,dte);
-				blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
-				bloggerc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogger");
-				
-				postmentioned+=(Integer.parseInt(postc));
-				blogmentioned+=(Integer.parseInt(blogc));
-				bloggermentioned+=(Integer.parseInt(bloggerc));	
+					
 				
 				ArrayList postdetail = post._fetch(blogpostid);
 				
@@ -314,6 +308,14 @@
 					allposts =  term._searchByRange("date",dt,dte, tm,"term","10");
 					toplocation = location;
 					mostactiveterm = tm;
+					
+					postc = post._searchTotalByTitleAndBody(tm,"date", dt,dte);
+					blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
+					bloggerc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogger");
+					
+					postmentioned+=(Integer.parseInt(postc));
+					blogmentioned+=(Integer.parseInt(blogc));
+					bloggermentioned+=(Integer.parseInt(bloggerc));
 					//postm   = post._searchByTitleAndBodyTotal(tm,"date",dt,dte);
 				}
 				JSONObject cont = new JSONObject();
@@ -638,7 +640,6 @@
 													
 										for (int i = 0; i < topterms.length(); i++) {
 											JSONObject jsonObj = topterms.getJSONObject(i);
-											int size = Integer.parseInt(jsonObj.getString("frequency")) * 5;
 											String terms = jsonObj.getString("key");
 											
 											String dselected = "";
@@ -647,7 +648,7 @@
 											}
 																			
 											%><a
-											class="btn form-control stylebuttoninactive opacity53 text-primary mb20 <%=dselected%>"><b><%=terms%></b></a>
+											class="btn form-control select-term stylebuttoninactive opacity53 text-primary mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>"><b><%=terms%></b></a>
 											<%
 										}
 									}	
@@ -672,8 +673,10 @@
 										<option value="year">Year</option></select>
 								</p>
 							</div>
-							<div class="chart-container">
-								<div class="chart" id="d3-line-basic"></div>
+							<div id="main-chart">
+								<div class="chart-container">
+									<div class="chart" id="d3-line-basic"></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -938,7 +941,13 @@
 
 
 
+<form name="">
+<input type="hidden" id="term" value="<%=mostactiveterm%>" />
+<input type="hidden" id="date_start" value="<%=dt%>" />
 
+<input type="hidden" id="date_end" value="<%=dte%>" />
+
+</form>>
 
 
 
@@ -1697,7 +1706,10 @@
 
 
 
-
+<script src="pagedependencies/baseurl.js?v=38"></script>
+ 
+<script src="pagedependencies/keywordtrend.js?v=979"></script>
+	
 
 </body>
 </html>
