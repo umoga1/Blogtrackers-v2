@@ -10,6 +10,9 @@ $('.select-term').on("click", function(){
 	var date_end = $("#date_end").val();
 	var term = $(this).attr("id");
 	
+	var t2 =term.split("***");
+	term = t2[0];
+	var term_id = t2[1];
 	var tm = term.replaceAll("_"," ");
 	
 	$(".active-term").html(tm);
@@ -17,6 +20,7 @@ $('.select-term').on("click", function(){
 	
 	//loadInfluence(bloog,blg[1]);
 	$("#term").val(tm);
+	$("#term_id").val(term_id);
 	loadStat(tm);
 	loadChart(tm);
 	loadTable(date_start,date_end);
@@ -28,7 +32,7 @@ function loadStat(term){
 	$(".blog-mentioned").html("<img src='images/loading.gif' />");
 	$(".post-mentioned").html("<img src='images/loading.gif' />");
 	$(".blogger-mentioned").html("<img src='images/loading.gif' />");
-	//$(".top-location").html("<img src='images/loading.gif' />");
+	$(".top-location").html("<img src='images/loading.gif' />");
 	$.ajax({
 		url: app_url+"subpages/keywordtrendchart.jsp",
 		method: 'POST',
@@ -52,7 +56,7 @@ function loadStat(term){
 		$(".blog-mentioned").html(data.blogmentioned);
 		$(".post-mentioned").html(data.postmentioned);
 		$(".blogger-mentioned").html(data.bloggermentioned);
-		//$(".top-location").html(data.toplocation);
+		$(".top-location").html(data.toplocation);
 		//$("#overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
@@ -97,6 +101,7 @@ function loadTable(date_start,date_end){
 			data: {
 				action:"gettable",
 				term:$("#term").val(),
+				id:$("#term_id").val(),
 				date_start:date_start,
 				date_end:date_end,
 			},
@@ -107,6 +112,7 @@ function loadTable(date_start,date_end){
 			success: function(response)
 			{   
 				$("#combined-div").html(response);
+				$.getScript("pagedependencies/keywordtrends.js", function(data, textStatus, jqxhr) { });
 			}
 		});
 	}

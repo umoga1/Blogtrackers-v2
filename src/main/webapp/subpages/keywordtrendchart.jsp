@@ -20,6 +20,7 @@ String mostactiveterm = (null == request.getParameter("term")) ? "" : request.ge
 
 Object sort = (null == request.getParameter("sort")) ? "" : request.getParameter("sort");
 Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
+Object id = (null == request.getParameter("id")) ? "" : request.getParameter("id");
 
 
 Trackers tracker  = new Trackers();
@@ -29,7 +30,6 @@ Blogs blog  = new Blogs();
 Terms term  = new Terms();
 String dt = date_start.toString();
 String dte = date_end.toString();
-
 JSONArray termscount = new JSONArray();
 
 JSONObject years = new JSONObject();
@@ -47,8 +47,46 @@ String year_end="";
 if(action.toString().equals("getstats")){	
 	String postc = post._searchTotalByTitleAndBody(mostactiveterm,"date", dt,dte);
 	String blogc = post._searchTotalAndUnique(mostactiveterm,"date", dt,dte,"blogsite_id");
-	String bloggerc = post._searchTotalAndUnique(mostactiveterm,"date", dt,dte,"blogger");
+	String bloggerc = post._searchTotalAndUniqueBlogger(mostactiveterm,"date", dt,dte,"blogger");
 	String toplocation = "";
+	
+    ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);
+    JSONObject firstpost = new JSONObject();
+    JSONObject locations = new JSONObject();
+    if(allposts.size()>0){			
+								String tres = null;
+								JSONObject tresp = null;
+								String tresu = null;
+								JSONObject tobj = null;
+								
+								
+								int k=0;
+								int tloc = 0;
+								for(int i=0; i< allposts.size(); i++){
+									tres = allposts.get(i).toString();	
+									tresp = new JSONObject(tres);
+									
+									tresu = tresp.get("_source").toString();
+									tobj = new JSONObject(tresu);
+									String country = 	tobj.get("location").toString();
+									if(locations.has(country)){
+										int val = Integer.parseInt(locations.get(country).toString());
+										
+										locations.put(country,val);
+										if(val>tloc){
+											tloc = val;
+											toplocation = country;
+										}
+									}else{
+										locations.put(country,1);
+									}
+									
+											
+								
+                             }
+						
+				 }
+				
 	JSONObject result = new JSONObject();
 	result.put("postmentioned",postc);
 	result.put("blogmentioned",blogc);
@@ -68,7 +106,7 @@ if(action.toString().equals("getstats")){
           Export Options
           </div> -->
           <%  
-          ArrayList allposts =  term._searchByRange("date",dt,dte, mostactiveterm,"term","10");
+          ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);
           JSONObject firstpost = new JSONObject();
           if(allposts.size()>0){	%>
 					<table id="DataTables_Table_2_wrapper" class="display"
@@ -88,38 +126,23 @@ if(action.toString().equals("getstats")){
 									
 									
 									int k=0;
+									int tloc = 0;
 									for(int i=0; i< allposts.size(); i++){
 										tres = allposts.get(i).toString();	
 										tresp = new JSONObject(tres);
+										
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
 										
-										String postid = tobj.get("blogpostid").toString();
-										String tmm = tobj.get("term").toString();
-										ArrayList postdet = post._fetch(postid);
 										
-										
-										k++;
-										if(postdet.size()>0){							
-											String tres3 = null;
-											JSONObject tresp3 = null;
-											String tresu3 = null;
-											JSONObject tobj3 = null;
-											
-											for(int j=0; j< 1; j++){
-												tres3 = postdet.get(j).toString();	
-												tresp3 = new JSONObject(tres3);
-												tresu3 = tresp3.get("_source").toString();
-												tobj3 = new JSONObject(tresu3);
-												
 												//System.out.println("postdet +"+tobj3);
 												if(i==0){
-													firstpost = tobj3;
+													firstpost = tobj;
 												}
 												
 												int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
 												
-										        String str = tobj3.get("post").toString()+" "+ tobj3.get("post").toString();
+										        String str = tobj.get("post").toString()+" "+ tobj.get("post").toString();
 												String findStr = mostactiveterm;
 												int lastIndex = 0;
 												//int count = 0;
@@ -135,17 +158,16 @@ if(action.toString().equals("getstats")){
 												}
 									%>
                                     <tr>
-                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj3.get("blogpost_id")%>" ><%=tobj3.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=tobj3.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
+                                   <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
 								</td>
 								<td align="center"><%=(bodyoccurencece) %></td>
                                      </tr>
-                              <% }}}%>
+                                    <% }%>
 							</tr>						
 						</tbody>
 					</table>
-					<% } %>
-				</div>
+					<% } %>				</div>
 
 			</div>
 

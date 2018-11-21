@@ -254,7 +254,7 @@ public ArrayList _fetch(String ids) throws Exception {
 	 String arg2 = pars.toString();
 
 	// String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsiteid\":"+arg2+"}}}}}";
-	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsiteid\":"+arg2+"}}}},\"sort\":{\"frequency\":{\"order\":\"DESC\"}}}";
+	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"DESC\"}}}";
 
 		
 	JSONObject jsonObj = new JSONObject(que);

@@ -118,11 +118,24 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	String stdate = post._getDate(ids,"first");
 	String endate = post._getDate(ids,"last");
 	
-	Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
-	Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
+	Date dstart = new Date();
+	Date today = new Date();
 
+	
 	Date nnow = new Date();  
-	  
+	
+	try{
+		dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
+	}catch(Exception ex){
+		dstart = nnow;//new SimpleDateFormat("yyyy-MM-dd").parse(nnow);
+	}
+	
+	try{
+		today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
+	}catch(Exception ex){
+		today = nnow;//new SimpleDateFormat("yyyy-MM-dd").parse(nnow);
+	}
+	
 	String day = DAY_ONLY.format(today);
 	
 	String month = MONTH_ONLY.format(today);
@@ -567,7 +580,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							selectedid=det.get("blogid").toString();
 							totalpost = det.get("totalpost").toString();
 							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");
-									
+							System.out.println("All post :"+allposts);
 					}
 			    	%>
 					<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>" value="<%=postids%>" />
@@ -770,8 +783,8 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 										tobj = new JSONObject(tresu);
 									%>
                                     <tr>
-                                        <td><%=tobj.get("entity").toString() %></td>
-                                        <td><%=tobj.get("type").toString() %></td>
+                                        <td><%=tobj.get("entity").toString()%></td>
+                                        <td><%=tobj.get("type").toString()%></td>
                                         <td></td>
                                         <td><%=tobj.get("sentiment").toString() %></td>
                                     </tr>
