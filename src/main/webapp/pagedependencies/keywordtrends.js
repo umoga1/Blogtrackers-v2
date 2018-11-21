@@ -112,7 +112,7 @@ function loadTable(date_start,date_end){
 			success: function(response)
 			{   
 				$("#combined-div").html(response);
-				$.getScript("pagedependencies/keywordtrends.js", function(data, textStatus, jqxhr) { });
+				/*$.getScript("pagedependencies/keywordtrends.js", function(data, textStatus, jqxhr) { });*/
 			}
 		});
 	}

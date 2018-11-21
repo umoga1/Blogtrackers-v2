@@ -207,6 +207,8 @@ if(action.toString().equals("getstats")){
 				</div>
 			</div>
 		</div>
+		<script type="text/javascript" src="pagedependencies/blogpostselectkeywortrend.js">
+</script>
 	
 <%}else{ 
 
@@ -796,6 +798,8 @@ if(action.toString().equals("getstats")){
      }
  });
  </script>
+ 
+
 
 <% } %>
 
