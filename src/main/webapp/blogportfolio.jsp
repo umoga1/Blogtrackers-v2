@@ -42,17 +42,13 @@
 		Terms term = new Terms();
 		Outlinks outl = new Outlinks();
 		if (tid != "") {
-<<<<<<< HEAD
+
 			detail = tracker._fetch(tid.toString()); //2. If there is a tracker id, that means the user has created a tracker before, we will fetch that tracker information (select*from trackers)
 			System.out.println("The detail is "+detail); 
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
 			System.out.println("The list is :"+detail);   // Otherwise select that first tracker. This info is coming from MySql
-=======
-			detail = tracker._fetch(tid.toString());	
-		} else {
-			detail = tracker._list("DESC", "", user.toString(), "1");
->>>>>>> 03f7d5b22ec5115d2a66fd2edfeaed2e045d3170
+
 		}
 		
 		boolean isowner = false;
