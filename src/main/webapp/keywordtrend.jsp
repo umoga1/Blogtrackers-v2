@@ -667,11 +667,11 @@
 						<div style="min-height: 250px;">
 							<div>
 								<p class="text-primary mt10 float-left">
-									Keyword Trend <!--of Past <select
+									Keyword Trend of Past <select
 										class="text-primary filtersort sortbytimerange"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
-										<option value="year">Year</option></select> -->
+										<option value="year">Year</option></select>
 								</p>
 							</div>
 							<div id="main-chart">
@@ -855,8 +855,9 @@
 				</div>
 				</div>
 			</div>
-			<div class="row mb50 d-flex align-items-stretch">
-
+		</div>
+</div>
+		<div class="row mb50 d-flex align-items-stretch">
 			<div class="col-md-12 mt20 ">
 				<div class="card card-style mt20">
 					<div class="card-body p10 pt20 pb5">
@@ -923,9 +924,6 @@
 			</div>
 
 		</div>
-		</div>
-
-		
 
 
 
@@ -1276,10 +1274,10 @@
   	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
   		  		String yearr=yearsarray.get(q).toString(); 
   		  		if(specific_auth.has(yearr)){ %>
-  		  			{"date":"<%=yearr%>","close":"<%=specific_auth.get(yearr)%>"},
+  		  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr)%>},
   			<%
   		  		}else{ %>
-  		  			{"date":"<%=yearr%>","close":0,
+  		  			{"date":"<%=yearr%>","close":0},
   	   		<% } %>
   		<%  
   	  		}%>]<% if(p<termscount.length()-1){%>,<%}%>
