@@ -215,18 +215,15 @@
 			totalpost = post._searchRangeTotal("date", dt, dte, selectedblogid);    // Total post by that selected blogsite
 			termss = term._searchByRange("date", dt, dte, selectedblogid,"blogsiteid","100");   //Same logic applies here 
 			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);            //here too for all the outlnks
-			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);  
-			System.out.println(totalinfluence);
+			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);  //get the total influence score for the selected blog
 			String mostactiveterm ="";
 			String mostactiveblog ="";
 			
 			
-			allauthors = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");
+			allauthors = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");  //All blogpost within the timeframe sorted by influence score
 
-			//System.out.println("Terms here:"+termss);
-			
-			ArrayList blogs = blog._fetch(ids);
-			int totalblog = blogs.size();
+			ArrayList blogs = blog._fetch(ids);     //fetch all the blogsite using the blogsite id in the tracker               
+			int totalblog = blogs.size();          //total blogsie count
 			
 			JSONObject graphyears = new JSONObject();
 		    JSONArray yearsarray = new JSONArray();

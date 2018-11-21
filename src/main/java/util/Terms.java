@@ -83,7 +83,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 		"        {\r\n" + 
 	 		"		  \"constant_score\":{\r\n" + 
 	 		"					\"filter\":{\r\n" + 
-	 		"							\"term\":{\r\n" + 
+	 		"							\"terms\":{\r\n" + 
 		 	"							\""+filter+"\":"+arg2+"\r\n" + 
 	 		"									}\r\n" + 
 	 		"							}\r\n" + 
@@ -101,7 +101,6 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 		"    }\r\n" + 
 	 		"  }\r\n" + 
 	 		"}";
-	 
 	JSONObject jsonObj = new JSONObject(que);
 	 
     String url = base_url+"_search?size="+size;
