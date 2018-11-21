@@ -207,8 +207,8 @@ if(action.toString().equals("getstats")){
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript" src="pagedependencies/blogpostselectkeywortrend.js">
-</script>
+ <script type="text/javascript" src="pagedependencies/blogpostselectkeywordtrend.js">
+</script> 
 	
 <%}else{ 
 
