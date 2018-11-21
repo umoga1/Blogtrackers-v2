@@ -43,6 +43,8 @@ String year_end="";
 		
 %>
 
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
 <%  
 if(action.toString().equals("getstats")){	
 	String postc = post._searchTotalByTitleAndBody(mostactiveterm,"date", dt,dte);
@@ -193,10 +195,12 @@ if(action.toString().equals("getstats")){
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
 										</div>
+										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
-											style="height: 600px; overflow-y: scroll;">
+											style="height: 550px; overflow-y: scroll;">
 											<%=body.replaceAll(mostactiveterm,replace)%>
-										</div>                      
+										</div> 
+										</div>                     
                      		<% } %>
 
 				</div>
@@ -242,6 +246,41 @@ if(action.toString().equals("getstats")){
 		<div class="chart" id="d3-line-basic"></div>
 </div>
 	
+<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
+			<script>
+ $(document).ready(function() {
+	 
+	 
+	$('#printdoc').on('click',function(){
+		print();
+	}) 
+	
+		  
+		  // datatable setup
+		    $('#DataTables_Table_2_wrapper').DataTable( {
+		        "scrollY": 480,
+		        "scrollX": true,
+		         "pagingType": "simple",
+		        	 "bLengthChange": false
+		      /*    ,
+		         dom: 'Bfrtip',
+		         "columnDefs": [
+		      { "width": "80%", "targets": 0 }
+		    ],
+		      buttons:{
+		        buttons: [
+		            { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
+		            {extend:'csv',className: 'btn-primary stylebutton1'},
+		            {extend:'excel',className: 'btn-primary stylebutton1'},
+		           // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
+		            {extend:'print',className: 'btn-primary stylebutton1'},
+		        ]
+		      } */
+		    } );
+	 
+ } );
+ </script>
+	<!--end for table  -->	
 <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
 	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
 	<script>
