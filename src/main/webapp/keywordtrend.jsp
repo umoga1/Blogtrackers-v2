@@ -649,7 +649,7 @@
 											}
 																			
 											%><a
-											class="btn form-control select-term stylebuttoninactive opacity53 text-primary mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>"><b><%=terms%></b></a>
+											class="btn form-control select-term bloggerinactive text-primary mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>"><b><%=terms%></b></a>
 											<%
 										}
 									}	
