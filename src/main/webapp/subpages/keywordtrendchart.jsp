@@ -38,44 +38,9 @@ JSONArray yearsarray = new JSONArray();
 
 JSONObject termsyears = new JSONObject();
 
-
+String year_start="";
+String year_end="";
 		
-		String year_start="";
-		String year_end="";
-		
-	if(!action.toString().equals("getstats")){
-		String[] yst = dt.split("-");
-		String[] yend = dte.split("-");
-		year_start = yst[0];
-		year_end = yend[0];
-		int ystint = Integer.parseInt(year_start);
-		int yendint = Integer.parseInt(year_end);
-
-		
-				int b=0;
-				JSONObject postyear =new JSONObject();
-				for(int y=ystint; y<=yendint; y++){ 
-						   String dtu = y + "-01-01";
-						   String dtue = y + "-12-31";
-						   if(b==0){
-								dtu = dt;
-							}else if(b==yendint){
-								dtue = dte;
-							}
-						   
-						   String totu = post._searchTotalByTitleAndBody(mostactiveterm,"date", dtu,dtue);//term._searchRangeTotal("date",dtu, dtue,termscount.get(n).toString());
-						   
-						   if(!years.has(y+"")){
-					    		years.put(y+"",y);
-					    		yearsarray.put(b,y);
-					    		b++;
-					    	}
-						   System.out.println("totu here "+totu);
-						   postyear.put(y+"",totu);
-				}
-				termsyears.put(mostactiveterm,postyear);
-	 }
-
 %>
 
 <%  
@@ -87,16 +52,172 @@ if(action.toString().equals("getstats")){
 	JSONObject result = new JSONObject();
 	result.put("postmentioned",postc);
 	result.put("blogmentioned",blogc);
-	result.put("bloggermenioned",bloggerc);
+	result.put("bloggermentioned",bloggerc);
 	result.put("toplocation",toplocation);
 %>
 <%=result.toString()%>
 <% }else if(action.toString().equals("gettable")){%>
+		<div class="row m0 mt20 mb0 d-flex align-items-stretch">
+			<div
+				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
+				<div class="card-body p0 pt20 pb20" style="min-height: 420px;">
+					<p>
+						Posts that mentioned <b class="text-green active-term"><%=mostactiveterm%></b>
+					</p>
+					<!--  <div class="p15 pb5 pt0" role="group">
+          Export Options
+          </div> -->
+          <%  
+          ArrayList allposts =  term._searchByRange("date",dt,dte, mostactiveterm,"term","10");
+          JSONObject firstpost = new JSONObject();
+          if(allposts.size()>0){	%>
+					<table id="DataTables_Table_2_wrapper" class="display"
+						style="width: 100%">
+						<thead>
+							<tr>
+								<th>Post title</th>
+								<th>Occurence</th>
+							</tr>
+						</thead>
+						<tbody>
+							<%				
+									String tres = null;
+									JSONObject tresp = null;
+									String tresu = null;
+									JSONObject tobj = null;
+									
+									
+									int k=0;
+									for(int i=0; i< allposts.size(); i++){
+										tres = allposts.get(i).toString();	
+										tresp = new JSONObject(tres);
+										tresu = tresp.get("_source").toString();
+										tobj = new JSONObject(tresu);
+										
+										String postid = tobj.get("blogpostid").toString();
+										String tmm = tobj.get("term").toString();
+										ArrayList postdet = post._fetch(postid);
+										
+										
+										k++;
+										if(postdet.size()>0){							
+											String tres3 = null;
+											JSONObject tresp3 = null;
+											String tresu3 = null;
+											JSONObject tobj3 = null;
+											
+											for(int j=0; j< 1; j++){
+												tres3 = postdet.get(j).toString();	
+												tresp3 = new JSONObject(tres3);
+												tresu3 = tresp3.get("_source").toString();
+												tobj3 = new JSONObject(tresu3);
+												
+												//System.out.println("postdet +"+tobj3);
+												if(i==0){
+													firstpost = tobj3;
+												}
+												
+												int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
+												
+										        String str = tobj3.get("post").toString()+" "+ tobj3.get("post").toString();
+												String findStr = mostactiveterm;
+												int lastIndex = 0;
+												//int count = 0;
+
+												while(lastIndex != -1){
+
+												    lastIndex = str.indexOf(findStr,lastIndex);
+
+												    if(lastIndex != -1){
+												        bodyoccurencece++;
+												        lastIndex += findStr.length();
+												    }
+												}
+									%>
+                                    <tr>
+                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj3.get("blogpost_id")%>" ><%=tobj3.get("title") %></a><br/>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj3.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
+								</td>
+								<td align="center"><%=(bodyoccurencece) %></td>
+                                     </tr>
+                              <% }}}%>
+							</tr>						
+						</tbody>
+					</table>
+					<% } %>
+				</div>
+
+			</div>
+
+			<div class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
+
+				<div style="" class="pt20" id="blogpost_detail">
+					<%
+                                if(firstpost.length()>0){	
+									JSONObject tobj = firstpost;
+									String title = tobj.get("title").toString();
+									String body = tobj.get("post").toString();
+									String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
+									%>                                    
+                                    <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
+										<div class="text-center mb20 mt20">
+											<button class="btn stylebuttonblue">
+												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
+													class="far fa-user float-right blogcontenticon"></i>
+											</button>
+											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
+											<button class="btn stylebuttonorange">
+												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
+													class="far fa-comments float-right blogcontenticon"></i>
+											</button>
+										</div>
+										<div class="p20 pt0 pb20 text-blog-content text-primary"
+											style="height: 600px; overflow-y: scroll;">
+											<%=body.replaceAll(mostactiveterm,replace)%>
+										</div>                      
+                     		<% } %>
+
+				</div>
+				</div>
+			</div>
+		</div>
 	
+<%}else{ 
+
+	String[] yst = dt.split("-");
+	String[] yend = dte.split("-");
+	year_start = yst[0];
+	year_end = yend[0];
+	int ystint = Integer.parseInt(year_start);
+	int yendint = Integer.parseInt(year_end);
+
 	
-<%else{ %>
+			int b=0;
+			JSONObject postyear =new JSONObject();
+			for(int y=ystint; y<=yendint; y++){ 
+					   String dtu = y + "-01-01";
+					   String dtue = y + "-12-31";
+					   if(b==0){
+							dtu = dt;
+						}else if(b==yendint){
+							dtue = dte;
+						}
+					   
+					   String totu = post._searchTotalByTitleAndBody(mostactiveterm,"date", dtu,dtue);//term._searchRangeTotal("date",dtu, dtue,termscount.get(n).toString());
+					   
+					   if(!years.has(y+"")){
+				    		years.put(y+"",y);
+				    		yearsarray.put(b,y);
+				    		b++;
+				    	}
+					   System.out.println("totu here "+totu);
+					   postyear.put(y+"",totu);
+			}
+			termsyears.put(mostactiveterm,postyear);
+
+%>
 <div class="chart-container">
-									<div class="chart" id="d3-line-basic"></div>
+		<div class="chart" id="d3-line-basic"></div>
 </div>
 	
 <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
@@ -193,9 +314,8 @@ if(action.toString().equals("getstats")){
          // ];
 		
         
-         data = [<% if(termscount.length()>0){
-       	  for(int p=0; p<1; p++){ 
-  	  		String au = termscount.get(p).toString();
+         data = [<% 
+  	  		String au = mostactiveterm;//termscount.get(p).toString();
   	  		JSONObject specific_auth= new JSONObject(termsyears.get(au).toString());
   	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
   		  		String yearr=yearsarray.get(q).toString(); 
@@ -206,9 +326,7 @@ if(action.toString().equals("getstats")){
   		  			{"date":"<%=yearr%>","close":0},
   	   		<% } %>
   		<%  
-  	  		}%>]<% if(p<termscount.length()-1){%>,<%}%>
-  	  <%	}}
-  	  %> ];
+  	  		}%>]];
 
          //console.log(data);
          // data = [];

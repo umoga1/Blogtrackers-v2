@@ -318,6 +318,7 @@
 					bloggermentioned+=(Integer.parseInt(bloggerc));
 					//postm   = post._searchByTitleAndBodyTotal(tm,"date",dt,dte);
 				}
+				
 				JSONObject cont = new JSONObject();
 				cont.put("key", tm);
 				cont.put("frequency", frequency);
@@ -686,25 +687,25 @@
 						<div class="row">
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Blog Mentioned</h6>
-								<h2 class="mb0 bold-text"><%=blogmentioned%></h2>
+								<h2 class="mb0 bold-text blog-mentioned"><%=blogmentioned%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Bloggers Mentioned</h6>
-								<h2 class="mb0 bold-text"><%=bloggermentioned%></h2>
+								<h2 class="mb0 bold-text blogger-mentioned"><%=bloggermentioned%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 							
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Posts Mentioned</h6>
-								<h2 class="mb0 bold-text"><%=postmentioned%></h2>
+								<h2 class="mb0 bold-text post-mentioned"><%=postmentioned%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Top Posting Location</h6>
-								<h3 class="mb0 bold-text"><%=toplocation%></h3>
+								<h3 class="mb0 bold-text top-location"><%=toplocation%></h3>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
@@ -731,11 +732,10 @@
 
 </div> -->
 
-
+<div id="combined-div">
 
 		<div class="row m0 mt20 mb0 d-flex align-items-stretch">
-			<div
-				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
+			<div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright" id="post-list">
 				<div class="card-body p0 pt20 pb20" style="min-height: 420px;">
 					<p>
 						Posts that mentioned <b class="text-green active-term"><%=mostactiveterm%></b>
@@ -824,8 +824,7 @@
 
 			</div>
 
-			<div
-				class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
+			<div class="col-md-6 mt20 card card-style nobordertopleft noborderbottomleft">
 
 				<div style="" class="pt20" id="blogpost_detail">
 					<%
@@ -857,7 +856,7 @@
 				</div>
 			</div>
 		</div>
-
+</div>
 		<div class="row mb50 d-flex align-items-stretch">
 			<div class="col-md-12 mt20 ">
 				<div class="card card-style mt20">
@@ -890,13 +889,12 @@
 											JSONObject jsonObj = topterms.getJSONObject(i);
 											int size = Integer.parseInt(jsonObj.getString("frequency"));
 											String terms = jsonObj.getString("key");
-											String postcount = jsonObj.getString("postcount");
-											String blogcount = jsonObj.getString("blogcount");
-											String bloggercount = jsonObj.getString("bloggercount");
+											String postcount = post._searchTotalByTitleAndBody(terms,"date", dt,dte);
+											String blogcount = post._searchTotalAndUnique(terms,"date", dt,dte,"blogsite_id");
+											String bloggercount = post._searchTotalAndUnique(terms,"date", dt,dte,"blogger");
 											String language = jsonObj.getString("language");
 											String location = jsonObj.getString("location");
 											String blogger = jsonObj.getString("leadingblogger");
-											
 											
 											
 																		
@@ -1565,7 +1563,13 @@
                                        svg.selectAll(".circle-point").data(mergedarray)
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
-                                      .on("click",function(d){console.log(d.date)});
+                                      .on("click",function(d){
+                                    	  console.log(d.date);
+                                    	  var d1 = 	  d.date + "-01-01";
+                                     	   var d2 = 	  d.date + "-12-31";
+                           				
+                                     	  loadTable(d1,d2);
+                                      });
                                  //                         svg.call(tip)
 
                                //console.log(newi);
@@ -1574,7 +1578,15 @@
                                      svg.selectAll(".circle-point").data(mergedarray)
                                      .on("mouseover",tip.show)
                                      .on("mouseout",tip.hide)
-                                     .on("click",function(d){console.log(d.date)});
+                                     .on("click",function(d){
+                                    	 console.log(d.date);
+
+                                   	  var d1 = 	  d.date + "-01-01";
+                                     var d2 = 	  d.date + "-12-31";
+                          				
+                                    	  loadTable(d1,d2);
+                                    	 
+                                     });
                                                         svg.call(tip)
 
 
@@ -1708,7 +1720,7 @@
 
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/keywordtrend.js?v=979"></script>
+<script src="pagedependencies/keywordtrends.js?v=44979"></script>
 	
 
 </body>
