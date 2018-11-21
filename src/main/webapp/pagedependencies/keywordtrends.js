@@ -3,7 +3,9 @@
 
 $('.select-term').on("click", function(){
 
-
+	$(".select-term").removeClass("abloggerselected");
+	$(this).addClass("abloggerselected");
+	
 	var date_start = $("#date_start").val();
 	var date_end = $("#date_end").val();
 	var term = $(this).attr("id");
@@ -23,12 +25,12 @@ $('.select-term').on("click", function(){
 
 
 function loadStat(term){
-	$("#total-influence").html("<img src='images/loading.gif' />");
-	$("#total-post").html("<img src='images/loading.gif' />");
-	$("#total-sentiment").html("<img src='images/loading.gif' />");
-	$("#top-keyword").html("<img src='images/loading.gif' />");
+	$(".blog-mentioned").html("<img src='images/loading.gif' />");
+	$(".post-mentioned").html("<img src='images/loading.gif' />");
+	$(".blogger-mentioned").html("<img src='images/loading.gif' />");
+	//$(".top-location").html("<img src='images/loading.gif' />");
 	$.ajax({
-		url: app_url+"subpages/keywordtrendschart.jsp",
+		url: app_url+"subpages/keywordtrendchart.jsp",
 		method: 'POST',
 		data: {
 			action:"getstats",
@@ -44,12 +46,13 @@ function loadStat(term){
 		success: function(response)
 		{   
 		
-		
+		response = response.trim();
+		console.log(response);
 		var data = JSON.parse(response);
-		$("#total-influence").html(data.totalinfluence);
-		$("#total-post").html(data.totalpost);
-		$("#total-sentiment").html(data.totalsentiment);
-		$("#top-keyword").html(data.topterm);
+		$(".blog-mentioned").html(data.blogmentioned);
+		$(".post-mentioned").html(data.postmentioned);
+		$(".blogger-mentioned").html(data.bloggermentioned);
+		//$(".top-location").html(data.toplocation);
 		//$("#overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
@@ -60,7 +63,7 @@ function loadStat(term){
 function loadChart(term){
 	$("#main-chart").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	$.ajax({
-		url: app_url+"subpages/keywordtrendschart.jsp",
+		url: app_url+"subpages/keywordtrendchart.jsp",
 		method: 'POST',
 		data: {
 			action:"getchart",
@@ -85,12 +88,14 @@ function loadChart(term){
 
 
 function loadTable(date_start,date_end){
-	$("#url-table").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
+	$("#post-list").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
+	$("#blogpost_detail").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 		
 		$.ajax({
-			url: app_url+'subpages/keywordtrendtable.jsp',
+			url: app_url+'subpages/keywordtrendchart.jsp',
 			method: 'POST',
 			data: {
+				action:"gettable",
 				term:$("#term").val(),
 				date_start:date_start,
 				date_end:date_end,
@@ -101,7 +106,7 @@ function loadTable(date_start,date_end){
 			},
 			success: function(response)
 			{   
-				$("#url-table").html(response);
+				$("#combined-div").html(response);
 			}
 		});
 	}
