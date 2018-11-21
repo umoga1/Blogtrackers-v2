@@ -42,8 +42,13 @@ function loadStat(blog_id){
 		},
 		error: function(response)
 		{						
+<<<<<<< HEAD
 			console.log("The error log is "+response);
 			$("#overall-chart").html(response);
+=======
+			console.log(response);
+			//$("#overall-chart").html(response);
+>>>>>>> 03f7d5b22ec5115d2a66fd2edfeaed2e045d3170
 		},
 		success: function(response)
 		{   
@@ -51,10 +56,17 @@ function loadStat(blog_id){
 		
 		response = response.trim();
 		var data = JSON.parse(response);
+<<<<<<< HEAD
 		$(".total-influence").html(data.totalinfluence);
 		$(".total-post").html(data.totalpost);
 		$(".total-sentiment").html(data.totalsentiment);
 		$(".top-keyword").html(data.topterm);
+=======
+		$("#total-influence").html(data.totalinfluence);
+		$("#total-post").html(data.totalpost);
+		$("#total-sentiment").html(data.totalsentiment);
+		$("#top-keyword").html(data.topterm);
+>>>>>>> 03f7d5b22ec5115d2a66fd2edfeaed2e045d3170
 		//$("#overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
@@ -139,32 +151,5 @@ function loadUrls(date_start,date_end){
 	}
 
 
-
-function getStat(blog_id){
-	$(".total-influence").html("");
-	$.ajax({
-		url: app_url+"subpages/postingfrequencypostdetail.jsp",
-		method: 'POST',
-		data: {
-			action:"gettotalinfluence",
-			blogger:blogger,
-			blog_id:blog_id,
-			sort:"influence_score",
-			date_start:$("#date_start").val(),
-			date_end:$("#date_end").val(),
-		},
-		error: function(response)
-		{						
-			console.log(response);
-			$(".total-influence").html(response);
-		},
-		success: function(response)
-		{   
-			console.log(response);
-			$(".total-influence").html(response);
-				
-		}
-	});	
-}
 
 

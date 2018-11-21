@@ -48,7 +48,7 @@
 		Outlinks outl = new Outlinks();
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
-			System.out.println(detail);
+			//System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
 			//System.out.println("List:"+detail);
@@ -122,6 +122,7 @@
 			
 			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
 			Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
+
 
 			Date nnow = new Date();  
 			  
@@ -278,13 +279,7 @@
 				String location="";
 				
 				
-				postc = post._searchTotalByTitleAndBody(tm,"date", dt,dte);
-				blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
-				bloggerc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogger");
-				
-				postmentioned+=(Integer.parseInt(postc));
-				blogmentioned+=(Integer.parseInt(blogc));
-				bloggermentioned+=(Integer.parseInt(bloggerc));	
+					
 				
 				ArrayList postdetail = post._fetch(blogpostid);
 				
@@ -313,6 +308,14 @@
 					allposts =  term._searchByRange("date",dt,dte, tm,"term","10");
 					toplocation = location;
 					mostactiveterm = tm;
+					
+					postc = post._searchTotalByTitleAndBody(tm,"date", dt,dte);
+					blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
+					bloggerc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogger");
+					
+					postmentioned+=(Integer.parseInt(postc));
+					blogmentioned+=(Integer.parseInt(blogc));
+					bloggermentioned+=(Integer.parseInt(bloggerc));
 					//postm   = post._searchByTitleAndBodyTotal(tm,"date",dt,dte);
 				}
 				JSONObject cont = new JSONObject();
@@ -344,6 +347,7 @@
 		int ystint = Integer.parseInt(year_start);
 		int yendint = Integer.parseInt(year_end);
 
+		System.out.println("year start:"+dt+", Year end:"+dte);
 		if(termscount.length()>0){
 			for(int n=0; n<1;n++){
 				int b=0;
@@ -364,7 +368,7 @@
 					    		yearsarray.put(b,y);
 					    		b++;
 					    	}
-						   
+						   System.out.println("totu here "+totu);
 						   postyear.put(y+"",totu);
 				}
 				termsyears.put(termscount.get(n).toString(),postyear);
@@ -636,7 +640,6 @@
 													
 										for (int i = 0; i < topterms.length(); i++) {
 											JSONObject jsonObj = topterms.getJSONObject(i);
-											int size = Integer.parseInt(jsonObj.getString("frequency")) * 5;
 											String terms = jsonObj.getString("key");
 											
 											String dselected = "";
@@ -645,7 +648,7 @@
 											}
 																			
 											%><a
-											class="btn form-control stylebuttoninactive opacity53 text-primary mb20 <%=dselected%>"><b><%=terms%></b></a>
+											class="btn form-control select-term stylebuttoninactive opacity53 text-primary mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>"><b><%=terms%></b></a>
 											<%
 										}
 									}	
@@ -670,8 +673,10 @@
 										<option value="year">Year</option></select> -->
 								</p>
 							</div>
-							<div class="chart-container">
-								<div class="chart" id="d3-line-basic"></div>
+							<div id="main-chart">
+								<div class="chart-container">
+									<div class="chart" id="d3-line-basic"></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -787,14 +792,28 @@
 													firstpost = tobj3;
 												}
 												
-												int titleoccurencece = 0;//StringUtils.countMatches(tobj3.get("title").toString(), tmm);
-												int bodyoccurencece = 0;//StringUtils.countMatches(tobj3.get("post").toString(), tmm);
-										
+												int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
+												
+										        String str = tobj3.get("post").toString()+" "+ tobj3.get("post").toString();
+												String findStr = mostactiveterm;
+												int lastIndex = 0;
+												//int count = 0;
+
+												while(lastIndex != -1){
+
+												    lastIndex = str.indexOf(findStr,lastIndex);
+
+												    if(lastIndex != -1){
+												        bodyoccurencece++;
+												        lastIndex += findStr.length();
+												    }
+												}
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer" id="<%=tobj3.get("blogpost_id")%>" ><%=tobj3.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=tobj3.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
-								<td align="center"><%=(titleoccurencece+titleoccurencece) %></td>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj3.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
+								</td>
+								<td align="center"><%=(bodyoccurencece) %></td>
                                      </tr>
                                     <% }}}%>
 							</tr>						
@@ -816,7 +835,7 @@
 									String body = tobj.get("post").toString();
 									String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
 									%>                                    
-                                    <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,"<span style='background:red;color:#fff'>"+mostactiveterm+"</span>")%></h5>
+                                    <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
 										<div class="text-center mb20 mt20">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
@@ -923,7 +942,13 @@
 
 
 
+<form name="">
+<input type="hidden" id="term" value="<%=mostactiveterm%>" />
+<input type="hidden" id="date_start" value="<%=dt%>" />
 
+<input type="hidden" id="date_end" value="<%=dte%>" />
+
+</form>>
 
 
 
@@ -1084,7 +1109,7 @@
      //
    	// else{
    		// $('#reportrange span').html('${datepicked}');
-       $('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
+     //  $('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
    		$('#reportrange, #custom').daterangepicker(optionSet1, cb);
    		$('#reportrange')
    		.on(
@@ -1682,7 +1707,10 @@
 
 
 
-
+<script src="pagedependencies/baseurl.js?v=38"></script>
+ 
+<script src="pagedependencies/keywordtrend.js?v=979"></script>
+	
 
 </body>
 </html>
