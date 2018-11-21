@@ -811,7 +811,7 @@
                                    <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
 								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
 								</td>
-								<td align="center"><%=(bodyoccurencece) %></td>
+								<td align="center"><%=(bodyoccurencece+1) %></td>
                                      </tr>
                                     <% }%>
 							</tr>						
