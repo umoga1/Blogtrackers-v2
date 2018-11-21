@@ -208,6 +208,7 @@ if(f.exists() && !f.isDirectory()) {
 <div class="col-md-12 pl30 pr30">
 <h2 class="float-left text-primary">Learn</h2>
 </div>
+<embed src= "documentation/blogtrackers_technical_resource.pdf" width= "100%" height= "600">
 </div>
 
 
