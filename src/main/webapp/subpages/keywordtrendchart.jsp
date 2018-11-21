@@ -1,3 +1,4 @@
+
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
@@ -43,8 +44,7 @@ String year_end="";
 		
 %>
 
-<link rel="stylesheet" href="assets/css/table.css" />
-<link rel="stylesheet" href="assets/css/style.css" />
+
 <%  
 if(action.toString().equals("getstats")){	
 	String postc = post._searchTotalByTitleAndBody(mostactiveterm,"date", dt,dte);
@@ -97,6 +97,8 @@ if(action.toString().equals("getstats")){
 %>
 <%=result.toString()%>
 <% }else if(action.toString().equals("gettable")){%>
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
 		<div class="row m0 mt20 mb0 d-flex align-items-stretch">
 			<div
 				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">

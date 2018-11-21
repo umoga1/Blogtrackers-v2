@@ -51,8 +51,9 @@ function loadStat(term){
 		{   
 		
 		response = response.trim();
-		console.log(response);
+		//console.log(response);
 		var data = JSON.parse(response);
+		//console.log(data);
 		$(".blog-mentioned").html(data.blogmentioned);
 		$(".post-mentioned").html(data.postmentioned);
 		$(".blogger-mentioned").html(data.bloggermentioned);
