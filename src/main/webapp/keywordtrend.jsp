@@ -684,11 +684,12 @@
 						<div style="min-height: 250px;">
 							<div>
 								<p class="text-primary mt10 float-left">
-									Keyword Trend of Past <select
+									Keyword Trend <!--  of Past <select
 										class="text-primary filtersort sortbytimerange"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
 										<option value="year">Year</option></select>
+										 -->
 								</p>
 							</div>
 							<div id="main-chart">
@@ -1725,9 +1726,9 @@
 
 
 
-<script src="pagedependencies/baseurl.js?v=38"></script>
+<script src="pagedependencies/baseurl.js?v=308"></script>
  
-<script src="pagedependencies/keywordtrends.js?v=490879"></script>
+<script src="pagedependencies/keywordtrends.js?v=4909"></script>
 	
 
 </body>
