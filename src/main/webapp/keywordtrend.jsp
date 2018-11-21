@@ -120,11 +120,22 @@
 			String stdate = post._getDate(ids,"first");
 			String endate = post._getDate(ids,"last");
 			
-			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
-			Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
+			Date dstart = new Date();//SimpleDateFormat("yyyy-MM-dd").parse(stdate);
+			Date today = new Date();//SimpleDateFormat("yyyy-MM-dd").parse(endate);
 
 
-			Date nnow = new Date();  
+			Date nnow = new Date(); 
+			try{
+				dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
+			}catch(Exception ex){
+				dstart = nnow;//new SimpleDateFormat("yyyy-MM-dd").parse(nnow);
+			}
+			
+			try{
+				today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
+			}catch(Exception ex){
+				today = nnow;//new SimpleDateFormat("yyyy-MM-dd").parse(nnow);
+			}
 			  
 			String day = DAY_ONLY.format(today);
 			
@@ -228,6 +239,7 @@
 		String allpost = "0";
 		String mostactiveterm="";
 		String toplocation="";
+		String mostactiveterm_id ="";
 		
 		
 		JSONArray termscount = new JSONArray();
@@ -264,6 +276,7 @@
 				
 				
 				String tm = bj.get("term").toString();
+				String tmid = bj.get("id").toString();
 				String blogpostid = bj.get("blogpostid").toString();
 				
 				if(freq>highestfrequency){
@@ -305,13 +318,14 @@
 				
 
 				if(p==0){
-					allposts =  term._searchByRange("date",dt,dte, tm,"term","10");
+					allposts =  post._searchByTitleAndBody(tm,"date", dt,dte);//term._searchByRange("date",dt,dte, tm,"term","10");
 					toplocation = location;
 					mostactiveterm = tm;
+					mostactiveterm_id = tmid;
 					
 					postc = post._searchTotalByTitleAndBody(tm,"date", dt,dte);
 					blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
-					bloggerc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogger");
+					bloggerc = post._searchTotalAndUniqueBlogger(tm,"date", dt,dte,"blogger");
 					
 					postmentioned+=(Integer.parseInt(postc));
 					blogmentioned+=(Integer.parseInt(blogc));
@@ -321,6 +335,7 @@
 				
 				JSONObject cont = new JSONObject();
 				cont.put("key", tm);
+				cont.put("id", tmid);
 				cont.put("frequency", frequency);
 				cont.put("postcount",postc);
 				cont.put("blogcount",blogc);
@@ -348,7 +363,6 @@
 		int ystint = Integer.parseInt(year_start);
 		int yendint = Integer.parseInt(year_end);
 
-		System.out.println("year start:"+dt+", Year end:"+dte);
 		if(termscount.length()>0){
 			for(int n=0; n<1;n++){
 				int b=0;
@@ -369,7 +383,7 @@
 					    		yearsarray.put(b,y);
 					    		b++;
 					    	}
-						   System.out.println("totu here "+totu);
+						   
 						   postyear.put(y+"",totu);
 				}
 				termsyears.put(termscount.get(n).toString(),postyear);
@@ -642,6 +656,7 @@
 										for (int i = 0; i < topterms.length(); i++) {
 											JSONObject jsonObj = topterms.getJSONObject(i);
 											String terms = jsonObj.getString("key");
+											String terms_id = jsonObj.getString("id");
 											
 											String dselected = "";
 											if(i==0){
@@ -649,7 +664,7 @@
 											}
 																			
 											%><a
-											class="btn form-control select-term stylebuttoninactive opacity53 text-primary mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>"><b><%=terms%></b></a>
+											class="btn form-control select-term stylebuttoninactive opacity53 text-primary mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=terms%></b></a>
 											<%
 										}
 									}	
@@ -766,35 +781,18 @@
 									for(int i=0; i< allposts.size(); i++){
 										tres = allposts.get(i).toString();	
 										tresp = new JSONObject(tres);
+										
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
-										
-										String postid = tobj.get("blogpostid").toString();
-										String tmm = tobj.get("term").toString();
-										ArrayList postdet = post._fetch(postid);
-										
-										
-										k++;
-										if(postdet.size()>0){							
-											String tres3 = null;
-											JSONObject tresp3 = null;
-											String tresu3 = null;
-											JSONObject tobj3 = null;
-											
-											for(int j=0; j< 1; j++){
-												tres3 = postdet.get(j).toString();	
-												tresp3 = new JSONObject(tres3);
-												tresu3 = tresp3.get("_source").toString();
-												tobj3 = new JSONObject(tresu3);
 												
 												//System.out.println("postdet +"+tobj3);
 												if(i==0){
-													firstpost = tobj3;
+													firstpost = tobj;
 												}
 												
 												int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
 												
-										        String str = tobj3.get("post").toString()+" "+ tobj3.get("post").toString();
+										        String str = tobj.get("post").toString()+" "+ tobj.get("post").toString();
 												String findStr = mostactiveterm;
 												int lastIndex = 0;
 												//int count = 0;
@@ -810,12 +808,12 @@
 												}
 									%>
                                     <tr>
-                                   <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj3.get("blogpost_id")%>" ><%=tobj3.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=tobj3.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
+                                   <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
 								</td>
 								<td align="center"><%=(bodyoccurencece) %></td>
                                      </tr>
-                                    <% }}}%>
+                                    <% }%>
 							</tr>						
 						</tbody>
 					</table>
@@ -942,6 +940,8 @@
 <form name="">
 <input type="hidden" id="term" value="<%=mostactiveterm%>" />
 <input type="hidden" id="date_start" value="<%=dt%>" />
+
+<input type="hidden" id="term_id" value="<%=mostactiveterm_id%>" />
 
 <input type="hidden" id="date_end" value="<%=dte%>" />
 
@@ -1720,7 +1720,7 @@
 
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/keywordtrends.js?v=7879"></script>
+<script src="pagedependencies/keywordtrends.js?v=490879"></script>
 	
 
 </body>
