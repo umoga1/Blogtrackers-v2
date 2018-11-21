@@ -26,7 +26,7 @@ public class Blogposts {
 
 	//String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
 	String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
-	
+
 	String totalpost;
 	String date;
 
@@ -72,7 +72,7 @@ public class Blogposts {
 	}
 
 
-	
+
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids) throws Exception {
 		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
@@ -114,7 +114,7 @@ public class Blogposts {
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
 	}
-	
+
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers) throws Exception {
 		String url = base_url+"_search?size=1000";
 		String[] args = bloggers.split(","); 
@@ -156,11 +156,11 @@ public class Blogposts {
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
 	}
-	
-	
+
+
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
 		String url = base_url+"_search?size=1000";
-	
+
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -170,9 +170,9 @@ public class Blogposts {
 
 		String arg2 = pars.toString();
 		//System.out.println("Bloggers ree :"+pars+". greater:"+greater+":Less"+less);
-		
+
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
-		
+
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -203,8 +203,8 @@ public class Blogposts {
 				"			}\r\n" + 
 				"	}\r\n" +
 				"}";
-		
-	
+
+
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
@@ -222,7 +222,7 @@ public class Blogposts {
 		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
 
-		
+
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -251,14 +251,14 @@ public class Blogposts {
 				"        \"total\" : { \"sum\" : { \"field\" : \"influence_score\" } }\r\n" + 
 				"    }\r\n" + 
 				"}";
-				
+
 		JSONObject jsonObj = new JSONObject(que);
 
 		String url = base_url+"_search?size=1";
 		return this._getAggregate(url,jsonObj);
 	}
-	
-	
+
+
 	public String _searchRangeAggregate(String field,String greater, String less, String blog_ids, String filter) throws Exception {
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -270,7 +270,7 @@ public class Blogposts {
 		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
 
-		
+
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -299,13 +299,13 @@ public class Blogposts {
 				"        \"total\" : { \"sum\" : { \"field\" : \""+filter+"\" } }\r\n" + 
 				"    }\r\n" + 
 				"}";
-				
+
 		JSONObject jsonObj = new JSONObject(que);
 
 		String url = base_url+"_search?size=1";
 		return this._getAggregate(url,jsonObj);
 	}
-	
+
 	public String _searchRangeAggregateByBloggers(String field,String greater, String less, String bloggers) throws Exception {
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -317,7 +317,7 @@ public class Blogposts {
 		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
 
-		
+
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -347,14 +347,14 @@ public class Blogposts {
 				"    }\r\n" + 
 				"}";
 
-	
+
 		JSONObject jsonObj = new JSONObject(que);
 
 		String url = base_url+"_search?size=1";
 		return this._getAggregate(url,jsonObj);
 	}
-	
-	
+
+
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids,String sort,String order) throws Exception {
 		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
@@ -401,7 +401,7 @@ public class Blogposts {
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
 	}
-	
+
 	public String _getDate(String blog_ids,String type) throws Exception {
 		String url = base_url+"_search?size=1";
 		String dt = "";
@@ -414,7 +414,7 @@ public class Blogposts {
 
 		String arg2 = pars.toString();
 		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"DESC\"}}}";		
-		
+
 		if(type.equals("first")) {
 			que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
 		}
@@ -496,7 +496,7 @@ public class Blogposts {
 		return this._getResult(url, jsonObj);
 	}
 
-	
+
 	public ArrayList _searchByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
 
 		int size = 20;
@@ -513,12 +513,12 @@ public class Blogposts {
 				"			}\r\n" + 
 				"	}\r\n" + 
 				"}");
-	
+
 		String url = base_url+"_search?size="+size; 
 		//System.out.println(url);
 		return this._getResult(url, jsonObj);
 	}
-	
+
 	public String _searchTotalByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
@@ -533,11 +533,11 @@ public class Blogposts {
 				"			}\r\n" + 
 				"	}\r\n" + 
 				"}");
-	
+
 		String url = base_url+"_search?size=1"; 
 		return this._getTotal(url, jsonObj);
 	}
-	
+
 	public String _searchTotalAndUnique(String term,String sortby, String start, String end, String filter ) throws Exception {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
@@ -568,12 +568,12 @@ public class Blogposts {
 				"    }\r\n" + 
 				"  }"+
 				"}");
-	
+
 		String url = base_url+"_search?size=1"; 
 		return this._getTotal(url, jsonObj);
 	}
 
-	
+
 	public ArrayList _getPostByBlogger(String blogger)throws Exception {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
@@ -591,7 +591,7 @@ public class Blogposts {
 		String url = base_url+"_search?size=10";
 		return this._getResult(url, jsonObj);
 	}
-	
+
 	/* Fetch posts by blog ids*/
 	public String _getTotalByBlogId(String blog_ids,String from) throws Exception {
 		String url = base_url+"_search?size=1";
@@ -608,14 +608,14 @@ public class Blogposts {
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this.totalpost;
 	}
-	
+
 	/* Fetch posts by blog ids*/
 	public String _getTotalByBlogger(String blogger,String field,String greater, String less) throws Exception {
 		String url = base_url+"_search?size=1";
 		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogger\":"+blogger+"}}}}}";
 
 		//JSONObject jsonObj = new JSONObject(que);
-		
+
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
@@ -695,8 +695,8 @@ public class Blogposts {
 		String url = base_url+"_search";
 		return this._getTotal(url,jsonObj);
 	}
-	
-	
+
+
 	public String _searchRangeTotalByBlogger(String field,String greater, String less, String bloggers) throws Exception {
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 	
@@ -705,7 +705,7 @@ public class Blogposts {
 		}
 
 		String arg2 = pars.toString();
-		
+
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -731,7 +731,7 @@ public class Blogposts {
 				"    }\r\n" + 
 				"  }\r\n" + 
 				"}";
-				
+
 		JSONObject jsonObj = new JSONObject(que);
 
 		String url = base_url+"_search";
@@ -799,7 +799,7 @@ public class Blogposts {
 		return this._getResult(url, jsonObj);
 
 	}
-	
+
 	public ArrayList _getPost(String key, String value) throws Exception {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
@@ -821,211 +821,211 @@ public class Blogposts {
 	public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 		ArrayList<String> list = new ArrayList<String>();
 		try {
-		URL obj = new URL(url);
-	    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-	    
-	    con.setDoOutput(true);
-	    con.setDoInput(true);
-	   
-	    con.setRequestProperty("Content-Type", "application/json; charset=utf-32");
-	    con.setRequestProperty("Content-Type", "application/json");
-	    con.setRequestProperty("Accept-Charset", "UTF-32");
-	    con.setRequestProperty("Accept", "application/json");
-	    con.setRequestMethod("POST");
-	    
-	    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-	    
-	    
-	    //OutputStreamWriter wr1 = new OutputStreamWriter(con.getOutputStream());
-	    wr.write(jsonObj.toString().getBytes());
-	    wr.flush();
-	    
-	    int responseCode = con.getResponseCode();  
-	    BufferedReader in = new BufferedReader(
-	         new InputStreamReader(con.getInputStream()));
-	    String inputLine;
-	    StringBuffer response = new StringBuffer();
-	    
-	    while ((inputLine = in.readLine()) != null) {
-	     	response.append(inputLine);
-	     	//System.out.println(inputLine);
-	     	
-	     }
-	     in.close();
-	     
-	     JSONObject myResponse = new JSONObject(response.toString());
-	    
-	     if(null!=myResponse.get("hits")) {
-		     String res = myResponse.get("hits").toString();
-		     JSONObject myRes1 = new JSONObject(res);
-		      String total = myRes1.get("total").toString();
-		      this.totalpost = total;
-		    
-		     JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
-		     
-		     if (jsonArray != null) { 
-		        int len = jsonArray.length();
-		        for (int i=0;i<len;i++){ 
-		         list.add(jsonArray.get(i).toString());
-		        } 
-		     }
-	     }
+			URL obj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+			con.setDoOutput(true);
+			con.setDoInput(true);
+
+			con.setRequestProperty("Content-Type", "application/json; charset=utf-32");
+			con.setRequestProperty("Content-Type", "application/json");
+			con.setRequestProperty("Accept-Charset", "UTF-32");
+			con.setRequestProperty("Accept", "application/json");
+			con.setRequestMethod("POST");
+
+			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+
+
+			//OutputStreamWriter wr1 = new OutputStreamWriter(con.getOutputStream());
+			wr.write(jsonObj.toString().getBytes());
+			wr.flush();
+
+			int responseCode = con.getResponseCode();  
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+				//System.out.println(inputLine);
+
+			}
+			in.close();
+
+			JSONObject myResponse = new JSONObject(response.toString());
+
+			if(null!=myResponse.get("hits")) {
+				String res = myResponse.get("hits").toString();
+				JSONObject myRes1 = new JSONObject(res);
+				String total = myRes1.get("total").toString();
+				this.totalpost = total;
+
+				JSONArray jsonArray = new JSONArray(myRes1.get("hits").toString()); 
+
+				if (jsonArray != null) { 
+					int len = jsonArray.length();
+					for (int i=0;i<len;i++){ 
+						list.add(jsonArray.get(i).toString());
+					} 
+				}
+			}
 		}catch(Exception ex) {}
-	     return list;
+		return list;
 	}
-	
+
 	public String _getTotal(String url, JSONObject jsonObj) throws Exception {
 		String total = "0";
 		try {
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			URL obj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-		con.setDoOutput(true);
-		con.setDoInput(true);
+			con.setDoOutput(true);
+			con.setDoInput(true);
 
-		con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-		con.setRequestProperty("Accept", "application/json");
-		con.setRequestMethod("POST");
+			con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+			con.setRequestProperty("Accept", "application/json");
+			con.setRequestMethod("POST");
 
-		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-		wr.write(jsonObj.toString());
-		wr.flush();
+			OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+			wr.write(jsonObj.toString());
+			wr.flush();
 
-		//add request header
-		//con.setRequestProperty("User-Agent", "Mozilla/5.0");
-		int responseCode = con.getResponseCode();
+			//add request header
+			//con.setRequestProperty("User-Agent", "Mozilla/5.0");
+			int responseCode = con.getResponseCode();
 
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
 
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		
-		}
-		in.close();
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
 
-		JSONObject myResponse = new JSONObject(response.toString());
-		ArrayList<String> list = new ArrayList<String>(); 
-		//System.out.println(myResponse.get("hits"));
-		if(null!=myResponse.get("hits")) {
-			String res = myResponse.get("hits").toString();
-			JSONObject myRes1 = new JSONObject(res);          
-			total = myRes1.get("total").toString();              
-		}
+			}
+			in.close();
+
+			JSONObject myResponse = new JSONObject(response.toString());
+			ArrayList<String> list = new ArrayList<String>(); 
+			//System.out.println(myResponse.get("hits"));
+			if(null!=myResponse.get("hits")) {
+				String res = myResponse.get("hits").toString();
+				JSONObject myRes1 = new JSONObject(res);          
+				total = myRes1.get("total").toString();              
+			}
 		}catch(Exception ex) {}
 		return  total;
 	}
-	
-	
-	
+
+
+
 	public String _getAggregate(String url, JSONObject jsonObj) throws Exception {
 		String total = "0";
 		try {
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			URL obj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-		con.setDoOutput(true);
-		con.setDoInput(true);
+			con.setDoOutput(true);
+			con.setDoInput(true);
 
-		con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-		con.setRequestProperty("Accept", "application/json");
-		con.setRequestMethod("POST");
+			con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+			con.setRequestProperty("Accept", "application/json");
+			con.setRequestMethod("POST");
 
-		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-		wr.write(jsonObj.toString());
-		wr.flush();
+			OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+			wr.write(jsonObj.toString());
+			wr.flush();
 
-		//add request header
-		//con.setRequestProperty("User-Agent", "Mozilla/5.0");
-		int responseCode = con.getResponseCode();
+			//add request header
+			//con.setRequestProperty("User-Agent", "Mozilla/5.0");
+			int responseCode = con.getResponseCode();
 
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
 
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		
-		}
-		in.close();
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
 
-		JSONObject myResponse = new JSONObject(response.toString());
-		ArrayList<String> list = new ArrayList<String>(); 
-		//System.out.println(myResponse.get("hits"));
-		if(null!=myResponse.get("aggregations")) {
-			String res = myResponse.get("aggregations").toString();
-			JSONObject myRes1 = new JSONObject(res); 
-			
-			
-			String res2 = myRes1.get("total").toString();
-			
-			JSONObject myRes2 = new JSONObject(res2);   
-			total = myRes2.get("value").toString(); 
-		}
+			}
+			in.close();
+
+			JSONObject myResponse = new JSONObject(response.toString());
+			ArrayList<String> list = new ArrayList<String>(); 
+			//System.out.println(myResponse.get("hits"));
+			if(null!=myResponse.get("aggregations")) {
+				String res = myResponse.get("aggregations").toString();
+				JSONObject myRes1 = new JSONObject(res); 
+
+
+				String res2 = myRes1.get("total").toString();
+
+				JSONObject myRes2 = new JSONObject(res2);   
+				total = myRes2.get("value").toString(); 
+			}
 		}catch(Exception ex) {}
 		return  total;
 	}
-	
-	
+
+
 	public JSONArray _sortJson(JSONArray yearsarray) {
 		JSONArray sortedyearsarray = new JSONArray();
 		List<String> jsonList = new ArrayList<String>();
 		for (int i = 0; i < yearsarray.length(); i++) {
-		    jsonList.add(yearsarray.get(i).toString());
+			jsonList.add(yearsarray.get(i).toString());
 		}
-		
+
 		Collections.sort( jsonList, new Comparator<String>() {
-		    public int compare(String a, String b) {
-		        String valA = new String();
-		        String valB = new String();
-	
-		        try {
-		            valA = (String) a;
-		            valB = (String) b;
-		        } 
-		        catch (Exception e) {
-		            //do something
-		        }
-		        return valA.compareTo(valB);
-		    }
+			public int compare(String a, String b) {
+				String valA = new String();
+				String valB = new String();
+
+				try {
+					valA = (String) a;
+					valB = (String) b;
+				} 
+				catch (Exception e) {
+					//do something
+				}
+				return valA.compareTo(valB);
+			}
 		});
-		
+
 		for (int i = 0; i < yearsarray.length(); i++) {
-		    sortedyearsarray.put(jsonList.get(i));
+			sortedyearsarray.put(jsonList.get(i));
 		}
 		return sortedyearsarray;
 	}
-	
+
 	public int monthsBetweenDates(Date startDate, Date endDate){
 
-	        Calendar start = Calendar.getInstance();
-	        start.setTime(startDate);
-	
-	        Calendar end = Calendar.getInstance();
-	        end.setTime(endDate);
+		Calendar start = Calendar.getInstance();
+		start.setTime(startDate);
 
-          	int monthsBetween = 0;
-            int dateDiff = end.get(Calendar.DAY_OF_MONTH)-start.get(Calendar.DAY_OF_MONTH);      
+		Calendar end = Calendar.getInstance();
+		end.setTime(endDate);
 
-            if(dateDiff<0) {
-	                int borrrow = end.getActualMaximum(Calendar.DAY_OF_MONTH);           
-	                 dateDiff = (end.get(Calendar.DAY_OF_MONTH)+borrrow)-start.get(Calendar.DAY_OF_MONTH);
-	                 monthsBetween--;
-	
-	                 if(dateDiff>0) {
-	                     monthsBetween++;
-	                 }
-            }
-            else {
-                monthsBetween++;
-            }      
-	            monthsBetween += end.get(Calendar.MONTH)-start.get(Calendar.MONTH);      
-	            monthsBetween  += (end.get(Calendar.YEAR)-start.get(Calendar.YEAR))*12;      
-	            return monthsBetween;
-     }
+		int monthsBetween = 0;
+		int dateDiff = end.get(Calendar.DAY_OF_MONTH)-start.get(Calendar.DAY_OF_MONTH);      
+
+		if(dateDiff<0) {
+			int borrrow = end.getActualMaximum(Calendar.DAY_OF_MONTH);           
+			dateDiff = (end.get(Calendar.DAY_OF_MONTH)+borrrow)-start.get(Calendar.DAY_OF_MONTH);
+			monthsBetween--;
+
+			if(dateDiff>0) {
+				monthsBetween++;
+			}
+		}
+		else {
+			monthsBetween++;
+		}      
+		monthsBetween += end.get(Calendar.MONTH)-start.get(Calendar.MONTH);      
+		monthsBetween  += (end.get(Calendar.YEAR)-start.get(Calendar.YEAR))*12;      
+		return monthsBetween;
+	}
 	/*
 	public  Date addDay(Date date, int i) {
 	        Calendar cal = Calendar.getInstance();
@@ -1033,20 +1033,20 @@ public class Blogposts {
 	        cal.add(Calendar.DAY_OF_YEAR, i);
 	        return cal.getTime();
 	}
-	
+
     public  Date addMonth(Date date, int i) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.MONTH, i);
         return cal.getTime();
     }
-    
+
     public Date addYear(Date date, int i) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.YEAR, i);
         return cal.getTime();
     }
-    */
+	 */
 
 }
