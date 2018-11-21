@@ -18,7 +18,7 @@
 	String date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	String single = (null == request.getParameter("sortdate")) ? "" : request.getParameter("sortdate");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
-	String listtype =  (null == request.getParameter("listtype")) ? "ulr" : request.getParameter("listtype").toString().replaceAll("[^a-zA-Z]", " ");
+	String listtype =  (null == request.getParameter("listtype")) ? "urls" : request.getParameter("listtype").toString().replaceAll("[^a-zA-Z]", " ");
 	
 
 	if (user == null || user == "") {
@@ -173,8 +173,28 @@
 			}
 
 		}
+			
 %>
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
 
+							<table id="DataTables_Table_0_wrapper" class="display nowrap" style="width: 100%">
+								<thead>
+									
+									<% if(listtype.equals("urls")){ %>
+										<tr><th>URLs</th>
+										<th>Frequency</th>
+										</tr>
+									<% } else { %>	
+									<tr>
+									<th>Domain</th>
+									<th>Frequency</th>
+									</tr>
+									<% } %>
+
+									
+								</thead>
+									<tbody>
 
 									<%
 										if (outlinklooper.size() > 0) {
@@ -192,3 +212,45 @@
 										<td><%=resu.get("value")%></td>
 									</tr>
 									<% }}} %>
+									
+									</tbody>
+							</table>
+							
+<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
+			<script>
+ $(document).ready(function() {
+	 
+	 
+	$('#printdoc').on('click',function(){
+		print();
+	}) 
+	
+	 $(function () {
+		    $('[data-toggle="tooltip"]').tooltip()
+		  })
+		  
+		  // datatable setup
+		    $('#DataTables_Table_0_wrapper').DataTable( {
+		        "scrollY": 430,
+		        "scrollX": true,
+		         "pagingType": "simple",
+		        	 "bLengthChange": false
+		      /*    ,
+		         dom: 'Bfrtip',
+		         "columnDefs": [
+		      { "width": "80%", "targets": 0 }
+		    ],
+		      buttons:{
+		        buttons: [
+		            { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
+		            {extend:'csv',className: 'btn-primary stylebutton1'},
+		            {extend:'excel',className: 'btn-primary stylebutton1'},
+		           // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
+		            {extend:'print',className: 'btn-primary stylebutton1'},
+		        ]
+		      } */
+		    } );
+	 
+ } );
+ </script>
+	<!--end for table  -->

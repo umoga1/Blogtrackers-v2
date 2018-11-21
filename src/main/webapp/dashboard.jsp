@@ -1116,6 +1116,7 @@
 							<!--   <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
+          <div id="top-domain-box">
 							<table id="DataTables_Table_0_wrapper" class="display nowrap"
 								style="width: 100%">
 								<thead>
@@ -1125,7 +1126,7 @@
 
 									</tr>
 								</thead>
-								<tbody id="top-domain-box">
+								<tbody >
 								
 									<%
 										if (outlinklooper.size() > 0) {
@@ -1145,6 +1146,7 @@
 
 								</tbody>
 							</table>
+							</div>
 						</div>
 					</div>
 				</div>

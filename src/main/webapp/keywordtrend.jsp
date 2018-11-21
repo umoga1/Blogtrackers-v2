@@ -1709,7 +1709,7 @@
 
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/keywordtrend.js?v=979"></script>
+<script src="pagedependencies/keywordtrends.js?v=979"></script>
 	
 
 </body>
