@@ -25,9 +25,9 @@ $('.select-term').on("click", function(){
 
 
 function loadStat(term){
-	$(".blog_mentioned").html("<img src='images/loading.gif' />");
-	$(".post_mentioned").html("<img src='images/loading.gif' />");
-	$(".blogger_mentioned").html("<img src='images/loading.gif' />");
+	$(".blog-mentioned").html("<img src='images/loading.gif' />");
+	$(".post-mentioned").html("<img src='images/loading.gif' />");
+	$(".blogger-mentioned").html("<img src='images/loading.gif' />");
 	//$(".top-location").html("<img src='images/loading.gif' />");
 	$.ajax({
 		url: app_url+"subpages/keywordtrendchart.jsp",
@@ -49,9 +49,9 @@ function loadStat(term){
 		response = response.trim();
 		console.log(response);
 		var data = JSON.parse(response);
-		$(".blog_mentioned").html(data.blogmentioned);
-		$(".post_mentioned").html(data.postmentioned);
-		$(".blogger_mentioned").html(data.bloggermentioned);
+		$(".blog-mentioned").html(data.blogmentioned);
+		$(".post-mentioned").html(data.postmentioned);
+		$(".blogger-mentioned").html(data.bloggermentioned);
 		//$(".top-location").html(data.toplocation);
 		//$("#overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
