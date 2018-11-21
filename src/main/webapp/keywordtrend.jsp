@@ -810,7 +810,7 @@
 												}
 									%>
                                     <tr>
-                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj3.get("blogpost_id")%>" ><%=tobj3.get("title") %></a><br/>
+                                   <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj3.get("blogpost_id")%>" ><%=tobj3.get("title") %></a><br/>
 								<a class="mt20 viewpost makeinvisible" href="<%=tobj3.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
 								</td>
 								<td align="center"><%=(bodyoccurencece) %></td>
@@ -1720,7 +1720,7 @@
 
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/keywordtrends.js?v=744979"></script>
+<script src="pagedependencies/keywordtrends.js?v=7879"></script>
 	
 
 </body>

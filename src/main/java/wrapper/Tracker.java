@@ -342,6 +342,44 @@ public class Tracker extends HttpServlet {
 						
 						
 						pww.write(output+"");
+					}else if(source.equals("keywordtrend") && section.equals("detail_table")) {
+
+						for (int p = 0; p < posts.size(); p++) {
+							String bstr = posts.get(p).toString();
+							JSONObject bj = new JSONObject(bstr);
+							bstr = bj.get("_source").toString();
+							bj = new JSONObject(bstr);
+							//System.out.println(bj.get("body"));
+							
+							String mostactiveterm = (null==request.getParameter("term"))?"":request.getParameter("term").toString();
+							String body = bj.get("post").toString();
+							String title = bj.get("title").toString();
+							String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
+							
+							
+							output+="<h5 class='text-primary p20 pt0 pb0'>#1: "+title.replaceAll(mostactiveterm,replace)+"</h5>" + 
+									"					<div class='text-center mb20 mt20'>" + 
+									"						<button class='btn stylebuttonblue'>" + 
+									"							<b class='float-left ultra-bold-text'>"+bj.get("blogger").toString()+"</b> <i" + 
+									"								class='far fa-user float-right blogcontenticon'></i>" + 
+									"						</button>" + 
+									"						<button class='btn stylebuttonnocolor'>"+bj.get("date").toString()+"</button>" + 
+									"						<button class='btn stylebuttonorange'>" + 
+									"							<b class='float-left ultra-bold-text'>"+bj.get("num_comments").toString()+" comments</b><i" + 
+									"								class='far fa-comments float-right blogcontenticon'></i>" + 
+									"						</button>" + 
+									"					</div>" + 
+									
+									"					<div style=\"height: 600px;\"><div class='p20 pt0 pb20 text-blog-content text-primary'" + 
+									"						style='height: 550px; overflow-y: scroll;'>" + 
+									"						"+body.replaceAll(mostactiveterm,replace)+""+ 
+									"						</div></div>";
+									
+							
+						}
+						
+						
+						pww.write(output+"");
 					}else if(source.equals("influence") && section.equals("influential_table")) {
 						output+="<p>\r\n" + 
 								"Influential Blog Posts of <b class=\"text-blue\">"+value+"</b> and <b\r\n" + 
