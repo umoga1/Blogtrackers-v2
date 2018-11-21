@@ -48,7 +48,7 @@
 		Outlinks outl = new Outlinks();
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
-			System.out.println(detail);
+			//System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
 			//System.out.println("List:"+detail);
@@ -122,6 +122,7 @@
 			
 			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
 			Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
+
 
 			Date nnow = new Date();  
 			  
@@ -344,6 +345,7 @@
 		int ystint = Integer.parseInt(year_start);
 		int yendint = Integer.parseInt(year_end);
 
+		System.out.println("year start:"+dt+", Year end:"+dte);
 		if(termscount.length()>0){
 			for(int n=0; n<1;n++){
 				int b=0;
@@ -364,7 +366,7 @@
 					    		yearsarray.put(b,y);
 					    		b++;
 					    	}
-						   
+						   System.out.println("totu here "+totu);
 						   postyear.put(y+"",totu);
 				}
 				termsyears.put(termscount.get(n).toString(),postyear);
@@ -787,14 +789,28 @@
 													firstpost = tobj3;
 												}
 												
-												int titleoccurencece = 0;//StringUtils.countMatches(tobj3.get("title").toString(), tmm);
-												int bodyoccurencece = 0;//StringUtils.countMatches(tobj3.get("post").toString(), tmm);
-										
+												int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
+												
+										        String str = tobj3.get("post").toString()+" "+ tobj3.get("post").toString();
+												String findStr = mostactiveterm;
+												int lastIndex = 0;
+												//int count = 0;
+
+												while(lastIndex != -1){
+
+												    lastIndex = str.indexOf(findStr,lastIndex);
+
+												    if(lastIndex != -1){
+												        bodyoccurencece++;
+												        lastIndex += findStr.length();
+												    }
+												}
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer" id="<%=tobj3.get("blogpost_id")%>" ><%=tobj3.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=tobj3.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
-								<td align="center"><%=(titleoccurencece+titleoccurencece) %></td>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj3.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
+								</td>
+								<td align="center"><%=(bodyoccurencece) %></td>
                                      </tr>
                                     <% }}}%>
 							</tr>						
@@ -816,7 +832,7 @@
 									String body = tobj.get("post").toString();
 									String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
 									%>                                    
-                                    <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,"<span style='background:red;color:#fff'>"+mostactiveterm+"</span>")%></h5>
+                                    <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
 										<div class="text-center mb20 mt20">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
@@ -1083,7 +1099,7 @@
      //
    	// else{
    		// $('#reportrange span').html('${datepicked}');
-       $('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
+     //  $('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
    		$('#reportrange, #custom').daterangepicker(optionSet1, cb);
    		$('#reportrange')
    		.on(

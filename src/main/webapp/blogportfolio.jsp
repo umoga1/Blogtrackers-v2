@@ -43,11 +43,9 @@
 		Terms term = new Terms();
 		Outlinks outl = new Outlinks();
 		if (tid != "") {
-			detail = tracker._fetch(tid.toString());
-			System.out.println(detail);
+			detail = tracker._fetch(tid.toString());	
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
-			//System.out.println("List:"+detail);
 		}
 		
 		boolean isowner = false;

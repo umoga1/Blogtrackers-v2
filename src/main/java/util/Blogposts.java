@@ -521,19 +521,54 @@ public class Blogposts {
 	
 	public String _searchTotalByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
-				"  \"query\": {\r\n" + 
-				"        \"query_string\" : {\r\n" + 
-				"            \"fields\" : [\"title\",\"post\"],\r\n" + 
-				"            \"query\" : \""+term+"\"\r\n" + 
+				"       \"query\": {\r\n" + 
+				"          \"bool\": { \r\n" + 
+				"               \"must\": {\r\n" + 
+				"                    \"query_string\" : {\r\n" + 
+				"            			\"fields\" : [\"title\",\"post\"],\r\n" + 
+				"            			\"query\" : \""+term+"\"\r\n" + 
+				"                    }\r\n" + 
+				"                },\r\n" + 
+				"                \"filter\": {\r\n" + 
+				"                    \"range\" : {\r\n" + 
+				"                        \"date\" : {\r\n" + 
+				"                            \"gte\": \""+start+"\",\r\n" + 
+				"                            \"lte\": \""+end+"\"\r\n" + 
+				"                        }\r\n" + 
+				"                    }\r\n" + 
+				"                }\r\n" + 
+				"            }\r\n" + 
 				"        }\r\n" + 
-				"  },\r\n" + 
-				"   \"sort\":{\r\n" + 
-				"		\""+sortby+"\":{\r\n" + 
-				"			\"order\":\"DESC\"\r\n" + 
-				"			}\r\n" + 
-				"	}\r\n" + 
-				"}");
+				"    }");
 	
+		/*
+		 		
+		String que="{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"bool\": {\r\n" + 
+				"      \"must\": [\r\n" + 
+				"        {\r\n" + 
+				"		  \"constant_score\":{\r\n" + 
+				"					\"filter\":{\r\n" + 
+				"							\"terms\":{\r\n" + 
+				"							\"blogger\":"+arg2+"\r\n" + 
+				"									}\r\n" + 
+				"							}\r\n" + 
+				"						}\r\n" + 
+				"		},\r\n" + 
+				"        {\r\n" + 
+				"		  \"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"      ]\r\n" + 
+				"    }\r\n" + 
+				"  }\r\n" + 
+				"}";
+		 */
 		String url = base_url+"_search?size=1"; 
 		return this._getTotal(url, jsonObj);
 	}

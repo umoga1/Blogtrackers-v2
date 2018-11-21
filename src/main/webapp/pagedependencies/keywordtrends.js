@@ -1,7 +1,7 @@
 // delete all blog from tracker action
 
 
-$('#blogger-changed').on("change", function(){
+$('.blogger-changed').on("click", function(){
 
 
 	var date_start = $("#date_start").val();
@@ -32,11 +32,11 @@ function loadStat(blog_id){
 	$("#total-sentiment").html("<img src='images/loading.gif' />");
 	$("#top-keyword").html("<img src='images/loading.gif' />");
 	$.ajax({
-		url: app_url+"subpages/blogportfoliochart.jsp",
+		url: app_url+"subpages/keywordtrendschart.jsp",
 		method: 'POST',
 		data: {
 			action:"getstats",
-			blog_id:blog_id,
+			term:term,
 			date_start:$("#date_start").val(),
 			date_end:$("#date_end").val(),
 		},
@@ -61,14 +61,14 @@ function loadStat(blog_id){
 	});
 }
 
-function loadChart(blog_id){
+function loadChart(term){
 	$("#overall-chart").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	$.ajax({
-		url: app_url+"subpages/blogportfoliochart.jsp",
+		url: app_url+"subpages/keywordtrendschart.jsp",
 		method: 'POST',
 		data: {
 			action:"getchart",
-			blog_id:blog_id,
+			term:term,
 			date_start:$("#date_start").val(),
 			date_end:$("#date_end").val(),
 		},
@@ -87,35 +87,8 @@ function loadChart(blog_id){
 	});
 }
 
-function loadYearlyChart(blog_id){
-	$("#yearlypattern").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
-	$.ajax({
-		url: app_url+"subpages/blogportfoliochart.jsp",
-		method: 'POST',
-		data: {
-			action:"getyearlychart",
-			blog_id:blog_id,
-			date_start:$("#date_start").val(),
-			date_end:$("#date_end").val(),
-		},
-		error: function(response)
-		{						
-			console.log(response);
-			$("#yearlypattern").html(response);
-		},
-		success: function(response)
-		{   
 
-		$("#yearlypattern").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
-			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
-			  });*/
-		}
-	});
-}
-
-
-
-function loadUrls(date_start,date_end){
+function loadTable(date_start,date_end){
 	$("#url-table").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 		
 		$.ajax({
@@ -136,6 +109,8 @@ function loadUrls(date_start,date_end){
 			}
 		});
 	}
+
+
 
 
 

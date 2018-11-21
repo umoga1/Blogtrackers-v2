@@ -65,7 +65,7 @@ Terms term  = new Terms();
 		int nov=0;
 		int dec=0;
 		
-	if(!action.toString().equals("getstat")){
+	if(!action.toString().equals("getstats")){
 		for(int y=ystint; y<=yendint; y++){
 				   String dtu = y + "-01-01";
 
@@ -134,7 +134,7 @@ Terms term  = new Terms();
 %>
 
 <%  
-if(action.toString().equals("getstat")){	
+if(action.toString().equals("getstats")){	
 	JSONArray sentimentpost = new JSONArray();
 	ArrayList allauthors = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");
 
