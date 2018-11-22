@@ -86,7 +86,11 @@
 					    %>
 							<tr>
 								<td align="center"><%=(y)%></td>
-								<td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" onclick="loadChart('<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>')" <%-- style="color:<%=color%>" --%>><%=tobj.get("title").toString() %></a></td>
+								<td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" onclick="loadChart('<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>')" <%-- style="color:<%=color%>" --%>><%=tobj.get("title").toString() %></a>
+								<br/>
+								 <a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></buttton></a>
+								
+								</td>
 								<td align="center"><%=tobj.get("blogger").toString() %></td>
 							</tr>
 						<% }} %>

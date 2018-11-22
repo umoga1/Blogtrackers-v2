@@ -6,7 +6,9 @@ $('.blogpost_link').on("click", function(){
 
 	var post_id = $(this).attr("id");
 	$('.blogpost_link').removeClass("activeselectedblog");
+	$(".viewpost").addClass("makeinvisible");
 	$(this).addClass("activeselectedblog");
+	$(this).parent().children(".viewpost").removeClass("makeinvisible");
 	color = "#0080CC";
 	//alert(post_id);
 	loadChart(post_id,color);
