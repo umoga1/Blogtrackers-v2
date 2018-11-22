@@ -24,8 +24,8 @@ public class Blogposts {
 
 	HashMap<String, String> hm = DbConnection.loadConstant();		
 
-	String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
-	//String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
+	//String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
+	String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
 	
 	String totalpost;
 	String date;
@@ -658,7 +658,6 @@ public class Blogposts {
 	}
 
 	public String _searchTotalAndUniqueBlogger(String term,String sortby, String start, String end, String filter ) throws Exception {
-	
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
