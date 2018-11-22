@@ -872,6 +872,11 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 										tresp = new JSONObject(tres);
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
+										String dat = tobj.get("date").toString().substring(0,10);
+										LocalDate datee = LocalDate.parse(dat);
+										DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+										String date = dtf.format(datee);
+										
 										k++;
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
@@ -880,7 +885,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
+											<button class="btn stylebuttonnocolor"><%=date %></button>
 											<button class="btn stylebuttonorange">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
