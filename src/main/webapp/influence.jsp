@@ -265,32 +265,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 	ArrayList allposts = new ArrayList();
 	
-	JSONArray sentimentpost = new JSONArray();
-	ArrayList allauthors2 = post._getBloggerByBlogId("date", dt, dte, mostactiveblogid, "influence_score", "DESC");
-	if(allauthors.size()>0){
-		String tres = null;
-		JSONObject tresp = null;
-		String tresu = null;
-		JSONObject tobj = null;
-		int j=0;
-		int k=0;
-		int n = 0;
-		for(int i=0; i< allauthors.size(); i++){
-					tres = allauthors.get(i).toString();			
-					tresp = new JSONObject(tres);
-				    tresu = tresp.get("_source").toString();
-				    tobj = new JSONObject(tresu);				    
-				    sentimentpost.put(tobj.get("blogpost_id").toString());
-			}
-	} 	
 
-	String possentiment2 =new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"posemo");
-	String negsentiment2 =new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"negemo");
-	
-	int comb = Integer.parseInt(possentiment2)+Integer.parseInt(negsentiment2);
-	String totalcomment = post._searchRangeAggregate("date", dt, dte, mostactiveblogid,"num_comments");
-	
-	String totalsenti  = comb+"";
 
 //System.out.println(topterms);
 %>
@@ -739,6 +714,33 @@ if(authorcount.length()>0){
 		authoryears.put(authorcount.get(n).toString(),postyear);
 	}
 }
+
+JSONArray sentimentpost = new JSONArray();
+ArrayList allauthors2 = post._getBloggerByBlogId("date", dt, dte, selectedid, "influence_score", "DESC");
+if(allauthors2.size()>0){
+	String tres = null;
+	JSONObject tresp = null;
+	String tresu = null;
+	JSONObject tobj = null;
+	int j=0;
+	int k=0;
+	int n = 0;
+	for(int i=0; i< allauthors2.size(); i++){
+				tres = allauthors2.get(i).toString();			
+				tresp = new JSONObject(tres);
+			    tresu = tresp.get("_source").toString();
+			    tobj = new JSONObject(tresu);				    
+			    sentimentpost.put(tobj.get("blogpost_id").toString());
+		}
+} 	
+
+String possentiment2 =new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"posemo");
+String negsentiment2 =new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"negemo");
+
+int comb = Integer.parseInt(possentiment2)+Integer.parseInt(negsentiment2);
+String totalcomment = post._searchRangeAggregate("date", dt, dte,selectedid,"num_comments");
+
+String totalsenti  = comb+"";
 
 %>
 
