@@ -93,8 +93,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	if (detail.size() > 0) {
 		//String res = detail.get(0).toString();
 		ArrayList resp = (ArrayList<?>)detail.get(0);
+		System.out.println("details here-"+resp);
 
-		String tracker_userid = resp.get(0).toString();
+		String tracker_userid = resp.get(1).toString();
 		trackername = resp.get(2).toString();
 		if (tracker_userid.equals(user.toString())) {
 			isowner = true;
@@ -123,12 +124,23 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	
 	
 	
-	System.out.println("Start:"+stdate+", End:"+endate);
-	
 	Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
 	Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
-
-	Date nnow = new Date();  
+	
+	
+	Date nnow = new Date(); 
+	
+	try{
+		dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
+	}catch(Exception ex){
+		dstart = nnow;//new SimpleDateFormat("yyyy-MM-dd").parse(nnow);
+	}
+	
+	try{
+		today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
+	}catch(Exception ex){
+		today = nnow;//new SimpleDateFormat("yyyy-MM-dd").parse(nnow);
+	}
 	  
 	String day = DAY_ONLY.format(today);
 	
@@ -252,6 +264,33 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	
 
 	ArrayList allposts = new ArrayList();
+	
+	JSONArray sentimentpost = new JSONArray();
+	ArrayList allauthors2 = post._getBloggerByBlogId("date", dt, dte, mostactiveblogid, "influence_score", "DESC");
+	if(allauthors.size()>0){
+		String tres = null;
+		JSONObject tresp = null;
+		String tresu = null;
+		JSONObject tobj = null;
+		int j=0;
+		int k=0;
+		int n = 0;
+		for(int i=0; i< allauthors.size(); i++){
+					tres = allauthors.get(i).toString();			
+					tresp = new JSONObject(tres);
+				    tresu = tresp.get("_source").toString();
+				    tobj = new JSONObject(tresu);				    
+				    sentimentpost.put(tobj.get("blogpost_id").toString());
+			}
+	} 	
+
+	String possentiment2 =new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"posemo");
+	String negsentiment2 =new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"negemo");
+	
+	int comb = Integer.parseInt(possentiment2)+Integer.parseInt(negsentiment2);
+	String totalcomment = post._searchRangeAggregate("date", dt, dte, mostactiveblogid,"num_comments");
+	
+	String totalsenti  = comb+"";
 
 //System.out.println(topterms);
 %>
@@ -594,7 +633,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								
 				
 				// bloggerarr = post._sortJson(bloggerarr);
-				 
+				System.out.println("Hello:"+bloggerarr);
+
 				for(int m=(bloggerarr.length()-1); m>=0; m--){
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
@@ -604,6 +644,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					
 					JSONArray selposts = new JSONArray(det.get("postarray").toString());
 					String postids = "";
+					System.out.println("posts here:"+selposts);
 					for(int r=0; r<selposts.length(); r++){
 						postids += selposts.get(r).toString()+",";
 					}
@@ -637,7 +678,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <!--  Populate terms and influence score json for chart-->
 <%
 
-System.out.println("Terms is:"+allterms);
 int highestfrequency = 0;
 JSONArray topterms = new JSONArray();
 JSONObject keys = new JSONObject();
@@ -693,7 +733,7 @@ if(authorcount.length()>0){
 			    		yearsarray.put(b,y);
 			    		b++;
 			    	}
-				   System.out.println("totu-"+totu);
+				   //System.out.println("totu-"+totu);
 				   postyear.put(y+"",totu);
 		}
 		authoryears.put(authorcount.get(n).toString(),postyear);
@@ -749,7 +789,7 @@ if(authorcount.length()>0){
 							
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Overall Sentiment</h6>
-								<h2 class="mb0 bold-text"></h2>
+								<h2 class="mb0 bold-text total-sentiment"><%=totalsenti%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -760,7 +800,7 @@ if(authorcount.length()>0){
 							</div> --%>
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Comments</h6>
-								<h2 class="mb0 bold-text">0</h2>
+								<h2 class="mb0 bold-text total-comment"><%=totalcomment%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -2176,7 +2216,7 @@ if(authorcount.length()>0){
  </script>
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/influence.js?v=979"></script>
+<script src="pagedependencies/influence.js?v=989979"></script>
 	
 </body>
 </html>

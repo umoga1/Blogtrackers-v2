@@ -39,7 +39,47 @@ if(action.toString().equals("gettotal")){
 <%=post._searchRangeTotalByBlogger("date", dt, dte, blogger.toString())%>
 <%}else if(action.toString().equals("gettotalinfluence")){%>
 <%=post._searchRangeAggregateByBloggers("date", dt, dte, blogger.toString())%>	
-<% }else if(action.toString().equals("getmostacticelocation")){ 
+<% }else if(action.toString().equals("getstats")){
+	
+	String totalpost = post._searchRangeTotal("date", dt, dte, blog_id.toString());
+	String totalinfluence = post._searchRangeAggregate("date", dt, dte, blog_id.toString());
+	
+	String totalcomment = post._searchRangeAggregate("date", dt, dte, blog_id.toString(),"num_comments");
+	
+	JSONArray sentimentpost = new JSONArray();
+	ArrayList allauthors = post._getBloggerByBlogId("date", dt, dte, blog_id.toString(), "influence_score", "DESC");
+	if(allauthors.size()>0){
+		String tres = null;
+		JSONObject tresp = null;
+		String tresu = null;
+		JSONObject tobj = null;
+		int j=0;
+		int k=0;
+		int n = 0;
+		for(int i=0; i< allauthors.size(); i++){
+					tres = allauthors.get(i).toString();			
+					tresp = new JSONObject(tres);
+				    tresu = tresp.get("_source").toString();
+				    tobj = new JSONObject(tresu);				    
+				    sentimentpost.put(tobj.get("blogpost_id").toString());
+			}
+	} 	
+
+	String possentiment=new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"posemo");
+	String negsentiment=new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"negemo");
+	
+	int comb = Integer.parseInt(possentiment)+Integer.parseInt(negsentiment);
+
+	String totalsenti  = comb+"";
+	
+	JSONObject result = new JSONObject();
+	result.put("totalpost",totalpost);
+	result.put("totalinfluence",totalinfluence);
+	result.put("totalsentiment",totalsenti);
+	result.put("totalcomment",totalcomment);
+%>
+<%=result.toString()%>
+ <% }else if(action.toString().equals("getmostacticelocation")){ 
 	ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
 	
 	JSONObject locations = new JSONObject();
