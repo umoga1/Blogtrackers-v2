@@ -1804,7 +1804,7 @@ function draw(words) {
 		  svg.selectAll("text").transition()
           .delay(200)
           .duration(1000)
-          .style("font-size", function(d) { return d.size * 1.10 + "px"; })
+          .style("font-size", function(d) { return d.size * 1.20 + "px"; })
 	  } else {
 		  svg.selectAll("text")
           .style("font-size", 0)
@@ -1871,8 +1871,8 @@ function draw(words) {
 		
     	function dragged(d) {
     	 var movetext = svg.select("g").selectAll("text");
-    	 movetext.attr("dx",d3.event.x)
-    	 .attr("dy",d3.event.y)
+    	 movetext.attr("x",d3.event.x)
+    	 .attr("y",d3.event.y)
     	 .style("cursor","move"); 
     	 /* g.attr("transform","translateX("+d3.event.x+")")
     	 .attr("transform","translateY("+d3.event.y+")")

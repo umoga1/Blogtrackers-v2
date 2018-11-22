@@ -684,11 +684,11 @@
 						<div style="min-height: 250px;">
 							<div>
 								<p class="text-primary mt10 float-left">
-									Keyword Trend of Past <select
+									Keyword Trend <!-- of Past <select
 										class="text-primary filtersort sortbytimerange"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
-										<option value="year">Year</option></select>
+										<option value="year">Year</option></select> -->
 								</p>
 							</div>
 							<div id="main-chart">
