@@ -814,7 +814,7 @@
 								p++;
 							%>
 								<option value="<%=resu.get("id").toString()%>_<%=blogname%>"><%=resu.get("blog")%></option>
-    			 <%}}}%>
+   <%}}}%>
 </select>
 </h6>
 </div>
@@ -944,9 +944,7 @@
         <div style="min-height: 420px;">
           <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u class="active-blog"><%=mostactiveblog %></u></b> Day of the Week Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
           <div id="day-chart">
-          <div class="chart" id="d3-bar-horizontal">
-
-          </div>
+	          <div class="chart" id="d3-bar-horizontal"></div>
           </div>
           
         </div>
@@ -1611,7 +1609,14 @@
                              svg.selectAll(".circle-point").data(mergedarray)
                              .on("mouseover",tip.show)
                              .on("mouseout",tip.hide)
-                             .on("click",function(d){console.log(d.date)});
+                             .on("click",function(d){
+                            	 console.log(d.date);
+                            	 var d1 = 	  d.date + "-01-01";
+                          	      var d2 = 	  d.date + "-12-31";
+                 				
+                          	      loadUrls(d1,d2);
+                           	  	 
+                             });
                                                 svg.call(tip)
 
 
@@ -2114,7 +2119,7 @@
 
  //console.log(data);
  // data = [];
-<%=jan%>
+
  data = [
  [{"date": "Jan","close": <%=jan%>},{"date": "Feb","close": <%=feb%>},{"date": "Mar","close":<%=march%>},{"date": "Apr","close": <%=jan%>},{"date": "May","close": <%=may%>},{"date": "Jun","close": <%=june%>},{"date": "Jul","close": <%=july%>},{"date": "Aug","close": <%=aug%>},{"date": "Sep","close": <%=sep%>},{"date": "Oct","close": <%=oct%>},{"date": "Nov","close": <%=nov%>},{"date": "Dec","close": <%=dec%>}],
  ];
