@@ -105,7 +105,6 @@ public class AddTracker extends HttpServlet {
 					que = que.replaceAll("\\(", "");			 
 					que = que.replaceAll("\\)", "");
 
-					HashSet hs = new HashSet(que);
 					
 
 					String[] blogs = que.replaceAll(", $", "").split(",");
