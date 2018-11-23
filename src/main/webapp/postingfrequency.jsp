@@ -844,7 +844,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></buttton></a></td>
 								<td align="center"><%=date %></td>
                                      </tr>
                                     <% }} %>
@@ -1809,7 +1809,7 @@ function draw(words) {
 		  svg.selectAll("text").transition()
           .delay(200)
           .duration(1000)
-          .style("font-size", function(d) { return d.size * 1.10 + "px"; })
+          .style("font-size", function(d) { return d.size * 1.20 + "px"; })
 	  } else {
 		  svg.selectAll("text")
           .style("font-size", 0)
@@ -1876,8 +1876,8 @@ function draw(words) {
 		
     	function dragged(d) {
     	 var movetext = svg.select("g").selectAll("text");
-    	 movetext.attr("dx",d3.event.x)
-    	 .attr("dy",d3.event.y)
+    	 movetext.attr("x",d3.event.x)
+    	 .attr("y",d3.event.y)
     	 .style("cursor","move"); 
     	 /* g.attr("transform","translateX("+d3.event.x+")")
     	 .attr("transform","translateY("+d3.event.y+")")

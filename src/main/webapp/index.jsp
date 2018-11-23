@@ -204,7 +204,7 @@ try{
   <ul class="nav main-menu2 homemainmenuoveride" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
     <li><a class="bold-text" href="#whatyoucando">Features</a></li>
     <li><a class="bold-text" href="#sponsors">Sponsors</a></li>
-	<li><a class="bold-text" href="#">Learn</a></li>
+	<li><a class="bold-text" href="<%=request.getContextPath()%>/documentation.jsp">Learn</a></li>
 	<li class="bg-white loginmenu"><a class="bold-text text-primary" href="<%=request.getContextPath()%>/login.jsp">Login</a></li>
 	
   </ul>
@@ -221,7 +221,7 @@ try{
             <a class="nav-link bold-text" href="#sponsors">Sponsors</a>
           </li>
      <li class="nav-item">
-            <a class="nav-link bold-text" href="#">Learn</a>
+            <a class="nav-link bold-text" href="<%=request.getContextPath()%>/documentation.jsp">Learn</a>
           </li>
 
 		   <li class="nav-item">
@@ -250,7 +250,7 @@ try{
   <ul class="nav main-menu2 homemainmenuoveride" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
     <li><a class="bold-text" href="#whatyoucando">Features</a></li>
     <li><a class="bold-text" href="#sponsors">Sponsors</a></li>
-	<li><a class="bold-text" href="#">Learn</a></li>
+	<li><a class="bold-text" href="<%=request.getContextPath()%>/documentation.jsp">Learn</a></li>
 	<li class="bg-white loginmenu"><a class="bold-text text-primary" href="<%=request.getContextPath()%>/login.jsp">Login</a></li>
 	
   </ul>
@@ -401,9 +401,9 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
 <div class="row sponsor-region">
             <div class="col-md-2">
               <div class="card mb-4 box-shadow">
-              <div class="logocontainer">
+              <!-- <div class="logocontainer"> -->
                 <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/nationalsciencefoundation.png" data-holder-rendered="true">
-                </div>
+               <!--  </div> -->
                 <div class="card-body">
          <p class="logo-text">National Science <br/>Foundation</p>
                  </div>
@@ -412,9 +412,9 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
             
               <div class="col-md-2">
               <div class="card mb-4 box-shadow">
-               <div class="logocontainer">
+               <!-- <div class="logocontainer"> -->
                 <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/officeofnavalresearch.png" data-holder-rendered="true">
-               </div>
+               <!-- </div> -->
                 <div class="card-body">
                  <p class="logo-text">Office of Naval <br/>Research</p>
                 </div>
@@ -423,9 +423,9 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
             
             <div class="col-md-2">
               <div class="card mb-4 box-shadow">
-               <div class="logocontainer">
+               <!-- <div class="logocontainer"> -->
                 <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/airforceresearch.png" data-holder-rendered="true">
-               </div>
+               <!-- </div> -->
                 <div class="card-body">
                 <p class="logo-text">Air Force Research Laboratory</p>
                 </div>
@@ -434,9 +434,9 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
             
             <div class="col-md-2">
               <div class="card mb-4 box-shadow">
-               <div class="logocontainer">
+              <!--  <div class="logocontainer"> -->
                 <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/darpa.png" data-holder-rendered="true">
-               </div>
+               <!-- </div> -->
                 <div class="card-body">
                 <p class="logo-text">Defense Advanced Research <br/>Projects Agency</p>
                 </div>
@@ -445,9 +445,9 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
             
              <div class="col-md-2">
               <div class="card mb-4 box-shadow">
-               <div class="logocontainer">
+               <!-- <div class="logocontainer"> -->
                 <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/armyresearchoffice.png" data-holder-rendered="true">
-               </div>
+               <!-- </div> -->
                 <div class="card-body">
              <p class="logo-text">Army Research <br/>Office</p>
                 </div>
@@ -456,9 +456,9 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
             
             <div class="col-md-2">
               <div class="card mb-4 box-shadow">
-               <div class="logocontainer">
+               <!-- <div class="logocontainer"> -->
                 <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/departmentofhomeland.png" data-holder-rendered="true">
-               </div>
+               <!-- </div> -->
                 <div class="card-body">
             <p class="logo-text">Department of <br/>Homeland Security</p>
                 </div>

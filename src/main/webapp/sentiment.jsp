@@ -872,7 +872,10 @@
 							<tr>
 								<td align="center"><%=(y)%></td>
 								<td><a class="blogpost_link cursor-pointer"
-									id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" <%-- style="color:<%=color%>" --%>  ><%=tobj.get("title").toString()%></a></td>
+									id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" <%-- style="color:<%=color%>" --%>  ><%=tobj.get("title").toString()%>
+								 </a><br/>
+								 <a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></buttton></a>
+								 </td>
 								<td align="center"><%=tobj.get("blogger").toString()%></td>
 							</tr>
 							<%
@@ -1040,7 +1043,7 @@
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
 	<script src="pagedependencies/baseurl.js?v=3"></script>
-	<script src="pagedependencies/sentiment.js?v=7839"></script>
+	<script src="pagedependencies/sentiment.js?v=7840"></script>
 
 	<script>
  $(document).ready(function() {
