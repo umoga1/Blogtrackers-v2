@@ -866,7 +866,7 @@ if (outlinks.size() > 0) {
 <div class="card nocoloredcard mt10 mb10">
 					<div class="card-body p0 pt5 pb5">
 <!-- <small class="text-primary">Blogsite of <b class="text-blue"><u>Advonum</u></b></small><br/> -->
-<h5 class="text-primary mb0"><%=mostactiveblogger%></h5>
+<h5 class="text-primary mb0 active-blog"><%=mostactiveblogger%></h5>
 <h3><button class="btn buttonportfolio"><b class="float-left">Visit Site</b> <b class="far fa-file-alt float-right iconportfolio"></b></button></h3>
 </div>
 </div>
@@ -970,7 +970,7 @@ if (outlinks.size() > 0) {
         <p class="p15 pb5 pt0 text-primary">List of <select id="top-listtype" 
 										class="text-primary filtersort sortbydomainsrls"><option
 											value="domains">Domains</option>
-										<option value="urls">URLs</option></select> of <b class="textblue"><%=mostactiveblogger %></b></p>
+										<option value="urls">URLs</option></select> of <b class="textblue active-blog"><%=mostactiveblogger %></b></p>
         <div style="min-height: 420px;">
          <!--  <div class="p15 pb5 pt0" role="group">
           Export

@@ -27,12 +27,12 @@ $('#blogger-changed').on("change", function(){
 
 
 function loadStat(blogger){
-	$("#total-influence").html("<img src='images/loading.gif' />");
-	$("#total-post").html("<img src='images/loading.gif' />");
-	$("#total-sentiment").html("<img src='images/loading.gif' />");
-	$("#top-keyword").html("<img src='images/loading.gif' />");
+	$(".total-influence").html("<img src='images/loading.gif' />");
+	$(".total-post").html("<img src='images/loading.gif' />");
+	$(".total-sentiment").html("<img src='images/loading.gif' />");
+	$(".top-keyword").html("<img src='images/loading.gif' />");
 	$.ajax({
-		url: app_url+"subpages/blogportfoliochart.jsp",
+		url: app_url+"subpages/bloggerportfoliochart.jsp",
 		method: 'POST',
 		data: {
 			action:"getstats",
@@ -50,10 +50,10 @@ function loadStat(blogger){
 		
 		
 		var data = JSON.parse(response);
-		$("#total-influence").html(data.totalinfluence);
-		$("#total-post").html(data.totalpost);
-		$("#total-sentiment").html(data.totalsentiment);
-		$("#top-keyword").html(data.topterm);
+		$(".total-influence").html(data.totalinfluence);
+		$(".total-post").html(data.totalpost);
+		$(".total-sentiment").html(data.totalsentiment);
+		$(".top-keyword").html(data.topterm);
 		//$("#overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
