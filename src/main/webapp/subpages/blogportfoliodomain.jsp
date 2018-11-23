@@ -16,6 +16,7 @@
 	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 	String date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 	String date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
+	
 	String blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
 	
 
@@ -98,7 +99,6 @@
                                     <tbody>
 									<%
 										if (outlinklooper.size() > 0) {
-													//System.out.println(bloggers);
 													for (int y = 0; y < outlinklooper.size(); y++) {
 														String key = outlinklooper.get(y).toString();
 														JSONObject resu = outerlinks.getJSONObject(key);

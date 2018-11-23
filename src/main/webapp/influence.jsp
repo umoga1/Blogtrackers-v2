@@ -713,7 +713,9 @@ if(authorcount.length()>0){
 	}
 }
 
+
 JSONArray sentimentpost = new JSONArray();
+
 ArrayList allauthors2 = post._getBloggerByBlogId("date", dt, dte, selectedid, "influence_score", "DESC");
 if(allauthors2.size()>0){
 	String tres = null;
@@ -732,8 +734,8 @@ if(allauthors2.size()>0){
 		}
 } 	
 
-String possentiment2 =new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"posemo");
-String negsentiment2 =new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"negemo");
+String possentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"posemo");
+String negsentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"negemo");
 
 int comb = Integer.parseInt(possentiment2)+Integer.parseInt(negsentiment2);
 String totalcomment = post._searchRangeAggregate("date", dt, dte,selectedid,"num_comments");

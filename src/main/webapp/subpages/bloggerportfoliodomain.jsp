@@ -19,9 +19,6 @@
 	String blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 	
 
-	if (user == null || user == "") {
-		response.sendRedirect("index.jsp");
-	} else {
 
 			ArrayList<?> userinfo = null;
 			String profileimage = "";
@@ -107,8 +104,17 @@
 		}
 %>
 
+  <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>URL</th>
+                                <th>Frequency</th>
 
-									<%
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
 										if (outlinklooper.size() > 0) {
 													//System.out.println(bloggers);
 													for (int y = 0; y < outlinklooper.size(); y++) {
@@ -116,9 +122,12 @@
 														JSONObject resu = outerlinks.getJSONObject(key);
 									%>
 									<tr>
-									
 										<td class=""><a href="<%=resu.get("link")%>" target="_blank"><%=resu.get("link")%></a></td>
-									
 										<td><%=resu.get("value")%></td>
 									</tr>
-									<% }}} %>
+									<%
+										}
+									}
+									%>                     
+                        </tbody>
+</table>
