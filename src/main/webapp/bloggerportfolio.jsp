@@ -365,6 +365,7 @@
 					    
 					    String auth = tobj.get("blogger").toString();
 					    String lang = tobj.get("language").toString();
+					    String blogsite_id = tobj.get("blogsite_id").toString();
 					    
 					    if(i==0){
 					    	mostactiveblogger = auth;
@@ -391,6 +392,7 @@
 							content.put("blogger", auth);
 							content.put("influence", inf);
 							content.put("totalpost",valu);
+							content.put("blogsite_id",blogsite_id);
 							content.put("postids", pids);
 							authors.put(auth, content);
 						} else {
@@ -405,6 +407,7 @@
 							content.put("blogger", auth);
 							content.put("influence", influence);
 							content.put("totalpost",valu);
+							content.put("blogsite_id",blogsite_id);
 							content.put("postids", tobj.get("blogpost_id").toString());
 							authors.put(auth, content);
 							authorlooper.add(j,auth);
@@ -613,7 +616,7 @@ if (outlinks.size() > 0) {
 
 			
 			String totalinfluence = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
-			totalpost = post._searchRangeTotalByBloggers("date", dt, dte, mostactiveblogger);
+			totalpost = post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);
 			
 %>
 <!DOCTYPE html>
@@ -799,16 +802,16 @@ if (outlinks.size() > 0) {
 <select id="blogger-changed">
 <% if (bloggers.length() > 0) {
 						int p = 0;
-						for (int y = 0; y < bloggers.length(); y++) {
-							String key = looper.get(y).toString();
-							JSONObject resu = bloggers.getJSONObject(key);
-							int size = Integer.parseInt(resu.get("postingfreq").toString());
+						for (int y = 0; y < authors.length(); y++) {
+							String key = authorlooper.get(y).toString();
+							JSONObject resu = authors.getJSONObject(key);
 							String blogger = resu.get("blogger").toString();
-							if (size > 0 && p < 15) {
+							String blogidd = resu.get("blogsite_id").toString();
+						
 								p++;
 							%>
-								<option value="<%=resu.get("id").toString()%>_<%=blogger%>"><%=resu.get("blogger")%></option>
-  <% }}} %>
+								<option value="<%=blogidd%>_<%=blogger%>"><%=resu.get("blogger")%></option>
+  <% }} %>
 </select>
 </h6>
 <!-- <h2 class="textblue styleheading">AdNovum <div class="circle"></div></h2> -->
@@ -1049,16 +1052,16 @@ if (outlinks.size() > 0) {
 	 $('#printdoc').on('click',function(){
 			print();
 		}) ;
+   // datatable setup
      $('#DataTables_Table_1_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": false,
           "pagingType": "simple"
-       /*    ,
+    /*       ,
           dom: 'Bfrtip',
-
-                    "columnDefs": [
-                 { "width": "80%", "targets": 0 }
-               ],
+          "columnDefs": [
+       { "width": "80%", "targets": 0 }
+     ],
        buttons:{
          buttons: [
              { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
@@ -1070,17 +1073,17 @@ if (outlinks.size() > 0) {
        } */
      } );
 
+// table set up 2
      $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": false,
           "pagingType": "simple"
-         /*  ,
-          dom: 'Bfrtip'
-          ,
+     /*      ,
+          dom: 'Bfrtip',
 
-                    "columnDefs": [
-                 { "width": "80%", "targets": 0 }
-               ],
+          "columnDefs": [
+       { "width": "80%", "targets": 0 }
+     ],
        buttons:{
          buttons: [
              { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
@@ -1099,9 +1102,10 @@ if (outlinks.size() > 0) {
    $(document)
    						.ready(
    								function() {
+                    // date range configuration
    	var cb = function(start, end, label) {
            //console.log(start.toISOString(), end.toISOString(), label);
-           $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+          // $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
            $('#reportrange input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY')).trigger('change');
          };
 
@@ -1109,8 +1113,8 @@ if (outlinks.size() > 0) {
        	      {   startDate: moment().subtract(29, 'days'),
        	          endDate: moment(),
        	          minDate: '01/01/1947',
-       	       linkedCalendars: false,
        	          maxDate: moment(),
+       	          linkedCalendars: false,
        			  showDropdowns: true,
        	          showWeekNumbers: true,
        	          timePicker : false,
@@ -1537,9 +1541,8 @@ if (outlinks.size() > 0) {
                    	      var d2 = 	  d.date + "-12-31";
           				
                    	      loadUrls(d1,d2);
-                    	    
+                    	  
                       });
-                      }
                                          svg.call(tip)
               }
               // handles multiple json parameter
@@ -1589,15 +1592,7 @@ if (outlinks.size() > 0) {
                                svg.selectAll(".circle-point").data(mergedarray)
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
-                              .on("click",function(d){
-                            	  console.log(d.date);
-                            	  var d1 = 	  d.date + "-01-01";
-                           	      var d2 = 	  d.date + "-12-31";
-                  				
-                           	      loadUrls(d1,d2);
-                            	    
-                              });
-                              }
+                              .on("click",function(d){console.log(d.date)});
                          //                         svg.call(tip)
 
                        //console.log(newi);
@@ -1606,7 +1601,14 @@ if (outlinks.size() > 0) {
                              svg.selectAll(".circle-point").data(mergedarray)
                              .on("mouseover",tip.show)
                              .on("mouseout",tip.hide)
-                             .on("click",function(d){console.log(d.date)});
+                             .on("click",function(d){
+                            	 console.log(d.date);
+                            	 var d1 = 	  d.date + "-01-01";
+                          	      var d2 = 	  d.date + "-12-31";
+                 				
+                          	      loadUrls(d1,d2);
+                           	  	 
+                             });
                                                 svg.call(tip)
 
 
@@ -1740,6 +1742,10 @@ if (outlinks.size() > 0) {
      }
  });
  </script>
+
+
+
+
 
  <script>
  $(function () {
@@ -2109,6 +2115,7 @@ if (outlinks.size() > 0) {
  data = [
  [{"date": "Jan","close": <%=jan%>},{"date": "Feb","close": <%=feb%>},{"date": "Mar","close":<%=march%>},{"date": "Apr","close": <%=jan%>},{"date": "May","close": <%=may%>},{"date": "Jun","close": <%=june%>},{"date": "Jul","close": <%=july%>},{"date": "Aug","close": <%=aug%>},{"date": "Sep","close": <%=sep%>},{"date": "Oct","close": <%=oct%>},{"date": "Nov","close": <%=nov%>},{"date": "Dec","close": <%=dec%>}],
  ];
+
  // console.log(data);
  var line = d3.svg.line()
  .interpolate("monotone")
@@ -2458,8 +2465,10 @@ if (outlinks.size() > 0) {
 
 
  </script>
- <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/bloggerportfolio.js?v=8909"></script>
- 
+
+<script src="pagedependencies/baseurl.js?v=93"></script>
+<script src="pagedependencies/bloggerportfolio.js?v=7988909"></script>
+
 </body>
 </html>
+<% }} %>
