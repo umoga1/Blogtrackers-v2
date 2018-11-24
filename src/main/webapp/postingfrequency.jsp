@@ -765,7 +765,7 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
                                     <tr>
                                         <th>Entity</th>
                                         <th>Type</th>
-                                        <th>Frequency</th>
+                                      <!--   <th>Frequency</th> -->
                                         <th>Sentiment</th>
 
                                     </tr>
@@ -788,7 +788,7 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
                                     <tr>
                                         <td><%=tobj.get("entity").toString()%></td>
                                         <td><%=tobj.get("type").toString()%></td>
-                                        <td></td>
+                                   <!--      <td></td> -->
                                         <td><%=tobj.get("sentiment").toString() %></td>
                                     </tr>
                                     <% }} %>
@@ -887,13 +887,10 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-<<<<<<< HEAD
+
 											<button class="btn stylebuttonnocolor"><%=date %></button>
-=======
-											</a>
-											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
->>>>>>> 1b3142b60dc71ce4047aecffd8ada85fd2efad98
-											<button class="btn stylebuttonorange">
+									</a>
+											<button class="btn stylebuttonnocolor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -901,12 +898,9 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
 										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 550px; overflow-y: scroll;">
-<<<<<<< HEAD
-											<% System.out.println(); %>
-											<%=tobj.get("post")%>
-=======
+
 											<%=tobj.get("post").toString().replaceAll("[^a-zA-Z]", " ")%>
->>>>>>> 1b3142b60dc71ce4047aecffd8ada85fd2efad98
+
 										</div>
 										</div>       
                      		<% }} %>

@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.json.JSONObject;
 
 import util.Trackers;
@@ -335,16 +338,20 @@ public class Tracker extends HttpServlet {
 							JSONObject bj = new JSONObject(bstr);
 							bstr = bj.get("_source").toString();
 							bj = new JSONObject(bstr);
+							String dat = bj.get("date").toString().substring(0,10);
+							LocalDate datee = LocalDate.parse(dat);
+							DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+							String date = dtf.format(datee);
 							//System.out.println(bj.get("body"));
 							
-							output+="<h5 class='text-primary p20 pt0 pb0'>#1: "+bj.get("title").toString()+"</h5>" + 
+							output+="<h5 class='text-primary p20 pt0 pb0'>#1: "+bj.get("title").toString().replaceAll("[^a-zA-Z]", " ")+"</h5>" + 
 									"					<div class='text-center mb20 mt20'>" + 
 									"						<button class='btn stylebuttonblue'>" + 
 									"							<b class='float-left ultra-bold-text'>"+bj.get("blogger").toString()+"</b> <i" + 
 									"								class='far fa-user float-right blogcontenticon'></i>" + 
 									"						</button>" + 
-									"						<button class='btn stylebuttonnocolor'>"+bj.get("date").toString()+"</button>" + 
-									"						<button class='btn stylebuttonorange'>" + 
+									"						<button class='btn stylebuttonnocolor'>"+date+"</button>" + 
+									"						<button class='btn stylebuttonnocolor'>" + 
 									"							<b class='float-left ultra-bold-text'>"+bj.get("num_comments").toString()+" comments</b><i" + 
 									"								class='far fa-comments float-right blogcontenticon'></i>" + 
 									"						</button>" + 
@@ -352,7 +359,7 @@ public class Tracker extends HttpServlet {
 									
 									"					<div style=\"height: 600px;\"><div class='p20 pt0 pb20 text-blog-content text-primary'" + 
 									"						style='height: 550px; overflow-y: scroll;'>" + 
-									"						"+bj.get("post").toString()+""+ 
+									"						"+bj.get("post").toString().replaceAll("[^a-zA-Z]", " ")+""+ 
 									"						</div></div>";
 									
 							
