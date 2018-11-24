@@ -578,7 +578,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid","50");
 							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
 							selectedid=det.get("blogid").toString();
-							totalpost = det.get("totalpost").toString();
+							//totalpost = det.get("totalpost").toString();
 							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");
 							System.out.println("All post :"+allposts);
 					}
@@ -683,6 +683,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 	sentimentcolor = "#72C28E";
 }
 
+totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);
 %>
 
 <div class="col-md-9">
@@ -881,11 +882,17 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
 										<div class="text-center mb20 mt20">
+											<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid%>&blogger=<%=tobj.get("blogger")%>">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
+<<<<<<< HEAD
 											<button class="btn stylebuttonnocolor"><%=date %></button>
+=======
+											</a>
+											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
+>>>>>>> 1b3142b60dc71ce4047aecffd8ada85fd2efad98
 											<button class="btn stylebuttonorange">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
@@ -894,8 +901,12 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 550px; overflow-y: scroll;">
+<<<<<<< HEAD
 											<% System.out.println(); %>
 											<%=tobj.get("post")%>
+=======
+											<%=tobj.get("post").toString().replaceAll("[^a-zA-Z]", " ")%>
+>>>>>>> 1b3142b60dc71ce4047aecffd8ada85fd2efad98
 										</div>
 										</div>       
                      		<% }} %>

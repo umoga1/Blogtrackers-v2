@@ -47,8 +47,13 @@ Blogs blog  = new Blogs();
 						   String dtu = y + "-01-01";
 						   String dtue = y + "-12-31";
 						   String totu = "0";
+						   if(b==0){
+								dtu = dt;
+							}else if(b==yendint){
+								dtue = dte;
+							}
 						   if(sort.toString().equals("influence_score")){
-							   	totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,blogger.toString());	
+							   	totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,blogger.toString());							   	
 						   }else{
 						   	    totu = post._searchRangeTotalByBlogger("date",dtu, dtue,blogger.toString());
 						   }

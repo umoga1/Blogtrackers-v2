@@ -128,6 +128,7 @@ function loadUrls(date_start,date_end){
 				blog_id:$("#blogid").val(),
 				date_start:date_start,
 				date_end:date_end,
+				listtype:$("#top-listtype").val(),
 			},
 			error: function(response)
 			{						
