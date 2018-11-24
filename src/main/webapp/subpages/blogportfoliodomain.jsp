@@ -18,6 +18,8 @@
 	String date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	
 	String blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
+	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
+	String listtype =  (null == request.getParameter("listtype")) ? "ulr" : request.getParameter("listtype").toString().replaceAll("[^a-zA-Z]", " ");
 	
 
 	if (user == null || user == "") {
@@ -94,9 +96,11 @@
 														JSONObject resu = outerlinks.getJSONObject(key);
 									%>
 									<tr>
-									
+									<% if(listtype.equals("urls")){ %>
 										<td class=""><a href="<%=resu.get("link")%>" target="_blank"><%=resu.get("link")%></a></td>
-									
+									<% }else{ %>
+										<td class=""><a href="<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a> </td>
+									<% } %>
 										<td><%=resu.get("value")%></td>
 									</tr>
 									<% }}} %>

@@ -21,6 +21,7 @@
 	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
+	String attachedblogger =  (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 
 	
 	//System.out.println(date_start);
@@ -234,7 +235,8 @@
 			String mostactiveblogger ="";
 			
 			
-			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 
 			//System.out.println("Terms here:"+termss);
 			
@@ -370,6 +372,11 @@
 					    if(i==0){
 					    	mostactiveblogger = auth;
 					    }
+					    
+					    if(attachedblogger.equals(auth)){
+					    	mostactiveblogger = auth;
+					    }
+					    
 					    Double influence =  Double.parseDouble(tobj.get("influence_score").toString());
 					  	JSONObject content = new JSONObject();
 					   
@@ -810,7 +817,7 @@ if (outlinks.size() > 0) {
 						
 								p++;
 							%>
-								<option value="<%=blogidd%>_<%=blogger%>"><%=resu.get("blogger")%></option>
+								<option value="<%=blogidd%>_<%=blogger%>" <% if(mostactiveblogger.equals(blogger)){ %> selected <% } %>><%=resu.get("blogger")%></option>
   <% }} %>
 </select>
 </h6>
@@ -967,7 +974,7 @@ if (outlinks.size() > 0) {
   <div class="col-md-12 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
-        <p class="p15 pb5 pt0 text-primary">List of <select id="top-listtype" 
+        <p class="p15 pb5 pt0 text-primary">List of <select id="top-listtype"  
 										class="text-primary filtersort sortbydomainsrls"><option
 											value="domains">Domains</option>
 										<option value="urls">URLs</option></select> of <b class="textblue active-blog"><%=mostactiveblogger %></b></p>
