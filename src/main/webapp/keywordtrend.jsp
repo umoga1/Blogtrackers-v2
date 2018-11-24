@@ -1,5 +1,3 @@
-<%@page import="java.time.format.DateTimeFormatter"%>
-<%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
@@ -666,9 +664,7 @@
 											}
 																			
 											%><a
-
-											class="btn form-control select-term bloggerinactive text-primary mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=terms%></b></a>
-
+											class="btn form-control select-term stylebuttoninactive opacity53 text-primary mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=terms%></b></a>
 											<%
 										}
 									}	
@@ -686,14 +682,11 @@
 						<div style="min-height: 250px;">
 							<div>
 								<p class="text-primary mt10 float-left">
-
-									Keyword Trend <!--  of Past <select
+									Keyword Trend of Past <select
 										class="text-primary filtersort sortbytimerange"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
 										<option value="year">Year</option></select>
-										 -->
-
 								</p>
 							</div>
 							<div id="main-chart">
@@ -791,8 +784,6 @@
 										
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
-										
-									
 												
 												//System.out.println("postdet +"+tobj3);
 												if(i==0){
@@ -820,7 +811,7 @@
                                    <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
 								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
 								</td>
-								<td align="center"><%=(bodyoccurencece+1) %></td>
+								<td align="center"><%=(bodyoccurencece) %></td>
                                      </tr>
                                     <% }%>
 							</tr>						
@@ -839,12 +830,6 @@
 									JSONObject tobj = firstpost;
 									String title = tobj.get("title").toString();
 									String body = tobj.get("post").toString();
-									
-									String dat = tobj.get("date").toString().substring(0,10);
-									LocalDate datee = LocalDate.parse(dat);
-									DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
-									String date = dtf.format(datee);
-									
 									String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
@@ -853,25 +838,23 @@
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											<button class="btn stylebuttonnocolor"><%=date%></button>
-											<button class="btn  stylebuttonnocolor">
+											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
+											<button class="btn stylebuttonorange">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
 										</div>
-										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
-											style="height: 550px; overflow-y: scroll;">
+											style="height: 600px; overflow-y: scroll;">
 											<%=body.replaceAll(mostactiveterm,replace)%>
-										</div>   
-										</div>                   
+										</div>                      
                      		<% } %>
 
 				</div>
 				</div>
 			</div>
 		</div>
-		
+</div>
 		<div class="row mb50 d-flex align-items-stretch">
 			<div class="col-md-12 mt20 ">
 				<div class="card card-style mt20">
@@ -939,9 +922,6 @@
 			</div>
 
 		</div>
-		
-</div>
-		
 
 
 
@@ -1738,9 +1718,9 @@
 
 
 
-<script src="pagedependencies/baseurl.js?v=308"></script>
+<script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/keywordtrends.js?v=499009"></script>
+<script src="pagedependencies/keywordtrends.js?v=490879"></script>
 	
 
 </body>
