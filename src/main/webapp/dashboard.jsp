@@ -1221,9 +1221,9 @@
 	</form>
 
 	<form action="" name="customform" id="customform" method="post">
-		<input type="hidden" name="tid" value="<%=tid%>" /> <input
-			type="hidden" name="date_start" id="date_start" value="" /> <input
-			type="hidden" name="date_end" id="date_end" value="" />
+		<input type="hidden" name="tid" value="<%=tid%>" /> 
+		<input type="hidden" name="date_start" id="date_start" value="" /> 
+		<input type="hidden" name="date_end" id="date_end" value="" />
 			<textarea style="display:none" name="blogs" id="blogs" >
 			 <% if (bloggers.length() > 0) {
 						int p = 0;
@@ -3588,7 +3588,7 @@ data = {
     }
 });
 </script>
-	<script>
+<script>
 $(".option-only").on("change",function(e){
 	console.log("only changed ");
 	var valu =  $(this).val();

@@ -54,7 +54,10 @@ Blogs blog  = new Blogs();
 							}else if(b==yendint){
 								dtue = dte;
 							}
-						  totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,bloggerstr);	
+						  
+						   totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,bloggerstr,"influence_score");	
+						  //totu = post._getTotalByBloggerName("date",dtu, dtue,bloggerstr,"influence_score","DESC");
+							
 						   if(Integer.parseInt(totu)<base){
 							   base = Integer.parseInt(totu);
 						   }
@@ -76,10 +79,9 @@ Blogs blog  = new Blogs();
 								   String v1 = postyear.get(y+"").toString();
 								  
 								   postyear.put(y+"",(Integer.parseInt(v1)+base));
-						}
-						authoryears.put(bloggerstr,postyear);
+						}					
 				}
-
+				authoryears.put(bloggerstr,postyear);
 %>
 <div class="chart-container">
 		  <div class="chart" id="d3-line-basic"></div>
