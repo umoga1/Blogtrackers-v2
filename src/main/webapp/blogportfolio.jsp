@@ -985,7 +985,7 @@
                 <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
-                                <th>URL</th>
+                                <th>Domains</th>
                                 <th>Frequency</th>
 
 
@@ -1000,7 +1000,7 @@
 														JSONObject resu = outerlinks.getJSONObject(key);
 									%>
 									<tr>
-										<td class=""><a href="<%=resu.get("link")%>" target="_blank"><%=resu.get("link")%></a></td>
+										<td class=""><a href="<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a></td>
 										<td><%=resu.get("value")%></td>
 									</tr>
 									<%

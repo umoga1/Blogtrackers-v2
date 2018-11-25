@@ -519,6 +519,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								
 								
 								String selectedid="";
+								JSONArray sentimentpost = new JSONArray();
+								String postidss = "";
 								
 								int l=0;
 								int qc=0;
@@ -548,6 +550,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										num_comment = num_comment.equals("null")?"0":num_comment;
 										
 										
+
+									    sentimentpost.put(tobj.get("blogpost_id").toString());
+									    postidss+=tobj.get("blogpost_id").toString()+",";
 										
 										float influence = Float.parseFloat(tobj.get("influence_score").toString());
 										totalinfluence+=influence;
@@ -647,7 +652,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 <!--  Populate terms and influence score json for chart-->
 <%
-
+/*
 JSONArray sentimentpost = new JSONArray();
 String postidss = "";
 		
@@ -669,6 +674,7 @@ if(allauthors2.size()>0){
 			    postidss+=tobj.get("blogpost_id").toString()+",";
 		}
 } 	
+*/
 
 String possentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"posemo");
 String negsentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"negemo");
@@ -734,7 +740,9 @@ if(authorcount.length()>0){
 					}else if(b==yendint){
 						dtue = dte;
 					}
-				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger);
+				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger,"influence_score");
+				   
+				  
 				   if(Integer.parseInt(totu)<base){
 					   base = Integer.parseInt(totu);
 				   }
@@ -756,7 +764,6 @@ base = Math.abs(base);
 if(postyear.length()>0){
 		for(int y=ystint; y<=yendint; y++){ 
 				   String v1 = postyear.get(y+"").toString();
-				 //  System.out.println("vlue here:"+v1);
 				   int re = Integer.parseInt(v1)+base;
 				   postyear.put(y+"",re+"");
 		}
@@ -975,13 +982,12 @@ authoryears.put(mostactiveblogger,postyear);
 		<input type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" />
 		<input type="hidden" name="author" id="author" value="<%=mostactiveblogger%>" /> 
 		<input type="hidden" name="single_date" id="single_date" value="" />
+		
+		<input type="hidden" name="date_start" id="date_start" value="<%=dt%>" /> 
+		<input type="hidden" name="date_end" id="date_end" value="<%=dte%>" />	
 	</form>
 
-	<form action="" name="customform" id="customform" method="post">
-		<input type="hidden" name="tid" id="tid" value="<%=tid%>" /> 
-		<input type="hidden" name="date_start" id="date_start" value="<%=dt%>" /> 
-		<input type="hidden" name="date_end" id="date_end" value="<%=dte%>" />			
-	</form>
+
 	
 	<!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
@@ -1144,13 +1150,23 @@ authoryears.put(mostactiveblogger,postyear);
    		.on(
    				'apply.daterangepicker',
    				function(ev, picker) {
-   					/* console
+   					 console
    							.log("apply event fired, start/end dates are "
    									+ picker.startDate
    											.format('MMMM D, YYYY')
    									+ " to "
    									+ picker.endDate
-   											.format('MMMM D, YYYY')); */
+   											.format('MMMM D, YYYY')); 
+   					 
+
+   	            	var start = picker.startDate.format('YYYY-MM-DD');
+   	            	var end = picker.endDate.format('YYYY-MM-DD');
+   	            console.log("End:"+end);
+   	            	
+   	            	$("#date_start").val(start);
+   	            	$("#date_end").val(end);
+   	            	//toastr.success('Date changed!','Success');
+   	            	$("form#customform").submit();
    				});
    $('#reportrange')
    		.on(
@@ -1612,15 +1628,6 @@ authoryears.put(mostactiveblogger,postyear);
                                     	 
                                      });
                                                         svg.call(tip)
-
-
-
-
-
-
-
-
-
 
                       }
 

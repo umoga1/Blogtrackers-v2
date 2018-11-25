@@ -87,6 +87,7 @@ public class AddTracker extends HttpServlet {
 				JSONObject resp = new JSONObject(data);
 				ArrayList tracker =null;
 				ArrayList blogsite = null;
+<<<<<<< HEAD
 
 
 				DbConnection db = new DbConnection();
@@ -166,6 +167,88 @@ public class AddTracker extends HttpServlet {
 				}
 				//pww.write("successful request");
 
+=======
+				
+				DbConnection db = new DbConnection();
+
+				String id = object.get("id").toString();
+				JSONArray ids = new JSONArray(id);
+				if(ids.length()>0) {
+					for(int k=0; k<ids.length(); k++) {
+					String selectedid = ids.get(k).toString();
+					
+					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+selectedid+"' ");
+					
+					 if(tracker.size()>0){
+						 	
+						 	 ArrayList hd = (ArrayList)tracker.get(0);
+						 	 String que = hd.get(5).toString();
+						 	 
+						 	 String tracker_id = hd.get(0).toString();
+						 	
+						 	 
+							 que = que.replaceAll("blogsite_id in ", "");
+							 que = que.replaceAll("\\(", "");			 
+							 que = que.replaceAll("\\)", "");
+							 
+							 String[] blogs = que.replaceAll(", $", "").split(",");
+							
+							 JSONObject jblog = new JSONObject();
+							 
+							 String mergedblogs = "";
+							 
+							 jblog.put(object.get("site").toString(), object.get("site").toString());
+							 
+							 String[] allblogs = mergedblogs.replaceAll(",$", "").split(",");
+							 
+							 
+							 int blognum = allblogs.length;
+
+							 String addendum = "blogsite_id in ("+mergedblogs+")";
+							 
+							 String site = object.get("site").toString();
+							
+							 LocalDateTime now = LocalDateTime.now();
+						
+					
+							 String checkBlog = "SELECT * FROM blogsites WHERE blogsite_url='"+site+"'";
+							 ArrayList result = db.query(checkBlog);
+							
+							
+							 if(result.size()<1) {
+								 String query="INSERT INTO blogsites(blogsite_name,blogsite_url,site_type) VALUES('"+site+"', '"+site+"', 11)";
+								 db.updateTable(query);
+							
+							//pww.write("Successfully inserted "+site+" to the blogsite table\n");
+							
+							//pww.write("Updating the tracker table ...\n");
+							
+							//blogsite = db.query("SELECT * FROM blogsites ORDER BY blogsite_id DESC LIMIT 1");
+							blogsite = db.query("SELECT * FROM blogsites WHERE blogsite_url='"+site+"'");
+							//System.out.println(blogsite);
+							ArrayList blog_result = (ArrayList)blogsite.get(0);
+							//System.out.println(blog_result);
+							String blog_id = blog_result.get(0).toString();
+							
+							for(int j=0; j<blogs.length; j++) {
+								 if(!jblog.has(blogs[j])) {
+									 mergedblogs+=blogs[j]+",";
+								 }
+							 }
+							 mergedblogs+=blog_id;
+							 	String updatedQuery = "blogsite_id in ("+mergedblogs+")";						
+							 	db.updateTable("UPDATE trackers SET query='"+ updatedQuery +"', date_modified='"+now+"' WHERE tid='"+tracker_id+"'");
+							 }else {
+								// pww.write(site+ "blog has already been added");
+							 }
+					 }else {
+						// pww.write("invalid tracker id");
+					 }
+					}
+				}
+				pww.write("successful request");
+			
+>>>>>>> 6e92b989b574e48d03b959d1e1c4c33302ea9d87
 			}catch(Exception ex) {
 				ex.printStackTrace();
 				pww.write("invalid request");
