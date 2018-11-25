@@ -1,4 +1,6 @@
 
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
@@ -181,8 +183,12 @@ if(action.toString().equals("getstats")){
 					<%
                                 if(firstpost.length()>0){	
 									JSONObject tobj = firstpost;
-									String title = tobj.get("title").toString();
-									String body = tobj.get("post").toString();
+									String title = tobj.get("title").toString().replaceAll("[^a-zA-Z]", " ");
+									String body = tobj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
+									String dat = tobj.get("date").toString().substring(0,10);
+									LocalDate datee = LocalDate.parse(dat);
+									DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+									String date = dtf.format(datee);
 									String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
@@ -191,8 +197,8 @@ if(action.toString().equals("getstats")){
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
-											<button class="btn stylebuttonorange">
+											<button class="btn stylebuttonnocolor"><%=date%></button>
+											<button class="btn stylebuttonnocolor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>

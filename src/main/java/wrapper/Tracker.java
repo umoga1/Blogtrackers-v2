@@ -377,8 +377,13 @@ public class Tracker extends HttpServlet {
 							//System.out.println(bj.get("body"));
 							
 							String mostactiveterm = (null==request.getParameter("term"))?"":request.getParameter("term").toString();
-							String body = bj.get("post").toString();
-							String title = bj.get("title").toString();
+							String body = bj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
+							String title = bj.get("title").toString().replaceAll("[^a-zA-Z]", " ");
+							String dat = bj.get("date").toString().substring(0,10);
+							LocalDate datee = LocalDate.parse(dat);
+							DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+							String date = dtf.format(datee);
+							
 							String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
 							
 							
@@ -388,8 +393,8 @@ public class Tracker extends HttpServlet {
 									"							<b class='float-left ultra-bold-text'>"+bj.get("blogger").toString()+"</b> <i" + 
 									"								class='far fa-user float-right blogcontenticon'></i>" + 
 									"						</button>" + 
-									"						<button class='btn stylebuttonnocolor'>"+bj.get("date").toString()+"</button>" + 
-									"						<button class='btn stylebuttonorange'>" + 
+									"						<button class='btn stylebuttonnocolor'>"+date+"</button>" + 
+									"						<button class='btn stylebuttonnocolor'>" + 
 									"							<b class='float-left ultra-bold-text'>"+bj.get("num_comments").toString()+" comments</b><i" + 
 									"								class='far fa-comments float-right blogcontenticon'></i>" + 
 									"						</button>" + 
