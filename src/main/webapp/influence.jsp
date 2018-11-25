@@ -679,7 +679,7 @@ int comb = Integer.parseInt(possentiment2)+Integer.parseInt(negsentiment2);
 String totalcomment = post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
 totalinfluence  = Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
 //totalpost = post._searchRangeTotalByBlogger("date", dt, dte,mostactiveblogger);
-totalpost = post._searchRangeTotal("date",dt, dte,ids,"influence_score","DESC");
+totalpost = post._searchRangeTotal("date", dt, dte, ids);
 
 String totalsenti  = comb+"";
 
@@ -721,12 +721,13 @@ year_start = yst[0];
 year_end = yend[0];
 int ystint = Integer.parseInt(year_start);
 int yendint = Integer.parseInt(year_end);
-
-System.out.println("BLoggers here:"+authorcount);
+int base = 0;
+//System.out.println("BLoggers here:"+authorcount);
+JSONObject postyear =new JSONObject();
 if(authorcount.length()>0){
 	for(int n=0; n<1;n++){
 		int b=0;
-		JSONObject postyear =new JSONObject();
+
 		for(int y=ystint; y<=yendint; y++){ 
 				   String dtu = y + "-01-01";
 				   String dtue = y + "-12-31";
@@ -736,6 +737,9 @@ if(authorcount.length()>0){
 						dtue = dte;
 					}
 				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger);
+				   if(Integer.parseInt(totu)<base){
+					   base = Integer.parseInt(totu);
+				   }
 				   
 				   if(!years.has(y+"")){
 			    		years.put(y+"",y);
@@ -745,10 +749,23 @@ if(authorcount.length()>0){
 				   
 				   postyear.put(y+"",totu);
 		}
-		authoryears.put(mostactiveblogger,postyear);
+		//authoryears.put(mostactiveblogger,postyear);
 	}
 }
 
+
+base = Math.abs(base);
+if(postyear.length()>0){
+		for(int y=ystint; y<=yendint; y++){ 
+				   String v1 = postyear.get(y+"").toString();
+				 //  System.out.println("vlue here:"+v1);
+				   int re = Integer.parseInt(v1)+base;
+				   postyear.put(y+"",re+"");
+		}
+		
+}
+authoryears.put(mostactiveblogger,postyear);
+//System.out.println(authoryears);
 %>
 
 
@@ -1278,22 +1295,20 @@ if(authorcount.length()>0){
            [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200},{"date":"2017","close":1200},{"date":"2018","close":2600}]
          ];
 		*/
-		data = [<% if(authorcount.length()>0){
-			  for(int p=0; p<1; p++){ 
-			  		String au = authorcount.get(p).toString();
-			  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
-			  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
-				  		String yearr=yearsarray.get(q).toString(); 
-				  		if(specific_auth.has(yearr)){ %>
-				  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr)%>},
-					<%
-				  		}else{ %>
-				  			{"date":"<%=yearr%>","close":0},
-			   		<% } %>
-				<%  
-			  		}%>]<% if(p<authorcount.length()-1){%>,<%}%>
-			  <%	}}
-			  %> ];
+		  data = [<% 
+		  		String auu = mostactiveblogger;
+		  		JSONObject specific_auth= new JSONObject(authoryears.get(auu).toString());
+		  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
+			  		String yearr=yearsarray.get(q).toString(); 
+			  		if(specific_auth.has(yearr)){ %>
+			  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr) %>},
+				<%
+			  		}else{ %>
+			  			{"date":"<%=yearr%>","close":0},
+		   		<% } %>
+			<%  
+		  		}%>]
+		  ];
          //console.log(data);
          // data = [];
 
@@ -2225,7 +2240,7 @@ if(authorcount.length()>0){
  </script>
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/influence.js?v=37467979"></script>
+<script src="pagedependencies/influence.js?v=987979"></script>
 	
 </body>
 </html>
