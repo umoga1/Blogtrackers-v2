@@ -558,7 +558,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 				
 				 bloggerarr = post._sortJson(bloggerarr);
 				 
-				for(int m=(bloggerarr.length()-1); m>=0; m--){
+				for(int m=(bloggerarr.length()-1); m>0; m--){
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
 					String au = splitter[1];

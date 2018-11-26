@@ -35,9 +35,9 @@ import org.json.JSONArray;
 @WebServlet("/api/add")
 public class AddTracker extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	String user;	    
-
+	   
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -53,121 +53,31 @@ public class AddTracker extends HttpServlet {
 		String usession = (null==request.getHeader("session"))?"":request.getHeader("session").trim();
 		String key= (null == session.getAttribute("key")) ? "" : session.getAttribute("key").toString();
 		//String data = (null == request.getParameter("data"))? "" : request.getParameter("data").trim();
-
+		
 		PrintWriter pww = response.getWriter();
-
-		String ids ="";
-		String data = "";   
-		StringBuilder builder = new StringBuilder();
-		BufferedReader reader = request.getReader();
-		String line;
-		while ((line = reader.readLine()) != null) {
-			builder.append(line);
-		}
-		data = builder.toString();
-		JSONObject object = new JSONObject(data);
-
-
-
-		JSONArray arrId = object.getJSONArray("id");
-
-		String idss = "";
-		for (int i =0; i < arrId.length(); i++) {
-			idss += arrId.get(i).toString() +",";
-
-		}
-		String tid = idss.substring(0, idss.length()-1); 
-		ids += "("+tid+")";
-
-		System.out.println(ids);
+		
+		
+		  String data = "";   
+		    StringBuilder builder = new StringBuilder();
+		    BufferedReader reader = request.getReader();
+		    String line;
+		    while ((line = reader.readLine()) != null) {
+		        builder.append(line);
+		    }
+		    data = builder.toString();
+		    JSONObject object = new JSONObject(data);
+		    
+		   // System.out.println("The id is " + object.get("id"));
+		    //System.out.println("The site is " + object.get("site"));
+		    
+		    
 		if(usession.equals(key) && !key.equals("")){ //check if supplied session key is valid
-
+		
 			try {
-
+			
 				JSONObject resp = new JSONObject(data);
 				ArrayList tracker =null;
 				ArrayList blogsite = null;
-<<<<<<< HEAD
-
-
-				DbConnection db = new DbConnection();
-				tracker = db.query("SELECT * FROM trackers WHERE tid in "+ids);
-
-				if(tracker.size()>0){
-
-					ArrayList hd = (ArrayList)tracker.get(0);
-					String que = hd.get(5).toString();
-
-
-					String tracker_id = hd.get(0).toString();
-
-
-					que = que.replaceAll("blogsite_id in ", "");
-					que = que.replaceAll("\\(", "");			 
-					que = que.replaceAll("\\)", "");
-
-					
-
-					String[] blogs = que.replaceAll(", $", "").split(",");
-
-					JSONObject jblog = new JSONObject();
-
-					String mergedblogs = "";
-
-					jblog.put(object.get("site").toString(), object.get("site").toString());
-
-					String[] allblogs = mergedblogs.replaceAll(",$", "").split(",");
-
-
-					int blognum = allblogs.length;
-
-					String addendum = "blogsite_id in ("+que+")";
-					
-					System.out.println(addendum);
-					
-					String site = object.get("site").toString();
-
-					LocalDateTime now = LocalDateTime.now();
-
-
-					String checkBlog = "SELECT * FROM blogsites WHERE blogsite_url='"+site+"'";
-					ArrayList result = db.query(checkBlog);
-
-
-					if(result.size()<1) {
-						String query="INSERT INTO blogsites(blogsite_name,blogsite_url,site_type) VALUES('"+site+"', '"+site+"', 11)";
-						db.updateTable(query);
-
-						pww.write("Successfully inserted "+site+" to the blogsite table\n");
-
-						pww.write("Updating the tracker table ...\n");
-
-						//blogsite = db.query("SELECT * FROM blogsites ORDER BY blogsite_id DESC LIMIT 1");
-						blogsite = db.query("SELECT * FROM blogsites WHERE blogsite_url='"+site+"'");
-						//System.out.println(blogsite);
-						ArrayList blog_result = (ArrayList)blogsite.get(0);
-						//System.out.println(blog_result);
-						String blog_id = blog_result.get(0).toString();
-
-						for(int j=0; j<blogs.length; j++) {
-							if(!jblog.has(blogs[j])) {
-								mergedblogs+=blogs[j]+",";
-							}
-						}
-						mergedblogs+=blog_id;
-						String updatedQuery = "blogsite_id in ("+mergedblogs+")";
-
-						db.updateTable("UPDATE trackers SET query='"+ updatedQuery +"', date_modified='"+now+"' WHERE tid='"+tracker_id+"'");
-					}
-					else {
-						pww.write(site+ "blog has already been added");
-					}
-				}else {
-					pww.write("invalid tracker id");
-				}
-				//pww.write("successful request");
-
-=======
 				
 				DbConnection db = new DbConnection();
 
@@ -239,23 +149,22 @@ public class AddTracker extends HttpServlet {
 							 	String updatedQuery = "blogsite_id in ("+mergedblogs+")";						
 							 	db.updateTable("UPDATE trackers SET query='"+ updatedQuery +"', date_modified='"+now+"' WHERE tid='"+tracker_id+"'");
 							 }else {
-								// pww.write(site+ "blog has already been added");
+								 pww.write(site+ "blog has already been added to the "+hd.get(2)+" tracker \n");
 							 }
 					 }else {
-						// pww.write("invalid tracker id");
+						 pww.write("Invalid tracker id \n");
 					 }
 					}
 				}
-				pww.write("successful request");
+				pww.write("Request completed \n");
 			
->>>>>>> 6e92b989b574e48d03b959d1e1c4c33302ea9d87
 			}catch(Exception ex) {
 				ex.printStackTrace();
-				pww.write("invalid request");
+				pww.write("Invalid request \n");
 			}
 		}
 
-
+		
 	}
 
 
@@ -265,7 +174,7 @@ public class AddTracker extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-
+		
 	}
-
+	
 }

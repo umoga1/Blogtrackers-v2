@@ -142,7 +142,7 @@ if(f.exists() && !f.isDirectory()) {
       <!-- Mobile menu  -->
       <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/index.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
           <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
           <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
          </ul>
@@ -216,9 +216,8 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 <h4 class="text-primary text-center pt20 posttitle">Documentation</h4>
 <div class="text-center">
-<a href="blogpostpage">
+
  <h4 class="card-title text-primary text-center bold-text post-title">User Guide</h4>
-</a>
 </div>
   <div class="card-body text-center mt0 pt0 pb50">
     
@@ -237,9 +236,7 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 <h4 class="text-primary text-center pt20 posttitle">Documentation</h4>
 <div class="text-center">
-<a href="blogpostpage">
  <h4 class="card-title text-primary text-center bold-text post-title">Technical Resource Guide</h4>
-</a>
 </div>
   <div class="card-body text-center mt0 pt0 pb50">
     
