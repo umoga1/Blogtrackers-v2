@@ -923,9 +923,16 @@
 <div><p class="text-primary mt10 float-left"><b class="text-blue">Posts</b> Published by <b class="text-blue"><%=mostactiveblog%></b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
 <!-- <svg class="linesvg" width="960" height="400"></svg> -->
 <!-- <div id="lineplot" style="min-height: 380px;"></div> -->
+<<<<<<< HEAD
 
 <div class="chart-container" >
   <div class="chart overall-chart" id="d3-line-basic"></div>
+=======
+<div id="overall-chart">
+<div class="chart-container"  >
+  <div class="chart" id="d3-line-basic"></div>
+>>>>>>> 59ff0c87f6b57e2fa879efe9c5aa9213dd42d2cb
+</div>
 </div>
       </div>
         </div>
@@ -966,9 +973,11 @@
       <div class="card-body  p5 pt10 pb10">
         <div class="min-height-table" style="min-height: 420px;">
           <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u class="active-blog"><%=mostactiveblog %></u></b> Yearly Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
-           <div id="year-chart">
+           <div >
+           <div class="chart-container" id="year-chart" >
           <div class="chart" id="yearlypattern">
 
+          </div>
           </div>
           </div>
         </div>
@@ -1272,7 +1281,7 @@
 
          // Define main variables
          var d3Container = d3.select(element),
-             margin = {top: 10, right: 10, bottom: 20, left: 30},
+             margin = {top: 10, right: 10, bottom: 20, left:80},
              width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
              height = height - margin.top - margin.bottom;
 
