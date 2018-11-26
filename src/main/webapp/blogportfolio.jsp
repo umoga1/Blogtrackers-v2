@@ -749,6 +749,7 @@
 	</nav>
 
 
+
 	<div class="container analyticscontainer">
 		<div class="row">
 			<div class="col-md-6 ">
@@ -923,8 +924,8 @@
 <!-- <svg class="linesvg" width="960" height="400"></svg> -->
 <!-- <div id="lineplot" style="min-height: 380px;"></div> -->
 
-<div class="chart-container"  id="overall-chart">
-  <div class="chart" id="d3-line-basic"></div>
+<div class="chart-container" >
+  <div class="chart overall-chart" id="d3-line-basic"></div>
 </div>
       </div>
         </div>
@@ -935,6 +936,14 @@
 
 
 </div>
+
+	<form action="" name="customformsingle" id="customformsingle" method="post">
+		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" />
+		<input type="hidden" name="single_date" id="single_date" value="" />
+		
+		<input type="hidden" name="date_start" id="date_start" value="<%=dt%>" /> 
+		<input type="hidden" name="date_end" id="date_end" value="<%=dte%>" />	
+	</form>
 
 <div class="row mb0">
   <div class="col-md-6 mt20 ">
@@ -1186,13 +1195,24 @@
    		.on(
    				'apply.daterangepicker',
    				function(ev, picker) {
-   					/* console
-   							.log("apply event fired, start/end dates are "
-   									+ picker.startDate
-   											.format('MMMM D, YYYY')
-   									+ " to "
-   									+ picker.endDate
-   											.format('MMMM D, YYYY')); */
+   				  console
+                  .log("apply event fired, start/end dates are "
+                      + picker.startDate
+                          .format('MMMM D, YYYY')
+                      + " to "
+                      + picker.endDate
+                          .format('MMMM D, YYYY')); 
+               	console.log("applied");
+               	
+               	var start = picker.startDate.format('YYYY-MM-DD');
+               	var end = picker.endDate.format('YYYY-MM-DD');
+               	//console.log("End:"+end);
+               	
+               	$("#date_start").val(start);
+               	$("#date_end").val(end);
+               	//toastr.success('Date changed!','Success');
+               	$("form#customform").submit();
+			
    				});
    $('#reportrange')
    		.on(

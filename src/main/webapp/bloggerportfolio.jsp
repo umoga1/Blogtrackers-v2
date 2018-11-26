@@ -623,6 +623,7 @@ if (outlinks.size() > 0) {
 
 			
 			String totalinfluence = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
+			System.out.println(totalinfluence);
 			totalpost = post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);
 			
 %>
