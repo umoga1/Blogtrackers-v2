@@ -21,6 +21,7 @@
 	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
+	String attachedblogger =  (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 
 	
 	//System.out.println(date_start);
@@ -43,11 +44,9 @@
 		Terms term = new Terms();
 		Outlinks outl = new Outlinks();
 		if (tid != "") {
-			detail = tracker._fetch(tid.toString());
-			System.out.println(detail);
+			detail = tracker._fetch(tid.toString());	
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
-			//System.out.println("List:"+detail);
 		}
 		
 		boolean isowner = false;
@@ -229,16 +228,15 @@
 			
 			String[] idss = ids.split(",");
 			String selectedblogid = idss[0];
-			totalpost = post._searchRangeTotal("date", dt, dte, selectedblogid);
-			termss = term._searchByRange("date", dt, dte, selectedblogid,"blogsiteid","50");
-			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
 			
-			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
+			
+			
 			String mostactiveterm ="";
-			String mostactiveblog ="";
+			String mostactiveblogger ="";
 			
 			
-			allauthors = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");
+			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 
 			//System.out.println("Terms here:"+termss);
 			
@@ -296,45 +294,45 @@
 					   String totu = post._searchRangeTotal("date",dtu, dtue,selectedblogid);
 					   
 					   //if(1 >= Integer.parseInt(month_start)){
-					   		jan += Integer.parseInt(post._searchRangeTotal("date",y + "-01-01", y + "-01-31",selectedblogid));
+					   		jan += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-01-01", y + "-01-31",mostactiveblogger));
 					   //}
 					   
 					   //if(2>=Integer.parseInt(month_start) && y>=ystint){
-						   feb += Integer.parseInt(post._searchRangeTotal("date",y + "-02-01", y + "-02-29",selectedblogid));
+						   feb += Integer.parseInt(post._searchRangeTotal("date",y + "-02-01", y + "-02-29",mostactiveblogger));
 					   //}
 					   
 					   //if(3>=Integer.parseInt(month_start) && y>=ystint){						
-					   		march += Integer.parseInt(post._searchRangeTotal("date",y + "-03-01", y + "-03-31",selectedblogid));
+					   		march += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-03-01", y + "-03-31",mostactiveblogger));
 					   //}
 					   
 					   //if(4>=Integer.parseInt(month_start) && y>=ystint){						
-					   	apr += Integer.parseInt(post._searchRangeTotal("date",y + "-04-01", y + "-04-30",selectedblogid));
+					   	apr += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-04-01", y + "-04-30",mostactiveblogger));
 					   //}
 					   
 					   //if(5>=Integer.parseInt(month_start) && y>=ystint){							
-					  	 may += Integer.parseInt(post._searchRangeTotal("date",y + "-05-01", y + "-05-31",selectedblogid));
+					  	 may += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-05-01", y + "-05-31",mostactiveblogger));
 					   //}
 					   
 					   //if( 6 >=Integer.parseInt(month_start) && y>=ystint){							
-					   	june += Integer.parseInt(post._searchRangeTotal("date",y + "-06-01", y + "-06-30",selectedblogid));
+					   	june += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-06-01", y + "-06-30",mostactiveblogger));
 					   //}
 					  // if(7 >= Integer.parseInt(month_start) && y>=ystint){							
-					   	july += Integer.parseInt(post._searchRangeTotal("date",y + "-07-01", y + "-07-31",selectedblogid));
+					   	july += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-07-01", y + "-07-31",mostactiveblogger));
 					   //}
 					   //if(8 >= Integer.parseInt(month_start) && y>=ystint){							
-					   	aug += Integer.parseInt(post._searchRangeTotal("date",y + "-08-01", y + "-08-31",selectedblogid));
+					   	aug += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-08-01", y + "-08-31",mostactiveblogger));
 					   //}
 					   //if(9 >= Integer.parseInt(month_start) && y>=ystint){					
-					   	sep += Integer.parseInt(post._searchRangeTotal("date",y + "-09-01", y + "-09-30",selectedblogid));
+					   	sep += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-09-01", y + "-09-30",mostactiveblogger));
 					  // }
 					   //if(10 >= Integer.parseInt(month_start) && y>=ystint){			
-					   oct += Integer.parseInt(post._searchRangeTotal("date",y + "-10-01", y + "-10-31",selectedblogid));
+					   oct += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-10-01", y + "-10-31",mostactiveblogger));
 					   //}
 					   //if(11 >= Integer.parseInt(month_start) && y>=ystint){						
-					   		nov += Integer.parseInt(post._searchRangeTotal("date",y + "-11-01", y + "-11-30",selectedblogid));
+					   		nov += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-11-01", y + "-11-30",mostactiveblogger));
 					   //}
 					   //if(12 >= Integer.parseInt(month_start) && y>=ystint){						
-					   	dec += Integer.parseInt(post._searchRangeTotal("date",y + "-12-01", y + "-12-31",selectedblogid));
+					   	dec += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-12-01", y + "-12-31",mostactiveblogger));
 					   //}
 					   
 					   graphyears.put(y+"",totu);
@@ -369,6 +367,15 @@
 					    
 					    String auth = tobj.get("blogger").toString();
 					    String lang = tobj.get("language").toString();
+					    String blogsite_id = tobj.get("blogsite_id").toString();
+					    
+					    if(i==0){
+					    	mostactiveblogger = auth;
+					    }
+					    
+					    if(attachedblogger.equals(auth)){
+					    	mostactiveblogger = auth;
+					    }
 					    
 					    Double influence =  Double.parseDouble(tobj.get("influence_score").toString());
 					  	JSONObject content = new JSONObject();
@@ -376,7 +383,7 @@
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
 					    
-					    if(selectedblogid.equals(tobj.get("blogpost_id").toString())){
+					    if(mostactiveblogger.equals(tobj.get("blogger").toString())){
 					    	sentimentpost.put(tobj.get("blogpost_id").toString());
 					    }
 					   
@@ -392,6 +399,7 @@
 							content.put("blogger", auth);
 							content.put("influence", inf);
 							content.put("totalpost",valu);
+							content.put("blogsite_id",blogsite_id);
 							content.put("postids", pids);
 							authors.put(auth, content);
 						} else {
@@ -406,6 +414,7 @@
 							content.put("blogger", auth);
 							content.put("influence", influence);
 							content.put("totalpost",valu);
+							content.put("blogsite_id",blogsite_id);
 							content.put("postids", tobj.get("blogpost_id").toString());
 							authors.put(auth, content);
 							authorlooper.add(j,auth);
@@ -434,81 +443,6 @@
 			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
 			int highestfrequency = 0;
 
-			JSONArray topterms = new JSONArray();
-			if (termss.size() > 0) {
-
-				for (int p = 0; p < termss.size(); p++) {
-					String bstr = termss.get(p).toString();
-					JSONObject bj = new JSONObject(bstr);
-					bstr = bj.get("_source").toString();
-					bj = new JSONObject(bstr);
-					String frequency = bj.get("frequency").toString();
-					String tm = bj.get("term").toString();
-					JSONObject cont = new JSONObject();
-					
-					
-					int freq = Integer.parseInt(frequency);
-					
-					String blogpostid = bj.get("blogpostid").toString();
-					
-					if(freq>highestfrequency){
-						highestfrequency = freq;
-						mostactiveterm = tm;
-					}
-					
-					
-					cont.put("key", tm);
-					cont.put("frequency", frequency);
-					topterms.put(cont);
-				}
-			}
-			
-			JSONObject outerlinks = new JSONObject();
-			ArrayList outlinklooper = new ArrayList();
-			if (outlinks.size() > 0) {
-				int mm=0;
-				for (int p = 0; p < outlinks.size(); p++) {
-					String bstr = outlinks.get(p).toString();
-					JSONObject bj = new JSONObject(bstr);
-					bstr = bj.get("_source").toString();
-					bj = new JSONObject(bstr);
-					String link = bj.get("link").toString();
-					
-					JSONObject content = new JSONObject();
-					String maindomain="";
-					try {
-						URI uri = new URI(link);
-						String domain = uri.getHost();
-						if (domain.startsWith("www.")) {
-							maindomain = domain.substring(4);
-						} else {
-							maindomain = domain;
-						}
-					} catch (Exception ex) {}
-
-					
-					if (outerlinks.has(maindomain)) {
-						content = new JSONObject(outerlinks.get(maindomain).toString());
-						
-						int valu = Integer.parseInt(content.get("value").toString());
-						valu++;
-						
-						content.put("value", valu);
-						content.put("link", link);
-						content.put("domain", maindomain);
-						outerlinks.put(maindomain, content);
-					} else {
-						int valu = 1;
-						content.put("value", valu);
-						content.put("link", link);
-						content.put("domain", maindomain);
-						outerlinks.put(maindomain, content);
-						outlinklooper.add(mm, maindomain);
-						mm++;
-					}				
-				
-				}
-			}
 
 			//System.out.println("senti"+ sentimentblog);
 			
@@ -554,9 +488,7 @@
 						String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
 						//String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
 						int valu = 1;//Integer.parseInt(btoty);
-						if(m==0){
-							mostactiveblog = blogname;
-						}
+						
 						if (bloggers.has(blogger)) {
 							content = new JSONObject(bloggers.get(blogger).toString());						
 							content.put("blog", blogname);
@@ -589,6 +521,109 @@
 
 			}
 			
+			
+String blogids = "";
+ArrayList allauthors2 = post._getBloggerByBloggerName("date", dt, dte, mostactiveblogger, "influence_score", "DESC");
+if(allauthors2.size()>0){
+	String tres = null;
+	JSONObject tresp = null;
+	String tresu = null;
+	JSONObject tobj = null;
+	int j=0;
+	int k=0;
+	int n = 0;
+	for(int i=0; i< allauthors2.size(); i++){
+				tres = allauthors2.get(i).toString();			
+				tresp = new JSONObject(tres);
+			    tresu = tresp.get("_source").toString();
+			    tobj = new JSONObject(tresu);				    
+			    blogids+=tobj.get("blogsite_id").toString()+",";
+		}
+} 	
+outlinks = outl._searchByRange("date", dt, dte, blogids);
+termss = term._searchByRange("date", dt, dte, blogids,"blogsiteid","50");
+
+JSONArray topterms = new JSONArray();
+if (termss.size() > 0) {
+
+	for (int p = 0; p < termss.size(); p++) {
+		String bstr = termss.get(p).toString();
+		JSONObject bj = new JSONObject(bstr);
+		bstr = bj.get("_source").toString();
+		bj = new JSONObject(bstr);
+		String frequency = bj.get("frequency").toString();
+		String tm = bj.get("term").toString();
+		JSONObject cont = new JSONObject();
+		
+		
+		int freq = Integer.parseInt(frequency);
+		
+		String blogpostid = bj.get("blogpostid").toString();
+		
+		if(freq>highestfrequency){
+			highestfrequency = freq;
+			mostactiveterm = tm;
+		}
+		
+		
+		cont.put("key", tm);
+		cont.put("frequency", frequency);
+		topterms.put(cont);
+	}
+}
+
+
+JSONObject outerlinks = new JSONObject();
+ArrayList outlinklooper = new ArrayList();
+if (outlinks.size() > 0) {
+	int mm=0;
+	for (int p = 0; p < outlinks.size(); p++) {
+		String bstr = outlinks.get(p).toString();
+		JSONObject bj = new JSONObject(bstr);
+		bstr = bj.get("_source").toString();
+		bj = new JSONObject(bstr);
+		String link = bj.get("link").toString();
+		
+		JSONObject content = new JSONObject();
+		String maindomain="";
+		try {
+			URI uri = new URI(link);
+			String domain = uri.getHost();
+			if (domain.startsWith("www.")) {
+				maindomain = domain.substring(4);
+			} else {
+				maindomain = domain;
+			}
+		} catch (Exception ex) {}
+
+		
+		if (outerlinks.has(maindomain)) {
+			content = new JSONObject(outerlinks.get(maindomain).toString());
+			
+			int valu = Integer.parseInt(content.get("value").toString());
+			valu++;
+			
+			content.put("value", valu);
+			content.put("link", link);
+			content.put("domain", maindomain);
+			outerlinks.put(maindomain, content);
+		} else {
+			int valu = 1;
+			content.put("value", valu);
+			content.put("link", link);
+			content.put("domain", maindomain);
+			outerlinks.put(maindomain, content);
+			outlinklooper.add(mm, maindomain);
+			mm++;
+		}				
+	
+	}
+}
+
+
+			
+			String totalinfluence = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
+			totalpost = post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);
 			
 %>
 <!DOCTYPE html>
@@ -726,17 +761,23 @@
 <div class="container analyticscontainer">
 <div class="row">
 <div class="col-md-6 paddi">
-<nav class="breadcrumb">
-  <a class="breadcrumb-item text-primary" href="trackerlist.jsp">Trackers</a>
-  <a class="breadcrumb-item text-primary" href="#">Second Tracker</a>
-  <a class="breadcrumb-item active text-primary" href="dashboard.jsp">Dashboard</a>
-  <a class="breadcrumb-item active text-primary" href="bloggerportfolio.jsp">Blogger Portfolio</a>
-  </nav>
+
+ <nav class="breadcrumb">
+					<a class="breadcrumb-item text-primary"
+						href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a> 
+						<a class="breadcrumb-item text-primary"	href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
+					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
+					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/blogportfolio.jsp?tid=<%=tid%>">Blogger Portfolio</a>
+				</nav>
 <div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
 </div>
 
 <div class="col-md-6 text-right mt10">
-<div class="text-primary demo"><h6 id="reportrange">Date: <span>02/21/18 - 02/28/18</span></h6></div>
+<div class="text-primary demo">
+					<h6 id="reportrange">
+						Date: <span><%=historyfrom%> - <%=historyto%></span>
+					</h6>
+				</div>
 <div>
   <div class="btn-group mt5" data-toggle="buttons">
   <!-- <label class="btn btn-primary btn-sm daterangebutton legitRipple nobgnoborder"> <input type="radio" name="options" value="day" autocomplete="off" > Day
@@ -764,7 +805,22 @@
 <h5 class="text-primary mb0">
 							<i class="icondash"></i>Select Blogger
 						</h5>
-<h6 class="mt5"><select><option>Advonum</option></select></h6>
+<h6 class="mt5">
+<select id="blogger-changed">
+<% if (bloggers.length() > 0) {
+						int p = 0;
+						for (int y = 0; y < authors.length(); y++) {
+							String key = authorlooper.get(y).toString();
+							JSONObject resu = authors.getJSONObject(key);
+							String blogger = resu.get("blogger").toString();
+							String blogidd = resu.get("blogsite_id").toString();
+						
+								p++;
+							%>
+								<option value="<%=blogidd%>_<%=blogger%>" <% if(mostactiveblogger.equals(blogger)){ %> selected <% } %>><%=resu.get("blogger")%></option>
+  <% }} %>
+</select>
+</h6>
 <!-- <h2 class="textblue styleheading">AdNovum <div class="circle"></div></h2> -->
 </div>
 </div>
@@ -775,7 +831,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-exchange-alt icondash"></i>Influence
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label">649</h3>
+						<h3 class="text-blue mb0 countdash dash-label total-influence"><%=totalinfluence%></h3>				
 					</div>
 				</div>
 			</div>
@@ -786,7 +842,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-search icondash"></i>Top Keyword
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label">Krymu</h3>
+						<h3 class="text-blue mb0 countdash dash-label top-keyword"><%=mostactiveterm%></h3>
 					</div>
 				</div>
 			</div>
@@ -796,8 +852,9 @@
 					<div class="card-body p0 pt5 pb5">
 						<h5 class="text-primary mb0">
 							<i class="fas fa-file-alt icondash"></i>Posts
-						</h5>
-						<h3 class="text-blue mb0 countdash dash-label">70</h3>
+						</h5>	
+						<h3 class="text-blue mb0 countdash dash-label total-post"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost)) %></h3>
+					
 					</div>
 				</div>
 			</div>
@@ -808,7 +865,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-adjust icondash"></i>Sentiment
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label">3</h3>
+						<h3 class="text-blue mb0 countdash dash-label total-sentiment"><%=(Integer.parseInt(possentiment)+Integer.parseInt(negsentiment))%></h3>
 					</div>
 				</div>
 			</div>
@@ -816,7 +873,7 @@
 <div class="card nocoloredcard mt10 mb10">
 					<div class="card-body p0 pt5 pb5">
 <!-- <small class="text-primary">Blogsite of <b class="text-blue"><u>Advonum</u></b></small><br/> -->
-<h5 class="text-primary mb0">Blogsite</h5>
+<h5 class="text-primary mb0 active-blog"><%=mostactiveblogger%></h5>
 <h3><button class="btn buttonportfolio"><b class="float-left">Visit Site</b> <b class="far fa-file-alt float-right iconportfolio"></b></button></h3>
 </div>
 </div>
@@ -866,13 +923,14 @@
   <div class="card card-style mt20">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 365px;">
-<div><p class="text-primary mt10 float-left"><b class="text-green">Posts</b> Published by <b class="textblue"><u>Advonum</u></b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+<div><p class="text-primary mt10 float-left"><b class="text-green">Posts</b> Published by <b class="textblue"><u class="active-blog"><%=mostactiveblogger%></u></b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
 <!-- <svg class="linesvg" width="960" height="400"></svg> -->
 <!-- <div id="lineplot" style="min-height: 380px;"></div> -->
 
-<div class="chart-container">
+<div class="chart-container"  id="overall-chart">
   <div class="chart" id="d3-line-basic"></div>
 </div>
+
       </div>
         </div>
   </div>
@@ -888,9 +946,10 @@
       <div class="card-body  p5 pt10 pb10">
 
         <div style="min-height: 420px;">
-          <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u>Advonum</u></b> Day of the Week Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
-          <div class="chart" id="d3-bar-horizontal">
-
+          <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u class="active-blog"><%=mostactiveblogger %></u></b> Day of the Week Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+          
+          <div id="day-chart">
+	          <div class="chart" id="d3-bar-horizontal"></div>
           </div>
         </div>
           </div>
@@ -900,8 +959,8 @@
   <div class="col-md-6 mt20">
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
-        <div class="min-height-table"style="min-height: 420px;">
-          <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u>Advonum</u></b> Yearly Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+        <div class="min-height-table" style="min-height: 420px;">
+          <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u class="active-blog"><%=mostactiveblogger %></u></b> Yearly Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
           <div class="chart" id="yearlypattern">
 
           </div>
@@ -915,86 +974,44 @@
   <div class="col-md-12 mt20 ">
     <div class="card card-style mt20">
       <div class="card-body  p5 pt10 pb10">
-        <p class="p15 pb5 pt0 text-primary">List of <select id="top-listtype" 
+        <p class="p15 pb5 pt0 text-primary">List of <select id="top-listtype"  
 										class="text-primary filtersort sortbydomainsrls"><option
 											value="domains">Domains</option>
-										<option value="urls">URLs</option></select> of <b class="textblue">AdNovum</b></p>
+										<option value="urls">URLs</option></select> of <b class="textblue active-blog"><%=mostactiveblogger %></b></p>
         <div style="min-height: 420px;">
          <!--  <div class="p15 pb5 pt0" role="group">
           Export
           </div> -->
+               <div id="url-table">
                 <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
-                                <th>URL</th>
+                                <th>Domain</th>
                                 <th>Frequency</th>
 
 
                             </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                              <td>URL</td>
-                              <td>1</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>3</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>6</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>5</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>3</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>1</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>2</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>4</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>1</td>
-
-
-                          </tr>
-                          <tr>
-                              <td>URL</td>
-                              <td>2</td>
-
-
-                          </tr>
+                            <%
+										if (outlinklooper.size() > 0) {
+													//System.out.println(bloggers);
+													for (int y = 0; y < outlinklooper.size(); y++) {
+														String key = outlinklooper.get(y).toString();
+														JSONObject resu = outerlinks.getJSONObject(key);
+									%>
+									<tr>
+										<td class=""><a href="<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a></td>
+										<td><%=resu.get("value")%></td>
+									</tr>
+									<%
+										}
+									}
+									%>                     
                         </tbody>
                     </table>
+                   </div>
+               
         </div>
           </div>
     </div>
@@ -1010,6 +1027,12 @@
 </div>
   </footer> -->
 
+<form name="">
+<input type="hidden" id="date_start" value="<%=dt%>" />
+<input type="hidden" id="date_end" value="<%=dte%>" />
+
+<input type="hidden" id="blogger" value="<%=selectedblogid%>" />
+</form>>
 
   <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
  <script src="assets/bootstrap/js/bootstrap.js">
@@ -1036,16 +1059,16 @@
 	 $('#printdoc').on('click',function(){
 			print();
 		}) ;
+   // datatable setup
      $('#DataTables_Table_1_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": false,
           "pagingType": "simple"
-       /*    ,
+    /*       ,
           dom: 'Bfrtip',
-
-                    "columnDefs": [
-                 { "width": "80%", "targets": 0 }
-               ],
+          "columnDefs": [
+       { "width": "80%", "targets": 0 }
+     ],
        buttons:{
          buttons: [
              { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
@@ -1057,17 +1080,17 @@
        } */
      } );
 
+// table set up 2
      $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": false,
           "pagingType": "simple"
-         /*  ,
-          dom: 'Bfrtip'
-          ,
+     /*      ,
+          dom: 'Bfrtip',
 
-                    "columnDefs": [
-                 { "width": "80%", "targets": 0 }
-               ],
+          "columnDefs": [
+       { "width": "80%", "targets": 0 }
+     ],
        buttons:{
          buttons: [
              { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
@@ -1086,9 +1109,10 @@
    $(document)
    						.ready(
    								function() {
+                    // date range configuration
    	var cb = function(start, end, label) {
            //console.log(start.toISOString(), end.toISOString(), label);
-           $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+          // $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
            $('#reportrange input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY')).trigger('change');
          };
 
@@ -1096,8 +1120,8 @@
        	      {   startDate: moment().subtract(29, 'days'),
        	          endDate: moment(),
        	          minDate: '01/01/1947',
-       	       linkedCalendars: false,
        	          maxDate: moment(),
+       	          linkedCalendars: false,
        			  showDropdowns: true,
        	          showWeekNumbers: true,
        	          timePicker : false,
@@ -1141,7 +1165,7 @@
      //
    	// else{
    		// $('#reportrange span').html('${datepicked}');
-       $('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
+       //$('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
    		$('#reportrange, #custom').daterangepicker(optionSet1, cb);
    		$('#reportrange')
    		.on(
@@ -1308,25 +1332,11 @@
  //   [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200}]
  // ];
 
- data = [[
-
-  {
-    "date": "2015",
-    "close": 500
-  },
-  {
-    "date": "2016",
-    "close": 100
-  },
-  {
-    "date": "2017",
-    "close": 300
-  },
-  {
-    "date": "2018",
-    "close": 500
-  }
-]];
+ data = [[<% for(int q=0; q<sortedyearsarray.length(); q++){ 
+	  		String yer=sortedyearsarray.get(q).toString(); 
+	  		int vlue = Integer.parseInt(graphyears.get(yer).toString()); %>
+	  			{"date":"<%=yer%>","close":<%=vlue%>},
+	<% } %>]];
 
  //console.log(data);
  // data = [];
@@ -1532,7 +1542,14 @@
                       svg.selectAll(".circle-point").data(data[0])
                       .on("mouseover",tip.show)
                       .on("mouseout",tip.hide)
-                      .on("click",function(d){console.log(d.date)});
+                      .on("click",function(d){
+                    	  console.log(d.date);
+                    	  var d1 = 	  d.date + "-01-01";
+                   	      var d2 = 	  d.date + "-12-31";
+          				
+                   	      loadUrls(d1,d2);
+                    	  
+                      });
                                          svg.call(tip)
               }
               // handles multiple json parameter
@@ -1591,7 +1608,14 @@
                              svg.selectAll(".circle-point").data(mergedarray)
                              .on("mouseover",tip.show)
                              .on("mouseout",tip.hide)
-                             .on("click",function(d){console.log(d.date)});
+                             .on("click",function(d){
+                            	 console.log(d.date);
+                            	 var d1 = 	  d.date + "-01-01";
+                          	      var d2 = 	  d.date + "-12-31";
+                 				
+                          	      loadUrls(d1,d2);
+                           	  	 
+                             });
                                                 svg.call(tip)
 
 
@@ -1725,6 +1749,10 @@
      }
  });
  </script>
+
+
+
+
 
  <script>
  $(function () {
@@ -2092,56 +2120,7 @@
  // data = [];
 
  data = [
- [
-   {
-     "date": "Jan",
-     "close": 1000
-   },
-   {
-     "date": "Feb",
-     "close": 1800
-   },
-   {
-     "date": "Mar",
-     "close": 1600
-   },
-   {
-     "date": "Apr",
-     "close": 1400
-   },
-   {
-     "date": "May",
-     "close": 2500
-   },
-   {
-     "date": "Jun",
-     "close": 500
-   },
-   {
-     "date": "Jul",
-     "close": 100
-   },
-   {
-     "date": "Aug",
-     "close": 500
-   },
-   {
-     "date": "Sep",
-     "close": 2300
-   },
-   {
-     "date": "Oct",
-     "close": 1500
-   },
-   {
-     "date": "Nov",
-     "close": 1900
-   },
-   {
-     "date": "Dec",
-     "close": 4170
-   }
- ]
+ [{"date": "Jan","close": <%=jan%>},{"date": "Feb","close": <%=feb%>},{"date": "Mar","close":<%=march%>},{"date": "Apr","close": <%=jan%>},{"date": "May","close": <%=may%>},{"date": "Jun","close": <%=june%>},{"date": "Jul","close": <%=july%>},{"date": "Aug","close": <%=aug%>},{"date": "Sep","close": <%=sep%>},{"date": "Oct","close": <%=oct%>},{"date": "Nov","close": <%=nov%>},{"date": "Dec","close": <%=dec%>}],
  ];
 
  // console.log(data);
@@ -2493,7 +2472,10 @@
 
 
  </script>
+
+<script src="pagedependencies/baseurl.js?v=93"></script>
+<script src="pagedependencies/bloggerportfolio.js?v=7988909"></script>
+
 </body>
 </html>
-
 <% }} %>

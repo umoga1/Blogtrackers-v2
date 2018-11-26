@@ -79,9 +79,15 @@ public class AddTracker extends HttpServlet {
 				ArrayList tracker =null;
 				ArrayList blogsite = null;
 				
-				
 				DbConnection db = new DbConnection();
-					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+object.get("id")+"' ");
+
+				String id = object.get("id").toString();
+				JSONArray ids = new JSONArray(id);
+				if(ids.length()>0) {
+					for(int k=0; k<ids.length(); k++) {
+					String selectedid = ids.get(k).toString();
+					
+					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+selectedid+"' ");
 					
 					 if(tracker.size()>0){
 						 	
@@ -111,7 +117,6 @@ public class AddTracker extends HttpServlet {
 							 String addendum = "blogsite_id in ("+mergedblogs+")";
 							 
 							 String site = object.get("site").toString();
-							 String id = object.get("id").toString();
 							
 							 LocalDateTime now = LocalDateTime.now();
 						
@@ -124,9 +129,9 @@ public class AddTracker extends HttpServlet {
 								 String query="INSERT INTO blogsites(blogsite_name,blogsite_url,site_type) VALUES('"+site+"', '"+site+"', 11)";
 								 db.updateTable(query);
 							
-							pww.write("Successfully inserted "+site+" to the blogsite table\n");
+							//pww.write("Successfully inserted "+site+" to the blogsite table\n");
 							
-							pww.write("Updating the tracker table ...\n");
+							//pww.write("Updating the tracker table ...\n");
 							
 							//blogsite = db.query("SELECT * FROM blogsites ORDER BY blogsite_id DESC LIMIT 1");
 							blogsite = db.query("SELECT * FROM blogsites WHERE blogsite_url='"+site+"'");
@@ -141,21 +146,21 @@ public class AddTracker extends HttpServlet {
 								 }
 							 }
 							 mergedblogs+=blog_id;
-							 String updatedQuery = "blogsite_id in ("+mergedblogs+")";
-							
-							db.updateTable("UPDATE trackers SET query='"+ updatedQuery +"', date_modified='"+now+"' WHERE tid='"+tracker_id+"'");
-							 }
-							 else {
-								 pww.write(site+ "blog has already been added");
+							 	String updatedQuery = "blogsite_id in ("+mergedblogs+")";						
+							 	db.updateTable("UPDATE trackers SET query='"+ updatedQuery +"', date_modified='"+now+"' WHERE tid='"+tracker_id+"'");
+							 }else {
+								 pww.write(site+ "blog has already been added to the "+hd.get(2)+" tracker \n");
 							 }
 					 }else {
-						 pww.write("invalid tracker id");
+						 pww.write("Invalid tracker id \n");
 					 }
-				//pww.write("successful request");
+					}
+				}
+				pww.write("Request completed \n");
 			
 			}catch(Exception ex) {
 				ex.printStackTrace();
-				pww.write("invalid request");
+				pww.write("Invalid request \n");
 			}
 		}
 

@@ -558,7 +558,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 				
 				 bloggerarr = post._sortJson(bloggerarr);
 				 
-				for(int m=(bloggerarr.length()-1); m>=0; m--){
+				for(int m=(bloggerarr.length()-1); m>0; m--){
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
 					String au = splitter[1];
@@ -578,7 +578,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid","50");
 							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
 							selectedid=det.get("blogid").toString();
-							totalpost = det.get("totalpost").toString();
+							//totalpost = det.get("totalpost").toString();
 							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");
 							System.out.println("All post :"+allposts);
 					}
@@ -683,6 +683,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 	sentimentcolor = "#72C28E";
 }
 
+totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);
 %>
 
 <div class="col-md-9">
@@ -764,7 +765,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
                                     <tr>
                                         <th>Entity</th>
                                         <th>Type</th>
-                                        <th>Frequency</th>
+                                      <!--   <th>Frequency</th> -->
                                         <th>Sentiment</th>
 
                                     </tr>
@@ -787,7 +788,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
                                     <tr>
                                         <td><%=tobj.get("entity").toString()%></td>
                                         <td><%=tobj.get("type").toString()%></td>
-                                        <td></td>
+                                   <!--      <td></td> -->
                                         <td><%=tobj.get("sentiment").toString() %></td>
                                     </tr>
                                     <% }} %>
@@ -881,12 +882,15 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
 										<div class="text-center mb20 mt20">
+											<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid%>&blogger=<%=tobj.get("blogger")%>">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
+
 											<button class="btn stylebuttonnocolor"><%=date %></button>
-											<button class="btn stylebuttonorange">
+									</a>
+											<button class="btn stylebuttonnocolor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -894,8 +898,9 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 550px; overflow-y: scroll;">
-											<% System.out.println(); %>
-											<%=tobj.get("post")%>
+
+											<%=tobj.get("post").toString().replaceAll("[^a-zA-Z]", " ")%>
+
 										</div>
 										</div>       
                      		<% }} %>

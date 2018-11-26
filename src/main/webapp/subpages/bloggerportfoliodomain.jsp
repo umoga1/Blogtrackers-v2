@@ -16,15 +16,11 @@
 	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 	String date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 	String date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
-	
-	String blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
+	String blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 	String listtype =  (null == request.getParameter("listtype")) ? "ulr" : request.getParameter("listtype").toString().replaceAll("[^a-zA-Z]", " ");
 	
 
-	if (user == null || user == "") {
-		response.sendRedirect("index.jsp");
-	} else {
 
 			ArrayList<?> userinfo = null;
 			String profileimage = "";
@@ -33,8 +29,30 @@
 			
 			Trackers tracker = new Trackers();
 			Outlinks outl = new Outlinks();
-		
-			String ids = blog_id;
+			Blogposts post = new Blogposts();
+			String ids = "";
+			
+			ArrayList allauthors2 = post._getBloggerByBloggerName("date", date_start, date_end, blogger, "influence_score", "DESC");
+			if(allauthors2.size()>0){
+				String tres = null;
+				JSONObject tresp = null;
+				String tresu = null;
+				JSONObject tobj = null;
+				int j=0;
+				int k=0;
+				int n = 0;
+				for(int i=0; i< allauthors2.size(); i++){
+							tres = allauthors2.get(i).toString();			
+							tresp = new JSONObject(tres);
+						    tresu = tresp.get("_source").toString();
+						    tobj = new JSONObject(tresu);				    
+						    ids+=tobj.get("blogpost_id").toString()+",";
+					}
+			} 	
+
+			
+			
+			
 		
 
 			outlinks = outl._searchByRange("date",date_start, date_end, ids);
@@ -87,27 +105,24 @@
 
 		}
 %>
-								<link rel="stylesheet" href="assets/css/table.css" />
-								<link rel="stylesheet" href="assets/css/style.css" />
-								<table id="DataTables_Table_1_wrapper" class="display" style="width:100%">
-									<thead>
-                                     <tr>
+
+  <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
+                        <thead>
+                            <tr>
                                 <th>URL</th>
                                 <th>Frequency</th>
 
 
                             </tr>
-                                    </thead>
-                                    <tbody>
-									<%
+                        </thead>
+                        <tbody>
+                            <%
 										if (outlinklooper.size() > 0) {
+													//System.out.println(bloggers);
 													for (int y = 0; y < outlinklooper.size(); y++) {
 														String key = outlinklooper.get(y).toString();
 														JSONObject resu = outerlinks.getJSONObject(key);
 									%>
-
-						
-									
 									<tr>
 									<% if(listtype.equals("urls")){ %>
 										<td class=""><a href="<%=resu.get("link")%>" target="_blank"><%=resu.get("link")%></a></td>
@@ -116,45 +131,9 @@
 									<% } %>
 										<td><%=resu.get("value")%></td>
 									</tr>
-									<% }}} %>
-									 </tbody>
-									</table>
-									
-									
-<script type="text/javascript"
-		src="assets/vendors/DataTables/datatables.min.js"></script>
-			<script>
- $(document).ready(function() {
-	 
-	 
-	$('#printdoc').on('click',function(){
-		print();
-	}) 
-	
-	 $(function () {
-		    $('[data-toggle="tooltip"]').tooltip()
-		  })
-		  
-     $('#DataTables_Table_1_wrapper').DataTable( {
-         "scrollY": 250,
-          "pagingType": "simple",
-         /*  dom: 
-        	   'Bfrtip', 
-                    "columnDefs": [
-                 { "width": "80%", "targets": 0 }
-               ]  */
-  /*    ,
-       buttons:{
-         buttons: [
-             { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
-             {extend:'csv',className: 'btn-primary stylebutton1'},
-             {extend:'excel',className: 'btn-primary stylebutton1'},
-            // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
-             {extend:'print',className: 'btn-primary stylebutton1'},
-         ]
-       } */
-     } );
-	 
- } );
- </script>
-	<!--end for table  -->							
+									<%
+										}
+									}
+									%>                     
+                        </tbody>
+</table>

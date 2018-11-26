@@ -23,8 +23,9 @@
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
 	
+	//System.out.println(date_start);
 	if (user == null || user == "") {
-		response.sendRedirect("index.jsp");   //1. Check the user login status. Redirect a user that is not logged in
+		response.sendRedirect("index.jsp");
 	} else {
 
 		ArrayList<?> userinfo = null;
@@ -42,47 +43,39 @@
 		Terms term = new Terms();
 		Outlinks outl = new Outlinks();
 		if (tid != "") {
-
-			detail = tracker._fetch(tid.toString()); //2. If there is a tracker id, that means the user has created a tracker before, we will fetch that tracker information (select*from trackers)
-			System.out.println("The detail is "+detail); 
+			detail = tracker._fetch(tid.toString());	
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
-			System.out.println("The list is :"+detail);   // Otherwise select that first tracker. This info is coming from MySql
-
 		}
 		
 		boolean isowner = false;
 		JSONObject obj = null;
 		String ids = "";
 		String trackername="";
-		if (detail.size() > 0) {   //check if the user has created a tracker before
-			ArrayList resp = (ArrayList<?>)detail.get(0);  //Details contains arraylist with different types. So we get the 
+		if (detail.size() > 0) {
+			//String res = detail.get(0).toString();
+			ArrayList resp = (ArrayList<?>)detail.get(0);
 
-			String tracker_userid = resp.get(0).toString();  // The userid of the tracker
-			String tracker_username= resp.get(1).toString();  // The name of the creator of the tracker
-			trackername = resp.get(2).toString();             // The name of the tracker itself
-		
-			if (tracker_username.equals(user.toString())) {
+			String tracker_userid = resp.get(0).toString();
+			trackername = resp.get(2).toString();
+			//if (tracker_userid.equals(user.toString())) {
 				isowner = true;
-				String query = resp.get(5).toString();
+				String query = resp.get(5).toString();//obj.get("query").toString();
 				query = query.replaceAll("blogsite_id in ", "");
 				query = query.replaceAll("\\(", "");
 				query = query.replaceAll("\\)", "");
-				ids = query;  // Get all the Blogsite ids in the tracker by the user and save it as ids		
-			}
+				ids = query;
+			//}
 		}
 		
-		/*
-		Get user specific information
-		*/
-	
 		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
 		if (userinfo.size() < 1 || !isowner) {
-			response.sendRedirect("trackerlist.jsp");   //If the user is neither logged in or has no tracker, go to trackerlist
+			response.sendRedirect("index.jsp");
 		} else {
 			userinfo = (ArrayList<?>) userinfo.get(0);
-			try {                                          
+			try {
 					username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
+	
 					name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
 					email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
 					phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
@@ -108,7 +101,7 @@
 			Blogs blog = new Blogs();
 			Sentiments senti = new Sentiments();
 
-			//Create table format that can maps the query to the d3.js data
+			//Date today = new Date();
 			SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 			SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -118,8 +111,8 @@
 			SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
 			SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
 			
-			String stdate = post._getDate(ids,"first");  // Get the date of the first blogpost using the blogids       
-			String endate = post._getDate(ids,"last");   // Same logic applies
+			String stdate = post._getDate(ids,"first");
+			String endate = post._getDate(ids,"last");
 			
 			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
 			Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
@@ -143,8 +136,17 @@
 			String dst = DATE_FORMAT2.format(dstart);
 			String dend = DATE_FORMAT2.format(today);
 
-			ArrayList sentiments = senti._list("DESC", "", "id");  //List the sentiment and sort it by id in descending order
+			//ArrayList posts = post._list("DESC","");
+			ArrayList sentiments = senti._list("DESC", "", "id");
+			 
+		 	/* Liwc liwc = new Liwc();
 			
+			ArrayList liwcSent = liwc._list("DESC", ""); 
+			
+			String test = post._searchRangeTotal("date", "2013-04-01", "2018-04-01", "1");
+			
+			System.out.println(test);  */
+		
 			
 			String totalpost = "0";
 			ArrayList allauthors = new ArrayList();
@@ -157,28 +159,40 @@
 			String year_start="";
 			String year_end="";
 			
-			if(!single.equals("")){                 //If the single date selected is not empty, then format the date
+			if(!single.equals("")){
 				month = MONTH_ONLY.format(nnow); 
 				day = DAY_ONLY.format(nnow); 
 				year = YEAR_ONLY.format(nnow); 
+				//System.out.println("Now:"+month+"small:"+smallmonth);
 				if(month.equals("02")){
 					ddey = (Integer.parseInt(year)%4==0)?"28":"29";
 				}else if(month.equals("09") || month.equals("04") || month.equals("05") || month.equals("11")){
 					ddey = "30";
 				}
 			}
-			if (!date_start.equals("") && !date_end.equals("")) { //If the starting date and ending date is not empty
-				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);  // Check the total post for that specific range in the blogpost table using the blogsite ids
-				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());   //Format the start date
-				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());       //Format the end date
+			//System.out.println(s)
+			//System.out.println("start date"+date_start+"end date "+date_end);
+			if (!date_start.equals("") && !date_end.equals("")) {
+				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
+
+				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
+				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
+								
+
+				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
+				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
 				
-				dt = date_start.toString();      // Convert the date to start string
-				dte = date_end.toString();       // Convert the date to end string
+				dt = date_start.toString();
+				dte = date_end.toString();
 				
-				historyfrom = DATE_FORMAT.format(start);    // Make a static history for the history because it does not change
-				historyto = DATE_FORMAT.format(end);         // Same logic applies here 
-			} else if (single.equals("day")) {             
-				 dt = year + "-" + month + "-" + day;        // For granularity - not yet implemented
+				historyfrom = DATE_FORMAT.format(start);
+				historyto = DATE_FORMAT.format(end);
+
+				//allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
+			} else if (single.equals("day")) {
+				 dt = year + "-" + month + "-" + day;
+				
+				//allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
 					
 			} else if (single.equals("week")) {
 				
@@ -189,10 +203,17 @@
 				cal.add(Calendar.DATE, -7);
 				Date dateBefore7Days = cal.getTime();
 				dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
-									
+				
+				
+
+				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+					
 			} else if (single.equals("month")) {
 				dt = year + "-" + month + "-01";
 				dte = year + "-" + month + "-"+day;	
+
+				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+				
 			} else if (single.equals("year")) {
 				dt = year + "-01-01";
 				dte = year + "-12-"+ddey;
@@ -204,26 +225,23 @@
 				
 			}
 			
-			/*
-			* dt and dte is the date of the first blogpost in the tracker or the selected date range
-			*/
-			
-			
 			String[] idss = ids.split(",");
-		
-			String selectedblogid = idss[0];   // the first blog in the select that will be the default loaded info
-			totalpost = post._searchRangeTotal("date", dt, dte, selectedblogid);    // Total post by that selected blogsite
-			termss = term._searchByRange("date", dt, dte, selectedblogid,"blogsiteid","100");   //Same logic applies here 
-			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);            //here too for all the outlnks
-			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);  //get the total influence score for the selected blog
+			String selectedblogid = idss[0];
+			totalpost = post._searchRangeTotal("date", dt, dte, selectedblogid);
+			termss = term._searchByRange("date", dt, dte, selectedblogid,"blogsiteid","50");
+			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
+			
+			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
 			String mostactiveterm ="";
 			String mostactiveblog ="";
 			
 			
-			allauthors = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");  //All blogpost within the timeframe sorted by influence score
+			allauthors = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");
 
-			ArrayList blogs = blog._fetch(ids);     //fetch all the blogsite using the blogsite id in the tracker               
-			int totalblog = blogs.size();          //total blogsie count
+			//System.out.println("Terms here:"+termss);
+			
+			ArrayList blogs = blog._fetch(ids);
+			int totalblog = blogs.size();
 			
 			JSONObject graphyears = new JSONObject();
 		    JSONArray yearsarray = new JSONArray();
@@ -334,7 +352,6 @@
 		    
 			ArrayList authorlooper = new ArrayList();
 			if(allauthors.size()>0){
-				
 				String tres = null;
 				JSONObject tresp = null;
 				String tresu = null;
@@ -346,7 +363,6 @@
 						tres = allauthors.get(i).toString();			
 						tresp = new JSONObject(tres);
 					    tresu = tresp.get("_source").toString();
-					    
 					    tobj = new JSONObject(tresu);
 					    
 					    String auth = tobj.get("blogger").toString();
@@ -785,10 +801,8 @@
 <div class="card-body p0 pt5 pb5">
 <h5 class="text-primary mb0">Select Blog</h5>
 <!-- <small class="text-primary"></small><br/> -->
-<div class="mt5 " >
-<select id="blogger-changed" class="custom-select">
-
-
+<h6 class="mt5">
+<select id="blogger-changed">
 <% if (bloggers.length() > 0) {
 						int p = 0;
 						for (int y = 0; y < bloggers.length(); y++) {
@@ -799,10 +813,10 @@
 							if (size > 0 && p < 15) {
 								p++;
 							%>
-								<option value="<%=resu.get("id").toString()%>_<%=blogname%>"><%=resu.get("blog").toString().toLowerCase()%></option>
-    			 <%}}}%>
+								<option value="<%=resu.get("id").toString()%>_<%=blogname%>"><%=resu.get("blog")%></option>
+   <%}}}%>
 </select>
-</div>
+</h6>
 </div>
 </div>
 </div>
@@ -853,7 +867,7 @@
 
 <div class="col-md-2 text-right">
 <!-- <small class="text-primary cursor-pointer"><a href="">Visit Blog</a></small> --><br/>
-<button class="btn buttonportfolio"><b class="float-left active-blog styleactiveblog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
+<button class="btn buttonportfolio"><b class="float-left active-blog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
 </div>
  <!--  <div class="col-md-3">
   <small class="text-primary">Find Blog</small>
@@ -930,9 +944,7 @@
         <div style="min-height: 420px;">
           <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u class="active-blog"><%=mostactiveblog %></u></b> Day of the Week Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
           <div id="day-chart">
-          <div class="chart" id="d3-bar-horizontal">
-
-          </div>
+	          <div class="chart" id="d3-bar-horizontal"></div>
           </div>
           
         </div>
@@ -973,7 +985,7 @@
                 <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
-                                <th>URL</th>
+                                <th>Domains</th>
                                 <th>Frequency</th>
 
 
@@ -988,7 +1000,7 @@
 														JSONObject resu = outerlinks.getJSONObject(key);
 									%>
 									<tr>
-										<td class=""><a href="<%=resu.get("link")%>" target="_blank"><%=resu.get("link")%></a></td>
+										<td class=""><a href="<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a></td>
 										<td><%=resu.get("value")%></td>
 									</tr>
 									<%
@@ -1532,7 +1544,7 @@
                       .on("mouseover",tip.show)
                       .on("mouseout",tip.hide)
                       .on("click",function(d){
-                    	  //console.log(d.date);
+                    	  console.log(d.date);
                     	  var d1 = 	  d.date + "-01-01";
                    	      var d2 = 	  d.date + "-12-31";
           				
@@ -1597,7 +1609,14 @@
                              svg.selectAll(".circle-point").data(mergedarray)
                              .on("mouseover",tip.show)
                              .on("mouseout",tip.hide)
-                             .on("click",function(d){console.log(d.date)});
+                             .on("click",function(d){
+                            	 console.log(d.date);
+                            	 var d1 = 	  d.date + "-01-01";
+                          	      var d2 = 	  d.date + "-12-31";
+                 				
+                          	      loadUrls(d1,d2);
+                           	  	 
+                             });
                                                 svg.call(tip)
 
 
@@ -2100,7 +2119,7 @@
 
  //console.log(data);
  // data = [];
-<%=jan%>
+
  data = [
  [{"date": "Jan","close": <%=jan%>},{"date": "Feb","close": <%=feb%>},{"date": "Mar","close":<%=march%>},{"date": "Apr","close": <%=jan%>},{"date": "May","close": <%=may%>},{"date": "Jun","close": <%=june%>},{"date": "Jul","close": <%=july%>},{"date": "Aug","close": <%=aug%>},{"date": "Sep","close": <%=sep%>},{"date": "Oct","close": <%=oct%>},{"date": "Nov","close": <%=nov%>},{"date": "Dec","close": <%=dec%>}],
  ];
@@ -2411,7 +2430,7 @@
            // // -------------------------
            //
            // // Horizontal range
-           x.rangeRoundBands([0, width]);
+           x.rangeRoundBands([0, width],.72,.5);
            //
            // // Horizontal axis
            svg.selectAll('.d3-axis-horizontal').call(xAxis);

@@ -38,6 +38,8 @@ Blogs blog  = new Blogs();
 		String[] yend = dte.split("-");
 		year_start = yst[0];
 		year_end = yend[0];
+		
+		int base = 0;
 		int ystint = Integer.parseInt(year_start);
 		int yendint = Integer.parseInt(year_end);
 		
@@ -52,10 +54,12 @@ Blogs blog  = new Blogs();
 							}else if(b==yendint){
 								dtue = dte;
 							}
-						   if(sort.toString().equals("influence_score")){
-							   	totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,blogger.toString());							   	
-						   }else{
-						   	    totu = post._searchRangeTotalByBlogger("date",dtu, dtue,blogger.toString());
+						  
+						   totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,bloggerstr,"influence_score");	
+						  //totu = post._getTotalByBloggerName("date",dtu, dtue,bloggerstr,"influence_score","DESC");
+							
+						   if(Integer.parseInt(totu)<base){
+							   base = Integer.parseInt(totu);
 						   }
 						   
 						   if(!years.has(y+"")){
@@ -65,6 +69,17 @@ Blogs blog  = new Blogs();
 					    	}
 						   
 						   postyear.put(y+"",totu);
+				}
+				
+				//authoryears.put(bloggerstr,postyear);
+				
+				base = Math.abs(base);
+				if(postyear.length()>0){
+						for(int y=ystint; y<=yendint; y++){ 
+								   String v1 = postyear.get(y+"").toString();
+								  
+								   postyear.put(y+"",(Integer.parseInt(v1)+base));
+						}					
 				}
 				authoryears.put(bloggerstr,postyear);
 %>
@@ -95,7 +110,7 @@ Blogs blog  = new Blogs();
           // ------------------------------
           // Horizontal
           var x = d3.scale.ordinal()
-              .rangeRoundBands([0, width]);
+              .rangeRoundBands([0, width], .72, .5);
           // Vertical
           var y = d3.scale.linear()
               .range([height, 0]);
@@ -312,19 +327,16 @@ Blogs blog  = new Blogs();
                var path = svg.selectAll('.d3-line')
                          .data(data)
                          .enter()
-                         .append("g")
-                                .attr("class","linecontainer")
                          .append("path")
                          .attr("class", "d3-line d3-line-medium")
                          .attr("d", line)
                          // .style("fill", "rgba(0,0,0,0.54)")
                          .style("stroke-width", 2)
                          .style("stroke", "17394C")
-                          //.attr("transform", "translate("+margin.left/4.7+",0)");
+                          .attr("transform", "translate("+margin.left/4.7+",0)");
                          // .datum(data)
                 // add point
-                 circles = svg.append("g").attr("class","circlecontainer")
-                 			.selectAll(".circle-point")
+                 circles = svg.selectAll(".circle-point")
                            .data(data[0])
                            .enter();
                        circles
@@ -336,7 +348,7 @@ Blogs blog  = new Blogs();
                        .style("fill","#4CAF50")
                        .attr("cx",function(d) { return x(d.date); })
                        .attr("cy", function(d){return y(d.close)})
-                       //.attr("transform", "translate("+margin.left/4.7+",0)");
+                       .attr("transform", "translate("+margin.left/4.7+",0)");
                        svg.selectAll(".circle-point").data(data[0])
                        .on("mouseover",tip.show)
                        .on("mouseout",tip.hide)
@@ -357,7 +369,7 @@ Blogs blog  = new Blogs();
                            // .style("fill", "rgba(0,0,0,0.54)")
                            .style("stroke-width", 2)
                            .style("stroke", function(d,i) { return color(i);})
-                           //.attr("transform", "translate("+margin.left/4.7+",0)");
+                           .attr("transform", "translate("+margin.left/4.7+",0)");
                 // add multiple circle points
                     // data.forEach(function(e){
                     // console.log(e)
@@ -412,15 +424,6 @@ Blogs blog  = new Blogs();
                   .style("font-size", 12)
                   // .text("Frequency")
                   ;
-              if(data.length == 1 )
-         	 {
-         	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-             transformfirsttick =  tick[0][0].attributes[1].value;
-             //transformfirsttick = "translate(31.5,0)"
-             //console.log(transformfirsttick);
-             svg.select(".circlecontainer").attr("transform", transformfirsttick);
-             svg.select(".linecontainer").attr("transform", transformfirsttick);
-         	 }
          // Resize chart
          // ------------------------------
          // Call function on window resize
@@ -474,15 +477,6 @@ Blogs blog  = new Blogs();
                .attr("cx",function(d) { return x(d.date);})
                .attr("cy", function(d){return y(d.close)});
              }
-             if(data.length == 1 )
-        	 {
-        	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-            transformfirsttick =  tick[0][0].attributes[1].value;
-            //transformfirsttick = "translate(31.5,0)"
-            console.log(transformfirsttick);
-            svg.select(".circlecontainer").attr("transform", transformfirsttick);
-            svg.select(".linecontainer").attr("transform", transformfirsttick);
-        	 }
              //
              // // Crosshair
              // svg.selectAll('.d3-crosshair-overlay').attr("width", width);

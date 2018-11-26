@@ -231,7 +231,8 @@
 			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","50");
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
-			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 
 			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
@@ -745,7 +746,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%=bloggers.length()%></h3>
+						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=authors.length()%></h3>
 					</div>
 				</div>
 			</div>
@@ -767,7 +768,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-comment icondash"></i>Comments
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%=totalcomment%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment))%></h3>
 					</div>
 				</div>
 			</div>
@@ -1218,9 +1219,9 @@
 	</form>
 
 	<form action="" name="customform" id="customform" method="post">
-		<input type="hidden" name="tid" value="<%=tid%>" /> <input
-			type="hidden" name="date_start" id="date_start" value="" /> <input
-			type="hidden" name="date_end" id="date_end" value="" />
+		<input type="hidden" name="tid" value="<%=tid%>" /> 
+		<input type="hidden" name="date_start" id="date_start" value="" /> 
+		<input type="hidden" name="date_end" id="date_end" value="" />
 			<textarea style="display:none" name="blogs" id="blogs" >
 			 <% if (bloggers.length() > 0) {
 						int p = 0;
@@ -3301,10 +3302,11 @@ data = {
 				String key = authorlooper.get(y).toString();
 				JSONObject resu = authors.getJSONObject(key);
 				int size = Integer.parseInt(resu.get("totalpost").toString());
-				if (size > 0 && k < 15) {
+				//if (size > 0 && k < 15) {
 					k++;%>
 {"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=size%>},
-<%}}
+<%//}
+				}
 		}%>
  /* {"label":"Blogger 2","name":"Obadimu Adewale", "size":2500},
  {"label":"Blogger 3","name":"Oluwaseun Walter", "size":2800},
@@ -3553,10 +3555,10 @@ data = {
 				String key = looper.get(y).toString();
 				JSONObject resu = bloggers.getJSONObject(key);
 				int size = Integer.parseInt(resu.get("totalposts").toString());
-				if (size > 0 && k < 15) {
+				//if (size > 0 && k < 15) {
 					k++;%>
 					{"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=resu.get("totalposts")%>},
-	<%}
+	<% //}
 			}
 		}%>
  ]
@@ -3679,7 +3681,7 @@ data = {
     }
 });
 </script>
-	<script>
+<script>
 $(".option-only").on("change",function(e){
 	console.log("only changed ");
 	var valu =  $(this).val();

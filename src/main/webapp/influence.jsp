@@ -93,7 +93,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	if (detail.size() > 0) {
 		//String res = detail.get(0).toString();
 		ArrayList resp = (ArrayList<?>)detail.get(0);
-		System.out.println("details here-"+resp);
+		//System.out.println("details here-"+resp);
 
 		String tracker_userid = resp.get(1).toString();
 		trackername = resp.get(2).toString();
@@ -263,32 +263,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 	ArrayList allposts = new ArrayList();
 	
-	JSONArray sentimentpost = new JSONArray();
-	ArrayList allauthors2 = post._getBloggerByBlogId("date", dt, dte, mostactiveblogid, "influence_score", "DESC");
-	if(allauthors.size()>0){
-		String tres = null;
-		JSONObject tresp = null;
-		String tresu = null;
-		JSONObject tobj = null;
-		int j=0;
-		int k=0;
-		int n = 0;
-		for(int i=0; i< allauthors.size(); i++){
-					tres = allauthors.get(i).toString();			
-					tresp = new JSONObject(tres);
-				    tresu = tresp.get("_source").toString();
-				    tobj = new JSONObject(tresu);				    
-				    sentimentpost.put(tobj.get("blogpost_id").toString());
-			}
-	} 	
 
-	String possentiment2 =new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"posemo");
-	String negsentiment2 =new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"negemo");
-	
-	int comb = Integer.parseInt(possentiment2)+Integer.parseInt(negsentiment2);
-	String totalcomment = post._searchRangeAggregate("date", dt, dte, mostactiveblogid,"num_comments");
-	
-	String totalsenti  = comb+"";
 
 //System.out.println(topterms);
 %>
@@ -544,6 +519,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								
 								
 								String selectedid="";
+								JSONArray sentimentpost = new JSONArray();
+								String postidss = "";
 								
 								int l=0;
 								int qc=0;
@@ -573,6 +550,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										num_comment = num_comment.equals("null")?"0":num_comment;
 										
 										
+
+									    sentimentpost.put(tobj.get("blogpost_id").toString());
+									    postidss+=tobj.get("blogpost_id").toString()+",";
 										
 										float influence = Float.parseFloat(tobj.get("influence_score").toString());
 										totalinfluence+=influence;
@@ -631,9 +611,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								
 				
 				// bloggerarr = post._sortJson(bloggerarr);
-				System.out.println("Hello:"+bloggerarr);
+				//System.out.println("Hello:"+bloggerarr);
 
-				for(int m=(bloggerarr.length()-1); m>=0; m--){
+				for(int m=(bloggerarr.length()-1); m>0; m--){
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
 					String au = splitter[1];
@@ -642,7 +622,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					
 					JSONArray selposts = new JSONArray(det.get("postarray").toString());
 					String postids = "";
-					System.out.println("posts here:"+selposts);
 					for(int r=0; r<selposts.length(); r++){
 						postids += selposts.get(r).toString()+",";
 					}
@@ -651,9 +630,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						dselected = "abloggerselected";
 							mostactiveblogger = au;
 							
-							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid","50");
 							selectedid=det.get("blogid").toString();
-							totalpost = det.get("totalpost").toString();
 							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"influence_score","DESC");
 									
 					}
@@ -675,6 +652,42 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 <!--  Populate terms and influence score json for chart-->
 <%
+/*
+JSONArray sentimentpost = new JSONArray();
+String postidss = "";
+		
+ArrayList allauthors2 = post._getBloggerByBloggerName("date", dt, dte, mostactiveblogger, "influence_score", "DESC");
+if(allauthors2.size()>0){
+	String tres = null;
+	JSONObject tresp = null;
+	String tresu = null;
+	JSONObject tobj = null;
+	int j=0;
+	int k=0;
+	int n = 0;
+	for(int i=0; i< allauthors2.size(); i++){
+				tres = allauthors2.get(i).toString();			
+				tresp = new JSONObject(tres);
+			    tresu = tresp.get("_source").toString();
+			    tobj = new JSONObject(tresu);				    
+			    sentimentpost.put(tobj.get("blogpost_id").toString());
+			    postidss+=tobj.get("blogpost_id").toString()+",";
+		}
+} 	
+*/
+
+String possentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"posemo");
+String negsentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"negemo");
+
+int comb = Integer.parseInt(possentiment2)+Integer.parseInt(negsentiment2);
+String totalcomment = post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
+totalinfluence  = Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
+//totalpost = post._searchRangeTotalByBlogger("date", dt, dte,mostactiveblogger);
+totalpost = post._searchRangeTotal("date", dt, dte, ids);
+
+String totalsenti  = comb+"";
+
+allterms = term._searchByRange("date", dt, dte,postidss,"blogpostid","50");
 
 int highestfrequency = 0;
 JSONArray topterms = new JSONArray();
@@ -712,11 +725,13 @@ year_start = yst[0];
 year_end = yend[0];
 int ystint = Integer.parseInt(year_start);
 int yendint = Integer.parseInt(year_end);
-
+int base = 0;
+//System.out.println("BLoggers here:"+authorcount);
+JSONObject postyear =new JSONObject();
 if(authorcount.length()>0){
 	for(int n=0; n<1;n++){
 		int b=0;
-		JSONObject postyear =new JSONObject();
+
 		for(int y=ystint; y<=yendint; y++){ 
 				   String dtu = y + "-01-01";
 				   String dtue = y + "-12-31";
@@ -725,19 +740,37 @@ if(authorcount.length()>0){
 					}else if(b==yendint){
 						dtue = dte;
 					}
-				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,authorcount.get(n).toString());		 	
+				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger,"influence_score");
+				   
+				  
+				   if(Integer.parseInt(totu)<base){
+					   base = Integer.parseInt(totu);
+				   }
+				   
 				   if(!years.has(y+"")){
 			    		years.put(y+"",y);
 			    		yearsarray.put(b,y);
 			    		b++;
 			    	}
-				   //System.out.println("totu-"+totu);
+				   
 				   postyear.put(y+"",totu);
 		}
-		authoryears.put(authorcount.get(n).toString(),postyear);
+		//authoryears.put(mostactiveblogger,postyear);
 	}
 }
 
+
+base = Math.abs(base);
+if(postyear.length()>0){
+		for(int y=ystint; y<=yendint; y++){ 
+				   String v1 = postyear.get(y+"").toString();
+				   int re = Integer.parseInt(v1)+base;
+				   postyear.put(y+"",re+"");
+		}
+		
+}
+authoryears.put(mostactiveblogger,postyear);
+//System.out.println(authoryears);
 %>
 
 
@@ -798,7 +831,7 @@ if(authorcount.length()>0){
 							</div> --%>
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Comments</h6>
-								<h2 class="mb0 bold-text total-comment"><%=totalcomment%></h2>
+								<h2 class="mb0 bold-text total-comments"><%=totalcomment%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -949,13 +982,12 @@ if(authorcount.length()>0){
 		<input type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" />
 		<input type="hidden" name="author" id="author" value="<%=mostactiveblogger%>" /> 
 		<input type="hidden" name="single_date" id="single_date" value="" />
+		
+		<input type="hidden" name="date_start" id="date_start" value="<%=dt%>" /> 
+		<input type="hidden" name="date_end" id="date_end" value="<%=dte%>" />	
 	</form>
 
-	<form action="" name="customform" id="customform" method="post">
-		<input type="hidden" name="tid" id="tid" value="<%=tid%>" /> 
-		<input type="hidden" name="date_start" id="date_start" value="<%=dt%>" /> 
-		<input type="hidden" name="date_end" id="date_end" value="<%=dte%>" />			
-	</form>
+
 	
 	<!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
@@ -1118,13 +1150,23 @@ if(authorcount.length()>0){
    		.on(
    				'apply.daterangepicker',
    				function(ev, picker) {
-   					/* console
+   					 console
    							.log("apply event fired, start/end dates are "
    									+ picker.startDate
    											.format('MMMM D, YYYY')
    									+ " to "
    									+ picker.endDate
-   											.format('MMMM D, YYYY')); */
+   											.format('MMMM D, YYYY')); 
+   					 
+
+   	            	var start = picker.startDate.format('YYYY-MM-DD');
+   	            	var end = picker.endDate.format('YYYY-MM-DD');
+   	            console.log("End:"+end);
+   	            	
+   	            	$("#date_start").val(start);
+   	            	$("#date_end").val(end);
+   	            	//toastr.success('Date changed!','Success');
+   	            	$("form#customform").submit();
    				});
    $('#reportrange')
    		.on(
@@ -1267,22 +1309,20 @@ if(authorcount.length()>0){
            [{"date":"2014","close":500},{"date":"2015","close":900},{"date":"2016","close":1200},{"date":"2017","close":1200},{"date":"2018","close":2600}]
          ];
 		*/
-		data = [<% if(authorcount.length()>0){
-			  for(int p=0; p<1; p++){ 
-			  		String au = authorcount.get(p).toString();
-			  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
-			  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
-				  		String yearr=yearsarray.get(q).toString(); 
-				  		if(specific_auth.has(yearr)){ %>
-				  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr)%>},
-					<%
-				  		}else{ %>
-				  			{"date":"<%=yearr%>","close":0},
-			   		<% } %>
-				<%  
-			  		}%>]<% if(p<authorcount.length()-1){%>,<%}%>
-			  <%	}}
-			  %> ];
+		  data = [<% 
+		  		String auu = mostactiveblogger;
+		  		JSONObject specific_auth= new JSONObject(authoryears.get(auu).toString());
+		  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
+			  		String yearr=yearsarray.get(q).toString(); 
+			  		if(specific_auth.has(yearr)){ %>
+			  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr) %>},
+				<%
+			  		}else{ %>
+			  			{"date":"<%=yearr%>","close":0},
+		   		<% } %>
+			<%  
+		  		}%>]
+		  ];
          //console.log(data);
          // data = [];
 
@@ -1588,15 +1628,6 @@ if(authorcount.length()>0){
                                     	 
                                      });
                                                         svg.call(tip)
-
-
-
-
-
-
-
-
-
 
                       }
 
@@ -2214,7 +2245,7 @@ if(authorcount.length()>0){
  </script>
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/influence.js?v=989979"></script>
+<script src="pagedependencies/influence.js?v=987979"></script>
 	
 </body>
 </html>

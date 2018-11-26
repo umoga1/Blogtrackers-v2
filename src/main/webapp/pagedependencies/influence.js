@@ -29,7 +29,8 @@ $('.blogger-select').on("click", function(){
 	//getTotalPost(bloog,blg[1]);
 	//getTotalInfluence(bloog,blg[1]);
 	loadChart(bloog,blg[1]);
-	loadStat(bloog,blg[1]);
+	//loadTerms(bloog,blg[1]);
+	//loadStat(bloog,blg[1]);
 });
 
 
@@ -72,7 +73,7 @@ $('.blogpost_link').on("click", function(){
 function loadChart(blogger,blog_id){
 	$("#chart-container").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	$.ajax({
-		url: app_url+"subpages/postingfrequencychart.jsp",
+		url: app_url+"subpages/influencechart.jsp",
 		method: 'POST',
 		data: {
 			action:"getchart",
@@ -109,7 +110,7 @@ function loadInfluence(start_date,end_date){
 	$("#date_start").val(start_date);
 	$("#date_end").val(end_date);
 	
-	getTotalInfluence(blogger,blog_id);
+	//getTotalInfluence(blogger,blog_id);
 	
 	loadTerms(blogger,blog_id);
 	
@@ -216,7 +217,7 @@ function loadSinglePost(blogger,blog_id){
 			 $.getScript("assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js", function(data, textStatus, jqxhr) {	});
 			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js", function(data, textStatus, jqxhr) {	});
 			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js", function(data, textStatus, jqxhr) {	});
-			 $.getScript("pagedependencies/postingfrequency.js?v=1980", function(data, textStatus, jqxhr) {	});
+			 $.getScript("pagedependencies/influence.js?v=1980", function(data, textStatus, jqxhr) {	});
 			 
 		}
 	});	
@@ -283,7 +284,7 @@ function loadStat(blogger,blog_id){
 	$(".total-sentiment").html("<img src='images/loading.gif' />");
 	$(".total-comments").html("<img src='images/loading.gif' />");
 	$.ajax({
-		url: app_url+"subpages/postingfrequencydetail.jsp",
+		url: app_url+"subpages/influencedetail.jsp",
 		method: 'POST',
 		data: {
 			action:"getstats",
@@ -304,8 +305,8 @@ function loadStat(blogger,blog_id){
 		response = response.trim();
 		console.log(response);
 		var data = JSON.parse(response);
-		$(".total-influence").html(data.totalpost);
-		$(".total-post").html(data.totalinfluence);
+		$(".total-influence").html(data.totalinfluence);
+		$(".total-post").html(data.totalpost);
 		$(".total-sentiment").html(data.totalsentiment);
 		$(".total-comments").html(data.totalcomment);
 		//$("#overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
