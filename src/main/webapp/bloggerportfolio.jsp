@@ -806,7 +806,7 @@ if (outlinks.size() > 0) {
 							<i class="icondash"></i>Select Blogger
 						</h5>
 <h6 class="mt5">
-<select id="blogger-changed">
+<select id="blogger-changed" class="custom-select">
 <% if (bloggers.length() > 0) {
 						int p = 0;
 						for (int y = 0; y < authors.length(); y++) {
@@ -1832,13 +1832,15 @@ if (outlinks.size() > 0) {
        //
        //
        data = [
-             {letter:"Mon", frequency:2550},
-             {letter:"Tue", frequency:800},
+    	   {letter:"Sat", frequency:1500},
+    	   {letter:"Fri", frequency:1900},
              {letter:"Wed", frequency:500},
              {letter:"Thu", frequency:1700},
-             {letter:"Fri", frequency:1900},
-             {letter:"Sat", frequency:1500},
+             {letter:"Tue", frequency:800},
+             {letter:"Mon", frequency:2550},
              {letter:"Sun", frequency:1450}
+             
+             
          ];
        //
        //

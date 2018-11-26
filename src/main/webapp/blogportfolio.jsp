@@ -802,7 +802,7 @@
 <h5 class="text-primary mb0">Select Blog</h5>
 <!-- <small class="text-primary"></small><br/> -->
 <h6 class="mt5">
-<select id="blogger-changed">
+<select id="blogger-changed" class="custom-select">
 <% if (bloggers.length() > 0) {
 						int p = 0;
 						for (int y = 0; y < bloggers.length(); y++) {
@@ -867,7 +867,7 @@
 
 <div class="col-md-2 text-right">
 <!-- <small class="text-primary cursor-pointer"><a href="">Visit Blog</a></small> --><br/>
-<button class="btn buttonportfolio"><b class="float-left active-blog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
+<button class="btn buttonportfolio"><b class="float-left active-blog styleactiveblog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
 </div>
  <!--  <div class="col-md-3">
   <small class="text-primary">Find Blog</small>
@@ -1833,12 +1833,12 @@
        //
        //
        data = [
-             {letter:"Mon", frequency:2550},
-             {letter:"Tue", frequency:800},
+    	   {letter:"Sat", frequency:1500},
+    	   {letter:"Fri", frequency:1900},
              {letter:"Wed", frequency:500},
              {letter:"Thu", frequency:1700},
-             {letter:"Fri", frequency:1900},
-             {letter:"Sat", frequency:1500},
+             {letter:"Tue", frequency:800},
+             {letter:"Mon", frequency:2550},
              {letter:"Sun", frequency:1450}
          ];
        //

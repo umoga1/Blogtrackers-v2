@@ -3272,6 +3272,11 @@ top:40px;
 {
 top:70px;	
 }
+.styleactiveblog
+{
+font-size:13px;
+text-transform:capitalize;	
+}
 /* .statcontainer:after {
     content: ""; /* This is necessary for the pseudo element to work. */
     /* display: block; /* This will put the pseudo element on its own line. */
