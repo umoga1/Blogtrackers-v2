@@ -255,7 +255,7 @@
 		JSONObject termsyears = new JSONObject();
 
 		
-		allterms = term._searchByRange("date", dt, dte, ids,"blogsiteid","5");
+		allterms = term._searchByRange("date", dt, dte, ids,"blogsiteid","50");
 		
 		int postmentioned=0;
 		int blogmentioned=0;
@@ -328,7 +328,7 @@
 					postc = post._searchTotalByTitleAndBody(tm,"date", dt,dte);
 					blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
 					bloggerc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogger");//post._searchTotalAndUniqueBlogger(tm,"date", dt,dte,"blogger");
-					
+					System.out.println(bloggerc);
 					postmentioned+=(Integer.parseInt(postc));
 					blogmentioned+=(Integer.parseInt(blogc));
 					bloggermentioned+=(Integer.parseInt(bloggerc));
@@ -705,25 +705,25 @@
 						<div class="row">
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Blog Mentioned</h6>
-								<h2 class="mb0 bold-text blog-mentioned"><%=blogmentioned%></h2>
+								<h2 class="mb0 bold-text blog-mentioned"><%=NumberFormat.getNumberInstance(Locale.US).format(blogmentioned)%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Bloggers Mentioned</h6>
-								<h2 class="mb0 bold-text blogger-mentioned"><%=bloggermentioned%></h2>
+								<h2 class="mb0 bold-text blogger-mentioned"><%=NumberFormat.getNumberInstance(Locale.US).format(bloggermentioned+1)%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 							
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Posts Mentioned</h6>
-								<h2 class="mb0 bold-text post-mentioned"><%=postmentioned%></h2>
+								<h2 class="mb0 bold-text post-mentioned"><%=NumberFormat.getNumberInstance(Locale.US).format(postmentioned)%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Top Posting Location</h6>
-								<h3 class="mb0 bold-text top-location"><%=toplocation%></h3>
+								<h3 class="mb0 bold-text top-location"><%=(toplocation==null)?"Not Available":toplocation%></h3>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
@@ -844,10 +844,12 @@
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
 										<div class="text-center mb20 mt20">
+										<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid%>&blogger=<%=tobj.get("blogger")%>">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
+											</a>
 											<button class="btn stylebuttonnocolor"><%=date %></button>
 											<button class="btn stylebuttonnocolor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
