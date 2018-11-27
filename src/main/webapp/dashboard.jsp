@@ -303,12 +303,7 @@
 					    
 					    String auth = tobj.get("blogger").toString();
 					    String lang = tobj.get("language").toString();
-					    
-<<<<<<< HEAD
-					     Double influence =  Double.parseDouble(tobj.get("influence_score").toString()); 
-=======
-					    
->>>>>>> b1e1c47fad6cb7b409f38bc14e832b30f8d735e2
+	
 					  	JSONObject content = new JSONObject();
 					   
 					  	/* Double influence = Double.parseDouble(post._searchRangeAggregateByBloggers("date", dt, dte, auth)); */
