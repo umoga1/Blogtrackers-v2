@@ -83,13 +83,9 @@ function loadChart(blog_id){
 		},
 		success: function(response)
 		{   
-<<<<<<< HEAD
-		$(".overall-chart").html("");
-		$(".overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
-=======
+
 			$("#overall-chart").html("");	
 		$("#overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
->>>>>>> 59ff0c87f6b57e2fa879efe9c5aa9213dd42d2cb
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}

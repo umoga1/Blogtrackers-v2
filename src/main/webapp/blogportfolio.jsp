@@ -923,15 +923,10 @@
 <div><p class="text-primary mt10 float-left"><b class="text-blue">Posts</b> Published by <b class="text-blue"><%=mostactiveblog%></b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
 <!-- <svg class="linesvg" width="960" height="400"></svg> -->
 <!-- <div id="lineplot" style="min-height: 380px;"></div> -->
-<<<<<<< HEAD
 
-<div class="chart-container" >
-  <div class="chart overall-chart" id="d3-line-basic"></div>
-=======
 <div id="overall-chart">
 <div class="chart-container"  >
   <div class="chart" id="d3-line-basic"></div>
->>>>>>> 59ff0c87f6b57e2fa879efe9c5aa9213dd42d2cb
 </div>
 </div>
       </div>
