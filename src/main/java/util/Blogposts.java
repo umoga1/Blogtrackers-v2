@@ -411,6 +411,65 @@ public class Blogposts {
 	}
 	
 	
+	public String _searchRangeMaxByBloggers(String field,String greater, String less, String bloggers) throws Exception {
+		String[] args = bloggers.split(","); 
+		JSONArray pars = new JSONArray(); 
+		ArrayList<String> ar = new ArrayList<String>();	
+		for(int i=0; i<args.length; i++){
+			pars.put(args[i].toLowerCase());
+		}
+
+		String arg2 = pars.toString();
+		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
+		
+		
+		JSONObject jsonObj  = new JSONObject("{\r\n" + 
+				"       \"query\": {\r\n" + 
+				"          \"bool\": { \r\n" + 
+				"               \"must\": {\r\n" + 
+				"                    \"query_string\" : {\r\n" + 
+				"            			\"fields\" : [\"blogger\"],\r\n" + 
+				"            			\"query\" : \""+bloggers+"\"\r\n" + 
+				"                    }\r\n" + 
+				"                },\r\n" + 
+				"                \"filter\": {\r\n" + 
+				"                    \"range\" : {\r\n" + 
+				"                        \"date\" : {\r\n" + 
+				"                            \"gte\": \""+greater+"\",\r\n" + 
+				"                            \"lte\": \""+less+"\"\r\n" + 
+				"                        }\r\n" + 
+				"                    }\r\n" + 
+				"                }\r\n" + 
+				"            }\r\n" + 
+				"        },\r\n" + 
+				"		\"sort\":{\r\n" + 
+				"		\"influence_score\":{\r\n" + 
+				"			\"order\":\"DESC\"\r\n" + 
+				"			}\r\n" + 
+				"		}\r\n" +
+				"    }");
+
+		String url = base_url+"_search?size=1";
+		ArrayList result =  this._getResult(url, jsonObj);
+		String res = "0";
+		if(result.size()>0) {
+			String tres = null;
+			JSONObject tresp = null;
+			String tresu = null;
+			JSONObject tobj = null;
+			for(int i=0; i< result.size(); i++){
+				tres = result.get(i).toString();			
+				tresp = new JSONObject(tres);
+			    tresu = tresp.get("_source").toString();
+			    tobj = new JSONObject(tresu);
+			    
+			    res = tobj.get("influence_score").toString();
+			    
+			}
+		}
+		return res;
+	}
+	
 	public String _searchRangeAggregateByBloggers(String field,String greater, String less, String bloggers, String sort) throws Exception {
 		/*
 		String[] args = bloggers.split(","); 
@@ -717,6 +776,7 @@ public class Blogposts {
 	}
 	
 	public String _searchTotalAndUnique(String term,String sortby, String start, String end, String filter ) throws Exception {
+		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
@@ -745,8 +805,20 @@ public class Blogposts {
 				"      }\r\n" + 
 				"    }\r\n" + 
 				"  }"+
-				"}");
+				"}");*/
 	
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"    \"query\": {\r\n" +
+				"        \"query_string\" : {\r\n" + 
+				"            \"fields\" : [\"title\",\"post\"],\r\n" + 
+				"            \"query\" : \""+term+"\"\r\n" + 
+				"        }\r\n" + 
+				"    },\r\n" + 
+				"    \"collapse\" : {\r\n" + 
+				"        \"field\" : \""+filter+"\" \r\n" + 
+				"    },\r\n" + 
+				"    \"sort\": [\"date\"] \r\n" +
+				"}");
 		String url = base_url+"_search?size=1"; 
 		return this._getTotal(url, jsonObj);
 	}
