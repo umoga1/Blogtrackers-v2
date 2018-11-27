@@ -810,14 +810,14 @@ public class Blogposts {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"    \"query\": {\r\n" +
 				"        \"query_string\" : {\r\n" + 
-				"            \"fields\" : [\"title\",\"post\"],\r\n" + 
+				"            \"fields\" : [\"post\"],\r\n" + 
 				"            \"query\" : \""+term+"\"\r\n" + 
 				"        }\r\n" + 
 				"    },\r\n" + 
 				"    \"collapse\" : {\r\n" + 
 				"        \"field\" : \""+filter+"\" \r\n" + 
 				"    },\r\n" + 
-				"    \"sort\": [\"date\"] \r\n" +
+				"    \"sort\": [\"blogger\"] \r\n" +
 				"}");
 		String url = base_url+"_search?size=1"; 
 		return this._getTotal(url, jsonObj);
