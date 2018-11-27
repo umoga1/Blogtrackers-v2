@@ -955,6 +955,7 @@
 		<input type="hidden" name="date_start" id="date_start" value="" /> 
 		<input type="hidden" name="date_end" id="date_end" value="" />
 
+<<<<<<< HEAD
  --%>
  
 <form action="" name="customform" id="customform" method="post">
@@ -964,10 +965,6 @@
 <input type="hidden" id="date_end" value="<%=dte%>" />
 
 </form>
-
-
-
-
 
 
 
@@ -1144,6 +1141,7 @@
    				});
    $('#reportrange')
    		.on(
+
    			  'apply.daterangepicker',
    	         function(ev, picker) {
    	            console
@@ -1163,6 +1161,7 @@
    	            	$("#date_end").val(end);
    	            	//toastr.success('Date changed!','Success');
    	            	$("form#customform").submit();	});
+
    $('#reportrange')
    		.on(
    				'cancel.daterangepicker',
