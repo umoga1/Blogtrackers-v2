@@ -1766,7 +1766,7 @@
 
      // Chart setup
      function barHorizontal(element, height) {
-
+  
        // Basic setup
        // ------------------------------
 
@@ -1836,13 +1836,13 @@
        //
        //
        data = [
-    	   {letter:"Sat", frequency:1500},
+    	   {letter:"Sat", frequency:130},
     	   {letter:"Fri", frequency:1900},
-             {letter:"Wed", frequency:500},
-             {letter:"Thu", frequency:1700},
-             {letter:"Tue", frequency:800},
+             {letter:"Wed", frequency:2500},
+             {letter:"Thu", frequency:1600},
+             {letter:"Tue", frequency:600},
              {letter:"Mon", frequency:2550},
-             {letter:"Sun", frequency:1450}
+             {letter:"Sun", frequency:150}
          ];
        //
        //

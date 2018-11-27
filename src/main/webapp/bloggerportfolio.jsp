@@ -1835,13 +1835,13 @@ if (outlinks.size() > 0) {
        //
        //
        data = [
-    	   {letter:"Sat", frequency:1500},
-    	   {letter:"Fri", frequency:1900},
-             {letter:"Wed", frequency:500},
-             {letter:"Thu", frequency:1700},
-             {letter:"Tue", frequency:800},
-             {letter:"Mon", frequency:2550},
-             {letter:"Sun", frequency:1450}
+    	   {letter:"Sat", frequency:100},
+    	   {letter:"Fri", frequency:2000},
+             {letter:"Wed", frequency:1500},
+             {letter:"Thu", frequency:1200},
+             {letter:"Tue", frequency:700},
+             {letter:"Mon", frequency:2650},
+             {letter:"Sun", frequency:50}
              
              
          ];
