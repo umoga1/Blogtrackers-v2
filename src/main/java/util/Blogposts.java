@@ -353,7 +353,7 @@ public class Blogposts {
 				"    }\r\n" + 
 				"  },\r\n" + 
 				"    \"aggs\" : {\r\n" + 
-				"        \"total\" : { \"sum\" : { \"field\" : \""+filter+"\" } }\r\n" + 
+				"        \"total\" : { \"max\" : { \"field\" : \""+filter+"\" } }\r\n" + 
 				"    }\r\n" + 
 				"}";
 				
