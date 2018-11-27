@@ -619,12 +619,16 @@ if (outlinks.size() > 0) {
 	
 	}
 }
+String totalinfluence ="";
 
-
-			
-			String totalinfluence = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
-			System.out.println(totalinfluence);
+		try{			
+			totalinfluence = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
 			totalpost = post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);
+			}
+		catch(Exception e){
+			totalinfluence = "0";
+			totalpost = "0";
+		}
 			
 %>
 <!DOCTYPE html>

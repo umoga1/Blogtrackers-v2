@@ -304,10 +304,10 @@
 					    String auth = tobj.get("blogger").toString();
 					    String lang = tobj.get("language").toString();
 					    
-					    /* Double influence =  Double.parseDouble(tobj.get("influence_score").toString()); */
+					     Double influence =  Double.parseDouble(tobj.get("influence_score").toString()); 
 					  	JSONObject content = new JSONObject();
 					   
-					  	Double influence = Double.parseDouble(post._searchRangeAggregateByBloggers("date", dt, dte, auth));
+					  	/* Double influence = Double.parseDouble(post._searchRangeAggregateByBloggers("date", dt, dte, auth)); */
 					  	
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];

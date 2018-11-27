@@ -24,8 +24,8 @@ public class Blogposts {
 
 	HashMap<String, String> hm = DbConnection.loadConstant();		
 
-	String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
-	//String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
+	//String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
+	String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
 	
 	String totalpost;
 	String date;
@@ -399,7 +399,7 @@ public class Blogposts {
 				"    }\r\n" + 
 				"  },\r\n" + 
 				"    \"aggs\" : {\r\n" + 
-				"        \"total\" : { \"sum\" : { \"field\" : \"influence_score\" } }\r\n" + 
+				"        \"total\" : { \"max\" : { \"field\" : \"influence_score\" } }\r\n" + 
 				"    }\r\n" + 
 				"}";
 
