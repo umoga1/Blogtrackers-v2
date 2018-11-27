@@ -937,7 +937,7 @@
 
 
 
-<form name="">
+<form action="" name="customform" id="customform" method="post">
 <input type="hidden" id="term" value="<%=mostactiveterm%>" />
 <input type="hidden" id="date_start" value="<%=dt%>" />
 
@@ -945,7 +945,7 @@
 
 <input type="hidden" id="date_end" value="<%=dte%>" />
 
-</form>>
+</form>
 
 
 
@@ -1133,6 +1133,11 @@
    									+ " to "
    									+ picker.endDate
    											.format('MMMM D, YYYY')); */
+   					var start = picker.startDate.format('YYYY-MM-DD');
+   	            	var end = picker.endDate.format('YYYY-MM-DD');
+   	            	$("#date_start").val(start);
+   	            	$("#date_end").val(end);
+   	            	$("form#customform").submit();
    				});
    $('#reportrange')
    		.on(
