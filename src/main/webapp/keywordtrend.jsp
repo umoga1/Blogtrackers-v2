@@ -948,21 +948,24 @@
 
 
 
+<%-- 
 
+	<form action="" name="customform" id="customform" method="post">
+		<input type="hidden" name="tid" value="<%=tid%>" /> 
+		<input type="hidden" name="date_start" id="date_start" value="" /> 
+		<input type="hidden" name="date_end" id="date_end" value="" />
 
-
-
-
-
-<form name="">
+ --%>
+ 
+<form action="" name="customform" id="customform" method="post">
 <input type="hidden" id="term" value="<%=mostactiveterm%>" />
 <input type="hidden" id="date_start" value="<%=dt%>" />
-
 <input type="hidden" id="term_id" value="<%=mostactiveterm_id%>" />
-
 <input type="hidden" id="date_end" value="<%=dte%>" />
 
-</form>>
+</form>
+
+
 
 
 
@@ -1141,16 +1144,25 @@
    				});
    $('#reportrange')
    		.on(
-   				'apply.daterangepicker',
-   				function(ev, picker) {
-   					/* console
-   							.log("apply event fired, start/end dates are "
-   									+ picker.startDate
-   											.format('MMMM D, YYYY')
-   									+ " to "
-   									+ picker.endDate
-   											.format('MMMM D, YYYY')); */
-   				});
+   			  'apply.daterangepicker',
+   	         function(ev, picker) {
+   	            console
+   	               .log("apply event fired, start/end dates are "
+   	                   + picker.startDate
+   	                       .format('MMMM D, YYYY')
+   	                   + " to "
+   	                   + picker.endDate
+   	                       .format('MMMM D, YYYY')); 
+   	            	console.log("applied");
+   	            	
+   	            	var start = picker.startDate.format('YYYY-MM-DD');
+   	            	var end = picker.endDate.format('YYYY-MM-DD');
+   	            	//console.log("End:"+end);
+   	            	
+   	            	$("#date_start").val(start);
+   	            	$("#date_end").val(end);
+   	            	//toastr.success('Date changed!','Success');
+   	            	$("form#customform").submit();	});
    $('#reportrange')
    		.on(
    				'cancel.daterangepicker',
