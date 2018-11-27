@@ -304,7 +304,11 @@
 					    String auth = tobj.get("blogger").toString();
 					    String lang = tobj.get("language").toString();
 					    
+<<<<<<< HEAD
 					     Double influence =  Double.parseDouble(tobj.get("influence_score").toString()); 
+=======
+					    
+>>>>>>> b1e1c47fad6cb7b409f38bc14e832b30f8d735e2
 					  	JSONObject content = new JSONObject();
 					   
 					  	/* Double influence = Double.parseDouble(post._searchRangeAggregateByBloggers("date", dt, dte, auth)); */
@@ -316,7 +320,7 @@
 					    if(authors.has(auth)){
 							content = new JSONObject(authors.get(auth).toString());
 							Double inf = Double.parseDouble(content.get("influence").toString());
-							inf = inf+influence;
+							//inf = inf+influence;
 							int valu = Integer.parseInt(content.get("totalpost").toString());
 							content.put("blogger", auth);
 							content.put("influence", inf);
@@ -325,7 +329,8 @@
 						} else {
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
-						   // System.out.println("toty-"+btoty);
+						   // System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
+						   Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
 							int valu = Integer.parseInt(btoty);
 							   if(valu==0){
 								   valu=1;
