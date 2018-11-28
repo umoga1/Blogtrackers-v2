@@ -776,51 +776,59 @@ public class Blogposts {
 	}
 	
 	public String _searchTotalAndUnique(String term,String sortby, String start, String end, String filter ) throws Exception {
-		/*
+		
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
 				"            \"fields\" : [\"title\",\"post\"],\r\n" + 
 				"            \"query\" : \""+term+"\"\r\n" + 
-				"        }\r\n" + 
+				"        },\r\n" + 
 				"  },\r\n" +
-				"\"aggs\": {\r\n" + 
-				"    \"top-uids\": {\r\n" + 
-				"      \"terms\": {\r\n" + 
-				"        \"field\": \""+filter+"\"\r\n" + 
-				"      },\r\n" + 
-				"      \"aggs\": {\r\n" + 
-				"        \"top_uids_hits\": {\r\n" + 
-				"          \"top_hits\": {\r\n" + 
-				"            \"sort\": [\r\n" + 
-				"              {\r\n" + 
-				"                \"_score\": {\r\n" + 
-				"                  \"order\": \"desc\"\r\n" + 
+				"	\"size\" : 0,\r\n" + 
+				"    \"aggs\" : {\r\n" + 
+				"        \"total\" : {\r\n" + 
+				"            \"cardinality\" : {\r\n" + 
+				"              \"field\" : \""+filter+"\"\r\n" + 
+				"            }\r\n" + 
+				"        }\r\n" + 
+				"    }"+
+				" }");
+		/*
+		JSONObject jsonObj  = new JSONObject("{\r\n" + 
+				"       \"query\": {\r\n" + 
+				"          \"bool\": { \r\n" + 
+				"               \"must\": {\r\n" + 
+				"                    \"query_string\" : {\r\n" + 
+				"            			\"fields\" : [\"title\",\"post\"],\r\n" +  
+				"            			\"query\" : \""+term+"\"\r\n" + 
+				"                    }\r\n" + 
+				"                },\r\n" + 
+				"                \"filter\": {\r\n" + 
+				"                    \"range\" : {\r\n" + 
+				"                        \"date\" : {\r\n" + 
+				"                            \"gte\": \""+start+"\",\r\n" + 
+				"                            \"lte\": \""+end+"\"\r\n" + 
+				"                        }\r\n" + 
+				"                    }\r\n" + 
 				"                }\r\n" + 
-				"              }\r\n" + 
-				"            ],\r\n" + 
-				"            \"size\": 1\r\n" + 
-				"          }\r\n" + 
+				"            }\r\n" + 
+				"        },\r\n" + 
+				"		\"size\" : 0,\r\n" + 
+				"    	\"aggs\" : {\r\n" + 
+				"        \"distinct_field\" : {\r\n" + 
+				"            \"cardinality\" : {\r\n" + 
+				"              \"field\" : \""+filter+"\"\r\n" + 
+				"            }\r\n" + 
 				"        }\r\n" + 
-				"      }\r\n" + 
-				"    }\r\n" + 
-				"  }"+
-				"}");*/
-	
-		JSONObject jsonObj = new JSONObject("{\r\n" + 
-				"    \"query\": {\r\n" +
-				"        \"query_string\" : {\r\n" + 
-				"            \"fields\" : [\"post\"],\r\n" + 
-				"            \"query\" : \""+term+"\"\r\n" + 
-				"        }\r\n" + 
-				"    },\r\n" + 
-				"    \"collapse\" : {\r\n" + 
-				"        \"field\" : \""+filter+"\" \r\n" + 
-				"    },\r\n" + 
-				"    \"sort\": [\"blogger\"] \r\n" +
-				"}");
+				"    }"+
+				"    }");
+		*/
 		String url = base_url+"_search?size=1"; 
-		return this._getTotal(url, jsonObj);
+		
+		
+		
+	
+		return this._getAggregate(url, jsonObj);
 	}
 
 	public String _searchTotalAndUniqueBlogger(String term,String sortby, String start, String end, String filter ) throws Exception {

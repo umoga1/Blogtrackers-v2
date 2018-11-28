@@ -556,8 +556,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    sentimentpost.put(tobj.get("blogpost_id").toString());
 									    postidss+=tobj.get("blogpost_id").toString()+",";
 										
-										float influence = Float.parseFloat(tobj.get("influence_score").toString());
-										totalinfluence+=influence;
+										if(i==0){
+											 Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
+											 totalinfluence+=influence;
+										}
 										
 										String[] dateyear=tobj.get("date").toString().split("-");
 										String yy= dateyear[0];
