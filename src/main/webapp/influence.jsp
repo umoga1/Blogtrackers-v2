@@ -2261,7 +2261,7 @@ authoryears.put(mostactiveblogger,postyear);
 </html>
 <%
 }catch(Exception e){
-	
+	System.out.println(e.getMessage());
 	//response.sendRedirect("index.jsp");
 }
 %>
