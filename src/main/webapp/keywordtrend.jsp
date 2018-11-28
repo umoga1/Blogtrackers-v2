@@ -323,7 +323,7 @@
 					mostactiveterm = tm;
 					mostactiveterm_id = tmid;
 					
-					postc = post._searchTotalByTitleAndBody(tm,"date", dt,dte);
+					postc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogpost_id");//post._searchTotalByTitleAndBody(tm,"date", dt,dte);
 					blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
 					bloggerc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogger");//post._searchTotalAndUniqueBlogger(tm,"date", dt,dte,"blogger");
 					
