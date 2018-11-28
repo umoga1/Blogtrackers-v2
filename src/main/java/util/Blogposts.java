@@ -776,7 +776,7 @@ public class Blogposts {
 	}
 	
 	public String _searchTotalAndUnique(String term,String sortby, String start, String end, String filter ) throws Exception {
-		
+		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
@@ -793,7 +793,7 @@ public class Blogposts {
 				"        }\r\n" + 
 				"    }"+
 				" }");
-		/*
+		*/
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
@@ -815,14 +815,14 @@ public class Blogposts {
 				"        },\r\n" + 
 				"		\"size\" : 0,\r\n" + 
 				"    	\"aggs\" : {\r\n" + 
-				"        \"distinct_field\" : {\r\n" + 
+				"        \"total\" : {\r\n" + 
 				"            \"cardinality\" : {\r\n" + 
 				"              \"field\" : \""+filter+"\"\r\n" + 
 				"            }\r\n" + 
 				"        }\r\n" + 
 				"    }"+
 				"    }");
-		*/
+		
 		String url = base_url+"_search?size=1"; 
 		
 		
