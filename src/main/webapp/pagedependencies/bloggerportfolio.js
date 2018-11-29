@@ -88,12 +88,12 @@ function loadChart(blogger){
 }
 
 function loadYearlyChart(blogger){
-	$("#yearlypattern").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
+	$("#year-chart").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	$.ajax({
 		url: app_url+"subpages/bloggerportfoliochart.jsp",
 		method: 'POST',
 		data: {
-			action:"getyearlychart",
+			action:"getdailychart",
 			blogger:blogger,
 			date_start:$("#date_start").val(),
 			date_end:$("#date_end").val(),
@@ -101,12 +101,12 @@ function loadYearlyChart(blogger){
 		error: function(response)
 		{						
 			console.log(response);
-			$("#yearlypattern").html(response);
+			$("#year-chart").html(response);
 		},
 		success: function(response)
 		{   
 
-		$("#yearlypattern").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
+		$("#year-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}

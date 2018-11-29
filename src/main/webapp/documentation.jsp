@@ -142,7 +142,7 @@ if(f.exists() && !f.isDirectory()) {
       <!-- Mobile menu  -->
       <div class="col-lg-6 themainmenu"  align="center">
         <ul class="nav main-menu2" style="display:inline-flex; display:-webkit-inline-flex; display:-mozkit-inline-flex;">
-          <li><a class="bold-text" href="<%=request.getContextPath()%>/blogbrowser.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
+          <li><a class="bold-text" href="<%=request.getContextPath()%>/index.jsp"><i class="homeicon"></i> <b class="bold-text ml30">Home</b></a></li>
           <li><a class="bold-text" href="<%=request.getContextPath()%>/trackerlist.jsp"><i class="trackericon"></i><b class="bold-text ml30">Trackers</b></a></li>
           <li><a class="bold-text" href="<%=request.getContextPath()%>/favorites.jsp"><i class="favoriteicon"></i> <b class="bold-text ml30">Favorites</b></a></li>
          </ul>
@@ -206,8 +206,54 @@ if(f.exists() && !f.isDirectory()) {
 
 <div class="row mt30">
 <div class="col-md-12 pl30 pr30">
-<h2 class="float-left text-primary">Learn</h2>
+<div class="row pt0 pb10  mt20 mb50 ">
+
+<div class="col-md-6">
+<div class="card noborder curved-card mb30" >
+<div class="text-center pt40">
+<!-- <i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i>
+ -->
 </div>
+<h4 class="text-primary text-center pt20 posttitle">Documentation</h4>
+<div class="text-center">
+
+ <h4 class="card-title text-primary text-center bold-text post-title">User Guide</h4>
+</div>
+  <div class="card-body text-center mt0 pt0 pb50">
+    
+    <a target="_blank" href="documentation/blogtrackers_user_guide.pdf"><button class="btn btn-primary stylebutton7 mt10">VIEW DOCUMENT</button> </a>
+  </div>
+ 
+ </div>
+ </div>
+ 
+ 
+ <div class="col-md-6">
+<div class="card noborder curved-card mb30" >
+<div class="text-center pt40">
+<!-- <i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i>
+ -->
+</div>
+<h4 class="text-primary text-center pt20 posttitle">Documentation</h4>
+<div class="text-center">
+ <h4 class="card-title text-primary text-center bold-text post-title">Technical Resource Guide</h4>
+</div>
+  <div class="card-body text-center mt0 pt0 pb50">
+    
+    <a target="_blank" href="documentation/blogtrackers_technical_resource.pdf"><button class="btn btn-primary stylebutton7 mt10">VIEW DOCUMENT</button> </a>
+  </div>
+ 
+
+ </div>
+ </div>
+ 
+ 
+
+
+
+</div>
+</div>
+<!-- <embed src= "documentation/blogtrackers_technical_resource.pdf" width= "100%" height= "600"> -->
 </div>
 
 

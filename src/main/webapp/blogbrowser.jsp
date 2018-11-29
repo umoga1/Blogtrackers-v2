@@ -439,7 +439,7 @@ if(results.size()>0){
 
 
 
-<script src="pagedependencies/blogbrowser3.js?v=1300">
+<script src="pagedependencies/blogbrowser3.js?v=1301">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 

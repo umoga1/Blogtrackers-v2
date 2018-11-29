@@ -1,14 +1,21 @@
 
-
+$(window).on("load",function(){
+	$('.blogpost_link:eq(0)').addClass("activeselectedblog");	
+});
 $('.blogpost_link').on("click", function(){
 
 	var post_id = $(this).attr("id");
+	$('.blogpost_link').removeClass("activeselectedblog");
+	$(".viewpost").addClass("makeinvisible");
+	$(this).addClass("activeselectedblog");
+	$(this).parent().children(".viewpost").removeClass("makeinvisible");
+	color = "#0080CC";
 	//alert(post_id);
-	loadChart(post_id);
+	loadChart(post_id,color);
 
 });
 
-function loadChart(postid){
+function loadChart(postid,color){
 	var post_id = postid;
 	post_id= post_id.split("-");
 	$("#mainCarInd").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
@@ -25,7 +32,8 @@ function loadChart(postid){
 			date_from:$("#date_from").val(),
 			date_to:$("#date_to").val(),
 			postno:post_id[2],
-			color:post_id[1]
+			//color:post_id[1]
+			color:color
 		},
 		error: function(response)
 		{						
@@ -75,8 +83,10 @@ function loadPost(date){
 			
 			var first = $('.blogpost_link')[0];
 			console.log(first);
+			$('.blogpost_link:eq(0)').addClass("activeselectedblog");	
+			color = "#0080CC";
 			var post_id = $(first).attr("id");
-			loadChart(post_id);
+			loadChart(post_id,color);
 
 		}
 	});

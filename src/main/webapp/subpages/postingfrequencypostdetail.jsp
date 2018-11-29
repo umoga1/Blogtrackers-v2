@@ -1,3 +1,5 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
@@ -134,16 +136,21 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
 										tresp = new JSONObject(tres);
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
+										String dat = tobj.get("date").toString().substring(0,10);
+										LocalDate datee = LocalDate.parse(dat);
+										DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+										String date = dtf.format(datee);
+										
 										k++;
 									%>                                    
-                                    <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
+                                    <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title").toString().replaceAll("[^a-zA-Z]", " ")%></h5>
 										<div class="text-center mb20 mt20">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
-											<button class="btn stylebuttonorange">
+											<button class="btn stylebuttonnocolor"><%=date%></button>
+											<button class="btn stylebuttonnocolor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -151,7 +158,7 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
 										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 550px; overflow-y: scroll;">
-											<%=tobj.get("post")%>
+											<%=tobj.get("post").toString().replaceAll("[^a-zA-Z]", " ")%>
 										</div>
 										</div>                      
                      		<% }} %>

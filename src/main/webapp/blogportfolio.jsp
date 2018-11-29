@@ -802,7 +802,7 @@
 <h5 class="text-primary mb0">Select Blog</h5>
 <!-- <small class="text-primary"></small><br/> -->
 <h6 class="mt5">
-<select id="blogger-changed">
+<select id="blogger-changed" class="custom-select">
 <% if (bloggers.length() > 0) {
 						int p = 0;
 						for (int y = 0; y < bloggers.length(); y++) {
@@ -867,7 +867,7 @@
 
 <div class="col-md-2 text-right">
 <!-- <small class="text-primary cursor-pointer"><a href="">Visit Blog</a></small> --><br/>
-<button class="btn buttonportfolio"><b class="float-left active-blog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
+<button class="btn buttonportfolio"><b class="float-left active-blog styleactiveblog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
 </div>
  <!--  <div class="col-md-3">
   <small class="text-primary">Find Blog</small>
@@ -922,9 +922,10 @@
 <div><p class="text-primary mt10 float-left"><b class="text-blue">Posts</b> Published by <b class="text-blue"><%=mostactiveblog%></b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
 <!-- <svg class="linesvg" width="960" height="400"></svg> -->
 <!-- <div id="lineplot" style="min-height: 380px;"></div> -->
-
-<div class="chart-container"  id="overall-chart">
+<div id="overall-chart">
+<div class="chart-container"  >
   <div class="chart" id="d3-line-basic"></div>
+</div>
 </div>
       </div>
         </div>
@@ -957,9 +958,11 @@
       <div class="card-body  p5 pt10 pb10">
         <div class="min-height-table" style="min-height: 420px;">
           <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u class="active-blog"><%=mostactiveblog %></u></b> Yearly Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
-           <div id="year-chart">
+           <div >
+           <div class="chart-container" id="year-chart" >
           <div class="chart" id="yearlypattern">
 
+          </div>
           </div>
           </div>
         </div>
@@ -1252,7 +1255,7 @@
 
          // Define main variables
          var d3Container = d3.select(element),
-             margin = {top: 10, right: 10, bottom: 20, left: 30},
+             margin = {top: 10, right: 10, bottom: 20, left:80},
              width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
              height = height - margin.top - margin.bottom;
 
@@ -1763,7 +1766,7 @@
 
      // Chart setup
      function barHorizontal(element, height) {
-
+  
        // Basic setup
        // ------------------------------
 
@@ -1833,13 +1836,13 @@
        //
        //
        data = [
+    	   {letter:"Sat", frequency:130},
+    	   {letter:"Fri", frequency:1900},
+             {letter:"Wed", frequency:2500},
+             {letter:"Thu", frequency:1600},
+             {letter:"Tue", frequency:600},
              {letter:"Mon", frequency:2550},
-             {letter:"Tue", frequency:800},
-             {letter:"Wed", frequency:500},
-             {letter:"Thu", frequency:1700},
-             {letter:"Fri", frequency:1900},
-             {letter:"Sat", frequency:1500},
-             {letter:"Sun", frequency:1450}
+             {letter:"Sun", frequency:150}
          ];
        //
        //

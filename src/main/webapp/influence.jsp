@@ -1,3 +1,5 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
@@ -97,16 +99,14 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 		String tracker_userid = resp.get(1).toString();
 		trackername = resp.get(2).toString();
-		if (tracker_userid.equals(user.toString())) {
+		//if (tracker_userid.equals(user.toString())) {
 			isowner = true;
 			String query = resp.get(5).toString();//obj.get("query").toString();
 			query = query.replaceAll("blogsite_id in ", "");
 			query = query.replaceAll("\\(", "");
 			query = query.replaceAll("\\)", "");
 			ids = query;
-		}else{
-			response.sendRedirect("index.jsp");
-		}
+		//}
 	}
 	
 
@@ -617,7 +617,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 				// bloggerarr = post._sortJson(bloggerarr);
 				//System.out.println("Hello:"+bloggerarr);
 
-				for(int m=(bloggerarr.length()-1); m>=0; m--){
+				for(int m=(bloggerarr.length()-1); m>0; m--){
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
 					String au = splitter[1];
@@ -786,11 +786,11 @@ authoryears.put(mostactiveblogger,postyear);
 							<div>
 								<p class="text-primary mt10">
 									<b class="text-primary">Individual</b> Influence Score of
-									Bloggers of Past <select
+									Bloggers <!-- of  Past <select
 										class="text-primary filtersort sortbytimerange"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
-										<option value="year">Year</option></select>
+										<option value="year">Year</option></select> -->
 								</p>
 							</div>
 							<div id="chart-container">
@@ -806,13 +806,13 @@ authoryears.put(mostactiveblogger,postyear);
 						<div class="row">
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Influence Score</h6>
-								<h2 class="mb0 bold-text total-influence"><%=totalinfluence%></h2>
+								<h2 class="mb0 bold-text total-influence"><%=NumberFormat.getNumberInstance(Locale.US).format(totalinfluence)%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Total Posts</h6>
-								<h2 class="mb0 bold-text total-post"><%=totalpost%></h2>
+								<h2 class="mb0 bold-text total-post"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost))%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
@@ -824,7 +824,7 @@ authoryears.put(mostactiveblogger,postyear);
 							
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Overall Sentiment</h6>
-								<h2 class="mb0 bold-text total-sentiment"><%=totalsenti%></h2>
+								<h2 class="mb0 bold-text total-sentiment"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalsenti))%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -835,7 +835,7 @@ authoryears.put(mostactiveblogger,postyear);
 							</div> --%>
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Comments</h6>
-								<h2 class="mb0 bold-text total-comments"><%=totalcomment%></h2>
+								<h2 class="mb0 bold-text total-comments"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment))%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -950,16 +950,24 @@ authoryears.put(mostactiveblogger,postyear);
 										tresp = new JSONObject(tres);
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
+										String dat = tobj.get("date").toString().substring(0,10);
+										LocalDate datee = LocalDate.parse(dat);
+										DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+										String date = dtf.format(datee);
+										
+										
 										k++;
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
 										<div class="text-center mb20 mt20">
+											<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid%>&blogger=<%=tobj.get("blogger")%>">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
-											<button class="btn stylebuttonorange">
+											</a>
+											<button class="btn stylebuttonnocolor"><%=date%></button>
+											<button class="btn stylebuttonnocolor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -2035,7 +2043,7 @@ authoryears.put(mostactiveblogger,postyear);
                               .on("click",function(d){
                                 // console.log(d.date)
                                 // sconsole.log(d.y);
-                            	  var d1 = 	  d.date + "-01-01";
+                               var d1 = 	  d.date + "-01-01";
                            	   var d2 = 	  d.date + "-12-31";
                   				
                            	   loadInfluence(d1,d2);

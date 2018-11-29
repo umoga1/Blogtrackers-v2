@@ -806,7 +806,7 @@ if (outlinks.size() > 0) {
 							<i class="icondash"></i>Select Blogger
 						</h5>
 <h6 class="mt5">
-<select id="blogger-changed">
+<select id="blogger-changed" class="custom-select">
 <% if (bloggers.length() > 0) {
 						int p = 0;
 						for (int y = 0; y < authors.length(); y++) {
@@ -926,9 +926,10 @@ if (outlinks.size() > 0) {
 <div><p class="text-primary mt10 float-left"><b class="text-green">Posts</b> Published by <b class="textblue"><u class="active-blog"><%=mostactiveblogger%></u></b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
 <!-- <svg class="linesvg" width="960" height="400"></svg> -->
 <!-- <div id="lineplot" style="min-height: 380px;"></div> -->
-
-<div class="chart-container"  id="overall-chart">
+<div id="overall-chart">
+<div class="chart-container">
   <div class="chart" id="d3-line-basic"></div>
+</div>
 </div>
 
       </div>
@@ -961,8 +962,10 @@ if (outlinks.size() > 0) {
       <div class="card-body  p5 pt10 pb10">
         <div class="min-height-table" style="min-height: 420px;">
           <div><p class="text-primary p15 pb5 pt0"><b class="text-blue"><u class="active-blog"><%=mostactiveblogger %></u></b> Yearly Posting Pattern <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+         <div class="chart-container" id="year-chart" >
           <div class="chart" id="yearlypattern">
 
+          </div>
           </div>
         </div>
           </div>
@@ -1251,7 +1254,7 @@ if (outlinks.size() > 0) {
 
          // Define main variables
          var d3Container = d3.select(element),
-             margin = {top: 10, right: 10, bottom: 20, left: 30},
+             margin = {top: 10, right: 10, bottom: 20, left: 80},
              width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
              height = height - margin.top - margin.bottom;
 
@@ -1832,13 +1835,15 @@ if (outlinks.size() > 0) {
        //
        //
        data = [
-             {letter:"Mon", frequency:2550},
-             {letter:"Tue", frequency:800},
-             {letter:"Wed", frequency:500},
-             {letter:"Thu", frequency:1700},
-             {letter:"Fri", frequency:1900},
-             {letter:"Sat", frequency:1500},
-             {letter:"Sun", frequency:1450}
+    	   {letter:"Sat", frequency:100},
+    	   {letter:"Fri", frequency:2000},
+             {letter:"Wed", frequency:1500},
+             {letter:"Thu", frequency:1200},
+             {letter:"Tue", frequency:700},
+             {letter:"Mon", frequency:2650},
+             {letter:"Sun", frequency:50}
+             
+             
          ];
        //
        //

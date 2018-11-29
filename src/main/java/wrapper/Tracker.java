@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.json.JSONObject;
 
 import util.Trackers;
@@ -248,6 +251,7 @@ public class Tracker extends HttpServlet {
 				
 		}else if(action.equals("removeblog")) {
 			String ids= request.getParameter("blog_ids").replaceAll("\\<.*?\\>", "");
+			//System.out.println(ids);
 			/*
 			try {
 				String output = trk._removeBlogs(tracker_id,ids,username);
@@ -258,14 +262,18 @@ public class Tracker extends HttpServlet {
 			 */
 			try {
 			DbConnection db = new DbConnection();
-			String[] bloggs = ids.split(",");
+//			String[] bloggs = ids.split(",");
+			String[] bloggs = new String[1];
+			bloggs[0] = ids;
+			//System.out.println(bloggs[0].toString());
 			JSONObject jblog = new JSONObject();
 			String output = "false";
 			
 			for(int k=0; k<bloggs.length; k++) {
 				jblog.put(bloggs[k], bloggs[k]);
 			}
-			 
+			
+//			System.out.println();
 			ArrayList detail = new DbConnection().query("SELECT * FROM trackers WHERE tid='"+tracker_id+"' AND userid='"+userid+"'");
         	
 			 if(detail.size()>0){
@@ -276,11 +284,24 @@ public class Tracker extends HttpServlet {
 					 que = que.replaceAll("\\(", "");			 
 					 que = que.replaceAll("\\)", "");
 					 String[] blogs2 = que.split(",");
+					 String idToCheck = ids.toString();
+					
 					 
 					 String mergedblogs = "";	
 					 int blogcounter=0;
 					 for(int j=0; j<blogs2.length; j++) {
-						 if(!jblog.has(blogs2[j])) {
+						 //System.out.println(ids);
+						 //if(!jblog.has(blogs2[j].toString())) {
+						 if(blogs2[j].equalsIgnoreCase(idToCheck)) {
+							 //System.out.println(idToCheck);
+							 //System.out.println(blogs2[j].equalsIgnoreCase(idToCheck)+"equals");
+							 //blogcounter++;
+							 //continue;
+							
+						 }
+						 else if(!blogs2[j].equalsIgnoreCase(idToCheck)) {
+//							 System.out.println(idToCheck);
+//							 System.out.println(!blogs2[j].equalsIgnoreCase(idToCheck)+"not equals");
 							 if(j<(blogs2.length-1))
 								 mergedblogs+=blogs2[j]+",";
 							 else
@@ -288,7 +309,7 @@ public class Tracker extends HttpServlet {
 							 blogcounter++;
 						 }
 					 }
-					 			
+					 	System.out.println(mergedblogs);		
 					que =  "blogsite_id in ("+mergedblogs+")";			 
 					db.updateTable("UPDATE trackers SET query='"+que+"', blogsites_num = '"+blogcounter+"' WHERE  tid='"+tracker_id+"'");	
 					pww.write("success");
@@ -317,16 +338,20 @@ public class Tracker extends HttpServlet {
 							JSONObject bj = new JSONObject(bstr);
 							bstr = bj.get("_source").toString();
 							bj = new JSONObject(bstr);
+							String dat = bj.get("date").toString().substring(0,10);
+							LocalDate datee = LocalDate.parse(dat);
+							DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+							String date = dtf.format(datee);
 							//System.out.println(bj.get("body"));
 							
-							output+="<h5 class='text-primary p20 pt0 pb0'>#1: "+bj.get("title").toString()+"</h5>" + 
+							output+="<h5 class='text-primary p20 pt0 pb0'>#1: "+bj.get("title").toString().replaceAll("[^a-zA-Z]", " ")+"</h5>" + 
 									"					<div class='text-center mb20 mt20'>" + 
 									"						<button class='btn stylebuttonblue'>" + 
 									"							<b class='float-left ultra-bold-text'>"+bj.get("blogger").toString()+"</b> <i" + 
 									"								class='far fa-user float-right blogcontenticon'></i>" + 
 									"						</button>" + 
-									"						<button class='btn stylebuttonnocolor'>"+bj.get("date").toString()+"</button>" + 
-									"						<button class='btn stylebuttonorange'>" + 
+									"						<button class='btn stylebuttonnocolor'>"+date+"</button>" + 
+									"						<button class='btn stylebuttonnocolor'>" + 
 									"							<b class='float-left ultra-bold-text'>"+bj.get("num_comments").toString()+" comments</b><i" + 
 									"								class='far fa-comments float-right blogcontenticon'></i>" + 
 									"						</button>" + 
@@ -334,7 +359,7 @@ public class Tracker extends HttpServlet {
 									
 									"					<div style=\"height: 600px;\"><div class='p20 pt0 pb20 text-blog-content text-primary'" + 
 									"						style='height: 550px; overflow-y: scroll;'>" + 
-									"						"+bj.get("post").toString()+""+ 
+									"						"+bj.get("post").toString().replaceAll("[^a-zA-Z]", " ")+""+ 
 									"						</div></div>";
 									
 							
@@ -352,8 +377,13 @@ public class Tracker extends HttpServlet {
 							//System.out.println(bj.get("body"));
 							
 							String mostactiveterm = (null==request.getParameter("term"))?"":request.getParameter("term").toString();
-							String body = bj.get("post").toString();
-							String title = bj.get("title").toString();
+							String body = bj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
+							String title = bj.get("title").toString().replaceAll("[^a-zA-Z]", " ");
+							String dat = bj.get("date").toString().substring(0,10);
+							LocalDate datee = LocalDate.parse(dat);
+							DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+							String date = dtf.format(datee);
+							
 							String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
 							
 							
@@ -363,8 +393,8 @@ public class Tracker extends HttpServlet {
 									"							<b class='float-left ultra-bold-text'>"+bj.get("blogger").toString()+"</b> <i" + 
 									"								class='far fa-user float-right blogcontenticon'></i>" + 
 									"						</button>" + 
-									"						<button class='btn stylebuttonnocolor'>"+bj.get("date").toString()+"</button>" + 
-									"						<button class='btn stylebuttonorange'>" + 
+									"						<button class='btn stylebuttonnocolor'>"+date+"</button>" + 
+									"						<button class='btn stylebuttonnocolor'>" + 
 									"							<b class='float-left ultra-bold-text'>"+bj.get("num_comments").toString()+" comments</b><i" + 
 									"								class='far fa-comments float-right blogcontenticon'></i>" + 
 									"						</button>" + 

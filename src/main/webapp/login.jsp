@@ -10,8 +10,7 @@
 <html>
 <head>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id"
-	content="600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com" />
+<meta name="google-signin-client_id" 	content="600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com" />
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,10 +56,10 @@
 <script src="pagedependencies/baseurl.js">
 	
 </script>
-
+<script src="js/jscookie.js"></script>
 <script src="https://apis.google.com/js/platform.js"></script>
 
-<script type="text/javascript" src="js/login_validation.js?v=97"></script>
+<script type="text/javascript" src="js/login_validation.js?v=907"></script>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 

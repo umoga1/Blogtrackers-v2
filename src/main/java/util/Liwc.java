@@ -25,7 +25,7 @@ public class Liwc {
 	String totalpost;		    
 
 	public ArrayList _list(String order, String from, String sortby) throws Exception {	 
-		 int size = 10;
+		 int size = 100;
 		 int fr = 0;
 		 JSONObject jsonObj = new JSONObject("{\r\n" + 
 			 		"    \"query\": {\r\n" + 
@@ -151,7 +151,7 @@ public class Liwc {
 				"}");
 
 
-		String url = base_url+"_search?size=10";
+		String url = base_url+"_search?size=100";
 		if(!from.equals("")) {
 			jsonObj = new JSONObject("{\r\n" + 
 					"  \"query\": {\r\n" + 

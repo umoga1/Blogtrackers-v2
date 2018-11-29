@@ -42,14 +42,18 @@ function loadStat(blog_id){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+
+			console.log("The error log is "+response);
+			
 			//$("#overall-chart").html(response);
 		},
 		success: function(response)
 		{   
+			
 		
-		
+		response = response.trim();
 		var data = JSON.parse(response);
+
 		$("#total-influence").html(data.totalinfluence);
 		$("#total-post").html(data.totalpost);
 		$("#total-sentiment").html(data.totalsentiment);
@@ -75,11 +79,11 @@ function loadChart(blog_id){
 		error: function(response)
 		{						
 			console.log(response);
-			$("#overall-chart").html(response);
+			//$("#overall-chart").html(response);
 		},
 		success: function(response)
 		{   
-
+			$("#overall-chart").html("");	
 		$("#overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
@@ -88,12 +92,12 @@ function loadChart(blog_id){
 }
 
 function loadYearlyChart(blog_id){
-	$("#yearlypattern").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
+	$("#year-chart").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	$.ajax({
 		url: app_url+"subpages/blogportfoliochart.jsp",
 		method: 'POST',
 		data: {
-			action:"getyearlychart",
+			action:"getdailychart",
 			blog_id:blog_id,
 			date_start:$("#date_start").val(),
 			date_end:$("#date_end").val(),
@@ -101,12 +105,12 @@ function loadYearlyChart(blog_id){
 		error: function(response)
 		{						
 			console.log(response);
-			$("#yearlypattern").html(response);
+			$("#year-chart").html(response);
 		},
 		success: function(response)
 		{   
 
-		$("#yearlypattern").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
+		$("#year-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/
 		}

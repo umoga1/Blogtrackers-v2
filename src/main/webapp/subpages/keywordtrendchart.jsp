@@ -1,3 +1,6 @@
+
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
@@ -42,6 +45,7 @@ String year_start="";
 String year_end="";
 		
 %>
+
 
 <%  
 if(action.toString().equals("getstats")){	
@@ -95,6 +99,8 @@ if(action.toString().equals("getstats")){
 %>
 <%=result.toString()%>
 <% }else if(action.toString().equals("gettable")){%>
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
 		<div class="row m0 mt20 mb0 d-flex align-items-stretch">
 			<div
 				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
@@ -161,7 +167,7 @@ if(action.toString().equals("getstats")){
                                    <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
 								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
 								</td>
-								<td align="center"><%=(bodyoccurencece) %></td>
+								<td align="center"><%=(bodyoccurencece+1) %></td>
                                      </tr>
                                     <% }%>
 							</tr>						
@@ -177,8 +183,12 @@ if(action.toString().equals("getstats")){
 					<%
                                 if(firstpost.length()>0){	
 									JSONObject tobj = firstpost;
-									String title = tobj.get("title").toString();
-									String body = tobj.get("post").toString();
+									String title = tobj.get("title").toString().replaceAll("[^a-zA-Z]", " ");
+									String body = tobj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
+									String dat = tobj.get("date").toString().substring(0,10);
+									LocalDate datee = LocalDate.parse(dat);
+									DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+									String date = dtf.format(datee);
 									String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
@@ -187,22 +197,26 @@ if(action.toString().equals("getstats")){
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
-											<button class="btn stylebuttonorange">
+											<button class="btn stylebuttonnocolor"><%=date%></button>
+											<button class="btn stylebuttonnocolor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
 										</div>
+										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
-											style="height: 600px; overflow-y: scroll;">
+											style="height: 550px; overflow-y: scroll;">
 											<%=body.replaceAll(mostactiveterm,replace)%>
-										</div>                      
+										</div> 
+										</div>                     
                      		<% } %>
 
 				</div>
 				</div>
 			</div>
 		</div>
+ <script type="text/javascript" src="pagedependencies/blogpostselectkeywordtrend.js">
+</script> 
 	
 <%}else{ 
 
@@ -242,6 +256,41 @@ if(action.toString().equals("getstats")){
 		<div class="chart" id="d3-line-basic"></div>
 </div>
 	
+<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
+			<script>
+ $(document).ready(function() {
+	 
+	 
+	$('#printdoc').on('click',function(){
+		print();
+	}) 
+	
+		  
+		  // datatable setup
+		    $('#DataTables_Table_2_wrapper').DataTable( {
+		        "scrollY": 480,
+		        "scrollX": true,
+		         "pagingType": "simple",
+		        	 "bLengthChange": false
+		      /*    ,
+		         dom: 'Bfrtip',
+		         "columnDefs": [
+		      { "width": "80%", "targets": 0 }
+		    ],
+		      buttons:{
+		        buttons: [
+		            { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
+		            {extend:'csv',className: 'btn-primary stylebutton1'},
+		            {extend:'excel',className: 'btn-primary stylebutton1'},
+		           // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
+		            {extend:'print',className: 'btn-primary stylebutton1'},
+		        ]
+		      } */
+		    } );
+	 
+ } );
+ </script>
+	<!--end for table  -->	
 <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
 	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
 	<script>
@@ -757,6 +806,8 @@ if(action.toString().equals("getstats")){
      }
  });
  </script>
+ 
+
 
 <% } %>
 

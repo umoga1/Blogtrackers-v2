@@ -9,6 +9,17 @@ body{
 {
 color:#1F90D0 !important;	
 }
+
+.custom-select {
+  font-size: inherit;
+  width:180px;
+}
+
+.custom-select option
+{
+width:180px;	
+}
+
 .nobg
 {
 background-color:none;	
@@ -42,6 +53,11 @@ font-size:45px;
 .whatcanyoudodesc, .copyrighttext
 {
 font-size:18px;	
+}
+.copyrighttext
+{
+font-weight:bold;
+font-size:14px;		
 }
 .testmonialheadingtext
 {
@@ -94,11 +110,30 @@ content:"" !important;
 display:inline-block;
 padding-right:10px;
 padding-left:10px;	
+width:165px;
 }
+
+.logocontainer
+{
+height:125px;
+}
+.sponsor-region .card
+{
+background-color:transparent;
+border:none;	
+}
+.eachlogo img
+{
+width:115px;
+  vertical-align: middle;
+
+}
+
 .logo-text
 {
 color:#575757;	
-font-size:18px;
+font-size:14px;
+font-weight:500;
 }
 .prevtestimonial
 {
@@ -2599,7 +2634,7 @@ body {
    width: 10px;
 }
 ::-webkit-scrollbar {
-height: 3px;
+height: 8px;
 }
 ::-webkit-scrollbar-track {
    background-color:#cccccc ;
@@ -3223,6 +3258,24 @@ font-weight:normal;
 .text-statistics
 {
 font-size: 1.73rem;
+}
+.styleactiveblog
+{
+font-size:13px;
+text-transform:capitalize;	
+}
+.zoombutton#zoom_in
+{
+top:40px;	
+}
+.zoombutton#zoom_out
+{
+top:70px;	
+}
+.styleactiveblog
+{
+font-size:13px;
+text-transform:capitalize;	
 }
 /* .statcontainer:after {
     content: ""; /* This is necessary for the pseudo element to work. */

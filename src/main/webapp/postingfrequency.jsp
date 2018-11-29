@@ -558,7 +558,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 				
 				 bloggerarr = post._sortJson(bloggerarr);
 				 
-				for(int m=(bloggerarr.length()-1); m>=0; m--){
+				for(int m=(bloggerarr.length()-1); m>0; m--){
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
 					String au = splitter[1];
@@ -690,7 +690,7 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
   <div class="card card-style mt20">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 250px;">
-<div><p class="text-primary mt10"> <b>Individual</b> Number of Blog Post <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+<div><p class="text-primary mt10"> Posting Trend of selected Blogger <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
 		<div id="chart-container">
 		<div class="chart-container">
 		  <div class="chart" id="d3-line-basic"></div>
@@ -740,6 +740,8 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
         <div id="tagcloudbox">
         <div class="chart-container">
 								<div class="chart" id="tagcloudcontainer"></div>
+								<div class="jvectormap-zoomin zoombutton" id="zoom_in">+</div>
+								<div class="jvectormap-zoomout zoombutton" id="zoom_out" >−</div> 
 							</div>
         </div>
        </div>
@@ -763,7 +765,7 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
                                     <tr>
                                         <th>Entity</th>
                                         <th>Type</th>
-                                        <th>Frequency</th>
+                                      <!--   <th>Frequency</th> -->
                                         <th>Sentiment</th>
 
                                     </tr>
@@ -786,7 +788,7 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
                                     <tr>
                                         <td><%=tobj.get("entity").toString()%></td>
                                         <td><%=tobj.get("type").toString()%></td>
-                                        <td></td>
+                                   <!--      <td></td> -->
                                         <td><%=tobj.get("sentiment").toString() %></td>
                                     </tr>
                                     <% }} %>
@@ -843,7 +845,7 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></buttton></a></td>
 								<td align="center"><%=date %></td>
                                      </tr>
                                     <% }} %>
@@ -871,6 +873,11 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
 										tresp = new JSONObject(tres);
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
+										String dat = tobj.get("date").toString().substring(0,10);
+										LocalDate datee = LocalDate.parse(dat);
+										DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+										String date = dtf.format(datee);
+										
 										k++;
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
@@ -880,9 +887,10 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											</a>
-											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
-											<button class="btn stylebuttonorange">
+
+											<button class="btn stylebuttonnocolor"><%=date %></button>
+									</a>
+											<button class="btn stylebuttonnocolor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -890,7 +898,9 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
 										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 550px; overflow-y: scroll;">
+
 											<%=tobj.get("post").toString().replaceAll("[^a-zA-Z]", " ")%>
+
 										</div>
 										</div>       
                      		<% }} %>
@@ -1220,10 +1230,11 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
 	  for(int p=0; p<1; p++){ 
 	  		String au = authorcount.get(p).toString();
 	  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
+	  		
 	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
 		  		String yearr=yearsarray.get(q).toString(); 
 		  		if(specific_auth.has(yearr)){ %>
-		  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr)%>},
+		  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr) %>},
 			<%
 		  		}else{ %>
 		  			{"date":"<%=yearr%>","close":0},
@@ -1763,63 +1774,128 @@ d3.layout.cloud().size([450,400])
 
   
 function draw(words) {
-	 		svg
-            .attr("width", width)
-            .attr("height", height)
-            //.attr("class", "wordcloud")
-            .append("g")
-            .attr("transform", "translate("+ width/2 +",180)")
-             .on("wheel", function() { d3.event.preventDefault(); })
-             .call(d3.behavior.zoom().on("zoom", function () {
-           	var g = svg.selectAll("g"); 
-           	g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")")
-            })) 
-           
-    		
-            .selectAll("text")
-            .data(words)
-            .enter().append("text")
-            .style("font-size", 0)
-            .style("fill", function(d, i) { return color(i); })
-            .call(d3.behavior.drag()
-    		.origin(function(d) { return d; })
-    		.on("dragstart", dragstarted) 
-    		.on("drag", dragged)			
-    		)
-    		
-            .attr("transform", function(d) {
-                return "translate(" + [d.x + 12, d.y + 3] + ")rotate(" + d.rotate + ")";
-            })
+		svg
+     .attr("width", width)
+     .attr("height", height)
+     //.attr("class", "wordcloud")
+     .append("g")
+     .attr("transform", "translate("+ width/2 +",180)")
+      .on("wheel", function() { d3.event.preventDefault(); })
+      .call(d3.behavior.zoom().on("zoom", function () {
+    	var g = svg.selectAll("g"); 
+      g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")").style("cursor","zoom-out")
+     }))
+     
+     
+     
+     
+    
+		
+     .selectAll("text")
+     .data(words)
+     .enter().append("text")
+     .style("font-size", 0)
+     .style("fill", function(d, i) { return color(i); })
+     .call(d3.behavior.drag()
+		.origin(function(d) { return d; })
+		.on("dragstart", dragstarted) 
+		.on("drag", dragged)			
+		)
+		
+     .attr("transform", function(d) {
+         return "translate(" + [d.x + 12, d.y + 3] + ")rotate(" + d.rotate + ")";
+     })
 
-            .text(function(d) { return d.text; });
-	 		
-	 		// animation effect for tag cloud
-	 		 $(element).bind('inview', function (event, visible) {
-       	  if (visible == true) {
-       		  svg.selectAll("text").transition()
-                 .delay(200)
-                 .duration(1000)
-                 .style("font-size", function(d) { return d.size * 0.93 + "px"; })
-       	  } else {
-       		  svg.selectAll("text")
-                 .style("font-size", 0)
-       	  }
-       	});
-	 		
-           	function dragged(d) {
-           	 var movetext = svg.select("g").selectAll("text");
-           	 movetext.attr("dx",d3.event.x)
-           	 .attr("dy",d3.event.y)
-           	.style("cursor","move"); 
-           	 /* g.attr("transform","translateX("+d3.event.x+")")
-           	 .attr("transform","translateY("+d3.event.y+")")
-           	 .attr("width", width)
-                .attr("height", height); */
-           	} 
-           	function dragstarted(d){
-   				d3.event.sourceEvent.stopPropagation();
-   			}
-     }
+     .text(function(d) { return d.text; });
+		
+		// animation effect for tag cloud
+		 $(element).bind('inview', function (event, visible) {
+	  if (visible == true) {
+		  svg.selectAll("text").transition()
+          .delay(200)
+          .duration(1000)
+          .style("font-size", function(d) { return d.size * 1.20 + "px"; })
+	  } else {
+		  svg.selectAll("text")
+          .style("font-size", 0)
+	  }
+	});
+		
+		d3.selectAll('.zoombutton').on("click",zoomClick);
+		
+		var zoom = d3.behavior.zoom().scaleExtent([1, 20]).on("zoom", zoomed);
+		
+		function zoomed() {
+			var g = svg.selectAll("g"); 
+       g.attr("transform",
+		        "translate(" + (width/2-10) + ",180)" +
+		        "scale(" + zoom.scale() + ")"
+		    );
+		}
+		
+	// trasnlate and scale the zoom	
+	function interpolateZoom (translate, scale) {
+	    var self = this;
+	    return d3.transition().duration(350).tween("zoom", function () {
+	        var iTranslate = d3.interpolate(zoom.translate(), translate),
+	            iScale = d3.interpolate(zoom.scale(), scale);
+	        return function (t) {
+	            zoom
+	                .scale(iScale(t))
+	                .translate(iTranslate(t));
+	            zoomed();
+	        };
+	    });
+	}
+	
+	// respond to click efffect on the zoom
+	function zoomClick() {
+	    var clicked = d3.event.target,
+	        direction = 1,
+	        factor = 0.2,
+	        target_zoom = 1,
+	        center = [width / 2-10, "180"],
+	        extent = zoom.scaleExtent(),
+	        translate = zoom.translate(),
+	        translate0 = [],
+	        l = [],
+	        view = {x: translate[0], y: translate[1], k: zoom.scale()};
+
+	    d3.event.preventDefault();
+	    direction = (this.id === 'zoom_in') ? 1 : -1;
+	    target_zoom = zoom.scale() * (1 + factor * direction);
+
+	    if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+	    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+	    view.k = target_zoom;
+	    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+	    view.x += center[0] - l[0];
+	    view.y += center[1] - l[1];
+
+	    interpolateZoom([view.x, view.y], view.k);
+	}
+		
+		
+		
+    	function dragged(d) {
+    	 var movetext = svg.select("g").selectAll("text");
+    	 movetext.attr("x",d3.event.x)
+    	 .attr("y",d3.event.y)
+    	 .style("cursor","move"); 
+    	 /* g.attr("transform","translateX("+d3.event.x+")")
+    	 .attr("transform","translateY("+d3.event.y+")")
+    	 .attr("width", width)
+         .attr("height", height); */
+    	} 
+    	function dragstarted(d){
+			d3.event.sourceEvent.stopPropagation();
+		}
+	
+    
+     
+}
      
  }
  </script>

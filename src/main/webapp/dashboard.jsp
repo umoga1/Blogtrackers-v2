@@ -470,7 +470,6 @@
 					bresp = new JSONObject(bres);
 					bresu = bresp.get("_source").toString();
 					bobj = new JSONObject(bresu);
-					
 					String blogger = bobj.get("blogsite_name").toString();
 					String blogname = bobj.get("blogsite_name").toString();
 					//System.out.println("blogger here+"+blogger);
@@ -493,7 +492,6 @@
 						String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
 						//String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
 						int valu = 1;//Integer.parseInt(btoty);
-						
 						if (bloggers.has(blogger)) {
 							content = new JSONObject(bloggers.get(blogger).toString());						
 							content.put("blog", blogname);
@@ -520,8 +518,6 @@
 							looper.add(m, blogger);
 							m++;
 						}	
-						
-								
 				}
 
 			}
@@ -773,7 +769,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-comment icondash"></i>Comments
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%=totalcomment%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment))%></h3>
 					</div>
 				</div>
 			</div>
@@ -907,8 +903,8 @@
 						<!-- <div class="tagcloudcontainer" style="min-height: 420px;"></div> -->
 						<div class="chart-container">
 								<div class="chart" id="tagcloudcontainer">
-								<!-- <div class="jvectormap-zoomin">+</div>
-								<div class="jvectormap-zoomout">−</div> -->
+								<div class="jvectormap-zoomin zoombutton" id="zoom_in">+</div>
+								<div class="jvectormap-zoomout zoombutton" id="zoom_out" >−</div> 
 								</div>
 							</div>
 					</div>
@@ -1066,9 +1062,9 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Most Influential <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
+								Most Influential Blogger <!-- <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
 								<option value="InfluencialBlogs">Blogs </option>
-								<option value="InfluentialBloggers">Bloggers</option></select>  <%-- 
+								<option value="InfluentialBloggers">Bloggers</option></select> -->  <%-- 
 						   of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
@@ -1122,7 +1118,8 @@
 							<!--   <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-							<table id="DataTables_Table_0_wrapper" class="display"
+          <div id="top-domain-box">
+							<table id="DataTables_Table_0_wrapper" class="display nowrap"
 								style="width: 100%">
 								<thead>
 									<tr>
@@ -1131,7 +1128,7 @@
 
 									</tr>
 								</thead>
-								<tbody id="top-domain-box">
+								<tbody >
 								
 									<%
 										if (outlinklooper.size() > 0) {
@@ -1151,6 +1148,7 @@
 
 								</tbody>
 							</table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -1244,6 +1242,37 @@
 				if (size > 0 && k < 15) {
 					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 <%}}}%></textarea>
+
+<!-- Influence Bar chart loader -->
+	<textarea style="display:none" name="influencialBlogs" id="influencialBlogs" >
+ <% if (bloggers.length() > 0) {
+						int p = 0;
+						for (int y = 0; y < bloggers.length(); y++) {
+							String key = looper.get(y).toString();
+							JSONObject resu = bloggers.getJSONObject(key);
+							
+							int size = Integer.parseInt(resu.get("postingfreq").toString());
+							if (size > 0 && p < 15) {
+								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
+    			 <%}}}%>
+			 </textarea>
+        </textarea>
+
+<textarea style="display:none" name="influencialBloggers" id="InfluencialBloggers" >
+	 <% if (authors.length() > 0) {
+				int p = 0;
+				//System.out.println(bloggers);
+				for (int y = 0; y < authors.length(); y++) {
+					String key = authorlooper.get(y).toString();
+					JSONObject resu = authors.getJSONObject(key);
+					Double size = Double.parseDouble(resu.get("influence").toString());
+					if (p < 10) {
+						p++;%>
+		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+		 <%}
+				}
+			}%> </textarea>
+
 </form>
 
 
@@ -1293,8 +1322,9 @@ $(document).ready(function() {
   // datatable setup
     $('#DataTables_Table_1_wrapper').DataTable( {
         "scrollY": 430,
-        "scrollX": false,
-         "pagingType": "simple"
+        "scrollX": true,
+         "pagingType": "simple",
+        	 "bLengthChange": false
       /*    ,
          dom: 'Bfrtip',
          "columnDefs": [
@@ -1314,8 +1344,9 @@ $(document).ready(function() {
 // table set up 2
     $('#DataTables_Table_0_wrapper').DataTable( {
         "scrollY": 430,
-        "scrollX": false,
-         "pagingType": "simple"
+        "scrollX": true,
+         "pagingType": "simple",
+        	 "bLengthChange": false
     /*      ,
          dom: 'Bfrtip',
 
@@ -1987,12 +2018,12 @@ $(function () {
         	  }
         	});
         
-          svg.append("g")
+         /*  svg.append("g")
           .attr("transform", "translate("+x(50)+",0)")
           .append("line")
           .attr("y2", height)
           .style("stroke", "#2ecc71")
-          .style("stroke-width", "1px")
+          .style("stroke-width", "1px") */
 
 
                   // svg.selectAll(".d3-bar")
@@ -3001,8 +3032,12 @@ var mymarker = [
                   .on("wheel", function() { d3.event.preventDefault(); })
                   .call(d3.behavior.zoom().on("zoom", function () {
                 	var g = svg.selectAll("g"); 
-                	g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")").style("cursor","zoom-out")
-                 })) 
+                  g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")").style("cursor","zoom-out")
+                 }))
+                 
+                 
+                 
+                 
                 
          		
                  .selectAll("text")
@@ -3028,12 +3063,70 @@ var mymarker = [
             		  svg.selectAll("text").transition()
                       .delay(200)
                       .duration(1000)
-                      .style("font-size", function(d) { return d.size * 0.93 + "px"; })
+                      .style("font-size", function(d) { return d.size * 1.10 + "px"; })
             	  } else {
             		  svg.selectAll("text")
                       .style("font-size", 0)
             	  }
             	});
+    	 		
+    	 		d3.selectAll('.zoombutton').on("click",zoomClick);
+    	 		
+    	 		var zoom = d3.behavior.zoom().scaleExtent([1, 20]).on("zoom", zoomed);
+    	 		
+    	 		function zoomed() {
+    	 			var g = svg.selectAll("g"); 
+                   g.attr("transform",
+    	 		        "translate(" + (width/2-10) + ",180)" +
+    	 		        "scale(" + zoom.scale() + ")"
+    	 		    );
+    	 		}
+    	 		
+    	 	// trasnlate and scale the zoom	
+    	 	function interpolateZoom (translate, scale) {
+    	 	    var self = this;
+    	 	    return d3.transition().duration(350).tween("zoom", function () {
+    	 	        var iTranslate = d3.interpolate(zoom.translate(), translate),
+    	 	            iScale = d3.interpolate(zoom.scale(), scale);
+    	 	        return function (t) {
+    	 	            zoom
+    	 	                .scale(iScale(t))
+    	 	                .translate(iTranslate(t));
+    	 	            zoomed();
+    	 	        };
+    	 	    });
+    	 	}
+    	 	
+    	 	// respond to click efffect on the zoom
+    	 	function zoomClick() {
+    	 	    var clicked = d3.event.target,
+    	 	        direction = 1,
+    	 	        factor = 0.2,
+    	 	        target_zoom = 1,
+    	 	        center = [width / 2-10, "180"],
+    	 	        extent = zoom.scaleExtent(),
+    	 	        translate = zoom.translate(),
+    	 	        translate0 = [],
+    	 	        l = [],
+    	 	        view = {x: translate[0], y: translate[1], k: zoom.scale()};
+
+    	 	    d3.event.preventDefault();
+    	 	    direction = (this.id === 'zoom_in') ? 1 : -1;
+    	 	    target_zoom = zoom.scale() * (1 + factor * direction);
+
+    	 	    if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+    	 	    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+    	 	    view.k = target_zoom;
+    	 	    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+    	 	    view.x += center[0] - l[0];
+    	 	    view.y += center[1] - l[1];
+
+    	 	    interpolateZoom([view.x, view.y], view.k);
+    	 	}
+    	 		
+    	 		
     	 		
                 	function dragged(d) {
                 	 var movetext = svg.select("g").selectAll("text");
@@ -4270,17 +4363,34 @@ $(".option-lable").on("click",function(e){
 			
 		var type = $('#swapInfluence').val();
 		
-		var blgss = $("#bloggers").val();
+		var blgss = $('#InfluenceBloggers').val();
 		if(type=="blogs"){
-			blgss = $("#blogs").val();
+			blgss = $("#InfluenceBlogs").val();
 		}else{
 			blgss = $("#bloggers").val();
-			console.log(blgss+ "selected");
 		}
 		
 		$("#influencebar").html('<div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div>');
 		//console.log(blgss);
 		
+		$.ajax({
+			url: app_url+'subpages/influencebar.jsp',
+			method: 'POST',
+			data: {
+				tid:$("#alltid").val(),
+				sortby:$('#swapInfluence').val(),
+				sortdate:$("#active-sortdate").val(),
+				bloggers:blgss,
+			},
+			error: function(response)
+			{						
+				console.log(response);		
+			},
+			success: function(response)
+			{   
+				$("#influencecontainer").html(response);
+			}
+		});
 		
 	});
 });

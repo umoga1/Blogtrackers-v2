@@ -64,7 +64,7 @@
 										    
 										    String auth = tobj.get("blogger").toString();
 										    String color="";
-										    if(i%2==0){
+										   /*  if(i%2==0){
 										    	color="#CC3300";
 										    }else if(i%3 ==0){
 										    	color="#EE33FF";
@@ -76,13 +76,21 @@
 										    	color="#17a2b8";
 										    }else {
 										    	color="#000000";
-										    }
+										    } */
+										   if(i == 0)
+												{
+												color = "#0080CC";	
+												} 
 										    
 										    y++;
 					    %>
 							<tr>
 								<td align="center"><%=(y)%></td>
-								<td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" onclick="loadChart('<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>')" style="color:<%=color%>"><%=tobj.get("title").toString() %></a></td>
+								<td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>" onclick="loadChart('<%=tobj.get("blogpost_id")%>-<%=color%>-<%=(y)%>')" <%-- style="color:<%=color%>" --%>><%=tobj.get("title").toString() %></a>
+								<br/>
+								 <a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></buttton></a>
+								
+								</td>
 								<td align="center"><%=tobj.get("blogger").toString() %></td>
 							</tr>
 						<% }} %>
@@ -166,5 +174,6 @@
      } );
  } );
  </script>
+ <script src="pagedependencies/sentiment2.js"></script>
 	<!--end for table  -->
 

@@ -1,3 +1,5 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
@@ -232,6 +234,8 @@ if(f.exists() && !f.isDirectory()) {
 								
 								String dt = "";
 								String dtmodified = "";
+								String datemodified = "";
+								String createddate = "";
 								
 								String dtt =resut.get(3).toString();
 								String dtt2 = "";//(null==resut.get(4))?resut.get(4).toString():"";
@@ -264,15 +268,23 @@ if(f.exists() && !f.isDirectory()) {
 										}
 									}
 								}
+								
+								/* LocalDate datee2 = LocalDate.parse(dtmodified);*/
+								LocalDate datee3 = LocalDate.parse(dt);
+								DateTimeFormatter dtff = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+								createddate = dtff.format(datee3);
+							   /* datemodified = dtff.format(datee2); */
+							   System.out.println(dtmodified);
 			%>
 	<div class="row m50 mt40">
 	<div class="col-md-9">
 	<h1 class="text-primary edittrackertitle mb0" style=""><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
-	<p><button class="btn metadata text-primary mt10">Created  :  <%=dt%></button> 
+	<p><button class="btn metadata text-primary mt10">Created  :  <%=createddate%></button> 
 	<% if(!dtmodified.toString().equalsIgnoreCase("")) { %>
 	<button class="btn metadata text-primary mt10">Modified :  <%=dtmodified %></button> 
 	<% } %>
-	<button class="btn metadata text-primary mt10">Crawled :  22-07-2018 . 05:30pm</button></p>
+	<!-- <button class="btn metadata text-primary mt10">Crawled :  22-07-2018 . 05:30pm</button> -->
+	</p>
 	</div>
 	<div class="col-md-3 text-right pt10">
 	<a
@@ -364,7 +376,7 @@ if(f.exists() && !f.isDirectory()) {
 		<thead>
 		<tr>
 		<th class="text-primary">Blog Name</th>
-		<th class="text-primary text-center">No of Post</th>
+		<th class="text-primary text-center">No of Posts</th>
 		<th class="text-primary text-center">Last Crawl</th>
 		<th></th>
 		</tr>
@@ -379,10 +391,13 @@ if(f.exists() && !f.isDirectory()) {
 				
 				String dtc =ob.get("last_crawled").toString();
 				String dc ="";
-				
+				String date = "";
 				if (!dtc.equals("null")){
 					String[] ddt2 = dtc.split("T");
 					dc = ddt2[0];
+					LocalDate datee = LocalDate.parse(dc);
+					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+				    date = dtf.format(datee);
 				}
 				
 		%>							
@@ -391,7 +406,7 @@ if(f.exists() && !f.isDirectory()) {
 			<tr>
 			<td><%=ob.get("blogsite_name").toString()%></td>
 			<td class="text-center"><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(ob.get("totalposts").toString())) %></td>
-			<td class="text-center"><%=dc%></td>
+			<td class="text-center"><%=date %></td>
 			<td><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" id="<%=ob.get("blogsite_id").toString()%>_select" data-placement="top" title="Delete Blog"></i></td>
 			</tr>
 		<% }} %>

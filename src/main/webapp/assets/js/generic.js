@@ -8,7 +8,9 @@ $(document).ready(function(e)
   $(".modal-notifications").css( { transition: "transform 0.80s",
                   transform:  "translate(0px,0px)"} );
 
-  }) ;
+  });
+	
+	
 	
 	 $("#profiletoggle").click(function(e){
 		  e.preventDefault();

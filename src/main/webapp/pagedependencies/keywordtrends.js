@@ -51,8 +51,9 @@ function loadStat(term){
 		{   
 		
 		response = response.trim();
-		console.log(response);
+		//console.log(response);
 		var data = JSON.parse(response);
+		//console.log(data);
 		$(".blog-mentioned").html(data.blogmentioned);
 		$(".post-mentioned").html(data.postmentioned);
 		$(".blogger-mentioned").html(data.bloggermentioned);
@@ -112,7 +113,8 @@ function loadTable(date_start,date_end){
 			success: function(response)
 			{   
 				$("#combined-div").html(response);
-				$.getScript("pagedependencies/keywordtrends.js", function(data, textStatus, jqxhr) { });
+				/*$.getScript("pagedependencies/keywordtrends.js", function(data, textStatus, jqxhr) { });*/
+				/*$.getScript("pagedependencies/blogpostselectkeywordtrend.js", function(data, textStatus, jqxhr) { });*/
 			}
 		});
 	}

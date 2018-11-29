@@ -27,16 +27,11 @@
 			
 <div class="chart" id="influencebar"></div>
 <script>
-/**
- * 
- */
-
-
 
 $(function () {
 
     // Initialize chart
-    postingfrequencybar('#influencebar', 450);
+    postingfrequencybar('#postingfrequencybar', 450);
 
     // Chart setup
     function postingfrequencybar(element, height) {
@@ -107,41 +102,14 @@ $(function () {
       // // ------------------------------
       //
       //
-     <%--  data = [
-    	  <% if (authors.length() > 0) {
-				int p = 0;
-				//System.out.println(bloggers);
-				for (int y = 0; y < authors.length(); y++) {
-					String key = authorlooper.get(y).toString();
-					JSONObject resu = authors.getJSONObject(key);
-					Double size = Double.parseDouble(resu.get("influence").toString());
-					if (p < 10) {
-						p++;%>
-		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-		 <%}
-				}
-			}%>    
-        ];
-      data = data.sort(function(a, b){
-    	    return a.frequency - b.frequency;
-    	}); 
-  	
-      //
+     //sort by influence score
       data = [
     	  <%=bloggersstr.toString().toLowerCase()%>
     		// {letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},      
        ];
-      
-      <% if(sort.equalsIgnoreCase("blogs")){ %>
       data = data.sort(function(a, b){
-  	    return a.frequency - b.frequency;
-  	}); 
-  	<% } else {%>
-		//data = data;
-		 data = data.sort(function(a, b){
-  	    return a.frequency - b.frequency;
-  	}); 
-  	<% } %> --%>
+    	    return a.frequency - b.frequency;
+    	}); 
       //
       //
       //   // Create tooltip
@@ -151,30 +119,19 @@ $(function () {
                .html(function(d) {
                  if(d.type === "blogger")
                  {
-                   return "Blogger Name: "+toTitleCase(d.name)+ "<br/>Total Blogposts: "+formatNumber(d.frequency) 
+                   return "Blogger Name: "+d.name+"<br/> Influence Score: "+d.frequency;
                  }
 
                  if(d.type === "blog")
                  {
-                   return "Blog Name: "+toTitleCase(d.name)+ "<br/>Total Blogposts: "+formatNumber(d.frequency) 
+                   return d.letter+" ("+d.frequency+")<br/> Blog: "+d.name;
                  }
 
                });
-      
 
-        function toTitleCase(str) {
-            return str.replace(
-                /\w\S*/g,
-                function(txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-                }
-            );
-        }
-        function formatNumber(num) {
-         	  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-         	}
            // Initialize tooltip
            svg.call(tip);
+
 
 
       //     // Horizontal

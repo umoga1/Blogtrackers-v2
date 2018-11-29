@@ -149,18 +149,18 @@ public class AddTracker extends HttpServlet {
 							 	String updatedQuery = "blogsite_id in ("+mergedblogs+")";						
 							 	db.updateTable("UPDATE trackers SET query='"+ updatedQuery +"', date_modified='"+now+"' WHERE tid='"+tracker_id+"'");
 							 }else {
-								// pww.write(site+ "blog has already been added");
+								 pww.write(site+ "blog has already been added to the "+hd.get(2)+" tracker \n");
 							 }
 					 }else {
-						// pww.write("invalid tracker id");
+						 pww.write("Invalid tracker id \n");
 					 }
 					}
 				}
-				pww.write("successful request");
+				pww.write("Request completed \n");
 			
 			}catch(Exception ex) {
 				ex.printStackTrace();
-				pww.write("invalid request");
+				pww.write("Invalid request \n");
 			}
 		}
 

@@ -684,7 +684,7 @@ if(action.toString().equals("getstats")){
 
 <% }else{ %>
 <div class="chart-container">
-		 <div class="chart" id="d3-line-basic"></div>
+<div class="chart" id="d3-line-basic"></div>
 </div>
 	
 <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
@@ -705,7 +705,7 @@ if(action.toString().equals("getstats")){
 
          // Define main variables
          var d3Container = d3.select(element),
-             margin = {top: 10, right: 10, bottom: 20, left: 30},
+             margin = {top: 10, right: 10, bottom: 20, left: 80},
              width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
              height = height - margin.top - margin.bottom;
 

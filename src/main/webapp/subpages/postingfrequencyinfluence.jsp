@@ -1,3 +1,5 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
@@ -59,13 +61,18 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
 										tresp = new JSONObject(tres);
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
+										String dat = tobj.get("date").toString().substring(0,10);
+										LocalDate datee = LocalDate.parse(dat);
+										DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+										String date = dtf.format(datee);
+										
 										k++;
 									%>
                                     <tr>
                                         <td><a  class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %><br/>
                                         <a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></a></td>
                                         <td align="center">
-                                        <% if(sort.toString().equals("date")){ %> <%=tobj.get("date") %><% }else{ %><%=tobj.get("influence_score") %><% }  %>
+                                        <% if(sort.toString().equals("date")){ %> <%=date %><% }else{ %><%=tobj.get("influence_score") %><% }  %>
                                         
                                         </td>
                                     </tr>

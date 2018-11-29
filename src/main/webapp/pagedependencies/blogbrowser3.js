@@ -3,6 +3,10 @@ var selected_blogs = new Array();
 var looper = 0;
 
 $(document).ready(function() {
+	
+	var loggedinstatus = Cookies.get("loggedinstatus");
+	
+	//console.log(loggedinstatus);
 	//console.log("hjhjdfj");
 	Cookies.set('selectedblogs', "", {path : '/'});	
 	//console.log(theme);
@@ -366,7 +370,7 @@ $(this).attr("data-original-title","Remove Blog from Tracker");
 				// set a cookie for the selected blog to make it easier
 				Cookies.set('selectedblogs', all_blogs, {path : '/'});
 				// retrieve the value of the theme cookie
-				console.log(Cookies.get('selectedblogs'));
+				//console.log(Cookies.get('selectedblogs'));
 				//var alltheselectedblogcookie =  Cookies.get('selectedblogs');
 				$("#selected_blogs_").val(all_blogs);
 				//console.log("selected blogs here:"+all_blogs);
@@ -497,8 +501,17 @@ $('.trackcreationsection1').removeClass('hidden');
 
 // show the create tracker from dialog handler 
 $('.createtrackerbtn').on("click", function(){
-$('.trackcreationsection2').removeClass('hidden');
-$('.trackcreationsection1').addClass('hidden');
+	//console.log(typeof loggedinstatus)
+	if(loggedinstatus === "true")
+	{
+	$('.trackcreationsection2').removeClass('hidden');
+	$('.trackcreationsection1').addClass('hidden');
+	}
+	else if(loggedinstatus === "false")
+	{
+	toastr.error('You must be logged in to create a tracker','Error');
+	}
+
 });
 
 // cancel tracker creattion 
@@ -577,8 +590,25 @@ else
 			{   
 				console.log(response);
 				if(response.indexOf("success")>-1){
-					toastr.success('Tracker successfully created!','Success');
-					location.href=app_url+"blogbrowser.jsp";
+					toastr.success('Tracker successfully created and Updated!','Success');
+					$('.trackcreationsection2').addClass("hidden");
+					$('.trackcreationsection1').removeClass('hidden');
+					$('.trackinitiated, .modalbackdrop').hide();
+					console.log(app_url)
+					$.ajax({
+					url:app_url+"subpages/gettrackerlist.jsp",
+					method:"POST",
+					error:function(response)
+					{
+					console.log(response);	
+					},
+					success: function(response)
+					{
+						console.log(response);		
+					$('.trackerlist').html(response);
+					}
+					});
+					//location.href=app_url+"blogbrowser.jsp";
 				}else{
 					toastr.error(response,'Error');
 				}
@@ -631,7 +661,7 @@ function updateTracker(element,type){
 	     });
 	   	 
 	  
-	   	id = $(element).attr('id');	   		 
+	   		id = $(element).attr('id');	   		 
 		    $.ajax({
 				url: app_url+'tracker',
 				method: 'POST',
@@ -653,10 +683,10 @@ function updateTracker(element,type){
 						//location.href=app_url+"blogbrowser.jsp";
 					}else{
 						if(type=="update"){
-							Cookies.set('selectedblogs', "", {path : '/'});
+							Cookies.clear('selectedblogs', "", {path : '/'});
 							toastr.error('Blog already exist in tracker','Error');
 						}else{
-							//toastr.error('Blog already exist in tracker','Error');
+							toastr.error('Blog already exist in tracker','Error');
 						}
 					}
 				}
