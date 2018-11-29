@@ -45,7 +45,7 @@ String year_end="";
 
 <%  
 if(action.toString().equals("getstats")){	
-	String postc = post._searchTotalByTitleAndBody(mostactiveterm,"date", dt,dte);
+	String postc =  post._searchTotalAndUnique(mostactiveterm,"date", dt,dte,"blogpost_id");
 	String blogc = post._searchTotalAndUnique(mostactiveterm,"date", dt,dte,"blogsite_id");
 	String bloggerc = post._searchTotalAndUniqueBlogger(mostactiveterm,"date", dt,dte,"blogger");
 	String toplocation = "";
