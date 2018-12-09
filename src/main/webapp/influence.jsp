@@ -586,7 +586,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 											JSONObject xy = new JSONObject();
 									    	
 									    	String x =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
-									    	String y = post._searchRangeAggregateByBloggers("date", dt, dte, auth);
+									    	int val = Integer.parseInt(post._searchRangeAggregateByBloggers("date",dt, dte,auth,"influence_score"));
+									    	String y = val+"";
 									    	xy.put("x",x);
 									    	xy.put("y",y);
 											
