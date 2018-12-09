@@ -515,7 +515,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject locations = new JSONObject();
 								JSONObject authorposts = new JSONObject();
 								JSONObject bloggersort = new JSONObject();
-
+								int tcomment = 0;
 								JSONObject bloggersortdet = new JSONObject();
 								JSONArray bloggerarr = new JSONArray();
 								
@@ -551,15 +551,17 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String num_comment  = tobj.get("num_comments").toString();
 										num_comment = num_comment.equals("null")?"0":num_comment;
 										
-										
+										tcomment+=Integer.parseInt(num_comment);
 
 									    sentimentpost.put(tobj.get("blogpost_id").toString());
 									    postidss+=tobj.get("blogpost_id").toString()+",";
 										
+									    /*
 										if(i==0){
 											 Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
 											 totalinfluence+=influence;
 										}
+									    */
 										
 										String[] dateyear=tobj.get("date").toString().split("-");
 										String yy= dateyear[0];
@@ -583,8 +585,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	
 											JSONObject xy = new JSONObject();
 									    	
-									    	String x =  post._searchRangeTotal("date", dt, dte, blogid);
-									    	String y =  post._searchRangeAggregate("date", dt, dte, blogid);
+									    	String x =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
+									    	int val = Integer.parseInt(post._searchRangeAggregateByBloggers("date",dt, dte,auth,"influence_score"));
+									    	String y = val+"";
 									    	xy.put("x",x);
 									    	xy.put("y",y);
 											
@@ -684,14 +687,18 @@ String possentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimen
 String negsentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"negemo");
 
 int comb = Integer.parseInt(possentiment2)+Integer.parseInt(negsentiment2);
-String totalcomment = post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
+String totalcomment = tcomment+"";// post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
 totalinfluence  = Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
-//totalpost = post._searchRangeTotalByBlogger("date", dt, dte,mostactiveblogger);
-totalpost = post._searchRangeTotal("date", dt, dte, ids);
+
+totalpost = post._searchRangeTotal("date", dt, dte,ids);
+//totalpost = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
 
 String totalsenti  = comb+"";
-
+//System.out.println("Post ids ="+postidss);
 allterms = term._searchByRange("date", dt, dte,postidss,"blogpostid","50");
+
+
+
 
 int highestfrequency = 0;
 JSONArray topterms = new JSONArray();
@@ -722,7 +729,6 @@ if (allterms.size() > 0) {
 
 
 
-
 String[] yst = dt.split("-");
 String[] yend = dte.split("-");
 year_start = yst[0];
@@ -745,7 +751,7 @@ if(authorcount.length()>0){
 						dtue = dte;
 					}
 				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger,"influence_score");
-				   
+				   System.out.println("Tou:"+y+";"+totu);
 				  
 				   if(Integer.parseInt(totu)<base){
 					   base = Integer.parseInt(totu);
@@ -857,7 +863,7 @@ authoryears.put(mostactiveblogger,postyear);
 						
 						 <div id="tagcloudbox">
 	        					<div class="chart-container">
-									<div class="chart" id="tagcloudcontainer" style="min-height: 420px;"></div>
+									<div class="chart tagcloudcontainer" id="tagcloudcontainer" style="min-height: 420px;"></div>
 								</div>
         				 </div>
 						
@@ -2218,8 +2224,9 @@ authoryears.put(mostactiveblogger,postyear);
 	     var frequency_list = [ <%if (topterms.length() > 0) {
 				for (int i = 0; i < topterms.length(); i++) {
 					JSONObject jsonObj = topterms.getJSONObject(i);
-					int size = Integer.parseInt(jsonObj.getString("frequency"));%>
-	{"text":"<%=jsonObj.getString("key")%>","size":<%=size*5%>},
+					int size = Integer.parseInt(jsonObj.getString("frequency"));
+					%>
+	{"text":"<%=jsonObj.getString("key")%>","size":<%=size*2%>},
  <%}
 			}%>];
 
