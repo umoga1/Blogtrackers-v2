@@ -8,7 +8,6 @@
 <%@page import="java.util.Locale" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
-<%@page import="org.apache.commons.lang3.ArrayUtils" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
