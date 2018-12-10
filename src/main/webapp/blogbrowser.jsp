@@ -66,6 +66,8 @@ if(userpic.indexOf("http")>-1){
 	
 }
 
+
+
 Blogposts post  = new Blogposts();
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString().replaceAll("[^a-zA-Z]", " ");
 
@@ -384,7 +386,33 @@ if(results.size()>0){
   <div class="<%=obj.get("blogpost_id")%>">
   <input type="hidden" class="post-image" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
   </div>
-  <div class="text-center"><i class="far fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Add to Favorites"></i></div>
+<%
+String favoritestatus = "far";
+String title = "Add to Favorites";
+if(!email.equals("") || !email.equals(null))
+{
+Favorites favorites = new Favorites();
+String allblogstring = favorites.checkIfFavoritePost(username);
+String[] allblogarray = allblogstring.split(",");
+String blogpostid = obj.get("blogpost_id").toString(); 
+//favoritestatus = "far";
+//System.out.println(allblogarray.length);
+ if(!allblogstring.equalsIgnoreCase(""))
+{	
+for(int j=0; j<allblogarray.length; j++)
+{
+	if(allblogarray[j].equals(blogpostid))
+	{
+		favoritestatus = "fas";
+		title = "Remove from Favorites";
+		break;
+	}
+	//System.out.println(allblogarray[i]);	
+} 
+} 
+}  
+%>
+  <div class="text-center"><i id="blogpostt_<%=obj.get("blogpost_id").toString() %>" class="<%=favoritestatus %> fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="<%=title %>"></i></div>
 </div>
 </div>
 

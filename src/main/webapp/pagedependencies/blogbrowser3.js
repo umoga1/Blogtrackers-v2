@@ -240,25 +240,89 @@ $('.deleteblog').on("click",function()
 $('#closetracks').on("click",function(){
 $(this).parent().toggle();	
 });
-  
+var blogpostids = [] 
 // handler for each favorites
 $(document).on("click",".favoritestoggle",function(e){
 // check if it has been favorites
 isFavorites = $(this).hasClass('far');
 if(isFavorites) // if it is favorites
 {
+// grab the individual id	
+blogpostidtoadd = $(this).attr("id").split("_")[1];
+// checks if element exist in the array
+if(!blogpostids.includes(blogpostidtoadd))
+{
+//console.log(blogpostids.includes(blogpostidtoadd))
+// push the new element in the array
+blogpostids.push(blogpostidtoadd);
+//join together as string
+allblogasstring = blogpostids.join(",");
+$.ajax({
+	url:app_url+"favorites",
+	method:"POST",
+	data:{
+	action:"addtofavorites",
+	//allblogpost:allblogasstring
+	bloposttoadd:blogpostidtoadd
+	},
+	error:function(response){
+		
+	},
+	success:function(response){
+		console.log(response)
+	if(response === "addedtofavorites")
+		{
+		toastr.success('Added to Favorites','Success');
+		}
+	//console.log(response)	
+	}
+		
+	});
+}
 $(this).removeClass("far fa-heart").addClass("fas fa-heart");
-$(this).attr("data-original-title","Remove to Favorite");
-console.log("You Added to favorites")
+$(this).attr("data-original-title","Remove from Favorites");
+
+//console.log("You Added to favorites")
 // add an jax to favorites the post
 
 }
 else if(!isFavorites) // if it does not have favorites
 {
+blogpostidtoadd = $(this).attr("id").split("_")[1];
 $(this).removeClass("fas fa-heart").addClass("far fa-heart");
-$(this).attr("data-original-title","Add to Favorite");
-console.log("You removed from favorites")
+$(this).attr("data-original-title","Add to Favorites");
+if(blogpostids.includes(blogpostidtoadd))
+{
+blogpostids.splice(blogpostids.indexOf(blogpostidtoadd),1)
+allblogasstring = blogpostids.join(",");
+//ajax function to remove from favorites
+//console.log(blogpostids.indexOf(blogpostidtoadd))
+//console.log("After remove")
+//console.log(blogpostids);
+//console.log(blogpostids.includes(blogpostidtoadd))
+
+
+}
+//console.log("You removed from favorites")
 // add an ajax to unfavorite the post
+$.ajax({
+	url:app_url+"favorites",
+	method:"POST",
+	data:{
+	action:"removefromfavorites",
+	//allblogpost:allblogasstring
+	bloposttoadd:blogpostidtoadd
+	},
+	error:function(response){
+		
+	},
+	success:function(response){
+	if(response === "removed")
+		{
+		toastr.error('Removed from Favorites','Success');
+		}
+	}
+});
 
 }
 

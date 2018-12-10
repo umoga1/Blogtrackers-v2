@@ -71,6 +71,7 @@ public class Login extends HttpServlet {
 				String user = (null==userinfo.get(0))?"":userinfo.get(0).toString();
 				session.setAttribute("email",username);
 				session.setAttribute("username",user);
+				System.out.println(session.getAttribute("username"));
 				pww.write("success");		
 				if(remember) {
 					Cookie ckUsername = new Cookie("username", username);
