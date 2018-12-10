@@ -200,8 +200,310 @@ if(action.toString().equals("getstats")){
 	result.put("topterm",mostactiveterm);
 %>
 <%=result.toString()%>
-<%
-}else if(action.toString().equals("getdailychart")){ %>
+<% } else if(action.toString().equals("getdayonlychart")){ 
+	SimpleDateFormat DAY_NAME_ONLY = new SimpleDateFormat("EEEE");
+	
+	ArrayList allauthors = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");
+
+	
+	String blogids = "";
+	int sun=0;
+    int mon=0;
+    int tue=0;
+    int wed =0;
+    int thur =0;
+    int fri=0;
+    int sat =0;
+    
+	if(allauthors.size()>0){
+		String tres = null;
+		JSONObject tresp = null;
+		String tresu = null;
+		JSONObject tobj = null;
+		int j=0;
+		int k=0;
+		int n = 0;
+		
+		for(int i=0; i< allauthors.size(); i++){
+					tres = allauthors.get(i).toString();			
+					tresp = new JSONObject(tres);
+				    tresu = tresp.get("_source").toString();
+				    tobj = new JSONObject(tresu);
+				    
+				    Date rawdaydate = new SimpleDateFormat("yyyy-mm-dd").parse(tobj.get("date").toString());
+				    String rawday = DAY_NAME_ONLY.format(rawdaydate);
+				   
+				    if(rawday.equals("Sunday")){
+				    	sun++;
+				    }else if(rawday.equals("Monday")){
+				    	mon++;
+				    }else if(rawday.equals("Tuesday")){
+				    	tue++;
+				    }else if(rawday.equals("Wednesday")){
+				    	wed++;
+				    }else if(rawday.equals("Thursday")){
+				    	thur++;
+				    }else if(rawday.equals("Friday")){
+				    	fri++;
+				    }else if(rawday.equals("Saturday")){
+				    	sat++;
+				    }
+		}
+	} 
+	
+%>
+  <div class="chart" id="d3-bar-horizontal"></div>
+ <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
+ <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
+ 
+<script>
+ $(function () {
+
+     // Initialize chart
+     barHorizontal('#d3-bar-horizontal', 390);
+
+     // Chart setup
+     function barHorizontal(element, height) {
+
+       // Basic setup
+       // ------------------------------
+
+       // Define main variables
+       var d3Container = d3.select(element),
+           margin = {top: 5, right: 50, bottom: 20, left: 70},
+           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
+           height = height - margin.top - margin.bottom - 5;
+
+          var formatPercent = d3.format("");
+
+       // Construct scales
+       // ------------------------------
+
+       // Horizontal
+       var y = d3.scale.ordinal()
+           .rangeRoundBands([height,0], .02, .7);
+
+       // Vertical
+       var x = d3.scale.linear()
+           .range([0,width]);
+
+       // Color
+       var color = d3.scale.category20c();
+
+
+
+       // Create axes
+       // ------------------------------
+
+       // Horizontal
+       var xAxis = d3.svg.axis()
+           .scale(x)
+           .orient("bottom")
+           .ticks(6);
+
+       // Vertical
+       var yAxis = d3.svg.axis()
+           .scale(y)
+           .orient("left")
+           //.tickFormat(formatPercent);
+
+
+
+       // Create chart
+       // ------------------------------
+
+       // Add SVG element
+       var container = d3Container.append("svg");
+
+       // Add SVG group
+       var svg = container
+           .attr("width", width + margin.left + margin.right)
+           .attr("height", height + margin.top + margin.bottom)
+           .append("g")
+               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+       //         // Create tooltip
+       //             // ------------------------------
+       //
+       //
+       //
+       // // Load data
+       // // ------------------------------
+       //
+       //
+       //
+       data = [
+    	   {letter:"Sat", frequency:<%=sat%>},
+    	   {letter:"Fri", frequency:<%=fri%>},
+             {letter:"Wed", frequency:<%=wed%>},
+             {letter:"Thu", frequency:<%=thur%>},
+             {letter:"Tue", frequency:<%=tue%>},
+             {letter:"Mon", frequency:<%=mon%>},
+             {letter:"Sun", frequency:<%=sun%>}
+                     
+         ];
+       //
+       //
+       //   // Create tooltip
+         var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+                .html(function(d) {
+                    return d.letter+" ("+d.frequency+")";
+                });
+
+            // Initialize tooltip
+            svg.call(tip);
+
+       //
+       //     // Pull out values
+       //     data.forEach(function(d) {
+       //         d.frequency = +d.frequency;
+       //     });
+       //
+       //
+       //
+       //     // Set input domains
+       //     // ------------------------------
+       //
+       //     // Horizontal
+           y.domain(data.map(function(d) { return d.letter; }));
+
+           // Vertical
+           x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
+       //
+       //
+       //     //
+       //     // Append chart elements
+       //     //
+       //
+       //     // Append axes
+       //     // ------------------------------
+       //
+           // Horizontal
+           svg.append("g")
+               .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
+               .attr("transform", "translate(0," + height + ")")
+               .call(xAxis);
+
+           // Vertical
+           var verticalAxis = svg.append("g")
+               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
+               .style("color","yellow")
+               .call(yAxis);
+       //
+       //
+       //     // Add text label
+       //     verticalAxis.append("text")
+       //         .attr("transform", "rotate(-90)")
+       //         .attr("y", 10)
+       //         .attr("dy", ".71em")
+       //         .style("text-anchor", "end")
+       //         .style("fill", "#999")
+       //         .style("font-size", 12)
+       //         // .text("Frequency")
+       //         ;
+       //
+       //
+       //     // Add bars
+           svg.selectAll(".d3-bar")
+               .data(data)
+               .enter()
+               .append("rect")
+                   .attr("class", "d3-bar")
+                   .attr("y", function(d) { return y(d.letter); })
+                   //.attr("height", y.rangeBand())
+                   .attr("height",30)
+                   .attr("x", function(d) { return 0; })
+                   .attr("width", function(d) { return x(d.frequency); })
+                   .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
+                   .style("fill", function(d) {
+                   maxvalue = d3.max(data, function(d) { return d.frequency; });
+                   if(d.frequency == maxvalue)
+                   {
+                     return "0080CC";
+                   }
+                   else
+                   {
+                     return "#78BCE4";
+                   }
+
+                 })
+                   .on('mouseover', tip.show)
+                   .on('mouseout', tip.hide);
+
+
+                   // svg.selectAll(".d3-bar")
+                   //     .data(data)
+                   //     .enter()
+                   //     .append("rect")
+                   //         .attr("class", "d3-bar")
+                   //         .attr("x", function(d) { return x(d.letter); })
+                   //         .attr("width", x.rangeBand())
+                   //         .attr("y", function(d) { return y(d.frequency); })
+                   //         .attr("height", function(d) { return height - y(d.frequency); })
+                   //         .style("fill", function(d) { return "#58707E"; })
+                   //         .on('mouseover', tip.show)
+                   //         .on('mouseout', tip.hide);
+
+
+
+
+
+         // Resize chart
+         // ------------------------------
+
+         // Call function on window resize
+         $(window).on('resize', resize);
+
+         // Call function on sidebar width change
+         $('.sidebar-control').on('click', resize);
+
+         // Resize function
+         //
+         // Since D3 doesn't support SVG resize by default,
+         // we need to manually specify parts of the graph that need to
+         // be updated on window resize
+         function resize() {
+
+             // Layout variables
+             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
+
+
+             // // Layout
+             // // -------------------------
+             //
+             // // Main svg width
+             container.attr("width", width + margin.left + margin.right);
+
+             // Width of appended group
+             svg.attr("width", width + margin.left + margin.right);
+             //
+             //
+             // // Axes
+             // // -------------------------
+             //
+             // // Horizontal range
+            x.range([0,width]);
+             //
+             // // Horizontal axis
+             svg.selectAll('.d3-axis-horizontal').call(xAxis);
+              // svg.selectAll('.d3-bar-vertical').call(yAxis);
+
+             //
+             // // Chart elements
+             // // -------------------------
+             //
+             // // Line path
+            svg.selectAll('.d3-bar').attr("width", function(d) { return x(d.frequency); });
+         }
+     }
+ });
+ </script>
+
+	
+<% }else if(action.toString().equals("getdailychart")){ %>
  <div class="chart" id="yearlypattern"></div>
  
  <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>

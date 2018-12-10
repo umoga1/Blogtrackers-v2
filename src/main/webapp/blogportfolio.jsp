@@ -106,6 +106,7 @@
 			SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
 
 			SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
+			SimpleDateFormat DAY_NAME_ONLY = new SimpleDateFormat("EEEE");
 			SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
 			SimpleDateFormat SMALL_MONTH_ONLY = new SimpleDateFormat("mm");
 			SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
@@ -229,6 +230,7 @@
 			String selectedblogid = idss[0];
 			totalpost = post._searchRangeTotal("date", dt, dte, selectedblogid);
 			termss = term._searchByRange("date", dt, dte, selectedblogid,"blogsiteid","50");
+			
 			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
 			
 			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
@@ -349,6 +351,13 @@
 		    JSONObject language = new JSONObject();
 		    ArrayList langlooper = new ArrayList();
 		    
+		    int sun=0;
+		    int mon=0;
+		    int tue=0;
+		    int wed =0;
+		    int thur =0;
+		    int fri=0;
+		    int sat =0;
 		    
 			ArrayList authorlooper = new ArrayList();
 			if(allauthors.size()>0){
@@ -374,8 +383,29 @@
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
 					    
-					    if(selectedblogid.equals(tobj.get("blogpost_id").toString())){
+					    
+					    
+					    if(selectedblogid.equals(tobj.get("blogsite_id").toString())){
 					    	sentimentpost.put(tobj.get("blogpost_id").toString());
+					    	
+					    	Date rawdaydate = new SimpleDateFormat("yyyy-mm-dd").parse(tobj.get("date").toString());
+						    String rawday = DAY_NAME_ONLY.format(rawdaydate);
+						   
+						    if(rawday.equals("Sunday")){
+						    	sun++;
+						    }else if(rawday.equals("Monday")){
+						    	mon++;
+						    }else if(rawday.equals("Tuesday")){
+						    	tue++;
+						    }else if(rawday.equals("Wednesday")){
+						    	wed++;
+						    }else if(rawday.equals("Thursday")){
+						    	thur++;
+						    }else if(rawday.equals("Friday")){
+						    	fri++;
+						    }else if(rawday.equals("Saturday")){
+						    	sat++;
+						    }
 					    }
 					   
 					    
@@ -1836,13 +1866,13 @@
        //
        //
        data = [
-    	   {letter:"Sat", frequency:130},
-    	   {letter:"Fri", frequency:1900},
-             {letter:"Wed", frequency:2500},
-             {letter:"Thu", frequency:1600},
-             {letter:"Tue", frequency:600},
-             {letter:"Mon", frequency:2550},
-             {letter:"Sun", frequency:150}
+    	   {letter:"Sat", frequency:<%=sat%>},
+    	   {letter:"Fri", frequency:<%=fri%>},
+             {letter:"Wed", frequency:<%=wed%>},
+             {letter:"Thu", frequency:<%=thur%>},
+             {letter:"Tue", frequency:<%=tue%>},
+             {letter:"Mon", frequency:<%=mon%>},
+             {letter:"Sun", frequency:<%=sun%>}
          ];
        //
        //
@@ -2474,11 +2504,20 @@
      }
  });
 
+ $(document).ready(function() {
+		
+		$('#top-listtype').on("change",function(e){
+			var date_start = $("#date_start").val();
+			var date_end = $("#date_end").val();
+			loadUrls(date_start,date_end);
+		});
+		
 
+ });
  </script>
 
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/blogportfolio.js?v=7988909"></script>
+<script src="pagedependencies/blogportfolio.js?v=88909"></script>
 
 </body>
 </html>

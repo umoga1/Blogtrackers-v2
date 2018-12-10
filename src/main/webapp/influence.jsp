@@ -549,7 +549,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String body  = tobj.get("post").toString();
 										String dat  = tobj.get("date").toString();
 										String num_comment  = tobj.get("num_comments").toString();
+										System.out.println("comment-"+num_comment);
 										num_comment = num_comment.equals("null")?"0":num_comment;
+										
 										
 										tcomment+=Integer.parseInt(num_comment);
 

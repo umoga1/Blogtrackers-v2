@@ -20,7 +20,9 @@ $('#blogger-changed').on("change", function(){
 
 	loadStat(blog_id);
 	loadChart(blog_id);
-	loadYearlyChart(blog_id)
+	loadYearlyChart(blog_id);
+	loadDailyChart(blog_id);
+	
 	loadUrls(date_start,date_end);
 });
 
@@ -117,6 +119,31 @@ function loadYearlyChart(blog_id){
 	});
 }
 
+function loadDailyChart(blog_id){
+	$("#day-chart").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
+	$.ajax({
+		url: app_url+"subpages/blogportfoliochart.jsp",
+		method: 'POST',
+		data: {
+			action:"getdayonlychart",
+			blog_id:blog_id,
+			date_start:$("#date_start").val(),
+			date_end:$("#date_end").val(),
+		},
+		error: function(response)
+		{						
+			console.log(response);
+			$("#day-chart").html(response);
+		},
+		success: function(response)
+		{   
+
+		$("#day-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
+			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
+			  });*/
+		}
+	});
+}
 
 
 function loadUrls(date_start,date_end){
