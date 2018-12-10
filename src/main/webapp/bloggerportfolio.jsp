@@ -248,101 +248,7 @@
 			JSONObject graphyears = new JSONObject();
 		    JSONArray yearsarray = new JSONArray();
 		    
-			String[] yst = dt.split("-");
-			String[] yend = dte.split("-");
-			year_start = yst[0];
-			year_end = yend[0];
-			
-			String month_start = yst[1];
-			String month_end = yend[1];
-			
-			int ystint = Integer.parseInt(year_start);
-			int yendint = Integer.parseInt(year_end);
-			if(single.equals("month")){
-				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
-				//ystint=0;
-				//yendint = diff;
-			}
-			int b=0;
-			int jan=0;
-			int feb=0;
-			int march=0;
-			int apr=0;
-			int may=0;
-			int june=0;
-			int july=0;
-			int aug=0;
-			int sep=0;
-			int oct=0;
-			int nov=0;
-			int dec=0;
-			
-			for(int y=ystint; y<=yendint; y++){
-				/*
-					   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
-					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
-					*/  
-					   String dtu = y + "-01-01";
-
-					   String dtue = y + "-12-31";
-					   
-					   if(b==0){
-							dtu = dt;
-						}else if(b==yendint){
-							dtue = dte;
-						}
-					   
-					   
-					   String totu = post._searchRangeTotal("date",dtu, dtue,selectedblogid);
-					   
-					   //if(1 >= Integer.parseInt(month_start)){
-					   		jan += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-01-01", y + "-01-31",mostactiveblogger));
-					   //}
-					   
-					   //if(2>=Integer.parseInt(month_start) && y>=ystint){
-						   feb += Integer.parseInt(post._searchRangeTotal("date",y + "-02-01", y + "-02-29",mostactiveblogger));
-					   //}
-					   
-					   //if(3>=Integer.parseInt(month_start) && y>=ystint){						
-					   		march += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-03-01", y + "-03-31",mostactiveblogger));
-					   //}
-					   
-					   //if(4>=Integer.parseInt(month_start) && y>=ystint){						
-					   	apr += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-04-01", y + "-04-30",mostactiveblogger));
-					   //}
-					   
-					   //if(5>=Integer.parseInt(month_start) && y>=ystint){							
-					  	 may += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-05-01", y + "-05-31",mostactiveblogger));
-					   //}
-					   
-					   //if( 6 >=Integer.parseInt(month_start) && y>=ystint){							
-					   	june += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-06-01", y + "-06-30",mostactiveblogger));
-					   //}
-					  // if(7 >= Integer.parseInt(month_start) && y>=ystint){							
-					   	july += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-07-01", y + "-07-31",mostactiveblogger));
-					   //}
-					   //if(8 >= Integer.parseInt(month_start) && y>=ystint){							
-					   	aug += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-08-01", y + "-08-31",mostactiveblogger));
-					   //}
-					   //if(9 >= Integer.parseInt(month_start) && y>=ystint){					
-					   	sep += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-09-01", y + "-09-30",mostactiveblogger));
-					  // }
-					   //if(10 >= Integer.parseInt(month_start) && y>=ystint){			
-					   oct += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-10-01", y + "-10-31",mostactiveblogger));
-					   //}
-					   //if(11 >= Integer.parseInt(month_start) && y>=ystint){						
-					   		nov += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-11-01", y + "-11-30",mostactiveblogger));
-					   //}
-					   //if(12 >= Integer.parseInt(month_start) && y>=ystint){						
-					   	dec += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-12-01", y + "-12-31",mostactiveblogger));
-					   //}
-					   
-					   graphyears.put(y+"",totu);
-			    	   yearsarray.put(b,y);	
-			    	   b++;
-			}
-			
-			//System.out.println("grapgh yeres"+yearsarray);
+						//System.out.println("grapgh yeres"+yearsarray);
 		    JSONObject authors = new JSONObject();
 		    JSONObject blgers = new JSONObject();
 		    JSONArray sentimentpost = new JSONArray();
@@ -378,24 +284,7 @@
 					    String lang = tobj.get("language").toString();
 					    String blogsite_id = tobj.get("blogsite_id").toString();
 					    
-					    Date rawdaydate = new SimpleDateFormat("yyyy-mm-dd").parse(tobj.get("date").toString());
-					    String rawday = DAY_NAME_ONLY.format(rawdaydate);
-					   
-					    if(rawday.equals("Sunday")){
-					    	sun++;
-					    }else if(rawday.equals("Monday")){
-					    	mon++;
-					    }else if(rawday.equals("Tuesday")){
-					    	tue++;
-					    }else if(rawday.equals("Wednesday")){
-					    	wed++;
-					    }else if(rawday.equals("Thursday")){
-					    	thur++;
-					    }else if(rawday.equals("Friday")){
-					    	fri++;
-					    }else if(rawday.equals("Saturday")){
-					    	sat++;
-					    }
+					    
 					    
 					    if(i==0){
 					    	mostactiveblogger = auth;
@@ -413,6 +302,25 @@
 					    
 					    if(mostactiveblogger.equals(tobj.get("blogger").toString())){
 					    	sentimentpost.put(tobj.get("blogpost_id").toString());
+					    	
+					    	Date rawdaydate = new SimpleDateFormat("yyyy-mm-dd").parse(tobj.get("date").toString());
+						    String rawday = DAY_NAME_ONLY.format(rawdaydate);
+						   
+						    if(rawday.equals("Sunday")){
+						    	sun++;
+						    }else if(rawday.equals("Monday")){
+						    	mon++;
+						    }else if(rawday.equals("Tuesday")){
+						    	tue++;
+						    }else if(rawday.equals("Wednesday")){
+						    	wed++;
+						    }else if(rawday.equals("Thursday")){
+						    	thur++;
+						    }else if(rawday.equals("Friday")){
+						    	fri++;
+						    }else if(rawday.equals("Saturday")){
+						    	sat++;
+						    }
 					    }
 					   
 					    
@@ -464,6 +372,104 @@
 			//System.out.println("Authors here:"+graphyears);
 			} 
 			
+			
+			
+			String[] yst = dt.split("-");
+			String[] yend = dte.split("-");
+			year_start = yst[0];
+			year_end = yend[0];
+			
+			String month_start = yst[1];
+			String month_end = yend[1];
+			
+			int ystint = Integer.parseInt(year_start);
+			int yendint = Integer.parseInt(year_end);
+			if(single.equals("month")){
+				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
+				//ystint=0;
+				//yendint = diff;
+			}
+			int b=0;
+			int jan=0;
+			int feb=0;
+			int march=0;
+			int apr=0;
+			int may=0;
+			int june=0;
+			int july=0;
+			int aug=0;
+			int sep=0;
+			int oct=0;
+			int nov=0;
+			int dec=0;
+			
+			for(int y=ystint; y<=yendint; y++){
+				/*
+					   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
+					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
+					*/  
+					   String dtu = y + "-01-01";
+
+					   String dtue = y + "-12-31";
+					   
+					   if(b==0){
+							dtu = dt;
+						}else if(b==yendint){
+							dtue = dte;
+						}
+					   
+					   
+					   String totu = post._searchRangeTotal("date",dtu, dtue,selectedblogid);
+					   
+					   //if(1 >= Integer.parseInt(month_start)){
+					   		jan += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-01-01", y + "-01-31",mostactiveblogger));
+					   //}
+					   			
+					   //System.out.println("jan "+jan+"-"+mostactiveblogger);
+					   //if(2>=Integer.parseInt(month_start) && y>=ystint){
+						   feb += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-02-01", y + "-02-29",mostactiveblogger));
+					   //}
+					   
+					   //if(3>=Integer.parseInt(month_start) && y>=ystint){						
+					   		march += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-03-01", y + "-03-31",mostactiveblogger));
+					   //}
+					   
+					   //if(4>=Integer.parseInt(month_start) && y>=ystint){						
+					   	apr += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-04-01", y + "-04-30",mostactiveblogger));
+					   //}
+					   
+					   //if(5>=Integer.parseInt(month_start) && y>=ystint){							
+					  	 may += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-05-01", y + "-05-31",mostactiveblogger));
+					   //}
+					   
+					   //if( 6 >=Integer.parseInt(month_start) && y>=ystint){							
+					   	june += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-06-01", y + "-06-30",mostactiveblogger));
+					   //}
+					  // if(7 >= Integer.parseInt(month_start) && y>=ystint){							
+					   	july += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-07-01", y + "-07-31",mostactiveblogger));
+					   //}
+					   //if(8 >= Integer.parseInt(month_start) && y>=ystint){							
+					   	aug += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-08-01", y + "-08-31",mostactiveblogger));
+					   //}
+					   //if(9 >= Integer.parseInt(month_start) && y>=ystint){					
+					   	sep += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-09-01", y + "-09-30",mostactiveblogger));
+					  // }
+					   //if(10 >= Integer.parseInt(month_start) && y>=ystint){			
+					   oct += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-10-01", y + "-10-31",mostactiveblogger));
+					   //}
+					   //if(11 >= Integer.parseInt(month_start) && y>=ystint){						
+					   		nov += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-11-01", y + "-11-30",mostactiveblogger));
+					   //}
+					   //if(12 >= Integer.parseInt(month_start) && y>=ystint){						
+					   	dec += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-12-01", y + "-12-31",mostactiveblogger));
+					   //}
+					   
+					   graphyears.put(y+"",totu);
+			    	   yearsarray.put(b,y);	
+			    	   b++;
+			}
+			
+
 			
 			possentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"posemo");
 			negsentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"negemo");
@@ -567,7 +573,8 @@ if(allauthors2.size()>0){
 			    tobj = new JSONObject(tresu);				    
 			    blogids+=tobj.get("blogsite_id").toString()+",";
 		}
-} 	
+}
+
 outlinks = outl._searchByRange("date", dt, dte, blogids);
 termss = term._searchByRange("date", dt, dte, blogids,"blogsiteid","50");
 
@@ -1057,13 +1064,17 @@ if (outlinks.size() > 0) {
 <p class="text-center text-medium pt10 pb10 mb0">Copyright &copy; 2017 All Rights Reserved.</p>
 </div>
   </footer> -->
+<form action="" name="customformsingle" id="customformsingle" method="post">
+		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" />
+		
+		<input type="hidden" id="blogger" value="<%=selectedblogid%>" /> 
+		<input type="hidden" name="single_date" id="single_date" value="" />
+		
+		<input type="hidden" name="date_start" id="date_start" value="<%=dt%>" /> 
+		<input type="hidden" name="date_end" id="date_end" value="<%=dte%>" />	
+</form>
+	
 
-<form name="">
-<input type="hidden" id="date_start" value="<%=dt%>" />
-<input type="hidden" id="date_end" value="<%=dte%>" />
-
-<input type="hidden" id="blogger" value="<%=selectedblogid%>" />
-</form>>
 
   <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
  <script src="assets/bootstrap/js/bootstrap.js">
@@ -1216,13 +1227,22 @@ if (outlinks.size() > 0) {
    		.on(
    				'apply.daterangepicker',
    				function(ev, picker) {
-   					/* console
+   					 console
    							.log("apply event fired, start/end dates are "
    									+ picker.startDate
    											.format('MMMM D, YYYY')
    									+ " to "
    									+ picker.endDate
-   											.format('MMMM D, YYYY')); */
+   											.format('MMMM D, YYYY'));
+   					var start = picker.startDate.format('YYYY-MM-DD');
+   	            	var end = picker.endDate.format('YYYY-MM-DD');
+   	            console.log("End:"+end);
+   	            	
+   	            	$("#date_start").val(start);
+   	            	$("#date_end").val(end);
+   	            	//toastr.success('Date changed!','Success');
+   	            	$("form#customform").submit();
+   					 
    				});
    $('#reportrange')
    		.on(
@@ -2506,7 +2526,7 @@ if (outlinks.size() > 0) {
  </script>
 
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/bloggerportfolio.js?v=7988909"></script>
+<script src="pagedependencies/bloggerportfolio.js?v=88909"></script>
 <script>
 $(document).ready(function() {
 	

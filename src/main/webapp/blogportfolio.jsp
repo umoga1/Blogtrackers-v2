@@ -230,6 +230,7 @@
 			String selectedblogid = idss[0];
 			totalpost = post._searchRangeTotal("date", dt, dte, selectedblogid);
 			termss = term._searchByRange("date", dt, dte, selectedblogid,"blogsiteid","50");
+			
 			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
 			
 			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
@@ -382,27 +383,29 @@
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
 					    
-					    Date rawdaydate = new SimpleDateFormat("yyyy-mm-dd").parse(tobj.get("date").toString());
-					    String rawday = DAY_NAME_ONLY.format(rawdaydate);
-					   
-					    if(rawday.equals("Sunday")){
-					    	sun++;
-					    }else if(rawday.equals("Monday")){
-					    	mon++;
-					    }else if(rawday.equals("Tuesday")){
-					    	tue++;
-					    }else if(rawday.equals("Wednesday")){
-					    	wed++;
-					    }else if(rawday.equals("Thursday")){
-					    	thur++;
-					    }else if(rawday.equals("Friday")){
-					    	fri++;
-					    }else if(rawday.equals("Saturday")){
-					    	sat++;
-					    }
 					    
-					    if(selectedblogid.equals(tobj.get("blogpost_id").toString())){
+					    
+					    if(selectedblogid.equals(tobj.get("blogsite_id").toString())){
 					    	sentimentpost.put(tobj.get("blogpost_id").toString());
+					    	
+					    	Date rawdaydate = new SimpleDateFormat("yyyy-mm-dd").parse(tobj.get("date").toString());
+						    String rawday = DAY_NAME_ONLY.format(rawdaydate);
+						   
+						    if(rawday.equals("Sunday")){
+						    	sun++;
+						    }else if(rawday.equals("Monday")){
+						    	mon++;
+						    }else if(rawday.equals("Tuesday")){
+						    	tue++;
+						    }else if(rawday.equals("Wednesday")){
+						    	wed++;
+						    }else if(rawday.equals("Thursday")){
+						    	thur++;
+						    }else if(rawday.equals("Friday")){
+						    	fri++;
+						    }else if(rawday.equals("Saturday")){
+						    	sat++;
+						    }
 					    }
 					   
 					    
@@ -2514,7 +2517,7 @@
  </script>
 
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/blogportfolio.js?v=7988909"></script>
+<script src="pagedependencies/blogportfolio.js?v=88909"></script>
 
 </body>
 </html>
