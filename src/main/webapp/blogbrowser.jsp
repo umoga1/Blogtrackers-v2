@@ -19,6 +19,7 @@ String profileimage= "";
 String username ="";
 String name="";
 String phone="";
+String firstname ="";
 String date_modified = "";
 JSONObject myblogs = new JSONObject();
 ArrayList mytrackers = new ArrayList();
@@ -44,8 +45,8 @@ myblogs = trackers.getMyTrackedBlogs(username);
 mytrackers = trackers._list("DESC","",username,"100");
 	
 String userpic = userinfo.get(9).toString();
-String[] user_name = name.split(" ");
-username = user_name[0];
+String[] names = name.split(" ");
+firstname = names[0];
 
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = userinfo.get(9).toString();
@@ -194,7 +195,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 		    <i class="fas fa-circle" id="notificationcolor"></i>
 
 		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-		  <span ><%=username%></span></a>
+		  <span ><%=firstname%></span></a>
 
 		   </li>
 	    </ul>
@@ -389,10 +390,11 @@ if(results.size()>0){
 <%
 String favoritestatus = "far";
 String title = "Add to Favorites";
-if(!email.equals("") || !email.equals(null))
+if(!email.equals(""))
 {
 Favorites favorites = new Favorites();
 String allblogstring = favorites.checkIfFavoritePost(username);
+System.out.println(allblogstring);
 String[] allblogarray = allblogstring.split(",");
 String blogpostid = obj.get("blogpost_id").toString(); 
 //favoritestatus = "far";
@@ -409,6 +411,7 @@ for(int j=0; j<allblogarray.length; j++)
 	}
 	//System.out.println(allblogarray[i]);	
 } 
+
 } 
 }  
 %>

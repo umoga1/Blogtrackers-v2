@@ -21,6 +21,7 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
+String firstname = "";
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
 if (userinfo.size()<1) {
@@ -34,8 +35,8 @@ email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
 //date_modified = userinfo.get(11).toString();
 String userpic = userinfo.get(9).toString();
-String[] user_name = name.split(" ");
-username = user_name[0];
+String[] names = name.split(" ");
+firstname = names[0];
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = userinfo.get(9).toString();
 profileimage = "images/default-avatar.png";
@@ -155,7 +156,7 @@ if(f.exists() && !f.isDirectory()) {
 		    <i class="fas fa-circle" id="notificationcolor"></i>
 		   
 		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-		  <span><%=username%></span></a>
+		  <span><%=firstname%></span></a>
 			
 		   </li>
 	    </ul>
@@ -256,27 +257,43 @@ if(f.exists() && !f.isDirectory()) {
 <div class="container analyticscontainer">
 
 <%
+
 Favorites myfavoritespost  = new Favorites();
-String[] blogpostid =  myfavoritespost.selectAllFavoritePost(username).split(",");
-System.out.print(blogpostid[0]);
+String allreturnedblog = myfavoritespost.selectAllFavoritePost(username);
+String[] blogpostid = allreturnedblog.split(",");
+int favoritepostcount = 0; 
+if(allreturnedblog.equalsIgnoreCase(""))
+{
+favoritepostcount = 0;	
+}
+else
+{
+	favoritepostcount = blogpostid.length;
+}
+//System.out.print(blogpostid[0]);
 %>
 <div class="row mt50">
 <div class="col-md-12 ">
-<h6 class="float-left text-primary"><%=blogpostid.length %> posts </h6>
+<h6 class="float-left text-primary"><%=favoritepostcount %> posts </h6>
 
-<h6 class="float-right text-primary">
+<!-- <h6 class="float-right text-primary">
   <select class="text-primary filtersort sortby"><option>Recent</option><option>Influence Score</option></select>
-</h6>
+</h6> -->
 
 </div>
 </div>
 
 <div class="card-columns pt0 pb10  mt20 mb50 ">
-<% for(int k=0; k<blogpostid.length; k++)
+
+<% 
+System.out.println(blogpostid.length);
+if(blogpostid.length > 0 && !allreturnedblog.equalsIgnoreCase("") )
+{
+for(int k=0; k<blogpostid.length; k++)
 {
 List<String> test = new ArrayList<String>();	
 test = new DbConnection().query2("select * from blogposts where blogpost_id="+blogpostid[k]);
-System.out.println(test);
+//System.out.println(test);
 //System.out.println(test.get(0));
 //String allblogstring = test.get(0).toString().replaceAll("\\[","").replaceAll("\\]","");
 String[] allblogarray =  test.toArray(new String[test.size()]);
@@ -284,7 +301,8 @@ String eachblogpostid = allblogarray[0];
 String blogposttitle = allblogarray[1];
 String blogger = allblogarray[3];
 String permalink = allblogarray[11];
-System.out.println(permalink); 
+String blogsiteid = myfavoritespost.selectBlogTitle(allblogarray[12]);
+//System.out.println(permalink); 
 //JSONObject jsArray = new JSONObject(test.get(0));
 //System.out.println(jsArray);
 %>
@@ -292,11 +310,11 @@ System.out.println(permalink);
  <div class="card noborder curved-card mb30 border-white curve_<%=eachblogpostid %>" >
 <div class="curved-card selectcontainer">
  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a><%=blogsiteid %></a></h4>
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
 
   <div class="card-body">
-    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=allblogarray[0] %>"><h4 class="card-title text-primary text-center pb20"><%=blogposttitle %></h4></a>
+    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=allblogarray[0] %>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=blogposttitle %></h4></a>
     <p class="card-text text-center author mb0 light-text"><%=blogger %></p>
     <p class="card-text text-center postdate light-text"><%=allblogarray[2]%></p>
   </div>
@@ -309,7 +327,12 @@ System.out.println(permalink);
 </div> 
 
 
-<% } %>
+<% } }
+else
+{
+	
+}
+%>
 
 
 
