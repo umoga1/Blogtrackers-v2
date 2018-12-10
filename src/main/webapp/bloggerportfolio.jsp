@@ -112,6 +112,8 @@
 			SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
 			SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
 			
+			SimpleDateFormat DAY_NAME_ONLY = new SimpleDateFormat("EEEE");
+			
 			String stdate = post._getDate(ids,"first");
 			String endate = post._getDate(ids,"last");
 			
@@ -349,6 +351,13 @@
 		    JSONObject language = new JSONObject();
 		    ArrayList langlooper = new ArrayList();
 		    
+		    int sun=0;
+		    int mon=0;
+		    int tue=0;
+		    int wed =0;
+		    int thur =0;
+		    int fri=0;
+		    int sat =0;
 		    
 			ArrayList authorlooper = new ArrayList();
 			if(allauthors.size()>0){
@@ -368,6 +377,25 @@
 					    String auth = tobj.get("blogger").toString();
 					    String lang = tobj.get("language").toString();
 					    String blogsite_id = tobj.get("blogsite_id").toString();
+					    
+					    Date rawdaydate = new SimpleDateFormat("yyyy-mm-dd").parse(tobj.get("date").toString());
+					    String rawday = DAY_NAME_ONLY.format(rawdaydate);
+					   
+					    if(rawday.equals("Sunday")){
+					    	sun++;
+					    }else if(rawday.equals("Monday")){
+					    	mon++;
+					    }else if(rawday.equals("Tuesday")){
+					    	tue++;
+					    }else if(rawday.equals("Wednesday")){
+					    	wed++;
+					    }else if(rawday.equals("Thursday")){
+					    	thur++;
+					    }else if(rawday.equals("Friday")){
+					    	fri++;
+					    }else if(rawday.equals("Saturday")){
+					    	sat++;
+					    }
 					    
 					    if(i==0){
 					    	mostactiveblogger = auth;
@@ -1835,15 +1863,14 @@ if (outlinks.size() > 0) {
        //
        //
        data = [
-    	   {letter:"Sat", frequency:100},
-    	   {letter:"Fri", frequency:2000},
-             {letter:"Wed", frequency:1500},
-             {letter:"Thu", frequency:1200},
-             {letter:"Tue", frequency:700},
-             {letter:"Mon", frequency:2650},
-             {letter:"Sun", frequency:50}
-             
-             
+    	   {letter:"Sat", frequency:<%=sat%>},
+    	   {letter:"Fri", frequency:<%=fri%>},
+             {letter:"Wed", frequency:<%=wed%>},
+             {letter:"Thu", frequency:<%=thur%>},
+             {letter:"Tue", frequency:<%=tue%>},
+             {letter:"Mon", frequency:<%=mon%>},
+             {letter:"Sun", frequency:<%=sun%>}
+                     
          ];
        //
        //
@@ -2480,7 +2507,18 @@ if (outlinks.size() > 0) {
 
 <script src="pagedependencies/baseurl.js?v=93"></script>
 <script src="pagedependencies/bloggerportfolio.js?v=7988909"></script>
+<script>
+$(document).ready(function() {
+	
+	$('#top-listtype').on("change",function(e){
+		var date_start = $("#date_start").val();
+		var date_end = $("#date_end").val();
+		loadUrls(date_start,date_end);
+	});
+	
 
+});
+</script>
 </body>
 </html>
 <% }} %>
