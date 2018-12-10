@@ -83,6 +83,7 @@ function loadChart(blog_id){
 		},
 		success: function(response)
 		{   
+
 			$("#overall-chart").html("");	
 		$("#overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	

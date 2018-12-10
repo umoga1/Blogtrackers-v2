@@ -120,7 +120,6 @@ if(action.toString().equals("gettotal")){
 <% }else{
 ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
 %>
-
 <%
                                 if(allauthors.size()>0){							
 									String tres = null;
