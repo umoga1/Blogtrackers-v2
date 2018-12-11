@@ -232,8 +232,9 @@
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-
+			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+			allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+			
 			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
 			
