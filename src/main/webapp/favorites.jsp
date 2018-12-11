@@ -274,7 +274,7 @@ else
 %>
 <div class="row mt50">
 <div class="col-md-12 ">
-<h6 class="float-left text-primary"><%=favoritepostcount %> posts </h6>
+<h6 class="float-left text-primary"><b id="postcount"><%=favoritepostcount %></b> post(s) </h6>
 
 <!-- <h6 class="float-right text-primary">
   <select class="text-primary filtersort sortby"><option>Recent</option><option>Influence Score</option></select>
@@ -321,7 +321,7 @@ String blogsiteid = myfavoritespost.selectBlogTitle(allblogarray[12]);
   <div class="<%=eachblogpostid %>">
   <input type="hidden" class="post-image" id="<%=eachblogpostid %>" name="pic" value="<%=permalink %>">
   </div>
-  <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
+  <div class="text-center"><i id="blogpostt_<%=eachblogpostid %>" class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
 </div>
 
 </div> 

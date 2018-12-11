@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	
-	console.log(Cookies.get('selectedblogs'));
+	//console.log(Cookies.get('selectedblogs'));
 	// tracking blogcount
 	var trackscount = 0;
 	// tracker selected count
@@ -228,14 +228,43 @@ $(this).parent().remove();
   $('.favoritestoggle').on("click",function(e){
   // check if it has been favorites
   isFavorites = $(this).hasClass('fas');
+  var postcount = $("#postcount").html();
+  console.log(postcount);
   if(isFavorites) // if it is favorites
-  {
+  {	  
+  blogpostidtoadd = $(this).attr("id").split("_")[1];	 
+  console.log(blogpostidtoadd);
   $(this).removeClass("fas fa-heart").addClass("far fa-heart");
   $(this).attr("data-original-title","Add to Favorite");
-  console.log("Remove from favorites");
   $(this).parent().parent().remove();
   $(".tooltip").hide();
-  toastr.error("Blog Removed from Favorites","Action Succesful");
+  //console.log("Remove from favorites");
+  $.ajax({
+	  url:app_url+"favorites",
+		method:"POST",
+		data:{
+		action:"removefromfavorites",
+		//allblogpost:allblogasstring
+		bloposttoadd:blogpostidtoadd
+		},
+		error:function(response){
+			
+		},
+		success:function(response){
+		if(response === "removed")
+		{
+			//toastr.error('Removed from Favorites','Success');
+		toastr.error("Blog Removed from Favorites","Action Succesful");
+		if(postcount > 0)
+		{
+		postcount--;
+		$("#postcount").html(postcount);
+		}
+		}
+		}
+  });
+  
+ 
   // add an ajax remove blog from favorites
   
   }
