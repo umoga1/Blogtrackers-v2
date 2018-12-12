@@ -59,8 +59,17 @@ for(int i=0; i < allblogarray.length; i++)
 //System.out.println(blogpostexist);
 if(!blogpostexist)
 {
+if(initialblogpost.equalsIgnoreCase(""))
+{
+// no existence of id initially	
+allblogposttoupdate	= blogpostid;
+}
+if(!initialblogpost.equalsIgnoreCase(""))
+{
 // store the id in database and new array in a new string	
-allblogposttoupdate = checkFavoritesRecord.get(0).toString().replaceAll("\\[","").replaceAll("\\]","").concat(","+blogpostid);
+allblogposttoupdate = checkFavoritesRecord.get(0).toString().replaceAll("\\[","").replaceAll("\\]","").concat(","+blogpostid);	
+}
+
 // update the database
 boolean updateTable  = new DbConnection().updateTable("UPDATE favorites SET blogpost_ids='"+allblogposttoupdate+"', updated_date='"+currentdatetime+"' where userid ='"+username+"'");
 if(updateTable)
@@ -132,12 +141,41 @@ return message;
 
 public String selectAllFavoritePost(String username)
 {
+<<<<<<< HEAD
 	
 ArrayList checkFavoritesRecord = new DbConnection().query("select blogpost_ids from favorites where userid ='"+username+"'");
 System.out.println(checkFavoritesRecord.get(0));
 String allblogstring = checkFavoritesRecord.get(0).toString().replaceAll("\\[","").replaceAll("\\]","");
 
+=======
+ArrayList checkFavoritesRecord  = new ArrayList();	
+LocalDateTime currentdatetime  = LocalDateTime.now();
+String allblogstring = "";
+checkFavoritesRecord = new DbConnection().query("select * from favorites where userid ='"+username+"'");
+//System.out.println(checkFavoritesRecord.get(0));
+if(checkFavoritesRecord.size() == 0)
+{
+// insert a record if it does not exist	
+boolean inserted = new DbConnection().insertRecord("insert into favorites (userid,blogpost_ids,created_date,updated_date) VALUES ('"+username+"','','"+currentdatetime+"','"+currentdatetime+"')");
+//System.out.println(inserted);	
+}
+else
+{
+ArrayList checkFavoritesRecord2 = new DbConnection().query("select blogpost_ids from favorites where userid ='"+username+"'");
+//System.out.println(checkFavoritesRecord2.get(0));
+allblogstring = checkFavoritesRecord2.get(0).toString().replaceAll("\\[","").replaceAll("\\]","");
+}
+>>>>>>> 40a4f4540418f14b2c64896ab9c8a3e7e2de86af
 return allblogstring;
+}
+
+
+public String selectBlogTitle(String blogpostid)
+{
+String blogtitle = "";	
+ArrayList checkFavoritesRecord2 = new DbConnection().query("select blogsite_name from blogsites where blogsite_id ='"+blogpostid+"'");
+blogtitle  = checkFavoritesRecord2.get(0).toString().replaceAll("\\[","").replaceAll("\\]","");
+return blogtitle;
 }
 
 }

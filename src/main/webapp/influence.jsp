@@ -235,7 +235,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 		}  
 		
-		allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+		allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC"); //allauthors contains blogger by their blogsite id sorted by influence score
 		
 	
 	String allpost = "0";
@@ -2274,7 +2274,7 @@ authoryears.put(mostactiveblogger,postyear);
 </html>
 <%
 }catch(Exception e){
-	
+	System.out.println(e.getMessage());
 	//response.sendRedirect("index.jsp");
 }
 %>
