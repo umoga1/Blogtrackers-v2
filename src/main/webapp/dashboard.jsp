@@ -44,7 +44,7 @@
 		Outlinks outl = new Outlinks();
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
-			System.out.println(detail);
+			//System.out.println(detail);
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
 			//System.out.println("List:"+detail);
@@ -233,7 +233,7 @@
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-			ArrayList allauthors2=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+			ArrayList allauthors2= post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 			
 			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
@@ -366,6 +366,7 @@
 				int j=0;
 				int k=0;
 				int n = 0;
+				
 			for(int i=0; i< allauthors2.size(); i++){
 						tres = allauthors2.get(i).toString();			
 						tresp = new JSONObject(tres);
@@ -380,25 +381,25 @@
 					   
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
-					    sentimentpost.put(tobj.get("blogpost_id").toString());
 					   
 					    if(influentialauthors.has(auth)){
-							content = new JSONObject(authors.get(auth).toString());
+							content = new JSONObject(influentialauthors.get(auth).toString());
 							Double inf = Double.parseDouble(content.get("influence").toString());
 							//inf = inf+influence;
 							int valu = Integer.parseInt(content.get("totalpost").toString());
 							content.put("blogger", auth);
 							content.put("influence", inf);
 							content.put("totalpost",valu);
-							authors.put(auth, content);
+							influentialauthors.put(auth, content);
 						} else {
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
 						   // System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
 						   Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-							int valu = Integer.parseInt(btoty);
+							
+						   Double valu = influence;//Integer.parseInt(btoty);
 							   if(valu==0){
-								   valu=1;
+								   valu=1.0;
 							   }
 							   
 							content.put("blogger", auth);
@@ -445,10 +446,9 @@
 			
 			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
 			
-
+			//System.out.println("termss "+termss);
 			JSONArray topterms = new JSONArray();
 			if (termss.size() > 0) {
-
 				for (int p = 0; p < termss.size(); p++) {
 					String bstr = termss.get(p).toString();
 					JSONObject bj = new JSONObject(bstr);
@@ -1949,7 +1949,7 @@ $(function () {
 					String key = influentialauthorlooper.get(y).toString();
 					JSONObject resu = influentialauthors.getJSONObject(key);
 					Double size = Double.parseDouble(resu.get("influence").toString());
-					if (p < 10) {
+					if (p < 20) {
 						p++;%>
 		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 		 <%}

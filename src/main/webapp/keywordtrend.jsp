@@ -329,10 +329,17 @@
 					blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
 					bloggerc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogger");//post._searchTotalAndUniqueBlogger(tm,"date", dt,dte,"blogger");
 					
+					ArrayList bloggercc = new DbConnection().query("SELECT * from blogposts where title LIKE '%"+tm+"%' OR post LIKE '%"+tm+"%' ");
+					System.out.println("blogerc :"+bloggercc);
+					if(bloggercc.size()>0){
+					  //bloggercc = (ArrayList<?>) bloggercc.get(0);
+					   //bloggerc = (null == bloggercc.get(0)) ? "0" : bloggercc.get(0).toString();
+					}
+					
 					postmentioned+=(Integer.parseInt(postc));
 					blogmentioned+=(Integer.parseInt(blogc));
 					bloggermentioned+=(Integer.parseInt(bloggerc));
-					System.out.println(bloggermentioned);
+					
 					//postm   = post._searchByTitleAndBodyTotal(tm,"date",dt,dte);
 				}
 				
@@ -1533,7 +1540,9 @@
                               svg.selectAll(".circle-point").data(data[0])
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
-                              .on("click",function(d){console.log(d.date)});
+                              .on("click",function(d){
+                            	  console.log(d.date);
+                              });
                                                  svg.call(tip)
                       }
                       // handles multiple json parameter

@@ -519,6 +519,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject bloggersortdet = new JSONObject();
 								JSONArray bloggerarr = new JSONArray();
 								
+								
+								JSONArray bloggertosort = new JSONArray();
+								
 								int influencecount=0;
 								
 								String selectedid="";
@@ -590,6 +593,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	String x =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
 									    	int val = Integer.parseInt(post._searchRangeMaxByBloggers("date",dt, dte,auth));
 									    			//Integer.parseInt(post._searchRangeAggregateByBloggers("date",dt, dte,auth,"influence_score"));
+									    	
 									    	String y = val+"";
 									    	xy.put("x",x);
 									    	xy.put("y",y);
@@ -604,12 +608,14 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 											bloggerj.put("selected",bloggerselect);
 											bloggerj.put("totalpost",postcount);
 											bloggerj.put("postarray",postauth);
-											bloggerarr.put(Integer.parseInt(postcount)+"___"+auth);
+											bloggerarr.put(val+"___"+auth);
 											
+											//bloggertosort.put(auth,val);
 										    bloggersortdet.put(auth,bloggerj);
 									    	authors.put(auth, auth);
 									    	authorcount.put(j, auth);
 									    	
+									    	bloggertosort.put(bloggerj);
 									    	influecechart.put(auth,xy);
 									    	
 									    	j++;
@@ -620,8 +626,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									} 
 								
 				
-				// bloggerarr = post._sortJson(bloggerarr);
-				//System.out.println("Hello:"+bloggerarr);
+				//bloggertosort =  post._sortJson2(bloggertosort);
+				 bloggerarr = post._sortJson2(bloggerarr);
+				//System.out.println("Hello:"+bloggertosort);
 
 				for(int m=(bloggerarr.length()-1); m>0; m--){
 					String key = bloggerarr.get(m).toString();
@@ -753,8 +760,7 @@ if(authorcount.length()>0){
 					}else if(b==yendint){
 						dtue = dte;
 					}
-				   String totu = post._searchRangeMaxByBloggers("date",dt, dte,mostactiveblogger);
-						   //post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger,"influence_score");
+				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger,"influence_score");
 				   
 				   if(Integer.parseInt(totu)<base){
 					   base = Integer.parseInt(totu);
@@ -1574,7 +1580,9 @@ authoryears.put(mostactiveblogger,postyear);
                               svg.selectAll(".circle-point").data(data[0])
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
-                              .on("click",function(d){console.log(d.date)});
+                              .on("click",function(d){
+                            	  console.log(d.date);
+                            	  });
                                                  svg.call(tip)
                       }
                       // handles multiple json parameter
@@ -2278,4 +2286,4 @@ authoryears.put(mostactiveblogger,postyear);
 	//response.sendRedirect("index.jsp");
 }
 %>
-
+
