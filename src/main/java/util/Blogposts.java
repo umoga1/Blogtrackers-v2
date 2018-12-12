@@ -1297,18 +1297,18 @@ public class Blogposts {
 		
 		Collections.sort( jsonList, new Comparator<String>() {
 		    public int compare(String a, String b) {
-		        String valA = new String();
-		        String valB = new String();
+		        int valA = 0;//new Integer();
+		       int valB = 0;//new String();
 		        String[] a1 = a.split("___");
 		        String[] b1 = b.split("___");
 		        try {
-		            valA = (String) a1[0];
-		            valB = (String) b1[0];
+		            valA = Integer.parseInt(a1[0]);
+		            valB = Integer.parseInt(b1[0]);
 		        } 
 		        catch (Exception e) {
 		            //do something
 		        }
-		        return valA.compareTo(valB);
+		        return (valA>valB)?valA:valB;
 		    }
 		});
 		

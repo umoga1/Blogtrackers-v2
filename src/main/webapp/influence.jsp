@@ -628,7 +628,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 				
 				//bloggertosort =  post._sortJson2(bloggertosort);
 				 bloggerarr = post._sortJson2(bloggerarr);
-				//System.out.println("Hello:"+bloggertosort);
+				System.out.println("Hello:"+bloggerarr);
 
 				for(int m=(bloggerarr.length()-1); m>0; m--){
 					String key = bloggerarr.get(m).toString();
@@ -2286,4 +2286,4 @@ authoryears.put(mostactiveblogger,postyear);
 	//response.sendRedirect("index.jsp");
 }
 %>
-
+
