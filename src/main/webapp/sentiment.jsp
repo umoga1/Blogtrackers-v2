@@ -676,7 +676,7 @@
 							id="notificationcolor"></i> <img src="<%=profileimage%>"
 							width="50" height="50"
 							onerror="this.src='images/default-avatar.png'" alt="" class="" />
-							<span><%=username%></span></a>
+							<span><%=user_name[0]%></span></a>
 
 					</li>
 				</ul>

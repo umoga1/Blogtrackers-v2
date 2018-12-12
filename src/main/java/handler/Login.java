@@ -63,10 +63,11 @@ public class Login extends HttpServlet {
 		String hash = (null==request.getHeader("hash"))?"":request.getHeader("hash").trim();
 		
 		PrintWriter pww = response.getWriter();
+		pww.write("in login");
 		if(!uid.equals("") && !hash.equals("")){
 			DbConnection dbinstance = new DbConnection();
 			String sessionkey =dbinstance.md5Funct(Math.random()+"");
-			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where UserName = '"+uid+"' AND MessageDigest = '"+hash+"'");		
+			ArrayList login = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+uid+"' AND MessageDigest = '"+hash+"'");		
 			
 			pww.write("The user id is " + uid +"\n");
 			pww.write("the hash is " + hash + "\n");
