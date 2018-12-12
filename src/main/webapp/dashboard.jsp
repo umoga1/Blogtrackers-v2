@@ -233,7 +233,8 @@
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-
+			ArrayList allauthors2=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+			
 			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
 			
@@ -279,6 +280,7 @@
 			
 			//System.out.println("grapgh yeres"+yearsarray);
 		    JSONObject authors = new JSONObject();
+		    JSONObject influentialauthors = new JSONObject();
 		    JSONArray sentimentpost = new JSONArray();
 		    
 		    JSONArray authorcount = new JSONArray();
@@ -287,6 +289,7 @@
 		    
 		    
 			ArrayList authorlooper = new ArrayList();
+			ArrayList influentialauthorlooper = new ArrayList();
 			if(allauthors.size()>0){
 				String tres = null;
 				JSONObject tresp = null;
@@ -353,6 +356,64 @@
 			//System.out.println("Authors here:"+graphyears);
 			} 
 			
+			
+			
+			if(allauthors2.size()>0){
+				String tres = null;
+				JSONObject tresp = null;
+				String tresu = null;
+				JSONObject tobj = null;
+				int j=0;
+				int k=0;
+				int n = 0;
+			for(int i=0; i< allauthors2.size(); i++){
+						tres = allauthors2.get(i).toString();			
+						tresp = new JSONObject(tres);
+					    tresu = tresp.get("_source").toString();
+					    tobj = new JSONObject(tresu);
+					    
+					    String auth = tobj.get("blogger").toString();
+					    String lang = tobj.get("language").toString();
+					    
+					    
+					  	JSONObject content = new JSONObject();
+					   
+					  	String[] dateyear=tobj.get("date").toString().split("-");
+					    String yy= dateyear[0];
+					    sentimentpost.put(tobj.get("blogpost_id").toString());
+					   
+					    if(influentialauthors.has(auth)){
+							content = new JSONObject(authors.get(auth).toString());
+							Double inf = Double.parseDouble(content.get("influence").toString());
+							//inf = inf+influence;
+							int valu = Integer.parseInt(content.get("totalpost").toString());
+							content.put("blogger", auth);
+							content.put("influence", inf);
+							content.put("totalpost",valu);
+							authors.put(auth, content);
+						} else {
+							 
+						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
+						   // System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
+						   Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
+							int valu = Integer.parseInt(btoty);
+							   if(valu==0){
+								   valu=1;
+							   }
+							   
+							content.put("blogger", auth);
+							content.put("influence", influence);
+							content.put("totalpost",valu);
+							influentialauthors.put(auth, content);
+							influentialauthorlooper.add(j,auth);
+							j++;
+						}
+					
+
+				}
+			//System.out.println("Authors here:"+graphyears);
+			} 
+
 			/*
 			ArrayList sentimentor = new Liwc()._searchByRange("date", dt, dte, sentimentpost);
 			int allposemo =0;
@@ -1881,12 +1942,12 @@ $(function () {
       //
       //sort by influence score
       data = [
-    	  <% if (authors.length() > 0) {
+    	  <% if (influentialauthors.length() > 0) {
 				int p = 0;
 				//System.out.println(bloggers);
-				for (int y = 0; y < authors.length(); y++) {
-					String key = authorlooper.get(y).toString();
-					JSONObject resu = authors.getJSONObject(key);
+				for (int y = 0; y < influentialauthors.length(); y++) {
+					String key = influentialauthorlooper.get(y).toString();
+					JSONObject resu = influentialauthors.getJSONObject(key);
 					Double size = Double.parseDouble(resu.get("influence").toString());
 					if (p < 10) {
 						p++;%>

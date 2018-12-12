@@ -519,6 +519,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject bloggersortdet = new JSONObject();
 								JSONArray bloggerarr = new JSONArray();
 								
+								int influencecount=0;
 								
 								String selectedid="";
 								JSONArray sentimentpost = new JSONArray();
@@ -549,7 +550,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String body  = tobj.get("post").toString();
 										String dat  = tobj.get("date").toString();
 										String num_comment  = tobj.get("num_comments").toString();
-										System.out.println("comment-"+num_comment);
 										num_comment = num_comment.equals("null")?"0":num_comment;
 										
 										
@@ -588,12 +588,13 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 											JSONObject xy = new JSONObject();
 									    	
 									    	String x =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
-									    	int val = Integer.parseInt(post._searchRangeAggregateByBloggers("date",dt, dte,auth,"influence_score"));
+									    	int val = Integer.parseInt(post._searchRangeMaxByBloggers("date",dt, dte,auth));
+									    			//Integer.parseInt(post._searchRangeAggregateByBloggers("date",dt, dte,auth,"influence_score"));
 									    	String y = val+"";
 									    	xy.put("x",x);
 									    	xy.put("y",y);
 											
-									    
+									    	influencecount+=val;
 									    	
 											l++;
 											bloggersort.put(auth,Integer.parseInt(postcount));
@@ -690,7 +691,7 @@ String negsentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimen
 
 int comb = Integer.parseInt(possentiment2)+Integer.parseInt(negsentiment2);
 String totalcomment = tcomment+"";// post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
-totalinfluence  = Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
+totalinfluence  = influencecount;// Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
 
 totalpost = post._searchRangeTotal("date", dt, dte,ids);
 //totalpost = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
@@ -699,7 +700,7 @@ String totalsenti  = comb+"";
 //System.out.println("Post ids ="+postidss);
 allterms = term._searchByRange("date", dt, dte,postidss,"blogpostid","50");
 
-
+System.out.println("Allterms:"+allterms+", wiyh"+postidss);
 
 
 int highestfrequency = 0;
@@ -752,9 +753,9 @@ if(authorcount.length()>0){
 					}else if(b==yendint){
 						dtue = dte;
 					}
-				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger,"influence_score");
-				   System.out.println("Tou:"+y+";"+totu);
-				  
+				   String totu = post._searchRangeMaxByBloggers("date",dt, dte,mostactiveblogger);
+						   //post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger,"influence_score");
+				   
 				   if(Integer.parseInt(totu)<base){
 					   base = Integer.parseInt(totu);
 				   }
@@ -997,7 +998,7 @@ authoryears.put(mostactiveblogger,postyear);
 
 	</div>
 
-	<form action="" name="customformsingle" id="customformsingle" method="post">
+	<form action="" name="customform" id="customform" method="post">
 		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" />
 		<input type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" />
 		<input type="hidden" name="author" id="author" value="<%=mostactiveblogger%>" /> 
@@ -1006,7 +1007,8 @@ authoryears.put(mostactiveblogger,postyear);
 		<input type="hidden" name="date_start" id="date_start" value="<%=dt%>" /> 
 		<input type="hidden" name="date_end" id="date_end" value="<%=dte%>" />	
 	</form>
-
+	
+	
 
 	
 	<!-- <footer class="footer">
