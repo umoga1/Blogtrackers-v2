@@ -9,6 +9,7 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+<%@page import="java.io.PrintWriter;"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
@@ -69,11 +70,14 @@ if(userpic.indexOf("http")>-1){
 
 
 Blogposts post  = new Blogposts();
-String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString().replaceAll("[^a-zA-Z]", " ");
+String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString();//.replaceAll("[^a-zA-Z]", " ");
+
+System.out.println(term);
 
 String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby").toString();
 
 ArrayList results = null;
+
 if(term.equals("")){
 	results = post._list("DESC","0",sort);
 }else{
@@ -312,6 +316,7 @@ for(int i=0; i< mytrackers.size(); i++){
 
 <div class="row mt50">
 <div class="col-md-12 ">
+
 <% if(!term.equals("")){ %>
 <h6 class="float-left text-primary bold-text"><%=total %> posts found for "<%=term%>"</h6>
 <%}else{%>
@@ -343,7 +348,7 @@ if(results.size()>0){
 		for(int i=0; i< results.size(); i++){
 
 			 String blogtitle="";		
-			 res = results.get(i).toString();			
+			 res = results.get(i).toString();
 			 resp = new JSONObject(res);
 		     resu = resp.get("_source").toString();
 		     obj = new JSONObject(resu);
@@ -378,7 +383,7 @@ if(results.size()>0){
 
   <div class="card-body">
 
-    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ")%></h4></a>
+    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title").toString()%></h4></a>
 
     <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=dt[0]%></p>
@@ -397,7 +402,7 @@ String[] allblogarray = allblogstring.split(",");
 String blogpostid = obj.get("blogpost_id").toString(); 
 //favoritestatus = "far";
 //System.out.println(allblogarray.length);
- if(!allblogstring.equalsIgnoreCase(""))
+if(!allblogstring.equalsIgnoreCase(""))
 {	
 for(int j=0; j<allblogarray.length; j++)
 {
