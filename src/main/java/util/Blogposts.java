@@ -74,7 +74,7 @@ public class Blogposts {
 
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids) throws Exception {
-		String url = base_url+"_search?size=400";
+		String url = base_url+"_search?size=20";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -116,7 +116,7 @@ public class Blogposts {
 	}
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers) throws Exception {
-		String url = base_url+"_search?size=400";
+		String url = base_url+"_search?size=20";
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -182,7 +182,7 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
-		String url = base_url+"_search?size=400";
+		String url = base_url+"_search?size=20";
 	
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -499,7 +499,7 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids,String sort,String order) throws Exception {
-		String url = base_url+"_search?size=400";
+		String url = base_url+"_search?size=20";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -1235,6 +1235,36 @@ public class Blogposts {
 		return sortedyearsarray;
 	}
 	
+	public JSONArray _sortJson2(JSONArray yearsarray) {
+		JSONArray sortedyearsarray = new JSONArray();
+		List<String> jsonList = new ArrayList<String>();
+		
+		for (int i = 0; i < yearsarray.length(); i++) {
+		    jsonList.add(yearsarray.get(i).toString());
+		}
+		
+		Collections.sort( jsonList, new Comparator<String>() {
+		    public int compare(String a, String b) {
+		        int valA = 0;//new Integer();
+		       int valB = 0;//new String();
+		        String[] a1 = a.split("___");
+		        String[] b1 = b.split("___");
+		        try {
+		            valA = Integer.parseInt(a1[0]);
+		            valB = Integer.parseInt(b1[0]);
+		        } 
+		        catch (Exception e) {
+		            //do something
+		        }
+		        return (valA>valB)?valA:valB;
+		    }
+		});
+		
+		for (int i = 0; i < yearsarray.length(); i++) {
+		    sortedyearsarray.put(jsonList.get(i));
+		}
+		return sortedyearsarray;
+	}
 	public int monthsBetweenDates(Date startDate, Date endDate){
 
 	        Calendar start = Calendar.getInstance();
