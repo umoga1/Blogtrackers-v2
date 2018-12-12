@@ -1950,12 +1950,8 @@ $(function () {
 					String key = influentialauthorlooper.get(y).toString();
 					JSONObject resu = influentialauthors.getJSONObject(key);
 					Double size = Double.parseDouble(resu.get("influence").toString());
-<<<<<<< HEAD
-					
-					if (p < 10) {
-=======
+
 					if (p < 20) {
->>>>>>> fc8781dcded34dbf9352bc9d2aed94ac7397415c
 						p++;%>
 		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 		 <%}

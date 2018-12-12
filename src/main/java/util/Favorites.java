@@ -28,7 +28,6 @@ LocalDateTime currentdatetime  = LocalDateTime.now();
 String message = "";
 // check if the record exists
 //System.out.println("I am in insert record");
-System.out.println("username at this point"+username);
 checkFavoritesRecord = new DbConnection().query("select * from favorites where userid ='"+username+"'");
 //System.out.println(checkFavoritesRecord.size());
 if(checkFavoritesRecord.size() == 0)
@@ -141,13 +140,6 @@ return message;
 
 public String selectAllFavoritePost(String username)
 {
-<<<<<<< HEAD
-	
-ArrayList checkFavoritesRecord = new DbConnection().query("select blogpost_ids from favorites where userid ='"+username+"'");
-System.out.println(checkFavoritesRecord.get(0));
-String allblogstring = checkFavoritesRecord.get(0).toString().replaceAll("\\[","").replaceAll("\\]","");
-
-=======
 ArrayList checkFavoritesRecord  = new ArrayList();	
 LocalDateTime currentdatetime  = LocalDateTime.now();
 String allblogstring = "";
@@ -165,7 +157,6 @@ ArrayList checkFavoritesRecord2 = new DbConnection().query("select blogpost_ids 
 //System.out.println(checkFavoritesRecord2.get(0));
 allblogstring = checkFavoritesRecord2.get(0).toString().replaceAll("\\[","").replaceAll("\\]","");
 }
->>>>>>> 40a4f4540418f14b2c64896ab9c8a3e7e2de86af
 return allblogstring;
 }
 
