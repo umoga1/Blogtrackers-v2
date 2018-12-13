@@ -7,5 +7,6 @@
 	<%} else {%>
 	Cookies.set('loggedinstatus', true , {path : '/'});	
 	<%}%>
-	console.log(Cookies.get('loggedinstatus'))
+	Cookies.set('allfavoritesblogs', "" , {path : '/'});
+	//console.log(Cookies.get('loggedinstatus'))
 </script>
