@@ -3,5 +3,15 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
+	<servlet>
+		<servlet-name>AddBlog</servlet-name>
+		<display-name>AddBlog</display-name>
+		<description></description>
+		<servlet-class>wrapper.AddBlog</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddBlog</servlet-name>
+		<url-pattern>/AddBlog</url-pattern>
+	</servlet-mapping>
 
 </web-app>
