@@ -80,7 +80,7 @@ else{
   <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers - Notifications</title>
+	<title>Blogtrackers - Add New Blog to Track</title>
   <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
@@ -199,9 +199,9 @@ else{
             </ul>
     </div>
       </div>
-      <div class="col-md-12 mt0">
+     <!--  <div class="col-md-12 mt0">
       <input type="search" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" placeholder="Search Notifications">
-      </div>
+      </div> -->
 
       
 
@@ -230,13 +230,13 @@ else{
 
 
 <div class="col-lg-12 col-md-12 pt0 pb10  mt10 mb10 notification">
-<div class="card noborder curved-card mb30  selected" >
+<div class="card noborder curved-card mb30 " >
 <p class="text-primary p30 pt30 pb0">Enter the URL of the Blog you want to add and press Enter</p>
 <form method="add" method="post" autocomplete="off" action="<%=request.getContextPath()%>/addblog.jsp">
-<input type="search" placeholder="Search" name="term" class="form-control searchhome bold-text"/>
+<input type="url" placeholder="Enter a Blog URL" required name="term" class="form-control blogsearch bold-text"/>
 
-<p class="p30 pt10 pb10">&nbsp;&nbsp;&nbsp;&nbsp;Added: <button class="btn btn-primary stylebuttonnotifications"></button> <button class="btn btn-primary stylebuttonnotifications">02-01-2018&nbsp;.&nbsp;5:30pm</button></p>
-  <div class="card-body pt0">
+<!-- <p class="p30 pt20 pb10">&nbsp;&nbsp;&nbsp;&nbsp;Added: <button class="btn btn-primary btn-danger profilebtn">Blog Added Successfully</button> <button class="btn btn-primary stylebuttonnotifications">02-01-2018&nbsp;.&nbsp;5:30pm</button></p>
+ -->  <div class="card-body pt0">
     <h5 class="text-primary p10 pt10">
 
 </h5>
