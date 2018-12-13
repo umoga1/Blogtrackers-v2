@@ -274,6 +274,10 @@ $.ajax({
 		{
 		toastr.success('Added to Favorites','Success');
 		}
+	if(response === "notloggedin")
+		{
+		console.log(response);
+		}
 	//console.log(response)	
 	}
 		
