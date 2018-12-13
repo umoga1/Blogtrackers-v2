@@ -28,4 +28,12 @@ public class Weblog {
 	}
 		return null;
 	}
+	
+	public ArrayList _fetchBlog(String username) {
+		System.out.println(username);
+		ArrayList bloggers = new DbConnection().query("SELECT * FROM user_blog WHERE userid='"+username+"'");
+		System.out.println(bloggers.size());
+		
+		return bloggers;
+	}
 }

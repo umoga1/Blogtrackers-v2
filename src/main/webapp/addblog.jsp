@@ -21,6 +21,8 @@ String name="";
 String phone="";
 String date_modified = "";
 
+ArrayList results_blogadded = null;
+
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
 if (userinfo.size()<1) {
@@ -63,6 +65,7 @@ Weblog new_blog = new Weblog();
 
 String results = "";
 String status = "not_crawled";
+
 if(term.equals("")){
 	
 }
@@ -70,6 +73,7 @@ else{
 	results = new_blog._addBlog(username, term, status);
 	
 }
+results_blogadded = new_blog._fetchBlog(username);
 
 }
 
@@ -215,12 +219,12 @@ else{
 </div>
 </div> -->
 
-<div class="row mt30">
+<!-- <div class="row mt30">
 <div class="col-md-12 pl30 pr30">
 <h6 class="float-left text-primary">30 Blogs added</h6>
 <h6 class="float-right text-primary">Recent <i class="fas fa-chevron-down"></i></h6><h6>
 </h6></div>
-</div>
+</div> -->
 
 <div class="col-lg-12 col-md-12 pt0 pb10  mt10 mb10 notification">
 
@@ -244,6 +248,34 @@ else{
   </div>
   </form>
 
+<div class="col-md-12 mt10 mb50">
+		<table cellpadding="4" id="bloglist" style="width:100%">
+		<thead>
+		<tr>
+		<th class="text-primary text-center">Id</th>
+		<th class="text-primary text-center">Blog Added</th>
+		<th class="text-primary text-center">Status</th>
+		</tr>
+		</thead>
+		<tbody>		
+		<!-- <div id="bloglist"> -->
+		<% if (results_blogadded.size() > 0) {
+			for (int k = 0; k < results_blogadded.size(); k++) {				
+				ArrayList blog = (ArrayList)results_blogadded.get(k);
+				String id = (String)blog.get(0);
+				String blogname = (String) blog.get(2);
+				String status = (String) blog.get(3);
+		%>							
+			<tr>
+			<td class="text-center"><%=k+1 %></td>
+			<td class="text-center"><%=blogname %></td>
+			<td class="text-center"><%=status %></td>
+			</tr>
+		<% }} %>
+		</tbody>
+		
+		</table>
+		</div>
 </div>
 </div>
 
