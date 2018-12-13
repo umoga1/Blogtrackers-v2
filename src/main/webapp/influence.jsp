@@ -605,6 +605,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 											JSONObject bloggerj = new JSONObject();
 											bloggerj.put("blogger",auth);
 											bloggerj.put("blogid",blogid);
+											bloggerj.put("influence",val);
 											bloggerj.put("selected",bloggerselect);
 											bloggerj.put("totalpost",postcount);
 											bloggerj.put("postarray",postauth);
@@ -627,8 +628,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								
 				
 				//bloggertosort =  post._sortJson2(bloggertosort);
-				 bloggerarr = post._sortJson2(bloggerarr);
-				System.out.println("Hello:"+bloggerarr);
+			    bloggerarr = post._sortJson2(bloggerarr);
+				System.out.println("hello"+bloggerarr);
 
 				for(int m=(bloggerarr.length()-1); m>0; m--){
 					String key = bloggerarr.get(m).toString();
@@ -707,7 +708,6 @@ String totalsenti  = comb+"";
 //System.out.println("Post ids ="+postidss);
 allterms = term._searchByRange("date", dt, dte,postidss,"blogpostid","50");
 
-System.out.println("Allterms:"+allterms+", wiyh"+postidss);
 
 
 int highestfrequency = 0;
