@@ -306,11 +306,10 @@
 					    
 					    String auth = tobj.get("blogger").toString();
 					    String lang = tobj.get("language").toString();
-	
+					    
+					    
 					  	JSONObject content = new JSONObject();
 					   
-					  	/* Double influence = Double.parseDouble(post._searchRangeAggregateByBloggers("date", dt, dte, auth)); */
-					  	
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
 					    sentimentpost.put(tobj.get("blogpost_id").toString());
@@ -1950,7 +1949,6 @@ $(function () {
 					String key = influentialauthorlooper.get(y).toString();
 					JSONObject resu = influentialauthors.getJSONObject(key);
 					Double size = Double.parseDouble(resu.get("influence").toString());
-
 					if (p < 20) {
 						p++;%>
 		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
