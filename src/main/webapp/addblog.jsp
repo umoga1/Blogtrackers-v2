@@ -236,7 +236,7 @@ results_blogadded = new_blog._fetchBlog(username);
 
 <div class="col-lg-12 col-md-12 pt0 pb10  mt10 mb10 notification">
 <div class="card noborder curved-card mb30 " >
-<p class="text-primary p30 pt30 pb0">Enter the URL of the Blog you want to add and press Enter</p>
+<p class="text-primary p30 pt30 pb0">Enter the URL of the Blog <b>(with http:\\)</b> and press Enter to save</p>
 <form method="add" method="post" autocomplete="off" action="<%=request.getContextPath()%>/addblog.jsp">
 <input type="url" placeholder="Enter a Blog URL" required name="term" class="form-control blogsearch bold-text"/>
 
