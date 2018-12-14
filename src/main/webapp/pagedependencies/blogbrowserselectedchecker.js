@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	var selected_blogs = Cookies.get('selectedblogs').split(",");
-	console.log(selected_blogs);
-	console.log(selected_blogs.length);
+	//console.log(selected_blogs);
+	//console.log(selected_blogs.length);
 	/*for( blog_id in  selected_blogs)
 		{
 		console.log(blog_id);
@@ -28,5 +28,21 @@ $(document).ready(function(){
 		$(".blog_id_"+selected_blogs[i]).addClass("text-selected");
 		}
 	
-	
+	loggedin = Cookies.get('loggedinstatus');
+	//console.log(loggedin);
+	if(loggedin === "false")
+	{
+	cookieblogs = Cookies.get('allfavoritesblogs');
+	if(cookieblogs !== "")
+	{
+	blogpostids	= cookieblogs.split(",");
+	for(eachblog in blogpostids)
+	{
+	element = $("#blogpostt_"+blogpostids[eachblog]);
+	element.removeClass("far");
+	element.addClass("fas");
+	console.log(blogpostids[eachblog]);	
+	}
+	}
+	}
 });

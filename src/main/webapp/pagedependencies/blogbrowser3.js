@@ -240,6 +240,31 @@ $(this).parent().toggle();
 });
 var blogpostids = [];
 var allblogasstring =  "";
+
+// on load handler
+$(window).on("load",function(e){
+loggedin = Cookies.get('loggedinstatus');
+//console.log(loggedin);
+if(loggedin === "false")
+{
+cookieblogs = Cookies.get('allfavoritesblogs');
+if(cookieblogs !== "")
+{
+blogpostids	= cookieblogs.split(",");
+for(eachblog in blogpostids)
+{
+element = $("#blogpostt_"+blogpostids[eachblog]);
+element.removeClass("far");
+element.addClass("fas");
+console.log(blogpostids[eachblog]);	
+}
+}
+
+
+console.log(blogpostids);
+console.log("Cookie on window load "+ cookieblogs);
+}
+})
 // handler for each favorites
 $(document).on("click",".favoritestoggle",function(e){
 // check if it has been favorites
@@ -277,7 +302,7 @@ $.ajax({
 		
 	},
 	success:function(response){
-		console.log(response)
+		//console.log(response)
 	if(response === "addedtofavorites")
 		{
 		toastr.success('Added to Favorites','Success');
@@ -288,7 +313,7 @@ $.ajax({
 		//console.log(loggedinstatus);
 		// set a cookie for blog
 		Cookies.set('allfavoritesblogs', allblogasstring , {path : '/'});	
-		console.log(Cookies.get('allfavoritesblogs'));
+		console.log("Cookies string added after click "+Cookies.get('allfavoritesblogs'));
 		
 		}
 	//console.log(response)	
