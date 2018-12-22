@@ -699,7 +699,13 @@
 		</div>
 	</div>
 
+ 
+<form action="" name="customform" id="customform" method="post">
+<input type="hidden" id="term" value="<%=mostactiveterm%>" />
+<input type="hidden" id="date_start" value="<%=dt%>" />
+<input type="hidden" id="date_end" value="<%=dte%>" />
 
+</form>
 
 	<nav class="navbar navbar-inverse bg-primary">
 		<div class="container-fluid mt10 mb10">
@@ -777,6 +783,7 @@
 
 
 	</nav>
+
 
 
 	<div class="container analyticscontainer">
@@ -952,6 +959,7 @@
 <div><p class="text-primary mt10 float-left"><b class="text-blue">Posts</b> Published by <b class="text-blue"><%=mostactiveblog%></b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
 <!-- <svg class="linesvg" width="960" height="400"></svg> -->
 <!-- <div id="lineplot" style="min-height: 380px;"></div> -->
+
 <div id="overall-chart">
 <div class="chart-container"  >
   <div class="chart" id="d3-line-basic"></div>
@@ -966,6 +974,14 @@
 
 
 </div>
+
+	<form action="" name="customformsingle" id="customformsingle" method="post">
+		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" />
+		<input type="hidden" name="single_date" id="single_date" value="" />
+		
+		<input type="hidden" name="date_start" id="date_start" value="<%=dt%>" /> 
+		<input type="hidden" name="date_end" id="date_end" value="<%=dte%>" />	
+	</form>
 
 <div class="row mb0">
   <div class="col-md-6 mt20 ">
@@ -1033,7 +1049,7 @@
 														JSONObject resu = outerlinks.getJSONObject(key);
 									%>
 									<tr>
-										<td class=""><a href="<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a></td>
+										<td class=""><a href="http://<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a></td>
 										<td><%=resu.get("value")%></td>
 									</tr>
 									<%
@@ -1217,16 +1233,27 @@
    				});
    $('#reportrange')
    		.on(
-   				'apply.daterangepicker',
-   				function(ev, picker) {
-   					/* console
-   							.log("apply event fired, start/end dates are "
-   									+ picker.startDate
-   											.format('MMMM D, YYYY')
-   									+ " to "
-   									+ picker.endDate
-   											.format('MMMM D, YYYY')); */
-   				});
+   			  'apply.daterangepicker',
+   	         function(ev, picker) {
+   	            console
+   	               .log("apply event fired, start/end dates are "
+   	                   + picker.startDate
+   	                       .format('MMMM D, YYYY')
+   	                   + " to "
+   	                   + picker.endDate
+   	                       .format('MMMM D, YYYY')); 
+   	            	console.log("applied");
+   	            	
+   	            	var start = picker.startDate.format('YYYY-MM-DD');
+   	            	var end = picker.endDate.format('YYYY-MM-DD');
+   	            	//console.log("End:"+end);
+   	            	
+   	            	$("#date_start").val(start);
+   	            	$("#date_end").val(end);
+   	            	//toastr.success('Date changed!','Success');
+   	            	$("form#customform").submit();	
+   	            	
+   			  });
    $('#reportrange')
    		.on(
    				'cancel.daterangepicker',

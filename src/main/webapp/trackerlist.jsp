@@ -32,7 +32,7 @@
 				phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
 				String userpic = userinfo.get(9).toString();
 				String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
-				String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString().replaceAll("[^a-zA-Z]", " ");
+				String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString();//.replaceAll("[^a-zA-Z]", " ");
 				String filename = userinfo.get(9).toString();
 				profileimage = "images/default-avatar.png";
 				if (userpic.indexOf("http") > -1) {
@@ -52,10 +52,11 @@
 			Blogs blg = new Blogs();
 			String term = (null == request.getParameter("term")) ? "" : request.getParameter("term");
 			ArrayList results = null;
+			System.out.println(term);
 			if (term.equals("")) {
 				results = tracker._list("DESC", "", username, "30");
 			} else {
-				results = tracker._search(term, "");
+				results = tracker._search(term, username);
 			}
 			String total = results.size()+"";//._getTotal();
 			ArrayList test = new ArrayList();

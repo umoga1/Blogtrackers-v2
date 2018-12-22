@@ -1,3 +1,4 @@
+<%@page import="util.Favorites"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.util.*"%>
@@ -20,6 +21,7 @@ String username ="";
 String name="";
 String phone="";
 String date_modified = "";
+String firstname = "";
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
 if (userinfo.size()<1) {
@@ -33,8 +35,8 @@ email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
 //date_modified = userinfo.get(11).toString();
 String userpic = userinfo.get(9).toString();
-String[] user_name = name.split(" ");
-username = user_name[0];
+String[] names = name.split(" ");
+firstname = names[0];
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = userinfo.get(9).toString();
 profileimage = "images/default-avatar.png";
@@ -52,10 +54,10 @@ if(f.exists() && !f.isDirectory()) {
 <html>
 <head>
   <meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Blogtrackers - Favorites</title>
-		  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blogtrackers - Favorites</title>
+  <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
   <link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
   <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
@@ -83,6 +85,8 @@ if(f.exists() && !f.isDirectory()) {
 
 <script type="text/javascript" src="assets/js/uniform.min.js"></script>
 <script type="text/javascript" src="assets/js/toastr.js"></script>
+ <script src="pagedependencies/baseurl.js">
+  </script>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body >
@@ -152,7 +156,7 @@ if(f.exists() && !f.isDirectory()) {
 		    <i class="fas fa-circle" id="notificationcolor"></i>
 		   
 		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-		  <span><%=username%></span></a>
+		  <span><%=firstname%></span></a>
 			
 		   </li>
 	    </ul>
@@ -252,161 +256,97 @@ if(f.exists() && !f.isDirectory()) {
 </div>
 <div class="container analyticscontainer">
 
+<%
 
+Favorites myfavoritespost  = new Favorites();
+String allreturnedblog = myfavoritespost.selectAllFavoritePost(username);
+String[] blogpostid = allreturnedblog.split(",");
+int favoritepostcount = 0; 
+if(allreturnedblog.equalsIgnoreCase(""))
+{
+favoritepostcount = 0;	
+}
+else
+{
+	favoritepostcount = blogpostid.length;
+}
+//System.out.print(blogpostid[0]);
+%>
 <div class="row mt50">
 <div class="col-md-12 ">
-<h6 class="float-left text-primary">32 posts </h6>
+<h6 class="float-left text-primary"><b id="postcount"><%=favoritepostcount %></b> post(s) </h6>
 
-<h6 class="float-right text-primary">
+<!-- <h6 class="float-right text-primary">
   <select class="text-primary filtersort sortby"><option>Recent</option><option>Influence Score</option></select>
-</h6>
+</h6> -->
 
 </div>
 </div>
-
 
 <div class="card-columns pt0 pb10  mt20 mb50 ">
-<div class="card noborder curved-card mb30 border-white" >
+
+<% 
+System.out.println(blogpostid.length);
+if(blogpostid.length > 0 && !allreturnedblog.equalsIgnoreCase("") )
+{
+for(int k=0; k<blogpostid.length; k++)
+{
+List<String> test = new ArrayList<String>();	
+test = new DbConnection().query2("select * from blogposts where blogpost_id="+blogpostid[k]);
+//System.out.println(test);
+//System.out.println(test.get(0));
+//String allblogstring = test.get(0).toString().replaceAll("\\[","").replaceAll("\\]","");
+String[] allblogarray =  test.toArray(new String[test.size()]);
+String eachblogpostid = allblogarray[0];
+String blogposttitle = allblogarray[1];
+String blogger = allblogarray[3];
+String permalink = allblogarray[11];
+String blogsiteid = myfavoritespost.selectBlogTitle(allblogarray[12]);
+//System.out.println(permalink); 
+//JSONObject jsArray = new JSONObject(test.get(0));
+//System.out.println(jsArray);
+%>
+
+ <div class="card noborder curved-card mb30 border-white curve_<%=eachblogpostid %>" >
 <div class="curved-card selectcontainer">
  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
+<h4 class="text-primary text-center p10 pt20 posttitle"><a><%=blogsiteid %></a></h4>
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
 
   <div class="card-body">
-    <a href="blogpostpage.jsp"><h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
-    <p class="card-text text-center author mb0 light-text">Richard Young</p>
-    <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
+    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=allblogarray[0] %>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=blogposttitle %></h4></a>
+    <p class="card-text text-center author mb0 light-text"><%=blogger %></p>
+    <p class="card-text text-center postdate light-text"><%=allblogarray[2]%></p>
   </div>
-  <img class="card-img-top pt30 pb30" src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" alt="Card image cap">
-  <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
+  <div class="<%=eachblogpostid %>">
+  <input type="hidden" class="post-image" id="<%=eachblogpostid %>" name="pic" value="<%=permalink %>">
+  </div>
+  <div class="text-center"><i id="blogpostt_<%=eachblogpostid %>" class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
 </div>
 
-</div>
+</div> 
+
+
+<% } }
+else
+{
+	
+}
+%>
 
 
 
 
 
-<div class="card noborder curved-card mb30 border-white" >
-<div class="curved-card selectcontainer">
-  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
-<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-
-    <div class="card-body">
-    <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
-      <p class="card-text text-center author mb0 light-text">Richard Young</p>
-      <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
-
-    </div>
-    <img class="card-img-top pt30 pb30" src="https://i.pinimg.com/originals/f6/6a/64/f66a6486a022f0531dcca06a32f4f9b4.jpg" alt="Card image cap">
-    <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
-  </div>
-  </div>
-
-<div class="card noborder curved-card mb30 border-white" >
-<div class="curved-card selectcontainer">
-  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
-<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-  
-    <div class="card-body">
-    <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
-      <p class="card-text text-center author mb0 light-text">Richard Young</p>
-      <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
-
-    </div>
-    <img class="card-img-top pt30 pb30" src="https://i.pinimg.com/736x/31/74/48/3174480c49cee70bd03627255f136b83--fat-girls-girls-hbo.jpg" alt="Card image cap">
-    <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
-  </div>
-  </div>
-
-  <div class="card noborder curved-card mb30 border-white" >
-  <div class="curved-card selectcontainer">
-  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
-<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-
-    <div class="card-body">
-    <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
-      <p class="card-text text-center author mb0 light-text">Richard Young</p>
-      <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
-
-    </div>
-    <img class="card-img-top pt30 pb30" src="https://www.npg.org.uk/assets/microsites/bp2017/images/exhibitors/500_2017_BP_Portrait_Award_work_0009.jpg" alt="Card image cap">
-    <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
-  </div>
-  </div>
 
 
- <div class="card noborder curved-card mb30 border-white" >
-  <div class="curved-card selectcontainer">
-  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
-<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-
-    <div class="card-body">
-      <a href="blogpostpage.jsp"><h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
-      <p class="card-text text-center author mb0 light-text">Richard Young</p>
-      <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
-
-    </div>
-    <img class="card-img-top pt30 pb30" src="https://orig00.deviantart.net/041e/f/2011/109/d/0/american_diner_2_by_oliveroettli-d3eey9i.jpg" alt="Card image cap">
-    <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
-  </div>
-  </div>
 
 
-<div class="card noborder curved-card mb30 border-white" >
-<div class="curved-card selectcontainer">
-  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
-<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
 
-    <div class="card-body">
-    <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
-      <p class="card-text text-center author mb0 light-text">Richard Young</p>
-      <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
 
-    </div>
-    <img class="card-img-top pt30 pb30" src="https://i.pinimg.com/originals/f6/6a/64/f66a6486a022f0531dcca06a32f4f9b4.jpg" alt="Card image cap">
-    <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
-  </div>
-  </div>
 
- <div class="card noborder curved-card mb30 border-white" >
-  <div class="curved-card selectcontainer">
-  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
-<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
 
-    <div class="card-body">
-    <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
-      <p class="card-text text-center author mb0 light-text">Richard Young</p>
-      <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
 
-    </div>
-    <img class="card-img-top pt30 pb30" src="http://4.bp.blogspot.com/-pSS3m9Y3WWM/T2ejQOItwFI/AAAAAAAAEOM/E8qq9Yuxx-w/s1600/1+Jacques+Louis+David_Self_Portrait+Jail.jpg" alt="Card image cap">
-    <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
-  </div>
-  </div>
-
-<div class="card noborder curved-card mb30 border-white" >
-<div class="curved-card selectcontainer">
-<div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
-<h4 class="text-primary text-center p10 pt20 posttitle"><a>Crooks and Liars</a></h4>
-<div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
-
-  <div class="card-body">
-  <a href="blogpostpage.jsp">  <h4 class="card-title text-primary text-center pb20">Apple Employees forced to phone 911 for workers injured after walking into glass walls</h4></a>
-    <p class="card-text text-center author mb0 light-text">Richard Young</p>
-    <p class="card-text text-center postdate light-text">January 12, 2018 3:11pm</p>
-
-  </div>
-  <img class="card-img-top pt30 pb30" src="http://4.bp.blogspot.com/-pSS3m9Y3WWM/T2ejQOItwFI/AAAAAAAAEOM/E8qq9Yuxx-w/s1600/1+Jacques+Louis+David_Self_Portrait+Jail.jpg" alt="Card image cap">
-  <div class="text-center"><i class="fas fa-heart text-medium pb30 favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Remove from Favorite"></i></div>
-</div>
-</div>
 
 
 
@@ -446,7 +386,7 @@ if(f.exists() && !f.isDirectory()) {
 </script>
 <!--end for table  -->
 
-
+<script src="pagedependencies/imageloader.js?v=09"></script>
 <script src="assets/js/generic.js">
 </script>
 

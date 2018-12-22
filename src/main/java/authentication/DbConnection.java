@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -214,6 +215,27 @@ public class DbConnection {
 		return donee;
 	}
 	
+	public boolean insertRecord(String query)
+	{
+		boolean donee = false;
+		try
+		{
+		Connection conn = getConnection();
+		PreparedStatement pstmt = conn.prepareStatement(query);
+		
+		int done = pstmt.executeUpdate(query);
+		
+		donee=true;
+		pstmt.close();
+		conn.close();
+		}
+		catch(SQLException ex)
+		{
+		// donee = false	
+		}
+		return donee;
+	}
+	
 	
 	/* Query Database*/
 	public ArrayList query(String query){
@@ -237,6 +259,51 @@ public class DbConnection {
 						output.add((j-1), rs.getString(j));
 					}
 					result.add(i, output);
+					i++;
+				}
+				
+				
+				rs.close();
+				pstmt.close();
+				conn.close();
+			}
+			else
+			{
+				rs.close();
+				pstmt.close();
+				conn.close();
+			}
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	
+	
+	public ArrayList<String> query2(String query){
+		ArrayList<String> result=new ArrayList<String>(); 
+		try{
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();
+			Statement stmt = null;
+			if(rs.next())
+			{
+				stmt = conn.prepareStatement(query);
+				rs = stmt.executeQuery(query); 
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int column_size = rsmd.getColumnCount();
+				int i=0;
+				while(rs.next()){
+					ArrayList output=new ArrayList();
+					int total=column_size;
+					for(int j=1;j<=(total); j++ ){
+						output.add((j-1), rs.getString(j));
+					}
+					result.addAll(i, output);
 					i++;
 				}
 				

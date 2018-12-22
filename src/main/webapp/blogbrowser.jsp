@@ -9,6 +9,7 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+<%@page import="java.io.PrintWriter;"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
@@ -19,6 +20,7 @@ String profileimage= "";
 String username ="";
 String name="";
 String phone="";
+String firstname ="";
 String date_modified = "";
 JSONObject myblogs = new JSONObject();
 ArrayList mytrackers = new ArrayList();
@@ -44,8 +46,8 @@ myblogs = trackers.getMyTrackedBlogs(username);
 mytrackers = trackers._list("DESC","",username,"100");
 	
 String userpic = userinfo.get(9).toString();
-String[] user_name = name.split(" ");
-username = user_name[0];
+String[] names = name.split(" ");
+firstname = names[0];
 
 String path=application.getRealPath("/").replace('\\', '/')+"images/profile_images/";
 String filename = userinfo.get(9).toString();
@@ -66,12 +68,15 @@ if(userpic.indexOf("http")>-1){
 	
 }
 
+
+
 Blogposts post  = new Blogposts();
-String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString().replaceAll("[^a-zA-Z]", " ");
+String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString();//.replaceAll("[^a-zA-Z]", " ");
 
 String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby").toString();
 
 ArrayList results = null;
+
 if(term.equals("")){
 	results = post._list("DESC","0",sort);
 }else{
@@ -192,7 +197,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 		    <i class="fas fa-circle" id="notificationcolor"></i>
 
 		  <img src="<%=profileimage%>" width="50" height="50" onerror="this.src='images/default-avatar.png'" alt="" class="" />
-		  <span ><%=username%></span></a>
+		  <span ><%=firstname%></span></a>
 
 		   </li>
 	    </ul>
@@ -310,6 +315,7 @@ for(int i=0; i< mytrackers.size(); i++){
 
 <div class="row mt50">
 <div class="col-md-12 ">
+
 <% if(!term.equals("")){ %>
 <h6 class="float-left text-primary bold-text"><%=total %> posts found for "<%=term%>"</h6>
 <%}else{%>
@@ -341,7 +347,7 @@ if(results.size()>0){
 		for(int i=0; i< results.size(); i++){
 
 			 String blogtitle="";		
-			 res = results.get(i).toString();			
+			 res = results.get(i).toString();
 			 resp = new JSONObject(res);
 		     resu = resp.get("_source").toString();
 		     obj = new JSONObject(resu);
@@ -376,7 +382,7 @@ if(results.size()>0){
 
   <div class="card-body">
 
-    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ")%></h4></a>
+    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title").toString()%></h4></a>
 
     <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
     <p class="card-text text-center postdate light-text"><%=dt[0]%></p>
@@ -384,7 +390,35 @@ if(results.size()>0){
   <div class="<%=obj.get("blogpost_id")%>">
   <input type="hidden" class="post-image" id="<%=obj.get("blogpost_id")%>" name="pic" value="<%=obj.get("permalink") %>">
   </div>
-  <div class="text-center"><i class="far fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="Add to Favorites"></i></div>
+<%
+String favoritestatus = "far";
+String title = "Add to Favorites";
+if(!email.equals(""))
+{
+Favorites favorites = new Favorites();
+String allblogstring = favorites.checkIfFavoritePost(username);
+System.out.println(allblogstring);
+String[] allblogarray = allblogstring.split(",");
+String blogpostid = obj.get("blogpost_id").toString(); 
+//favoritestatus = "far";
+//System.out.println(allblogarray.length);
+if(!allblogstring.equalsIgnoreCase(""))
+{	
+for(int j=0; j<allblogarray.length; j++)
+{
+	if(allblogarray[j].equals(blogpostid))
+	{
+		favoritestatus = "fas";
+		title = "Remove from Favorites";
+		break;
+	}
+	//System.out.println(allblogarray[i]);	
+} 
+
+} 
+}  
+%>
+  <div class="text-center"><i id="blogpostt_<%=obj.get("blogpost_id").toString() %>" class="<%=favoritestatus %> fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="<%=title %>"></i></div>
 </div>
 </div>
 

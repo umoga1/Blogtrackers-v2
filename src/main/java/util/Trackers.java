@@ -119,7 +119,7 @@ public JSONObject getMyTrackedBlogs(String userid) throws Exception{
 }
 
 
-public ArrayList _search(String term,String from) throws Exception {
+public ArrayList _search(String term,String username) throws Exception {
 	/*
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
@@ -166,7 +166,7 @@ public ArrayList _search(String term,String from) throws Exception {
 	try {
 		if(!term.trim().isEmpty()){
 			
-			   bloglist = new DbConnection().query("select * from trackers where traker_name like '%"+term+"%' ");				
+			   bloglist = new DbConnection().query("select * from trackers where userid='"+username+"' AND tracker_name like '%"+term+"%' ");				
 		}
 	} catch (Exception ex) {}
 	
