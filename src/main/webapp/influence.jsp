@@ -330,9 +330,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a> 
-						 <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
-						<a class="cursor-pointer profilemenulink"
+						</h6> </a> <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
 							class="text-primary">Profile</h6></a> <a
 						class="cursor-pointer profilemenulink"
@@ -763,7 +761,8 @@ if(authorcount.length()>0){
 						dtue = dte;
 					}
 				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger,"influence_score");
-				   
+				   //String totu = post._searchRangeMaxByBloggers("date",dt, dte,mostactiveblogger);
+			    	
 				   if(Integer.parseInt(totu)<base){
 					   base = Integer.parseInt(totu);
 				   }
@@ -823,13 +822,13 @@ authoryears.put(mostactiveblogger,postyear);
 						<div class="row">
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Influence Score</h6>
-								<h2 class="mb0 bold-text total-influence"><%=NumberFormat.getNumberInstance(Locale.US).format(totalinfluence)%></h2>
+								<h2 class="mb0 bold-text total-influence"><%=totalinfluence%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Total Posts</h6>
-								<h2 class="mb0 bold-text total-post"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost))%></h2>
+								<h2 class="mb0 bold-text total-post"><%=totalpost%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
@@ -841,7 +840,7 @@ authoryears.put(mostactiveblogger,postyear);
 							
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Overall Sentiment</h6>
-								<h2 class="mb0 bold-text total-sentiment"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalsenti))%></h2>
+								<h2 class="mb0 bold-text total-sentiment"><%=totalsenti%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -852,7 +851,7 @@ authoryears.put(mostactiveblogger,postyear);
 							</div> --%>
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Comments</h6>
-								<h2 class="mb0 bold-text total-comments"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment))%></h2>
+								<h2 class="mb0 bold-text total-comments"><%= totalcomment%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 

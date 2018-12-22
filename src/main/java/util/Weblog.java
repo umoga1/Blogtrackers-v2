@@ -36,4 +36,12 @@ public class Weblog {
 		
 		return bloggers;
 	}
+	
+	public boolean _deleteBlog(String username, int id) {
+		ArrayList bloggers = new DbConnection().query("delete FROM user_blog WHERE userid='"+username+"' and id = '"+id+"'");
+		if(bloggers.size()>0) {
+			return true;
+		}
+		return false;
+	}
 }

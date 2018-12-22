@@ -21,6 +21,7 @@ String name="";
 String phone="";
 String date_modified = "";
 
+Weblog new_blog = new Weblog();
 ArrayList results_blogadded = null;
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
@@ -61,7 +62,6 @@ if(f.exists() && !f.isDirectory()) {
 
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString();//.replaceAll("[^a-zA-Z]", " ");
 
-Weblog new_blog = new Weblog();
 
 String results = "";
 String status = "not_crawled";
@@ -236,7 +236,7 @@ results_blogadded = new_blog._fetchBlog(username);
 
 <div class="col-lg-12 col-md-12 pt0 pb10  mt10 mb10 notification">
 <div class="card noborder curved-card mb30 " >
-<p class="text-primary p30 pt30 pb0">Enter the URL of the Blog <b>(with http:\\)</b> and press Enter to save</p>
+<p class="text-primary p30 pt30 pb0">Enter the URL of the Blog <b>(with http://)</b> and press Enter to save</p>
 <form method="add" method="post" autocomplete="off" action="<%=request.getContextPath()%>/addblog.jsp">
 <input type="url" placeholder="Enter a Blog URL" required name="term" class="form-control blogsearch bold-text"/>
 
@@ -271,6 +271,7 @@ results_blogadded = new_blog._fetchBlog(username);
 			<td class="text-center"><%=k+1 %></td>
 			<td class="text-center"><%=blogname %></td>
 			<td class="text-center"><%=status %></td>
+			<%-- <td class="text-center"><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" onclick= "<% new_blog._deleteBlog(username, Integer.parseInt(id)); %>" data-toggle="tooltip" id="<%=id%>_select" data-placement="top" title="Delete Blog"></i></td> --%>
 			</tr>
 		<% }} %>
 		</tbody>
@@ -307,7 +308,64 @@ results_blogadded = new_blog._fetchBlog(username);
 
 <script>
 $(document).ready(function() {
-
+	
+	$('.deleteblog1').on('click', function(){
+		alert('clciked');
+		var confirmdeleteofblog = confirm("Are you sure you want to delete this blog");
+		if(confirmdeleteofblog )
+			{
+			eachblogdelete = $(this);
+			var id = $(this).attr("id");
+			id = id.split("_");
+			allid = id[0];
+			console.log(allid);
+			console.log($("#teeid").val());
+			toastr.success("Deleting blog...","Success");
+			$.ajax({
+				url: app_url+'tracker2',
+				method: 'POST',
+				data: {
+					action:"removeblog",
+					blog_ids:allid,
+					tracker_id:$("#teeid").val()
+				},
+				error: function(response)
+				{						
+					console.log(response);		
+				},
+				success: function(response)
+				{   
+					console.log(response);
+					if(response.indexOf("success")>-1){					
+							eachblogdelete.parent().parent().remove();
+						// should kick in the automated crawler or something 	
+							toastr.success("Blog Deleted from Tracker","Success");
+							$('.tooltip').hide();
+							
+							numberofblogs = $('.edittrackerblogindividual').length;
+							//$('#totalblogcount').html(numberofblogs);
+							var initc = $(".stattext").html();
+							initc = parseInt(initc)-1;
+							$(".stattext").html(initc);
+							
+							countselectedfromdefault =  $('.edittrackerblogindividual').children(".checkblogleft").children(".checkblog").length;
+//							console.log(countselectedfromdefault);
+							blogselectedcount = countselectedfromdefault;
+							$('#selectedblogcount').html(blogselectedcount);
+							setTimeout(function(){location.reload();},2000);
+						
+					}else{
+						toastr.error('Blogs could not be removed!','Error');
+					}
+				}
+			});
+			
+				
+			}
+		
+			
+		});
+	
 } );
 </script>
 <!--end for table  -->
