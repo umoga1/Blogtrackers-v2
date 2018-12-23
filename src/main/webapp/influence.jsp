@@ -560,12 +560,14 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    sentimentpost.put(tobj.get("blogpost_id").toString());
 									    postidss+=tobj.get("blogpost_id").toString()+",";
 										
-									    /*
+									   
 										if(i==0){
-											 Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-											 totalinfluence+=influence;
+											postidss+=tobj.get("blogpost_id").toString()+",";
+											
+											// Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
+											 //totalinfluence+=influence;
 										}
-									    */
+									    
 										
 										String[] dateyear=tobj.get("date").toString().split("-");
 										String yy= dateyear[0];
@@ -2277,7 +2279,7 @@ authoryears.put(mostactiveblogger,postyear);
  </script>
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/influence.js?v=987979"></script>
+<script src="pagedependencies/influence.js?v=8979"></script>
 	
 </body>
 </html>
