@@ -1299,7 +1299,7 @@ public class Blogposts {
 		    public int compare(String o1, String o2) {
 		    	String[] a1 = o1.split("___");
 	        	String[] b1 = o2.split("___");
-		        return extractInt(a1[0]) - extractInt(b1[0]);
+		        return extractInt(b1[0]) - extractInt(a1[0]);
 		    }
 
 		    int extractInt(String s) {
@@ -1316,47 +1316,7 @@ public class Blogposts {
 		return sortedyearsarray;
 	}
 	
-	public JSONArray _sortJson3(JSONArray yearsarray) {
-		  //I assume that we need to create a JSONArray object from the following string
-	    String jsonArrStr = "[ { \"ID\": \"135\", \"Name\": \"Fargo Chan\" },{ \"ID\": \"432\", \"Name\": \"Aaron Luke\" },{ \"ID\": \"252\", \"Name\": \"Dilip Singh\" }]";
-
-	    JSONArray jsonArr = new JSONArray(yearsarray);
-	    JSONArray sortedJsonArray = new JSONArray();
-
-	    List<JSONObject> jsonValues = new ArrayList<JSONObject>();
-	    for (int i = 0; i < jsonArr.length(); i++) {
-	        jsonValues.add(jsonArr.getJSONObject(i));
-	    }
-	    Collections.sort( jsonValues, new Comparator<JSONObject>() {
-	        //You can change "Name" with "ID" if you want to sort by ID
-	        private static final String KEY_NAME = "influence";
-
-	        @Override
-	        public int compare(JSONObject a, JSONObject b) {
-	            String valA = new String();
-	            String valB = new String();
-
-	            try {
-	                valA = (String) a.get(KEY_NAME);
-	                valB = (String) b.get(KEY_NAME);
-	            } 
-	            catch (Exception e) {
-	                //do something
-	            }
-
-	            return valA.compareTo(valB);
-	            //if you want to change the sort order, simply use the following:
-	            //return -valA.compareTo(valB);
-	        }
-	    });
-
-	    for (int i = 0; i < jsonArr.length(); i++) {
-	        sortedJsonArray.put(jsonValues.get(i));
-	    }
-		return sortedJsonArray;
-	}
-	
-	
+		
 	public int monthsBetweenDates(Date startDate, Date endDate){
 
 	        Calendar start = Calendar.getInstance();

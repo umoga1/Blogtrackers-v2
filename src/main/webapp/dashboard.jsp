@@ -234,7 +234,8 @@
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 			ArrayList allauthors2= post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-			
+			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+		
 			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
 			
@@ -808,7 +809,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=authors.length()%></h3>
+						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=influentialauthors.length()%></h3>
 					</div>
 				</div>
 			</div>
