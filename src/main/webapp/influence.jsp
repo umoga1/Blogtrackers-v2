@@ -237,7 +237,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		
 		allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		
-	
 	String allpost = "0";
 	float totalinfluence = 0;
 	String mostactiveblog="";
@@ -561,12 +560,14 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    sentimentpost.put(tobj.get("blogpost_id").toString());
 									    postidss+=tobj.get("blogpost_id").toString()+",";
 										
-									    /*
+									   
 										if(i==0){
-											 Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-											 totalinfluence+=influence;
+											postidss+=tobj.get("blogpost_id").toString()+",";
+											
+											// Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
+											 //totalinfluence+=influence;
 										}
-									    */
+									    
 										
 										String[] dateyear=tobj.get("date").toString().split("-");
 										String yy= dateyear[0];
@@ -585,6 +586,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								    	authorposts.put(auth,postauth);
 									    
 									    String bloggerselect="";
+									    
 									    if(!authors.has(auth)){
 									    	String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
 									    	
@@ -626,12 +628,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										}
 									} 
 								
-				
+				System.out.println("authors"+bloggerarr);
 				//bloggertosort =  post._sortJson2(bloggertosort);
 			    bloggerarr = post._sortJson2(bloggerarr);
 				System.out.println("hello"+bloggerarr);
 
-				for(int m=(bloggerarr.length()-1); m>0; m--){
+				for(int m=0; m<bloggerarr.length(); m++){
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
 					String au = splitter[1];
@@ -644,7 +646,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						postids += selposts.get(r).toString()+",";
 					}
 					
-					if(m==(bloggerarr.length()-1)){
+					if(m==0){
 						dselected = "abloggerselected";
 							mostactiveblogger = au;
 							
@@ -2277,7 +2279,7 @@ authoryears.put(mostactiveblogger,postyear);
  </script>
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/influence.js?v=987979"></script>
+<script src="pagedependencies/influence.js?v=8979"></script>
 	
 </body>
 </html>
