@@ -386,7 +386,7 @@
 							content = new JSONObject(influentialauthors.get(auth).toString());
 							Double inf = Double.parseDouble(content.get("influence").toString());
 							//inf = inf+influence;
-							int valu = Integer.parseInt(content.get("totalpost").toString());
+							double valu = Double.parseDouble(content.get("totalpost").toString());
 							content.put("blogger", auth);
 							content.put("influence", inf);
 							content.put("totalpost",valu);
