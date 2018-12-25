@@ -387,7 +387,7 @@
 							content = new JSONObject(influentialauthors.get(auth).toString());
 							Double inf = Double.parseDouble(content.get("influence").toString());
 							//inf = inf+influence;
-							double valu = Double.parseDouble(content.get("totalpost").toString());
+							int valu = Integer.parseInt(content.get("totalpost").toString());
 							content.put("blogger", auth);
 							content.put("influence", inf);
 							content.put("totalpost",valu);
@@ -655,8 +655,7 @@
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a>  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
-						<a class="cursor-pointer profilemenulink"
+						</h6> </a> <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
 							class="text-primary">Profile</h6></a> <a
 						class="cursor-pointer profilemenulink"
