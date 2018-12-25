@@ -1124,9 +1124,10 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Most Influential Blogger <!-- <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
-								<option value="InfluencialBlogs">Blogs </option>
-								<option value="InfluentialBloggers">Bloggers</option></select> -->  <%-- 
+								Most Influential Blogger <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
+								<option value="blogs">Blogs </option>
+								<option value="bloggers">Bloggers</option></select> 
+								  <%-- 
 						   of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
@@ -1157,6 +1158,7 @@
 			<div class="col-md-12 mt20 ">
 				<div class="card card-style mt20">
 					<div class="card-body  p5 pt10 pb10">
++
 
 						<div style="min-height: 420px;">
 							<div>
@@ -1306,7 +1308,7 @@
 <%}}}%></textarea>
 
 <!-- Influence Bar chart loader -->
-	<textarea style="display:none" name="influencialBlogs" id="influencialBlogs" >
+	<textarea style="display:none" name="influencialBlogs" id="InfluencialBlogs" >
  <% if (bloggers.length() > 0) {
 						int p = 0;
 						for (int y = 0; y < bloggers.length(); y++) {
@@ -1321,12 +1323,12 @@
         </textarea>
 
 <textarea style="display:none" name="influencialBloggers" id="InfluencialBloggers" >
-	 <% if (authors.length() > 0) {
+	 <% if (influentialauthors.length() > 0) {
 				int p = 0;
 				//System.out.println(bloggers);
-				for (int y = 0; y < authors.length(); y++) {
-					String key = authorlooper.get(y).toString();
-					JSONObject resu = authors.getJSONObject(key);
+				for (int y = 0; y < influentialauthors.length(); y++) {
+					String key = influentialauthorlooper.get(y).toString();
+					JSONObject resu = influentialauthors.getJSONObject(key);
 					Double size = Double.parseDouble(resu.get("influence").toString());
 					if (p < 10) {
 						p++;%>
@@ -4425,15 +4427,15 @@ $(".option-lable").on("click",function(e){
 			
 		var type = $('#swapInfluence').val();
 		
-		var blgss = $('#InfluenceBloggers').val();
+		//var blgss = $('#InfluenceBloggers').val();
 		if(type=="blogs"){
-			blgss = $("#InfluenceBlogs").val();
+			blgss = $("#InfluencialBlogs").val();
 		}else{
-			blgss = $("#bloggers").val();
+			blgss = $("#InfluencialBloggers").val();
 		}
 		
-		$("#influencebar").html('<div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div>');
-		//console.log(blgss);
+		$("#influencecontainer").html('<div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div>');
+		console.log(blgss);
 		
 		$.ajax({
 			url: app_url+'subpages/influencebar.jsp',
@@ -4460,8 +4462,7 @@ $(".option-lable").on("click",function(e){
  
  
  function loadDomain(){
-	 $("#top-domain-box").html('<tr><td colspan="2"><div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div></td></tr>');
-		
+	 $("#top-domain-box").html('<tr><td colspan="2"><div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div></td></tr>');		
 		$.ajax({
 			url: app_url+'subpages/topdomain.jsp',
 			method: 'POST',
