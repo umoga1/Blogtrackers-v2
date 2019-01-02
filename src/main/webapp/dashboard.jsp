@@ -167,7 +167,8 @@
 				year = YEAR_ONLY.format(nnow); 
 				//System.out.println("Now:"+month+"small:"+smallmonth);
 				if(month.equals("02")){
-					ddey = (Integer.parseInt(year)%4==0)?"28":"29";
+					
+					ddey = (new Double(year).intValue()%4==0)?"28":"29";
 				}else if(month.equals("09") || month.equals("04") || month.equals("05") || month.equals("11")){
 					ddey = "30";
 				}
@@ -199,7 +200,7 @@
 			} else if (single.equals("week")) {
 				
 				 dte = year + "-" + month + "-" + day;
-				int dd = Integer.parseInt(day)-7;
+				int dd = new Double(day).intValue()-7;
 				
 				Calendar cal = Calendar.getInstance();
 				cal.add(Calendar.DATE, -7);
@@ -249,8 +250,8 @@
 			String[] yend = dte.split("-");
 			year_start = yst[0];
 			year_end = yend[0];
-			int ystint = Integer.parseInt(year_start);
-			int yendint = Integer.parseInt(year_end);
+			int ystint = new Double(year_start).intValue();
+			int yendint = new Double(year_end).intValue();
 			if(single.equals("month")){
 				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
 				//ystint=0;
@@ -319,7 +320,7 @@
 							content = new JSONObject(authors.get(auth).toString());
 							Double inf = Double.parseDouble(content.get("influence").toString());
 							//inf = inf+influence;
-							int valu = Integer.parseInt(content.get("totalpost").toString());
+							int valu = new Double(content.get("totalpost").toString()).intValue();
 							content.put("blogger", auth);
 							content.put("influence", inf);
 							content.put("totalpost",valu);
@@ -329,7 +330,7 @@
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
 						   // System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
 						   Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-							int valu = Integer.parseInt(btoty);
+							int valu = new Double(btoty).intValue(); 
 							   if(valu==0){
 								   valu=1;
 							   }
@@ -344,7 +345,7 @@
 					    
 					  //Object ex = language.get(lang);
 						if (language.has(lang)) {
-							int val = Integer.parseInt(language.get(lang).toString()) + 1;
+							int val = new Double(language.get(lang).toString()).intValue()+1;
 							language.put(lang, val);
 						} else {
 							//  	int val  = Integer.parseInt(ex.toString())+1;
@@ -387,7 +388,7 @@
 							content = new JSONObject(influentialauthors.get(auth).toString());
 							Double inf = Double.parseDouble(content.get("influence").toString());
 							//inf = inf+influence;
-							int valu = Integer.parseInt(content.get("totalpost").toString());
+							int valu = new Double(content.get("totalpost").toString()).intValue(); 
 							content.put("blogger", auth);
 							content.put("influence", inf);
 							content.put("totalpost",valu);
@@ -491,7 +492,7 @@
 					if (outerlinks.has(maindomain)) {
 						content = new JSONObject(outerlinks.get(maindomain).toString());
 						
-						int valu = Integer.parseInt(content.get("value").toString());
+						int valu = new Double(content.get("value").toString()).intValue();
 						valu++;
 						
 						content.put("value", valu);
@@ -820,7 +821,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-file-alt icondash"></i>Posts
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost)) %></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%= NumberFormat.getNumberInstance(Locale.US).format(new Double(totalpost).intValue()) %></h3>
 					</div>
 				</div>
 			</div>
@@ -831,7 +832,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-comment icondash"></i>Comments
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment))%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%= NumberFormat.getNumberInstance(Locale.US).format(new Double(totalcomment).intValue())%></h3>
 					</div>
 				</div>
 			</div>
@@ -1158,7 +1159,6 @@
 			<div class="col-md-12 mt20 ">
 				<div class="card card-style mt20">
 					<div class="card-body  p5 pt10 pb10">
-+
 
 						<div style="min-height: 420px;">
 							<div>
@@ -1293,7 +1293,7 @@
 						for (int y = 0; y < bloggers.length(); y++) {
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
-							int size = Integer.parseInt(resu.get("postingfreq").toString());
+							int size = new Double(resu.get("postingfreq").toString()).intValue();
 							if (size > 0 && p < 15) {
 								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
     			 <%}}}%>
@@ -1302,7 +1302,7 @@
 			int k = 0;for (int y = 0; y < authors.length(); y++) {
 				String key = authorlooper.get(y).toString();
 				JSONObject resu = authors.getJSONObject(key);
-				int size = Integer.parseInt(resu.get("totalpost").toString());
+				int size = new Double(resu.get("totalpost").toString()).intValue(); 
 				if (size > 0 && k < 15) {
 					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 <%}}}%></textarea>
@@ -1315,7 +1315,7 @@
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
 							
-							int size = Integer.parseInt(resu.get("postingfreq").toString());
+							int size =  new Double(resu.get("postingfreq").toString()).intValue(); 
 							if (size > 0 && p < 15) {
 								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
     			 <%}}}%>
@@ -2244,7 +2244,7 @@ $(function () {
 						for (int y = 0; y < bloggers.length(); y++) {
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
-							int size = Integer.parseInt(resu.get("postingfreq").toString());
+							int size =  new Double(resu.get("postingfreq").toString()).intValue();
 							if (size > 0 && p < 10) {
 								p++;%>
     							{letter:"<%=resu.get("blog").toString().toLowerCase()%>", frequency:<%=size%>, name:"<%=resu.get("blogger").toString().toLowerCase()%>", type:"blogger"},
@@ -3065,7 +3065,7 @@ var mymarker = [
     	 <%if (topterms.length() > 0) {
 						for (int i = 0; i < topterms.length(); i++) {
 							JSONObject jsonObj = topterms.getJSONObject(i);
-							int size = Integer.parseInt(jsonObj.getString("frequency")) * 5;%>
+							int size =  new Double(jsonObj.getString("frequency")).intValue() * 5;%>
     		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
     	 <%}
 					}%>
@@ -3366,7 +3366,7 @@ data = {
 			for (int y = 0; y < authors.length(); y++) {
 				String key = authorlooper.get(y).toString();
 				JSONObject resu = authors.getJSONObject(key);
-				int size = Integer.parseInt(resu.get("totalpost").toString());
+				int size =  new Double(resu.get("totalpost").toString()).intValue();  
 				//if (size > 0 && k < 15) {
 					k++;%>
 {"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=size%>},
@@ -3619,7 +3619,7 @@ data = {
 			for (int y = 0; y < bloggers.length(); y++) {
 				String key = looper.get(y).toString();
 				JSONObject resu = bloggers.getJSONObject(key);
-				int size = Integer.parseInt(resu.get("totalposts").toString());
+				int size = new Double(resu.get("totalposts").toString()).intValue(); 
 				//if (size > 0 && k < 15) {
 					k++;%>
 					{"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=resu.get("totalposts")%>},
@@ -3865,7 +3865,7 @@ $(".option-lable").on("click",function(e){
          data = [	
         	[<% for(int q=0; q<sortedyearsarray.length(); q++){ 
      		  		String yer=sortedyearsarray.get(q).toString(); 
-     		  		int vlue = Integer.parseInt(graphyears.get(yer).toString());
+     		  		int vlue = new Double(graphyears.get(yer).toString()).intValue();
      		  %>
      		  			{"date":"<%=yer%>","close":<%=vlue%>},
      		<% } %>
