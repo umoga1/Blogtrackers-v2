@@ -239,12 +239,13 @@ results_blogadded = new_blog._fetchBlog(username);
 <p class="text-primary p30 pt30 pb0">Enter the URL of the Blog <b>(with http://)</b> and press Enter to save</p>
 <form method="add" method="post" autocomplete="off" action="<%=request.getContextPath()%>/addblog.jsp">
 <input type="url" placeholder="Enter a Blog URL" required name="term" class="form-control blogsearch bold-text"/>
-
+<p class="text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb10 mt20">Search Blogs</button></p>
 <!-- <p class="p30 pt20 pb10">&nbsp;&nbsp;&nbsp;&nbsp;Added: <button class="btn btn-primary btn-danger profilebtn">Blog Added Successfully</button> <button class="btn btn-primary stylebuttonnotifications">02-01-2018&nbsp;.&nbsp;5:30pm</button></p>
- -->  <div class="card-body pt0">
-    <h5 class="text-primary p10 pt10">
+ -->  
+ <div class="card-body pt0">
+   <!--  <h5 class="text-primary p10 pt10">
 
-</h5>
+</h5> -->
 
   </div>
   </form>
@@ -256,6 +257,7 @@ results_blogadded = new_blog._fetchBlog(username);
 		<th class="text-primary text-center">Id</th>
 		<th class="text-primary text-center">Blog Added</th>
 		<th class="text-primary text-center">Status</th>
+		<th class="text-primary text-center">Actions</th>
 		</tr>
 		</thead>
 		<tbody>		
@@ -271,6 +273,7 @@ results_blogadded = new_blog._fetchBlog(username);
 			<td class="text-center"><%=k+1 %></td>
 			<td class="text-center"><%=blogname %></td>
 			<td class="text-center"><%=status %></td>
+			<td class="text-center"><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i></td>
 			<%-- <td class="text-center"><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" onclick= "<% new_blog._deleteBlog(username, Integer.parseInt(id)); %>" data-toggle="tooltip" id="<%=id%>_select" data-placement="top" title="Delete Blog"></i></td> --%>
 			</tr>
 		<% }} %>
