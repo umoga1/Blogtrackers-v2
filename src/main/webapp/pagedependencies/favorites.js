@@ -254,7 +254,7 @@ $(this).parent().remove();
 		if(response === "removed")
 		{
 			//toastr.error('Removed from Favorites','Success');
-		toastr.error("Blog Removed from Favorites","Action Succesful");
+		toastr.success("Blog Removed from Favorites","Action Succesful");
 		if(postcount > 0)
 		{
 		postcount--;

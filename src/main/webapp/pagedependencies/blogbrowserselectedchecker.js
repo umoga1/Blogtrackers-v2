@@ -41,7 +41,7 @@ $(document).ready(function(){
 	element = $("#blogpostt_"+blogpostids[eachblog]);
 	element.removeClass("far");
 	element.addClass("fas");
-	console.log(blogpostids[eachblog]);	
+	//console.log(blogpostids[eachblog]);	
 	}
 	}
 	}

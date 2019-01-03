@@ -256,13 +256,13 @@ for(eachblog in blogpostids)
 element = $("#blogpostt_"+blogpostids[eachblog]);
 element.removeClass("far");
 element.addClass("fas");
-console.log(blogpostids[eachblog]);	
+//console.log(blogpostids[eachblog]);	
 }
 }
 
 
-console.log(blogpostids);
-console.log("Cookie on window load "+ cookieblogs);
+//console.log(blogpostids);
+//console.log("Cookie on window load "+ cookieblogs);
 }
 })
 // handler for each favorites
@@ -281,7 +281,7 @@ if(!blogpostids.includes(blogpostidtoadd))
 blogpostids.push(blogpostidtoadd);
 //join together as string
 cookieblogs = Cookies.get('allfavoritesblogs');
-console.log(cookieblogs);
+//console.log(cookieblogs);
 if(cookieblogs === "")
 {
 	allblogasstring = blogpostids.join(",");	
@@ -313,7 +313,7 @@ $.ajax({
 		//console.log(loggedinstatus);
 		// set a cookie for blog
 		Cookies.set('allfavoritesblogs', allblogasstring , {path : '/'});	
-		console.log("Cookies string added after click "+Cookies.get('allfavoritesblogs'));
+		//console.log("Cookies string added after click "+Cookies.get('allfavoritesblogs'));
 		
 		}
 	//console.log(response)	
@@ -361,14 +361,16 @@ $.ajax({
 	success:function(response){
 	if(response === "removed")
 	{
-		toastr.error('Removed from Favorites','Success');
+		toastr.success('Removed from Favorites','Success');
 	}
 	if(response === "notloggedin")
 	{
 	//console.log(response);
 	//console.log(loggedinstatus);
 	// set a cookie for blog
-	Cookies.set('allfavoritesblogs', allblogasstring , {path : '/'});	
+	Cookies.set('allfavoritesblogs', allblogasstring , {path : '/'});
+	//console.log("Remove after blog deleted "+Cookies.get('allfavoritesblogs'));
+	//console.log(blogpostids);
 	//console.log(Cookies.get('allfavoritesblogs'));
 	}
 	//console.log(response);
@@ -744,7 +746,7 @@ $('#sortbyselect').on("change",function(e){
 //onload function to select again tracked blog
 
 $(window).on("load",function(){
-	console.log(Cookies.get('selectedblogs'));	
+	//console.log(Cookies.get('selectedblogs'));	
 });
 });
 

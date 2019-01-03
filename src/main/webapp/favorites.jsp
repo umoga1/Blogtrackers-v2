@@ -79,7 +79,7 @@ if(f.exists() && !f.isDirectory()) {
 <link rel="stylesheet" href="assets/css/style.css" />
 <link rel="stylesheet" href="assets/css/toastr.css" />
   <!--end of bootstrap -->
-  
+  <script src="js/jscookie.js"></script>
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
 
@@ -256,9 +256,12 @@ if(f.exists() && !f.isDirectory()) {
 
 </div>
 <div class="container analyticscontainer">
-
+<script>
+//console.log(Cookies.get("allfavoritesblogs"));
+</script>
 <%
-
+/* String blogincookie = (String)"<script>document.write(Cookies.get(\"allfavoritesblogs\"))</script>";
+		System.out.println(blogincookie); */
 Favorites myfavoritespost  = new Favorites();
 String allreturnedblog = myfavoritespost.selectAllFavoritePost(username);
 String[] blogpostid = allreturnedblog.split(",");
@@ -382,7 +385,7 @@ else
 <script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>
 <script type="text/javascript" src="assets/vendors/typeahead/typeahead.bundle.min.js"></script>
 <script type="text/javascript" src="assets/js/form_tags_input.js"></script>
-<script src="js/jscookie.js"></script>
+
 <script src="pagedependencies/favorites.js">
 </script>
 <!--end for table  -->
