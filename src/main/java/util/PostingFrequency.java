@@ -56,7 +56,7 @@ public ArrayList _list(String order, String from) throws Exception {
 	 }
 	 
 	 
-     String url = base_url+"_search?size=500";
+     String url = base_url+"_search?size=1000";
  
      
      URL obj = new URL(url);

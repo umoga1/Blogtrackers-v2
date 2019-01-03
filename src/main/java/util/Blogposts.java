@@ -24,8 +24,8 @@ public class Blogposts {
 
 	HashMap<String, String> hm = DbConnection.loadConstant();		
 
-	//String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
-	String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
+	String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
+	//String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
 	
 	String totalpost;
 	String date;
@@ -74,7 +74,7 @@ public class Blogposts {
 
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -116,7 +116,7 @@ public class Blogposts {
 	}
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -182,7 +182,7 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 	
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -558,7 +558,7 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids,String sort,String order) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -701,7 +701,7 @@ public class Blogposts {
 	
 	public ArrayList _searchByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
 
-		int size = 50;
+		int size = 1000;
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
@@ -928,7 +928,7 @@ public class Blogposts {
 
 	/* Fetch posts by blog ids*/
 	public ArrayList _getPostByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=100";
+		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -1102,7 +1102,7 @@ public class Blogposts {
 				"}");
 
 
-		String url = base_url+"_search?size=100";
+		String url = base_url+"_search?size=1000";
 		return this._getResult(url, jsonObj);
 	}
 
@@ -1299,7 +1299,7 @@ public class Blogposts {
 		    public int compare(String o1, String o2) {
 		    	String[] a1 = o1.split("___");
 	        	String[] b1 = o2.split("___");
-		        return extractInt(a1[0]) - extractInt(b1[0]);
+		        return extractInt(b1[0]) - extractInt(a1[0]);
 		    }
 
 		    int extractInt(String s) {
@@ -1316,47 +1316,7 @@ public class Blogposts {
 		return sortedyearsarray;
 	}
 	
-	public JSONArray _sortJson3(JSONArray yearsarray) {
-		  //I assume that we need to create a JSONArray object from the following string
-	    String jsonArrStr = "[ { \"ID\": \"135\", \"Name\": \"Fargo Chan\" },{ \"ID\": \"432\", \"Name\": \"Aaron Luke\" },{ \"ID\": \"252\", \"Name\": \"Dilip Singh\" }]";
-
-	    JSONArray jsonArr = new JSONArray(yearsarray);
-	    JSONArray sortedJsonArray = new JSONArray();
-
-	    List<JSONObject> jsonValues = new ArrayList<JSONObject>();
-	    for (int i = 0; i < jsonArr.length(); i++) {
-	        jsonValues.add(jsonArr.getJSONObject(i));
-	    }
-	    Collections.sort( jsonValues, new Comparator<JSONObject>() {
-	        //You can change "Name" with "ID" if you want to sort by ID
-	        private static final String KEY_NAME = "influence";
-
-	        @Override
-	        public int compare(JSONObject a, JSONObject b) {
-	            String valA = new String();
-	            String valB = new String();
-
-	            try {
-	                valA = (String) a.get(KEY_NAME);
-	                valB = (String) b.get(KEY_NAME);
-	            } 
-	            catch (Exception e) {
-	                //do something
-	            }
-
-	            return valA.compareTo(valB);
-	            //if you want to change the sort order, simply use the following:
-	            //return -valA.compareTo(valB);
-	        }
-	    });
-
-	    for (int i = 0; i < jsonArr.length(); i++) {
-	        sortedJsonArray.put(jsonValues.get(i));
-	    }
-		return sortedJsonArray;
-	}
-	
-	
+		
 	public int monthsBetweenDates(Date startDate, Date endDate){
 
 	        Calendar start = Calendar.getInstance();

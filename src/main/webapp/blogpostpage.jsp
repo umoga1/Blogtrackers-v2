@@ -248,7 +248,7 @@ if(detail.size()>0){
 		     
 		     String datetime = obj.get("date").toString();
 		     
-		     String pst = obj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
+		     String pst = obj.get("post").toString();
 		   
 			 if(blog.size()>0){
 				 		 date = datetime.substring(0, 10);
@@ -304,7 +304,7 @@ if(detail.size()>0){
   </div>
     </div>
 <div class="col-md-12 d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
-<a href="blogpostpage.html"><h3 class="text-center text-primary"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ")%></h3></a>
+<a href="blogpostpage.html"><h3 class="text-center text-primary"><%=obj.get("title").toString()%></h3></a>
 <div class="text-center mt20">
  <button class="btn btn-rounded"><i class="far fa-dot-circle icon-small text-primary"></i></button>
   <button class="btn btn-rounded"><i class="far fa-heart icon-small text-primary"></i></button>

@@ -22,7 +22,7 @@
 		
 	
 	JSONObject bloggers = new JSONObject(bloggersstr);
-	System.out.println("bloggers here "+bloggersstr);
+	//System.out.println("bloggers here "+bloggersstr);
 %>
 			
 <div class="chart" id="influencebar"></div>
@@ -31,7 +31,7 @@
 $(function () {
 
     // Initialize chart
-    postingfrequencybar('#postingfrequencybar', 450);
+    postingfrequencybar('#influencebar', 450);
 
     // Chart setup
     function postingfrequencybar(element, height) {

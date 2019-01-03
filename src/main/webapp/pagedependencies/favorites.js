@@ -11,7 +11,14 @@ $(document).ready(function() {
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
-
+  
+  // check login status 
+  var loggedinstatus = Cookies.get("loggedinstatus");
+ if(loggedinstatus == "false")
+	 {
+	 
+	 }
+  console.log(Cookies.get("allfavoritesblogs"));
 
 //  blog individual
 var countblog = 0;

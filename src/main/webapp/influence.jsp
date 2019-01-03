@@ -1,3 +1,4 @@
+
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
@@ -11,8 +12,7 @@
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
 try{
@@ -237,7 +237,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		
 		allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		
-	
 	String allpost = "0";
 	float totalinfluence = 0;
 	String mostactiveblog="";
@@ -330,9 +329,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a> 
-						 <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
-						<a class="cursor-pointer profilemenulink"
+						</h6> </a> <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
 							class="text-primary">Profile</h6></a> <a
 						class="cursor-pointer profilemenulink"
@@ -563,12 +560,14 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    sentimentpost.put(tobj.get("blogpost_id").toString());
 									    postidss+=tobj.get("blogpost_id").toString()+",";
 										
-									    /*
+									   
 										if(i==0){
-											 Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-											 totalinfluence+=influence;
+											postidss+=tobj.get("blogpost_id").toString()+",";
+											
+											// Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
+											 //totalinfluence+=influence;
 										}
-									    */
+									    
 										
 										String[] dateyear=tobj.get("date").toString().split("-");
 										String yy= dateyear[0];
@@ -587,6 +586,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								    	authorposts.put(auth,postauth);
 									    
 									    String bloggerselect="";
+									    
 									    if(!authors.has(auth)){
 									    	String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
 									    	
@@ -628,12 +628,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										}
 									} 
 								
-				
+				System.out.println("authors"+bloggerarr);
 				//bloggertosort =  post._sortJson2(bloggertosort);
 			    bloggerarr = post._sortJson2(bloggerarr);
 				System.out.println("hello"+bloggerarr);
 
-				for(int m=(bloggerarr.length()-1); m>0; m--){
+				for(int m=0; m<bloggerarr.length(); m++){
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
 					String au = splitter[1];
@@ -646,7 +646,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						postids += selposts.get(r).toString()+",";
 					}
 					
-					if(m==(bloggerarr.length()-1)){
+					if(m==0){
 						dselected = "abloggerselected";
 							mostactiveblogger = au;
 							
@@ -763,7 +763,8 @@ if(authorcount.length()>0){
 						dtue = dte;
 					}
 				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger,"influence_score");
-				   
+				   //String totu = post._searchRangeMaxByBloggers("date",dt, dte,mostactiveblogger);
+			    	
 				   if(Integer.parseInt(totu)<base){
 					   base = Integer.parseInt(totu);
 				   }
@@ -823,13 +824,13 @@ authoryears.put(mostactiveblogger,postyear);
 						<div class="row">
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Influence Score</h6>
-								<h2 class="mb0 bold-text total-influence"><%=NumberFormat.getNumberInstance(Locale.US).format(totalinfluence)%></h2>
+								<h2 class="mb0 bold-text total-influence"><%=totalinfluence%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Total Posts</h6>
-								<h2 class="mb0 bold-text total-post"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost))%></h2>
+								<h2 class="mb0 bold-text total-post"><%=totalpost%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
@@ -841,7 +842,7 @@ authoryears.put(mostactiveblogger,postyear);
 							
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Overall Sentiment</h6>
-								<h2 class="mb0 bold-text total-sentiment"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalsenti))%></h2>
+								<h2 class="mb0 bold-text total-sentiment"><%=totalsenti%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -852,7 +853,7 @@ authoryears.put(mostactiveblogger,postyear);
 							</div> --%>
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Comments</h6>
-								<h2 class="mb0 bold-text total-comments"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment))%></h2>
+								<h2 class="mb0 bold-text total-comments"><%= totalcomment%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -2278,7 +2279,7 @@ authoryears.put(mostactiveblogger,postyear);
  </script>
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/influence.js?v=987979"></script>
+<script src="pagedependencies/influence.js?v=8979"></script>
 	
 </body>
 </html>
