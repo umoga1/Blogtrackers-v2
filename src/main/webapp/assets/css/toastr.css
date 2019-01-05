@@ -82,6 +82,17 @@ button.toast-close-button {
   bottom: 12px;
   left: 12px;
 }
+.toast-page-center {
+	/* top: 40%;
+  left: 50%;
+ margin-left: -150px;
+  margin-top: -35px; */
+   position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
 #toast-container {
   position: fixed;
   z-index: 999999;

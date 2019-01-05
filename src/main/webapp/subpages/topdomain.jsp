@@ -182,7 +182,7 @@
 								<thead>
 									
 									<% if(listtype.equals("urls")){ %>
-										<tr><th>URLs</th>
+										<tr><th width="80%">URLs</th>
 										<th>Frequency</th>
 										</tr>
 									<% } else { %>	
@@ -232,9 +232,10 @@
 		  // datatable setup
 		    $('#DataTables_Table_0_wrapper').DataTable( {
 		        "scrollY": 430,
-		        "scrollX": true,
+		        /* "scrollX": true, */
 		         "pagingType": "simple",
-		        	 "bLengthChange": false
+		        	 "bLengthChange": false,
+		        	 
 		      /*    ,
 		         dom: 'Bfrtip',
 		         "columnDefs": [
