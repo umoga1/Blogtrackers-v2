@@ -64,7 +64,7 @@ String term =  (null == request.getParameter("term")) ? "" : request.getParamete
 
 
 String results = "";
-String status = "not_crawled";
+String status = "pending";
 
 if(term.equals("")){
 	
