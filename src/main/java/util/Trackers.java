@@ -197,7 +197,7 @@ public String getTotalTrack(String blogsite_id) throws Exception {
     
     */
 	ArrayList result = new ArrayList();
-	 result =  new DbConnection().query("select * from trackers where query LIKE '%,"+blogsite_id+",%' OR query LIKE '%\\("+blogsite_id+",%' OR query LIKE '%,"+blogsite_id+"\\)%' OR query LIKE '%\\("+blogsite_id+"\\)%' ");			
+	 result =  new DbConnection().query("select * from trackers where query LIKE '%,"+blogsite_id+",%' OR query LIKE '%\\("+blogsite_id+",%' OR query LIKE '%,"+blogsite_id+"\\)%' OR query LIKE '%\\("+blogsite_id+"\\)%' GROUP BY userid ");			
 
     return result.size()+"";
 }
