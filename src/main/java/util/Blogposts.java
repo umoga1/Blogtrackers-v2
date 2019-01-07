@@ -74,7 +74,7 @@ public class Blogposts {
 
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -116,7 +116,7 @@ public class Blogposts {
 	}
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -182,7 +182,7 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 	
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -558,7 +558,7 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids,String sort,String order) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -701,7 +701,7 @@ public class Blogposts {
 	
 	public ArrayList _searchByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
 
-		int size = 50;
+		int size = 1000;
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
@@ -928,7 +928,7 @@ public class Blogposts {
 
 	/* Fetch posts by blog ids*/
 	public ArrayList _getPostByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=100";
+		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -1102,7 +1102,7 @@ public class Blogposts {
 				"}");
 
 
-		String url = base_url+"_search?size=100";
+		String url = base_url+"_search?size=1000";
 		return this._getResult(url, jsonObj);
 	}
 

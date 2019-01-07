@@ -79,7 +79,7 @@ if(f.exists() && !f.isDirectory()) {
 <link rel="stylesheet" href="assets/css/style.css" />
 <link rel="stylesheet" href="assets/css/toastr.css" />
   <!--end of bootstrap -->
-  
+  <script src="js/jscookie.js"></script>
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
 
@@ -110,6 +110,7 @@ if(f.exists() && !f.isDirectory()) {
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
   <% if(userinfo.size()>0){ %>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   <%}else{ %>
@@ -255,9 +256,12 @@ if(f.exists() && !f.isDirectory()) {
 
 </div>
 <div class="container analyticscontainer">
-
+<script>
+//console.log(Cookies.get("allfavoritesblogs"));
+</script>
 <%
-
+/* String blogincookie = (String)"<script>document.write(Cookies.get(\"allfavoritesblogs\"))</script>";
+		System.out.println(blogincookie); */
 Favorites myfavoritespost  = new Favorites();
 String allreturnedblog = myfavoritespost.selectAllFavoritePost(username);
 String[] blogpostid = allreturnedblog.split(",");
@@ -331,6 +335,7 @@ String blogsiteid = myfavoritespost.selectBlogTitle(allblogarray[12]);
 else
 {
 	
+
 }
 %>
 
@@ -381,7 +386,7 @@ else
 <script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>
 <script type="text/javascript" src="assets/vendors/typeahead/typeahead.bundle.min.js"></script>
 <script type="text/javascript" src="assets/js/form_tags_input.js"></script>
-<script src="js/jscookie.js"></script>
+
 <script src="pagedependencies/favorites.js">
 </script>
 <!--end for table  -->

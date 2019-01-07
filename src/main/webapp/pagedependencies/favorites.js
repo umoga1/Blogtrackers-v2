@@ -11,7 +11,14 @@ $(document).ready(function() {
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
-
+  
+  // check login status 
+  var loggedinstatus = Cookies.get("loggedinstatus");
+ if(loggedinstatus == "false")
+	 {
+	 
+	 }
+  console.log(Cookies.get("allfavoritesblogs"));
 
 //  blog individual
 var countblog = 0;
@@ -254,7 +261,7 @@ $(this).parent().remove();
 		if(response === "removed")
 		{
 			//toastr.error('Removed from Favorites','Success');
-		toastr.error("Blog Removed from Favorites","Action Succesful");
+		toastr.success("Blog Removed from Favorites","Action Succesful");
 		if(postcount > 0)
 		{
 		postcount--;

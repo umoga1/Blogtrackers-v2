@@ -73,7 +73,7 @@ public class Tracker extends HttpServlet {
         String query = "";
 		String action = (null==request.getParameter("action"))?"":request.getParameter("action");
 		String userid = username;//(String) session.getAttribute("user");
-		
+	    
 		if(action.equals("create"))
 		{	
 			/*
@@ -188,13 +188,21 @@ public class Tracker extends HttpServlet {
 					 
 							 for(int j=0; j<blogs2.length; j++) {
 								 if(!jblog.has(blogs2[j])) {
-									 mergedblogs+=blogs2[j]+",";
+									 if(j != blogs2.length - 1) {
+										 mergedblogs+=blogs2[j]+","; 
+									 }
+									 else if(j == blogs2.length - 1)
+									 {
+										 mergedblogs+=blogs2[j]; 
+									 }
+									
+									
 								 }
 							 }
 							 
 							 String[] allblogs = mergedblogs.replaceAll(",$", "").split(",");
 							 int blognum = allblogs.length;
-
+							 System.out.println("Blog during update ajax request "+  mergedblogs);
 							 addendum = "blogsite_id in ("+mergedblogs+")";//"blogsite_id in ("+addendum+blog_id+")";
 							 String queryy ="UPDATE trackers SET query='"+addendum+"', tracker_name='"+tracker_name+"', description='"+description+"', blogsites_num = '"+blognum+"' WHERE  tid='"+tracker_id+"'";	
 							 

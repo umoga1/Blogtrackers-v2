@@ -370,6 +370,32 @@ box-shadow: none;
 border-color:transparent;
  border-bottom: 2px solid #597a86;
 }
+
+.blogsearch
+{
+background-color: transparent;
+text-align: center;
+color: #17394C;
+border: none;
+ border-bottom: 2px solid #597a86;
+font-size: 3.4rem;
+font-weight: 500;
+width:90% !important;
+margin:0 auto;
+border-radius: 0;
+}
+.blogsearch::placeholder
+{
+color: #597a86;
+}
+.blogsearch:focus{
+background-color: transparent;
+border:none !important;
+color: #17394C;
+box-shadow: none;
+border-color:transparent;
+ border-bottom: 2px solid #597a86;
+}
 .robotcontainer
 {
 min-height: 360px;
@@ -985,6 +1011,10 @@ border-radius: 50%;
 {
 cursor: pointer;
 }
+.cursor-pointer-default:hover,.cursor-pointer-default
+{
+cursor: default !important;
+}
 .helpcontainer
 {
 position:fixed;
@@ -997,6 +1027,10 @@ padding:12px;
 z-index:99999;
 width:63px;
 height:63px;
+}
+.activelink:hover
+{
+opacity:0.85;	
 }
 .helpicon
 {

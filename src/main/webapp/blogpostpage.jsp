@@ -106,6 +106,7 @@ String[] user_name = name.split(" ");
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6  class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
@@ -247,7 +248,7 @@ if(detail.size()>0){
 		     
 		     String datetime = obj.get("date").toString();
 		     
-		     String pst = obj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
+		     String pst = obj.get("post").toString();
 		   
 			 if(blog.size()>0){
 				 		 date = datetime.substring(0, 10);
@@ -303,7 +304,7 @@ if(detail.size()>0){
   </div>
     </div>
 <div class="col-md-12 d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
-<a href="blogpostpage.html"><h3 class="text-center text-primary"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ")%></h3></a>
+<a href="blogpostpage.html"><h3 class="text-center text-primary"><%=obj.get("title").toString()%></h3></a>
 <div class="text-center mt20">
  <button class="btn btn-rounded"><i class="far fa-dot-circle icon-small text-primary"></i></button>
   <button class="btn btn-rounded"><i class="far fa-heart icon-small text-primary"></i></button>

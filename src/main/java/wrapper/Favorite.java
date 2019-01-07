@@ -62,7 +62,7 @@ public class Favorite extends HttpServlet{
 		String blogpostids = (null==request.getParameter("allblogpost"))?"":request.getParameter("allblogpost").replaceAll("\\<.*?\\>", "");
 		String blogpostid = (null==request.getParameter("bloposttoadd"))?"":request.getParameter("bloposttoadd").replaceAll("\\<.*?\\>", "");
 		String action = (null==request.getParameter("action"))?"":request.getParameter("action").replaceAll("\\<.*?\\>", "");
-		System.out.println(blogpostids);
+		
 		// for non logged in users
 		if(username.equalsIgnoreCase("") || username.equalsIgnoreCase(null))
 		{
@@ -84,6 +84,7 @@ public class Favorite extends HttpServlet{
 		}
 		
 		}
+		System.out.println(blogpostids);
 		//System.out.println(username);
 	}
 	

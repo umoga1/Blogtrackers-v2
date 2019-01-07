@@ -14,6 +14,9 @@ var baseurl = app_url;
 
 $(function() {
 
+var favoriteblogs = Cookies.get('allfavoritesblogs');
+console.log(favoriteblogs);
+	
 	$(".form-validate").validate({
 		ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields
 		errorClass: 'validation-error-label',

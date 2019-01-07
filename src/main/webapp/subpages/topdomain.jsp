@@ -178,7 +178,7 @@
 <link rel="stylesheet" href="assets/css/table.css" />
 <link rel="stylesheet" href="assets/css/style.css" />
 
-							<table id="DataTables_Table_0_wrapper" class="display nowrap" style="width: 100%">
+							<table id="DataTables_Table_0_wrapper" class="display" style="width: 100%">
 								<thead>
 									
 									<% if(listtype.equals("urls")){ %>
@@ -187,7 +187,7 @@
 										</tr>
 									<% } else { %>	
 									<tr>
-									<th>Domain</th>
+									<th >Domain</th>
 									<th>Frequency</th>
 									</tr>
 									<% } %>
@@ -232,9 +232,15 @@
 		  // datatable setup
 		    $('#DataTables_Table_0_wrapper').DataTable( {
 		        "scrollY": 430,
-		        "scrollX": true,
+		       /*  "scrollX": "100%", */
+		        /* "scrollX": true, */
 		         "pagingType": "simple",
 		        	 "bLengthChange": false
+		        	/*  ,
+		        	    "columnDefs": [
+		      		      { "width": "50%", "targets": 0 },
+		      		    { "width": "50%", "targets": 0 }
+		      		    ] */
 		      /*    ,
 		         dom: 'Bfrtip',
 		         "columnDefs": [
