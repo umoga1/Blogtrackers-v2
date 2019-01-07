@@ -116,10 +116,23 @@
 			String stdate = post._getDate(ids,"first");
 			String endate = post._getDate(ids,"last");
 			
-			Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
-			Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
+			Date dstart = new Date();
+			Date today = new Date();
 
 			Date nnow = new Date();  
+			
+			try{
+				dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
+			}catch(Exception ex){
+				dstart = nnow;//new SimpleDateFormat("yyyy-MM-dd").parse(nnow);
+			}
+			
+			try{
+				today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
+			}catch(Exception ex){
+				today = nnow;//new SimpleDateFormat("yyyy-MM-dd").parse(nnow);
+			}
+			  
 			  
 			String day = DAY_ONLY.format(today);
 			

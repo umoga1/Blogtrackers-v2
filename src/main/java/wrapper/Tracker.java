@@ -126,14 +126,21 @@ public class Tracker extends HttpServlet {
 				   query="INSERT INTO trackers(userid,tracker_name,date_created,date_modified,query,description,blogsites_num) VALUES('"+userid+"', '"+trackerName+"', '"+createdDate+"', "+ null+", '"+listString+"', '"+trackerDescription+"', '"+selectedSite.length+"')";
 					boolean done = new DbConnection().updateTable(query);
 					if(done) {
-					  	ArrayList trackers = new DbConnection().query("SELECT * FROM trackers WHERE userid='"+userid+"'");
+					  	ArrayList trackers = new DbConnection().query("SELECT * FROM trackers WHERE userid='"+userid+"' ORDER BY tid DESC LIMIT 1");
 	                	session.setAttribute("trackers", trackers+"");
 	                	session.setAttribute("initiated_search_term", "");
 						response.setContentType("text/html");
-						pww.write("success");
+						
+						if(trackers.size()>0){
+						 	ArrayList hd = (ArrayList)trackers.get(0);
+							String que = hd.get(0).toString();
+							pww.write(que);
+						}else {
+							pww.write("error creating tracker");
+						}
 					}else {
 						response.setContentType("text/html");
-						pww.write("full failure");
+						pww.write("error creating tracker");
 					}
 				}
 			}

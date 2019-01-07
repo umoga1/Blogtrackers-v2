@@ -124,9 +124,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	
 	
 	
-	Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
-	Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
-	
+	Date dstart = new Date();
+	Date today = new Date();
+
 	
 	Date nnow = new Date(); 
 	
