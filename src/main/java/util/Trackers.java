@@ -103,7 +103,7 @@ public JSONObject getMyTrackedBlogs(String userid) throws Exception{
 			query = query.replaceAll("\\)", "");
 			
 			 if(!query.equals("")){
-				 String[] allque = query.split(",");
+				 String[] allque = query.replaceAll(", $", "").split(",");//query.split(",");
 				 if( allque.length>0){
 					 for(int k=0; k< allque.length; k++){
 						 String blog_id = allque[k].trim();
@@ -372,7 +372,7 @@ public String _removeBlogs(String trackerid,String blog_ids,String userid) throw
 			String dtt =resut.get(3).toString();
 			
 			String mergedblogs = "";
-			String[] blogs2 = quer.split(",");
+			String[] blogs2 = quer.replaceAll(", $", "").split(",");//quer.split(",");
 			 int blogcounter=0;
 			 for(int j=0; j<blogs2.length; j++) {
 				 if(!jblog.has(blogs2[j])) {
@@ -532,7 +532,7 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 				quer = quer.replaceAll("\\(", "");
 				quer = quer.replaceAll("\\)", "");
 				
-				String[] blogs2 = quer.split(",");
+				String[] blogs2 = quer.replaceAll(", $", "").split(",");//quer.split(",");
 				 
 				 //System.out.println(quer);
 				 //System.out.println("Bid"+);

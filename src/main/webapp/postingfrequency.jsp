@@ -101,6 +101,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			query = query.replaceAll("blogsite_id in ", "");
 			query = query.replaceAll("\\(", "");
 			query = query.replaceAll("\\)", "");
+			
 			ids = query;
 		//}
 	}
@@ -188,8 +189,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			dt = date_start.toString();
 			dte = date_end.toString();
 			
-			historyfrom = DATE_FORMAT.format(start);
-			historyto = DATE_FORMAT.format(end);
 
 			
 		} else if (single.equals("day")) {
@@ -208,20 +207,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			Date dateBefore7Days = cal.getTime();
 			dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
 			
-			
-			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));					
+							
 		} else if (single.equals("month")) {
 			dt = year + "-" + month + "-01";
-			dte = year + "-" + month + "-"+day;	
-			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 		} else if (single.equals("year")) {
 			dt = year + "-01-01";
-			dte = year + "-12-"+ddey;
-			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
-			
+			dte = year + "-12-"+ddey;		
 			
 		}else {
 			dt = dst;
@@ -229,8 +220,29 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 		}  
 		
-		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+			String[] yst = dt.split("-");
+			String[] yend = dte.split("-");
+			year_start = yst[0];
+			year_end = yend[0];
+			int ystint = new Double(year_start).intValue();
+			int yendint = new Double(year_end).intValue();
 			
+			if(yendint>Integer.parseInt(YEAR_ONLY.format(new Date()))){
+				dte = DATE_FORMAT2.format(new Date()).toString();	
+				yendint = Integer.parseInt(YEAR_ONLY.format(new Date()));
+			}
+			
+			if(ystint<2000){
+				ystint = 2000;
+				dt = "2000-01-01";
+			}
+			
+			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+			
+		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+
 			
 	
 	String allpost = "0";
@@ -266,7 +278,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	}
 	
 
-	
+	toplocation = blog._getTopLocation(ids);
+	System.out.println("most-act"+mostactive);
 	ArrayList allposts = new ArrayList();
 %>
 <!DOCTYPE html>
@@ -503,7 +516,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 											locations.put(country,val);
 											if(val>tloc){
 												tloc = val;
-												toplocation = country;
+												//toplocation = country;
 											}
 										}else{
 											locations.put(country,1);
@@ -557,9 +570,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									} 
 								
 				
-				 bloggerarr = post._sortJson(bloggerarr);
+				bloggerarr = post._sortJson2(bloggerarr);
 				 
-				for(int m=(bloggerarr.length()-1); m>0; m--){
+				for(int m=0; m<bloggerarr.length(); m++){
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
 					String au = splitter[1];
@@ -572,7 +585,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						postids += selposts.get(r).toString()+",";
 					}
 					
-					if(m==(bloggerarr.length()-1)){
+					if(m==0){
 						dselected = "abloggerselected";
 							mostactiveblogger = au;
 							
@@ -638,13 +651,6 @@ if (allterms.size() > 0) {
 
 
 
-
-String[] yst = dt.split("-");
-String[] yend = dte.split("-");
-year_start = yst[0];
-year_end = yend[0];
-int ystint = Integer.parseInt(year_start);
-int yendint = Integer.parseInt(year_end);
 
 if(authorcount.length()>0){
 	for(int n=0; n<1;n++){
