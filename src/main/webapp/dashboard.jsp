@@ -219,9 +219,6 @@
 				cal.add(Calendar.DATE, -7);
 				Date dateBefore7Days = cal.getTime();
 				dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
-				
-				
-
 				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 					
 			} else if (single.equals("month")) {
@@ -237,9 +234,28 @@
 				
 			} else {
 				dt = dst;
-				dte = dend;
-				
+				dte = dend;		
 			}
+			
+			String[] yst = dt.split("-");
+			String[] yend = dte.split("-");
+			year_start = yst[0];
+			year_end = yend[0];
+			int ystint = new Double(year_start).intValue();
+			int yendint = new Double(year_end).intValue();
+			
+			if(yendint>Integer.parseInt(YEAR_ONLY.format(new Date()))){
+				dte = DATE_FORMAT2.format(new Date()).toString();	
+				yendint = Integer.parseInt(YEAR_ONLY.format(new Date()));
+			}
+			
+			if(ystint<2000){
+				ystint = 2000;
+				dt = "2000-01-01";
+			}
+			
+			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
 			totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","50");
@@ -259,12 +275,6 @@
 			JSONObject graphyears = new JSONObject();
 		    JSONArray yearsarray = new JSONArray();
 		    
-			String[] yst = dt.split("-");
-			String[] yend = dte.split("-");
-			year_start = yst[0];
-			year_end = yend[0];
-			int ystint = new Double(year_start).intValue();
-			int yendint = new Double(year_end).intValue();
 			if(single.equals("month")){
 				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
 				//ystint=0;
@@ -781,7 +791,7 @@
 			<div class="col-md-6 text-right mt10">
 				<div class="text-primary demo">
 					<h6 id="reportrange">
-						Date: <span><%=historyfrom%> - <%=historyto%></span>
+						Date: <span><%=dispfrom%> - <%=dispto%></span>
 					</h6>
 				</div>
 				<div>

@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class Blogs extends DbConnection{
 	
@@ -57,7 +57,7 @@ public class Blogs extends DbConnection{
 		}
 
 
-		String url = base_url+"_search?size=1000";
+		String url = base_url+"_search?size=20";
 		return this._getResult(url, jsonObj);   
 	}
 
@@ -113,7 +113,7 @@ public class Blogs extends DbConnection{
 
 	/* Fetch posts by blog ids*/
 	public ArrayList _getBloggerByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=1000";
+		String url = base_url+"_search?size=20";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -144,7 +144,7 @@ public class Blogs extends DbConnection{
 		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"totalposts\":{\"order\":\"DESC\"}}}";
 		
 		JSONObject jsonObj = new JSONObject(que);
-		String url = base_url+"_search?size=1000";
+		String url = base_url+"_search?size=20";
 		return this._getResult(url, jsonObj);
 
 	}
@@ -170,7 +170,7 @@ public class Blogs extends DbConnection{
 				
 				if (blogs.size() > 1) {
 					
-					bres = blogs.get(1).toString();
+						bres = blogs.get(1).toString();
 						bresp = new JSONObject(bres);
 						bresu = bresp.get("_source").toString();
 						bobj = new JSONObject(bresu);
@@ -179,11 +179,67 @@ public class Blogs extends DbConnection{
 						mostactive.add(5, bobj.get("blogsite_url").toString());				 
 						mostactive.add(6, bobj.get("totalposts").toString());
 						mostactive.add(7, bobj.get("blogsite_id").toString());
+						mostactive.add(8, bobj.get("location").toString());
 				}
 		}
 		return mostactive;		
 	}
 
+	
+	public String _getTopLocation(String blog_ids) throws Exception { 
+		String toplocation="";
+		ArrayList blogs = this._fetch(blog_ids);
+		JSONArray locations = new JSONArray();
+		
+
+		HashMap<String,Integer> hm = new HashMap<String,Integer>();
+		if (blogs.size() > 0) {
+			String bres = null;
+			JSONObject bresp = null;
+			
+			String bresu = null;
+			JSONObject bobj = null;
+			bres = blogs.get(0).toString();
+				bresp = new JSONObject(bres);
+				bresu = bresp.get("_source").toString();
+				bobj = new JSONObject(bresu);
+				
+				
+				if (blogs.size() > 1) {
+						JSONObject l = new JSONObject();
+						bres = blogs.get(1).toString();
+						bresp = new JSONObject(bres);
+						bresu = bresp.get("_source").toString();
+						bobj = new JSONObject(bresu);
+						
+						String loc =bobj.get("location").toString();
+						locations.put(loc);
+						if ( hm.containsKey(loc) ) {
+				            int value = Integer.parseInt(hm.get(loc)+"");
+				            hm.put(loc, value + 1);
+				        } else {
+				            hm.put(loc, 1);
+				        }
+						
+				}
+		}
+		
+		System.out.println(hm+"");
+		int highest = 0;
+		Iterator it = hm.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        System.out.println(pair.getValue()+""+pair.getKey()+"");
+	        if(Integer.parseInt(pair.getValue()+"")>highest) {
+	        	toplocation = pair.getKey()+""; 
+	        }
+	        it.remove(); // avoids a ConcurrentModificationException
+	    }
+	    
+		return toplocation;		
+	}
+
+	
 	public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 		ArrayList<String> list = new ArrayList<String>(); 
 		try {

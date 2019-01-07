@@ -222,9 +222,30 @@
 				
 			} else {
 				dt = dst;
-				dte = dend;
-				
+				dte = dend;				
 			}
+			
+			
+			String[] yst = dt.split("-");
+			String[] yend = dte.split("-");
+			year_start = yst[0];
+			year_end = yend[0];
+			int ystint = new Double(year_start).intValue();
+			int yendint = new Double(year_end).intValue();
+			
+			if(yendint>Integer.parseInt(YEAR_ONLY.format(new Date()))){
+				dte = DATE_FORMAT2.format(new Date()).toString();	
+				yendint = Integer.parseInt(YEAR_ONLY.format(new Date()));
+			}
+			
+			if(ystint<2000){
+				ystint = 2000;
+				dt = "2000-01-01";
+			}
+			
+			String month_start = yst[1];
+			String month_end = yend[1];
+			
 			
 			String[] idss = ids.split(",");
 			String selectedblogid = idss[0];
@@ -248,16 +269,6 @@
 			JSONObject graphyears = new JSONObject();
 		    JSONArray yearsarray = new JSONArray();
 		    
-			String[] yst = dt.split("-");
-			String[] yend = dte.split("-");
-			year_start = yst[0];
-			year_end = yend[0];
-			
-			String month_start = yst[1];
-			String month_end = yend[1];
-			
-			int ystint = Integer.parseInt(year_start);
-			int yendint = Integer.parseInt(year_end);
 			if(single.equals("month")){
 				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
 				//ystint=0;
@@ -807,7 +818,7 @@
 			<div class="col-md-6 text-right mt10">
 				<div class="text-primary demo">
 					<h6 id="reportrange">
-						Date: <span><%=historyfrom%> - <%=historyto%></span>
+						Date: <span><%=dispfrom%> - <%=dispto%></span>
 					</h6>
 				</div>
 				<div>
