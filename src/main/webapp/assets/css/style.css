@@ -1011,6 +1011,10 @@ border-radius: 50%;
 {
 cursor: pointer;
 }
+.cursor-pointer-default:hover,.cursor-pointer-default
+{
+cursor: default !important;
+}
 .helpcontainer
 {
 position:fixed;
@@ -1023,6 +1027,10 @@ padding:12px;
 z-index:99999;
 width:63px;
 height:63px;
+}
+.activelink:hover
+{
+opacity:0.85;	
 }
 .helpicon
 {

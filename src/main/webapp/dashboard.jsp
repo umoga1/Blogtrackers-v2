@@ -656,7 +656,10 @@
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a> <a class="cursor-pointer profilemenulink"
+						</h6> </a> 
+						<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+						
+						<a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
 							class="text-primary">Profile</h6></a> <a
 						class="cursor-pointer profilemenulink"
@@ -1183,7 +1186,7 @@
           Export Options
           </div> -->
           <div id="top-domain-box">
-							<table id="DataTables_Table_0_wrapper" class="display nowrap"
+							<table id="DataTables_Table_0_wrapper" class="display"
 								style="width: 100%">
 								<thead>
 									<tr>
@@ -1406,7 +1409,7 @@ $(document).ready(function() {
 // table set up 2
     $('#DataTables_Table_0_wrapper').DataTable( {
         "scrollY": 430,
-        "scrollX": true,
+        "scrollX": false,
          "pagingType": "simple",
         	 "bLengthChange": false
     /*      ,
@@ -4460,7 +4463,7 @@ $(".option-lable").on("click",function(e){
  
  
  function loadDomain(){
-	 $("#top-domain-box").html('<tr><td colspan="2"><div style="text-align:center"><img src="'+app_url+'images/preloader.gif"/><br/></div></td></tr>');		
+	 $("#top-domain-box").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");		
 		$.ajax({
 			url: app_url+'subpages/topdomain.jsp',
 			method: 'POST',
@@ -4476,7 +4479,8 @@ $(".option-lable").on("click",function(e){
 			},
 			success: function(response)
 			{   
-				$("#top-domain-box").html(response);
+			
+			$("#top-domain-box").html(response);
 			}
 		});
 	}

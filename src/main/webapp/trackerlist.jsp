@@ -317,8 +317,11 @@
 			%>
 			
 			<div class="card noborder curved-card mb30 pt30">
-				<a href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=resut.get(0).toString()%>"><div class="">
-					<h1	class="text-primary text-center pt20 p20 pb0 cursor-pointer bold-text"><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+				<a href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=resut.get(0).toString()%>">
+				<div class="text-center mt10 stylebutton6 text-primary m20 mt0 mb0 cursor-pointer">
+				
+					<h1	class="text-primary text-center pt10 p20 pb10 cursor-pointer bold-text activelink"><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+				
 				</div></a>
 
 				<div class="card-body">
@@ -347,7 +350,7 @@
 					</p>
 					<div class="text-center mt20">
 						<button
-							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left"
+							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left cursor-pointer-default"
 							style="width: 100%;">
 							<h1 class="text-success mb0"><%=totalblog%></h1>
 							<h5 class="text-primary">Blogs</h5>
@@ -357,7 +360,7 @@
 
 					<div class="text-center mt10">
 						<button
-							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left"
+							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left cursor-pointer-default"
 							style="width: 100%;">
 							<h1 class="text-success mb0"><%=NumberFormat.getNumberInstance(Locale.US).format(totalpost)%></h1>
 							<h5 class="text-primary">Posts</h5>
