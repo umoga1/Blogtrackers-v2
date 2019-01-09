@@ -313,7 +313,7 @@ try{
 <p class="text-center text-primary p20 pt0 pb0">Track Blogs at your tips.</p></div>
 
 </div>
-<div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60 mt40">Start Tracking</button></div>
+<div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60 mt40 starttracking2">Start Tracking</button></div>
 </div>
 <div class="bgwhite">
 <div class="container-fluid pb80 pt80" id="whatyoucando">
@@ -604,6 +604,13 @@ Design is not just what it looks like and feels like. Design is how it works.
 <script src="assets/js/generic.js"></script>
 <script src="assets/js/smoothscroll.js">
 
+</script>
+<script>
+$(document).ready(function(){
+$('.starttracking2').on("click", function(){
+location = "blogbrowser.jsp";	
+});	
+});
 </script>
 </body>
 </html>
