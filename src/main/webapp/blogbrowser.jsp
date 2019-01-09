@@ -269,11 +269,12 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <%
 ArrayList resut = new ArrayList();
 if(mytrackers.size()>0){
-for(int i=0; i< mytrackers.size(); i++){
+	for(int i=0; i< mytrackers.size(); i++){
 			resut = (ArrayList)mytrackers.get(i);				
 %>
 <button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text" id="<%=resut.get(0).toString()%>"><%=resut.get(2).toString()%> <i class="fas fa-check float-right hidden checktracker"></i></button>
-<% }} %>
+<% }
+} %>
 <!-- 
 <button class="btn form-control col-md-10 text-primary text-left trackerindividual pt10 pb10 pl10 resetdefaultfocus bold-text">Technology <i class="fas fa-check float-right hidden checktracker"></i></button>
 -->

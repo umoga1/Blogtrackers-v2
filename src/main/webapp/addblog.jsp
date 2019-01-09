@@ -239,7 +239,7 @@ results_blogadded = new_blog._fetchBlog(username);
 <p class="text-primary p30 pt30 pb0">Enter the URL of the Blog <b>(with http://)</b> and press Enter to save</p>
 <form method="add" method="post" autocomplete="off" action="<%=request.getContextPath()%>/addblog.jsp">
 <input type="url" placeholder="Enter a Blog URL" required name="term" class="form-control blogsearch bold-text"/>
-<p class="text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb10 mt20">Search Blogs</button></p>
+<p class="text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb10 mt20">Add Blog</button></p>
 <!-- <p class="p30 pt20 pb10">&nbsp;&nbsp;&nbsp;&nbsp;Added: <button class="btn btn-primary btn-danger profilebtn">Blog Added Successfully</button> <button class="btn btn-primary stylebuttonnotifications">02-01-2018&nbsp;.&nbsp;5:30pm</button></p>
  -->  
  <div class="card-body pt0">

@@ -1,4 +1,5 @@
 
+
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
@@ -124,9 +125,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	
 	
 	
-	Date dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
-	Date today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
-	
+	Date dstart = new Date();
+	Date today = new Date();
+
 	
 	Date nnow = new Date(); 
 	
@@ -331,7 +332,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
 						</h6> </a>
 						<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
-						
 						 <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
 							class="text-primary">Profile</h6></a> <a
@@ -564,7 +564,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    postidss+=tobj.get("blogpost_id").toString()+",";
 										
 									   
-										if(i==0){
+
+									    if(i==0){
 											postidss+=tobj.get("blogpost_id").toString()+",";
 											
 											// Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
@@ -596,7 +597,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 											JSONObject xy = new JSONObject();
 									    	
 									    	String x =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
-									    	int val = Integer.parseInt(post._searchRangeMaxByBloggers("date",dt, dte,auth));
+									    	int val = new Double(post._searchRangeMaxByBloggers("date",dt, dte,auth)).intValue(); 
 									    			//Integer.parseInt(post._searchRangeAggregateByBloggers("date",dt, dte,auth,"influence_score"));
 									    	
 									    	String y = val+"";
@@ -606,7 +607,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	influencecount+=val;
 									    	
 											l++;
-											bloggersort.put(auth,Integer.parseInt(postcount));
+											bloggersort.put(auth, new Double(postcount).intValue());
 											JSONObject bloggerj = new JSONObject();
 											bloggerj.put("blogger",auth);
 											bloggerj.put("blogid",blogid);
@@ -702,7 +703,7 @@ if(allauthors2.size()>0){
 String possentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"posemo");
 String negsentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"negemo");
 
-int comb = Integer.parseInt(possentiment2)+Integer.parseInt(negsentiment2);
+int comb = new Double(possentiment2).intValue() + new Double(negsentiment2).intValue();
 String totalcomment = tcomment+"";// post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
 totalinfluence  = influencecount;// Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
 
@@ -725,7 +726,7 @@ if (allterms.size() > 0) {
 		bstr = bj.get("_source").toString();
 		bj = new JSONObject(bstr);
 		String frequency = bj.get("frequency").toString();
-		int freq = Integer.parseInt(frequency);
+		int freq = new Double(frequency).intValue();
 		
 		String tm = bj.get("term").toString();
 		if(freq>highestfrequency){
@@ -748,8 +749,8 @@ String[] yst = dt.split("-");
 String[] yend = dte.split("-");
 year_start = yst[0];
 year_end = yend[0];
-int ystint = Integer.parseInt(year_start);
-int yendint = Integer.parseInt(year_end);
+int ystint = new Double(year_start).intValue();
+int yendint = new Double(year_end).intValue();
 int base = 0;
 //System.out.println("BLoggers here:"+authorcount);
 JSONObject postyear =new JSONObject();
@@ -768,8 +769,8 @@ if(authorcount.length()>0){
 				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger,"influence_score");
 				   //String totu = post._searchRangeMaxByBloggers("date",dt, dte,mostactiveblogger);
 			    	
-				   if(Integer.parseInt(totu)<base){
-					   base = Integer.parseInt(totu);
+				   if(new Double(totu).intValue() <base){
+					   base = new Double(totu).intValue();
 				   }
 				   
 				   if(!years.has(y+"")){
@@ -789,7 +790,7 @@ base = Math.abs(base);
 if(postyear.length()>0){
 		for(int y=ystint; y<=yendint; y++){ 
 				   String v1 = postyear.get(y+"").toString();
-				   int re = Integer.parseInt(v1)+base;
+				   int re = new Double(v1).intValue()+base;
 				   postyear.put(y+"",re+"");
 		}
 		
@@ -1862,8 +1863,8 @@ authoryears.put(mostactiveblogger,postyear);
          data = [[<% if(authorcount.length()>0){ for(int p=0; p<authorcount.length(); p++){ 
    					String au = authorcount.get(p).toString();
    			  		JSONObject jxy = new JSONObject(influecechart.get(au).toString());
-   			  		int x = Integer.parseInt(jxy.get("x").toString());
-   			  		int y = Integer.parseInt(jxy.get("y").toString()); %>{"x":<%=x%>,"y":<%=y%>},<% }} %>]   		
+   			  		int x = new Double(jxy.get("x").toString()).intValue();
+   			  		int y = new Double(jxy.get("y").toString()).intValue(); %>{"x":<%=x%>,"y":<%=y%>},<% }} %>]   		
          ];
 
          // data = [];
@@ -2255,7 +2256,7 @@ wordtagcloud("#tagcloudcontainer",450);
 	     var frequency_list = [ <%if (topterms.length() > 0) {
 				for (int i = 0; i < topterms.length(); i++) {
 					JSONObject jsonObj = topterms.getJSONObject(i);
-					int size = Integer.parseInt(jsonObj.getString("frequency"));
+					int size = new Double(jsonObj.getString("frequency")).intValue();
 					%>
 	{"text":"<%=jsonObj.getString("key")%>","size":<%=size*2%>},
  <%}

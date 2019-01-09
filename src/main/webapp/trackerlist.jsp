@@ -502,7 +502,7 @@ trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-
 		  });
 	  
 	  // create a tracker script
-	  $.getScript("pagedependencies/createtracker.js?v=19", function(data, textStatus, jqxhr) {
+	  $.getScript("pagedependencies/createtracker.js?v=129", function(data, textStatus, jqxhr) {
 			
 			  });
 	  

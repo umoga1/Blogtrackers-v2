@@ -15,7 +15,8 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime; 
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 public class Trackers {
 
 	HashMap<String, String> hm = DbConnection.loadConstant();		
@@ -68,7 +69,7 @@ public ArrayList _list(String order, String from, String userid, String size) th
 	ArrayList trackerlist = new ArrayList();
 	try {
 		//System.out.println("userid:"+userid);
-		trackerlist = new DbConnection().query("select * from trackers where userid = '"+userid+"' ");				
+		trackerlist = new DbConnection().query("select * from trackers where userid = '"+userid+"' ORDER BY tid DESC ");				
 	} catch (Exception ex) {}
 	
 	return trackerlist;
@@ -176,6 +177,7 @@ public ArrayList _search(String term,String username) throws Exception {
 
 
 public String getTotalTrack(String blogsite_id) throws Exception {
+	/*
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 
 	 		"        \"query_string\" : {\r\n" + 
@@ -193,8 +195,11 @@ public String getTotalTrack(String blogsite_id) throws Exception {
 	 
     String url = base_url+"_search?size=100";
     
-    
-    return this._getTotal(url, jsonObj);
+    */
+	ArrayList result = new ArrayList();
+	 result =  new DbConnection().query("select * from trackers where query LIKE '%,"+blogsite_id+",%' OR query LIKE '%\\("+blogsite_id+",%' OR query LIKE '%,"+blogsite_id+"\\)%' OR query LIKE '%\\("+blogsite_id+"\\)%' ");			
+
+    return result.size()+"";
 }
 
 
@@ -234,16 +239,19 @@ public String _add(String userid, JSONObject params) throws Exception {
 		 blognum = blogs.length;
 	 }
 	 
+	 
+	 /*
 	 String urll = base_url+"_search?size=5";  
 	 JSONObject jsonObj2 = new JSONObject("{\r\n" + 
 	 		"    \"query\" : {\r\n" + 
 	 		"        \"match_all\" : {}\r\n" + 
 	 		"    }\r\n" + 
 	 		"}");
-		
+	 
 	 
 	 String next = this._getTotal(urll, jsonObj2);
-	 int tidd = Integer.parseInt(next)+1;
+	 
+	 //int tidd = Integer.parseInt(next)+1;
 	 
 	 
 	 //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
@@ -256,7 +264,7 @@ public String _add(String userid, JSONObject params) throws Exception {
 	 param.put("tracker_name", params.get("trackername"));
 	 param.put("description", params.get("description"));
 	 param.put("blogsites_num", blognum);	
-	 param.put("tid", tidd);
+	// param.put("tid", tidd);
 	 //param.put("date_modified",dtf.format(now));
 	 //param.put("date_created",dtf.format(now)+"T06:00:00.000Z");
 
@@ -264,8 +272,9 @@ public String _add(String userid, JSONObject params) throws Exception {
 	 //System.out.println(param);
 	//JSONObject jsonObj = new JSONObject("{\"userid\":\"wizzletest\",\"query\":\"blogsite_id in (46,62,47,49,66,52,53,65,63,54)\",\"tracker_name\":\"Wizzle\",\"description\":\"Best blogs ever\",\"blogsites_num\":10}");	 
 	 String output = "false";
-	 String url = base_url+"trackers";	 
-	 JSONObject myResponse = this._runUpdate(url, param);
+	 
+	 //String url = base_url+"trackers";	 
+	// JSONObject myResponse = this._runUpdate(url, param);
 	 
 	  if(null==myResponse.get("result")) {
 		   	  output = "false";
@@ -278,27 +287,66 @@ public String _add(String userid, JSONObject params) throws Exception {
 			   output = "false";
 		   }
 	   } 
+	   */
+	 
+	 String output = "false";
+	 String blogsites = "blogsite_id in ("+params.get("blogs")+")";
+	 String trackerName = params.get("trackername").toString();
+	 String description = params.get("description").toString();
+	 String createdDate= getDateTime();
+	// String totalblogs = blognum+"";
+	 
+	 ArrayList prev = new DbConnection().query("SELECT * FROM trackers WHERE tracker_name='"+trackerName+"'");
+		
+		if(prev!=null && prev.size()>0) {
+			output = "false";
+		}else {	
+			String query="INSERT INTO trackers(userid,tracker_name,date_created,date_modified,query,description,blogsites_num) VALUES('"+userid+"', '"+trackerName+"', '"+createdDate+"', "+ null+", '"+blogsites+"', '"+description+"', '"+blognum+"')";
+			boolean done = new DbConnection().updateTable(query);
+			if(done) {
+			  	output = "true";
+			}else {
+				output = "false";
+			}
+		}
+		
+	
 	  return output;
+	    
 }
 
 
 /* Add a new tracker*/
 public String _delete(String trackerid) throws Exception {
 	
-	ArrayList<?> detail = this._fetch(trackerid);
-	
-	 if(detail.size()>0){		
+	 ArrayList<?> detail = this._fetch(trackerid);
+	 if(detail.size()>0){	
+		 	ArrayList resut = (ArrayList)detail.get(0);		
+		    String id = resut.get(0).toString();
+		   /*
 			String res = detail.get(0).toString();		
 			JSONObject resp = new JSONObject(res);
-			String tid = resp.get("_id").toString();
+			
 			//tid = "4qSen2QBCl8_4DKPZSTm";
+			/*
+			 String tid = resp.get("_id").toString();
 			String url = base_url+"trackers/"+tid;
 			this._runDelete(url);
-			return "true";
+			
+			String tid = resp.get("tracker_id").toString();	
+			*/
+			String query="DELETE FROM trackers WHERE  tid='"+id+"'";
+			boolean done = new DbConnection().updateTable(query);
+			if(done) {
+				return "true";
+			}else {
+				return "false";
+			}
 			
 	 }
-	 
+ 
 	 return "false";
+		
 }
 
 /* Remove blogs from tracker*/
@@ -313,7 +361,32 @@ public String _removeBlogs(String trackerid,String blog_ids,String userid) throw
 	 
 	ArrayList<?> detail = this._fetch(trackerid);
 	
-	 if(detail.size()>0){		
+	 if(detail.size()>0){		 
+		 	ArrayList resut = (ArrayList)detail.get(0);		
+		    String id = resut.get(0).toString();
+		    String quer = resut.get(5).toString();//obj.get("query").toString();
+			
+			quer = quer.replaceAll("blogsite_id in ", "");
+			quer = quer.replaceAll("\\(", "");
+			quer = quer.replaceAll("\\)", "");
+			String dtt =resut.get(3).toString();
+			
+			String mergedblogs = "";
+			String[] blogs2 = quer.split(",");
+			 int blogcounter=0;
+			 for(int j=0; j<blogs2.length; j++) {
+				 if(!jblog.has(blogs2[j])) {
+					 if(j<(blogs2.length-1))
+						 mergedblogs+=blogs2[j]+",";
+					 else
+						 mergedblogs+=blogs2[j];
+					 blogcounter++;
+				 }
+			 }
+			 			
+			String que =  "blogsite_id in ("+mergedblogs+")";				
+		 
+		 /*
 			String res = detail.get(0).toString();		
 			JSONObject resp = new JSONObject(res);
 			String tid = resp.get("_id").toString();
@@ -341,7 +414,8 @@ public String _removeBlogs(String trackerid,String blog_ids,String userid) throw
 					 }
 				 }
 				 			
-				String que =  "blogsite_id in ("+mergedblogs+")";			 
+				String que =  "blogsite_id in ("+mergedblogs+")";	
+				/*
 				String url = base_url+"trackers/"+tid+"/_update";			 
 				JSONObject jsonObj = new JSONObject("{\r\n" + 
 			    		"    \"script\" : \"ctx._source.query = '"+que+"'; ctx._source.blogsites_num= '"+blogcounter+"';\",\r\n" + 
@@ -354,7 +428,14 @@ public String _removeBlogs(String trackerid,String blog_ids,String userid) throw
 						   output = "true";
 					   }
 				   }
-				   						
+			*/
+				String query = "UPDATE trackers SET query='"+que+"', blogsites_num = '"+blogcounter+"' WHERE  tid='"+trackerid+"'";
+				boolean done = new DbConnection().updateTable(query);
+				if(done) {
+					output = "true";
+				}else {
+					output = "false";
+				}			   						
 	 }
 	 
 	 return output;
@@ -371,7 +452,8 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 	 String output = "false";
 	 ArrayList<?> detail = this._fetch(trackerid);
 	 //System.out.println(detail);
-	 if(detail.size()>0){		
+	 if(detail.size()>0){	
+		 /*
 			String res = detail.get(0).toString();		
 			JSONObject resp = new JSONObject(res);
 			String tid = resp.get("_id").toString(); 
@@ -429,7 +511,7 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 			    		"}");
 			 JSONObject myResponse = this._runUpdate(url, jsonObj);	
 			 //this._delete(trackerid);
-			 if(null==myResponse.get("result")) {
+			  *if(null==myResponse.get("result")) {
 				   	  output = "false";
 			   }else {
 				   String resv = myResponse.get("result").toString();
@@ -439,7 +521,53 @@ public String _update(String trackerid, JSONObject params) throws Exception {
 					   output = "false";
 				   }
 			   }
-			   			 
+			 */
+
+				ArrayList resut = (ArrayList)detail.get(0);
+				
+			    String id = resut.get(0).toString();
+			    String quer = resut.get(5).toString();//obj.get("query").toString();
+				
+				quer = quer.replaceAll("blogsite_id in ", "");
+				quer = quer.replaceAll("\\(", "");
+				quer = quer.replaceAll("\\)", "");
+				
+				String[] blogs2 = quer.split(",");
+				 
+				 //System.out.println(quer);
+				 //System.out.println("Bid"+);
+				 
+				 if(blogs.length>0) {
+				    	String bid = blogs[0].trim();
+				    	for(int b=0; b<blogs2.length; b++) {
+				    		String b2id = blogs2[b].trim();
+				    		if(b2id.equals(bid)) {		    			
+				    			return "false";
+				    		}
+				    	}
+				  }
+				 
+				 String mergedblogs = this.mergeArrays(blogs, blogs2);
+				 String[] allblogs = mergedblogs.split(",");
+				 blognum = allblogs.length;
+				 
+				String qu = "blogsite_id in ("+mergedblogs+")";
+				String trackerName = "";
+				 if(params.has("trackername")) {
+					 trackerName = params.get("trackername").toString();
+				 }
+				 
+				 String description = params.get("description").toString();
+				 String userid = params.get("userid").toString();
+			
+				 String query = "UPDATE trackers SET tracker_name='"+trackerName+"', description='"+description+"', query='"+qu+"', blogsites_num = '"+blognum+"' WHERE  tid='"+trackerid+"' AND userid = '"+userid+"'";
+				 new DbConnection().updateTable(query);	
+				 boolean done = new DbConnection().updateTable(query);
+					if(done) {
+							output = "true";
+					}else {
+							output = "false";
+					}			   							 
 	 }
 	 
 	
@@ -610,5 +738,9 @@ public String _getTotal(String url, JSONObject jsonObj) throws Exception {
 	}
 	
 	
-
+	private String getDateTime() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
 }
