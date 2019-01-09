@@ -53,6 +53,7 @@ public class AddTracker extends HttpServlet {
 		String usession = (null==request.getHeader("session"))?"":request.getHeader("session").trim();
 		String key= (null == session.getAttribute("key")) ? "" : session.getAttribute("key").toString();
 		//String data = (null == request.getParameter("data"))? "" : request.getParameter("data").trim();
+		System.out.println("hello");
 		
 		PrintWriter pww = response.getWriter();
 		

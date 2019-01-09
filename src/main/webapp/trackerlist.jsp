@@ -349,22 +349,15 @@
 						<%=description	%>
 					</p>
 					<div class="text-center mt20">
-						<button
+						<p
 							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left cursor-pointer-default"
 							style="width: 100%;">
 							<h1 class="text-success mb0"><%=totalblog%></h1>
 							<h5 class="text-primary">Blogs</h5>
-						</button>
-
-					</div>
-
-					<div class="text-center mt10">
-						<button
-							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left cursor-pointer-default"
-							style="width: 100%;">
+				
 							<h1 class="text-success mb0"><%=NumberFormat.getNumberInstance(Locale.US).format(totalpost)%></h1>
 							<h5 class="text-primary">Posts</h5>
-						</button>
+						</p>
 
 					</div>
 					<!-- <div class="text-center mt10">
