@@ -587,7 +587,7 @@ Design is not just what it looks like and feels like. Design is how it works.
 </div>
 
 <div class="text-center cursor-pointer helpcontainer">
-<a href="<%=request.getContextPath()%>/documentation.jsp" target="_blank" class="navbar-brand cursor-pointer helpicon">
+<a href="<%=request.getContextPath()%>/documentation.jsp" class="navbar-brand cursor-pointer helpicon">
 <!-- <i class="text-white" ></i> -->
 
 </a>

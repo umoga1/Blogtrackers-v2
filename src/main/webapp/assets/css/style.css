@@ -1924,11 +1924,17 @@ background-color: #a8dfff;
 border: 2px solid #a8dfff;
 border-color: #a8dfff;
 color: #16394B;
+cursor:default !important;	
+}
+.stylebutton7:hover, .stylebutton8:hover
+{
+cursor:default !important;	
 }
 .stylebutton8
 {
 font-size: 0.7rem;
 border-radius: 10px;
+cursor:default !important;	
 padding: 0.19rem 0.75rem;
 font-weight: 700;
 background-color: #FFD27D;
