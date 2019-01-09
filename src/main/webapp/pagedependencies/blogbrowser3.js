@@ -63,7 +63,7 @@ $('.blogindividual').on("click",function(e){
 
 //tracker list handler
 $('.trackerindividual').on("mouseenter",function(){
-$(this).find(".checktracker").removeClass("hidden");
+	$(this).find(".checktracker").removeClass("hidden");
 });
 
 
@@ -105,7 +105,7 @@ $('.trackerindividual').on("click",function(e){
     $(this).find(".checktracker").addClass("hidden");
     $(this).removeClass("trackerindividualactive").addClass("bold-text");
     // remember to pass session id of blog
-   // updateTracker(this,"remove");
+    updateTracker(this,"remove");
     trackerselectedcount--;
     console.log("not"+trackerselectedcount);
     // increase count of selected tracker
@@ -688,7 +688,8 @@ else
 	     });
 	   	 
 	   //	console.log("Allblogs here:"+all_blogs);return false;
-   	
+	   	$('.trackercreatebutton').val("creating tracker");
+	   	$('.trackercreatebutton').attr("disabled",true);
    	 //If at least a tracker is selected, update tracker else create tracker
 		$.ajax({
 			url: app_url+'tracker',
@@ -706,7 +707,8 @@ else
 			success: function(response)
 			{   
 				console.log(response);
-				if(response.indexOf("success")>-1){
+				//if(response.indexOf("success")>-1){
+				if(response!="error creating tracker" && response!="tracker already exist"){
 					toastr.success('Tracker successfully created and Updated!','Success');
 					$('.trackcreationsection2').addClass("hidden");
 					$('.trackcreationsection1').removeClass('hidden');
@@ -728,6 +730,8 @@ else
 					//location.href=app_url+"blogbrowser.jsp";
 				}else{
 					toastr.error(response,'Error');
+					$('.trackercreatebutton').val("Create");
+				   	$('.trackercreatebutton').attr("disabled",false);
 				}
 			}
 		});

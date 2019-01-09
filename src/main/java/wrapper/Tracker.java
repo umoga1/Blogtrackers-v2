@@ -204,10 +204,9 @@ public class Tracker extends HttpServlet {
 							 int blognum = allblogs.length;
 							 System.out.println("Blog during update ajax request "+  mergedblogs);
 							 addendum = "blogsite_id in ("+mergedblogs+")";//"blogsite_id in ("+addendum+blog_id+")";
-							 String queryy ="UPDATE trackers SET query='"+addendum+"', tracker_name='"+tracker_name+"', description='"+description+"', blogsites_num = '"+blognum+"' WHERE  tid='"+tracker_id+"'";	
 							 
-														 				
-							db.updateTable("UPDATE trackers SET query='"+addendum+"', tracker_name='"+tracker_name+"', description='"+description+"', blogsites_num = '"+blognum+"' WHERE  tid='"+tracker_id+"'");	
+							 String modifiedDate= getDateTime();
+							db.updateTable("UPDATE trackers SET query='"+addendum+"', tracker_name='"+tracker_name+"', description='"+description+"', date_modified='"+modifiedDate+"', blogsites_num = '"+blognum+"' WHERE  tid='"+tracker_id+"'");	
 							pww.write("success");
 					 }else {
 						 	pww.write("invalid tracker");
