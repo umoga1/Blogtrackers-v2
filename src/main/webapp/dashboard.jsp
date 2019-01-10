@@ -649,7 +649,7 @@
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
 <!-- <script src="assets/js/jquery-3.2.1.slim.min.js"></script>-->
-<script src="assets/js/popper.min.js"></script>
+<!-- <script src="assets/js/popper.min.js"></script> -->
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 
   <script src="pagedependencies/baseurl.js"></script>
@@ -1398,7 +1398,7 @@
 	<script		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
 	<script
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
-	<script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
+	<!-- <script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script> -->
 	<script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
 	<script
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
@@ -1788,7 +1788,7 @@ $(function () {
                   maxvalue = d3.max(data, function(d) { return d.frequency; });
                   if(d.frequency == maxvalue)
                   {
-                    return "0080CC";
+                    return "#0080CC";
                   }
                   else
                   {
@@ -2081,7 +2081,7 @@ $(function () {
                   maxvalue = d3.max(data, function(d) { return d.frequency; });
                   if(d.frequency == maxvalue)
                   {
-                    return "0080CC";
+                    return "#0080CC";
                   }
                   else
                   {
@@ -4120,8 +4120,9 @@ $(".option-lable").on("click",function(e){
                                 //.attr("transform", "translate("+129.5/6+",0)")
                                 .attr("d", line)
                                 // .style("fill", "rgba(0,0,0,0.54)")
+                                //.style("fill", "#17394C")
                                 .style("stroke-width",2)
-                                .style("stroke", "17394C")
+                                .style("stroke", "#17394C")
                                 //.attr("transform", "translate("+margin.left/4.7+",0)");
                                 // .attr("transform", "translate(40,0)");
                         
@@ -4287,11 +4288,39 @@ $(".option-lable").on("click",function(e){
                      if(data.length == 1 )
                     	 {
                     	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-                        transformfirsttick =  tick[0][0].attributes[1].value;
+                    	 var transformfirsttick;
+                    	 //transformfirsttick =  tick[0][0].attributes[2].value;
+                        //console.log(tick[0][0].attributes[2]);
                         //transformfirsttick = "translate(31.5,0)"
-                        //console.log(transformfirsttick);
+                        //console.log(tick[0][0]);
+                        // handle based on browser
+                        var browser = "";
+                        c = navigator.userAgent.search("Chrome");
+                        f = navigator.userAgent.search("Firefox");
+                        m8 = navigator.userAgent.search("MSIE 8.0");
+                        m9 = navigator.userAgent.search("MSIE 9.0");
+                        if (c > -1) {
+                            browser = "Chrome";
+                            // chrome browser
+                        transformfirsttick =  tick[0][0].attributes[1].value;
+  
+                        } else if (f > -1) {
+                            browser = "Firefox";
+                             // firefox browser
+                         transformfirsttick =  tick[0][0].attributes[2].value;
+                        } else if (m9 > -1) {
+                            browser ="MSIE 9.0";
+                        } else if (m8 > -1) {
+                            browser ="MSIE 8.0";
+                        }
+                        
                         svg.select(".circlecontainer").attr("transform", transformfirsttick);
                         svg.select(".linecontainer").attr("transform", transformfirsttick);
+                        
+                        
+                        
+                        //console.log(browser);
+                        
                     	 }
                     
 
@@ -4361,11 +4390,39 @@ $(".option-lable").on("click",function(e){
              if(data.length == 1 )
         	 {
         	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-            transformfirsttick =  tick[0][0].attributes[1].value;
+        	 var transformfirsttick;
+        	 //transformfirsttick =  tick[0][0].attributes[2].value;
+            //console.log(tick[0][0].attributes[2]);
             //transformfirsttick = "translate(31.5,0)"
-            console.log(transformfirsttick);
+            //console.log(tick[0][0]);
+            // handle based on browser
+            var browser = "";
+            c = navigator.userAgent.search("Chrome");
+            f = navigator.userAgent.search("Firefox");
+            m8 = navigator.userAgent.search("MSIE 8.0");
+            m9 = navigator.userAgent.search("MSIE 9.0");
+            if (c > -1) {
+                browser = "Chrome";
+                // chrome browser
+            transformfirsttick =  tick[0][0].attributes[1].value;
+
+            } else if (f > -1) {
+                browser = "Firefox";
+                 // firefox browser
+             transformfirsttick =  tick[0][0].attributes[2].value;
+            } else if (m9 > -1) {
+                browser ="MSIE 9.0";
+            } else if (m8 > -1) {
+                browser ="MSIE 8.0";
+            }
+            
             svg.select(".circlecontainer").attr("transform", transformfirsttick);
             svg.select(".linecontainer").attr("transform", transformfirsttick);
+            
+            
+            
+            //console.log(browser);
+            
         	 }
 
 

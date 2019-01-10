@@ -188,6 +188,9 @@
 				dt = date_start.toString();
 				dte = date_end.toString();
 				
+				historyfrom = DATE_FORMAT.format(start);
+				historyto = DATE_FORMAT.format(end);
+
 				//allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
 			} else if (single.equals("day")) {
 				 dt = year + "-" + month + "-" + day;
@@ -222,32 +225,8 @@
 			} else {
 				dt = dst;
 				dte = dend;
+				
 			}
-			
-			String[] yst = dt.split("-");
-			String[] yend = dte.split("-");
-			year_start = yst[0];
-			year_end = yend[0];
-			int ystint = new Double(year_start).intValue();
-			int yendint = new Double(year_end).intValue();
-			
-			if(yendint>Integer.parseInt(YEAR_ONLY.format(new Date()))){
-				dte = DATE_FORMAT2.format(new Date()).toString();	
-				yendint = Integer.parseInt(YEAR_ONLY.format(new Date()));
-			}
-			
-			if(ystint<2000){
-				ystint = 2000;
-				dt = "2000-01-01";
-			}
-			
-			String month_start = yst[1];
-			String month_end = yend[1];
-			
-			
-			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
-			
 			
 			String[] idss = ids.split(",");
 			String selectedblogid = idss[0];
@@ -395,9 +374,16 @@
 			
 			
 			
+			String[] yst = dt.split("-");
+			String[] yend = dte.split("-");
+			year_start = yst[0];
+			year_end = yend[0];
 			
+			String month_start = yst[1];
+			String month_end = yend[1];
 			
-			
+			int ystint = Integer.parseInt(year_start);
+			int yendint = Integer.parseInt(year_end);
 			if(single.equals("month")){
 				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
 				//ystint=0;
@@ -830,7 +816,7 @@ String totalinfluence ="";
 <div class="col-md-6 text-right mt10">
 <div class="text-primary demo">
 					<h6 id="reportrange">
-						Date: <span><%=dispfrom%> - <%=dispto%></span>
+						Date: <span><%=historyfrom%> - <%=historyto%></span>
 					</h6>
 				</div>
 <div>
@@ -1253,27 +1239,27 @@ String totalinfluence ="";
    $('#reportrange')
    		.on(
 
-   				'apply.daterangepicker',
-   				function(ev, picker) {
-   					 console
-   							.log("apply event fired, start/end dates are "
-   									+ picker.startDate
-   											.format('MMMM D, YYYY')
-   									+ " to "
-   									+ picker.endDate
-   											.format('MMMM D, YYYY'));
-   					var start = picker.startDate.format('YYYY-MM-DD');
+   			  'apply.daterangepicker',
+   	         function(ev, picker) {
+   	            console
+   	               .log("apply event fired, start/end dates are "
+   	                   + picker.startDate
+   	                       .format('MMMM D, YYYY')
+   	                   + " to "
+   	                   + picker.endDate
+   	                       .format('MMMM D, YYYY')); 
+   	            	console.log("applied");
+   	            	
+   	            	var start = picker.startDate.format('YYYY-MM-DD');
    	            	var end = picker.endDate.format('YYYY-MM-DD');
-   	            console.log("End:"+end);
+   	            	//console.log("End:"+end);
 
    	            	
    	            	$("#date_start").val(start);
    	            	$("#date_end").val(end);
    	            	//toastr.success('Date changed!','Success');
 
-   	            	$("form#customform").submit();
-   					 
-   				});
+   	            	$("form#customform").submit();});
 
    $('#reportrange')
    		.on(
@@ -1600,7 +1586,7 @@ String totalinfluence ="";
                         .attr("d", line)
                         // .style("fill", "rgba(0,0,0,0.54)")
                         .style("stroke-width", 2)
-                        .style("stroke", "0080CC")
+                        .style("stroke", "#0080CC")
 
                // add point
                 circles = svg.append("g").attr("class","circlecontainer").selectAll(".circle-point")
@@ -1747,11 +1733,39 @@ String totalinfluence ="";
              if(data.length == 1 )
         	 {
         	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-            transformfirsttick =  tick[0][0].attributes[1].value;
+        	 var transformfirsttick;
+        	 //transformfirsttick =  tick[0][0].attributes[2].value;
+            //console.log(tick[0][0].attributes[2]);
             //transformfirsttick = "translate(31.5,0)"
-            //console.log(transformfirsttick);
+            //console.log(tick[0][0]);
+            // handle based on browser
+            var browser = "";
+            c = navigator.userAgent.search("Chrome");
+            f = navigator.userAgent.search("Firefox");
+            m8 = navigator.userAgent.search("MSIE 8.0");
+            m9 = navigator.userAgent.search("MSIE 9.0");
+            if (c > -1) {
+                browser = "Chrome";
+                // chrome browser
+            transformfirsttick =  tick[0][0].attributes[1].value;
+
+            } else if (f > -1) {
+                browser = "Firefox";
+                 // firefox browser
+             transformfirsttick =  tick[0][0].attributes[2].value;
+            } else if (m9 > -1) {
+                browser ="MSIE 9.0";
+            } else if (m8 > -1) {
+                browser ="MSIE 8.0";
+            }
+            
             svg.select(".circlecontainer").attr("transform", transformfirsttick);
             svg.select(".linecontainer").attr("transform", transformfirsttick);
+            
+            
+            
+            //console.log(browser);
+            
         	 }
 
 
@@ -1819,11 +1833,39 @@ String totalinfluence ="";
            if(data.length == 1 )
       	 {
       	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-          transformfirsttick =  tick[0][0].attributes[1].value;
+      	 var transformfirsttick;
+      	 //transformfirsttick =  tick[0][0].attributes[2].value;
+          //console.log(tick[0][0].attributes[2]);
           //transformfirsttick = "translate(31.5,0)"
-          console.log(transformfirsttick);
+          //console.log(tick[0][0]);
+          // handle based on browser
+          var browser = "";
+          c = navigator.userAgent.search("Chrome");
+          f = navigator.userAgent.search("Firefox");
+          m8 = navigator.userAgent.search("MSIE 8.0");
+          m9 = navigator.userAgent.search("MSIE 9.0");
+          if (c > -1) {
+              browser = "Chrome";
+              // chrome browser
+          transformfirsttick =  tick[0][0].attributes[1].value;
+
+          } else if (f > -1) {
+              browser = "Firefox";
+               // firefox browser
+           transformfirsttick =  tick[0][0].attributes[2].value;
+          } else if (m9 > -1) {
+              browser ="MSIE 9.0";
+          } else if (m8 > -1) {
+              browser ="MSIE 8.0";
+          }
+          
           svg.select(".circlecontainer").attr("transform", transformfirsttick);
           svg.select(".linecontainer").attr("transform", transformfirsttick);
+          
+          
+          
+          //console.log(browser);
+          
       	 }
              // Crosshair
              //svg.selectAll('.d3-crosshair-overlay').attr("width", width);
@@ -2002,7 +2044,7 @@ String totalinfluence ="";
                    maxvalue = d3.max(data, function(d) { return d.frequency; });
                    if(d.frequency == maxvalue)
                    {
-                     return "0080CC";
+                     return "#0080CC";
                    }
                    else
                    {
@@ -2330,7 +2372,7 @@ String totalinfluence ="";
                         .attr("d", line)
                         // .style("fill", "rgba(0,0,0,0.54)")
                         .style("stroke-width", 2)
-                        .style("stroke", "0080CC")
+                        .style("stroke", "#0080CC")
                          //.attr("transform", "translate("+margin.left/4.7+",0)");
                         // .datum(data)
 
@@ -2469,11 +2511,39 @@ String totalinfluence ="";
              if(data.length == 1 )
         	 {
         	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-            transformfirsttick =  tick[0][0].attributes[1].value;
+        	 var transformfirsttick;
+        	 //transformfirsttick =  tick[0][0].attributes[2].value;
+            //console.log(tick[0][0].attributes[2]);
             //transformfirsttick = "translate(31.5,0)"
-            //console.log(transformfirsttick);
+            //console.log(tick[0][0]);
+            // handle based on browser
+            var browser = "";
+            c = navigator.userAgent.search("Chrome");
+            f = navigator.userAgent.search("Firefox");
+            m8 = navigator.userAgent.search("MSIE 8.0");
+            m9 = navigator.userAgent.search("MSIE 9.0");
+            if (c > -1) {
+                browser = "Chrome";
+                // chrome browser
+            transformfirsttick =  tick[0][0].attributes[1].value;
+
+            } else if (f > -1) {
+                browser = "Firefox";
+                 // firefox browser
+             transformfirsttick =  tick[0][0].attributes[2].value;
+            } else if (m9 > -1) {
+                browser ="MSIE 9.0";
+            } else if (m8 > -1) {
+                browser ="MSIE 8.0";
+            }
+            
             svg.select(".circlecontainer").attr("transform", transformfirsttick);
             svg.select(".linecontainer").attr("transform", transformfirsttick);
+            
+            
+            
+            //console.log(browser);
+            
         	 }
 
 
@@ -2541,11 +2611,39 @@ String totalinfluence ="";
            if(data.length == 1 )
       	 {
       	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-          transformfirsttick =  tick[0][0].attributes[1].value;
+      	 var transformfirsttick;
+      	 //transformfirsttick =  tick[0][0].attributes[2].value;
+          //console.log(tick[0][0].attributes[2]);
           //transformfirsttick = "translate(31.5,0)"
-          console.log(transformfirsttick);
+          //console.log(tick[0][0]);
+          // handle based on browser
+          var browser = "";
+          c = navigator.userAgent.search("Chrome");
+          f = navigator.userAgent.search("Firefox");
+          m8 = navigator.userAgent.search("MSIE 8.0");
+          m9 = navigator.userAgent.search("MSIE 9.0");
+          if (c > -1) {
+              browser = "Chrome";
+              // chrome browser
+          transformfirsttick =  tick[0][0].attributes[1].value;
+
+          } else if (f > -1) {
+              browser = "Firefox";
+               // firefox browser
+           transformfirsttick =  tick[0][0].attributes[2].value;
+          } else if (m9 > -1) {
+              browser ="MSIE 9.0";
+          } else if (m8 > -1) {
+              browser ="MSIE 8.0";
+          }
+          
           svg.select(".circlecontainer").attr("transform", transformfirsttick);
           svg.select(".linecontainer").attr("transform", transformfirsttick);
+          
+          
+          
+          //console.log(browser);
+          
       	 }
              // Crosshair
              //svg.selectAll('.d3-crosshair-overlay').attr("width", width);

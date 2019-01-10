@@ -603,7 +603,7 @@ if(action.toString().equals("getstats")){
                                 .attr("d", line)
                                 // .style("fill", "rgba(0,0,0,0.54)")
                                 .style("stroke-width",2)
-                                .style("stroke", "17394C")
+                                .style("stroke", "#17394C")
                                  .attr("transform", "translate("+margin.left/4.7+",0)");
                                 // .datum(data)
 

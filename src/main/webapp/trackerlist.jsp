@@ -320,18 +320,16 @@
 				<a href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=resut.get(0).toString()%>">
 				<div class="text-center mt10 stylebutton6 text-primary m20 mt0 mb0 cursor-pointer">
 				
-					<h1	class="text-primary text-center pt10 p20 pb10 cursor-pointer bold-text activelink"><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+					<h1	class="text-primary text-center pt10 p20 pb10 cursor-pointer bold-text activelink"
+					data-toggle="tooltip" data-placement="top"
+							title="Proceed to tracker details"><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
 				
 				</div></a>
 
 				<div class="card-body">
 					<%--  <p class="card-text text-center postdate text-primary"><%=dt%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;</p> --%>
 
-					<!-- <div class="text-center">
-						<button
-							class="btn btn-default stylebutton5 text-primary p30 pt5 pb5"
-							style="width: 100%;">Sports&nbsp;&nbsp;.&nbsp;&nbsp;Science&nbsp;&nbsp;.&nbsp;&nbsp;Art</button>
-					</div> -->
+					
 					<p class="mt10 text-primary text-center">
 
 						<%
