@@ -273,7 +273,7 @@ results_blogadded = new_blog._fetchBlog(username);
 			<td class="text-center"><%=k+1 %></td>
 			<td class="text-center"><%=blogname %></td>
 			<td class="text-center"><%=status %></td>
-			<td class="text-center"><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i></td>
+			<td class="text-center"><i onclick="deleteBlog()" class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i></td>
 			<%-- <td class="text-center"><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" onclick= "<% new_blog._deleteBlog(username, Integer.parseInt(id)); %>" data-toggle="tooltip" id="<%=id%>_select" data-placement="top" title="Delete Blog"></i></td> --%>
 			</tr>
 		<% }} %>
@@ -308,10 +308,27 @@ results_blogadded = new_blog._fetchBlog(username);
 </script>
 
 
-
 <script>
-$(document).ready(function() {
+<% String blogname = "";
+%>
+function deleteBlog(){
+	<% if (results_blogadded.size() > 0) {
+		for (int k = 0; k < results_blogadded.size(); k++) {				
+			ArrayList blog = (ArrayList)results_blogadded.get(k);
+			String id = (String)blog.get(0);
+			blogname = (String) blog.get(2);
+			String status = (String) blog.get(3);
+		}
+	}
+	%>
+	var blogname = <%=blogname%>;
+	console.log(blogname);
 	
+}
+</script>
+<!-- <script>
+$(document).ready(function() {
+
 	$('.deleteblog1').on('click', function(){
 		alert('clciked');
 		var confirmdeleteofblog = confirm("Are you sure you want to delete this blog");
@@ -370,7 +387,7 @@ $(document).ready(function() {
 		});
 	
 } );
-</script>
+</script> -->
 <!--end for table  -->
 
 
