@@ -110,7 +110,7 @@ Blogs blog  = new Blogs();
           // ------------------------------
           // Horizontal
           var x = d3.scale.ordinal()
-              .rangeRoundBands([0, width], .72, .5);
+              .rangeRoundBands([0, width]);
           // Vertical
           var y = d3.scale.linear()
               .range([height, 0]);
@@ -327,16 +327,19 @@ Blogs blog  = new Blogs();
                var path = svg.selectAll('.d3-line')
                          .data(data)
                          .enter()
+                         .append("g")
+                         .attr("class","linecontainer")
                          .append("path")
                          .attr("class", "d3-line d3-line-medium")
                          .attr("d", line)
                          // .style("fill", "rgba(0,0,0,0.54)")
                          .style("stroke-width", 2)
-                         .style("stroke", "17394C")
-                          .attr("transform", "translate("+margin.left/4.7+",0)");
+                         .style("stroke", "#17394C")
+                          //.attr("transform", "translate("+margin.left/4.7+",0)");
                          // .datum(data)
                 // add point
-                 circles = svg.selectAll(".circle-point")
+                 circles = svg.append("g").attr("class","circlecontainer")
+                 		.selectAll(".circle-point")
                            .data(data[0])
                            .enter();
                        circles
@@ -348,7 +351,7 @@ Blogs blog  = new Blogs();
                        .style("fill","#4CAF50")
                        .attr("cx",function(d) { return x(d.date); })
                        .attr("cy", function(d){return y(d.close)})
-                       .attr("transform", "translate("+margin.left/4.7+",0)");
+                       //.attr("transform", "translate("+margin.left/4.7+",0)");
                        svg.selectAll(".circle-point").data(data[0])
                        .on("mouseover",tip.show)
                        .on("mouseout",tip.hide)
@@ -424,6 +427,44 @@ Blogs blog  = new Blogs();
                   .style("font-size", 12)
                   // .text("Frequency")
                   ;
+              if(data.length == 1 )
+         	 {
+         	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+         	 var transformfirsttick;
+         	 //transformfirsttick =  tick[0][0].attributes[2].value;
+             //console.log(tick[0][0].attributes[2]);
+             //transformfirsttick = "translate(31.5,0)"
+             //console.log(tick[0][0]);
+             // handle based on browser
+             var browser = "";
+             c = navigator.userAgent.search("Chrome");
+             f = navigator.userAgent.search("Firefox");
+             m8 = navigator.userAgent.search("MSIE 8.0");
+             m9 = navigator.userAgent.search("MSIE 9.0");
+             if (c > -1) {
+                 browser = "Chrome";
+                 // chrome browser
+             transformfirsttick =  tick[0][0].attributes[1].value;
+
+             } else if (f > -1) {
+                 browser = "Firefox";
+                  // firefox browser
+              transformfirsttick =  tick[0][0].attributes[2].value;
+             } else if (m9 > -1) {
+                 browser ="MSIE 9.0";
+             } else if (m8 > -1) {
+                 browser ="MSIE 8.0";
+             }
+             
+             svg.select(".circlecontainer").attr("transform", transformfirsttick);
+             svg.select(".linecontainer").attr("transform", transformfirsttick);
+             
+             
+             
+             //console.log(browser);
+             
+         	 }
+         
          // Resize chart
          // ------------------------------
          // Call function on window resize
@@ -480,6 +521,44 @@ Blogs blog  = new Blogs();
              //
              // // Crosshair
              // svg.selectAll('.d3-crosshair-overlay').attr("width", width);
+             if(data.length == 1 )
+        	 {
+        	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+        	 var transformfirsttick;
+        	 //transformfirsttick =  tick[0][0].attributes[2].value;
+            //console.log(tick[0][0].attributes[2]);
+            //transformfirsttick = "translate(31.5,0)"
+            //console.log(tick[0][0]);
+            // handle based on browser
+            var browser = "";
+            c = navigator.userAgent.search("Chrome");
+            f = navigator.userAgent.search("Firefox");
+            m8 = navigator.userAgent.search("MSIE 8.0");
+            m9 = navigator.userAgent.search("MSIE 9.0");
+            if (c > -1) {
+                browser = "Chrome";
+                // chrome browser
+            transformfirsttick =  tick[0][0].attributes[1].value;
+
+            } else if (f > -1) {
+                browser = "Firefox";
+                 // firefox browser
+             transformfirsttick =  tick[0][0].attributes[2].value;
+            } else if (m9 > -1) {
+                browser ="MSIE 9.0";
+            } else if (m8 > -1) {
+                browser ="MSIE 8.0";
+            }
+            
+            svg.select(".circlecontainer").attr("transform", transformfirsttick);
+            svg.select(".linecontainer").attr("transform", transformfirsttick);
+            
+            
+            
+            //console.log(browser);
+            
+        	 }
+        
          }
      }
  });
