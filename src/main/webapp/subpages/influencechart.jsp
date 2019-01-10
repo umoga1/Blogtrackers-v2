@@ -495,7 +495,7 @@ Blogs blog  = new Blogs();
              // // -------------------------
              //
              // // Horizontal range
-             x.rangeRoundBands([0, width],.72,.5);
+             x.rangeRoundBands([0, width]);
              //
              // // Horizontal axis
              svg.selectAll('.d3-axis-horizontal').call(xAxis);
