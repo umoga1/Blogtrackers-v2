@@ -319,7 +319,7 @@ function getTopLocation(blogger,blog_id){
 		error: function(response)
 		{						
 			console.log(response);
-			$(".total-post").html(response);
+			$(".top-location").html(response);
 		},
 		success: function(response)
 		{   

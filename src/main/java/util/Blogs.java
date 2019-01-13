@@ -191,7 +191,7 @@ public class Blogs extends DbConnection{
 		ArrayList blogs = this._fetch(blog_ids);
 		JSONArray locations = new JSONArray();
 		
-
+		System.out.println("blog reg"+blogs);
 		HashMap<String,Integer> hm = new HashMap<String,Integer>();
 		if (blogs.size() > 0) {
 			String bres = null;
@@ -199,20 +199,15 @@ public class Blogs extends DbConnection{
 			
 			String bresu = null;
 			JSONObject bobj = null;
-			bres = blogs.get(0).toString();
+			for(int y=0; y< blogs.size(); y++) {
+				bres = blogs.get(y).toString();
 				bresp = new JSONObject(bres);
 				bresu = bresp.get("_source").toString();
 				bobj = new JSONObject(bresu);
 				
 				
-				if (blogs.size() > 1) {
-						JSONObject l = new JSONObject();
-						bres = blogs.get(1).toString();
-						bresp = new JSONObject(bres);
-						bresu = bresp.get("_source").toString();
-						bobj = new JSONObject(bresu);
 						
-						String loc =bobj.get("location").toString();
+						String loc = bobj.get("location").toString();
 						locations.put(loc);
 						if ( hm.containsKey(loc) ) {
 				            int value = Integer.parseInt(hm.get(loc)+"");
@@ -220,8 +215,7 @@ public class Blogs extends DbConnection{
 				        } else {
 				            hm.put(loc, 1);
 				        }
-						
-				}
+			}
 		}
 		
 		System.out.println(hm+"");
