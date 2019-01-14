@@ -105,7 +105,7 @@ $('.trackerindividual').on("click",function(e){
     $(this).find(".checktracker").addClass("hidden");
     $(this).removeClass("trackerindividualactive").addClass("bold-text");
     // remember to pass session id of blog
-    updateTracker(this,"remove");
+    updateTracker(this,"removeblog");
     trackerselectedcount--;
     console.log("not"+trackerselectedcount);
     // increase count of selected tracker

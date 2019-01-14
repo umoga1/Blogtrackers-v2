@@ -25,6 +25,7 @@ Object blog_id = (null == request.getParameter("blog_id")) ? "" : request.getPar
 Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
 Object sort = (null == request.getParameter("sort")) ? "" : request.getParameter("sort");
 
+
 String bloggerstr = blogger.toString().replaceAll("_"," ");
 
 Blogposts post  = new Blogposts();

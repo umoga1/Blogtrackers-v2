@@ -278,7 +278,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	}
 	
 
-	toplocation = blog._getTopLocation(ids);
+	toplocation = blog._getTopLocation(mostactiveblogid);
 	System.out.println("most-act"+mostactive);
 	ArrayList allposts = new ArrayList();
 %>
@@ -594,7 +594,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							selectedid=det.get("blogid").toString();
 							//totalpost = det.get("totalpost").toString();
 							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");
-							System.out.println("All post :"+allposts);
+							//System.out.println("All post :"+allposts);
+							//toplocation = det.get("blogger").toString();
 					}
 			    	%>
 					<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>" value="<%=postids%>" />
