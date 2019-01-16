@@ -589,7 +589,7 @@ if(allauthors2.size()>0){
 		}
 }
 
-outlinks = outl._searchByRange("date", dt, dte, blogids);
+outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
 termss = term._searchByRange("date", dt, dte, blogids,"blogsiteid","50");
 
 JSONArray topterms = new JSONArray();
@@ -869,11 +869,11 @@ String totalinfluence ="";
 							JSONObject resu = authors.getJSONObject(key);
 							String blogger = resu.get("blogger").toString();
 							String blogidd = resu.get("blogsite_id").toString();
-						
+								if(!blogger.trim().equals("")){
 								p++;
 							%>
 								<option value="<%=blogidd%>_<%=blogger%>" <% if(mostactiveblogger.equals(blogger)){ %> selected <% } %>><%=resu.get("blogger")%></option>
-  <% }} %>
+  <% }}} %>
 </select>
 </h6>
 <!-- <h2 class="textblue styleheading">AdNovum <div class="circle"></div></h2> -->
@@ -2557,7 +2557,7 @@ String totalinfluence ="";
  </script>
 
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/bloggerportfolio.js?v=88909"></script>
+<script src="pagedependencies/bloggerportfolio.js?v=988909"></script>
 <script>
 $(document).ready(function() {
 	

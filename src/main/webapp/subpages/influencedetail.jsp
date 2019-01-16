@@ -10,6 +10,8 @@
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -20,8 +22,11 @@ Object date_end = (null == request.getParameter("date_end")) ? "" : request.getP
 Object blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 
 Object blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
+Object post_id = (null == request.getParameter("post_id")) ? "" : request.getParameter("post_id");
+
 Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
 Object sort = (null == request.getParameter("sort")) ? "" : request.getParameter("sort");
+Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 
 String bloggerstr = blogger.toString().replaceAll("_"," ");
 
@@ -118,7 +123,12 @@ if(action.toString().equals("gettotal")){
 %>
 <%=toplocation%>	
 <% }else{
-ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
+	ArrayList allauthors = new ArrayList();
+if(action.toString().equals("fetchpost")){	
+	allauthors = post._getPost("post_id",post_id.toString());
+}else{
+	 allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
+}
 %>
 <%
                                 if(allauthors.size()>0){							
@@ -134,15 +144,23 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
 										k++;
-									%>                                    
-                                    <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
+										
+										String dat = tobj.get("date").toString().substring(0,10);
+										LocalDate datee = LocalDate.parse(dat);
+										DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+										String date = dtf.format(datee);
+										
+									%>    <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
 										<div class="text-center mb20 mt20">
+											<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid%>&blogger=<%=tobj.get("blogger")%>">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											<button class="btn stylebuttonnocolor"><%=tobj.get("date")%></button>
-											<button class="btn stylebuttonorange">
+
+											<button class="btn stylebuttonnocolor"><%=date %></button>
+									</a>
+											<button class="btn stylebuttonnocolor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -150,9 +168,12 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
 										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 550px; overflow-y: scroll;">
-											<%=tobj.get("post")%>
+
+											<%=tobj.get("post").toString().replaceAll("[^a-zA-Z]", " ")%>
+
 										</div>
-										</div>                      
+										</div>       
+									                      
                      		<% }} %>
                                
 <% } %>
