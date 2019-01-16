@@ -14,8 +14,8 @@ var baseurl = app_url;
 
 $(function() {
 
-var favoriteblogs = Cookies.get('allfavoritesblogs');
-console.log(favoriteblogs);
+//var favoriteblogs = Cookies.get('allfavoritesblogs');
+//console.log(favoriteblogs);
 	
 	$(".form-validate").validate({
 		ignore: 'input[type=hidden], .select2-search__field', // ignore hidden fields
@@ -147,15 +147,18 @@ console.log(favoriteblogs);
 		 var email = $("input#email").val();
 			var name= $("input#name").val();
 			if(email=="" || password=="" || name=="" ){
-				 $("#error_message-box").html('All fields are required');
+				 //$("#error_message-box").html('All fields are required');
+				 toastr.error('All fields are required','Error');
 				return false;
 			}
 			else if(!strongRegex.test(password1))
 				{
 				 $("#error_message-box").html('Password must contain minimum of 8 characters and contain at least 1 uppercase, 1 lowercase and a special character (!@#$%&)');
-					return false;
+				// toastr.error('Password must contain minimum of 8 characters and contain at least 1 uppercase, 1 lowercase and a special character (!@#$%&)','Error');
+				 return false;
 				}
 			else if(password1!=password2){
+			//toastr.error('Password does not match','Error');	
 			 $("#error_message-box").html('Password does not match');
 			 return false;
 		 }
@@ -185,6 +188,7 @@ console.log(favoriteblogs);
 					// console.log(login_status);
 					if(login_status === "exists"){
 						$("#error_message-box").html('Email is in use');
+						toastr.error('Email is in use','Error');
 					}else if(login_status == "success"){
 						toastr.success('Registration successfull!','Success');
 //						window.location.href = baseurl+"login.jsp";
@@ -194,7 +198,8 @@ console.log(favoriteblogs);
 						$("input#password").val("");
 						$("input#password2").val("");
 					}else{
-						$("#error_message-box").html('Error adding record');
+						//$("#error_message-box").html('Registration Error Please try again later');
+						toastr.error('Registration Error Please try again later','Error');
 					}
 					return false;
 				}
