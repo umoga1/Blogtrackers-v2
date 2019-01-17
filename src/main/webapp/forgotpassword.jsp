@@ -81,7 +81,7 @@
 						Forgot Password?</b>
 					</p>
 					
-					<form id="password_form"  class="form-validate" action="http://blogtrackers.host.ualr.edu/Blogtrackers/forgotpassword"  method="post">
+					<form id="password_form"  class="form-validate" action="<%=request.getContextPath()%>/forgotpassword"  method="post">
 						<div class="form-group">
 							<div class="form-login-error">
 							
@@ -109,7 +109,7 @@
 							<h5 class="content-group pt20"><%=success_message%></h5>
 						</div>
 						
-						<a href="<%=request.getContextPath()%>/logout" class="btn bg-blue-400 btn-block">Click here to proceed <i class="icon-arrow-left52 position-right"></i></a>
+						<a href="<%=request.getContextPath()%>/login.jsp" class="btn bg-blue-400 btn-block">Click here to proceed <i class="icon-arrow-left52 position-right"></i></a>
                                 </div>
                                 
                 <% } %>
@@ -125,4 +125,11 @@
 	</div>
 
 </body>
+<script>
+<% if(!success_message.equals("")){ %>
+toastr.success('<%=success_message%>','Success','hideDuration:10000');
+<%} else if(!error_message.equals("")) {%>
+toastr.error('<%=error_message%>','Error','hideDuration:10000');
+<%}%>
+</script>
 </html>

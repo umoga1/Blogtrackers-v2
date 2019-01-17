@@ -74,7 +74,7 @@ public class Resetpassword extends HttpServlet {
                                 session.setAttribute("success_message","A mail has been sent to "+email+" containing your login information");
                                 try{
                                     Mailing.postMail(receivers, "Blogtrackers - Password Reset Information", "Hello "+prev.get(0)+", <br/><br/> Please note that your password has been changed to <b>"+pass+"</b>. <br/>You are strongly advised to change your password after first login. <br/>Kindly login at <a href='http://blogtrackers.host.ualr.edu/Blogtrackers/login.jsp'> Blogtrackers </a><br/><br/> Thanks for using Blogtrackers"); 
-                                    response.sendRedirect("login.jsp");
+                                    response.sendRedirect("forgotpassword.jsp");
                                 }catch(Exception e){
                                 	response.setContentType("text/html");
                                     response.sendRedirect("login.jsp");
