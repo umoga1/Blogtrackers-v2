@@ -24,14 +24,14 @@ public class Blogposts {
 
 	HashMap<String, String> hm = DbConnection.loadConstant();		
 
-	String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
-	//String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
+	//String base_url = hm.get("elasticIndex")+"post1/"; //- For live deployment
+	String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
 	
 	String totalpost;
 	String date;
 
 	public ArrayList _list(String order, String from, String sortby) throws Exception {
-		int size = 1000;
+		int size = 20;
 
 		int fr = 0;
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
