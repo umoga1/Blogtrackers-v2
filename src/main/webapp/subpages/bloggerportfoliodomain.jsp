@@ -80,7 +80,7 @@
 							maindomain = domain;
 						}
 					} catch (Exception ex) {}
-					maindomain = bj.get("domain").toString();
+						maindomain = bj.get("domain").toString();
 						if (outerlinks.has(link)) {
 							content = new JSONObject(outerlinks.get(link).toString());
 							
