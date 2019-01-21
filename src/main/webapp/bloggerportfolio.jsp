@@ -265,6 +265,12 @@
 		    int fri=0;
 		    int sat =0;
 		    
+		    JSONObject bloggersortdet = new JSONObject();
+			JSONArray bloggerarr = new JSONArray();
+			JSONObject bloggersort = new JSONObject();
+
+			int highestpost = 0;
+			
 			ArrayList authorlooper = new ArrayList();
 			if(allauthors.size()>0){
 				String tres = null;
@@ -283,19 +289,19 @@
 					    String auth = tobj.get("blogger").toString();
 					    String lang = tobj.get("language").toString();
 					    String blogsite_id = tobj.get("blogsite_id").toString();
+					    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
+						int totalcounter = Integer.parseInt(btoty);
+						if(totalcounter>highestpost){
+							highestpost = totalcounter;
+							mostactiveblogger = auth;
+						}
 					    
-					    
-					    
-					    if(i==0){
-					    	mostactiveblogger = auth;
-					    }
 					    
 					    if(attachedblogger.equals(auth)){
 					    	mostactiveblogger = auth;
 					    }
 					    
-					    Double influence =  Double.parseDouble(tobj.get("influence_score").toString());
-					  	JSONObject content = new JSONObject();
+					    JSONObject content = new JSONObject();
 					   
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
@@ -326,34 +332,46 @@
 					    
 					    if(authors.has(auth)){
 							content = new JSONObject(authors.get(auth).toString());
-							Double inf = Double.parseDouble(content.get("influence").toString());
-							inf = inf+influence;
+							//Double inf = Double.parseDouble(content.get("influence").toString());
+							//inf = inf+influence;
 							int valu = Integer.parseInt(content.get("totalpost").toString());
 							String pids = content.get("postids").toString();
 							pids = pids+","+tobj.get("blogpost_id").toString();
 							
 							content.put("blogger", auth);
-							content.put("influence", inf);
+							//content.put("influence", inf);
 							content.put("totalpost",valu);
 							content.put("blogsite_id",blogsite_id);
 							content.put("postids", pids);
 							authors.put(auth, content);
 						} else {
 							 
-						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
-						   // System.out.println("toty-"+btoty);
+						    // System.out.println("toty-"+btoty);
 							int valu = Integer.parseInt(btoty);
-							   if(valu==0){
+							if(valu==0){
 								   valu=1;
-							   }
-							   
+							}
+								 
 							content.put("blogger", auth);
-							content.put("influence", influence);
+							//content.put("influence", influence);
 							content.put("totalpost",valu);
 							content.put("blogsite_id",blogsite_id);
 							content.put("postids", tobj.get("blogpost_id").toString());
 							authors.put(auth, content);
 							authorlooper.add(j,auth);
+							
+							
+							String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
+					    	
+							bloggersort.put(auth,Integer.parseInt(postcount));
+							JSONObject bloggerj = new JSONObject();
+							bloggerj.put("blogger",auth);
+							bloggerj.put("blogsite_id",blogsite_id);
+							//bloggerj.put("selected",bloggerselect);
+							bloggerj.put("totalpost",postcount);
+							//bloggerj.put("postarray",postauth);
+							bloggerarr.put(Integer.parseInt(postcount)+"___"+auth);							
+						    bloggersortdet.put(auth,bloggerj);					    	
 							j++;
 						}
 					    
@@ -484,8 +502,9 @@
 
 			ArrayList looper = new ArrayList();
 			
+			bloggerarr = post._sortJson2(bloggerarr);
 			
-
+			/*
 			if (blogs.size() > 0) {
 				String bres = null;
 				JSONObject bresp = null;
@@ -555,9 +574,11 @@
 
 			}
 			
-			
+			*/
 String blogids = "";
 ArrayList allauthors2 = post._getBloggerByBloggerName("date", dt, dte, mostactiveblogger, "influence_score", "DESC");
+
+
 if(allauthors2.size()>0){
 	String tres = null;
 	JSONObject tresp = null;
@@ -657,13 +678,17 @@ if (outlinks.size() > 0) {
 String totalinfluence ="";
 
 		try{			
-			totalinfluence = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
+			//totalinfluence = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
 			totalpost = post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);
-			}
+			Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,mostactiveblogger));
+			totalinfluence = influence+"";
+		}
 		catch(Exception e){
 			totalinfluence = "0";
 			totalpost = "0";
 		}
+		
+
 			
 %>
 <!DOCTYPE html>
@@ -848,18 +873,29 @@ String totalinfluence ="";
 						</h5>
 <h6 class="mt5">
 <select id="blogger-changed" class="custom-select">
-<% if (bloggers.length() > 0) {
-						int p = 0;
-						for (int y = 0; y < authors.length(); y++) {
-							String key = authorlooper.get(y).toString();
-							JSONObject resu = authors.getJSONObject(key);
-							String blogger = resu.get("blogger").toString();
-							String blogidd = resu.get("blogsite_id").toString();
-								if(!blogger.trim().equals("")){
-								p++;
-							%>
-								<option value="<%=blogidd%>_<%=blogger%>" <% if(mostactiveblogger.equals(blogger)){ %> selected <% } %>><%=resu.get("blogger")%></option>
-  <% }}} %>
+   
+  
+ <% for(int m=0; m<bloggerarr.length(); m++){
+					String key = bloggerarr.get(m).toString();
+					String[] splitter = key.split("___");
+					String au = splitter[1];
+			  		JSONObject det= new JSONObject(bloggersortdet.get(au).toString());
+					String dselected = "";
+					String blogger = det.get("blogger").toString();
+					JSONObject det2 = new JSONObject(authors.get(au).toString());
+					if(mostactiveblogger.equals("")){
+						if(m==0){
+							mostactiveblogger = blogger;
+						}
+					}else if(blogger.equals(mostactiveblogger)){
+						mostactiveblogger = blogger;
+					}
+					
+					String blogidd = det.get("blogsite_id").toString();
+					if(!blogger.trim().equals("")){				
+			    	%>
+					<option value="<%=blogidd%>_<%=blogger%>" <% if(mostactiveblogger.equals(blogger)){ %> selected <% } %>><%=blogger%></option>
+ <% }} %>
 </select>
 </h6>
 <!-- <h2 class="textblue styleheading">AdNovum <div class="circle"></div></h2> -->
@@ -2399,7 +2435,13 @@ String totalinfluence ="";
                       svg.selectAll(".circle-point").data(data[0])
                       .on("mouseover",tip.show)
                       .on("mouseout",tip.hide)
-                      .on("click",function(d){console.log(d.date)});
+                      .on("click",function(d){
+                    	  console.log(d.date);
+
+                   	  	  var d1 = 	  d.date + "-01-01";
+                  	      var d2 = 	  d.date + "-12-31";              					
+                  	      loadUrls(d1,d2);  
+                      });
                                          svg.call(tip)
                                          
                        
@@ -2451,7 +2493,13 @@ String totalinfluence ="";
                                svg.selectAll(".circle-point").data(mergedarray)
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
-                              .on("click",function(d){console.log(d.date)});
+                              .on("click",function(d){
+                            	  console.log(d.date);
+
+                           	  	  var d1 = 	  d.date + "-01-01";
+                          	      var d2 = 	  d.date + "-12-31";              					
+                          	      loadUrls(d1,d2); 
+                              });
                          //                         svg.call(tip)
 
                        //console.log(newi);

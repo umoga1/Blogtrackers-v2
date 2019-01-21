@@ -254,13 +254,14 @@
 			
 			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
 			
+			//String totalinfluence = post._searchRangeMaxByBlogId("date", dt, dte, selectedblogid);
 			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
+			
+			
 			String mostactiveterm ="";
 			String mostactiveblog ="";
-			
-			
+					
 			allauthors = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");
-
 			//System.out.println("Terms here:"+termss);
 			
 			ArrayList blogs = blog._fetch(ids);
@@ -2456,7 +2457,15 @@
                                svg.selectAll(".circle-point").data(mergedarray)
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
-                              .on("click",function(d){console.log(d.date)});
+                              .on("click",function(d){
+                            	  console.log(d.date);
+                            	  var d1 = 	  d.date + "-01-01";
+                           	      var d2 = 	  d.date + "-12-31";
+                 					
+
+                           	      loadUrls(d1,d2); 
+                            	  
+                              });
                          //                         svg.call(tip)
 
                        //console.log(newi);
@@ -2465,7 +2474,13 @@
                              svg.selectAll(".circle-point").data(mergedarray)
                              .on("mouseover",tip.show)
                              .on("mouseout",tip.hide)
-                             .on("click",function(d){console.log(d.date)});
+                             .on("click",function(d){
+                            	 console.log(d.date);
+
+                           	  	  var d1 = 	  d.date + "-01-01";
+                          	      var d2 = 	  d.date + "-12-31";              					
+                          	      loadUrls(d1,d2); 	 
+                             });
                                                 svg.call(tip)
 
 
@@ -2669,7 +2684,7 @@
  </script>
 
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/blogportfolio.js?v=88909"></script>
+<script src="pagedependencies/blogportfolio.js?v=9988909"></script>
 
 </body>
 </html>
