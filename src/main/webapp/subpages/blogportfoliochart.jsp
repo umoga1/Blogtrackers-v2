@@ -157,8 +157,8 @@ if(action.toString().equals("getstats")){
 	} 
 	
 	String totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), selectedblogid);
-	String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
-	
+	//String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
+	String totalinfluence = post._searchRangeMaxByBlogId("date", dt, dte, selectedblogid);
 	String possentiment=new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"posemo");
 	String negsentiment=new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"negemo");
 	
@@ -196,7 +196,7 @@ if(action.toString().equals("getstats")){
 	JSONObject result = new JSONObject();
 	result.put("totalpost",totalpost);
 	result.put("totalsentiment",comb);
-	result.put("totalinfluence",totalpost);
+	result.put("totalinfluence",totalinfluence);
 	result.put("topterm",mostactiveterm);
 %>
 <%=result.toString()%>

@@ -470,6 +470,97 @@ public class Blogposts {
 		return res;
 	}
 	
+	
+	public String _searchRangeMaxByBlogId(String field,String greater, String less, String blogid) throws Exception {
+		String[] args = blogid.split(","); 
+		JSONArray pars = new JSONArray(); 
+		ArrayList<String> ar = new ArrayList<String>();	
+		for(int i=0; i<args.length; i++){
+			pars.put(args[i].toLowerCase());
+		}
+
+		String arg2 = pars.toString();
+		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
+		
+		/*
+		JSONObject jsonObj  = new JSONObject("{\r\n" + 
+				"       \"query\": {\r\n" + 
+				"          \"bool\": { \r\n" + 
+				"               \"must\": {\r\n" + 
+				"                    \"query_string\" : {\r\n" + 
+				"            			\"fields\" : [\"blogger\"],\r\n" + 
+				"            			\"query\" : \""+blogid+"\"\r\n" + 
+				"                    }\r\n" + 
+				"                },\r\n" + 
+				"                \"filter\": {\r\n" + 
+				"                    \"range\" : {\r\n" + 
+				"                        \"date\" : {\r\n" + 
+				"                            \"gte\": \""+greater+"\",\r\n" + 
+				"                            \"lte\": \""+less+"\"\r\n" + 
+				"                        }\r\n" + 
+				"                    }\r\n" + 
+				"                }\r\n" + 
+				"            }\r\n" + 
+				"        },\r\n" + 
+				"		\"sort\":{\r\n" + 
+				"		\"influence_score\":{\r\n" + 
+				"			\"order\":\"DESC\"\r\n" + 
+				"			}\r\n" + 
+				"		}\r\n" +
+				"    }");
+		*/
+		String que="{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"bool\": {\r\n" + 
+				"      \"must\": [\r\n" + 
+				"        {\r\n" + 
+				"		  \"constant_score\":{\r\n" + 
+				"					\"filter\":{\r\n" + 
+				"							\"terms\":{\r\n" + 
+				"							\"blogsite_id\":"+arg2+"\r\n" + 
+				"									}\r\n" + 
+				"							}\r\n" + 
+				"						}\r\n" + 
+				"		},\r\n" + 
+				"        {\r\n" + 
+				"		  \"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"      ]\r\n" + 
+				"    }\r\n" +  
+				"  },\r\n" + 
+				"	\"sort\":{\r\n" + 
+				"		\"influence_score\":{\r\n" + 
+				"			\"order\":\"DESC\"\r\n" + 
+				"			}\r\n" + 
+				"	}\r\n" +
+				"}";
+
+		JSONObject jsonObj  = new JSONObject(que);
+		String url = base_url+"_search?size=1";
+		ArrayList result =  this._getResult(url, jsonObj);
+		String res = "0";
+		
+		if(result.size()>0) {
+			String tres = null;
+			JSONObject tresp = null;
+			String tresu = null;
+			JSONObject tobj = null;
+			for(int i=0; i< result.size(); i++){
+				tres = result.get(i).toString();			
+				tresp = new JSONObject(tres);
+			    tresu = tresp.get("_source").toString();
+			    tobj = new JSONObject(tresu);			    
+			    res = tobj.get("influence_score").toString();			    
+			}
+		}
+		return res;
+	}
+	
 	public String _searchRangeAggregateByBloggers(String field,String greater, String less, String bloggers, String sort) throws Exception {
 		/*
 		String[] args = bloggers.split(","); 

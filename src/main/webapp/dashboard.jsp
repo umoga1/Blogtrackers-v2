@@ -351,8 +351,7 @@
 						} else {
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
-						   // System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
-						   Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
+						   	Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
 							int valu = new Double(btoty).intValue(); 
 							   if(valu==0){
 								   valu=1;

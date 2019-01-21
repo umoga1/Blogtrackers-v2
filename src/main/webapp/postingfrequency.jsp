@@ -241,8 +241,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
 		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-
+		
 			
 	
 	String allpost = "0";
@@ -485,6 +484,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								int l=0;
 								int qc=0;
 								int tloc =0;
+								
 								if(allauthors.size()>0){
 									
 									String tres = null;
