@@ -322,7 +322,7 @@
 				
 					<h1	class="text-primary text-center pt10 p20 pb10 cursor-pointer bold-text activelink"
 					data-toggle="tooltip" data-placement="top"
-							title="Proceed to tracker details"><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+							title="Proceed to tracker details"><%=resut.get(2).toString()%></h1>
 				
 				</div></a>
 
