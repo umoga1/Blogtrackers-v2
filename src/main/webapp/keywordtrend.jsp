@@ -103,8 +103,10 @@
 			} catch (Exception e) {
 			
 			}
-
+			String firstname = "";
 			String[] user_name = name.split(" ");
+			String[] names = name.split(" ");
+			firstname = names[0];
 			Blogposts post = new Blogposts();
 			Blogs blog = new Blogs();
 			Sentiments senti = new Sentiments();
@@ -468,8 +470,7 @@
 						if (userinfo.size() > 0) {
 					%>
 					<a class="cursor-pointer profilemenulink"
-						href="<%=request.getContextPath()%>/notifications.jsp"><h6
-							class="text-primary">
+						href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
 						</h6> </a>  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
 						<a class="cursor-pointer profilemenulink"
@@ -544,7 +545,7 @@
 							id="notificationcolor"></i> <img src="<%=profileimage%>"
 							width="50" height="50"
 							onerror="this.src='images/default-avatar.png'" alt="" class="" />
-							<span><%=username%></span></a>
+							<span><%=firstname%></span></a>
 
 					</li>
 				</ul>
