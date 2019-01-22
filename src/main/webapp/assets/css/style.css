@@ -1261,15 +1261,15 @@ display: inherit;
 {
 padding:0;
 border:none;
-width:140px;
+width:150px;
 background-color:transparent;
 }
 .sortby:focus
 {
-    background-color:transparent;
-    border-color: none;
-    outline: 0;
-    box-shadow: none;
+background-color:transparent;
+border-color: none;
+outline: 0;
+box-shadow: none;
 }
 .edittrackerpop
 {
