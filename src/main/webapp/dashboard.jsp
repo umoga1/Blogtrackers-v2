@@ -1449,8 +1449,22 @@ $(document).ready(function() {
 $(document).ready(function() {
 	
 	 $('#printdoc').on('click',function(){
-			print();
+			//print();
+			//window.print();
+			//elementtoprint = document.getElementById('languageusage');
+			printHTML("#languageusage");
 		}) ;
+	 
+	 function printHTML(input){
+		  var iframe = document.createElement("iframe"); // create the element
+		  document.body.appendChild(iframe);  // insert the element to the DOM 
+
+		  iframe.contentWindow.document.write(input); // write the HTML to be printed
+		  iframe.contentWindow.print();  // print it
+		  document.body.removeChild(iframe); // remove the iframe from the DOM
+		}
+	 
+	 
   $(document)
              .ready(
                  function() {
