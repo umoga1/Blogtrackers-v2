@@ -1458,10 +1458,10 @@ $(document).ready(function() {
 $(document).ready(function() {
 	
 	 $('#printdoc').on('click',function(){
-			//print();
+			print();
 			//window.print();
 			//elementtoprint = document.getElementById('languageusage');
-			printHTML("#languageusage");
+			//printHTML("#languageusage");
 		}) ;
 	 
 	 function printHTML(input){
