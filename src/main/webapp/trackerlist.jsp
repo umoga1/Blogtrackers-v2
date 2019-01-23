@@ -322,7 +322,7 @@
 				
 					<h1	class="text-primary text-center pt10 p20 pb10 cursor-pointer bold-text activelink"
 					data-toggle="tooltip" data-placement="top"
-							title="Proceed to tracker details"><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+							title="Proceed to tracker details"><%=resut.get(2).toString()%></h1>
 				
 				</div></a>
 
@@ -348,6 +348,7 @@
 					</p>
 					<div class="text-center mt20">
 						<!-- <button
+>>>>>>> 70e016cc354f58e6fa6e2cb803b9f25c23c1fc9a
 							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left cursor-pointer-default"
 							style="width: 100%;"> -->
 							<h1 class="text-success mb0"><%=totalblog%></h1>
@@ -363,6 +364,7 @@
 							<h1 class="text-success mb0"><%=NumberFormat.getNumberInstance(Locale.US).format(totalpost)%></h1>
 							<h5 class="text-primary">Posts</h5>
 						<!-- </button> -->
+
 
 					</div>
 					<!-- <div class="text-center mt10">

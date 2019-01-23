@@ -158,7 +158,10 @@ if(action.toString().equals("getstats")){
 	} 
 	
 	String totalpost = post._searchRangeTotalByBlogger("date", date_start.toString(), date_end.toString(), selectedblogid);
-	String totalinfluence = post._searchRangeAggregateByBloggers("date", dt, dte, selectedblogid);
+	
+	//String totalinfluence = post._searchRangeAggregateByBloggers("date", dt, dte, selectedblogid);	
+	Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,blogger.toString()));
+	String totalinfluence = influence+"";
 	
 	String possentiment=new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"posemo");
 	String negsentiment=new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"negemo");

@@ -33,7 +33,6 @@ $('.blogpost_link').on("click", function(){
 	var post_id = $(this).attr("id");
 	//alert(post_id);
 	console.log(post_id);
-	console.log("nddshhfjsdfjhds")
 	$("#blogpost_detail").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	$(".viewpost").addClass("makeinvisible");
 	$('.blogpost_link').removeClass("activeselectedblog");
@@ -41,19 +40,17 @@ $('.blogpost_link').on("click", function(){
 	$(this).parent().children(".viewpost").removeClass("makeinvisible");
 	//grab all id of blog and perform an ajax request
 	$.ajax({
-		url: app_url+'tracker',
+		url: app_url+"subpages/influencedetail.jsp",
 		method: 'POST',
 		data: {
 			action:"fetchpost",
-			key:"blogpost_id",
-			value:post_id,
-			source:"influence",
-			section:"detail_table"
+			post_id:post_id,
+			tid:$("#alltid").val()
 		},
 		error: function(response)
 		{						
 			//console.log(response);
-			$("#blogpost_detail").html(response);
+			//$("#blogpost_detail").html(response);
 		},
 		success: function(response)
 		{   
@@ -143,7 +140,7 @@ function loadInfluence(start_date,end_date){
 			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js", function(data, textStatus, jqxhr) {	});
 			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js", function(data, textStatus, jqxhr) {	});
 			 
-			 $.getScript("pagedependencies/postingfrequency.js?v=1980", function(data, textStatus, jqxhr) {	});
+			// $.getScript("pagedependencies/postingfrequency.js?v=1980", function(data, textStatus, jqxhr) {	});
 			 
 			 
 			//$("#influence_table").html(response);
@@ -319,7 +316,7 @@ function getTopLocation(blogger,blog_id){
 		error: function(response)
 		{						
 			console.log(response);
-			$(".total-post").html(response);
+			$(".top-location").html(response);
 		},
 		success: function(response)
 		{   

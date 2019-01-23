@@ -127,10 +127,11 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	
 	Date dstart = new Date();
 	Date today = new Date();
-
+	
 	
 	Date nnow = new Date(); 
 	
+
 	try{
 		dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
 	}catch(Exception ex){
@@ -202,8 +203,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		} else if (single.equals("day")) {
 			 dt = year + "-" + month + "-" + day;
 			
-			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));			
 				
 		} else if (single.equals("week")) {
 			
@@ -215,26 +214,41 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			Date dateBefore7Days = cal.getTime();
 			dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
 			
-			
-			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));					
+							
 		} else if (single.equals("month")) {
 			dt = year + "-" + month + "-01";
 			dte = year + "-" + month + "-"+day;	
-			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+			
 		} else if (single.equals("year")) {
 			dt = year + "-01-01";
 			dte = year + "-12-"+ddey;
-			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
-			
 			
 		}else {
 			dt = dst;
 			dte = dend;
 			
 		}  
+		
+		String[] yst = dt.split("-");
+		String[] yend = dte.split("-");
+		year_start = yst[0];
+		year_end = yend[0];
+		int ystint = new Double(year_start).intValue();
+		int yendint = new Double(year_end).intValue();
+		
+		if(yendint>Integer.parseInt(YEAR_ONLY.format(new Date()))){
+			dte = DATE_FORMAT2.format(new Date()).toString();	
+			yendint = Integer.parseInt(YEAR_ONLY.format(new Date()));
+		}
+		
+		if(ystint<2000){
+			ystint = 2000;
+			dt = "2000-01-01";
+		}
+		
+		dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+		dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+		
 		
 		allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		
@@ -655,7 +669,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							mostactiveblogger = au;
 							
 							selectedid=det.get("blogid").toString();
-							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"influence_score","DESC");
+							allposts =  post._getBloggerByBloggerName("date",dt, dte,au,"influence_score","DESC");
 									
 					}
 			    	%>
@@ -745,14 +759,8 @@ if (allterms.size() > 0) {
 
 
 
-String[] yst = dt.split("-");
-String[] yend = dte.split("-");
-year_start = yst[0];
-year_end = yend[0];
-int ystint = new Double(year_start).intValue();
-int yendint = new Double(year_end).intValue();
 int base = 0;
-//System.out.println("BLoggers here:"+authorcount);
+
 JSONObject postyear =new JSONObject();
 if(authorcount.length()>0){
 	for(int n=0; n<1;n++){
@@ -1024,8 +1032,6 @@ authoryears.put(mostactiveblogger,postyear);
 		<input type="hidden" name="date_end" id="date_end" value="<%=dte%>" />	
 	</form>
 	
-	
-
 	
 	<!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
@@ -2533,9 +2539,11 @@ wordtagcloud("#tagcloudcontainer",450);
 </body>
 </html>
 <%
+
 }catch(Exception e){
 	
 	//response.sendRedirect("index.jsp");
 }
+
 %>
 

@@ -28,7 +28,7 @@ import java.util.*;
 
 /**
  * 
- * Servlet implementation class Register
+ * Servlet implementation class Tracker
  * @author Adedayo Ayodele
  * 
  */
@@ -204,10 +204,9 @@ public class Tracker extends HttpServlet {
 							 int blognum = allblogs.length;
 							 System.out.println("Blog during update ajax request "+  mergedblogs);
 							 addendum = "blogsite_id in ("+mergedblogs+")";//"blogsite_id in ("+addendum+blog_id+")";
-							 String queryy ="UPDATE trackers SET query='"+addendum+"', tracker_name='"+tracker_name+"', description='"+description+"', blogsites_num = '"+blognum+"' WHERE  tid='"+tracker_id+"'";	
 							 
-														 				
-							db.updateTable("UPDATE trackers SET query='"+addendum+"', tracker_name='"+tracker_name+"', description='"+description+"', blogsites_num = '"+blognum+"' WHERE  tid='"+tracker_id+"'");	
+							 String modifiedDate= getDateTime();
+							db.updateTable("UPDATE trackers SET query='"+addendum+"', tracker_name='"+tracker_name+"', description='"+description+"', date_modified='"+modifiedDate+"', blogsites_num = '"+blognum+"' WHERE  tid='"+tracker_id+"'");	
 							pww.write("success");
 					 }else {
 						 	pww.write("invalid tracker");
@@ -360,11 +359,12 @@ public class Tracker extends HttpServlet {
 							//System.out.println(bj.get("body"));
 							
 							output+="<h5 class='text-primary p20 pt0 pb0'>#1: "+bj.get("title").toString().replaceAll("[^a-zA-Z]", " ")+"</h5>" + 
-									"					<div class='text-center mb20 mt20'>" + 
+									"					<div class='text-center mb20 mt20'><a href='"+request.getContextPath()+"bloggerportfolio.jsp?tid=<%=tid%>&blogger=<%=tobj.get(\"blogger\")%>\">\r\n" + 
+									"											" + 
 									"						<button class='btn stylebuttonblue'>" + 
 									"							<b class='float-left ultra-bold-text'>"+bj.get("blogger").toString()+"</b> <i" + 
 									"								class='far fa-user float-right blogcontenticon'></i>" + 
-									"						</button>" + 
+									"						</button></a>" + 
 									"						<button class='btn stylebuttonnocolor'>"+date+"</button>" + 
 									"						<button class='btn stylebuttonnocolor'>" + 
 									"							<b class='float-left ultra-bold-text'>"+bj.get("num_comments").toString()+" comments</b><i" + 

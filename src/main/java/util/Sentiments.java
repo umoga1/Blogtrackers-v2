@@ -24,7 +24,7 @@ String base_url = hm.get("elasticIndex")+"blogpost_entitysentiment/";
 String totalpost;
 
 public ArrayList _list(String order, String from, String sortby) throws Exception {	
-	 int size = 1000;
+	 int size = 20;
 	 int fr = 0;
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 		 		"    \"query\": {\r\n" + 

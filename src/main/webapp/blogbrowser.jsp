@@ -364,7 +364,7 @@ if(results.size()>0){
 						 bresp = new JSONObject(bres);
 						 bresu = bresp.get("_source").toString();
 						 bobj = new JSONObject(bresu);
-						 blogtitle = bobj.get("blogsite_name").toString().replaceAll("[^a-zA-Z]", " ");			 
+						 blogtitle = bobj.get("blogsite_name").toString();			 
 			}
 		     String totaltrack  = trackers.getTotalTrack(blogid);		     
 %>
@@ -475,7 +475,7 @@ for(int j=0; j<allblogarray.length; j++)
 
 
 
-<script src="pagedependencies/blogbrowser3.js?v=1301">
+<script src="pagedependencies/blogbrowser3.js?v=66301">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 

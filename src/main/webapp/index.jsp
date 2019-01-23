@@ -338,7 +338,7 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
 </div>
 <div class="col-md-4 borderleftprimary">
 <h1 class="text-primary headertextwhatcanyoudo">Influence <br/>Analysis</h1>
-<p class="text-primary whatcanyoudodesc">Check influence of Blogs, Blog Posts and Bloggers</p>
+<p class="text-primary whatcanyoudodesc">Check influence of Blogs, Blog posts, and Bloggers</p>
 </div>
 </div>
 
@@ -574,8 +574,10 @@ Design is not just what it looks like and feels like. Design is how it works.
 </div>
 </div> -->
 <div class="bgwhite">
+<a href="http://cosmos.ualr.edu/">
 <div class="container-fluid pb50 pt50" id="testimonials">
 <p class="text-center mb0 copyrighttext">Developed By</p>
+
 <p class="text-center mb0"><i class="navbar-brand text-primary icontrackersize cosmoslogo mt30 mb10"></i></p>
 </div>
 </div>
@@ -585,6 +587,7 @@ Design is not just what it looks like and feels like. Design is how it works.
 <p class="mb0 text-center copyrighttext text-white">Copyright &copy; 2018, COSMOS. All Rights Reserved.</p>
 </div>
 </div>
+</a>
 
 <div class="text-center cursor-pointer helpcontainer">
 <a href="<%=request.getContextPath()%>/documentation.jsp" class="navbar-brand cursor-pointer helpicon">

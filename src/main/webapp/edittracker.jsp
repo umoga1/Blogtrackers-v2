@@ -275,11 +275,11 @@ if(f.exists() && !f.isDirectory()) {
 								DateTimeFormatter dtff = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 								createddate = dtff.format(datee3);
 							   /* datemodified = dtff.format(datee2); */
-							   System.out.println(dtmodified);
+							   System.out.println("The date modified is"+dtmodified);
 			%>
 	<div class="row m50 mt40">
 	<div class="col-md-9">
-	<h1 class="text-primary edittrackertitle mb0" style=""><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+	<h1 class="text-primary edittrackertitle mb0" style=""><%=resut.get(2).toString()%></h1>
 	<p><button class="btn metadata text-primary mt10">Created  :  <%=createddate%></button> 
 	<% if(!dtmodified.toString().equalsIgnoreCase("")) { %>
 	<button class="btn metadata text-primary mt10">Modified :  <%=dtmodified %></button> 

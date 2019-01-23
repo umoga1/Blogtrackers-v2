@@ -203,9 +203,6 @@
 		} else if (single.equals("day")) {
 			 dt = year + "-" + month + "-" + day;
 			
-			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));			
-				
 		} else if (single.equals("week")) {
 			
 			 dte = year + "-" + month + "-" + day;
@@ -216,25 +213,40 @@
 			Date dateBefore7Days = cal.getTime();
 			dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
 	
-			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));					
 		} else if (single.equals("month")) {
 			dt = year + "-" + month + "-01";
 			dte = year + "-" + month + "-"+day;	
-			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 		} else if (single.equals("year")) {
 			dt = year + "-01-01";
 			dte = year + "-12-"+ddey;
-			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
-			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
-
+			
 		}else {
 			dt = dst;
 			dte = dend;
 			
 		}  
 		
+
+				String[] yst = dt.split("-");
+				String[] yend = dte.split("-");
+				year_start = yst[0];
+				year_end = yend[0];
+				int ystint = new Double(year_start).intValue();
+				int yendint = new Double(year_end).intValue();
+				
+				if(yendint>Integer.parseInt(YEAR_ONLY.format(new Date()))){
+					dte = DATE_FORMAT2.format(new Date()).toString();	
+					yendint = Integer.parseInt(YEAR_ONLY.format(new Date()));
+				}
+				
+				if(ystint<2000){
+					ystint = 2000;
+					dt = "2000-01-01";
+				}
+				
+				dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+				dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+				
 				
 		ArrayList allposts = new ArrayList();	
 		
@@ -366,14 +378,6 @@
 
 
 
-
-		
-		String[] yst = dt.split("-");
-		String[] yend = dte.split("-");
-		year_start = yst[0];
-		year_end = yend[0];
-		int ystint = Integer.parseInt(year_start);
-		int yendint = Integer.parseInt(year_end);
 
 		if(termscount.length()>0){
 			for(int n=0; n<1;n++){

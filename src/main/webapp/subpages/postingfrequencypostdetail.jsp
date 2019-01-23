@@ -5,6 +5,7 @@
 <%@page import="util.*"%>
 <%@page import="java.io.File"%>
 <%@page import="util.Blogposts"%>
+<%@page import="util.Blogs"%>
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.util.ArrayList"%>
@@ -24,10 +25,13 @@ Object blogger = (null == request.getParameter("blogger")) ? "" : request.getPar
 Object blog_id = (null == request.getParameter("blog_id")) ? "" : request.getParameter("blog_id");
 Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
 Object sort = (null == request.getParameter("sort")) ? "" : request.getParameter("sort");
+Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
+
 
 String bloggerstr = blogger.toString().replaceAll("_"," ");
 
 Blogposts post  = new Blogposts();
+Blogs blog  = new Blogs();
 ArrayList allentitysentiments = new ArrayList(); 
 
 
@@ -73,50 +77,34 @@ if(action.toString().equals("gettotal")){
 	int comb = Integer.parseInt(possentiment)+Integer.parseInt(negsentiment);
 
 	String totalsenti  = comb+"";
+	//String toplocation = blog._getTopLocation(blog_id.toString());
 	
 	JSONObject result = new JSONObject();
 	result.put("totalpost",totalpost);
 	result.put("totalinfluence",totalinfluence);
 	result.put("totalsentiment",totalsenti);
 	result.put("totalcomment",totalcomment);
+	//result.put("toplocation",toplocation);
 %>
 <%=result.toString()%>
  <% }else if(action.toString().equals("getmostacticelocation")){ 
-	ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
-	
-	JSONObject locations = new JSONObject();
-	
-	String toplocation="";
-	int tloc =0;
-	if(allauthors.size()>0){
-		
-		String tres = null;
-		JSONObject tresp = null;
-		String tresu = null;
-		JSONObject tobj = null;
-		int j=0;
-		int k=0;
-		for(int i=0; i< allauthors.size(); i++){
-			tres = allauthors.get(i).toString();	
-			tresp = new JSONObject(tres);
-			tresu = tresp.get("_source").toString();
-			tobj = new JSONObject(tresu);
+	 ArrayList blogs = blog._fetch(blog_id.toString());
+	 String toplocation = "";//blog._getTopLocation(blog_id.toString());
+	 if (blogs.size() > 0) {
+			String bres = null;
+			JSONObject bresp = null;
 			
-			String country = tobj.get("location").toString();
-			if(locations.has(country)){
-				int val = Integer.parseInt(locations.get(country).toString());
+			String bresu = null;
+			JSONObject bobj = null;
+			
+				bres = blogs.get(0).toString();
+				bresp = new JSONObject(bres);
+				bresu = bresp.get("_source").toString();
+				bobj = new JSONObject(bresu);
+				toplocation = bobj.get("location").toString();
 				
-				locations.put(country,val);
-				if(val>tloc){
-					tloc = val;
-					toplocation = country;
-				}
-			}else{
-				locations.put(country,1);
-			}
-			
-			}
-		} 
+				
+	}
 %>
 <%=toplocation%>	
 <% }else{
@@ -146,7 +134,7 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
                                     <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title").toString().replaceAll("[^a-zA-Z]", " ")%></h5>
 										<div class="text-center mb20 mt20">
 											<button class="btn stylebuttonblue">
-												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
+												<b class="float-left ultra-bold-text"><a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid.toString()%>&blogger=<%=tobj.get("blogger")%>"><%=tobj.get("blogger")%></a></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
 											<button class="btn stylebuttonnocolor"><%=date%></button>
