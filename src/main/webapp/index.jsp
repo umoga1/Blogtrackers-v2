@@ -338,7 +338,7 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
 </div>
 <div class="col-md-4 borderleftprimary">
 <h1 class="text-primary headertextwhatcanyoudo">Influence <br/>Analysis</h1>
-<p class="text-primary whatcanyoudodesc">Check influence of Blogs, Blog posts, and Bloggers</p>
+<p class="text-primary whatcanyoudodesc">Check influence of Blogs, Posts, and Bloggers</p>
 </div>
 </div>
 
