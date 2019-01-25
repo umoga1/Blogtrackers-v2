@@ -139,15 +139,6 @@
 
 			//ArrayList posts = post._list("DESC","");
 			ArrayList sentiments = senti._list("DESC", "", "id");
-			 
-		 	/* Liwc liwc = new Liwc();
-			
-			ArrayList liwcSent = liwc._list("DESC", ""); 
-			
-			String test = post._searchRangeTotal("date", "2013-04-01", "2018-04-01", "1");
-			
-			System.out.println(test);  */
-		
 			
 			String totalpost = "0";
 			ArrayList allauthors = new ArrayList();
@@ -246,6 +237,8 @@
 			String month_start = yst[1];
 			String month_end = yend[1];
 			
+			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
 			String[] idss = ids.split(",");
 			String selectedblogid = idss[0];
@@ -257,7 +250,7 @@
 			//String totalinfluence = post._searchRangeMaxByBlogId("date", dt, dte, selectedblogid);
 			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
 			
-			
+			Long infl = Math.round(Double.parseDouble(totalinfluence));
 			String mostactiveterm ="";
 			String mostactiveblog ="";
 					
@@ -808,7 +801,7 @@
 						href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a> 
 						<a class="breadcrumb-item text-primary"	href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
 					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
-					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/blogportfolio.jsp?tid=<%=tid%>">Blogportfolio</a>
+					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/blogportfolio.jsp?tid=<%=tid%>">Blog Portfolio</a>
 				</nav>
 				<div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
@@ -877,7 +870,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-exchange-alt icondash "></i>Influence
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label total-influence"><%=totalinfluence%></h3>
+						<h3 class="text-blue mb0 countdash dash-label total-influence"><%=infl%></h3>
 					</div>
 				</div>
 			</div>

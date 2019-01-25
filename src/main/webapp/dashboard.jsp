@@ -1150,7 +1150,7 @@
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Most Influential Blogger <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
+								Most Influential <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
 								<option value="blogs">Blogs </option>
 								<option value="bloggers">Bloggers</option></select> 
 								  <%-- 

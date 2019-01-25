@@ -1,5 +1,3 @@
-
-
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
@@ -610,11 +608,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	
 									    	String x =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
 									    	int val = new Double(post._searchRangeMaxByBloggers("date",dt, dte,auth)).intValue(); 
-									    			//Integer.parseInt(post._searchRangeAggregateByBloggers("date",dt, dte,auth,"influence_score"));
-									    	
+									    		
 									    	String y = val+"";
-									    	xy.put("x",x);
-									    	xy.put("y",y);
+									    	xy.put("x",y);
+									    	xy.put("y",x);
 											
 									    	influencecount+=val;
 									    	

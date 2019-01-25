@@ -72,10 +72,10 @@ if(action.toString().equals("getstats")){
 									
 									tresu = tresp.get("_source").toString();
 									tobj = new JSONObject(tresu);
-									String country = 	tobj.get("location").toString();
+									String country = 	blog._getTopLocation(tobj.get("blogsite_id").toString());
+									
 									if(locations.has(country)){
-										int val = Integer.parseInt(locations.get(country).toString());
-										
+										int val = Integer.parseInt(locations.get(country).toString());			
 										locations.put(country,val);
 										if(val>tloc){
 											tloc = val;
@@ -246,7 +246,7 @@ if(action.toString().equals("getstats")){
 				    		yearsarray.put(b,y);
 				    		b++;
 				    	}
-					   System.out.println("totu here "+totu);
+					   //System.out.println("totu here "+totu);
 					   postyear.put(y+"",totu);
 			}
 			termsyears.put(mostactiveterm,postyear);

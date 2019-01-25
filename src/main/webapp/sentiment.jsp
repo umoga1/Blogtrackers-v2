@@ -281,15 +281,23 @@
 			String[] yend = dte.split("-");
 			year_start = yst[0];
 			year_end = yend[0];
-			int ystint = Integer.parseInt(year_start);
-			int yendint = Integer.parseInt(year_end);
+			int ystint = new Double(year_start).intValue();
+			int yendint = new Double(year_end).intValue();
 			
-			/* if (single.equals("month")) {
-				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
-				//ystint=0;
-				//yendint = diff;
+			
+			if(yendint>Integer.parseInt(YEAR_ONLY.format(new Date()))){
+				dte = DATE_FORMAT2.format(new Date()).toString();	
+				yendint = Integer.parseInt(YEAR_ONLY.format(new Date()));
 			}
- */
+			
+			if(ystint<2000){
+				ystint = 2000;
+				dt = "2000-01-01";
+			}
+			
+ 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+			
 			int b = 0;
 			for (int y = ystint; y <= yendint; y++) {
 				/*

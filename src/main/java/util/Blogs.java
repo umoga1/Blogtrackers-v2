@@ -189,9 +189,8 @@ public class Blogs extends DbConnection{
 	public String _getTopLocation(String blog_ids) throws Exception { 
 		String toplocation="";
 		ArrayList blogs = this._fetch(blog_ids);
-		JSONArray locations = new JSONArray();
-		
-		System.out.println("blog reg"+blogs);
+		JSONArray locations = new JSONArray();	
+		//System.out.println("blog reg"+blogs);
 		HashMap<String,Integer> hm = new HashMap<String,Integer>();
 		if (blogs.size() > 0) {
 			String bres = null;
@@ -205,8 +204,6 @@ public class Blogs extends DbConnection{
 				bresu = bresp.get("_source").toString();
 				bobj = new JSONObject(bresu);
 				
-				
-						
 						String loc = bobj.get("location").toString();
 						locations.put(loc);
 						if ( hm.containsKey(loc) ) {
@@ -218,12 +215,12 @@ public class Blogs extends DbConnection{
 			}
 		}
 		
-		System.out.println(hm+"");
+		//System.out.println(hm+"");
 		int highest = 0;
 		Iterator it = hm.entrySet().iterator();
 	    while (it.hasNext()) {
 	        Map.Entry pair = (Map.Entry)it.next();
-	        System.out.println(pair.getValue()+""+pair.getKey()+"");
+	        //System.out.println(pair.getValue()+""+pair.getKey()+"");
 	        if(Integer.parseInt(pair.getValue()+"")>highest) {
 	        	toplocation = pair.getKey()+""; 
 	        }

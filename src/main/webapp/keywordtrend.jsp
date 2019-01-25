@@ -304,7 +304,7 @@
 				String language="";
 				String leadingblogger="";
 				String location="";
-				
+				String leadingblogid="";
 				
 					
 				
@@ -326,6 +326,7 @@
 						leadingblogger = tobj3.get("blogger").toString();
 						location = tobj3.get("location").toString();
 						language = tobj3.get("language").toString();
+						leadingblogid = tobj3.get("blogsite_id").toString();
 					}
 				}
 				
@@ -333,7 +334,7 @@
 
 				if(p==0){
 					allposts =  post._searchByTitleAndBody(tm,"date", dt,dte);//term._searchByRange("date",dt,dte, tm,"term","10");
-					toplocation = location;
+					toplocation = blog._getTopLocation(leadingblogid);
 					mostactiveterm = tm;
 					mostactiveterm_id = tmid;
 					
