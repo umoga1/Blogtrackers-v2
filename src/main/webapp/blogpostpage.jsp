@@ -272,9 +272,9 @@ if(detail.size()>0){
           
               </div>
         <h1 class="text-center text-white post-title-font"><%=obj.get("title") %></h1>
-        <p class="p10 pt40 pb10 text-center"><button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=obj.get("blogger") %></button>
-         <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=date%></button>
-          <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=blogtitle%></button> <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10"><%=obj.get("num_comments") %> comment(s)</button>
+        <p class="p10 pt40 pb10 text-center"><button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10 nocursor"><%=obj.get("blogger") %></button>
+         <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10 nocursor"><%=date%></button>
+          <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10 nocursor"><%=blogtitle%></button> <button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10 nocursor"><%=obj.get("num_comments") %> comment(s)</button>
        <!--    <button class="btn btn-primary stylebuttonposttracking mr10 mt10">TRACKING</button>
           <button class="btn btn-primary stylebuttonposttracks mt10">2 Tracks</button> -->
           </p>
