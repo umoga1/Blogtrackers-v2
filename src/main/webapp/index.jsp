@@ -390,7 +390,7 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
 <p class="text-primary whatcanyoudodesc">Check influence of Blogs, Blog Posts and Bloggers</p>
 </div>
 </div> -->
-<div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 mb20 p40 pt10 pb10">Start Tracking</button></div>
+<div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 mb20 p40 pt10 pb10 starttracking2">Start Tracking</button></div>
 </div>
 </div>
 <div class="bggrey">
