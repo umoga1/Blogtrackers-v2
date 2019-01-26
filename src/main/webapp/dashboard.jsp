@@ -1490,14 +1490,12 @@ $(document).ready(function() {
                  minDate: '01/01/1947',
                  maxDate: moment(),
                  linkedCalendars: false,
+                 autoUpdateInput:true,
                  maxSpan: {
                      days: 50000
                  },
              showDropdowns: true,
                  showWeekNumbers: true,
-                 timePicker : false,
-           timePickerIncrement : 1,
-           timePicker12Hour : true,
            dateLimit: { days: 50000 },
                      ranges: {
 
@@ -1538,6 +1536,7 @@ $(document).ready(function() {
      // $('#reportrange span').html('${datepicked}');
       //$('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
      $('#reportrange, #custom').daterangepicker(optionSet1, cb);
+     $('#reportrange, #custom').daterangepicker.prototype.hoverDate = function(){}; 
      $('#reportrange, #custom')
      .on(
          'show.daterangepicker',
