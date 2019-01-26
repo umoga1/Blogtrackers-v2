@@ -643,10 +643,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										}
 									} 
 								
-				System.out.println("authors"+bloggerarr);
+				//System.out.println("authors"+bloggerarr);
 				//bloggertosort =  post._sortJson2(bloggertosort);
 			    bloggerarr = post._sortJson2(bloggerarr);
-				System.out.println("hello"+bloggerarr);
+				//System.out.println("hello"+bloggerarr);
 
 				for(int m=0; m<bloggerarr.length(); m++){
 					String key = bloggerarr.get(m).toString();
