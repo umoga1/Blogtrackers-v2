@@ -128,7 +128,10 @@ width:115px;
   vertical-align: middle;
 
 }
-
+.daterangepicker_input
+{
+display:none !important;	
+}
 .logo-text
 {
 color:#575757;	
