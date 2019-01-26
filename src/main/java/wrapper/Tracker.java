@@ -257,10 +257,10 @@ public class Tracker extends HttpServlet {
 					String tid = request.getParameter("tracker_id");
 					new DbConnection().updateTable("DELETE FROM trackers WHERE  tid='"+tracker_id+"' AND userid='"+userid+"'");						
 					
-					ArrayList trackers = new DbConnection().query("SELECT * FROM trackers WHERE userid='"+userid+"'");
-		        	pww.write("true");
+					//ArrayList trackers = new DbConnection().query("SELECT * FROM trackers WHERE userid='"+userid+"'");
+		        	pww.write("success");
 				}catch(Exception ex) {
-					 pww.write("false"); 
+					 pww.write("error"); 
 				}			
 				
 		}else if(action.equals("removeblog")) {

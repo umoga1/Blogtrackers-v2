@@ -235,6 +235,7 @@
 			
 			String mostactiveterm ="";
 			String mostactiveblogger ="";
+			String mostactiveblogurl ="";
 			
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
@@ -291,14 +292,19 @@
 					    String blogsite_id = tobj.get("blogsite_id").toString();
 					    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
 						int totalcounter = Integer.parseInt(btoty);
+						URI uri = new URI(tobj.get("permalink").toString());							
+						
 						if(totalcounter>highestpost){
 							highestpost = totalcounter;
 							mostactiveblogger = auth;
+							
+							mostactiveblogurl = uri.getHost();
 						}
 					    
 					    
 					    if(attachedblogger.equals(auth)){
 					    	mostactiveblogger = auth;
+					    	mostactiveblogurl = uri.getHost();
 					    }
 					    
 					    JSONObject content = new JSONObject();
@@ -951,7 +957,7 @@ String totalinfluence ="";
 					<div class="card-body p0 pt5 pb5">
 <!-- <small class="text-primary">Blogsite of <b class="text-blue"><u>Advonum</u></b></small><br/> -->
 <h5 class="text-primary mb0 active-blog"><%=mostactiveblogger%></h5>
-<h3><button class="btn buttonportfolio"><b class="float-left">Visit Site</b> <b class="far fa-file-alt float-right iconportfolio"></b></button></h3>
+<h3><a href="http://<%=mostactiveblogurl%>" target="_blank"><button class="btn buttonportfolio"><b class="float-left">Visit Site</b> <b class="far fa-file-alt float-right iconportfolio"></b></button></a></h3>
 </div>
 </div>
 </div>
@@ -2490,7 +2496,7 @@ String totalinfluence ="";
                                .attr("cy", function(d){return y(d.close)})
 
                                .attr("transform", "translate("+margin.left/4.7+",0)");
-                               svg.selectAll(".circle-point").data(mergedarray)
+                         f      svg.selectAll(".circle-point").data(mergedarray)
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
                               .on("click",function(d){
