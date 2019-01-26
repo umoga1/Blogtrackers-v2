@@ -63,7 +63,7 @@
 					     String blogid = obj.get("blogsite_id").toString();
 					     String[] dt = obj.get("date").toString().split("T");
 					     
-					     String pst = obj.get("post").toString().replaceAll("[^a-zA-Z]", " ");
+					     String pst = obj.get("post").toString();//.replaceAll("[^a-zA-Z]", " ");
 					     if(pst.length()>120){
 					    	 pst = pst.substring(0,120);
 					     }
@@ -96,7 +96,7 @@
 			
 			  <div class="card-body">
 			
-			    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title").toString().replaceAll("[^a-zA-Z]", " ")%></h4></a>
+			    <a href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>"><h4 class="card-title text-primary text-center pb20 bold-text post-title"><%=obj.get("title").toString()%></h4></a>
 			
 			    <p class="card-text text-center author mb0 light-text"><%=obj.get("blogger") %></p>
 			    <p class="card-text text-center postdate light-text"><%=dt[0]%></p>
