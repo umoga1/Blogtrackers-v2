@@ -206,7 +206,7 @@ if(f.exists() && !f.isDirectory()) {
 <div class="row mt30">
 <div class="col-md-12 pl30 pr30">
 <h6 class="float-left text-primary">30 Notifications</h6>
-<h6 class="float-right text-primary">Recent <i class="fas fa-chevron-down"></i></h6><h6>
+<h6 class="float-right text-primary"><select class="text-primary filtersort sortby"  id="sortbyselect"><option>Recent</option><option>Latest</option></select></h6><h6>
 </h6></div>
 </div>
 
