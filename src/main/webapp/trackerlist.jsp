@@ -381,10 +381,9 @@
 							href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=resut.get(0).toString()%>"><i
 							class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics"
 							data-toggle="tooltip" data-placement="top"
-							title="Proceed to Analytics"></i></a> <i
-							class="text-primary icontrackersize cursor-pointer refreshdeactivated"
-							data-toggle="tooltip" data-action="reload" data-placement="top"
-							title="Refresh Tracker"></i> <i class="text-primary icontrackersize cursor-pointer deletetracker trackerdelete"
+							title="Proceed to Analytics"></i></a> 
+			<a href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=resut.get(0).toString()%>" style="margin-left:25px;"><i	class="text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" 	title="Edit Tracker"></i></a> 
+			<i class="text-primary icontrackersize cursor-pointer deletetracker trackerdelete"
 							data-toggle="tooltip" data-placement="top" title="Delete Tracker" id="<%=resut.get(0).toString()%>">
 							<input type="hidden" name="tid" value="<%=resut.get(0).toString()%>" class="tid" />
 							</i>
