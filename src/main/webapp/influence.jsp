@@ -644,7 +644,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 				System.out.println("authors"+bloggerarr);
 				//bloggertosort =  post._sortJson2(bloggertosort);
 			    bloggerarr = post._sortJson2(bloggerarr);
-				System.out.println("hello"+bloggerarr);
+				//System.out.println("hello"+bloggerarr);
 
 				for(int m=0; m<bloggerarr.length(); m++){
 					String key = bloggerarr.get(m).toString();
@@ -665,7 +665,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							
 							selectedid=det.get("blogid").toString();
 							allposts =  post._getBloggerByBloggerName("date",dt, dte,au,"influence_score","DESC");
-									
+							totalpost = post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);						
+					    	totalinfluence = new Double(post._searchRangeMaxByBloggers("date",dt, dte,mostactiveblogger)).intValue(); 
+				    			
 					}
 			    	%>
 					<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>" value="<%=postids%>" />
@@ -714,16 +716,14 @@ String negsentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimen
 
 int comb = new Double(possentiment2).intValue() + new Double(negsentiment2).intValue();
 String totalcomment = tcomment+"";// post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
-totalinfluence  = influencecount;// Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
+//totalinfluence  = influencecount;// Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
 
-totalpost = post._searchRangeTotal("date", dt, dte,ids);
+//totalpost = post._searchRangeTotal("date", dt, dte,ids);
 //totalpost = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
 
 String totalsenti  = comb+"";
 //System.out.println("Post ids ="+postidss);
 allterms = term._searchByRange("date", dt, dte,postidss,"blogpostid","50");
-
-
 
 int highestfrequency = 0;
 JSONArray topterms = new JSONArray();
