@@ -14,15 +14,18 @@ color:#1F90D0 !important;
   font-size: inherit;
   width:180px;
 }
-
 .custom-select option
 {
 width:180px;	
 }
-
 .nobg
 {
 background-color:none;	
+}
+.addblogtitle
+{
+font-size:50px;	
+font-weight:bolder;
 }
 .navsticky
 {
@@ -35,6 +38,42 @@ left:0px;
 z-index:998;
 padding-left:15px;
 padding-right:15px;
+}
+.containeraddblog
+{
+background-color: #fafafa;
+}
+.containerdropfile
+{
+background-color: #fafafa;
+border:dashed 2px #cccccc !important;
+}
+.blogtitle, .blogurl
+{
+border-radius:5px;
+text-align:center;	
+background-color:transparent !important;
+}
+.createbtn, .cancelbtn
+{
+border-radius:20px;
+padding:8px 25px;	
+}
+.orcontainer
+{
+position:absolute; 
+width:50px; 
+height:50px; 
+border-radius:50px; 
+text-align:center; 
+background:#ffffff;	
+left:45%;
+top:-15px;
+}
+
+.addblogbtn
+{
+background-color:#ffffff !important;	
 }
 .hidesticky
 {
