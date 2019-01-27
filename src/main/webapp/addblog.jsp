@@ -102,13 +102,13 @@ results_blogadded = new_blog._fetchBlog(username);
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
 
   <link rel="stylesheet" href="assets/css/style.css" />
-
+<link rel="stylesheet" href="assets/css/toastr.css">
   <!--end of bootsrap -->
   <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
-<body>
+<body class="bgwhite">
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
    <div class="modal-notifications">
 <div class="row">
@@ -234,23 +234,93 @@ results_blogadded = new_blog._fetchBlog(username);
 
 
 
-<div class="col-lg-12 col-md-12 pt0 pb10  mt10 mb10 notification">
-<div class="card noborder curved-card mb30 " >
-<p class="text-primary p30 pt30 pb0">Enter the URL of the Blog <b>(with http://)</b> and press Enter to save</p>
+<div class="col-lg-12 col-md-12 pt0 pb10  mt10 mb10 notification ">
+<h1 class="text-primary addblogtitle">Add Blogs</h1>
+
+<div class="card noborder curved-card mb30 containerdropfile pt40 pb40 mt20 createblog ">
+<h5 class="text-primary text-center">Click here to add blog</h5>
+<div>
+<button class="offset-md-4 col-md-4 mt10 form-control text-primary bold-text cursor-pointer btn createtrackerbtn bgwhite addblogbtn">+</button>
+</div>
+<div class="offset-md-4 col-md-4 mt20">
+<a class="orcontainer pt10">or</a>
+<hr /></div>
+<h5 class="text-primary text-center">Drag in or choose a .txt file</h5>
+<input type="file" class="offset-md-4 col-md-4 form-control"/> 
+</div>
+
+<div class="card noborder curved-card mb30 containeraddblog pt60 pb60 mt20 hidesection">
+<div class="createblogsection" >
+<h5 class="text-primary text-center mt20 mb20">Enter Blog's Name and URL</h5>
+<form>
+<div class="form-group">
+<input class= "form-control offset-md-2 col-md-8 col-md-2 blogtitle pt10 pb10 mb20" type="text" placeholder="Enter Blog Name" />
+</div>
+<div class="form-group mt20">
+<input class=" form-control offset-md-2 col-md-8 col-md-2 blogurl pt10 pb10" placeholder="http://example.com" type="url" />
+</div>
+<div class="text-center"><button class="btn text-primary cancelbtn">Cancel</button>&nbsp;<button class="btn btn-success createbtn">Create</button></div>
+</form>
+</div>
+
+<!-- <div class="addblogsection" >
+<h5 class="text-primary text-center">Click here to add blog</h5>
+<div>
+<button class="offset-md-4 col-md-4 mt10 form-control text-primary bold-text cursor-pointer btn createtrackerbtn bgwhite addblogbtn">+</button>
+</div>
+<div class="offset-md-4 col-md-4 mt20">
+<a class="orcontainer pt10">or</a>
+<hr /></div>
+<h5 class="text-primary text-center">Drag in or choose a .txt file</h5>
+<input type="file" class="offset-md-4 col-md-4 form-control"/> 
+</div> -->
+</div>
+
+<div class="col-md-12 mt10 mb50 pl0 pr0">
+<h2 class="text-primary addblogtitle bold-text">Blogs Added</h2>
+		<table cellpadding="4" id="bloglist" style="width:100%">
+		<thead>
+		<tr>
+		<td  class="text-primary"></td>
+		<th class="text-primary">Blog Name</th>
+		<th class="text-primary">Status</th>
+		<th class="text-primary">No. of Posts</th>
+		<th class="text-primary">Latest Update</th>
+		<th></th>
+		</tr>
+		</thead>
+		<tbody>
+			<% if (results_blogadded.size() > 0) {
+			for (int k = 0; k < results_blogadded.size(); k++) {				
+				ArrayList blog = (ArrayList)results_blogadded.get(k);
+				String id = (String)blog.get(0);
+				String blogname = (String) blog.get(2);
+				String status = (String) blog.get(3);
+		%>							
+			<tr>
+		
+			<td class="text-left pl0"><%=k+1 %></td>
+			<td class="text-primary text-left"><%=blogname %></td>
+			<td class="text-primary text-left"><%=status %></td>
+			<td class="text-primary text-left"></td>
+			<td class="text-primary text-left"></td>
+			<td class="text-primary text-center"><i onclick="deleteBlog()" class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i></td>
+			<%-- <td class="text-center"><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" onclick= "<% new_blog._deleteBlog(username, Integer.parseInt(id)); %>" data-toggle="tooltip" id="<%=id%>_select" data-placement="top" title="Delete Blog"></i></td> --%>
+			</tr>
+		<% }} %>
+		</tbody>
+		</table>
+</div>
+<%-- <p class="text-primary p30 pt30 pb0">Enter the URL of the Blog <b>(with http://)</b> and press Enter to save</p>
 <form method="add" method="post" autocomplete="off" action="<%=request.getContextPath()%>/addblog.jsp">
 <input type="url" placeholder="Enter a Blog URL" required name="term" class="form-control blogsearch bold-text"/>
-<p class="text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb10 mt20">Add Blog</button></p>
-<!-- <p class="p30 pt20 pb10">&nbsp;&nbsp;&nbsp;&nbsp;Added: <button class="btn btn-primary btn-danger profilebtn">Blog Added Successfully</button> <button class="btn btn-primary stylebuttonnotifications">02-01-2018&nbsp;.&nbsp;5:30pm</button></p>
- -->  
+<p class="text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb10 mt20">Add Blog</button></p>  
  <div class="card-body pt0">
-   <!--  <h5 class="text-primary p10 pt10">
 
-</h5> -->
+</div>
+</form> --%>
 
-  </div>
-  </form>
-
-<div class="col-md-12 mt10 mb50">
+<%-- <div class="col-md-12 mt10 mb50">
 		<table cellpadding="4" id="bloglist" style="width:100%">
 		<thead>
 		<tr>
@@ -274,20 +344,13 @@ results_blogadded = new_blog._fetchBlog(username);
 			<td class="text-center"><%=blogname %></td>
 			<td class="text-center"><%=status %></td>
 			<td class="text-center"><i onclick="deleteBlog()" class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i></td>
-			<%-- <td class="text-center"><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" onclick= "<% new_blog._deleteBlog(username, Integer.parseInt(id)); %>" data-toggle="tooltip" id="<%=id%>_select" data-placement="top" title="Delete Blog"></i></td> --%>
+			<td class="text-center"><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" onclick= "<% new_blog._deleteBlog(username, Integer.parseInt(id)); %>" data-toggle="tooltip" id="<%=id%>_select" data-placement="top" title="Delete Blog"></i></td>
 			</tr>
 		<% }} %>
 		</tbody>
 		
 		</table>
-		</div>
-</div>
-</div>
-
-
-
-
-
+</div> --%>
 
 
 </div>
@@ -296,18 +359,15 @@ results_blogadded = new_blog._fetchBlog(username);
 
 
 
-<!-- <footer class="footer">
-  <div class="container-fluid bg-primary mt60">
-<p class="text-center text-medium pt10 pb10 mb0">Copyright &copy; Blogtrackers 2017 All Rights Reserved.</p>
+
+
 </div>
-  </footer> -->
+
+
 
 
  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
-</script>
-
-
 <script>
 <% String blogname = "";
 %>
@@ -325,6 +385,7 @@ function deleteBlog(){
 	console.log(blogname);
 	
 }
+</script>
 </script>
 <!-- <script>
 $(document).ready(function() {
@@ -390,9 +451,10 @@ $(document).ready(function() {
 </script> -->
 <!--end for table  -->
 
-
+<script type="text/javascript" src="assets/js/toastr.js"></script>
 <script src="assets/js/generic.js">
 </script>
+<script src="pagedependencies/addblog.js"> </script>
 
 </body>
 </html>
