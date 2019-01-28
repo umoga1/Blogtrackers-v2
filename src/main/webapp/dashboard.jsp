@@ -645,6 +645,7 @@
 <link rel="stylesheet" href="assets/css/toastr.css">
 
 <script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
 <!-- <script src="assets/js/jquery-3.2.1.slim.min.js"></script>-->
@@ -922,8 +923,18 @@
 									</select> --%>
 							</p>
 						</div>
-						<div class="min-height-table" style="min-height: 500px;">
-							<div class="chart-container">
+	<div class="min-height-table" style="min-height: 500px;">
+					<div class="chart-container">
+							  <div class="btn-group float-right" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Export
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+      <a class="dropdown-item savelanguagejpg" href="#">Export as JPG</a>
+      <a class="dropdown-item savelanguagepng" href="#">Export as PNG</a>
+    </div>
+  </div>
+							<!-- <button id='savelanguage'>Export my D3 visualization to PNG</button> -->
 								<div class="chart" id="languageusage"></div>
 							</div>
 						</div>
@@ -1614,12 +1625,16 @@ $(document).ready(function() {
 	<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
 	<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
 	<script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
+	 <script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
+		 <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
 	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
 	<script type="text/javascript" src="assets/js/jquery.inview.js"></script>
+	<script type="text/javascript" src="assets/js/exporthandler.js"></script>
 	<!--start of language bar chart  -->
 	<script>
 $(function () {
 
+	
     // Initialize chart
     languageusage('#languageusage', 455);
 
@@ -1674,14 +1689,14 @@ $(function () {
       // ------------------------------
 
       // Add SVG element
-      var container = d3Container.append("svg");
+      var container = d3Container.append("svg").attr('class','languagesvg');
 
       // Add SVG group
       var svg = container
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
-              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
       //         // Create tooltip
@@ -1845,6 +1860,22 @@ $(function () {
                   //         .on('mouseover', tip.show)
                   //         .on('mouseout', tip.hide);
 
+
+ 
+ 
+ ExportSVGAsImage('.savelanguagejpg','click','.languagesvg',width,height,'jpg');
+ ExportSVGAsImage('.savelanguagepng','click','.languagesvg',width,height,'png');
+ 
+//Set-up the export button
+/*  d3.select('#savelanguage').on('click', function(){
+ 	var svgString = getSVGString(d3.select('.languagesvg').node());
+ 	svgString2Image( svgString, 2*width, 2*height, 'png', save ); // passes Blob and filesize String to the callback
+
+ 	function save( dataBlob, filesize ){
+ 		saveAs( dataBlob, 'D3 vis exported to PNG.png' ); // FileSaver.js function
+ 	}
+ }); */
+ 
 
 
 

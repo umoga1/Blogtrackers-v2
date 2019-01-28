@@ -51,6 +51,19 @@ color:#F37C7C !important;
 }
 
 /* end of error status */
+
+/* default status */
+.defaultstatus
+{
+	
+}
+.defaultstatus .nameofblog, .defaultstatus .blogstatus, .defaultstatus .blogcount
+{
+font-weight:500;
+
+}
+
+/* end of default status */
 .navsticky
 {
 position:fixed;	

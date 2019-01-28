@@ -306,6 +306,10 @@ results_blogadded = new_blog._fetchBlog(username);
 			{
 			statusstyle = "errorstatus";	
 			}
+			else
+			{
+				statusstyle = "defaultstatus";	
+			}
 		%>							
 			<tr class="<%=statusstyle %>">
 			<td class="text-left pl0 blogcount"><%=k+1 %></td>
