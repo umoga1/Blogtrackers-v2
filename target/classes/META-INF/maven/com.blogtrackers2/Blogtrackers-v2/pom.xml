@@ -54,9 +54,12 @@
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java <dependency> 
 			<groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> <version>6.0.6</version> 
 			</dependency> -->
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java <dependency> 
-			<groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> <version>8.0.11</version> 
-			</dependency> -->
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.11</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
 		<dependency>

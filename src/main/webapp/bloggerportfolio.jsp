@@ -847,7 +847,7 @@ String totalinfluence ="";
 <div class="col-md-6 text-right mt10">
 <div class="text-primary demo">
 					<h6 id="reportrange">
-						Date: <span><%=historyfrom%> - <%=historyto%></span>
+						Date: <span><%=dispfrom%> - <%=dispto%></span>
 					</h6>
 				</div>
 <div>
