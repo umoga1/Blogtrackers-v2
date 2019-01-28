@@ -7,6 +7,7 @@
 <%@page import="java.util.Locale" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 
