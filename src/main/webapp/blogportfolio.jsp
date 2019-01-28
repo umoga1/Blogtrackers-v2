@@ -496,6 +496,7 @@
 				}
 			}
 			
+			String mostactiveblogurl ="";
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
 			if (outlinks.size() > 0) {
@@ -589,6 +590,7 @@
 						int valu = 1;//Integer.parseInt(btoty);
 						if(m==0){
 							mostactiveblog = blogname;
+							mostactiveblogurl = durl;
 						}
 						if (bloggers.has(blogger)) {
 							content = new JSONObject(bloggers.get(blogger).toString());						
@@ -911,7 +913,7 @@
 
 <div class="col-md-2 text-right">
 <!-- <small class="text-primary cursor-pointer"><a href="">Visit Blog</a></small> --><br/>
-<button class="btn buttonportfolio"><b class="float-left active-blog styleactiveblog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
+<a href="http://<%=mostactiveblogurl%>" target="_blank"><button class="btn buttonportfolio"><b class="float-left active-blog styleactiveblog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button></a>
 </div>
  <!--  <div class="col-md-3">
   <small class="text-primary">Find Blog</small>
