@@ -105,7 +105,8 @@
 
 		}
 %>
-
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
   <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
                         <thead>
                             <tr>
@@ -137,3 +138,40 @@
 									%>                     
                         </tbody>
 </table>
+
+<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
+			<script>
+ $(document).ready(function() {
+	 
+	 
+	$('#printdoc').on('click',function(){
+		print();
+	}) 
+	
+	 $(function () {
+		    $('[data-toggle="tooltip"]').tooltip()
+		  })
+		  
+     $('#DataTables_Table_1_wrapper').DataTable( {
+         "scrollY": 430,
+          "pagingType": "simple",
+         /*  dom: 
+        	   'Bfrtip', 
+                    "columnDefs": [
+                 { "width": "80%", "targets": 0 }
+               ]  */
+  /*    ,
+       buttons:{
+         buttons: [
+             { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
+             {extend:'csv',className: 'btn-primary stylebutton1'},
+             {extend:'excel',className: 'btn-primary stylebutton1'},
+            // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
+             {extend:'print',className: 'btn-primary stylebutton1'},
+         ]
+       } */
+     } );
+	 
+ } );
+ </script>
+	<!--end for table  -->	

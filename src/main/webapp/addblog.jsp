@@ -129,8 +129,8 @@ results_blogadded = new_blog._fetchBlog(username);
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
   <% if(userinfo.size()>0){ %>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+  <%-- <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+   --%> <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   <%}else{ %>
@@ -282,12 +282,12 @@ results_blogadded = new_blog._fetchBlog(username);
 		<table cellpadding="4" id="bloglist" style="width:100%">
 		<thead>
 		<tr>
-		<td  class="text-primary"></td>
+		<td class="text-primary"></td>
 		<th class="text-primary">Blog Name</th>
 		<th class="text-primary">Status</th>
 		<th class="text-primary">No. of Posts</th>
 		<th class="text-primary">Latest Update</th>
-		<th></th>
+		<th> </th>
 		</tr>
 		</thead>
 		<tbody>
@@ -297,12 +297,20 @@ results_blogadded = new_blog._fetchBlog(username);
 				String id = (String)blog.get(0);
 				String blogname = (String) blog.get(2);
 				String status = (String) blog.get(3);
+				String statusstyle = "";
+			if(status.equalsIgnoreCase("complete"))
+			{
+			statusstyle = "successstatus";	
+			}
+			else if(status.equalsIgnoreCase("error"))
+			{
+			statusstyle = "errorstatus";	
+			}
 		%>							
-			<tr>
-		
-			<td class="text-left pl0"><%=k+1 %></td>
-			<td class="text-primary text-left"><%=blogname %></td>
-			<td class="text-primary text-left"><%=status %></td>
+			<tr class="<%=statusstyle %>">
+			<td class="text-left pl0 blogcount"><%=k+1 %></td>
+			<td class="text-primary text-left nameofblog"><%=blogname %></td>
+			<td class="text-primary text-left blogstatus"><%=status %></td>
 			<td class="text-primary text-left"></td>
 			<td class="text-primary text-left"></td>
 			<td class="text-primary text-center"><i onclick="deleteBlog()" class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i></td>

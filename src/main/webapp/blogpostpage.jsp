@@ -105,8 +105,8 @@ String[] user_name = name.split(" ");
 
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+  <%-- <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  --%>  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6  class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
@@ -267,9 +267,9 @@ if(detail.size()>0){
         <div class="stickyoptions">
         <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="right" title="Back" class="fas fa-arrow-left backblogpostpage icon-small text-primary"></i></button>
          <a href="<%=obj.get("permalink") %>" target="_blank"> <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="right" title="View Post" class="fas fa-external-link-alt icon-small text-primary"></i></button></a>
-    <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="right" title="Add to Favorites" class="far fa-heart icon-small text-primary"></i></button>
+    <!-- <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="right" title="Add to Favorites" class="far fa-heart icon-small text-primary"></i></button>
          <button class="btn btn-rounded"><i data-toggle="tooltip" data-placement="right" title="Track Blogsite" class="trackblogfromblogpage icon-small text-primary"></i></button>
-          
+       -->    
               </div>
         <h1 class="text-center text-white post-title-font"><%=obj.get("title") %></h1>
         <p class="p10 pt40 pb10 text-center"><button class="btn btn-primary stylebuttonpostpage text-white mr10 mt10 nocursor"><%=obj.get("blogger") %></button>
