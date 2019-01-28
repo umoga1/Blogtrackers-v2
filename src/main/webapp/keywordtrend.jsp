@@ -294,6 +294,7 @@
 				String tm = bj.get("term").toString();
 				String tmid = bj.get("id").toString();
 				String blogpostid = bj.get("blogpostid").toString();
+				String blogid = bj.get("blogsiteid").toString();
 				
 				if(freq>highestfrequency){
 					highestfrequency = freq;
@@ -326,9 +327,10 @@
 						tobj3 = new JSONObject(tresu3);
 						
 						leadingblogger = tobj3.get("blogger").toString();
-						location = tobj3.get("location").toString();
 						language = tobj3.get("language").toString();
 						leadingblogid = tobj3.get("blogsite_id").toString();
+						location = blog._getTopLocation(leadingblogid);//tobj3.get("location").toString();
+						
 					}
 				}
 				
@@ -336,7 +338,7 @@
 
 				if(p==0){
 					allposts =  post._searchByTitleAndBody(tm,"date", dt,dte);//term._searchByRange("date",dt,dte, tm,"term","10");
-					toplocation = blog._getTopLocation(leadingblogid);
+					toplocation = location;
 					mostactiveterm = tm;
 					mostactiveterm_id = tmid;
 					
@@ -344,12 +346,14 @@
 					blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
 					bloggerc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogger");//post._searchTotalAndUniqueBlogger(tm,"date", dt,dte,"blogger");
 					
+					/*
 					ArrayList bloggercc = new DbConnection().query("SELECT * from blogposts where title LIKE '%"+tm+"%' OR post LIKE '%"+tm+"%' ");
 					System.out.println("blogerc :"+bloggercc);
 					if(bloggercc.size()>0){
 					  //bloggercc = (ArrayList<?>) bloggercc.get(0);
 					   //bloggerc = (null == bloggercc.get(0)) ? "0" : bloggercc.get(0).toString();
 					}
+					*/
 					
 					postmentioned+=(Integer.parseInt(postc));
 					blogmentioned+=(Integer.parseInt(blogc));
@@ -365,6 +369,7 @@
 				cont.put("postcount",postc);
 				cont.put("blogcount",blogc);
 				cont.put("bloggercount",bloggerc);
+				cont.put("blogsite_id",blogid);
 				cont.put("leadingblogger",leadingblogger);
 				cont.put("language",language);
 				cont.put("location",location);
@@ -916,7 +921,7 @@
 											String postcount = post._searchTotalByTitleAndBody(terms,"date", dt,dte);
 											String blogcount = post._searchTotalAndUnique(terms,"date", dt,dte,"blogsite_id");
 											String bloggercount = post._searchTotalAndUnique(terms,"date", dt,dte,"blogger");
-											String language = jsonObj.getString("language");
+											String language = jsonObj.getString("language");//jsonObj.getString("language");
 											String location = jsonObj.getString("location");
 											String blogger = jsonObj.getString("leadingblogger");
 											

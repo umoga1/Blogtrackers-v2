@@ -248,8 +248,7 @@
 			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
 			
 			//String totalinfluence = post._searchRangeMaxByBlogId("date", dt, dte, selectedblogid);
-			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
-			
+			String totalinfluence = post._searchRangeMaxByBlogId("date", dt, dte, selectedblogid);
 			Long infl = Math.round(Double.parseDouble(totalinfluence));
 			String mostactiveterm ="";
 			String mostactiveblog ="";
@@ -496,6 +495,7 @@
 				}
 			}
 			
+			String mostactiveblogurl ="";
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
 			if (outlinks.size() > 0) {
@@ -587,8 +587,9 @@
 						String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
 						//String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
 						int valu = 1;//Integer.parseInt(btoty);
-						if(m==0){
+						if(selectedblogid.equals(bobj.get("blogsite_id").toString())){
 							mostactiveblog = blogname;
+							mostactiveblogurl = durl;
 						}
 						if (bloggers.has(blogger)) {
 							content = new JSONObject(bloggers.get(blogger).toString());						
@@ -854,10 +855,11 @@
 							JSONObject resu = bloggers.getJSONObject(key);
 							int size = Integer.parseInt(resu.get("postingfreq").toString());
 							String blogname = resu.get("blog").toString();
+							String blogid = resu.get("id").toString();
 							if (size > 0 && p < 15) {
 								p++;
 							%>
-								<option value="<%=resu.get("id").toString()%>_<%=blogname%>"><%=resu.get("blog")%></option>
+								<option value="<%=resu.get("id").toString()%>_<%=blogname%>" <% if(blogname.equals(mostactiveblog)){%> selected <% } %>><%=resu.get("blog")%></option>
    <%}}}%>
 </select>
 </h6>
@@ -911,7 +913,7 @@
 
 <div class="col-md-2 text-right">
 <!-- <small class="text-primary cursor-pointer"><a href="">Visit Blog</a></small> --><br/>
-<button class="btn buttonportfolio"><b class="float-left active-blog styleactiveblog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
+<a href="http://<%=mostactiveblogurl%>" target="_blank"><button class="btn buttonportfolio"><b class="float-left active-blog styleactiveblog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button></a>
 </div>
  <!--  <div class="col-md-3">
   <small class="text-primary">Find Blog</small>
@@ -963,7 +965,7 @@
   <div class="card card-style mt20 ">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 475px;">
-<div><p class="text-primary mt10 float-left"><b class="text-blue">Posts</b> Published by <b class="text-blue"><%=mostactiveblog%></b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+<div><p class="text-primary mt10 float-left"><b class="text-blue">Posts</b> Published by <b class="text-blue active-blog"><%=mostactiveblog%></b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
 <!-- <svg class="linesvg" width="960" height="400"></svg> -->
 <!-- <div id="lineplot" style="min-height: 380px;"></div> -->
 
