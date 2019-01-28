@@ -20,8 +20,8 @@ public class Liwc {
 
 	HashMap<String, String> hm = DbConnection.loadConstant();		
 
-	String base_url = hm.get("elasticIndex")+"liwc2/";
-//	String base_url = hm.get("elasticIndex")+"liwc/";
+//	String base_url = hm.get("elasticIndex")+"liwc2/";
+	String base_url = hm.get("elasticIndex")+"liwc/";
 
 	String totalpost;		    
 
