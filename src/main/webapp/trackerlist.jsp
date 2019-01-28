@@ -520,7 +520,7 @@ trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-
 <script src="js/jscookie.js">
 </script>
 
-<script src="pagedependencies/deletetracker.js">
+<script src="pagedependencies/deletetracker.js?v=900">
 
 </script>
 
