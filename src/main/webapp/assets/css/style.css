@@ -27,6 +27,30 @@ background-color:none;
 font-size:50px;	
 font-weight:bolder;
 }
+/* success status */
+.successstatus
+{
+background-color:#D8f3E6 !important;	
+}
+.successstatus .nameofblog, .successstatus .blogstatus, .successstatus .blogcount
+{
+font-weight:500;
+color:#42C689 !important;	
+}
+
+/* end of success status */
+/* error status */
+.errorstatus
+{
+background-color:#F2B5B5 !important;	
+}
+.errorstatus .nameofblog, .errorstatus .blogstatus, .errorstatus .blogcount
+{
+font-weight:500;
+color:#F37C7C !important;	
+}
+
+/* end of error status */
 .navsticky
 {
 position:fixed;	
