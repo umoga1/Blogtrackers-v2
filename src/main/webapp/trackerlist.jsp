@@ -523,7 +523,7 @@ trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-
 
 </script>
 
- <script src="pagedependencies/edittracker.js?v=12"></script>
+<!-- <script src="pagedependencies/edittracker.js?v=12"></script>-->
 
 <script src="assets/js/generic.js">
 </script>
