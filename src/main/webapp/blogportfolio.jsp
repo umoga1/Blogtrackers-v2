@@ -248,8 +248,7 @@
 			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
 			
 			//String totalinfluence = post._searchRangeMaxByBlogId("date", dt, dte, selectedblogid);
-			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
-			
+			String totalinfluence = post._searchRangeMaxByBlogId("date", dt, dte, selectedblogid);
 			Long infl = Math.round(Double.parseDouble(totalinfluence));
 			String mostactiveterm ="";
 			String mostactiveblog ="";
