@@ -342,12 +342,14 @@
 					blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
 					bloggerc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogger");//post._searchTotalAndUniqueBlogger(tm,"date", dt,dte,"blogger");
 					
+					/*
 					ArrayList bloggercc = new DbConnection().query("SELECT * from blogposts where title LIKE '%"+tm+"%' OR post LIKE '%"+tm+"%' ");
 					System.out.println("blogerc :"+bloggercc);
 					if(bloggercc.size()>0){
 					  //bloggercc = (ArrayList<?>) bloggercc.get(0);
 					   //bloggerc = (null == bloggercc.get(0)) ? "0" : bloggercc.get(0).toString();
 					}
+					*/
 					
 					postmentioned+=(Integer.parseInt(postc));
 					blogmentioned+=(Integer.parseInt(blogc));
