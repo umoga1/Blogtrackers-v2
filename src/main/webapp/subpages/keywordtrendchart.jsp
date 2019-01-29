@@ -13,8 +13,7 @@
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
@@ -57,6 +56,9 @@ if(action.toString().equals("getstats")){
     ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);
     JSONObject firstpost = new JSONObject();
     JSONObject locations = new JSONObject();
+    
+    int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
+	
     if(allposts.size()>0){			
 								String tres = null;
 								JSONObject tresp = null;
@@ -86,15 +88,31 @@ if(action.toString().equals("getstats")){
 									}
 									
 											
+									
+							        String str = tobj.get("post").toString()+" "+ tobj.get("post").toString();
+									String findStr = mostactiveterm;
+									int lastIndex = 0;
+									//int count = 0;
+
+									while(lastIndex != -1){
+
+									    lastIndex = str.indexOf(findStr,lastIndex);
+
+									    if(lastIndex != -1){
+									        bodyoccurencece++;
+									        lastIndex += findStr.length();
+									    }
+									}
 								
-                             }
-						
-				 }
+                             }					
+	}
+    
+    
 				
 	JSONObject result = new JSONObject();
 	result.put("postmentioned",postc);
 	result.put("blogmentioned",blogc);
-	result.put("bloggermentioned",bloggerc);
+	result.put("bloggermentioned",bodyoccurencece);
 	result.put("toplocation",toplocation);
 %>
 <%=result.toString()%>

@@ -276,6 +276,8 @@
 		int highestfrequency = 0;
 		int highestpost =0;
 		
+		int alloccurence = 0;
+		
 		JSONArray topterms = new JSONArray();
 		JSONObject keys = new JSONObject();
 		if (allterms.size() > 0) {
@@ -728,8 +730,8 @@
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
-								<h6 class="card-title mb0">Bloggers Mentioned</h6>
-								<h2 class="mb0 bold-text blogger-mentioned"><%=bloggermentioned%></h2>
+								<h6 class="card-title mb0">Keyword Count</h6>
+								<h2 class="mb0 bold-text blogger-mentioned"><%=topterms.length()%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 							
@@ -795,15 +797,13 @@
 									String tres = null;
 									JSONObject tresp = null;
 									String tresu = null;
-									JSONObject tobj = null;
-								
-									
+									JSONObject tobj = null;								
 									
 									int k=0;
+									
 									for(int i=0; i< allposts.size(); i++){
 										tres = allposts.get(i).toString();	
-										tresp = new JSONObject(tres);
-										
+										tresp = new JSONObject(tres);									
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
 										
@@ -827,8 +827,12 @@
 
 												    if(lastIndex != -1){
 												        bodyoccurencece++;
+												        alloccurence+=bodyoccurencece;
 												        lastIndex += findStr.length();
 												    }
+												    
+												    
+												    
 												}
 									%>
                                     <tr>
@@ -1761,7 +1765,9 @@
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
 <script src="pagedependencies/keywordtrends.js?v=490879"></script>
-	
+<script>
+$(".blogger-mentioned").html("<%=alloccurence%>");
+</script>
 
 </body>
 </html>
