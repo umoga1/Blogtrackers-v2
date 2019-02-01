@@ -863,13 +863,27 @@
 									DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 									String date = dtf.format(datee);
 									String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
+									String link = tobj.get("permalink").toString();
+									
+									String maindomain="";
+									try {
+										URI uri = new URI(link);
+										String domain = uri.getHost();
+										if (domain.startsWith("www.")) {
+											maindomain = domain.substring(4);
+										} else {
+											maindomain = domain;
+										}
+									} catch (Exception ex) {}
+
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
 										<div class="text-center mb20 mt20">
-											<button class="btn stylebuttonblue">
+											<a href="http://<%=maindomain%>"><button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
+											</a>
 											<button class="btn stylebuttonnocolor"><%=date %></button>
 											<button class="btn stylebuttonnocolor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i

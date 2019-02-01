@@ -317,8 +317,7 @@
 						
 						if(totalcounter>highestpost){
 							highestpost = totalcounter;
-							mostactiveblogger = auth;
-							
+							mostactiveblogger = auth;							
 							mostactiveblogurl = uri.getHost();
 						}
 					    
