@@ -837,7 +837,7 @@
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></buttton></a>
 								</td>
 								<td align="center"><%=(bodyoccurencece+1) %></td>
                                      </tr>
@@ -921,7 +921,7 @@
 										<th>Frequency</th>
 										<th>Post Count</th>
 										<th>Blog Count</th>
-										<th>Blogger Count</th>
+										<th>Keyword Count</th>
 										<th>Leading Blogger</th>
 										<th>Language</th>
 										<th>Location</th>
@@ -929,8 +929,7 @@
 									</tr>
 								</thead>
 								<tbody>
-								<%if (topterms.length() > 0) {
-													
+								<%if (topterms.length() > 0) {										
 										for (int i = 0; i < topterms.length(); i++) {
 											JSONObject jsonObj = topterms.getJSONObject(i);
 											int size = Integer.parseInt(jsonObj.getString("frequency"));
@@ -940,17 +939,15 @@
 											String bloggercount = post._searchTotalAndUnique(terms,"date", dt,dte,"blogger");
 											String language = jsonObj.getString("language");//jsonObj.getString("language");
 											String location = jsonObj.getString("location");
-											String blogger = jsonObj.getString("leadingblogger");
-											
-											
-																		
-											%>
+											String blogger = jsonObj.getString("leadingblogger");										
+											String keycount = post._searchTotalByBody(terms, dt, dte);
+								%>
 									<tr>
 										<td><%=terms%></td>
 										<td><%=size%></td>
 										<td><%=postcount%> <%-- <sub>of <%=postcount%></sub> --%></td>
 										<td><%=blogcount%> <%-- <sub>of <%=blogcount%></sub> --%></td>
-										<td><%=bloggercount%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
+										<td><%=alloccurence%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
 										<td><%=blogger%></td>
 										<td><%=language%></td>
 										<td><%=location%></td>
