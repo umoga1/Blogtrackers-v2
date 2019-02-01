@@ -431,7 +431,7 @@ $('.trackeredit').on("click", function(){
 	if(startedit)
 	{
 		$(".edittrackertitle").replaceWith($('<input class="edittrackertitle form-control text-primary pt0 pb0 pl0" style="font-size:53px;" value="' + $(".edittrackertitle").html() + '" />'));
-		$(".edittrackerdesc").replaceWith($('<textarea class="edittrackerdesc form-control text-primary pl0 pt0 pb0" style="font-size:18px;" >' + $(".edittrackerdesc").html() + '</textarea>'));	
+		$(".edittrackerdesc").replaceWith($('<textarea class="edittrackerdesc form-control text-primary pl0 pt0 pb0" style="font-size:18px;" >' + $(".edittrackerdesc").html().trim() + '</textarea>'));	
 		$(this).removeClass('startediting').addClass('doneediting');
 		 $(this).children("i").attr("data-original-title","Done Editing ").addClass("editdone").removeClass("edittracker");
 	}
