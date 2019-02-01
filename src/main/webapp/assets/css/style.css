@@ -2914,6 +2914,7 @@ background-color: #45606f;
 .d3-axis-strong path
 ,.d3-axis-strong line {
   stroke: #ccc;
+  stroke-width:1px;
 }
 .d3-axis-strong .tick {
   fill: #333333;

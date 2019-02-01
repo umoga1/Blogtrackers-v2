@@ -925,9 +925,9 @@
 						</div>
 	<div class="min-height-table" style="min-height: 500px;">
 					<div class="chart-container">
-							  <div class="btn-group float-right" role="group">
-    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Export
+							  <div class="btn-group float-right">
+    <button id="btnGroupDrop1" type="button" class="btn btn-primary " data-toggle="dropdown" aria-expanded="false">
+      <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
     </button>
     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
       <a class="dropdown-item savelanguagejpg" href="#">Export as JPG</a>

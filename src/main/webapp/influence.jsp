@@ -449,7 +449,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					<a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a> 
 				<a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
 				<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
-						 <a class="breadcrumb-item active text-primary"	href="<%=request.getContextPath()%>influence.jsp?tid=<%=tid%>">Influence Analysis</a>
+						 <a class="breadcrumb-item active text-primary"	href="<%=request.getContextPath()%>/influence.jsp?tid=<%=tid%>">Influence Analysis</a>
 
 				</nav>
 				<!-- <div>
@@ -1599,8 +1599,14 @@ authoryears.put(mostactiveblogger,postyear);
                               .on("mouseout",tip.hide)
                               .on("click",function(d){
                             	  console.log(d.date);
+                            	  var d1 = 	  d.date + "-01-01";
+                              	   var d2 = 	  d.date + "-12-31";
+                    				
+                              	   loadInfluence(d1,d2); 
+                              	   console.log("reloaded"); 
                             	  });
-                                                 svg.call(tip)
+                                svg.call(tip)
+                                
                       }
                       // handles multiple json parameter
                       else if(data.length > 1)
