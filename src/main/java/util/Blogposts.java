@@ -811,6 +811,36 @@ public class Blogposts {
 		//System.out.println(url);
 		return this._getResult(url, jsonObj);
 	}
+
+
+	
+	public String _searchTotalByBody(String term, String start, String end) throws Exception {
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"       \"query\": {\r\n" + 
+				"          \"bool\": { \r\n" + 
+				"               \"must\": {\r\n" + 
+				"                    \"query_string\" : {\r\n" + 
+				"            			\"fields\" : [\"post\"],\r\n" + 
+				"            			\"query\" : \""+term+"\"\r\n" + 
+				"                    }\r\n" + 
+				"                },\r\n" + 
+				"                \"filter\": {\r\n" + 
+				"                    \"range\" : {\r\n" + 
+				"                        \"date\" : {\r\n" + 
+				"                            \"gte\": \""+start+"\",\r\n" + 
+				"                            \"lte\": \""+end+"\"\r\n" + 
+				"                        }\r\n" + 
+				"                    }\r\n" + 
+				"                }\r\n" + 
+				"            }\r\n" + 
+				"        }\r\n" + 
+				"    }");
+	
+		String url = base_url+"_search?size=1"; 
+		return this._getTotal(url, jsonObj);
+	}
+	
+	
 	
 	public String _searchTotalByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
