@@ -1775,6 +1775,9 @@ $(function () {
           svg.append("g")
               .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
               .attr("transform", "translate(0," + height + ")")
+              //.attr("stroke","#333")
+              //.attr("fill","#333")
+              .attr("stroke-height","1")
               .call(xAxis);
 
           // Vertical
