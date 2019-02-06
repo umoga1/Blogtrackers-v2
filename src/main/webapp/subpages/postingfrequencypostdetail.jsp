@@ -108,6 +108,8 @@ if(action.toString().equals("gettotal")){
 %>
 <%=toplocation%>	
 <% }else{
+	//ArrayList allauthors = post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),"influence_score","DESC");
+	//System.out.println("bloggers:"+blogger.toString());
 ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
 %>
 

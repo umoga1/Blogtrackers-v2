@@ -278,6 +278,9 @@
 		
 		int alloccurence = 0;
 		
+		
+		
+		
 		JSONArray topterms = new JSONArray();
 		JSONObject keys = new JSONObject();
 		if (allterms.size() > 0) {

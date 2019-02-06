@@ -53,6 +53,7 @@ $('.blogpost_link').on("click", function(){
 			key:"blogpost_id",
 			value:post_id,
 			source:"influence",
+			sort:"influence_score",
 			section:"detail_table"
 		},
 		error: function(response)
@@ -165,6 +166,7 @@ function loadTerms(blogger,blog_id){
 			post_ids:$("#postby"+blger).val(),
 			blogger:blogger,
 			date_start:$("#date_start").val(),
+			sort:"influence_score",
 			date_end:$("#date_end").val(),
 		},
 		error: function(response)
