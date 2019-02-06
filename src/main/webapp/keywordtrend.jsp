@@ -913,7 +913,7 @@
 							<!-- <p class="text-primary">Top keywords of <b>Past Week</b></p> -->
 							<!-- <div class="p15 pb5 pt0" role="group">
           Export Options
-          </div> -->
+              </div> -->
 							<table id="DataTables_Table_1_wrapper" class="display"
 								style="width: 100%">
 								<thead>
@@ -922,11 +922,7 @@
 										<th>Frequency</th>
 										<th>Post Count</th>
 										<th>Blog Count</th>
-<<<<<<< HEAD
-										<!-- <th>Blogger Count</th> -->
-=======
 										<th>Keyword Count</th>
->>>>>>> cb55ce853f310f804e9fbf4611ae217c0bcbedee
 										<th>Leading Blogger</th>
 										<th>Language</th>
 										<th>Location</th>
@@ -952,11 +948,7 @@
 										<td><%=size%></td>
 										<td><%=postcount%> <%-- <sub>of <%=postcount%></sub> --%></td>
 										<td><%=blogcount%> <%-- <sub>of <%=blogcount%></sub> --%></td>
-<<<<<<< HEAD
-										<%-- <td><%=bloggercount%> --%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
-=======
 										<td><%=alloccurence%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
->>>>>>> cb55ce853f310f804e9fbf4611ae217c0bcbedee
 										<td><%=blogger%></td>
 										<td><%=language%></td>
 										<td><%=location%></td>
@@ -978,7 +970,6 @@
 		</div>
 		
 </div>
-		
 
 
 
