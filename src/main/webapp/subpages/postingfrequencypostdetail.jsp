@@ -110,7 +110,7 @@ if(action.toString().equals("gettotal")){
 <% }else{
 	//ArrayList allauthors = post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),"influence_score","DESC");
 	//System.out.println("bloggers:"+blogger.toString());
-ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
+ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString().toLowerCase(),sort.toString(),"DESC");
 %>
 
 <%

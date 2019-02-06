@@ -38,7 +38,7 @@ String year_start="";
 String year_end="";	
 
 //ArrayList allauthors = post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),"influence_score","DESC");
-ArrayList allauthors = post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
+ArrayList allauthors = post._getBloggerByBloggerName("date",dt, dte,blogger.toString().toLowerCase(),sort.toString(),"DESC");
 //System.out.println("sort"+sort);
 %>
 <link rel="stylesheet" href="assets/css/table.css" />
