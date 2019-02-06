@@ -108,7 +108,9 @@ if(action.toString().equals("gettotal")){
 %>
 <%=toplocation%>	
 <% }else{
-ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
+	//ArrayList allauthors = post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),"influence_score","DESC");
+	//System.out.println("bloggers:"+blogger.toString());
+ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString().toLowerCase(),sort.toString(),"DESC");
 %>
 
 <%
@@ -119,8 +121,8 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
 									JSONObject tobj = null;
 									int j=0;
 									int k=0;
-									for(int i=0; i< 1; i++){
-										tres = allauthors.get(i).toString();	
+									for(int i=allauthors.size(); i> allauthors.size()-1; i--){
+										tres = allauthors.get(i-1).toString();	
 										tresp = new JSONObject(tres);
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);

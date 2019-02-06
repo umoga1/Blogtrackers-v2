@@ -127,7 +127,8 @@ if(action.toString().equals("gettotal")){
 if(action.toString().equals("fetchpost")){	
 	allauthors = post._getPost("post_id",post_id.toString());
 }else{
-	 allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
+	
+	allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
 }
 %>
 <%
