@@ -1151,6 +1151,28 @@ opacity:0.85;
     display:inline-block;
     background-position: center center;
 }
+.blogbrowsersearch:focus:-moz-placeholder
+{
+color:transparent !important;	
+} 
+/* google chrome */
+.blogbrowsersearch:focus::-webkit-input-placeholder
+{
+color:transparent !important;
+} 
+
+.blogbrowsersearch:focus::-moz-placeholder
+{
+color:transparent !important;	
+} 
+
+
+.blogbrowsersearch:focus::-ms-input-placeholder
+{
+color:transparent !important;	
+
+} 
+
 .nocursor
 {
 cursor:default !important;	
@@ -3411,6 +3433,14 @@ font-size:13px;
 text-transform:capitalize;	
 }
 .whiteplaceholder::placeholder
+{
+color:#ffffff !important;	
+}
+.whiteplaceholder::-moz-placeholder
+{
+color:#ffffff !important;	
+}
+.whiteplaceholder::-ms-input-placeholder
 {
 color:#ffffff !important;	
 }

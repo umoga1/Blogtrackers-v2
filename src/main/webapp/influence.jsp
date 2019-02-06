@@ -990,8 +990,8 @@ authoryears.put(mostactiveblogger,postyear);
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
 											</a>
-											<button class="btn stylebuttonnocolor"><%=date%></button>
-											<button class="btn stylebuttonnocolor">
+											<button class="btn stylebuttonnocolor nocursor"><%=date%></button>
+											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -1594,10 +1594,10 @@ authoryears.put(mostactiveblogger,postyear);
                               .on("click",function(d){
                             	  console.log(d.date);
                             	  var d1 = 	  d.date + "-01-01";
-                              	   var d2 = 	  d.date + "-12-31";
+                              	  var d2 = 	  d.date + "-12-31";
                     				
-                              	   loadInfluence(d1,d2); 
-                              	   console.log("reloaded"); 
+                              	  loadInfluence(d1,d2); 
+                              	  console.log("reloaded"); 
                             	  });
                                 svg.call(tip)
                                 

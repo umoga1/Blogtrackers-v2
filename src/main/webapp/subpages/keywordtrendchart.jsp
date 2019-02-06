@@ -229,9 +229,9 @@ if(action.toString().equals("getstats")){
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											</a>
-											<button class="btn stylebuttonnocolor"><%=date%></button>
-											<button class="btn stylebuttonnocolor">
+
+											<button class="btn stylebuttonnocolor nocursor"><%=date%></button>
+											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>

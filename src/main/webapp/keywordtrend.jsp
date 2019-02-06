@@ -691,7 +691,7 @@
 											}
 																			
 											%><a
-											class="btn form-control select-term stylebuttoninactive opacity53 text-primary mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=terms%></b></a>
+											class="btn btn-primary form-control select-term bloggerinactive mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=terms%></b></a>
 											<%
 										}
 									}	
@@ -883,13 +883,14 @@
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
 										<div class="text-center mb20 mt20">
-											<a href="http://<%=maindomain%>"><button class="btn stylebuttonblue">
+											<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid.toString()%>&blogger=<%=tobj.get("blogger")%>">
+											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
 											</a>
-											<button class="btn stylebuttonnocolor"><%=date %></button>
-											<button class="btn stylebuttonnocolor">
+											<button class="btn stylebuttonnocolor nocursor"><%=date %></button>
+											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>

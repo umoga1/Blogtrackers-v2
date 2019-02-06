@@ -158,10 +158,10 @@ if(action.toString().equals("fetchpost")){
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-
-											<button class="btn stylebuttonnocolor"><%=date %></button>
-									</a>
-											<button class="btn stylebuttonnocolor">
+</a>
+											<button class="btn stylebuttonnocolor nocursor"><%=date %></button>
+									
+											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
