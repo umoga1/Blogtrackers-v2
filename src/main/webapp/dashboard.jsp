@@ -925,7 +925,7 @@
 						</div>
 	<div class="min-height-table" style="min-height: 500px;">
 					<div class="chart-container">
-							  <div class="btn-group float-right">
+	<!-- 						  <div class="btn-group float-right">
     <button id="btnGroupDrop1" type="button" class="btn btn-primary " data-toggle="dropdown" aria-expanded="false">
       <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
     </button>
@@ -933,7 +933,7 @@
       <a class="dropdown-item savelanguagejpg" href="#">Export as JPG</a>
       <a class="dropdown-item savelanguagepng" href="#">Export as PNG</a>
     </div>
-  </div>
+  </div> -->
 							<!-- <button id='savelanguage'>Export my D3 visualization to PNG</button> -->
 								<div class="chart" id="languageusage"></div>
 							</div>

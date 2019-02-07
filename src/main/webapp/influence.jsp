@@ -716,9 +716,13 @@ String negsentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimen
 
 int comb = new Double(possentiment2).intValue() + new Double(negsentiment2).intValue();
 String totalcomment = tcomment+"";// post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
+// formated total comment
+String formattedtotalcomment = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment));
 totalinfluence  = influencecount;// Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
 
+String formatedtotalinfluence = NumberFormat.getNumberInstance(Locale.US).format(totalinfluence);
 totalpost = post._searchRangeTotal("date", dt, dte,ids);
+String formattedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
 //totalpost = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
 
 String totalsenti  = comb+"";
@@ -833,13 +837,13 @@ authoryears.put(mostactiveblogger,postyear);
 						<div class="row">
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Influence Score</h6>
-								<h2 class="mb0 bold-text total-influence"><%=totalinfluence%></h2>
+								<h2 class="mb0 bold-text total-influence"><%=formatedtotalinfluence%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Total Posts</h6>
-								<h2 class="mb0 bold-text total-post"><%=totalpost%></h2>
+								<h2 class="mb0 bold-text total-post"><%=formattedtotalpost%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
@@ -862,7 +866,7 @@ authoryears.put(mostactiveblogger,postyear);
 							</div> --%>
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Comments</h6>
-								<h2 class="mb0 bold-text total-comments"><%= totalcomment%></h2>
+								<h2 class="mb0 bold-text total-comments"><%=formattedtotalcomment%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
