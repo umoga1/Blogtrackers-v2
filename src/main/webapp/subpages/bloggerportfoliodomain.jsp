@@ -20,7 +20,7 @@
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 	String listtype =  (null == request.getParameter("listtype")) ? "ulr" : request.getParameter("listtype").toString().replaceAll("[^a-zA-Z]", " ");
 	
-
+	String selectedblog_id="";
 
 			ArrayList<?> userinfo = null;
 			String profileimage = "";
@@ -33,6 +33,8 @@
 			String ids = "";
 			
 			ArrayList allauthors2 = post._getBloggerByBloggerName("date", date_start, date_end, blogger, "influence_score", "DESC");
+			
+			//System.out.println("all authors"+allauthors2);
 			if(allauthors2.size()>0){
 				String tres = null;
 				JSONObject tresp = null;
@@ -45,7 +47,12 @@
 							tres = allauthors2.get(i).toString();			
 							tresp = new JSONObject(tres);
 						    tresu = tresp.get("_source").toString();
-						    tobj = new JSONObject(tresu);				    
+						    tobj = new JSONObject(tresu);	
+						    String bloggerr = tobj.get("blogger").toString();
+						    String blog_id = tobj.get("blogsite_id").toString();
+						    if(bloggerr.equals(blogger)){
+						    	selectedblog_id = blog_id;
+						    }
 						    ids+=tobj.get("blogpost_id").toString()+",";
 					}
 			} 	
@@ -55,8 +62,9 @@
 			
 		
 
-			outlinks = outl._searchByRange("date",date_start, date_end, ids);
-			
+			outlinks = outl._searchByRange("date",date_start, date_end, selectedblog_id);
+
+			//outlinks = outl._searchByRange("date", date_start, date_end,blogger);
 		
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
@@ -105,12 +113,17 @@
 
 		}
 %>
+<<<<<<< HEAD
 <link rel="stylesheet" href="assets/css/table.css" />
 <link rel="stylesheet" href="assets/css/style.css" />
   <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
+=======
+
+                <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
+>>>>>>> cb55ce853f310f804e9fbf4611ae217c0bcbedee
                         <thead>
                             <tr>
-                                <th>URL</th>
+                                <th>Domain</th>
                                 <th>Frequency</th>
 
 
@@ -125,11 +138,7 @@
 														JSONObject resu = outerlinks.getJSONObject(key);
 									%>
 									<tr>
-									<% if(listtype.equals("urls")){ %>
-										<td class=""><a href="<%=resu.get("link")%>" target="_blank"><%=resu.get("link")%></a></td>
-									<% }else{ %>
-										<td class=""><a href="<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a> </td>
-									<% } %>
+										<td class=""><a href="http://<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a></td>
 										<td><%=resu.get("value")%></td>
 									</tr>
 									<%
@@ -137,9 +146,17 @@
 									}
 									%>                     
                         </tbody>
+<<<<<<< HEAD
 </table>
 
 <script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
+=======
+                    </table>
+								
+									
+<script type="text/javascript"
+		src="assets/vendors/DataTables/datatables.min.js"></script>
+>>>>>>> cb55ce853f310f804e9fbf4611ae217c0bcbedee
 			<script>
  $(document).ready(function() {
 	 
@@ -153,7 +170,11 @@
 		  })
 		  
      $('#DataTables_Table_1_wrapper').DataTable( {
+<<<<<<< HEAD
          "scrollY": 430,
+=======
+         "scrollY": 250,
+>>>>>>> cb55ce853f310f804e9fbf4611ae217c0bcbedee
           "pagingType": "simple",
          /*  dom: 
         	   'Bfrtip', 
@@ -173,5 +194,9 @@
      } );
 	 
  } );
+<<<<<<< HEAD
  </script>
 	<!--end for table  -->	
+=======
+ </script>
+>>>>>>> cb55ce853f310f804e9fbf4611ae217c0bcbedee

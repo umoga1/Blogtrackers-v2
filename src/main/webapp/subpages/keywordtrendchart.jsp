@@ -13,8 +13,8 @@
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page import="java.net.URI"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
@@ -57,6 +57,9 @@ if(action.toString().equals("getstats")){
     ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);
     JSONObject firstpost = new JSONObject();
     JSONObject locations = new JSONObject();
+    
+    int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
+	
     if(allposts.size()>0){			
 								String tres = null;
 								JSONObject tresp = null;
@@ -86,15 +89,31 @@ if(action.toString().equals("getstats")){
 									}
 									
 											
+									
+							        String str = tobj.get("post").toString()+" "+ tobj.get("post").toString();
+									String findStr = mostactiveterm;
+									int lastIndex = 0;
+									//int count = 0;
+
+									while(lastIndex != -1){
+
+									    lastIndex = str.indexOf(findStr,lastIndex);
+
+									    if(lastIndex != -1){
+									        bodyoccurencece++;
+									        lastIndex += findStr.length();
+									    }
+									}
 								
-                             }
-						
-				 }
+                             }					
+	}
+    
+    
 				
 	JSONObject result = new JSONObject();
 	result.put("postmentioned",postc);
 	result.put("blogmentioned",blogc);
-	result.put("bloggermentioned",bloggerc);
+	result.put("bloggermentioned",bodyoccurencece);
 	result.put("toplocation",toplocation);
 %>
 <%=result.toString()%>
@@ -190,13 +209,27 @@ if(action.toString().equals("getstats")){
 									DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 									String date = dtf.format(datee);
 									String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
+									String link = tobj.get("permalink").toString();
+									String maindomain="";
+									
+									try {
+										URI uri = new URI(link);
+										String domain = uri.getHost();
+										if (domain.startsWith("www.")) {
+											maindomain = domain.substring(4);
+										} else {
+											maindomain = domain;
+										}
+									} catch (Exception ex) {}
+									
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
 										<div class="text-center mb20 mt20">
-											<button class="btn stylebuttonblue">
+											<a href=""><button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
+
 											<button class="btn stylebuttonnocolor nocursor"><%=date%></button>
 											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i

@@ -278,6 +278,11 @@
 		int highestfrequency = 0;
 		int highestpost =0;
 		
+		int alloccurence = 0;
+		
+		
+		
+		
 		JSONArray topterms = new JSONArray();
 		JSONObject keys = new JSONObject();
 		if (allterms.size() > 0) {
@@ -729,8 +734,8 @@
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
-								<h6 class="card-title mb0">Bloggers Mentioned</h6>
-								<h2 class="mb0 bold-text blogger-mentioned"><%=bloggermentioned%></h2>
+								<h6 class="card-title mb0">Keyword Count</h6>
+								<h2 class="mb0 bold-text blogger-mentioned"><%=topterms.length()%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 							
@@ -796,15 +801,13 @@
 									String tres = null;
 									JSONObject tresp = null;
 									String tresu = null;
-									JSONObject tobj = null;
-								
-									
+									JSONObject tobj = null;								
 									
 									int k=0;
+									
 									for(int i=0; i< allposts.size(); i++){
 										tres = allposts.get(i).toString();	
-										tresp = new JSONObject(tres);
-										
+										tresp = new JSONObject(tres);									
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
 										
@@ -828,13 +831,17 @@
 
 												    if(lastIndex != -1){
 												        bodyoccurencece++;
+												        alloccurence+=bodyoccurencece;
 												        lastIndex += findStr.length();
 												    }
+												    
+												    
+												    
 												}
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></buttton></a>
 								</td>
 								<td align="center"><%=(bodyoccurencece+1) %></td>
                                      </tr>
@@ -860,6 +867,19 @@
 									DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 									String date = dtf.format(datee);
 									String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
+									String link = tobj.get("permalink").toString();
+									
+									String maindomain="";
+									try {
+										URI uri = new URI(link);
+										String domain = uri.getHost();
+										if (domain.startsWith("www.")) {
+											maindomain = domain.substring(4);
+										} else {
+											maindomain = domain;
+										}
+									} catch (Exception ex) {}
+
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
 										<div class="text-center mb20 mt20">
@@ -897,7 +917,7 @@
 							<!-- <p class="text-primary">Top keywords of <b>Past Week</b></p> -->
 							<!-- <div class="p15 pb5 pt0" role="group">
           Export Options
-          </div> -->
+              </div> -->
 							<table id="DataTables_Table_1_wrapper" class="display"
 								style="width: 100%">
 								<thead>
@@ -906,7 +926,7 @@
 										<th>Frequency</th>
 										<th>Post Count</th>
 										<th>Blog Count</th>
-										<!-- <th>Blogger Count</th> -->
+										<th>Keyword Count</th>
 										<th>Leading Blogger</th>
 										<th>Language</th>
 										<th>Location</th>
@@ -914,8 +934,7 @@
 									</tr>
 								</thead>
 								<tbody>
-								<%if (topterms.length() > 0) {
-													
+								<%if (topterms.length() > 0) {										
 										for (int i = 0; i < topterms.length(); i++) {
 											JSONObject jsonObj = topterms.getJSONObject(i);
 											int size = Integer.parseInt(jsonObj.getString("frequency"));
@@ -925,17 +944,15 @@
 											String bloggercount = post._searchTotalAndUnique(terms,"date", dt,dte,"blogger");
 											String language = jsonObj.getString("language");//jsonObj.getString("language");
 											String location = jsonObj.getString("location");
-											String blogger = jsonObj.getString("leadingblogger");
-											
-											
-																		
-											%>
+											String blogger = jsonObj.getString("leadingblogger");										
+											String keycount = post._searchTotalByBody(terms, dt, dte);
+								%>
 									<tr>
 										<td><%=terms%></td>
 										<td><%=size%></td>
 										<td><%=postcount%> <%-- <sub>of <%=postcount%></sub> --%></td>
 										<td><%=blogcount%> <%-- <sub>of <%=blogcount%></sub> --%></td>
-										<%-- <td><%=bloggercount%> --%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
+										<td><%=alloccurence%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
 										<td><%=blogger%></td>
 										<td><%=language%></td>
 										<td><%=location%></td>
@@ -957,7 +974,6 @@
 		</div>
 		
 </div>
-		
 
 
 
@@ -1839,7 +1855,9 @@
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
 <script src="pagedependencies/keywordtrends.js?v=490879"></script>
-	
+<script>
+$(".blogger-mentioned").html("<%=alloccurence%>");
+</script>
 
 </body>
 </html>

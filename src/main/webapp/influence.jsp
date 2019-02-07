@@ -290,23 +290,17 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <title>Blogtrackers-Influence</title>
 <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
 <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
-<link rel="apple-touch-icon" sizes="96x96"
-	href="images/favicons/favicon-96x96.png">
-<link rel="apple-touch-icon" sizes="144x144"
-	href="images/favicons/favicon-144x144.png">
+<link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
 <!-- start of bootsrap -->
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
 <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css" />
 <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet"
-	href="assets/fonts/fontawesome/css/fontawesome-all.css" />
+<link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.css" />
 <link rel="stylesheet" href="assets/fonts/iconic/css/open-iconic.css" />
-<link rel="stylesheet"
-	href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="assets/css/table.css" />
-<link rel="stylesheet"
-	href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
+<link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
 <link rel="stylesheet" href="assets/css/style.css" />

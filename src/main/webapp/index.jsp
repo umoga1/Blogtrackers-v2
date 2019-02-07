@@ -10,8 +10,6 @@
 	pageEncoding="UTF-8"%>
 <%
 
-
-
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 ArrayList<?> userinfo = new ArrayList();
 String profileimage= "";
