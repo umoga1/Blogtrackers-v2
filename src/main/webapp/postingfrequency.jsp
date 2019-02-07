@@ -692,6 +692,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 }
 
 totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);
+String formatedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
 %>
 
 <div class="col-md-9">
@@ -712,7 +713,7 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
       <div class="row">
      <div class="col-md-3 mt5 mb5">
        <h6 class="card-title mb0">Total Posts</h6>
-       <h3 class="mb0 bold-text total-post"><%=totalpost%></h3>
+       <h3 class="mb0 bold-text total-post"><%=formatedtotalpost%></h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 

@@ -113,14 +113,12 @@
 
 		}
 %>
-<<<<<<< HEAD
+
 <link rel="stylesheet" href="assets/css/table.css" />
 <link rel="stylesheet" href="assets/css/style.css" />
   <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
-=======
 
-                <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
->>>>>>> cb55ce853f310f804e9fbf4611ae217c0bcbedee
+
                         <thead>
                             <tr>
                                 <th>Domain</th>
@@ -146,17 +144,14 @@
 									}
 									%>                     
                         </tbody>
-<<<<<<< HEAD
+
 </table>
 
-<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
-=======
-                    </table>
-								
+<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>						
 									
 <script type="text/javascript"
 		src="assets/vendors/DataTables/datatables.min.js"></script>
->>>>>>> cb55ce853f310f804e9fbf4611ae217c0bcbedee
+
 			<script>
  $(document).ready(function() {
 	 
@@ -169,12 +164,9 @@
 		    $('[data-toggle="tooltip"]').tooltip()
 		  })
 		  
-     $('#DataTables_Table_1_wrapper').DataTable( {
-<<<<<<< HEAD
+     $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 430,
-=======
-         "scrollY": 250,
->>>>>>> cb55ce853f310f804e9fbf4611ae217c0bcbedee
+         "scrollX": 250,
           "pagingType": "simple",
          /*  dom: 
         	   'Bfrtip', 
@@ -194,9 +186,9 @@
      } );
 	 
  } );
-<<<<<<< HEAD
- </script>
+
+
 	<!--end for table  -->	
-=======
+
  </script>
->>>>>>> cb55ce853f310f804e9fbf4611ae217c0bcbedee
+

@@ -715,6 +715,7 @@ String formattedtotalcomment = NumberFormat.getNumberInstance(Locale.US).format(
 totalinfluence  = influencecount;// Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
 
 String formatedtotalinfluence = NumberFormat.getNumberInstance(Locale.US).format(totalinfluence);
+
 totalpost = post._searchRangeTotal("date", dt, dte,ids);
 String formattedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
 //totalpost = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
