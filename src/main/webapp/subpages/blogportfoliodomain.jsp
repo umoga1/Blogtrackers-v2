@@ -136,7 +136,7 @@
 		  })
 		  
      $('#DataTables_Table_1_wrapper').DataTable( {
-         "scrollY": 250,
+         "scrollY": 430,
           "pagingType": "simple",
          /*  dom: 
         	   'Bfrtip', 

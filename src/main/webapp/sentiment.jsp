@@ -610,11 +610,11 @@
 					<%
 						if (userinfo.size() > 0) {
 					%>
-					<a class="cursor-pointer profilemenulink"
+					<%-- <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a>  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+						</h6> </a> --%>  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
 						<a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
 							class="text-primary">Profile</h6></a> <a
@@ -735,10 +735,10 @@
 						<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
 					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/sentiment.jsp?tid=<%=tid%>">Sentiment Analysis</a>
 				</nav>
-				<div>
+				<!-- <div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
 						AS PDF</button>
-				</div>
+				</div> -->
 			</div>
 			<div class="col-md-6 text-right mt10">
 				<div class="text-primary demo">
@@ -1725,7 +1725,7 @@ $(function () {
                                 .attr("d", line)
                                 // .style("fill", "rgba(0,0,0,0.54)")
                                 .style("stroke-width", 2)
-                                .style("stroke", "17394C")
+                                .style("stroke", "#17394C")
                                  //.attr("transform", "translate("+margin.left/4.7+",0)");
                                 // .datum(data)
 
@@ -1873,11 +1873,39 @@ $(function () {
                      if(data.length > 1 )
                 	 {
                 	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-                    transformfirsttick =  tick[0][0].attributes[1].value;
+                	 var transformfirsttick;
+                	 //transformfirsttick =  tick[0][0].attributes[2].value;
+                    //console.log(tick[0][0].attributes[2]);
                     //transformfirsttick = "translate(31.5,0)"
-                    //console.log(transformfirsttick);
+                    //console.log(tick[0][0]);
+                    // handle based on browser
+                    var browser = "";
+                    c = navigator.userAgent.search("Chrome");
+                    f = navigator.userAgent.search("Firefox");
+                    m8 = navigator.userAgent.search("MSIE 8.0");
+                    m9 = navigator.userAgent.search("MSIE 9.0");
+                    if (c > -1) {
+                        browser = "Chrome";
+                        // chrome browser
+                    transformfirsttick =  tick[0][0].attributes[1].value;
+
+                    } else if (f > -1) {
+                        browser = "Firefox";
+                         // firefox browser
+                     transformfirsttick =  tick[0][0].attributes[2].value;
+                    } else if (m9 > -1) {
+                        browser ="MSIE 9.0";
+                    } else if (m8 > -1) {
+                        browser ="MSIE 8.0";
+                    }
+                    
                     svg.selectAll(".circlecontainer").attr("transform", transformfirsttick);
                     svg.selectAll(".linecontainer").attr("transform", transformfirsttick);
+                    
+                    
+                    
+                    //console.log(browser);
+                    
                 	 }
 
          // Resize chart
@@ -1942,11 +1970,39 @@ $(function () {
            if(data.length > 1 )
       	 {
       	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-          transformfirsttick =  tick[0][0].attributes[1].value;
+      	 var transformfirsttick;
+      	 //transformfirsttick =  tick[0][0].attributes[2].value;
+          //console.log(tick[0][0].attributes[2]);
           //transformfirsttick = "translate(31.5,0)"
-          //console.log(transformfirsttick);
+          //console.log(tick[0][0]);
+          // handle based on browser
+          var browser = "";
+          c = navigator.userAgent.search("Chrome");
+          f = navigator.userAgent.search("Firefox");
+          m8 = navigator.userAgent.search("MSIE 8.0");
+          m9 = navigator.userAgent.search("MSIE 9.0");
+          if (c > -1) {
+              browser = "Chrome";
+              // chrome browser
+          transformfirsttick =  tick[0][0].attributes[1].value;
+
+          } else if (f > -1) {
+              browser = "Firefox";
+               // firefox browser
+           transformfirsttick =  tick[0][0].attributes[2].value;
+          } else if (m9 > -1) {
+              browser ="MSIE 9.0";
+          } else if (m8 > -1) {
+              browser ="MSIE 8.0";
+          }
+          
           svg.selectAll(".circlecontainer").attr("transform", transformfirsttick);
           svg.selectAll(".linecontainer").attr("transform", transformfirsttick);
+          
+          
+          
+          //console.log(browser);
+          
       	 }
          }
      }

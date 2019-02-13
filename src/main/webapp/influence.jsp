@@ -332,11 +332,13 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 				</div>
 				<div id="othersection" class="col-md-12 mt10" style="clear: both">
 					<% if(userinfo.size()>0){ %>
-					<a class="cursor-pointer profilemenulink"
+					<%-- <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a> <a class="cursor-pointer profilemenulink"
+						</h6> </a> --%>
+						<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+						 <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
 							class="text-primary">Profile</h6></a> <a
 						class="cursor-pointer profilemenulink"
@@ -441,13 +443,13 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					<a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a> 
 				<a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
 				<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
-						 <a class="breadcrumb-item active text-primary"	href="<%=request.getContextPath()%>influence.jsp?tid=<%=tid%>">Influence Analysis</a>
+						 <a class="breadcrumb-item active text-primary"	href="<%=request.getContextPath()%>/influence.jsp?tid=<%=tid%>">Influence Analysis</a>
 
 				</nav>
-				<div>
+				<!-- <div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
 						AS PDF</button>
-				</div>
+				</div> -->
 			</div>
 
 			<div class="col-md-6 text-right mt10">
@@ -708,9 +710,14 @@ String negsentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimen
 
 int comb = new Double(possentiment2).intValue() + new Double(negsentiment2).intValue();
 String totalcomment = tcomment+"";// post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
+// formated total comment
+String formattedtotalcomment = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment));
 totalinfluence  = influencecount;// Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
 
+String formatedtotalinfluence = NumberFormat.getNumberInstance(Locale.US).format(totalinfluence);
+
 totalpost = post._searchRangeTotal("date", dt, dte,ids);
+String formattedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
 //totalpost = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
 
 String totalsenti  = comb+"";
@@ -825,13 +832,13 @@ authoryears.put(mostactiveblogger,postyear);
 						<div class="row">
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Influence Score</h6>
-								<h2 class="mb0 bold-text total-influence"><%=totalinfluence%></h2>
+								<h2 class="mb0 bold-text total-influence"><%=formatedtotalinfluence%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Total Posts</h6>
-								<h2 class="mb0 bold-text total-post"><%=totalpost%></h2>
+								<h2 class="mb0 bold-text total-post"><%=formattedtotalpost%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
@@ -854,7 +861,7 @@ authoryears.put(mostactiveblogger,postyear);
 							</div> --%>
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Comments</h6>
-								<h2 class="mb0 bold-text total-comments"><%= totalcomment%></h2>
+								<h2 class="mb0 bold-text total-comments"><%=formattedtotalcomment%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -988,8 +995,8 @@ authoryears.put(mostactiveblogger,postyear);
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
 											</a>
-											<button class="btn stylebuttonnocolor"><%=date%></button>
-											<button class="btn stylebuttonnocolor">
+											<button class="btn stylebuttonnocolor nocursor"><%=date%></button>
+											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -1278,7 +1285,7 @@ authoryears.put(mostactiveblogger,postyear);
 
          // Horizontal
          var x = d3.scale.ordinal()
-             .rangeRoundBands([0, width], .72, .5);
+             .rangeRoundBands([0, width]);
 
          // Vertical
          var y = d3.scale.linear()
@@ -1556,17 +1563,20 @@ authoryears.put(mostactiveblogger,postyear);
                       var path = svg.selectAll('.d3-line')
                                 .data(data)
                                 .enter()
+                                .append("g")
+                                .attr("class","linecontainer")
                                 .append("path")
                                 .attr("class", "d3-line d3-line-medium")
                                 .attr("d", line)
                                 // .style("fill", "rgba(0,0,0,0.54)")
                                 .style("stroke-width", 2)
-                                .style("stroke", "17394C")
-                                 .attr("transform", "translate("+margin.left/4.7+",0)");
+                                .style("stroke", "#17394C")
+                                 //.attr("transform", "translate("+margin.left/4.7+",0)");
                                 // .datum(data)
 
                        // add point
-                        circles = svg.selectAll(".circle-point")
+                        circles = svg.append("g").attr("class","circlecontainer")
+                        			.selectAll(".circle-point")
                                   .data(data[0])
                                   .enter();
 
@@ -1581,15 +1591,21 @@ authoryears.put(mostactiveblogger,postyear);
                               .attr("cx",function(d) { return x(d.date); })
                               .attr("cy", function(d){return y(d.close)})
 
-                              .attr("transform", "translate("+margin.left/4.7+",0)");
+                              //.attr("transform", "translate("+margin.left/4.7+",0)");
 
                               svg.selectAll(".circle-point").data(data[0])
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
                               .on("click",function(d){
                             	  console.log(d.date);
+                            	  var d1 = 	  d.date + "-01-01";
+                              	  var d2 = 	  d.date + "-12-31";
+                    				
+                              	  loadInfluence(d1,d2); 
+                              	  console.log("reloaded"); 
                             	  });
-                                                 svg.call(tip)
+                                svg.call(tip)
+                                
                       }
                       // handles multiple json parameter
                       else if(data.length > 1)
@@ -1700,6 +1716,44 @@ authoryears.put(mostactiveblogger,postyear);
                          .style("font-size", 12)
                          // .text("Influence")
                          ;
+                     if(data.length == 1 )
+                	 {
+                	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+                	 var transformfirsttick;
+                	 //transformfirsttick =  tick[0][0].attributes[2].value;
+                    //console.log(tick[0][0].attributes[2]);
+                    //transformfirsttick = "translate(31.5,0)"
+                    //console.log(tick[0][0]);
+                    // handle based on browser
+                    var browser = "";
+                    c = navigator.userAgent.search("Chrome");
+                    f = navigator.userAgent.search("Firefox");
+                    m8 = navigator.userAgent.search("MSIE 8.0");
+                    m9 = navigator.userAgent.search("MSIE 9.0");
+                    if (c > -1) {
+                        browser = "Chrome";
+                        // chrome browser
+                    transformfirsttick =  tick[0][0].attributes[1].value;
+
+                    } else if (f > -1) {
+                        browser = "Firefox";
+                         // firefox browser
+                     transformfirsttick =  tick[0][0].attributes[2].value;
+                    } else if (m9 > -1) {
+                        browser ="MSIE 9.0";
+                    } else if (m8 > -1) {
+                        browser ="MSIE 8.0";
+                    }
+                    
+                    svg.select(".circlecontainer").attr("transform", transformfirsttick);
+                    svg.select(".linecontainer").attr("transform", transformfirsttick);
+                    
+                    
+                    
+                    //console.log(browser);
+                    
+                	 }
+                
 
 
          // Resize chart
@@ -1736,7 +1790,7 @@ authoryears.put(mostactiveblogger,postyear);
            // // -------------------------
            //
            // // Horizontal range
-           x.rangeRoundBands([0, width],.72,.5);
+           x.rangeRoundBands([0, width]);
            //
            // // Horizontal axis
            svg.selectAll('.d3-axis-horizontal').call(xAxis);
@@ -1761,6 +1815,45 @@ authoryears.put(mostactiveblogger,postyear);
              .attr("cx",function(d) { return x(d.date);})
              .attr("cy", function(d){return y(d.close)});
            }
+           
+           if(data.length == 1 )
+      	 {
+      	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
+      	 var transformfirsttick;
+      	 //transformfirsttick =  tick[0][0].attributes[2].value;
+          //console.log(tick[0][0].attributes[2]);
+          //transformfirsttick = "translate(31.5,0)"
+          //console.log(tick[0][0]);
+          // handle based on browser
+          var browser = "";
+          c = navigator.userAgent.search("Chrome");
+          f = navigator.userAgent.search("Firefox");
+          m8 = navigator.userAgent.search("MSIE 8.0");
+          m9 = navigator.userAgent.search("MSIE 9.0");
+          if (c > -1) {
+              browser = "Chrome";
+              // chrome browser
+          transformfirsttick =  tick[0][0].attributes[1].value;
+
+          } else if (f > -1) {
+              browser = "Firefox";
+               // firefox browser
+           transformfirsttick =  tick[0][0].attributes[2].value;
+          } else if (m9 > -1) {
+              browser ="MSIE 9.0";
+          } else if (m8 > -1) {
+              browser ="MSIE 8.0";
+          }
+          
+          svg.select(".circlecontainer").attr("transform", transformfirsttick);
+          svg.select(".linecontainer").attr("transform", transformfirsttick);
+          
+          
+          
+          //console.log(browser);
+          
+      	 }
+      
          }
      }
  });

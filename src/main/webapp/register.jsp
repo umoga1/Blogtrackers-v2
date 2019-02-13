@@ -39,7 +39,7 @@
   <script src="pagedependencies/baseurl.js">
   </script>
   
-<script type="text/javascript" src="js/login_validation.js?v=9090"></script>
+<script type="text/javascript" src="js/login_validation.js"></script>
 
   <link rel="stylesheet" href="assets/css/style.css" />
 
@@ -72,7 +72,7 @@
       <div class="col-md-7 card m0 p0 borderradiusround nobordertopright noborderbottomright noborder">
           <div class="card-body p40 pt40 pb5 borderradiusround nobordertopright noborderbottomright" style="background-color:#F3F4F5;">
           <p class="text-primary text-left mb30 mt30" style="font-size:26px;">Welcome to <b>Blogtrackers</b></p>
-          <form id="register_form"  class=""  method="post">
+      <form id="register_form"  class=""  method="post">
       <div class="form-group">
 		<div class="form-login-error">
              <p id="error_message-box" style="color:red"></p>

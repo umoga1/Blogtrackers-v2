@@ -51,9 +51,9 @@ function loadStat(blogger){
 		
 		
 		var data = JSON.parse(response);
-		$(".total-influence").html(data.totalinfluence);
-		$(".total-post").html(data.totalpost);
-		$(".total-sentiment").html(data.totalsentiment);
+		$(".total-influence").html(parseInt(data.totalinfluence).toLocaleString('en'));
+		$(".total-post").html(parseInt(data.totalpost).toLocaleString('en'));
+		$(".total-sentiment").html(parseInt(data.totalsentiment).toLocaleString('en'));
 		$(".top-keyword").html(data.topterm);
 		//$("#overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	

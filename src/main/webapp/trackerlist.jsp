@@ -139,11 +139,11 @@
 
 				</div>
 				<div id="othersection" class="col-md-12 mt10" style="clear: both">
-					<a class="cursor-pointer profilemenulink"
+					<%-- <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a>  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+						</h6> </a> --%>  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
 						<a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
 							class="text-primary">Profile</h6></a> <a
@@ -320,18 +320,16 @@
 				<a href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=resut.get(0).toString()%>">
 				<div class="text-center mt10 stylebutton6 text-primary m20 mt0 mb0 cursor-pointer">
 				
-					<h1	class="text-primary text-center pt10 p20 pb10 cursor-pointer bold-text activelink"><%=resut.get(2).toString().replaceAll("[^a-zA-Z]", " ")%></h1>
+					<h1	class="text-primary text-center pt10 p20 pb10 cursor-pointer bold-text activelink"
+					data-toggle="tooltip" data-placement="top"
+							title="Proceed to tracker details"><%=resut.get(2).toString()%></h1>
 				
 				</div></a>
 
 				<div class="card-body">
 					<%--  <p class="card-text text-center postdate text-primary"><%=dt%>&nbsp;&nbsp;&nbsp;&nbsp;.&nbsp;&nbsp;&nbsp;&nbsp;</p> --%>
 
-					<!-- <div class="text-center">
-						<button
-							class="btn btn-default stylebutton5 text-primary p30 pt5 pb5"
-							style="width: 100%;">Sports&nbsp;&nbsp;.&nbsp;&nbsp;Science&nbsp;&nbsp;.&nbsp;&nbsp;Art</button>
-					</div> -->
+					
 					<p class="mt10 text-primary text-center">
 
 						<%
@@ -349,22 +347,24 @@
 						<%=description	%>
 					</p>
 					<div class="text-center mt20">
-						<button
+						<!-- <button
+>>>>>>> 70e016cc354f58e6fa6e2cb803b9f25c23c1fc9a
 							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left cursor-pointer-default"
-							style="width: 100%;">
+							style="width: 100%;"> -->
 							<h1 class="text-success mb0"><%=totalblog%></h1>
 							<h5 class="text-primary">Blogs</h5>
-						</button>
+						<!-- </button> -->
 
 					</div>
 
 					<div class="text-center mt10">
-						<button
+						<!-- <button
 							class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left cursor-pointer-default"
-							style="width: 100%;">
+							style="width: 100%;"> -->
 							<h1 class="text-success mb0"><%=NumberFormat.getNumberInstance(Locale.US).format(totalpost)%></h1>
 							<h5 class="text-primary">Posts</h5>
-						</button>
+						<!-- </button> -->
+
 
 					</div>
 					<!-- <div class="text-center mt10">
@@ -381,10 +381,9 @@
 							href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=resut.get(0).toString()%>"><i
 							class="navbar-brand text-primary icontrackersize cursor-pointer proceedtoanalytics"
 							data-toggle="tooltip" data-placement="top"
-							title="Proceed to Analytics"></i></a> <i
-							class="text-primary icontrackersize cursor-pointer refreshdeactivated"
-							data-toggle="tooltip" data-action="reload" data-placement="top"
-							title="Refresh Tracker"></i> <i class="text-primary icontrackersize cursor-pointer deletetracker trackerdelete"
+							title="Proceed to Analytics"></i></a> 
+			<a href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=resut.get(0).toString()%>" style="margin-left:25px;"><i	class="text-primary icontrackersize cursor-pointer edittracker" data-toggle="tooltip" data-placement="top" 	title="Edit Tracker"></i></a> 
+			<i class="text-primary icontrackersize cursor-pointer deletetracker trackerdelete"
 							data-toggle="tooltip" data-placement="top" title="Delete Tracker" id="<%=resut.get(0).toString()%>">
 							<input type="hidden" name="tid" value="<%=resut.get(0).toString()%>" class="tid" />
 							</i>

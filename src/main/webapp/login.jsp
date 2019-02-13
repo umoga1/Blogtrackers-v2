@@ -141,8 +141,8 @@
 
 						<p class="pb40 mt30 text-primary">
 							Don't have an account with Blogtrackers? <a
-								href="<%=request.getContextPath()%>/register">Register
-							Now</a></small>
+								href="<%=request.getContextPath()%>/register"><b>Register
+							Now</b></a></small>
 						</p>
 					</form>
 

@@ -631,7 +631,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blogtrackers - Dashboard</title>
+<title>Blogtrackers - Blog Portfolio</title>
 <!-- start of bootsrap -->
 <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
 <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
@@ -690,11 +690,11 @@
 
 				</div>
 				<div id="othersection" class="col-md-12 mt10" style="clear: both">
-					<a class="cursor-pointer profilemenulink"
+					<%-- <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a> 
+						</h6> </a>  --%>
 						 <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
 						<a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
@@ -804,10 +804,10 @@
 					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
 					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/blogportfolio.jsp?tid=<%=tid%>">Blog Portfolio</a>
 				</nav>
-				<div>
+			<!-- 	<div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
 						AS PDF</button>
-				</div>
+				</div> -->
 			</div>
 
 			<div class="col-md-6 text-right mt10">
@@ -872,7 +872,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-exchange-alt icondash "></i>Influence
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label total-influence"><%=infl%></h3>
+						<h3 class="text-blue mb0 countdash dash-label total-influence"><%=NumberFormat.getNumberInstance(Locale.US).format(infl)%></h3>
 					</div>
 				</div>
 			</div>
@@ -905,7 +905,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-adjust icondash"></i>Sentiment
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label total-sentiment"><%=(Integer.parseInt(possentiment)+Integer.parseInt(negsentiment))%></h3>
+						<h3 class="text-blue mb0 countdash dash-label total-sentiment"><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(possentiment)+Integer.parseInt(negsentiment))%></h3>
 					</div>
 				</div>
 			</div>
@@ -1094,7 +1094,7 @@
 <input type="hidden" id="blogid" value="<%=selectedblogid%>" />
 </form>>
 
-  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+<!--   <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script> -->
  <script src="assets/bootstrap/js/bootstrap.js">
  </script>
  <script src="assets/js/generic.js">
@@ -1588,7 +1588,7 @@
                         .attr("d", line)
                         // .style("fill", "rgba(0,0,0,0.54)")
                         .style("stroke-width", 2)
-                        .style("stroke", "0080CC")
+                        .style("stroke", "#0080CC")
 
                // add point
                 circles = svg.append("g").attr("class","circlecontainer").selectAll(".circle-point")
@@ -1735,11 +1735,39 @@
              if(data.length == 1 )
         	 {
         	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-            transformfirsttick =  tick[0][0].attributes[1].value;
+        	 var transformfirsttick;
+        	 //transformfirsttick =  tick[0][0].attributes[2].value;
+            //console.log(tick[0][0].attributes[2]);
             //transformfirsttick = "translate(31.5,0)"
-            //console.log(transformfirsttick);
+            //console.log(tick[0][0]);
+            // handle based on browser
+            var browser = "";
+            c = navigator.userAgent.search("Chrome");
+            f = navigator.userAgent.search("Firefox");
+            m8 = navigator.userAgent.search("MSIE 8.0");
+            m9 = navigator.userAgent.search("MSIE 9.0");
+            if (c > -1) {
+                browser = "Chrome";
+                // chrome browser
+            transformfirsttick =  tick[0][0].attributes[1].value;
+
+            } else if (f > -1) {
+                browser = "Firefox";
+                 // firefox browser
+             transformfirsttick =  tick[0][0].attributes[2].value;
+            } else if (m9 > -1) {
+                browser ="MSIE 9.0";
+            } else if (m8 > -1) {
+                browser ="MSIE 8.0";
+            }
+            
             svg.select(".circlecontainer").attr("transform", transformfirsttick);
             svg.select(".linecontainer").attr("transform", transformfirsttick);
+            
+            
+            
+            //console.log(browser);
+            
         	 }
 
 
@@ -1807,11 +1835,39 @@
            if(data.length == 1 )
       	 {
       	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-          transformfirsttick =  tick[0][0].attributes[1].value;
+      	 var transformfirsttick;
+      	 //transformfirsttick =  tick[0][0].attributes[2].value;
+          //console.log(tick[0][0].attributes[2]);
           //transformfirsttick = "translate(31.5,0)"
-          console.log(transformfirsttick);
+          //console.log(tick[0][0]);
+          // handle based on browser
+          var browser = "";
+          c = navigator.userAgent.search("Chrome");
+          f = navigator.userAgent.search("Firefox");
+          m8 = navigator.userAgent.search("MSIE 8.0");
+          m9 = navigator.userAgent.search("MSIE 9.0");
+          if (c > -1) {
+              browser = "Chrome";
+              // chrome browser
+          transformfirsttick =  tick[0][0].attributes[1].value;
+
+          } else if (f > -1) {
+              browser = "Firefox";
+               // firefox browser
+           transformfirsttick =  tick[0][0].attributes[2].value;
+          } else if (m9 > -1) {
+              browser ="MSIE 9.0";
+          } else if (m8 > -1) {
+              browser ="MSIE 8.0";
+          }
+          
           svg.select(".circlecontainer").attr("transform", transformfirsttick);
           svg.select(".linecontainer").attr("transform", transformfirsttick);
+          
+          
+          
+          //console.log(browser);
+          
       	 }
              // Crosshair
              //svg.selectAll('.d3-crosshair-overlay').attr("width", width);
@@ -1989,7 +2045,7 @@
                    maxvalue = d3.max(data, function(d) { return d.frequency; });
                    if(d.frequency == maxvalue)
                    {
-                     return "0080CC";
+                     return "#0080CC";
                    }
                    else
                    {
@@ -2317,7 +2373,7 @@
                         .attr("d", line)
                         // .style("fill", "rgba(0,0,0,0.54)")
                         .style("stroke-width", 2)
-                        .style("stroke", "0080CC")
+                        .style("stroke", "#0080CC")
                          //.attr("transform", "translate("+margin.left/4.7+",0)");
                         // .datum(data)
 
@@ -2470,11 +2526,39 @@
              if(data.length == 1 )
         	 {
         	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-            transformfirsttick =  tick[0][0].attributes[1].value;
+        	 var transformfirsttick;
+        	 //transformfirsttick =  tick[0][0].attributes[2].value;
+            //console.log(tick[0][0].attributes[2]);
             //transformfirsttick = "translate(31.5,0)"
-            //console.log(transformfirsttick);
+            //console.log(tick[0][0]);
+            // handle based on browser
+            var browser = "";
+            c = navigator.userAgent.search("Chrome");
+            f = navigator.userAgent.search("Firefox");
+            m8 = navigator.userAgent.search("MSIE 8.0");
+            m9 = navigator.userAgent.search("MSIE 9.0");
+            if (c > -1) {
+                browser = "Chrome";
+                // chrome browser
+            transformfirsttick =  tick[0][0].attributes[1].value;
+
+            } else if (f > -1) {
+                browser = "Firefox";
+                 // firefox browser
+             transformfirsttick =  tick[0][0].attributes[2].value;
+            } else if (m9 > -1) {
+                browser ="MSIE 9.0";
+            } else if (m8 > -1) {
+                browser ="MSIE 8.0";
+            }
+            
             svg.select(".circlecontainer").attr("transform", transformfirsttick);
             svg.select(".linecontainer").attr("transform", transformfirsttick);
+            
+            
+            
+            //console.log(browser);
+            
         	 }
 
 
@@ -2542,11 +2626,39 @@
            if(data.length == 1 )
       	 {
       	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-          transformfirsttick =  tick[0][0].attributes[1].value;
+      	 var transformfirsttick;
+      	 //transformfirsttick =  tick[0][0].attributes[2].value;
+          //console.log(tick[0][0].attributes[2]);
           //transformfirsttick = "translate(31.5,0)"
-          console.log(transformfirsttick);
+          //console.log(tick[0][0]);
+          // handle based on browser
+          var browser = "";
+          c = navigator.userAgent.search("Chrome");
+          f = navigator.userAgent.search("Firefox");
+          m8 = navigator.userAgent.search("MSIE 8.0");
+          m9 = navigator.userAgent.search("MSIE 9.0");
+          if (c > -1) {
+              browser = "Chrome";
+              // chrome browser
+          transformfirsttick =  tick[0][0].attributes[1].value;
+
+          } else if (f > -1) {
+              browser = "Firefox";
+               // firefox browser
+           transformfirsttick =  tick[0][0].attributes[2].value;
+          } else if (m9 > -1) {
+              browser ="MSIE 9.0";
+          } else if (m8 > -1) {
+              browser ="MSIE 8.0";
+          }
+          
           svg.select(".circlecontainer").attr("transform", transformfirsttick);
           svg.select(".linecontainer").attr("transform", transformfirsttick);
+          
+          
+          
+          //console.log(browser);
+          
       	 }
              // Crosshair
              //svg.selectAll('.d3-crosshair-overlay').attr("width", width);

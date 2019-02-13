@@ -99,7 +99,7 @@ $(document).ready(function(){
     			   $(".tooltip").hide();
     			    // variable needed are trackername, trackerdescription and (allblogs) which contains arrays of blogs
     			   
-    			   trackernamehtmlupdate = '<div class=""><a href="'+app_url+'edittracker.jsp?tid='+response+'"><h1 class="text-primary text-center pt20 pl10 pr10 bold-text">'+trackername+'</h1></a></div>';
+    			   trackernamehtmlupdate = '<div class="text-center mt10 stylebutton6 text-primary m20 mt0 mb0 cursor-pointer"><a href="'+app_url+'edittracker.jsp?tid='+response+'"><h1 class="text-primary text-center pt10 p20 pb10 cursor-pointer bold-text activelink"	data-toggle="tooltip" data-placement="top" title="Proceed to tracker details">'+trackername+'</h1></a></div>';
     			   var today = new Date();
     			   var dd = today.getDate();
     			   var mm = today.getMonth()+1; //January is 0!
@@ -124,8 +124,8 @@ $(document).ready(function(){
     			   timesectionhtmlupdate = '<p class="card-text text-center postdate text-primary">'+currentdate+" , "+currenttime+'</p>';	 
     			   //bloglisthtmlupdate = '<div class="text-center"><button class="btn btn-default stylebutton5 text-primary p30 pt5 pb5" style="width:100%;">'+allblogcombined+'</button></div>';
     			   trackerdescriptionhtmlupdate = ' <p class="mt20 text-primary text-center">'+trackerdescription+'</p>';
-    			   blogcounthtmlupdate = '<div class="text-center mt20"><button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;"><h1 class="text-success mb0">0</h1><h5 class="text-primary">Blogs</h5></button></div>';
-    			   postcounthtmlupdate = '<div class="text-center mt10"><button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;"><h1 class="text-success mb0">0</h1><h5 class="text-primary">Posts</h5></button></div>';
+    			   blogcounthtmlupdate = '<div class="text-center mt20"><!--<button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">--><h1 class="text-success mb0">0</h1><h5 class="text-primary">Blogs</h5><!--</button>--></div>';
+    			   postcounthtmlupdate = '<div class="text-center mt10"><!--<button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;">--><h1 class="text-success mb0">0</h1><h5 class="text-primary">Posts</h5><!--</button>--></div>';
     			   commentcounthtmlupdate = '<!--<div class="text-center mt10"><button class="btn btn-default stylebutton6 text-primary p30 pt5 pb5 text-left" style="width:100%;"><h1 class="text-success mb0">0</h1><h5 class="text-primary">Comments</h5></button></div>-->';
     			   buttonhtmlupdate = '<div class="pt30 pb20 text-center"><a href="'+app_url+'dashboard.jsp?tid='+response+'"><i class="text-primary icontrackersize cursor-pointer proceedtoanalytics" data-toggle="tooltip" data-placement="top" title="Proceed to Analytics"></i></a><i class=" text-primary icontrackersize cursor-pointer refreshdeactivated" data-toggle="tooltip" data-placement="top" data-action="reload" title="Refresh Tracker"></i><i class=" text-primary icontrackersize cursor-pointer deletetracker" data-toggle="tooltip" data-placement="top" id="'+response+'" title="Delete Tracker"></i><input type="hidden" name="tid" value="'+response+'" class="tid" /></div>';
     			   createtrackeraction.parent().parent().parent().prepend(trackernamehtmlupdate);

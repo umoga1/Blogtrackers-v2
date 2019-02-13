@@ -645,10 +645,11 @@
 <link rel="stylesheet" href="assets/css/toastr.css">
 
 <script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
 <!-- <script src="assets/js/jquery-3.2.1.slim.min.js"></script>-->
-<script src="assets/js/popper.min.js"></script>
+<!-- <script src="assets/js/popper.min.js"></script> -->
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 
   <script src="pagedependencies/baseurl.js"></script>
@@ -674,11 +675,11 @@
 
 				</div>
 				<div id="othersection" class="col-md-12 mt10" style="clear: both">
-					<a class="cursor-pointer profilemenulink"
+					<%-- <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a> 
+						</h6> </a>  --%>
 						<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
 						
 						<a class="cursor-pointer profilemenulink"
@@ -781,10 +782,10 @@
 						<a class="breadcrumb-item text-primary"	href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
 					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
 				</nav>
-				<div>
+				<!-- <div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
 						AS PDF</button>
-				</div>
+				</div> -->
 			</div>
 
 			<div class="col-md-6 text-right mt10">
@@ -922,8 +923,18 @@
 									</select> --%>
 							</p>
 						</div>
-						<div class="min-height-table" style="min-height: 500px;">
-							<div class="chart-container">
+	<div class="min-height-table" style="min-height: 500px;">
+					<div class="chart-container">
+	<!-- 						  <div class="btn-group float-right">
+    <button id="btnGroupDrop1" type="button" class="btn btn-primary " data-toggle="dropdown" aria-expanded="false">
+      <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+      <a class="dropdown-item savelanguagejpg" href="#">Export as JPG</a>
+      <a class="dropdown-item savelanguagepng" href="#">Export as PNG</a>
+    </div>
+  </div> -->
+							<!-- <button id='savelanguage'>Export my D3 visualization to PNG</button> -->
 								<div class="chart" id="languageusage"></div>
 							</div>
 						</div>
@@ -1397,7 +1408,7 @@
 	<script		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
 	<script
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
-	<script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
+	<!-- <script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script> -->
 	<script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
 	<script
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
@@ -1459,7 +1470,21 @@ $(document).ready(function() {
 	
 	 $('#printdoc').on('click',function(){
 			print();
+			//window.print();
+			//elementtoprint = document.getElementById('languageusage');
+			//printHTML("#languageusage");
 		}) ;
+	 
+	 function printHTML(input){
+		  var iframe = document.createElement("iframe"); // create the element
+		  document.body.appendChild(iframe);  // insert the element to the DOM 
+
+		  iframe.contentWindow.document.write(input); // write the HTML to be printed
+		  iframe.contentWindow.print();  // print it
+		  document.body.removeChild(iframe); // remove the iframe from the DOM
+		}
+	 
+	 
   $(document)
              .ready(
                  function() {
@@ -1476,14 +1501,12 @@ $(document).ready(function() {
                  minDate: '01/01/1947',
                  maxDate: moment(),
                  linkedCalendars: false,
+                 autoUpdateInput:true,
                  maxSpan: {
                      days: 50000
                  },
              showDropdowns: true,
                  showWeekNumbers: true,
-                 timePicker : false,
-           timePickerIncrement : 1,
-           timePicker12Hour : true,
            dateLimit: { days: 50000 },
                      ranges: {
 
@@ -1524,6 +1547,7 @@ $(document).ready(function() {
      // $('#reportrange span').html('${datepicked}');
       //$('#reportrange span').html(moment().subtract( 500, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'))
      $('#reportrange, #custom').daterangepicker(optionSet1, cb);
+     $('#reportrange, #custom').daterangepicker.prototype.hoverDate = function(){}; 
      $('#reportrange, #custom')
      .on(
          'show.daterangepicker',
@@ -1601,12 +1625,16 @@ $(document).ready(function() {
 	<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
 	<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
 	<script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
+	 <script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
+		 <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
 	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
 	<script type="text/javascript" src="assets/js/jquery.inview.js"></script>
+	<script type="text/javascript" src="assets/js/exporthandler.js"></script>
 	<!--start of language bar chart  -->
 	<script>
 $(function () {
 
+	
     // Initialize chart
     languageusage('#languageusage', 455);
 
@@ -1661,14 +1689,14 @@ $(function () {
       // ------------------------------
 
       // Add SVG element
-      var container = d3Container.append("svg");
+      var container = d3Container.append("svg").attr('class','languagesvg');
 
       // Add SVG group
       var svg = container
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
-              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
       //         // Create tooltip
@@ -1747,6 +1775,9 @@ $(function () {
           svg.append("g")
               .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
               .attr("transform", "translate(0," + height + ")")
+              //.attr("stroke","#333")
+              //.attr("fill","#333")
+              .attr("stroke-height","1")
               .call(xAxis);
 
           // Vertical
@@ -1787,7 +1818,7 @@ $(function () {
                   maxvalue = d3.max(data, function(d) { return d.frequency; });
                   if(d.frequency == maxvalue)
                   {
-                    return "0080CC";
+                    return "#0080CC";
                   }
                   else
                   {
@@ -1832,6 +1863,22 @@ $(function () {
                   //         .on('mouseover', tip.show)
                   //         .on('mouseout', tip.hide);
 
+
+ 
+ 
+ ExportSVGAsImage('.savelanguagejpg','click','.languagesvg',width,height,'jpg');
+ ExportSVGAsImage('.savelanguagepng','click','.languagesvg',width,height,'png');
+ 
+//Set-up the export button
+/*  d3.select('#savelanguage').on('click', function(){
+ 	var svgString = getSVGString(d3.select('.languagesvg').node());
+ 	svgString2Image( svgString, 2*width, 2*height, 'png', save ); // passes Blob and filesize String to the callback
+
+ 	function save( dataBlob, filesize ){
+ 		saveAs( dataBlob, 'D3 vis exported to PNG.png' ); // FileSaver.js function
+ 	}
+ }); */
+ 
 
 
 
@@ -2080,7 +2127,7 @@ $(function () {
                   maxvalue = d3.max(data, function(d) { return d.frequency; });
                   if(d.frequency == maxvalue)
                   {
-                    return "0080CC";
+                    return "#0080CC";
                   }
                   else
                   {
@@ -4119,8 +4166,9 @@ $(".option-lable").on("click",function(e){
                                 //.attr("transform", "translate("+129.5/6+",0)")
                                 .attr("d", line)
                                 // .style("fill", "rgba(0,0,0,0.54)")
+                                //.style("fill", "#17394C")
                                 .style("stroke-width",2)
-                                .style("stroke", "17394C")
+                                .style("stroke", "#17394C")
                                 //.attr("transform", "translate("+margin.left/4.7+",0)");
                                 // .attr("transform", "translate(40,0)");
                         
@@ -4286,11 +4334,39 @@ $(".option-lable").on("click",function(e){
                      if(data.length == 1 )
                     	 {
                     	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-                        transformfirsttick =  tick[0][0].attributes[1].value;
+                    	 var transformfirsttick;
+                    	 //transformfirsttick =  tick[0][0].attributes[2].value;
+                        //console.log(tick[0][0].attributes[2]);
                         //transformfirsttick = "translate(31.5,0)"
-                        //console.log(transformfirsttick);
+                        //console.log(tick[0][0]);
+                        // handle based on browser
+                        var browser = "";
+                        c = navigator.userAgent.search("Chrome");
+                        f = navigator.userAgent.search("Firefox");
+                        m8 = navigator.userAgent.search("MSIE 8.0");
+                        m9 = navigator.userAgent.search("MSIE 9.0");
+                        if (c > -1) {
+                            browser = "Chrome";
+                            // chrome browser
+                        transformfirsttick =  tick[0][0].attributes[1].value;
+  
+                        } else if (f > -1) {
+                            browser = "Firefox";
+                             // firefox browser
+                         transformfirsttick =  tick[0][0].attributes[2].value;
+                        } else if (m9 > -1) {
+                            browser ="MSIE 9.0";
+                        } else if (m8 > -1) {
+                            browser ="MSIE 8.0";
+                        }
+                        
                         svg.select(".circlecontainer").attr("transform", transformfirsttick);
                         svg.select(".linecontainer").attr("transform", transformfirsttick);
+                        
+                        
+                        
+                        //console.log(browser);
+                        
                     	 }
                     
 
@@ -4360,11 +4436,39 @@ $(".option-lable").on("click",function(e){
              if(data.length == 1 )
         	 {
         	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-            transformfirsttick =  tick[0][0].attributes[1].value;
+        	 var transformfirsttick;
+        	 //transformfirsttick =  tick[0][0].attributes[2].value;
+            //console.log(tick[0][0].attributes[2]);
             //transformfirsttick = "translate(31.5,0)"
-            console.log(transformfirsttick);
+            //console.log(tick[0][0]);
+            // handle based on browser
+            var browser = "";
+            c = navigator.userAgent.search("Chrome");
+            f = navigator.userAgent.search("Firefox");
+            m8 = navigator.userAgent.search("MSIE 8.0");
+            m9 = navigator.userAgent.search("MSIE 9.0");
+            if (c > -1) {
+                browser = "Chrome";
+                // chrome browser
+            transformfirsttick =  tick[0][0].attributes[1].value;
+
+            } else if (f > -1) {
+                browser = "Firefox";
+                 // firefox browser
+             transformfirsttick =  tick[0][0].attributes[2].value;
+            } else if (m9 > -1) {
+                browser ="MSIE 9.0";
+            } else if (m8 > -1) {
+                browser ="MSIE 8.0";
+            }
+            
             svg.select(".circlecontainer").attr("transform", transformfirsttick);
             svg.select(".linecontainer").attr("transform", transformfirsttick);
+            
+            
+            
+            //console.log(browser);
+            
         	 }
 
 

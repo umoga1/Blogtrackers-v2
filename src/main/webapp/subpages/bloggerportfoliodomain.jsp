@@ -114,7 +114,11 @@
 		}
 %>
 
-                <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
+  <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
+
+
                         <thead>
                             <tr>
                                 <th>Domain</th>
@@ -140,11 +144,14 @@
 									}
 									%>                     
                         </tbody>
-                    </table>
-								
+
+</table>
+
+<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>						
 									
 <script type="text/javascript"
 		src="assets/vendors/DataTables/datatables.min.js"></script>
+
 			<script>
  $(document).ready(function() {
 	 
@@ -157,8 +164,9 @@
 		    $('[data-toggle="tooltip"]').tooltip()
 		  })
 		  
-     $('#DataTables_Table_1_wrapper').DataTable( {
-         "scrollY": 250,
+     $('#DataTables_Table_0_wrapper').DataTable( {
+         "scrollY": 430,
+         "scrollX": 250,
           "pagingType": "simple",
          /*  dom: 
         	   'Bfrtip', 
@@ -178,4 +186,9 @@
      } );
 	 
  } );
+
+
+	<!--end for table  -->	
+
  </script>
+

@@ -77,7 +77,7 @@ function loadChart(blogger,blog_id){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			//console.log(response);
 			$("#chart-container").html(response);
 		},
 		success: function(response)
@@ -123,12 +123,12 @@ function loadInfluence(start_date,end_date){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			//console.log(response);
 			$("#influence_table").html(response);
 		},
 		success: function(response)
 		{   
-			console.log(response);
+			//console.log(response);
 			$("#influence_table").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			 $.getScript("assets/vendors/DataTables/datatables.min.js", function(data, textStatus, jqxhr) {	});
 			 $.getScript("assets/vendors/DataTables/dataTables.bootstrap4.min.js", function(data, textStatus, jqxhr) {	});
@@ -257,12 +257,12 @@ function loadSinglePost(blogger,blog_id){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			//console.log(response);
 			$("#blogpost_detail").html(response);
 		},
 		success: function(response)
 		{   
-			console.log(response);
+			//console.log(response);
 			//$("#blogpost_detail").html(response);
 			$("#blogpost_detail").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			
@@ -287,13 +287,13 @@ function getTotalPost(blogger,blog_id){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			//console.log(response);
 			$(".total-post").html(response);
 		},
 		success: function(response)
 		{   
-			console.log(response);
-			$(".total-post").html(response);
+			//console.log(response);
+			$(".total-post").html(parseInt(response).toLocaleString('en'));
 			$(".activeblog").html(sel);
 				
 		}
@@ -315,12 +315,12 @@ function getTopLocation(blogger,blog_id){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			//console.log(response);
 			$(".top-location").html(response);
 		},
 		success: function(response)
 		{   
-			console.log(response);
+			//console.log(response);
 			$(".top-location").html(response);
 				
 		}

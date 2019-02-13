@@ -10,8 +10,6 @@
 	pageEncoding="UTF-8"%>
 <%
 
-
-
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 ArrayList<?> userinfo = new ArrayList();
 String profileimage= "";
@@ -110,8 +108,8 @@ try{
 
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+  <%-- <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  --%> <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
@@ -313,7 +311,7 @@ try{
 <p class="text-center text-primary p20 pt0 pb0">Track Blogs at your tips.</p></div>
 
 </div>
-<div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60 mt40">Start Tracking</button></div>
+<div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60 mt40 starttracking2">Start Tracking</button></div>
 </div>
 <div class="bgwhite">
 <div class="container-fluid pb80 pt80" id="whatyoucando">
@@ -338,7 +336,7 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
 </div>
 <div class="col-md-4 borderleftprimary">
 <h1 class="text-primary headertextwhatcanyoudo">Influence <br/>Analysis</h1>
-<p class="text-primary whatcanyoudodesc">Check influence of Blogs, Blog Posts and Bloggers</p>
+<p class="text-primary whatcanyoudodesc">Check influence of Blogs, Posts, and Bloggers</p>
 </div>
 </div>
 
@@ -390,7 +388,7 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
 <p class="text-primary whatcanyoudodesc">Check influence of Blogs, Blog Posts and Bloggers</p>
 </div>
 </div> -->
-<div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 mb20 p40 pt10 pb10">Start Tracking</button></div>
+<div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 mb20 p40 pt10 pb10 starttracking2">Start Tracking</button></div>
 </div>
 </div>
 <div class="bggrey">
@@ -401,69 +399,69 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
 <div class="col-md-12" align="center">
 <div class="row sponsor-region">
             <div class="col-md-2">
-              <div class="card mb-4 box-shadow">
+             <!--  <div class="card mb-4 box-shadow"> -->
               <!-- <div class="logocontainer"> -->
                 <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/nationalsciencefoundation.png" data-holder-rendered="true">
                <!--  </div> -->
-                <div class="card-body">
+                 <div class="card-body"> 
          <p class="logo-text">National Science <br/>Foundation</p>
-                 </div>
-              </div>
+                  </div> 
+             <!--  </div> -->
             </div>
             
               <div class="col-md-2">
-              <div class="card mb-4 box-shadow">
+             <!--  <div class="card mb-4 box-shadow"> -->
                <!-- <div class="logocontainer"> -->
                 <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/officeofnavalresearch.png" data-holder-rendered="true">
                <!-- </div> -->
                 <div class="card-body">
                  <p class="logo-text">Office of Naval <br/>Research</p>
                 </div>
-              </div>
+              <!-- </div> -->
             </div>
             
             <div class="col-md-2">
-              <div class="card mb-4 box-shadow">
+             <!--  <div class="card mb-4 box-shadow"> -->
                <!-- <div class="logocontainer"> -->
                 <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/airforceresearch.png" data-holder-rendered="true">
                <!-- </div> -->
                 <div class="card-body">
                 <p class="logo-text">Air Force Research Laboratory</p>
                 </div>
-              </div>
+              <!-- </div> -->
             </div>
             
             <div class="col-md-2">
-              <div class="card mb-4 box-shadow">
+              <!-- <div class="card mb-4 box-shadow"> -->
               <!--  <div class="logocontainer"> -->
                 <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/darpa.png" data-holder-rendered="true">
                <!-- </div> -->
                 <div class="card-body">
                 <p class="logo-text">Defense Advanced Research <br/>Projects Agency</p>
                 </div>
-              </div>
+             <!--  </div> -->
             </div>
             
              <div class="col-md-2">
-              <div class="card mb-4 box-shadow">
+              <!-- <div class="card mb-4 box-shadow"> -->
                <!-- <div class="logocontainer"> -->
                 <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/armyresearchoffice.png" data-holder-rendered="true">
                <!-- </div> -->
                 <div class="card-body">
              <p class="logo-text">Army Research <br/>Office</p>
                 </div>
-              </div>
+              <!-- </div> -->
             </div>
             
             <div class="col-md-2">
-              <div class="card mb-4 box-shadow">
+              <!-- <div class="card mb-4 box-shadow"> -->
                <!-- <div class="logocontainer"> -->
                 <img class="card-img-top" alt="" style="width: 80%; display: block;" src="images/sponsors/departmentofhomeland.png" data-holder-rendered="true">
                <!-- </div> -->
                 <div class="card-body">
             <p class="logo-text">Department of <br/>Homeland Security</p>
                 </div>
-              </div>
+              <!-- </div> -->
             </div>
             
             
@@ -574,8 +572,10 @@ Design is not just what it looks like and feels like. Design is how it works.
 </div>
 </div> -->
 <div class="bgwhite">
+<a href="http://cosmos.ualr.edu/">
 <div class="container-fluid pb50 pt50" id="testimonials">
 <p class="text-center mb0 copyrighttext">Developed By</p>
+
 <p class="text-center mb0"><i class="navbar-brand text-primary icontrackersize cosmoslogo mt30 mb10"></i></p>
 </div>
 </div>
@@ -585,9 +585,10 @@ Design is not just what it looks like and feels like. Design is how it works.
 <p class="mb0 text-center copyrighttext text-white">Copyright &copy; 2018, COSMOS. All Rights Reserved.</p>
 </div>
 </div>
+</a>
 
 <div class="text-center cursor-pointer helpcontainer">
-<a href="<%=request.getContextPath()%>/documentation.jsp" target="_blank" class="navbar-brand cursor-pointer helpicon">
+<a href="<%=request.getContextPath()%>/documentation.jsp" class="navbar-brand cursor-pointer helpicon">
 <!-- <i class="text-white" ></i> -->
 
 </a>
@@ -604,6 +605,13 @@ Design is not just what it looks like and feels like. Design is how it works.
 <script src="assets/js/generic.js"></script>
 <script src="assets/js/smoothscroll.js">
 
+</script>
+<script>
+$(document).ready(function(){
+$('.starttracking2').on("click", function(){
+location = "blogbrowser.jsp";	
+});	
+});
 </script>
 </body>
 </html>

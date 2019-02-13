@@ -229,9 +229,9 @@ if(action.toString().equals("getstats")){
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											</a>
-											<button class="btn stylebuttonnocolor"><%=date%></button>
-											<button class="btn stylebuttonnocolor">
+
+											<button class="btn stylebuttonnocolor nocursor"><%=date%></button>
+											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -636,7 +636,7 @@ if(action.toString().equals("getstats")){
                                 .attr("d", line)
                                 // .style("fill", "rgba(0,0,0,0.54)")
                                 .style("stroke-width",2)
-                                .style("stroke", "17394C")
+                                .style("stroke", "#17394C")
                                  .attr("transform", "translate("+margin.left/4.7+",0)");
                                 // .datum(data)
 

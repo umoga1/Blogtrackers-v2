@@ -330,7 +330,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
   <% if(userinfo.size()>0){ %>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <%-- <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a> --%>
    <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
@@ -418,7 +418,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
   <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
   <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/postingfrequency.jsp?tid=<%=tid%>">Posting Frequency</a>
   </nav>
-<div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
+<!-- <div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div> -->
 </div>
 
 <div class="col-md-6 text-right mt10">
@@ -692,6 +692,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 }
 
 totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);
+String formatedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
 %>
 
 <div class="col-md-9">
@@ -712,7 +713,7 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
       <div class="row">
      <div class="col-md-3 mt5 mb5">
        <h6 class="card-title mb0">Total Posts</h6>
-       <h3 class="mb0 bold-text total-post"><%=totalpost%></h3>
+       <h3 class="mb0 bold-text total-post"><%=formatedtotalpost%></h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
@@ -895,10 +896,10 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-
-											<button class="btn stylebuttonnocolor"><%=date %></button>
-									</a>
-											<button class="btn stylebuttonnocolor">
+											</a>
+											<button class="btn stylebuttonnocolor nocursor"><%=date %></button>
+									
+											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -1477,7 +1478,7 @@ console.log("here");
                              .attr("d", line)
                              // .style("fill", "rgba(0,0,0,0.54)")
                              .style("stroke-width",2)
-                             .style("stroke", "17394C")
+                             .style("stroke", "#17394C")
                              //.attr("transform", "translate("+margin.left/4.7+",0)");
                              // .attr("transform", "translate(40,0)");
                      
@@ -1654,11 +1655,39 @@ console.log("here");
               if(data.length == 1 )
          	 {
          	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-             transformfirsttick =  tick[0][0].attributes[1].value;
+         	 var transformfirsttick;
+         	 //transformfirsttick =  tick[0][0].attributes[2].value;
+             //console.log(tick[0][0].attributes[2]);
              //transformfirsttick = "translate(31.5,0)"
-             //console.log(transformfirsttick);
+             //console.log(tick[0][0]);
+             // handle based on browser
+             var browser = "";
+             c = navigator.userAgent.search("Chrome");
+             f = navigator.userAgent.search("Firefox");
+             m8 = navigator.userAgent.search("MSIE 8.0");
+             m9 = navigator.userAgent.search("MSIE 9.0");
+             if (c > -1) {
+                 browser = "Chrome";
+                 // chrome browser
+             transformfirsttick =  tick[0][0].attributes[1].value;
+
+             } else if (f > -1) {
+                 browser = "Firefox";
+                  // firefox browser
+              transformfirsttick =  tick[0][0].attributes[2].value;
+             } else if (m9 > -1) {
+                 browser ="MSIE 9.0";
+             } else if (m8 > -1) {
+                 browser ="MSIE 8.0";
+             }
+             
              svg.select(".circlecontainer").attr("transform", transformfirsttick);
              svg.select(".linecontainer").attr("transform", transformfirsttick);
+             
+             
+             
+             //console.log(browser);
+             
          	 }
 
 
@@ -1725,11 +1754,39 @@ console.log("here");
              if(data.length == 1 )
         	 {
         	 var tick = svg.select(".d3-axis-horizontal").select(".tick");
-            transformfirsttick =  tick[0][0].attributes[1].value;
+        	 var transformfirsttick;
+        	 //transformfirsttick =  tick[0][0].attributes[2].value;
+            //console.log(tick[0][0].attributes[2]);
             //transformfirsttick = "translate(31.5,0)"
-            console.log(transformfirsttick);
+            //console.log(tick[0][0]);
+            // handle based on browser
+            var browser = "";
+            c = navigator.userAgent.search("Chrome");
+            f = navigator.userAgent.search("Firefox");
+            m8 = navigator.userAgent.search("MSIE 8.0");
+            m9 = navigator.userAgent.search("MSIE 9.0");
+            if (c > -1) {
+                browser = "Chrome";
+                // chrome browser
+            transformfirsttick =  tick[0][0].attributes[1].value;
+
+            } else if (f > -1) {
+                browser = "Firefox";
+                 // firefox browser
+             transformfirsttick =  tick[0][0].attributes[2].value;
+            } else if (m9 > -1) {
+                browser ="MSIE 9.0";
+            } else if (m8 > -1) {
+                browser ="MSIE 8.0";
+            }
+            
             svg.select(".circlecontainer").attr("transform", transformfirsttick);
             svg.select(".linecontainer").attr("transform", transformfirsttick);
+            
+            
+            
+            //console.log(browser);
+            
         	 }
 
              //

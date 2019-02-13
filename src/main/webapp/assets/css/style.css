@@ -14,16 +14,56 @@ color:#1F90D0 !important;
   font-size: inherit;
   width:180px;
 }
-
 .custom-select option
 {
 width:180px;	
 }
-
 .nobg
 {
 background-color:none;	
 }
+.addblogtitle
+{
+font-size:50px;	
+font-weight:bolder;
+}
+/* success status */
+.successstatus
+{
+background-color:#D8f3E6 !important;	
+}
+.successstatus .nameofblog, .successstatus .blogstatus, .successstatus .blogcount
+{
+font-weight:500;
+color:#42C689 !important;	
+}
+
+/* end of success status */
+/* error status */
+.errorstatus
+{
+background-color:#F2B5B5 !important;	
+}
+.errorstatus .nameofblog, .errorstatus .blogstatus, .errorstatus .blogcount
+{
+font-weight:500;
+color:#F37C7C !important;	
+}
+
+/* end of error status */
+
+/* default status */
+.defaultstatus
+{
+	
+}
+.defaultstatus .nameofblog, .defaultstatus .blogstatus, .defaultstatus .blogcount
+{
+font-weight:500;
+
+}
+
+/* end of default status */
 .navsticky
 {
 position:fixed;	
@@ -35,6 +75,46 @@ left:0px;
 z-index:998;
 padding-left:15px;
 padding-right:15px;
+}
+.hidesection
+{
+display:none;	
+}
+.containeraddblog
+{
+background-color: #fafafa;
+}
+.containerdropfile
+{
+background-color: #fafafa;
+border:dashed 2px #cccccc !important;
+}
+.blogtitle, .blogurl
+{
+border-radius:5px;
+text-align:center;	
+background-color:transparent !important;
+}
+.createbtn, .cancelbtn
+{
+border-radius:20px;
+padding:8px 25px;	
+}
+.orcontainer
+{
+position:absolute; 
+width:50px; 
+height:50px; 
+border-radius:50px; 
+text-align:center; 
+background:#ffffff;	
+left:45%;
+top:-15px;
+}
+
+.addblogbtn
+{
+background-color:#ffffff !important;	
 }
 .hidesticky
 {
@@ -128,12 +208,16 @@ width:115px;
   vertical-align: middle;
 
 }
-
+.daterangepicker_input
+{
+display:none !important;	
+}
 .logo-text
 {
 color:#575757;	
 font-size:14px;
 font-weight:500;
+text-align:center;
 }
 .prevtestimonial
 {
@@ -1067,9 +1151,31 @@ opacity:0.85;
     display:inline-block;
     background-position: center center;
 }
+.blogbrowsersearch:focus:-moz-placeholder
+{
+color:transparent !important;	
+} 
+/* google chrome */
+.blogbrowsersearch:focus::-webkit-input-placeholder
+{
+color:transparent !important;
+} 
+
+.blogbrowsersearch:focus::-moz-placeholder
+{
+color:transparent !important;	
+} 
+
+
+.blogbrowsersearch:focus::-ms-input-placeholder
+{
+color:transparent !important;	
+
+} 
+
 .nocursor
 {
-cursor:none;	
+cursor:default !important;	
 }
 .refreshdeactivated
 {
@@ -1080,7 +1186,15 @@ cursor:none;
     display:inline-block;
     background-position: center center;
 }
-
+/* .edittracker
+{
+   background-image: url(../../images/svgs/refreshdeactivated.svg);
+    background-repeat: no-repeat;
+    min-height: 20px;
+    width: 20px;
+    display:inline-block;
+    background-position: center center;
+} */
 .refreshblog
 {
    background-image: url(../../images/svgs/refreshicon.svg);
@@ -1261,15 +1375,15 @@ display: inherit;
 {
 padding:0;
 border:none;
-width:140px;
+width:150px;
 background-color:transparent;
 }
 .sortby:focus
 {
-    background-color:transparent;
-    border-color: none;
-    outline: 0;
-    box-shadow: none;
+background-color:transparent;
+border-color: none;
+outline: 0;
+box-shadow: none;
 }
 .edittrackerpop
 {
@@ -1466,7 +1580,7 @@ background-color: transparent;
 {
 color:#45606F !important;
 font-size: 60px !important;
-line-height: 60px;
+line-height: 80px;
 font-weight: 600;
 font-family: inherit !important;
 }
@@ -1476,8 +1590,8 @@ font-size: 60px !important;
 line-height: 79px;
 color:#45606F !important;
 font-weight: 600;
-
 }
+
 .post-content
 {
 font-size: 24px;
@@ -1924,11 +2038,17 @@ background-color: #a8dfff;
 border: 2px solid #a8dfff;
 border-color: #a8dfff;
 color: #16394B;
+cursor:default !important;	
+}
+.stylebutton7:hover, .stylebutton8:hover
+{
+cursor:default !important;	
 }
 .stylebutton8
 {
 font-size: 0.7rem;
 border-radius: 10px;
+cursor:default !important;	
 padding: 0.19rem 0.75rem;
 font-weight: 700;
 background-color: #FFD27D;
@@ -2816,6 +2936,7 @@ background-color: #45606f;
 .d3-axis-strong path
 ,.d3-axis-strong line {
   stroke: #ccc;
+  stroke-width:1px;
 }
 .d3-axis-strong .tick {
   fill: #333333;
@@ -3310,6 +3431,18 @@ top:70px;
 {
 font-size:13px;
 text-transform:capitalize;	
+}
+.whiteplaceholder::placeholder
+{
+color:#ffffff !important;	
+}
+.whiteplaceholder::-moz-placeholder
+{
+color:#ffffff !important;	
+}
+.whiteplaceholder::-ms-input-placeholder
+{
+color:#ffffff !important;	
 }
 /* .statcontainer:after {
     content: ""; /* This is necessary for the pseudo element to work. */

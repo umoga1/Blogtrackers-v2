@@ -37,7 +37,6 @@ allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids.
                                     <tr>
                                         <th>Entity</th>
                                         <th>Type</th>
-                                        <th>Frequency</th>
                                         <th>Sentiment</th>
 
                                     </tr>
@@ -60,7 +59,7 @@ allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids.
                                     <tr>
                                         <td><%=tobj.get("entity").toString() %></td>
                                         <td><%=tobj.get("type").toString() %></td>
-                                        <td></td>
+                                    
                                         <td><%=tobj.get("sentiment").toString() %></td>
                                     </tr>
                                     <% }} %>

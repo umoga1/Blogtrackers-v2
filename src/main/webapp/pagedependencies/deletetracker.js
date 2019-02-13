@@ -11,7 +11,7 @@ if(confirmdelete)
 //	console.log(tid);	
 //	 $.getScript("assets/js/toastr.js", function(data, textStatus, jqxhr) {
 //		 loadCSS("assets/css/toastr.css");	
-toastr.error("Deleting Tracker","Wait");
+//toastr.error("Deleting Tracker","Wait");
 //	 });
 	
 	$.ajax({

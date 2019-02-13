@@ -151,8 +151,8 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
   <% if(userinfo.size()>0){ %>
   
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+  <%-- <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+   --%> <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   <%}else{ %>
@@ -232,7 +232,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 	   <div class="col-md-12 mt0">
 
       <form method="search" method="post" autocomplete="off" action="<%=request.getContextPath()%>/blogbrowser.jsp">
-      	<input type="search" autocomplete="off"  name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground" <% if(!term.equals("")){ %> placeholder="Searching for <%=term%>" <% } else { %>placeholder="Search for a keyword"<% } %> />
+      	<input type="search" autocomplete="off"  name="term" class="form-control p30 pt5 pb5 icon-big border-none bottom-border text-center blogbrowsersearch nobackground <% if(!term.equals("")){ %> whiteplaceholder <%} %>" <% if(!term.equals("")){ %> placeholder="Searching for <%=term%>" <% } else { %>placeholder="Search for a keyword"<% } %> />
       </form>
       </div>
 
@@ -364,7 +364,7 @@ if(results.size()>0){
 						 bresp = new JSONObject(bres);
 						 bresu = bresp.get("_source").toString();
 						 bobj = new JSONObject(bresu);
-						 blogtitle = bobj.get("blogsite_name").toString().replaceAll("[^a-zA-Z]", " ");			 
+						 blogtitle = bobj.get("blogsite_name").toString();			 
 			}
 		     String totaltrack  = trackers.getTotalTrack(blogid);		     
 %>
