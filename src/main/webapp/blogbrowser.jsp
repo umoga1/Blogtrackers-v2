@@ -356,8 +356,6 @@ if(results.size()>0){
 		     String blogid = obj.get("blogsite_id").toString();
 		     String[] dt = obj.get("date").toString().split("T");
 		     
-
-			
 			 ArrayList blog = blogs._fetch(blogid); 
 			 if( blog.size()>0){
 						 bres = blog.get(0).toString();			

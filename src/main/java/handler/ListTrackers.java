@@ -57,11 +57,11 @@ public class ListTrackers extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
+		
 		HttpSession session = request.getSession();
 		String usession = (null==request.getHeader("session"))?"":request.getHeader("session").trim();
 		String key= (null == session.getAttribute("key")) ? "" : session.getAttribute("key").toString();
 		PrintWriter pww = response.getWriter();
-		pww.write("in list");
 		
 		if(usession.equals(key) && !key.equals("")){ //check if supplied session key is valid
 			Trackers tracker = new Trackers();
@@ -107,6 +107,7 @@ public class ListTrackers extends HttpServlet {
 		}else {
 			System.out.println("you are here");
 		}
+		response.setContentType("text/plain");
 
 	}
 	

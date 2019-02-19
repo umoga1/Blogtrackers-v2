@@ -105,7 +105,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 
 	JSONObject jsonObj = new JSONObject(que);
 	 
-    String url = base_url+"_search?size=20";
+    String url = base_url+"_search?size=200";
     return this._getResult(url,jsonObj);
 }
 
@@ -125,7 +125,7 @@ public ArrayList _search(String term,String from) throws Exception {
 	 		"}");
 	
 	 
-    String url = base_url+"_search?size=20";
+    String url = base_url+"_search?size=200";
     if(!from.equals("")) {
     	jsonObj = new JSONObject("{\r\n" + 
     			"  \"query\": {\r\n" + 
