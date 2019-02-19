@@ -58,16 +58,16 @@
 			//String res = detail.get(0).toString();
 			ArrayList resp = (ArrayList<?>)detail.get(0);
 
-			String tracker_userid = resp.get(0).toString();
+			String tracker_userid = resp.get(1).toString();
 			trackername = resp.get(2).toString();
-			//if (tracker_userid.equals(user.toString())) {
+			if (tracker_userid.equals(user.toString())) {
 				isowner = true;
 				String query = resp.get(5).toString();//obj.get("query").toString();
 				query = query.replaceAll("blogsite_id in ", "");
 				query = query.replaceAll("\\(", "");
 				query = query.replaceAll("\\)", "");
 				ids = query;
-			//}
+			}
 		}
 		
 		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
@@ -163,7 +163,7 @@
 			System.out.println(test);  */
 		
 			
-			String totalpost = "0";
+			String totalpost = "";
 			ArrayList allauthors = new ArrayList();
 
 			String possentiment = "0";
@@ -189,7 +189,7 @@
 			//System.out.println(s)
 			//System.out.println("start date"+date_start+"end date "+date_end);
 			if (!date_start.equals("") && !date_end.equals("")) {
-				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
+				//totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
 
 				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
 				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
@@ -212,7 +212,7 @@
 					
 			} else if (single.equals("week")) {
 				
-				 dte = year + "-" + month + "-" + day;
+				dte = year + "-" + month + "-" + day;
 				int dd = new Double(day).intValue()-7;
 				
 				Calendar cal = Calendar.getInstance();
@@ -234,7 +234,12 @@
 				
 			} else {
 				dt = dst;
-				dte = dend;		
+				dte = dend;
+				if(ids.length()>0){
+					totalpost = Integer.parseInt(post._getTotalByBlogId(ids, ""))+"";
+				}else{
+					totalpost="0";
+				}
 			}
 			
 			String[] yst = dt.split("-");
@@ -257,7 +262,10 @@
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
-			totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			if(totalpost.equals("")){
+				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			}
+			
 			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","50");
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			

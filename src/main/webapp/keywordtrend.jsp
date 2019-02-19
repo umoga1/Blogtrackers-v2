@@ -21,6 +21,8 @@
 	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 
 	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
+	Object userid = (null == session.getAttribute("user")) ? "" : session.getAttribute("user");
+	
 	Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
@@ -64,16 +66,18 @@
 			//String res = detail.get(0).toString();
 			ArrayList resp = (ArrayList<?>)detail.get(0);
 
-			String tracker_userid = resp.get(0).toString();
+			String tracker_userid = resp.get(1).toString();
+			
 			trackername = resp.get(2).toString();
-			//if (tracker_userid.equals(user.toString())) {
+			
+			if (tracker_userid.equals(user.toString())) {
 				isowner = true;
 				String query = resp.get(5).toString();//obj.get("query").toString();
 				query = query.replaceAll("blogsite_id in ", "");
 				query = query.replaceAll("\\(", "");
 				query = query.replaceAll("\\)", "");
 				ids = query;
-			//}
+			}
 		}
 		
 		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
@@ -821,7 +825,9 @@
 												int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
 												
 										        String str = tobj.get("post").toString()+" "+ tobj.get("post").toString();
-												String findStr = mostactiveterm;
+												str = str.toLowerCase();
+												mostactiveterm = mostactiveterm.toLowerCase();
+										        String findStr = mostactiveterm;
 												int lastIndex = 0;
 												//int count = 0;
 
@@ -843,7 +849,7 @@
                                    <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
 								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></buttton></a>
 								</td>
-								<td align="center"><%=(bodyoccurencece+1) %></td>
+								<td align="center"><%=(bodyoccurencece) %></td>
                                      </tr>
                                     <% }%>
 							</tr>						
@@ -879,9 +885,23 @@
 											maindomain = domain;
 										}
 									} catch (Exception ex) {}
+									
 
+									title = title.replaceAll(mostactiveterm,replace);
+									String active2 = mostactiveterm.substring(0,1).toUpperCase()+mostactiveterm.substring(1,mostactiveterm.length());
+									String active3= mostactiveterm.toUpperCase();
+									
+									
+									title = title.replaceAll(mostactiveterm,replace);
+									title = title.replaceAll(active2,replace);
+									title = title.replaceAll(active3,replace);
+									
+									
+									body = body.replaceAll(mostactiveterm,replace);
+									body = body.replaceAll(active2,replace);
+									body = body.replaceAll(active3,replace);
 									%>                                    
-                                    <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
+                                    <h5 class="text-primary p20 pt0 pb0"><%=title%></h5>
 										<div class="text-center mb20 mt20">
 											<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid.toString()%>&blogger=<%=tobj.get("blogger")%>">
 											<button class="btn stylebuttonblue">
@@ -898,7 +918,7 @@
 										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 550px; overflow-y: scroll;">
-											<%=body.replaceAll(mostactiveterm,replace)%>
+											<%=body%>
 										</div>         
 										</div>             
                      		<% } %>
@@ -945,14 +965,14 @@
 											String language = jsonObj.getString("language");//jsonObj.getString("language");
 											String location = jsonObj.getString("location");
 											String blogger = jsonObj.getString("leadingblogger");										
-											String keycount = post._searchTotalByBody(terms, dt, dte);
+											int keycount = term.getTermOcuurence(terms, dt, dte);
 								%>
 									<tr>
 										<td><%=terms%></td>
 										<td><%=size%></td>
 										<td><%=postcount%> <%-- <sub>of <%=postcount%></sub> --%></td>
 										<td><%=blogcount%> <%-- <sub>of <%=blogcount%></sub> --%></td>
-										<td><%=alloccurence%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
+										<td><%=keycount%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
 										<td><%=blogger%></td>
 										<td><%=language%></td>
 										<td><%=location%></td>
@@ -1574,7 +1594,12 @@
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
                               .on("click",function(d){
-                            	  console.log(d.date);
+                            	  console.log("one:"+d.date);
+
+                               	 var d1 = 	  d.date + "-01-01";
+                                 var d2 = 	  d.date + "-12-31";
+                      				
+                                  loadTable(d1,d2);
                               });
                                                  svg.call(tip)
                       }

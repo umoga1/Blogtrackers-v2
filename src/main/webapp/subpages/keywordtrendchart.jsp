@@ -58,8 +58,7 @@ if(action.toString().equals("getstats")){
     JSONObject firstpost = new JSONObject();
     JSONObject locations = new JSONObject();
     
-    int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
-	
+    
     if(allposts.size()>0){			
 								String tres = null;
 								JSONObject tresp = null;
@@ -90,30 +89,17 @@ if(action.toString().equals("getstats")){
 									
 											
 									
-							        String str = tobj.get("post").toString()+" "+ tobj.get("post").toString();
-									String findStr = mostactiveterm;
-									int lastIndex = 0;
-									//int count = 0;
 
-									while(lastIndex != -1){
-
-									    lastIndex = str.indexOf(findStr,lastIndex);
-
-									    if(lastIndex != -1){
-									        bodyoccurencece++;
-									        lastIndex += findStr.length();
-									    }
-									}
-								
                              }					
 	}
     
-    
+    int keycount = term.getTermOcuurence(mostactiveterm, dt, dte);
+	
 				
 	JSONObject result = new JSONObject();
 	result.put("postmentioned",postc);
 	result.put("blogmentioned",blogc);
-	result.put("bloggermentioned",bodyoccurencece);
+	result.put("bloggermentioned",keycount);
 	result.put("toplocation",toplocation);
 %>
 <%=result.toString()%>
@@ -168,7 +154,11 @@ if(action.toString().equals("getstats")){
 												int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
 												
 										        String str = tobj.get("post").toString()+" "+ tobj.get("post").toString();
-												String findStr = mostactiveterm;
+												
+										        str = str.toLowerCase();
+												mostactiveterm = mostactiveterm.toLowerCase();
+										        
+										        String findStr = mostactiveterm;
 												int lastIndex = 0;
 												//int count = 0;
 
@@ -181,12 +171,15 @@ if(action.toString().equals("getstats")){
 												        lastIndex += findStr.length();
 												    }
 												}
+												
+												//int keycount = term.getTermOcuurence(mostactiveterm, dt, dte);
+												
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
 								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
 								</td>
-								<td align="center"><%=(bodyoccurencece+1) %></td>
+								<td align="center"><%=(bodyoccurencece) %></td>
                                      </tr>
                                     <% }%>
 							</tr>						
@@ -222,8 +215,21 @@ if(action.toString().equals("getstats")){
 										}
 									} catch (Exception ex) {}
 									
+									title = title.replaceAll(mostactiveterm,replace);
+									String active2 = mostactiveterm.substring(0,1).toUpperCase()+mostactiveterm.substring(1,mostactiveterm.length());
+									String active3= mostactiveterm.toUpperCase();
+									
+									
+									title = title.replaceAll(mostactiveterm,replace);
+									title = title.replaceAll(active2,replace);
+									title = title.replaceAll(active3,replace);
+									
+									
+									body = body.replaceAll(mostactiveterm,replace);
+									body = body.replaceAll(active2,replace);
+									body = body.replaceAll(active3,replace);
 									%>                                    
-                                    <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
+                                    <h5 class="text-primary p20 pt0 pb0"><%=title%></h5>
 										<div class="text-center mb20 mt20">
 											<a href=""><button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
@@ -239,7 +245,7 @@ if(action.toString().equals("getstats")){
 										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 550px; overflow-y: scroll;">
-											<%=body.replaceAll(mostactiveterm,replace)%>
+											<%=body%>
 										</div> 
 										</div>                     
                      		<% } %>

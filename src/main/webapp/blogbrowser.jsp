@@ -112,7 +112,12 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
  <link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" href="assets/vendors/DataTables/Buttons-1.5.1/css/buttons.dataTables.min.css" />
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
-
+<style>
+	.no-display{
+		display:none;
+		padding:10px;
+	}
+</style>
 <!-- bootstrap  -->
   <link rel="stylesheet" href="assets/css/style.css" />
 <link rel="stylesheet" href="assets/css/toastr.css" />
@@ -264,6 +269,8 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <div class="trackcreationsection1">
 <i class="cursor-pointer lnr lnr-cross float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
 <h3 class="text-primary bold-text">Track the selected blogs using the following list of trackers: </h3>
+<div id="added-info" class="no-display" style="border:1px solid red" >Blog successfully added. Go to <a href="blogbrowser.jsp" style="text-decoration:underline">Blogbrowser Page</a>
+</div>
 <button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
 <div class="trackerlist mt20" style="position: relative; overflow: auto; height: 250px;">
 <%
@@ -473,7 +480,7 @@ for(int j=0; j<allblogarray.length; j++)
 
 
 
-<script src="pagedependencies/blogbrowser3.js?v=66301">
+<script src="pagedependencies/blogbrowser3.js?v=5345301">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 

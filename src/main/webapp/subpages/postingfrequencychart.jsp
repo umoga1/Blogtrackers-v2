@@ -340,7 +340,14 @@ Blogs blog  = new Blogs();
                        svg.selectAll(".circle-point").data(data[0])
                        .on("mouseover",tip.show)
                        .on("mouseout",tip.hide)
-                       .on("click",function(d){console.log(d.date)});
+                       .on("click",function(d){
+                    	   console.log(d.date);
+                    	   var d1 = 	  d.date + "-01-01";
+                    	   var d2 = 	  d.date + "-12-31";
+           				
+                    	   loadInfluence(d1,d2);
+                    	   
+                       });
                                           svg.call(tip)
                }
                // handles multiple json parameter
@@ -381,13 +388,26 @@ Blogs blog  = new Blogs();
                                 svg.selectAll(".circle-point").data(mergedarray)
                                .on("mouseover",tip.show)
                                .on("mouseout",tip.hide)
-                               .on("click",function(d){console.log(d.date)});
+                               .on("click",function(d){
+                            	   console.log(d.date)
+                            	   var d1 = 	  d.date + "-01-01";
+                            	   var d2 = 	  d.date + "-12-31";
+                   				
+                            	   loadInfluence(d1,d2);   
+                               });
                           //                         svg.call(tip)
                         //console.log(newi);
                               svg.selectAll(".circle-point").data(mergedarray)
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
-                              .on("click",function(d){console.log(d.date)});
+                              .on("click",function(d){
+                            	  console.log(d.date)
+                            	  var d1 = 	  d.date + "-01-01";
+                           	   	  var d2 = 	  d.date + "-12-31";
+                  				
+                           	   	  loadInfluence(d1,d2);
+                            	  
+                              });
                                                  svg.call(tip)
                }
   // show data tip

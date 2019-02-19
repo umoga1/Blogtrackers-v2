@@ -98,17 +98,20 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 		String tracker_userid = resp.get(1).toString();
 		trackername = resp.get(2).toString();
-		//if (tracker_userid.equals(user.toString())) {
+		if (tracker_userid.equals(user.toString())) {
 			isowner = true;
 			String query = resp.get(5).toString();//obj.get("query").toString();
 			query = query.replaceAll("blogsite_id in ", "");
 			query = query.replaceAll("\\(", "");
 			query = query.replaceAll("\\)", "");
 			ids = query;
-		//}
+		}
 	}
 	
-
+	if (!isowner) {
+		response.sendRedirect("index.jsp");
+	}
+	
 	SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 	SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
 

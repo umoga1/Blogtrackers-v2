@@ -93,9 +93,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		//String res = detail.get(0).toString();
 		ArrayList resp = (ArrayList<?>)detail.get(0);
 
-		String tracker_userid = resp.get(0).toString();
+		String tracker_userid = resp.get(1).toString();
 		trackername = resp.get(2).toString();
-		//if (tracker_userid.equals(user.toString())) {
+		if (tracker_userid.equals(user.toString())) {
 			isowner = true;
 			String query = resp.get(5).toString();//obj.get("query").toString();
 			query = query.replaceAll("blogsite_id in ", "");
@@ -103,9 +103,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			query = query.replaceAll("\\)", "");
 			
 			ids = query;
-		//}
+		}
 	}
 	
+	if (!isowner) {
+		response.sendRedirect("index.jsp");
+	}
 
 	SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 	SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -586,16 +589,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					}
 					
 					if(m==0){
-						dselected = "abloggerselected";
-							mostactiveblogger = au;
-							
+							dselected = "abloggerselected";
+							mostactiveblogger = au;							
 							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid","50");
 							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
 							selectedid=det.get("blogid").toString();
-							//totalpost = det.get("totalpost").toString();
-							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");
-							//System.out.println("All post :"+allposts);
-							//toplocation = det.get("blogger").toString();
+							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");							
 					}
 			    	%>
 					<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>" value="<%=postids%>" />
@@ -1965,7 +1964,7 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=88909"></script>
+<script src="pagedependencies/postingfrequency.js?v=878909"></script>
 
 </body>
 </html>
