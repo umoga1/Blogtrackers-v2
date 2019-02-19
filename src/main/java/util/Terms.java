@@ -427,5 +427,51 @@ public String _getAggregate(String url, JSONObject jsonObj) throws Exception {
 }
 
 
+public Integer getTermOcuurence(String term,String start_date,String end_date) {
+	String tres = null;
+	JSONObject tresp = null;
+	String tresu = null;
+	JSONObject tobj = null;								
+	int alloccurence = 0;
+	int k=0;
+	Blogposts post = new Blogposts();
+	try {
+	ArrayList allposts =  post._searchByTitleAndBody(term,"date", start_date,end_date);//term._searchByRange("date",dt,dte, tm,"term","10");
+	
+	for(int i=0; i< allposts.size(); i++){
+		tres = allposts.get(i).toString();	
+		tresp = new JSONObject(tres);									
+		tresu = tresp.get("_source").toString();
+		tobj = new JSONObject(tresu);
+		
+		
+				
+				int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
+				
+		        String str = tobj.get("post").toString()+" "+ tobj.get("post").toString();
+		        str = str.toLowerCase();
+		        term = term.toLowerCase();
+		        String findStr = term;
+				int lastIndex = 0;
+				//int count = 0;
+
+				while(lastIndex != -1){
+
+				    lastIndex = str.indexOf(findStr,lastIndex);
+
+				    if(lastIndex != -1){
+				        bodyoccurencece++;
+				        alloccurence+=bodyoccurencece;
+				        lastIndex += findStr.length();
+				    }
+				    
+				    
+				    
+				}
+		}
+	}catch(Exception ex) {}
+	return alloccurence;
+}
+
 
 }

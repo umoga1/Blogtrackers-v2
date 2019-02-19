@@ -69,8 +69,7 @@ String status = "pending";
 
 if(term.equals("")){
 	
-}
-else{
+}else{
 	results = new_blog._addBlog(username, term, status);
 	
 }
@@ -255,12 +254,12 @@ results_blogadded = new_blog._fetchBlog(username);
 <h5 class="text-primary text-center mt20 mb20">Enter Blog's Name and URL</h5>
 <form>
 <div class="form-group">
-<input class= "form-control offset-md-2 col-md-8 col-md-2 blogtitle pt10 pb10 mb20" type="text" placeholder="Enter Blog Name" />
+<input class= "form-control offset-md-2 col-md-8 col-md-2 blogtitle pt10 pb10 mb20" id="blog_name" type="text" placeholder="Enter Blog Name" />
 </div>
 <div class="form-group mt20">
-<input class=" form-control offset-md-2 col-md-8 col-md-2 blogurl pt10 pb10" placeholder="http://example.com" type="url" />
+<input class=" form-control offset-md-2 col-md-8 col-md-2 blogurl pt10 pb10" id="blog_url" placeholder="http://example.com" type="url" />
 </div>
-<div class="text-center"><button class="btn text-primary cancelbtn">Cancel</button>&nbsp;<button class="btn btn-success createbtn">Create</button></div>
+<div class="text-center"><button class="btn text-primary cancelbtn">Cancel</button>&nbsp;<button id="create_blog" class="btn btn-success createbtn">Create</button></div>
 </form>
 </div>
 

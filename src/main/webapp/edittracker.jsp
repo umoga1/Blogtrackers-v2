@@ -14,6 +14,8 @@
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
+Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
+
 
 ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";
@@ -29,8 +31,17 @@ Blogs blg = new Blogs();
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
 detail = tracker._fetch(tid.toString());
  //System.out.println(userinfo);
-if (userinfo.size()<1 || detail.size()<1) {
-	response.sendRedirect("login.jsp");
+boolean isowner = false;
+
+if (detail.size() > 0) {
+			ArrayList resp = (ArrayList<?>)detail.get(0);
+			String tracker_userid = resp.get(1).toString();			
+			if (tracker_userid.equals(user.toString())) {
+				isowner = true;
+			}
+}
+if (userinfo.size()<1 || detail.size()<1 || !isowner) {
+	response.sendRedirect("index.jsp");
 }else{
 userinfo = (ArrayList<?>)userinfo.get(0);
 try{
