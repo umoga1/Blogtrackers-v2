@@ -460,7 +460,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
   <div class="card-body  p30 pt5 pb5 mb20">
     <h5 class="mt20 mb20">Bloggers</h5>
     <div style="padding-right:10px !important;">
-      <input type="search" class="form-control stylesearch mb20" placeholder="Search Bloggers" /></div>
+      <input type="search" class="form-control stylesearch mb20 searchbloggers" placeholder="Search Bloggers" /></div>
     <div class="scrolly" style="height:270px; padding-right:10px !important;">
     
 							<%

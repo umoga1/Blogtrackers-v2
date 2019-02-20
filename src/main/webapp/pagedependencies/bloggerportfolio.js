@@ -17,6 +17,7 @@ $('#blogger-changed').on("change", function(){
 	
 	
 	//loadInfluence(bloog,blg[1]);
+	//console.log(blg[1]);
 
 	loadStat(blg[1]);
 	loadChart(blg[1]);
