@@ -475,7 +475,7 @@ for(int j=0; j<allblogarray.length; j++)
 
 
 
-<script src="pagedependencies/blogbrowser3.js?v=66301">
+<script src="pagedependencies/blogbrowser3.js">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
