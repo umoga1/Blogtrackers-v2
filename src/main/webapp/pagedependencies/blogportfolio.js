@@ -22,7 +22,6 @@ $('#blogger-changed').on("change", function(){
 	loadChart(blog_id);
 	loadYearlyChart(blog_id);
 	loadDailyChart(blog_id);
-	
 	loadUrls(date_start,date_end);
 });
 

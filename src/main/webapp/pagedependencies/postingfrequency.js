@@ -27,7 +27,31 @@ $('.blogger-select').on("click", function(){
 });
 
 
+$('.searchbloggers').on("keyup",function(e){
+	var valuetype = e.target.value;
+	//console.log(valuetype==="");
+	if(valuetype === "")
+	{
+	$('.blogger-select').removeClass("hidesection");	
+	}
+	$('.blogger-select').removeClass("hidesection")
+	var valuetocheck = new RegExp(valuetype);
+	var checkclass = ""
+	$('.blogger-select').each(function(el,i)
+	{
+	var eachvalue = $(this).children("b").html();
+	//console.log(valuetocheck.test(eachvalue));
 
+		//console.log(typeof eachvalue);
+	if(!valuetocheck.test(eachvalue) && e.target.value !== "")
+	{
+		$(this).addClass("hidesection");	
+	}
+
+	//console.log(el);	
+	})
+	})
+	
 $('.blogpost_link').on("click", function(){
 
 	var post_id = $(this).attr("id");

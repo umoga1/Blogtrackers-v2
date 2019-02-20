@@ -25,8 +25,38 @@ $('.select-term').on("click", function(){
 	loadChart(tm);
 	loadTable(date_start,date_end);
 });
+var r = /a/;
+//console.log(typeof r.test('a')); // true
+//console.log(r.test('ba')); // false
 
+$('.resetsearch').on("click",function(){
+$('.searchkeywords').val("");	
+});
 
+$('.searchkeywords').on("keyup",function(e){
+var valuetype = e.target.value;
+//console.log(valuetype==="");
+if(valuetype === "")
+{
+$('.select-term').removeClass("hidesection");	
+}
+$('.select-term').removeClass("hidesection")
+var valuetocheck = new RegExp(valuetype);
+var checkclass = ""
+$('.select-term').each(function(el,i)
+{
+var eachvalue = $(this).children("b").html();
+//console.log(valuetocheck.test(eachvalue));
+
+	//console.log(typeof eachvalue);
+if(!valuetocheck.test(eachvalue) && e.target.value !== "")
+{
+	$(this).addClass("hidesection");	
+}
+
+//console.log(el);	
+})
+})
 
 function loadStat(term){
 	$(".blog-mentioned").html("<img src='images/loading.gif' />");

@@ -668,10 +668,10 @@
 						<h6 class="mt20 mb20">Top Keywords</h6>
 						<div style="padding-right: 10px !important;">
 							<input type="search"
-								class="form-control stylesearch mb20 inputportfolio2"
-								placeholder="| Search Keyword" /> <i
+								class="form-control stylesearch mb20 inputportfolio2 searchkeywords"
+								placeholder="Search Keyword" /> <i
 								class="fas fa-search searchiconinputothers"></i> <i
-								class="fas fa-times searchiconinputclose cursor-pointer"></i>
+								class="fas fa-times searchiconinputclose cursor-pointer resetsearch"></i>
 						</div>
 						<!-- <h6 class="card-title mb0">Maximum Influence</h6> -->
 						<!-- <h4 class="mt20 mb0">Technology</h4> -->
@@ -1879,7 +1879,7 @@
 
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/keywordtrends.js?v=490879"></script>
+<script src="pagedependencies/keywordtrends.js"></script>
 <script>
 $(".blogger-mentioned").html("<%=alloccurence%>");
 </script>

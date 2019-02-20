@@ -2453,7 +2453,7 @@ String totalinfluence ="";
                                .attr("cy", function(d){return y(d.close)})
 
                                .attr("transform", "translate("+margin.left/4.7+",0)");
-                         f      svg.selectAll(".circle-point").data(mergedarray)
+                                svg.selectAll(".circle-point").data(mergedarray)
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
                               .on("click",function(d){
@@ -2610,7 +2610,7 @@ String totalinfluence ="";
  </script>
 
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/bloggerportfolio.js?v=988909"></script>
+<script src="pagedependencies/bloggerportfolio.js"></script>
 <script>
 $(document).ready(function() {
 	
