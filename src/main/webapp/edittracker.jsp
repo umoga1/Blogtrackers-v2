@@ -16,7 +16,6 @@ Object email = (null == session.getAttribute("email")) ? "" : session.getAttribu
 Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 
-
 ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";
 String username ="";
@@ -73,9 +72,6 @@ if(f.exists() && !f.isDirectory()) {
 	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
 }
 }catch(Exception e){}
-
-
-
 
 %>
 <!DOCTYPE html>
