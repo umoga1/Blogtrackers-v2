@@ -466,7 +466,7 @@ $(document).ready(function() {
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 <script src="assets/js/generic.js">
 </script>
-<script src="pagedependencies/addblog.js?v=90"> </script>
+<script src="pagedependencies/addblog.js?v=906"> </script>
 
 </body>
 </html>

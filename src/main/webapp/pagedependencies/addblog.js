@@ -64,10 +64,11 @@ $('.createbtn').on("click",function(e){
 		e.preventDefault();
 		id = $(this).id();
 			$.ajax({
-				url:app_url+"blogsite/delete",
+				url:app_url+"blogsite",
 				method:"POST",
 				async:true,
 				data:{
+					action:"delete",
 					blogsite_id:id
 				},
 				error:function(response){
