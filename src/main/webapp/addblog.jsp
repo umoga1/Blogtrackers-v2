@@ -316,7 +316,7 @@ results_blogadded = new_blog._fetchBlog(username);
 			<td class="text-primary text-left blogstatus"><%=status %></td>
 			<td class="text-primary text-left"></td>
 			<td class="text-primary text-left"></td>
-			<td class="text-primary text-center"><i onclick="deleteBlog()" class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i></td>
+			<td class="text-primary text-center"><i id="<%=id %>" class="text-primary icontrackersize cursor-pointer deleteblog deletebtn text-center" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i></td>
 			<%-- <td class="text-center"><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" onclick= "<% new_blog._deleteBlog(username, Integer.parseInt(id)); %>" data-toggle="tooltip" id="<%=id%>_select" data-placement="top" title="Delete Blog"></i></td> --%>
 			</tr>
 		<% }} %>
