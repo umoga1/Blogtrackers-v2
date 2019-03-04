@@ -14,6 +14,7 @@ $('.cancelbtn').on("click",function(e){
 
 $('.createbtn').on("click",function(e){
 	e.preventDefault();
+	console.log("yes");
 	blogname = $('.blogtitle').val();
 	blogurl = $('.blogurl').val();
 	var urlregex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
@@ -35,12 +36,13 @@ $('.createbtn').on("click",function(e){
 	else
 		{
 		$.ajax({
-			url:app_url+"blogsite/create",
+			url:app_url+"blogsite",
 			method:"POST",
 			async:true,
 			data:{
-				blogname:blogname,
-				blogurl:blogurl
+				blogsite_name:blogname,
+				blogsite_url:blogurl,
+				action:"create"
 			},
 			error:function(response){
 				
@@ -63,17 +65,18 @@ $('.createbtn').on("click",function(e){
 		e.preventDefault();
 		id = $(this).id();
 			$.ajax({
-				url:app_url+"blogsite/delete",
+				url:app_url+"blogsite",
 				method:"POST",
 				async:true,
 				data:{
+					action:"delete",
 					blogsite_id:id
 				},
 				error:function(response){
 					
 				},
 				success:function(response){
-					if(response=="success"){
+					if(response=="true"){
 						toastr.success("Blog successfully deleted");
 						location.reload();
 					}else{
