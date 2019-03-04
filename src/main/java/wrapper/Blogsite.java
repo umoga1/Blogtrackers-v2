@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
 import util.Blogs;
+import util.Weblog;
 import authentication.DbConnection;
 import java.util.*;
 
@@ -75,14 +76,12 @@ public class Blogsite extends HttpServlet {
 		{	
 			
 			JSONObject param = new JSONObject();
-			 param.put("userid",userid);
-			 param.put("blogsite_name", blogsite_name);
-			 param.put("blogsite_url", blogsite_url);
-			 
+			blogsite_url = this.cleanUrl(blogsite_url);
 				
 			try {
-				String output = bs._add(userid,param);
-				pww.write("true"); 
+				Weblog wblog =new Weblog();
+				String output = wblog._addBlog(userid, blogsite_url, "not_crawled");
+				pww.write(output); 
 			}catch(Exception ex) {
 				pww.write("false"); 
 			}
@@ -94,13 +93,26 @@ public class Blogsite extends HttpServlet {
 		{	
 					 
 			try {
-				 	bs._delete(blogsite_id,userid);
-					pww.write("true"); 
+				Weblog wblog =new Weblog();
+				boolean done = wblog._deleteBlog(userid,blogsite_id);
+				if(done) {
+					pww.write("true");
+				}else {
+					pww.write("false");
+				}
 			}catch(Exception ex) {
 					pww.write("false"); 
 			}
 		}
 
+	}
+	
+	private String cleanUrl(String url) {
+		if(url.indexOf("http")<0) {
+			url = "http://"+url;
+		}
+		return url;
+		
 	}
 	
 
