@@ -59,7 +59,7 @@ public class Blogs extends DbConnection{
 		}
 
 
-		String url = base_url+"_search?size=200";
+		String url = base_url+"_search?size=1000";
 		return this._getResult(url, jsonObj);   
 	}
 
@@ -83,7 +83,7 @@ public class Blogs extends DbConnection{
 				"}");
 
 
-		String url = base_url+"_search?size=100";
+		String url = base_url+"_search?size=1000";
 		if(!from.equals("")) {
 			jsonObj = new JSONObject("{\r\n" + 
 					"  \"query\": {\r\n" + 
@@ -115,7 +115,7 @@ public class Blogs extends DbConnection{
 
 	/* Fetch posts by blog ids*/
 	public ArrayList _getBloggerByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=200";
+		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -146,7 +146,7 @@ public class Blogs extends DbConnection{
 		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"totalposts\":{\"order\":\"DESC\"}}}";
 		
 		JSONObject jsonObj = new JSONObject(que);
-		String url = base_url+"_search?size=200";
+		String url = base_url+"_search?size=1000";
 		return this._getResult(url, jsonObj);
 
 	}
