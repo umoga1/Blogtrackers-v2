@@ -90,7 +90,7 @@ public class Login extends HttpServlet {
 				pww.write("invalid credentials");	
 			}
 		}
-
+		response.setContentType("text/plain");
 	}
 	
 }

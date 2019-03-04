@@ -83,7 +83,7 @@ public class Blogsite extends HttpServlet {
 				String output = wblog._addBlog(userid, blogsite_url, "not_crawled");
 				pww.write(output); 
 			}catch(Exception ex) {
-				pww.write("false"); 
+				pww.write("error"); 
 			}
 			
 			 

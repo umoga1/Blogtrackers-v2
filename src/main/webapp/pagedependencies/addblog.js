@@ -73,7 +73,7 @@ $('.createbtn').on("click",function(e){
 					
 				},
 				success:function(response){
-					if(response=="success"){
+					if(response=="true"){
 						toastr.success("Blog successfully deleted");
 						location.reload();
 					}else{

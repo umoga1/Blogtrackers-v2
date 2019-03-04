@@ -44,10 +44,10 @@ public class Weblog {
 			boolean done = new DbConnection().updateTable(que);
 			System.out.println(done);
 			if(done) {
-				return blog + "successfully added to Blogtrackers";
+				return "success";
 			}
 		}
-		return "Error while adding blog";
+		return "error";
 	}
 		//return "Error while adding blog";
 	}

@@ -261,7 +261,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <input type="hidden" name="_selected" id="selected_blogs_" value="" />
 <div class="offset-md-1 col-md-6 pl150 pt100 pb100">
 <h1 class="text-white trackertitlesize"><b class="greentext total_selected">0</b> Blog(s)</h1>
-<div class="mt30" id="selected_blog_list">
+<div class="mt30" id="selected_blog_list" style="overflow: auto; height: 400px;">
 <!-- <button class="col-md-6 btn text-left text-white bold-text blogselection mt10 pt10 pb10">Engadget <i class="fas fa-trash float-right hidden deleteblog"></i></button> -->
 </div>
 </div>
@@ -363,8 +363,6 @@ if(results.size()>0){
 		     String blogid = obj.get("blogsite_id").toString();
 		     String[] dt = obj.get("date").toString().split("T");
 		     
-
-			
 			 ArrayList blog = blogs._fetch(blogid); 
 			 if( blog.size()>0){
 						 bres = blog.get(0).toString();			
