@@ -35,12 +35,13 @@ $('.createbtn').on("click",function(e){
 	else
 		{
 		$.ajax({
-			url:app_url+"blogsite/create",
+			url:app_url+"blogsite",
 			method:"POST",
 			async:true,
 			data:{
-				blogname:blogname,
-				blogurl:blogurl
+				blogsite_name:blogname,
+				blogsite_url:blogurl,
+				action:"create"
 			},
 			error:function(response){
 				
