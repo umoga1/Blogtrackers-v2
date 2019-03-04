@@ -14,6 +14,7 @@ $('.cancelbtn').on("click",function(e){
 
 $('.createbtn').on("click",function(e){
 	e.preventDefault();
+	console.log("yes");
 	blogname = $('.blogtitle').val();
 	blogurl = $('.blogurl').val();
 	var urlregex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;

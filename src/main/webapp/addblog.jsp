@@ -464,9 +464,11 @@ $(document).ready(function() {
 <!--end for table  -->
 
 <script type="text/javascript" src="assets/js/toastr.js"></script>
+
+<script type="text/javascript" src="pagedependencies/baseurl.js"></script>
 <script src="assets/js/generic.js">
 </script>
-<script src="pagedependencies/addblog.js?v=906"> </script>
+<script src="pagedependencies/addblog.js?v=8906"> </script>
 
 </body>
 </html>
