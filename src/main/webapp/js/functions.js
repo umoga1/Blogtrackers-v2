@@ -16,10 +16,11 @@ function loadMoreResult(){
       
 	var url = app_url+'subpages/blogpostloader.jsp'
 	var $form = $("#page_form"),
-		page_no = $form.find( "input[name='page_id']" ).val();
+	page_no = $form.find( "input[name='page_id']" ).val();
 	
 	var	hasmore= document.forms["page_form"].hasmore.value;
 	var	term= $("#term").val();
+	var viewtype = Cookies.get("viewtype");
 	//console.log("term:"+term);
 	if(hasmore=="0" || hasmore==""){
 		$("#loading-img").addClass("hidden");
@@ -29,6 +30,7 @@ function loadMoreResult(){
 	page_no=parseInt(page_no);
 	page_no++;
 
+	console.log(viewtype);
 
 	//console.log(page_no);
 
@@ -38,7 +40,7 @@ function loadMoreResult(){
 			requests[z] = $.ajax({ type: "POST",
 				url:url,
 				async: true,
-				data:{from:page_no,term:term,load:"yes"},
+				data:{from:page_no,term:term,load:"yes",viewtype:viewtype},
 				async: true,
 				success : function(data){
 					//console.log(data);
@@ -50,8 +52,15 @@ function loadMoreResult(){
 					$("#loading-img").html("");
 					return false;
 				}else{
-				
-						$("#appendee").append("<div>"+data+"</div>");	
+					if(viewtype == "list")
+						{
+				$("#appendee2").append(data);
+						}
+					if(viewtype == "grid")
+						{
+				$("#appendee").append("<div>"+data+"</div>");	
+						}
+					
 					/*	$.getScript( app_url+"pagedependencies/blogbrowser.js", function( data, textStatus, jqxhr ) {
 					});*/
 						$.getScript( app_url+"pagedependencies/blogbrowserselectedchecker.js", function( data, textStatus, jqxhr ) {

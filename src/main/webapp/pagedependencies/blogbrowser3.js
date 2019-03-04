@@ -1,9 +1,30 @@
 // adekunle tweak version of blog browser page
 var selected_blogs = new Array();
 var looper = 0;
-
+var viewtype = "";
 $(document).ready(function() {
-	
+//type of view
+// default view is unknown	
+Cookies.set('viewtype',"",{path:'/'})
+viewtype = Cookies.get("viewtype");
+//end
+$('#listtoggle').on("click",() => {
+Cookies.set('viewtype',"list",{path:'/'})
+viewtype = Cookies.get("viewtype");
+$('.listlook').removeClass("hidden");
+$(".gridlook").addClass("hidden");
+console.log(viewtype);
+})
+
+$('#gridtoggle').on("click",() => {
+Cookies.set('viewtype',"grid",{path:'/'})
+viewtype = Cookies.get("viewtype");
+$('.listlook').addClass("hidden");
+$(".gridlook").removeClass("hidden");
+console.log(viewtype);
+})
+
+console.log(viewtype);
 	var loggedinstatus = Cookies.get("loggedinstatus");
 	//console.log(typeof(Cookies.get('allfavoritesblogs')));
 	Cookies.set('selectedblogs', "", {path : '/'});	
@@ -376,7 +397,6 @@ $.ajax({
 	//console.log(response);
 	}
 });
-
 }
 
 });
@@ -423,6 +443,12 @@ if(!trackingblog)
 {
 // if the blog is being tracked
 //$(this).addClass("text-success");
+// remember check what is selected selected	
+	
+$(".curve_"+blog_id+" td").addClass("border-selected");
+$(".curve_"+blog_id+" td .myposttitle a").addClass("text-selected");
+
+
 $(".curve_"+blog_id).addClass("border-selected");
 $(".curve_"+blog_id).find(".posttitle a").addClass("text-selected");
 $(".curve_"+blog_id).find(".trackingtracks").addClass("makeinvisible");
@@ -508,6 +534,9 @@ else if(trackingblog)
 {
 // if the blog is being tracked
 //$(this).removeClass("text-success");
+	$(".curve_"+blog_id+" td").removeClass("border-selected");
+	$(".curve_"+blog_id+" td .myposttitle a").removeClass("text-selected");
+	
 	$(".curve_"+blog_id).removeClass("border-selected");
 	$(".curve_"+blog_id).find(".posttitle a").removeClass("text-selected");
 	$(".curve_"+blog_id).find(".trackingtracks").removeClass("makeinvisible");
@@ -801,8 +830,12 @@ function updateTracker(element,type){
 					if(response.indexOf("success")>-1){
 						Cookies.set('selectedblogs', "", {path : '/'});
 						toastr.success('Tracker successfully updated!','Success');
+<<<<<<< HEAD
 						console.log("updated");
 						$("#added-info").removeClass("no-display");
+=======
+						setTimeout(function(){location.href = "edittracker.jsp?tid="+id ;},2000);
+>>>>>>> 0b293db333ce6d78a61312e1bb2c20a4006c76fb
 						//location.href=app_url+"blogbrowser.jsp";
 					}else{
 						if(type=="update"){
