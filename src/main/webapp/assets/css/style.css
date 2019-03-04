@@ -353,7 +353,75 @@ background-color:#F5F6F7;
 border-spacing:15pt;	
 }
 
+/* start of table blog broswer */
+/* table.dataTable thead .sorting:before, 
+table.dataTable thead .sorting_asc:before, 
+table.dataTable thead .sorting_desc:before, 
+table.dataTable thead .sorting_asc_disabled:before, 
+table.dataTable thead .sorting_desc_disabled:before {
+  right: 1em;
+  font-family: 'Font Awesome 5';
+   content: '\f078';
 
+} */
+
+#blogbrowser_wrapper
+{
+padding-left:0 !important;	
+padding-right:0 !important;	
+}
+#blogbrowser
+{
+border-bottom: none !important;	
+border-top: none !important;	
+border-collapse: collapse;
+border-spacing: 0px 12px;
+}
+#blogbrowser thead tr, table.dataTable thead td {
+border-bottom: none !important;		
+}
+#blogbrowser thead th:first-child, #blogbrowser tbody td:first-child
+{
+padding-left:10px;	
+}
+
+#blogbrowser tbody td.blogsitename
+{
+border-right: 1px solid #F3F4F5 !important;  
+}
+
+#blogbrowser thead td:first-child:before, #blogbrowser thead td:first-child:after
+{
+display: none !important;
+}
+
+#blogbrowser tbody td
+{
+font-size: 16px;
+padding-top: 18px;
+padding-bottom: 18px;	
+margin-top: 5px !important;
+}
+#blogbrowser tbody td:first-child
+{
+border-top-left-radius: 15px;	
+border-bottom-left-radius: 15px;
+}
+#blogbrowser tbody td:last-child
+{
+border-top-right-radius: 15px;	
+border-bottom-right-radius: 15px;	
+}
+#blogbrowser tbody tr
+{
+background-color:#Ffffff;
+}
+#blogbrowser tbody tr td
+{
+border-spacing:15pt;	
+}
+
+/* end  of table blog broswer */
 /* end of table edit tracker*/
 /* .card-columns {
   @include media-breakpoint-only(lg) {
@@ -367,7 +435,7 @@ border-spacing:15pt;
 {
     font-size: 1.56rem;
 }
-.border-white
+.borders-white
 {
 border: 4px solid #ffffff;
 }
@@ -1005,6 +1073,14 @@ width:100% !important;
 .noborder
 {
 border:none;
+}
+.noborderleft
+{
+border-left:none !important;
+}
+.noborderright
+{
+border-right:none !important;
 }
 .extra-light-text
 {
@@ -3109,7 +3185,7 @@ border-radius: 20px;
 .border-selected
 {
 background-color:#E3F3E8;
-border:4px solid #44AF69 !important;
+border:4px solid #44AF69 ;
 }
 .text-selected
 {
