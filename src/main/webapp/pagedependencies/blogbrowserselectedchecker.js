@@ -20,6 +20,9 @@ $(document).ready(function(){
 	
 	for (i=0; i<selected_blogs.length;i++)
 		{
+		$(".curve_"+blog_id+" td").addClass("border-selected");
+		$(".curve_"+blog_id+" td .myposttitle a").addClass("text-selected");
+		
 		$(".curve_"+selected_blogs[i]).addClass("border-selected");
 		$(".curve_"+selected_blogs[i]).find(".posttitle a").addClass("text-selected");
 		$(".curve_"+selected_blogs[i]).find(".trackingtracks").addClass("makeinvisible");

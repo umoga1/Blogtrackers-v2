@@ -324,7 +324,6 @@ if(mytrackers.size()>0){
 
 <div class="row mt50">
 <div class="col-md-12 ">
-
 <% if(!term.equals("")){ %>
 <h6 class="float-left text-primary bold-text"><%=total %> posts found for "<%=term%>"</h6>
 <%}else{%>
@@ -410,7 +409,7 @@ if(results.size()>0){
 </table>
 </div>
 
-<div class="card-columns pt0 pb10  mt20 mb50 gridlook" id="appendee">
+<div class="card-columns pt0 pb10  mt20 mb50 gridlook hidden" id="appendee">
 
 <% 
 if(results.size()>0){
