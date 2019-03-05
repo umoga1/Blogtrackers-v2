@@ -5,8 +5,19 @@ var viewtype = "";
 $(document).ready(function() {
 //type of view
 // default view is unknown	
-Cookies.set('viewtype',"",{path:'/'})
+//Cookies.set('viewtype',"",{path:'/'})
 viewtype = Cookies.get("viewtype");
+if(viewtype === "" || viewtype==="grid")
+{
+	$('.listlook').addClass("hidden");
+	$(".gridlook").removeClass("hidden");	
+}
+if(viewtype === "list" )
+{
+	$('.listlook').removeClass("hidden");
+	$(".gridlook").addClass("hidden");	
+}
+console.log(viewtype)
 //end
 $('#listtoggle').on("click",() => {
 Cookies.set('viewtype',"list",{path:'/'})
@@ -21,10 +32,10 @@ Cookies.set('viewtype',"grid",{path:'/'})
 viewtype = Cookies.get("viewtype");
 $('.listlook').addClass("hidden");
 $(".gridlook").removeClass("hidden");
-console.log(viewtype);
+///console.log(viewtype);
 })
 
-console.log(viewtype);
+//console.log(viewtype);
 	var loggedinstatus = Cookies.get("loggedinstatus");
 	//console.log(typeof(Cookies.get('allfavoritesblogs')));
 	Cookies.set('selectedblogs', "", {path : '/'});	
