@@ -830,12 +830,11 @@ function updateTracker(element,type){
 					if(response.indexOf("success")>-1){
 						Cookies.set('selectedblogs', "", {path : '/'});
 						toastr.success('Tracker successfully updated!','Success');
-<<<<<<< HEAD
-						console.log("updated");
+
 						$("#added-info").removeClass("no-display");
-=======
+
 						setTimeout(function(){location.href = "edittracker.jsp?tid="+id ;},2000);
->>>>>>> 0b293db333ce6d78a61312e1bb2c20a4006c76fb
+
 						//location.href=app_url+"blogbrowser.jsp";
 					}else{
 						if(type=="update"){

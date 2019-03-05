@@ -569,17 +569,9 @@ src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
   </script>
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
-<script>
-
-</script>
 
 
-
-<<<<<<< HEAD
-<script src="pagedependencies/blogbrowser3.js?v=5345301">
-=======
 <script src="pagedependencies/blogbrowser3.js">
->>>>>>> 0b293db333ce6d78a61312e1bb2c20a4006c76fb
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
