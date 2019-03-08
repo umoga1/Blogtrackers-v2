@@ -953,7 +953,8 @@ authoryears.put(mostactiveblogger,postyear);
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
+								</td>
 								<td align="center"><%=tobj.get("influence_score") %></td>
                                      </tr>
                                     <% }} %>
@@ -2539,7 +2540,7 @@ wordtagcloud("#tagcloudcontainer",450);
  </script>
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
-<script src="pagedependencies/influence.js?v=8979"></script>
+<script src="pagedependencies/influence.js?v=4979"></script>
 	
 </body>
 </html>
