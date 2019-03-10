@@ -237,7 +237,7 @@
 			}
 			
 			totalpost = post._searchRangeTotal("date", dt, dte, ids);
-			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","50");
+			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","10000");
 			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			outlinks = outl._searchByRange("date", dst, dend, ids);
 
@@ -272,7 +272,7 @@
 				}
 			}
 
-			System.out.println("sentiment posts here:"+sentimentpost);
+			//System.out.println("sentiment posts here:"+sentimentpost);
 			JSONObject graphyearspos = new JSONObject();
 			JSONObject graphyearsneg = new JSONObject();
 			JSONArray yearsarray = new JSONArray();
@@ -497,7 +497,7 @@
 			int anx = 0;
 			int sad = 0;
 
-			System.out.println(sentimentpost2);
+			//System.out.println(sentimentpost2);
 
 			ArrayList sentimentor2 = new Liwc()._searchByRange("date", dt, dte, sentimentpost2);
 
@@ -509,7 +509,7 @@
 					bstr = bj.get("_source").toString();
 
 					bj = new JSONObject(bstr);
-					System.out.println("result eree"+bj);
+					//System.out.println("result eree"+bj);
 
 					death += Integer.parseInt(bj.get("death").toString());
 					work += Integer.parseInt(bj.get("work").toString());
