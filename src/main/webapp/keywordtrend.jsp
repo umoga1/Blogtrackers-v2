@@ -273,7 +273,7 @@
 		JSONObject termsyears = new JSONObject();
 
 		
-		allterms = term._searchByRange("date", dt, dte, ids,"blogsiteid","5");
+		allterms = term._searchByRange("date", dt, dte, ids,"blogsiteid","200");
 		
 		int postmentioned=0;
 		int blogmentioned=0;

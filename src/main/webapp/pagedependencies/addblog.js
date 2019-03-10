@@ -12,15 +12,29 @@ $('.cancelbtn').on("click",function(e){
 	$('.blogurl').val("");
 });
 
+
+$('#selected_file').on("change",function(e){
+	selectedfile = $("#selected_file").val();
+	if(selectedfile!==""){
+		$("#image-form").submit();
+	}else{
+		return false;
+	}
+	
+});
+
+
 $('.createbtn').on("click",function(e){
 	e.preventDefault();
 	console.log("yes");
 	blogname = $('.blogtitle').val();
 	blogurl = $('.blogurl').val();
+	
 	var urlregex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
 	var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
 			  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ '((\\d{1,3}\\.){3}\\d{1,3}))'+'(\\:\\d+)?'+'(\\/[-a-z\\d%@_.~+&:]*)*'+ '(\\?[;&a-z\\d%@_.,~+&:=-]*)?'+ '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-		
+	
+	
 		if(blogname === "")
 	{
 	toastr.error("Enter Blog Name","Error");	
@@ -56,7 +70,8 @@ $('.createbtn').on("click",function(e){
 				}
 			}
 		})
-		}
+		
+	}
 	
 });
 

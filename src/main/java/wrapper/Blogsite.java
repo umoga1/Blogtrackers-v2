@@ -107,7 +107,7 @@ public class Blogsite extends HttpServlet {
 
 	}
 	
-	private String cleanUrl(String url) {
+	public String cleanUrl(String url) {
 		if(url.indexOf("http://")<0 && url.indexOf("https://")<0) {
 			url = "http://"+url;
 		}
