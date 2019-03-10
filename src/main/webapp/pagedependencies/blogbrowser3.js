@@ -458,9 +458,6 @@ if(!trackingblog)
 	
 $(".curve_"+blog_id+" td").addClass("border-selected");
 $(".curve_"+blog_id+" td .myposttitle a").addClass("text-selected");
-
-
-
 $(".curve_"+blog_id).addClass("border-selected");
 $(".curve_"+blog_id).find(".posttitle a").addClass("text-selected");
 $(".curve_"+blog_id).find(".trackingtracks").addClass("makeinvisible");
