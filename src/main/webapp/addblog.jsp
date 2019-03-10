@@ -10,6 +10,7 @@
 
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+String userid = (null == session.getAttribute("username")) ? "" : session.getAttribute("username").toString();
 
 //if (email == null || email == "") {
 	//response.sendRedirect("login.jsp");
@@ -70,10 +71,10 @@ String status = "pending";
 if(term.equals("")){
 	
 }else{
-	results = new_blog._addBlog(username, term, status);
+	results = new_blog._addBlog(userid, term, status);
 	
 }
-results_blogadded = new_blog._fetchBlog(username);
+results_blogadded = new_blog._fetchBlog(userid);
 
 }
 
@@ -235,31 +236,32 @@ results_blogadded = new_blog._fetchBlog(username);
 
 
 <div class="col-lg-12 col-md-12 pt0 pb10  mt10 mb10 notification ">
+<form enctype="multipart/form-data" id="image-form" name="blog_form" action="blogupload.jsp" method="POST">
 <h1 class="text-primary addblogtitle">Add Blogs</h1>
 
 <div class="card noborder curved-card mb30 containerdropfile pt40 pb40 mt20 createblog ">
 <h5 class="text-primary text-center">Click here to add blog</h5>
 <div>
-<button class="offset-md-4 col-md-4 mt10 form-control text-primary bold-text cursor-pointer btn createtrackerbtn bgwhite addblogbtn">+</button>
+<button type="button" class="offset-md-4 col-md-4 mt10 form-control text-primary bold-text cursor-pointer btn createtrackerbtn bgwhite addblogbtn">+</button>
 </div>
 <div class="offset-md-4 col-md-4 mt20">
 <a class="orcontainer pt10">or</a>
 <hr /></div>
 <h5 class="text-primary text-center">Drag in or choose a .txt file</h5>
-<input type="file" class="offset-md-4 col-md-4 form-control"/> 
+<input type="file" accept=".txt" id="selected_file" name="blog_file" class="offset-md-4 col-md-4 form-control"/> 
 </div>
 
 <div class="card noborder curved-card mb30 containeraddblog pt60 pb60 mt20 hidesection">
 <div class="createblogsection" >
 <h5 class="text-primary text-center mt20 mb20">Enter Blog's Name and URL</h5>
-<form>
+
 <div class="form-group">
 <input class= "form-control offset-md-2 col-md-8 col-md-2 blogtitle pt10 pb10 mb20" id="blog_name" type="text" placeholder="Enter Blog Name" />
 </div>
 <div class="form-group mt20">
 <input class=" form-control offset-md-2 col-md-8 col-md-2 blogurl pt10 pb10" id="blog_url" placeholder="http://example.com" type="url" />
 </div>
-<div class="text-center"><button class="btn text-primary cancelbtn">Cancel</button>&nbsp;<button id="create_blog" class="btn btn-success createbtn">Create</button></div>
+<div class="text-center"><button type="button" class="btn text-primary cancelbtn">Cancel</button>&nbsp;<button id="create_blog" type="button" class="btn btn-success createbtn">Create</button></div>
 </form>
 </div>
 
@@ -380,7 +382,7 @@ results_blogadded = new_blog._fetchBlog(username);
 
  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
-<script>
+
 <% String blogname = "";
 %>
 function deleteBlog(){
@@ -397,7 +399,7 @@ function deleteBlog(){
 	console.log(blogname);
 	
 }
-</script>
+
 </script>
 <!-- <script>
 $(document).ready(function() {
@@ -468,7 +470,7 @@ $(document).ready(function() {
 <script type="text/javascript" src="pagedependencies/baseurl.js"></script>
 <script src="assets/js/generic.js">
 </script>
-<script src="pagedependencies/addblog.js?v=8906"> </script>
+<script src="pagedependencies/addblog.js?v=79078906"> </script>
 
 </body>
 </html>
