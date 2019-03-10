@@ -334,7 +334,7 @@ if(mytrackers.size()>0){
 <h6 class="float-right text-primary">
   <select class="text-primary filtersort sortby"  id="sortbyselect"><option value="date" <%=(sort.equals("date"))?"selected":"" %>>Recent</option><option <%=(sort.equals("influence_score"))?"selected":"" %> value="influence_score">Influence Score</option></select>
 </h6>
-<p class="float-right text-primary mr20"><i class="fas fa-th-list cursor-pointer" id="listtoggle"></i> &nbsp;<i id="gridtoggle" class="fas fa-th cursor-pointer"></i></p>
+<p class="float-right text-primary mr20"><i data-toggle="tooltip" data-placement="top" title="" data-original-title="List View" class="fas fa-bars cursor-pointer" id="listtoggle"></i> &nbsp;<i data-toggle="tooltip" data-placement="top" title="" data-original-title="Grid View" id="gridtoggle" class="fas fa-th cursor-pointer"></i></p>
 </div>
 </div>
 
