@@ -1956,6 +1956,7 @@ authoryears.put(mostactiveblogger,postyear);
    					String au = authorcount.get(p).toString();
    			  		JSONObject jxy = new JSONObject(influecechart.get(au).toString());
    			  		int x = new Double(jxy.get("x").toString()).intValue();
+   			  		
    			  		int y = new Double(jxy.get("y").toString()).intValue(); %>{"x":<%=x%>,"y":<%=y%>},<% }} %>]   		
          ];
 
@@ -1986,7 +1987,7 @@ authoryears.put(mostactiveblogger,postyear);
                   return "No Information Available";
                 }
                 else if(d !== null) {
-                 return "("+d.x+","+d.y+")<br/> Click for more information";
+                 return " ("+d.x+","+d.y+")<br/> Click for more information";
                   }
 
                 });
