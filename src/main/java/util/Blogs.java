@@ -17,16 +17,16 @@ import java.util.ArrayList;
 import java.util.*;
 
 public class Blogs extends DbConnection{
-	
-	
+
+
 	HashMap<String, String> hm = DbConnection.loadConstant();		
-	
+
 	String base_url = hm.get("elasticIndex")+"blogsites/";
 	String totalpost;		    
 
 	public ArrayList _list(String order, String from) throws Exception {	
-		
-		
+
+
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"    \"query\": {\r\n" + 
 				"        \"match_all\": {}\r\n" + 
@@ -144,13 +144,13 @@ public class Blogs extends DbConnection{
 
 		String arg2 = pars.toString();
 		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"totalposts\":{\"order\":\"DESC\"}}}";
-		
+
 		JSONObject jsonObj = new JSONObject(que);
 		String url = base_url+"_search?size=10000";
 		return this._getResult(url, jsonObj);
 
 	}
-	
+
 	public ArrayList _getMostactive(String blog_ids) throws Exception { 
 		ArrayList mostactive = new ArrayList();
 		ArrayList blogs = this._fetch(blog_ids);
@@ -158,36 +158,36 @@ public class Blogs extends DbConnection{
 		if (blogs.size() > 0) {
 			String bres = null;
 			JSONObject bresp = null;
-			
+
 			String bresu = null;
 			JSONObject bobj = null;
 			bres = blogs.get(0).toString();
+			bresp = new JSONObject(bres);
+			bresu = bresp.get("_source").toString();
+			bobj = new JSONObject(bresu);
+			mostactive.add(0, bobj.get("blogsite_name").toString()); 
+			mostactive.add(1, bobj.get("blogsite_url").toString());				 
+			mostactive.add(2, bobj.get("totalposts").toString());
+			mostactive.add(3, bobj.get("blogsite_id").toString());
+
+			if (blogs.size() > 1) {
+
+				bres = blogs.get(1).toString();
 				bresp = new JSONObject(bres);
 				bresu = bresp.get("_source").toString();
 				bobj = new JSONObject(bresu);
-				mostactive.add(0, bobj.get("blogsite_name").toString()); 
-				mostactive.add(1, bobj.get("blogsite_url").toString());				 
-				mostactive.add(2, bobj.get("totalposts").toString());
-				mostactive.add(3, bobj.get("blogsite_id").toString());
-				
-				if (blogs.size() > 1) {
-					
-						bres = blogs.get(1).toString();
-						bresp = new JSONObject(bres);
-						bresu = bresp.get("_source").toString();
-						bobj = new JSONObject(bresu);
-						
-						mostactive.add(4, bobj.get("blogsite_name").toString()); 
-						mostactive.add(5, bobj.get("blogsite_url").toString());				 
-						mostactive.add(6, bobj.get("totalposts").toString());
-						mostactive.add(7, bobj.get("blogsite_id").toString());
-						mostactive.add(8, bobj.get("location").toString());
-				}
+
+				mostactive.add(4, bobj.get("blogsite_name").toString()); 
+				mostactive.add(5, bobj.get("blogsite_url").toString());				 
+				mostactive.add(6, bobj.get("totalposts").toString());
+				mostactive.add(7, bobj.get("blogsite_id").toString());
+				mostactive.add(8, bobj.get("location").toString());
+			}
 		}
 		return mostactive;		
 	}
 
-	
+
 	public String _getTopLocation(String blog_ids) throws Exception { 
 		String toplocation="";
 		ArrayList blogs = this._fetch(blog_ids);
@@ -197,7 +197,7 @@ public class Blogs extends DbConnection{
 		if (blogs.size() > 0) {
 			String bres = null;
 			JSONObject bresp = null;
-			
+
 			String bresu = null;
 			JSONObject bobj = null;
 			for(int y=0; y< blogs.size(); y++) {
@@ -205,187 +205,187 @@ public class Blogs extends DbConnection{
 				bresp = new JSONObject(bres);
 				bresu = bresp.get("_source").toString();
 				bobj = new JSONObject(bresu);
-				
-						String loc = bobj.get("location").toString();
-						locations.put(loc);
-						if ( hm.containsKey(loc) ) {
-				            int value = Integer.parseInt(hm.get(loc)+"");
-				            hm.put(loc, value + 1);
-				        } else {
-				            hm.put(loc, 1);
-				        }
+
+				String loc = bobj.get("location").toString();
+				locations.put(loc);
+				if ( hm.containsKey(loc) ) {
+					int value = Integer.parseInt(hm.get(loc)+"");
+					hm.put(loc, value + 1);
+				} else {
+					hm.put(loc, 1);
+				}
 			}
 		}
-		
+
 		//System.out.println(hm+"");
 		int highest = 0;
 		Iterator it = hm.entrySet().iterator();
-	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
-	        //System.out.println(pair.getValue()+""+pair.getKey()+"");
-	        if(Integer.parseInt(pair.getValue()+"")>highest) {
-	        	toplocation = pair.getKey()+""; 
-	        }
-	        it.remove(); // avoids a ConcurrentModificationException
-	    }
-	    
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry)it.next();
+			//System.out.println(pair.getValue()+""+pair.getKey()+"");
+			if(Integer.parseInt(pair.getValue()+"")>highest) {
+				toplocation = pair.getKey()+""; 
+			}
+			it.remove(); // avoids a ConcurrentModificationException
+		}
+
 		return toplocation;		
 	}
 
-	
+
 	/* Add a new blog */
 	public String _add(String userid, JSONObject params) throws Exception {
-		 
-		 String urll = base_url+"_search?size=5";  
-		 JSONObject jsonObj2 = new JSONObject("{\r\n" + 
-		 		"    \"query\" : {\r\n" + 
-		 		"        \"match_all\" : {}\r\n" + 
-		 		"    }\r\n" + 
-		 		"}");
-		 
-		 
-		 String next = this._getTotal(urll, jsonObj2);		 
-		 int tidd = Integer.parseInt(next)+1;
-		 		 
-		 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
-		 LocalDateTime now = LocalDateTime.now();  
-		 //System.out.println(dtf.format(now));  
-		 
-		 JSONObject param = new JSONObject();
-		 param.put("crawled_by",userid);
-		 param.put("blogsite_name", params.get("blogsite_name"));
-		 //param.put("description", params.get("description"));
-		 param.put("blogsite_url", params.get("blogsite_url"));	
-		 param.put("blogsite_id", tidd);
-		 //param.put("date_modified",dtf.format(now));
-		 param.put("date_created",dtf.format(now)+"T06:00:00.000Z");
 
-		 
-		 //System.out.println(param);
+		String urll = base_url+"_search?size=5";  
+		JSONObject jsonObj2 = new JSONObject("{\r\n" + 
+				"    \"query\" : {\r\n" + 
+				"        \"match_all\" : {}\r\n" + 
+				"    }\r\n" + 
+				"}");
+
+
+		String next = this._getTotal(urll, jsonObj2);		 
+		int tidd = Integer.parseInt(next)+1;
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+		LocalDateTime now = LocalDateTime.now();  
+		//System.out.println(dtf.format(now));  
+
+		JSONObject param = new JSONObject();
+		param.put("crawled_by",userid);
+		param.put("blogsite_name", params.get("blogsite_name"));
+		//param.put("description", params.get("description"));
+		param.put("blogsite_url", params.get("blogsite_url"));	
+		param.put("blogsite_id", tidd);
+		//param.put("date_modified",dtf.format(now));
+		param.put("date_created",dtf.format(now)+"T06:00:00.000Z");
+
+
+		//System.out.println(param);
 		//JSONObject jsonObj = new JSONObject("{\"userid\":\"wizzletest\",\"query\":\"blogsite_id in (46,62,47,49,66,52,53,65,63,54)\",\"tracker_name\":\"Wizzle\",\"description\":\"Best blogs ever\",\"blogsites_num\":10}");	 
-		  String output = "false";
-		 
-		  String url = base_url+"blogsites";	 
-		  JSONObject myResponse = this._runUpdate(url, param);
-		 
-		  if(null==myResponse.get("result")) {
-			   	  output = "false";
-		   }else {
-			   String resv = myResponse.get("result").toString();
-			   if(resv.equals("created")) {
-				   output = "true";
-			   }else {
-				   output = "false";
-			   }
-		   } 
-		   
-		  return output;
-		    
+		String output = "false";
+
+		String url = base_url+"blogsites";	 
+		JSONObject myResponse = this._runUpdate(url, param);
+
+		if(null==myResponse.get("result")) {
+			output = "false";
+		}else {
+			String resv = myResponse.get("result").toString();
+			if(resv.equals("created")) {
+				output = "true";
+			}else {
+				output = "false";
+			}
+		} 
+
+		return output;
+
 	}
-	
+
 	/* Add a new tracker*/
 	public String _delete(String blogsite_id,String userid) throws Exception {
-		
-		 ArrayList<?> detail = this._fetch(blogsite_id);
-		 if(detail.size()>0){	
-			 	ArrayList resut = (ArrayList)detail.get(0);		
-			    String id = resut.get(0).toString();
-			   
-				String res = detail.get(0).toString();		
-				JSONObject resp = new JSONObject(res);
-				
-				//tid = "4qSen2QBCl8_4DKPZSTm";
-				
-				String sid = resp.get("_id").toString();
-				String owner = resp.get("crawled_by").toString();
-				String url = base_url+"blogsites/"+sid;
-				if(owner.equals(userid)) {
-					this._runDelete(url);
-					return "true";
-				}else {
-					return "false";
-				}
-				
-		 }
-	 
-		 return "false";
-			
-	}
-	
-	
 
-public String _getTotal(String url, JSONObject jsonObj) throws Exception {
-	String total  = "0";
-	try {
-	URL obj = new URL(url);
-    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-    
-    con.setDoOutput(true);
-    con.setDoInput(true);
-   
-    con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-    con.setRequestProperty("Accept", "application/json");
-    con.setRequestMethod("POST");
-    
-    OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-    wr.write(jsonObj.toString());
-    wr.flush();
-    
-    int responseCode = con.getResponseCode();  
-    BufferedReader in = new BufferedReader(
-         new InputStreamReader(con.getInputStream()));
-    String inputLine;
-    StringBuffer response = new StringBuffer();
-    
-    while ((inputLine = in.readLine()) != null) {
-     	response.append(inputLine);
-     }
-     in.close();
-     
-     JSONObject myResponse = new JSONObject(response.toString());
-     ArrayList<String> list = new ArrayList<String>(); 
-     
-     if(null!=myResponse.get("hits")) {
-	     String res = myResponse.get("hits").toString();
-	     JSONObject myRes1 = new JSONObject(res);
-	      total = myRes1.get("total").toString();  
-     }
-	}catch(Exception e) {}
-     return total;
-}
-	
+		ArrayList<?> detail = this._fetch(blogsite_id);
+		if(detail.size()>0){	
+			ArrayList resut = (ArrayList)detail.get(0);		
+			String id = resut.get(0).toString();
+
+			String res = detail.get(0).toString();		
+			JSONObject resp = new JSONObject(res);
+
+			//tid = "4qSen2QBCl8_4DKPZSTm";
+
+			String sid = resp.get("_id").toString();
+			String owner = resp.get("crawled_by").toString();
+			String url = base_url+"blogsites/"+sid;
+			if(owner.equals(userid)) {
+				this._runDelete(url);
+				return "true";
+			}else {
+				return "false";
+			}
+
+		}
+
+		return "false";
+
+	}
+
+
+
+	public String _getTotal(String url, JSONObject jsonObj) throws Exception {
+		String total  = "0";
+		try {
+			URL obj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+			con.setDoOutput(true);
+			con.setDoInput(true);
+
+			con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+			con.setRequestProperty("Accept", "application/json");
+			con.setRequestMethod("POST");
+
+			OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+			wr.write(jsonObj.toString());
+			wr.flush();
+
+			int responseCode = con.getResponseCode();  
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+
+			JSONObject myResponse = new JSONObject(response.toString());
+			ArrayList<String> list = new ArrayList<String>(); 
+
+			if(null!=myResponse.get("hits")) {
+				String res = myResponse.get("hits").toString();
+				JSONObject myRes1 = new JSONObject(res);
+				total = myRes1.get("total").toString();  
+			}
+		}catch(Exception e) {}
+		return total;
+	}
+
 	public ArrayList _getResult(String url, JSONObject jsonObj) throws Exception {
 		ArrayList<String> list = new ArrayList<String>(); 
 		try {
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-	
+
 			con.setDoOutput(true);
 			con.setDoInput(true);
-	
+
 			con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 			con.setRequestProperty("Accept", "application/json");
 			con.setRequestMethod("POST");
-	
+
 			OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
 			wr.write(jsonObj.toString());
 			wr.flush();
-	
+
 			// int responseCode = con.getResponseCode();
-	
+
 			BufferedReader in = new BufferedReader(
 					new InputStreamReader(con.getInputStream()));
-	
+
 			String inputLine;
 			StringBuffer response = new StringBuffer();
-	
+
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
 			in.close();
-	
+
 			JSONObject myResponse = new JSONObject(response.toString());
-	
+
 			if(null!=myResponse.get("hits")) {
 				String res = myResponse.get("hits").toString();
 				JSONObject myRes1 = new JSONObject(res);	    
@@ -398,55 +398,116 @@ public String _getTotal(String url, JSONObject jsonObj) throws Exception {
 				}
 			}
 		}catch(Exception e) {}
-		
+
 		return  list;
 	}
+
+	public String normalizeLanguage(String language) {
+		switch(language.toLowerCase()) {
+		case "en":
+			language ="English";
+			break;
+		case "ar":
+			language = "Arabic";
+			break;
+		case "null":
+			language = "Unknown";
+			break;
+		case "ti":
+			language = "Tigrinya";
+			break;
+		case "it":
+			language = "Italian";
+			break;
+		case "de":
+			language = "German";
+			break;
+		case "fr":
+			language = "French";
+			break;
+		case "es":
+			language = "Spanish";
+			break;
+		case "ro":
+			language = " Moldovan";
+			break;
+		case "na":
+			language = "Nauru";
+			break;	
+		case "ni":
+			language = "Dutch";
+			break;	
+		case "nl":
+			language = "Dutch";
+			break;	
+		case "so":
+			language = "Somali";
+			break;	
+		case "id":
+			language = "Indonesian";
+			break;
+		case "ca":
+			language = "Catalan";
+			break;	
+		case "no":
+			language = "Norwegian";
+			break;	
+		case "et":
+			language = "Estonian";
+			break;	
+		case "tl":
+			language = "Tagalog";
+			break;	
+		}
 		
-
-  /* Update tracker*/
-  public JSONObject _runUpdate(String url, JSONObject jsonObj) throws Exception {
-		URL obj = new URL(url);
-		 JSONObject myResponse = new  JSONObject();
-		try {
-	    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-	    
-
-		  con.setDoOutput(true);
-		  con.setDoInput(true); 
-		  con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-		  con.setRequestProperty("Accept", "application/json");
-		  con.setRequestMethod("POST");  
-		  OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-		  wr.write(jsonObj.toString());
-		  wr.flush();
-		  
-		  int responseCode = con.getResponseCode();	  
-		  BufferedReader in = new BufferedReader(
-		       new InputStreamReader(con.getInputStream()));
-		  String inputLine;
-		  StringBuffer response = new StringBuffer();
-		  
-		  while ((inputLine = in.readLine()) != null) {
-		   	response.append(inputLine);
-		   }
-		   in.close();   
-		   myResponse = new JSONObject(response.toString()); 
-		}catch(Exception e) {}
-		   return  myResponse;
+		
+		return language;
 	}
 
+		/* Update tracker*/
+		public JSONObject _runUpdate(String url, JSONObject jsonObj) throws Exception {
+			URL obj = new URL(url);
+			JSONObject myResponse = new  JSONObject();
+			try {
+				HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-	/* Delete tracker*/
-	public void _runDelete(String url) throws Exception {
-		URL obj = new URL(url);
-	    HttpURLConnection con = (HttpURLConnection) obj.openConnection(); 
-	    con.setDoOutput(true);
-	    con.setDoInput(true);
-	    con.setRequestMethod("DELETE");    
-	    OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-	    int responseCode = con.getResponseCode();  
+
+				con.setDoOutput(true);
+				con.setDoInput(true); 
+				con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+				con.setRequestProperty("Accept", "application/json");
+				con.setRequestMethod("POST");  
+				OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+				wr.write(jsonObj.toString());
+				wr.flush();
+
+				int responseCode = con.getResponseCode();	  
+				BufferedReader in = new BufferedReader(
+						new InputStreamReader(con.getInputStream()));
+				String inputLine;
+				StringBuffer response = new StringBuffer();
+
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();   
+				myResponse = new JSONObject(response.toString()); 
+			}catch(Exception e) {}
+			return  myResponse;
+		}
+
+
+		/* Delete tracker*/
+		public void _runDelete(String url) throws Exception {
+			URL obj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection(); 
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.setRequestMethod("DELETE");    
+			OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+			int responseCode = con.getResponseCode();  
+		}
+
+
+
 	}
-
-
-
-}

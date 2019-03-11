@@ -842,7 +842,7 @@ function updateTracker(element,type){
 
 						$("#added-info").removeClass("no-display");
 
-						setTimeout(function(){location.href = "edittracker.jsp?tid="+id ;},2000);
+						//setTimeout(function(){location.href = "edittracker.jsp?tid="+id ;},2000);
 
 						//location.href=app_url+"blogbrowser.jsp";
 					}else{
