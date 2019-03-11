@@ -665,6 +665,13 @@
   <script src="pagedependencies/baseurl.js"></script>
 </head>
 <body>
+<!-- <div id="loader-wrapper">
+    <div id="loader"><img alt="Loader" src=""></div>
+ 
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+ 
+</div> -->
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<div class="modal-notifications">
 		<div class="row">

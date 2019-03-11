@@ -85,6 +85,7 @@ try{
 
 </head>
 <body style="background-color:none;">
+<%@include file="subpages/loader.jsp" %>
 <noscript>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 </noscript>

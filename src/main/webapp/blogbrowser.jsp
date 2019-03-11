@@ -134,6 +134,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
     <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body >
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 <%-- <%@ include file="templates/profilepanel.jsp" %> --%>
 
@@ -580,7 +581,7 @@ src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
 <script src="pagedependencies/imageloader.js?v=09"></script>
 
-<script src="js/functions.js?v=19920"></script>
+<script src="js/functions.js"></script>
 <script>
 $(window).scroll(function() {
 	if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {

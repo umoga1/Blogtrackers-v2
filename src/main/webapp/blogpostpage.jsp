@@ -87,6 +87,7 @@ String[] user_name = name.split(" ");
   <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body style="background-color:#ffffff;">
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 <% if(userinfo.size()>0){%>    
 <div class="modal-notifications">
