@@ -294,9 +294,12 @@ if(action.toString().equals("getstats")){
 <div class="chart-container">
 		<div class="chart" id="d3-line-basic"></div>
 </div>
-	
+
+<link rel="stylesheet"
+	href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />	
 <script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
 			<script>
+			
  $(document).ready(function() {
 	 
 	 

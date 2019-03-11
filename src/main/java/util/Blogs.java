@@ -207,6 +207,7 @@ public class Blogs extends DbConnection{
 				bobj = new JSONObject(bresu);
 
 				String loc = bobj.get("location").toString();
+				
 				locations.put(loc);
 				if ( hm.containsKey(loc) ) {
 					int value = Integer.parseInt(hm.get(loc)+"");
@@ -457,6 +458,21 @@ public class Blogs extends DbConnection{
 			break;	
 		case "tl":
 			language = "Tagalog";
+			break;	
+		case "pt":
+			language = "Portugese";
+			break;	
+		case "ru":
+			language = "Russian";
+			break;	
+		case "da":
+			language = "Danish";
+			break;	
+		case "af":
+			language = "Afrikaans";
+			break;	
+		case "pl":
+			language = "Polish";
 			break;	
 		}
 		

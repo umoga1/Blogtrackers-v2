@@ -269,8 +269,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <div class="trackcreationsection1">
 <i class="cursor-pointer lnr lnr-cross float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
 <h3 class="text-primary bold-text">Track the selected blogs using the following list of trackers: </h3>
-<div id="added-info" class="no-display" style="border:1px solid red" >Blog successfully added. Go to <a href="blogbrowser.jsp" style="text-decoration:underline">Blogbrowser Page</a>
-</div>
+
 <button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
 <div class="trackerlist mt20" style="position: relative; overflow: auto; height: 250px;">
 <%
@@ -288,6 +287,9 @@ if(mytrackers.size()>0){
 </div>
 <div class="col-md-12 mt20 text-primary">
 <b class="selectedtrackercount text-primary">0</b> Tracker(s) selected
+</div>
+<br/><br/>
+<div id="added-info" class="no-display"> <a href="trackerlist.jsp" style="text-decoration:underline">Go to trackerlist page</a>
 </div>
 </div>
 
