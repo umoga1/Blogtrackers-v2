@@ -1043,20 +1043,14 @@
 	<script
 		src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 	<!-- Start for tables  -->
-	<script type="text/javascript"
-		src="assets/vendors/DataTables/datatables.min.js"></script>
-	<script type="text/javascript"
-		src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
-	<script
-		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
-	<script
-		src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
+	<script type="text/javascript" src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
+	<script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
+	<script src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
 	<script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
 	<script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
-	<script
-		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
-	<script
-		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
+	<script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
+	<script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
 	<script>
  $(document).ready(function() {
@@ -1880,7 +1874,9 @@
 
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
+
 <script src="pagedependencies/keywordtrends.js"></script>
+
 <script>
 $(".blogger-mentioned").html("<%=alloccurence%>");
 </script>

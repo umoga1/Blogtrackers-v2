@@ -60,6 +60,7 @@ public class Blogs extends DbConnection{
 
 
 		String url = base_url+"_search?size=1000";
+
 		return this._getResult(url, jsonObj);   
 	}
 

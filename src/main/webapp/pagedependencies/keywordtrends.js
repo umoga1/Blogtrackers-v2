@@ -143,8 +143,17 @@ function loadTable(date_start,date_end){
 			success: function(response)
 			{   
 				$("#combined-div").html(response);
-				/*$.getScript("pagedependencies/keywordtrends.js", function(data, textStatus, jqxhr) { });*/
-				/*$.getScript("pagedependencies/blogpostselectkeywordtrend.js", function(data, textStatus, jqxhr) { });*/
+				
+				$.getScript("assets/vendors/DataTables/datatables.min.js", function(data, textStatus, jqxhr) { });
+				$.getScript("assets/vendors/DataTables/dataTables.bootstrap4.min.js", function(data, textStatus, jqxhr) { });
+				$.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js", function(data, textStatus, jqxhr) { });
+				$.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js", function(data, textStatus, jqxhr) { });
+				
+				$.getScript("assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js", function(data, textStatus, jqxhr) { });
+				$.getScript("assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js", function(data, textStatus, jqxhr) { });
+				$.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js", function(data, textStatus, jqxhr) { });
+				$.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js", function(data, textStatus, jqxhr) { });
+		
 			}
 		});
 	}

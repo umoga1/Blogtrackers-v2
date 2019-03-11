@@ -120,6 +120,9 @@ if(action.toString().equals("getstats")){
           ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);
           JSONObject firstpost = new JSONObject();
           if(allposts.size()>0){	%>
+          			<link rel="stylesheet" href="assets/css/style.css" />          			
+					<link rel="stylesheet" href="assets/css/table.css" />
+					<link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 					<table id="DataTables_Table_2_wrapper" class="display"
 						style="width: 100%">
 						<thead>

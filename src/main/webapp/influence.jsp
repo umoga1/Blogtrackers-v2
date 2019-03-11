@@ -11,8 +11,7 @@
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
 try{
@@ -252,7 +251,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 		
 		
-	allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+		allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		
 	String allpost = "0";
 	float totalinfluence = 0;
@@ -294,23 +293,17 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <title>Blogtrackers-Influence</title>
 <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
 <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
-<link rel="apple-touch-icon" sizes="96x96"
-	href="images/favicons/favicon-96x96.png">
-<link rel="apple-touch-icon" sizes="144x144"
-	href="images/favicons/favicon-144x144.png">
+<link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
 <!-- start of bootsrap -->
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
 <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css" />
 <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet"
-	href="assets/fonts/fontawesome/css/fontawesome-all.css" />
+<link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.css" />
 <link rel="stylesheet" href="assets/fonts/iconic/css/open-iconic.css" />
-<link rel="stylesheet"
-	href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="assets/css/table.css" />
-<link rel="stylesheet"
-	href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
+<link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
 <link rel="stylesheet" href="assets/css/style.css" />
@@ -320,7 +313,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <script src="assets/js/popper.min.js"></script>
 </head>
 <body>
-<%@include file="subpages/loader.jsp" %>
+
 	<div class="modal-notifications">
 		<div class="row">
 			<div class="col-lg-10 closesection"></div>
@@ -347,10 +340,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
 						</h6> </a> --%>
-					<a class="cursor-pointer profilemenulink"
-						href="<%=request.getContextPath()%>/addblog.jsp"><h6
-							class="text-primary">Add Blog</h6></a> <a
-						class="cursor-pointer profilemenulink"
+						<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+						 <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
 							class="text-primary">Profile</h6></a> <a
 						class="cursor-pointer profilemenulink"
@@ -452,15 +443,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			<div class="col-md-6 paddi">
 				<nav class="breadcrumb">
 
-					<a class="breadcrumb-item text-primary"
-						href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
-					<a class="breadcrumb-item text-primary"
-						href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
-					<a class="breadcrumb-item active text-primary"
-						href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
-					<a class="breadcrumb-item active text-primary"
-						href="<%=request.getContextPath()%>/influence.jsp?tid=<%=tid%>">Influence
-						Analysis</a>
+					<a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a> 
+				<a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
+				<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
+						 <a class="breadcrumb-item active text-primary"	href="<%=request.getContextPath()%>/influence.jsp?tid=<%=tid%>">Influence Analysis</a>
 
 				</nav>
 				<!-- <div>
@@ -472,7 +458,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			<div class="col-md-6 text-right mt10">
 				<div class="text-primary demo">
 					<h6 id="reportrange">
-						Date: <span><%=dispfrom%> - <%=dispto%></span>
+							Date: <span><%=dispfrom%> - <%=dispto%></span>
 					</h6>
 				</div>
 				<div>
@@ -522,13 +508,13 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 						</div>
 						<div class="scrolly"
 							style="height: 270px; padding-right: 10px !important;">
-							<!-- 
+   <!-- 
 							<a class="btn btn-primary form-control stylebuttonactive mb20"><b>Advonum</b></a>
 							<a
 								class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt
 									Fincane</b></a>
 									-->
-
+							    
 							<%
 								JSONObject influecechart = new JSONObject();
 								JSONObject authors = new JSONObject();
@@ -681,11 +667,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									
 					}
 			    	%>
-							<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>"
-								value="<%=postids%>" /> <a
-								class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"
-								id="<%=au.replaceAll(" ","_")%>***<%=det.get("blogid")%>"><b><%=det.get("blogger")%></b></a>
-							<% 
+					<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>" value="<%=postids%>" />
+	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","_")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
+	    			<% 
 					//JSONObject jsonObj = bloggersort.getJSONObject(m);
 				}
 								
@@ -696,10 +680,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 					</div>
 				</div>
-			</div>
+	</div>
 
-			<!--  Populate terms and influence score json for chart-->
-			<%
+<!--  Populate terms and influence score json for chart-->
+<%
 /*
 JSONArray sentimentpost = new JSONArray();
 String postidss = "";
@@ -824,15 +808,14 @@ authoryears.put(mostactiveblogger,postyear);
 
 
 
-			<div class="col-md-9">
+	<div class="col-md-9">
 				<div class="card card-style mt20">
 					<div class="card-body  p30 pt5 pb5">
 						<div style="min-height: 250px;">
 							<div>
 								<p class="text-primary mt10">
 									<b class="text-primary">Individual</b> Influence Score of
-									Bloggers
-									<!-- of  Past <select
+									Bloggers <!-- of  Past <select
 										class="text-primary filtersort sortbytimerange"><option
 											value="week">Week</option>
 										<option value="month">Month</option>
@@ -840,9 +823,9 @@ authoryears.put(mostactiveblogger,postyear);
 								</p>
 							</div>
 							<div id="chart-container">
-								<div class="chart-container">
-									<div class="chart" id="d3-line-basic"></div>
-								</div>
+							<div class="chart-container">
+								<div class="chart" id="d3-line-basic"></div>
+							</div>
 							</div>
 						</div>
 					</div>
@@ -867,12 +850,12 @@ authoryears.put(mostactiveblogger,postyear);
 								<h2 class="mb0 bold-text most-used-keyword"><%=mostusedkeyword%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> --%>
-
+							
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Overall Sentiment</h6>
 								<h2 class="mb0 bold-text total-sentiment"><%=totalsenti%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
-							</div>
+							</div> 
 
 							<%-- <div class="col-md-3  mt5 mb5">
 								<h6 class="card-title mb0">Most Active Blog</h6>
@@ -883,7 +866,7 @@ authoryears.put(mostactiveblogger,postyear);
 								<h6 class="card-title mb0">Comments</h6>
 								<h2 class="mb0 bold-text total-comments"><%=formattedtotalcomment%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
-							</div>
+							</div> 
 
 						</div>
 					</div>
@@ -900,17 +883,16 @@ authoryears.put(mostactiveblogger,postyear);
 								Keywords of <b class="text-blue activeblogger"><%=mostactiveblogger%></b>
 							</p>
 						</div>
-
-						<div id="tagcloudbox">
-							<div class="chart-container">
-								<div class="chart tagcloudcontainer" id="tagcloudcontainer"
-									style="min-height: 420px;">
+						
+						 <div id="tagcloudbox">
+	        					<div class="chart-container">
+									<div class="chart tagcloudcontainer" id="tagcloudcontainer" style="min-height: 420px;">
 									<div class="jvectormap-zoomin zoombutton" id="zoom_in">+</div>
-									<div class="jvectormap-zoomout zoombutton" id="zoom_out">−</div>
+								<div class="jvectormap-zoomout zoombutton" id="zoom_out" >−</div> 
+									</div>
 								</div>
-							</div>
-						</div>
-
+        				 </div>
+						
 					</div>
 				</div>
 			</div>
@@ -933,30 +915,28 @@ authoryears.put(mostactiveblogger,postyear);
 		</div>
 
 		<div class="row m0 mt20 mb50 d-flex align-items-stretch">
-			<div
-				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
-				<div class="card-body p0 pt20 pb20" style="min-height: 420px;"
-					id="influential-post-box">
+			<div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
+				<div class="card-body p0 pt20 pb20" style="min-height: 420px;" id="influential-post-box">
 					<p>
 						Influential Blog Posts of <b class="text-blue activeblogger"><%=mostactiveblogger%></b>
 					</p>
 					<!--   <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-					<div id="influence_table">
-						<table id="DataTables_Table_0_wrapper" class="display"
-							style="width: 100%">
-							<thead>
-								<tr>
-									<th class="bold-text text-primary">Post title</th>
-									<th class="bold-text text-primary">Influence Score</th>
+          <div id="influence_table">
+					<table id="DataTables_Table_0_wrapper" class="display"
+						style="width: 100%">
+						<thead>
+							<tr>
+								<th class="bold-text text-primary">Post title</th>
+								<th class="bold-text text-primary">Influence Score</th>
 
 
-								</tr>
-							</thead>
-							<tbody>
-
-								<%
+							</tr>
+						</thead>
+						  <tbody>
+                            
+						<%
                                 if(allposts.size()>0){							
 									String tres = null;
 									JSONObject tresp = null;
@@ -971,21 +951,16 @@ authoryears.put(mostactiveblogger,postyear);
 										tobj = new JSONObject(tresu);
 										k++;
 									%>
-								<tr>
-									<td><a class="blogpost_link cursor-pointer"
-										id="<%=tobj.get("blogpost_id")%>"><%=tobj.get("title") %></a><br />
-										<a class="mt20 viewpost makeinvisible"
-										href="<%=tobj.get("permalink") %>" target="_blank"><buttton
-												class="btn btn-primary btn-sm mt10 visitpost">Visit
-											Post &nbsp;<i class="fas fa-external-link-alt"></i>
-											</button>
-											</buttton></a></td>
-									<td align="center"><%=tobj.get("influence_score") %></td>
-								</tr>
-								<% }} %>
-
-							</tbody>
-						</table>
+                                    <tr>
+                                   <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
+								</td>
+								<td align="center"><%=tobj.get("influence_score") %></td>
+                                     </tr>
+                                    <% }} %>
+						
+						 </tbody>
+					</table>
 					</div>
 				</div>
 
@@ -1015,30 +990,29 @@ authoryears.put(mostactiveblogger,postyear);
 										
 										
 										k++;
-									%>
-					<h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
-					<div class="text-center mb20 mt20">
-						<a
-							href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid%>&blogger=<%=tobj.get("blogger")%>">
-							<button class="btn stylebuttonblue">
-								<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b>
-								<i class="far fa-user float-right blogcontenticon"></i>
-							</button>
-						</a>
-						<button class="btn stylebuttonnocolor nocursor"><%=date%></button>
-						<button class="btn stylebuttonnocolor nocursor">
-							<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%>
-								comments</b><i class="far fa-comments float-right blogcontenticon"></i>
-						</button>
-					</div>
-					<div class="p20 pt0 pb20 text-blog-content text-primary"
-						style="height: 600px; overflow-y: scroll;">
-						<%=tobj.get("post")%>
-					</div>
-					<% }} %>
+									%>                                    
+                                    <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
+										<div class="text-center mb20 mt20">
+											<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid%>&blogger=<%=tobj.get("blogger")%>">
+											<button class="btn stylebuttonblue">
+												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
+													class="far fa-user float-right blogcontenticon"></i>
+											</button>
+											</a>
+											<button class="btn stylebuttonnocolor nocursor"><%=date%></button>
+											<button class="btn stylebuttonnocolor nocursor">
+												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
+													class="far fa-comments float-right blogcontenticon"></i>
+											</button>
+										</div>
+										<div class="p20 pt0 pb20 text-blog-content text-primary"
+											style="height: 600px; overflow-y: scroll;">
+											<%=tobj.get("post")%>
+										</div>                      
+                     		<% }} %>
 
 				</div>
-
+				
 			</div>
 		</div>
 
@@ -1049,16 +1023,16 @@ authoryears.put(mostactiveblogger,postyear);
 	</div>
 
 	<form action="" name="customform" id="customform" method="post">
-		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" /> <input
-			type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" /> <input
-			type="hidden" name="author" id="author"
-			value="<%=mostactiveblogger%>" /> <input type="hidden"
-			name="single_date" id="single_date" value="" /> <input type="hidden"
-			name="date_start" id="date_start" value="<%=dt%>" /> <input
-			type="hidden" name="date_end" id="date_end" value="<%=dte%>" />
+		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" />
+		<input type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" />
+		<input type="hidden" name="author" id="author" value="<%=mostactiveblogger%>" /> 
+		<input type="hidden" name="single_date" id="single_date" value="" />
+		
+		<input type="hidden" name="date_start" id="date_start" value="<%=dt%>" /> 
+		<input type="hidden" name="date_end" id="date_end" value="<%=dte%>" />	
 	</form>
-
-
+	
+	
 	<!-- <footer class="footer">
   <div class="container-fluid bg-primary mt60">
 <p class="text-center text-medium pt10 pb10 mb0">Copyright &copy; Blogtrackers 2017 All Rights Reserved.</p>
@@ -1280,7 +1254,7 @@ authoryears.put(mostactiveblogger,postyear);
 	<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
 	<script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
 	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
-	<script type="text/javascript" src="assets/js/jquery.inview.js"></script>
+	<script type="text/javascript" src="assets/js/jquery.inview.js"></script>	
 	<script>
  $(function () {
 
@@ -1982,6 +1956,7 @@ authoryears.put(mostactiveblogger,postyear);
    					String au = authorcount.get(p).toString();
    			  		JSONObject jxy = new JSONObject(influecechart.get(au).toString());
    			  		int x = new Double(jxy.get("x").toString()).intValue();
+   			  		
    			  		int y = new Double(jxy.get("y").toString()).intValue(); %>{"x":<%=x%>,"y":<%=y%>},<% }} %>]   		
          ];
 
@@ -2012,7 +1987,7 @@ authoryears.put(mostactiveblogger,postyear);
                   return "No Information Available";
                 }
                 else if(d !== null) {
-                 return "("+d.x+","+d.y+")<br/> Click for more information";
+                 return " ("+d.x+","+d.y+")<br/> Click for more information";
                   }
 
                 });
@@ -2564,10 +2539,10 @@ wordtagcloud("#tagcloudcontainer",450);
      }
 	}
  </script>
-	<script src="pagedependencies/baseurl.js?v=38"></script>
-
-	<script src="pagedependencies/influence.js?v=4979"></script>
-
+<script src="pagedependencies/baseurl.js?v=38"></script>
+ 
+<script src="pagedependencies/influence.js?v=4979"></script>
+	
 </body>
 </html>
 <%
