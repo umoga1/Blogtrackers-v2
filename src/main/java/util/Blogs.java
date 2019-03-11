@@ -146,7 +146,7 @@ public class Blogs extends DbConnection{
 		String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"totalposts\":{\"order\":\"DESC\"}}}";
 
 		JSONObject jsonObj = new JSONObject(que);
-		String url = base_url+"_search?size=10000";
+		String url = base_url+"_search?size=2000";
 		return this._getResult(url, jsonObj);
 
 	}
@@ -473,6 +473,9 @@ public class Blogs extends DbConnection{
 			break;	
 		case "pl":
 			language = "Polish";
+			break;	
+		case "sv":
+			language = "Swedish";
 			break;	
 		}
 		
