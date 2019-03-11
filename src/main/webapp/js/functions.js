@@ -54,17 +54,19 @@ function loadMoreResult(){
 				}else{
 					if(viewtype == "list")
 						{
-				$("#appendee2").append(data);
+						
+						$("#appendee2").append(data);
 						}
-					if(viewtype == "grid")
+					else if(viewtype == "grid")
 						{
-				$("#appendee").append("<div>"+data+"</div>");	
+				$("#appendee").append("<div>"+data+"</div>");
 						}
 					
-					/*	$.getScript( app_url+"pagedependencies/blogbrowser.js", function( data, textStatus, jqxhr ) {
-					});*/
-						$.getScript( app_url+"pagedependencies/blogbrowserselectedchecker.js", function( data, textStatus, jqxhr ) {
-						});
+			// script to auto select blogs 
+					$.getScript( app_url+"pagedependencies/blogbrowserselectedchecker.js", function( data, textStatus, jqxhr ) {});
+					
+
+						
 					
 
 				//  show tooltip

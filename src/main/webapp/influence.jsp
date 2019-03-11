@@ -320,7 +320,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <script src="assets/js/popper.min.js"></script>
 </head>
 <body>
-
+<%@include file="subpages/loader.jsp" %>
 	<div class="modal-notifications">
 		<div class="row">
 			<div class="col-lg-10 closesection"></div>

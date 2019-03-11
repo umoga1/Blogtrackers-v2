@@ -64,6 +64,7 @@
 </head>
 
 <body class="bgwhite">
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<nav
 		class="navbar navbar-inverse bg-primary d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
@@ -160,6 +161,19 @@
 		</div>
 	</div>
 	<script>
+	$(window).load(function(){	
+		
+	})
+
+	$("body").removeClass("loaded");
+	$(document).ready(function(e)
+	{
+	$('a').on("click",function(e){
+	$("body").removeClass('loaded');
+		  });
+		 
+	$("body").addClass("loaded");
+	});
 		/*
 		 client id: 600561618290-lmbuo5mamod25msuth4tutqvkbn91d6v.apps.googleusercontent.com
 		 secret: fxBw8tsZsREjMZ6VNC2HQ7O8
