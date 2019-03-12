@@ -24,11 +24,12 @@ $("body").addClass('loaded');
 }
 else if($(this).attr("target") === "_blank")
 {
-	$("body").addClass('loaded');	
+console.log("I hit here here2")	
+$("body").addClass('loaded');	
 }
 else
 {
-console.log("I hit here here")	
+console.log("I hit here here3")	
 $("body").removeClass("loaded")	
 }
 });	

@@ -93,6 +93,7 @@ if(f.exists() && !f.isDirectory()) {
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
+
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
     <div class="modal-notifications">
 <div class="row">
