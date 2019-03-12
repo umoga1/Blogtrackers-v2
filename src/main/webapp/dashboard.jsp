@@ -848,7 +848,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=influentialauthors.length()%></h3>
+						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=allauthors.size()%></h3>
 					</div>
 				</div>
 			</div>
@@ -1351,7 +1351,7 @@
 				String key = authorlooper.get(y).toString();
 				JSONObject resu = authors.getJSONObject(key);
 				int size = new Double(resu.get("totalpost").toString()).intValue(); 
-				if (size > 0 && k < influentialauthors.length()) {
+				if (size > 0 && k < allauthors.size()) {
 					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 <%}}}%></textarea>
 
@@ -1371,14 +1371,14 @@
         </textarea>
 
 <textarea style="display:none" name="influencialBloggers" id="InfluencialBloggers" >
-	 <% if (influentialauthors.length() > 0) {
+	 <% if (allauthors.size() > 0) {
 				int p = 0;
 				//System.out.println(bloggers);
 				for (int y = 0; y < influentialauthors.length(); y++) {
 					String key = influentialauthorlooper.get(y).toString();
 					JSONObject resu = influentialauthors.getJSONObject(key);
 					Double size = Double.parseDouble(resu.get("influence").toString());
-					if (p < influentialauthors.length()) {
+					if (p < allauthors.size()) {
 						p++;%>
 		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 		 <%}
@@ -3449,7 +3449,7 @@ data = {
 				String key = authorlooper.get(y).toString();
 				JSONObject resu = authors.getJSONObject(key);
 				int size =  new Double(resu.get("totalpost").toString()).intValue();  
-				if (size > 0 && k < influentialauthors.length()) {
+				if (size > 0 && k < allauthors.size()) {
 					k++;%>
 {"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=size%>},
 <% }
