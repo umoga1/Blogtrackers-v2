@@ -1,20 +1,53 @@
 //console.log("Window is loading ");
 
-$(window).load(function(){	
-	
+$(window).load(function(){		
 })
 
-$("body").removeClass("loaded");
+
 $(document).ready(function(e)
 {
-$('a').on("click",function(e){
-if(!$(this).hasClass("dropdown-toggle"))
+	$("body").removeClass("loaded");
+
+$('a').each(function(index,element){
+// check each click	
+var eachel =$(this)	
+$(eachel).on("click", function(e){
+console.log($(this).hasClass("blogger-select"));
+
+if($(this).hasClass("dropdown-toggle") 
+ || $(this).hasClass("blogger-select") || 
+ $(this).hasClass("blogpost_link") ||
+ $(this).hasClass("select-term"))
 {
-	$("body").removeClass('loaded');	
+$("body").addClass('loaded');
+//console.log($(this).hasClass("blogger_select"));
 }
+else if($(this).attr("target") === "_blank")
+{
+	$("body").addClass('loaded');	
+}
+else
+{
+console.log("I hit here here")	
+$("body").removeClass("loaded")	
+}
+});	
+})	
+	
+/*$('a').on("click",function(e){
+console.log("here 1")		
+if(!$(this).hasClass("dropdown-toggle") && !$(this).hasClass("blogpost_select"))
+{
+$("body").removeClass('loaded');
+console.log($(this).hasClass("blogpost_link"));
+}
+//else if($(this).hasClass("blogpost_link"))
+//	{
+//	console.log("blog post link found")
+//	$("body").addClass("loaded");
+//	}
 
-
-});
+});*/
 	 
 $("body").addClass("loaded");
 	

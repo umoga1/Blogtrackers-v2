@@ -3199,6 +3199,7 @@ var mymarker = [
      d3.layout.cloud().size([450,400])
              .words(frequency_list)
              .rotate(0)
+             .padding(7)
              .fontSize(function(d) { return d.size * 1.20; })
              .on("end", draw)
              .start();
