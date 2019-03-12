@@ -1874,9 +1874,13 @@
 
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
+<<<<<<< HEAD
 
 <script src="pagedependencies/keywordtrends.js"></script>
 
+=======
+<script src="pagedependencies/keywordtrends.js?v=780879"></script>
+>>>>>>> d73bda68b9402516aac1d850ba1b98d1cbb61ef4
 <script>
 $(".blogger-mentioned").html("<%=alloccurence%>");
 </script>

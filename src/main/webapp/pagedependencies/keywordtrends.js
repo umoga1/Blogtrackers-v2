@@ -115,8 +115,11 @@ function loadChart(term){
 		{   
 
 		$("#main-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
-			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
-			  });*/
+		//$.getScript("pagedependencies/baseurl.js?v=38", function(data, textStatus, jqxhr) {	 });
+		 //$.getScript("pagedependencies/keywordtrends.js?v=0879", function(data, textStatus, jqxhr) {	 });
+			
+			 
+			 
 		}
 	});
 }
