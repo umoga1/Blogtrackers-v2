@@ -170,7 +170,7 @@ if(action.toString().equals("fetchpost")){
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 550px; overflow-y: scroll;">
 
-											<%=tobj.get("post").toString().replaceAll("[^a-zA-Z]", " ")%>
+											<%=tobj.get("post").toString()%>
 
 										</div>
 										</div>       

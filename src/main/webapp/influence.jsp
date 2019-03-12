@@ -23,7 +23,7 @@ Object user = (null == session.getAttribute("username")) ? "" : session.getAttri
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
-String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
+String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString();//.replaceAll("[^a-zA-Z]", " ");
 
 
 ArrayList<?> userinfo = new ArrayList();
