@@ -853,7 +853,7 @@ authoryears.put(mostactiveblogger,postyear);
 							
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Overall Sentiment</h6>
-								<h2 class="mb0 bold-text total-sentiment"><%=totalsenti%></h2>
+								<h2 class="mb0 bold-text total-sentiment"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalsenti)) %></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -2362,7 +2362,8 @@ wordtagcloud("#tagcloudcontainer",450);
      d3.layout.cloud().size([450, 300])
              .words(frequency_list)
              .rotate(0)
-             .fontSize(function(d) { return d.size; })
+             .padding(5)
+             .fontSize(function(d) { return d.size * 1.20; })
              .on("end", draw)
              .start();
 
@@ -2407,7 +2408,7 @@ wordtagcloud("#tagcloudcontainer",450);
        		  svg.selectAll("text").transition()
                  .delay(200)
                  .duration(1000)
-                 .style("font-size", function(d) { return d.size * 1.10 + "px"; })
+                 .style("font-size", function(d) { return d.size * 1.50 + "px"; })
        	  } else {
        		  svg.selectAll("text")
                  .style("font-size", 0)

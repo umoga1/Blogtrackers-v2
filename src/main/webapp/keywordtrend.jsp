@@ -948,9 +948,9 @@
 										<th>Post Count</th>
 										<th>Blog Count</th>
 										<th>Keyword Count</th>
-										<th>Leading Blogger</th>
+										<!-- <th>Leading Blogger</th>
 										<th>Language</th>
-										<th>Location</th>
+										<th>Location</th> -->
 
 									</tr>
 								</thead>
@@ -974,9 +974,9 @@
 										<td><%=postcount%> <%-- <sub>of <%=postcount%></sub> --%></td>
 										<td><%=blogcount%> <%-- <sub>of <%=blogcount%></sub> --%></td>
 										<td><%=keycount%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
-										<td><%=blogger%></td>
+										<%-- <td><%=blogger%></td>
 										<td><%=language%></td>
-										<td><%=location%></td>
+										<td><%=location%></td> --%>
 
 									</tr>
 											<%

@@ -951,8 +951,7 @@ String formatedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Inte
   <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
  <script src="assets/bootstrap/js/bootstrap.js">
  </script>
- <script src="assets/js/generic.js">
- </script>
+
  <script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
  <script src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
  <!-- Start for tables  -->
@@ -1833,6 +1832,7 @@ var svg =  container;
 d3.layout.cloud().size([450,400])
         .words(frequency_list)
         .rotate(0)
+        .padding(7)
         .fontSize(function(d) { return d.size * 1.20; })
         .on("end", draw)
         .start();
@@ -1965,7 +1965,8 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=878909"></script>
+ <script src="assets/js/generic.js"></script>
+<script src="pagedependencies/postingfrequency.js"></script>
 
 </body>
 </html>
