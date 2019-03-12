@@ -17,18 +17,19 @@ console.log($(this).hasClass("blogger-select"));
 if($(this).hasClass("dropdown-toggle") 
  || $(this).hasClass("blogger-select") || 
  $(this).hasClass("blogpost_link") ||
- $(this).hasClass("select-term"))
+ $(this).hasClass("select-term") || $(this).hasClass("page-link"))
 {
 $("body").addClass('loaded');
 //console.log($(this).hasClass("blogger_select"));
 }
 else if($(this).attr("target") === "_blank")
 {
-	$("body").addClass('loaded');	
+console.log("I hit here here2")	
+$("body").addClass('loaded');	
 }
 else
 {
-console.log("I hit here here")	
+console.log("I hit here here3")	
 $("body").removeClass("loaded")	
 }
 });	

@@ -313,7 +313,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <script src="assets/js/popper.min.js"></script>
 </head>
 <body>
-
+<%@include file="subpages/loader.jsp" %>
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<div class="modal-notifications">
 		<div class="row">
 			<div class="col-lg-10 closesection"></div>
@@ -2540,9 +2541,9 @@ wordtagcloud("#tagcloudcontainer",450);
      }
 	}
  </script>
-<script src="pagedependencies/baseurl.js?v=38"></script>
+<script src="pagedependencies/baseurl.js"></script>
  
-<script src="pagedependencies/influence.js?v=4979"></script>
+<script src="pagedependencies/influence.js"></script>
 	
 </body>
 </html>
