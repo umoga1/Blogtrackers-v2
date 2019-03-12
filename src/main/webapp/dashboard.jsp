@@ -351,6 +351,8 @@
 							content = new JSONObject(authors.get(auth).toString());
 							Double inf = Double.parseDouble(content.get("influence").toString());
 							//inf = inf+influence;
+							//Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
+							
 							int valu = new Double(content.get("totalpost").toString()).intValue();
 							content.put("blogger", auth);
 							content.put("influence", inf);
@@ -426,12 +428,14 @@
 						} else {
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
+						    
 						   // System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
 						   Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-							
-						   Double valu = influence;//Integer.parseInt(btoty);
+						
+						   
+							int valu = new Double(btoty).intValue(); 
 							   if(valu==0){
-								   valu=1.0;
+								   valu=1;
 							   }
 							   
 							content.put("blogger", auth);
@@ -1338,7 +1342,7 @@
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
 							int size = new Double(resu.get("postingfreq").toString()).intValue();
-							if (size > 0 && p < 15) {
+							if (size > 0 && p < 20) {
 								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
     			 <%}}}%>
 			</textarea>
@@ -1347,7 +1351,7 @@
 				String key = authorlooper.get(y).toString();
 				JSONObject resu = authors.getJSONObject(key);
 				int size = new Double(resu.get("totalpost").toString()).intValue(); 
-				if (size > 0 && k < 15) {
+				if (size > 0 && k < influentialauthors.length()) {
 					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 <%}}}%></textarea>
 
@@ -1360,7 +1364,7 @@
 							JSONObject resu = bloggers.getJSONObject(key);
 							
 							int size =  new Double(resu.get("postingfreq").toString()).intValue(); 
-							if (size > 0 && p < 15) {
+							if (size > 0 && p < 20) {
 								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
     			 <%}}}%>
 			 </textarea>
@@ -1374,7 +1378,7 @@
 					String key = influentialauthorlooper.get(y).toString();
 					JSONObject resu = influentialauthors.getJSONObject(key);
 					Double size = Double.parseDouble(resu.get("influence").toString());
-					if (p < 10) {
+					if (p < influentialauthors.length()) {
 						p++;%>
 		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 		 <%}
@@ -2323,7 +2327,7 @@ $(function () {
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
 							int size =  new Double(resu.get("postingfreq").toString()).intValue();
-							if (size > 0 && p < 10) {
+							if (size > 0 && p < 20) {
 								p++;%>
     							{letter:"<%=resu.get("blog").toString().toLowerCase()%>", frequency:<%=size%>, name:"<%=resu.get("blogger").toString().toLowerCase()%>", type:"blogger"},
     		 <% 			}
@@ -3437,7 +3441,7 @@ $(function () {
 
 
 data = {
- //"name":"flare",
+ //"name":"flare blogger",
  "bloggers":[
 	 <%if (authors.length() > 0) {
 			int k = 0;
@@ -3445,10 +3449,10 @@ data = {
 				String key = authorlooper.get(y).toString();
 				JSONObject resu = authors.getJSONObject(key);
 				int size =  new Double(resu.get("totalpost").toString()).intValue();  
-				//if (size > 0 && k < 15) {
+				if (size > 0 && k < influentialauthors.length()) {
 					k++;%>
 {"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=size%>},
-<%//}
+<% }
 				}
 		}%>
  /* {"label":"Blogger 2","name":"Obadimu Adewale", "size":2500},
@@ -3470,7 +3474,7 @@ data = {
 	}); */
 	
 	
-	var mybloggers = 
+	var myblogs = 
 		  data.bloggers.sort(function(a, b){
 		return b.size - a.size;
 		})
@@ -3479,14 +3483,14 @@ data = {
 		/* resort the bubbles chart by size */
 		var alldata=[];
 		
-	  for(i=0;i<mybloggers.length;i++)
+	  for(i=0;i<myblogs.length;i++)
 		{
 		var myconcat = ",";
-		if(i == mybloggers.length - 1)
+		if(i == myblogs.length - 1)
 		{
 			myconcat = "";	
 		} 
-		alldata[i]= {"label":mybloggers[i].label,"name":mybloggers[i].name,"size":mybloggers[i].size}
+		alldata[i]= {"label":myblogs[i].label,"name":myblogs[i].name,"size":myblogs[i].size}
 
 		} 
 	/* End of sorting   */
@@ -3689,19 +3693,20 @@ $(function () {
 
 
 data = {
- //"name":"flare",
- "bloggers":[
-	 <%if (bloggers.length() > 0) {
+ //"name":"flare blogger",
+ "bloggs":[
+	 <% if (bloggers.length() > 0) {
 			//System.out.println(bloggers);
 			int k = 0;
 			for (int y = 0; y < bloggers.length(); y++) {
 				String key = looper.get(y).toString();
 				JSONObject resu = bloggers.getJSONObject(key);
-				int size = new Double(resu.get("totalposts").toString()).intValue(); 
-				//if (size > 0 && k < 15) {
+				int size = new Double(resu.get("totalposts").toString()).intValue();
+				
+				if (size > 0 && k < 20) {
 					k++;%>
 					{"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=resu.get("totalposts")%>},
-	<% //}
+	<% }
 			}
 		}%>
  ]
@@ -3711,7 +3716,7 @@ data = {
      
       
   var mybloggers = 
-	  data.bloggers.sort(function(a, b){
+	  data.bloggs.sort(function(a, b){
 	return b.size - a.size;
 	})
 	
@@ -3730,9 +3735,9 @@ data = {
 
 	} 
 /* End of sorting   */
-  bloggers = alldata;
+  bloggs = alldata;
   
-  data = {   bloggers  }
+  data = {   bloggs  }
   
   
             //
@@ -3814,7 +3819,7 @@ data = {
             var classes = [];
 
             function recurse(name, node) {
-                if (node.bloggers) node.bloggers.forEach(function(child) { recurse(node.name, child); });
+                if (node.bloggs) node.bloggs.forEach(function(child) { recurse(node.name, child); });
                 else classes.push({packageName: name, className: node.name, value: node.size,label:node.label});
             }
 
