@@ -23,6 +23,7 @@
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
+	HashMap<String, String> langMapper = new HashMap<String, String>();
 	
 	//System.out.println(date_start);
 	if (user == null || user == "") {
@@ -339,8 +340,7 @@
 					    tobj = new JSONObject(tresu);
 					    
 					    String auth = tobj.get("blogger").toString();
-					    String lang = blog.normalizeLanguage(tobj.get("language").toString());
-					    
+					    String lang = tobj.get("language").toString();
 					    
 					    
 					  	JSONObject content = new JSONObject();
@@ -353,8 +353,6 @@
 							content = new JSONObject(authors.get(auth).toString());
 							Double inf = Double.parseDouble(content.get("influence").toString());
 							//inf = inf+influence;
-							//Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-							
 							int valu = new Double(content.get("totalpost").toString()).intValue();
 							content.put("blogger", auth);
 							content.put("influence", inf);
@@ -430,14 +428,12 @@
 						} else {
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
-						    
 						   // System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
 						   Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-						
-						   
-							int valu = new Double(btoty).intValue(); 
+							
+						   Double valu = influence;//Integer.parseInt(btoty);
 							   if(valu==0){
-								   valu=1;
+								   valu=1.0;
 							   }
 							   
 							content.put("blogger", auth);
@@ -857,7 +853,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=allauthors.size()%></h3>
+						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=influentialauthors.length()%></h3>
 					</div>
 				</div>
 			</div>
@@ -1351,7 +1347,7 @@
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
 							int size = new Double(resu.get("postingfreq").toString()).intValue();
-							if (size > 0 && p < 20) {
+							if (size > 0 && p < 15) {
 								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
     			 <%}}}%>
 			</textarea>
@@ -1360,7 +1356,7 @@
 				String key = authorlooper.get(y).toString();
 				JSONObject resu = authors.getJSONObject(key);
 				int size = new Double(resu.get("totalpost").toString()).intValue(); 
-				if (size > 0 && k < allauthors.size()) {
+				if (size > 0 && k < 15) {
 					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 <%}}}%></textarea>
 
@@ -1373,21 +1369,21 @@
 							JSONObject resu = bloggers.getJSONObject(key);
 							
 							int size =  new Double(resu.get("postingfreq").toString()).intValue(); 
-							if (size > 0 && p < 20) {
+							if (size > 0 && p < 15) {
 								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
     			 <%}}}%>
 			 </textarea>
         </textarea>
 
 <textarea style="display:none" name="influencialBloggers" id="InfluencialBloggers" >
-	 <% if (allauthors.size() > 0) {
+	 <% if (influentialauthors.length() > 0) {
 				int p = 0;
 				//System.out.println(bloggers);
 				for (int y = 0; y < influentialauthors.length(); y++) {
 					String key = influentialauthorlooper.get(y).toString();
 					JSONObject resu = influentialauthors.getJSONObject(key);
 					Double size = Double.parseDouble(resu.get("influence").toString());
-					if (p < allauthors.size()) {
+					if (p < 10) {
 						p++;%>
 		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 		 <%}
@@ -1731,7 +1727,31 @@ $(function () {
       //
       //
       
-    
+      <%
+      HashMap<String, String> hm = new HashMap<String, String>();
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader("C:\\Users\\amobadimu\\Desktop\\Blogtrackers\\0.csv"));
+			String temp = "";
+			String[] arr;
+			while((temp= br.readLine()) != null) {
+				temp = temp.trim();  											 	// Strip the whitespaces 
+				if(temp.isEmpty()) { 						
+					continue;														// Skip the comments, for example the author, created on and document type
+				}
+				else {
+					arr = temp.split(",");											// Split it by ##, for example, if you have name##wale, then arr[0] = name and arr[1] = wale and arr.length = 2 since it contains 2 elements
+					if(arr.length == 2) {
+						hm.put(arr[0].trim(), arr[1].trim());	
+						langMapper = hm;// Save the element as a key value pair. Using example above, the Hashmap will be [user, wale], where user is the key and wale is the value
+					}
+				}	
+			}
+		}catch(Exception e) {
+			
+		}
+		//System.out.println(langMapper);
+		%>
      data = [
     	  <%
     	  
@@ -2343,7 +2363,7 @@ $(function () {
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
 							int size =  new Double(resu.get("postingfreq").toString()).intValue();
-							if (size > 0 && p < 20) {
+							if (size > 0 && p < 10) {
 								p++;%>
     							{letter:"<%=resu.get("blog").toString().toLowerCase()%>", frequency:<%=size%>, name:"<%=resu.get("blogger").toString().toLowerCase()%>", type:"blogger"},
     		 <% 			}
@@ -3458,7 +3478,7 @@ $(function () {
 
 
 data = {
- //"name":"flare blogger",
+ //"name":"flare",
  "bloggers":[
 	 <%if (authors.length() > 0) {
 			int k = 0;
@@ -3466,10 +3486,10 @@ data = {
 				String key = authorlooper.get(y).toString();
 				JSONObject resu = authors.getJSONObject(key);
 				int size =  new Double(resu.get("totalpost").toString()).intValue();  
-				if (size > 0 && k < allauthors.size()) {
+				//if (size > 0 && k < 15) {
 					k++;%>
 {"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=size%>},
-<% }
+<%//}
 				}
 		}%>
  /* {"label":"Blogger 2","name":"Obadimu Adewale", "size":2500},
@@ -3491,7 +3511,7 @@ data = {
 	}); */
 	
 	
-	var myblogs = 
+	var mybloggers = 
 		  data.bloggers.sort(function(a, b){
 		return b.size - a.size;
 		})
@@ -3500,14 +3520,14 @@ data = {
 		/* resort the bubbles chart by size */
 		var alldata=[];
 		
-	  for(i=0;i<myblogs.length;i++)
+	  for(i=0;i<mybloggers.length;i++)
 		{
 		var myconcat = ",";
-		if(i == myblogs.length - 1)
+		if(i == mybloggers.length - 1)
 		{
 			myconcat = "";	
 		} 
-		alldata[i]= {"label":myblogs[i].label,"name":myblogs[i].name,"size":myblogs[i].size}
+		alldata[i]= {"label":mybloggers[i].label,"name":mybloggers[i].name,"size":mybloggers[i].size}
 
 		} 
 	/* End of sorting   */
@@ -3710,20 +3730,19 @@ $(function () {
 
 
 data = {
- //"name":"flare blogger",
- "bloggs":[
-	 <% if (bloggers.length() > 0) {
+ //"name":"flare",
+ "bloggers":[
+	 <%if (bloggers.length() > 0) {
 			//System.out.println(bloggers);
 			int k = 0;
 			for (int y = 0; y < bloggers.length(); y++) {
 				String key = looper.get(y).toString();
 				JSONObject resu = bloggers.getJSONObject(key);
-				int size = new Double(resu.get("totalposts").toString()).intValue();
-				
-				if (size > 0 && k < 20) {
+				int size = new Double(resu.get("totalposts").toString()).intValue(); 
+				//if (size > 0 && k < 15) {
 					k++;%>
 					{"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=resu.get("totalposts")%>},
-	<% }
+	<% //}
 			}
 		}%>
  ]
@@ -3733,7 +3752,7 @@ data = {
      
       
   var mybloggers = 
-	  data.bloggs.sort(function(a, b){
+	  data.bloggers.sort(function(a, b){
 	return b.size - a.size;
 	})
 	
@@ -3752,9 +3771,9 @@ data = {
 
 	} 
 /* End of sorting   */
-  bloggs = alldata;
+  bloggers = alldata;
   
-  data = {   bloggs  }
+  data = {   bloggers  }
   
   
             //
@@ -3836,7 +3855,7 @@ data = {
             var classes = [];
 
             function recurse(name, node) {
-                if (node.bloggs) node.bloggs.forEach(function(child) { recurse(node.name, child); });
+                if (node.bloggers) node.bloggers.forEach(function(child) { recurse(node.name, child); });
                 else classes.push({packageName: name, className: node.name, value: node.size,label:node.label});
             }
 
@@ -4616,7 +4635,6 @@ $(".option-lable").on("click",function(e){
 	});
 });
 
- 
  
  function loadDomain(){
 	 $("#top-domain-box").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");		
