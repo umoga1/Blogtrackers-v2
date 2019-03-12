@@ -103,7 +103,9 @@ if(action.toString().equals("getstats")){
 	result.put("toplocation",toplocation);
 %>
 <%=result.toString()%>
-<% }else if(action.toString().equals("gettable")){%>
+<% }else if(action.toString().equals("gettable")){
+	//System.out.println("start:"+dt+",End:"+dte); 
+%>
 <link rel="stylesheet" href="assets/css/table.css" />
 <link rel="stylesheet" href="assets/css/style.css" />
 		<div class="row m0 mt20 mb0 d-flex align-items-stretch">
@@ -670,7 +672,15 @@ if(action.toString().equals("getstats")){
                               svg.selectAll(".circle-point").data(data[0])
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
-                              .on("click",function(d){console.log(d.date)});
+                              .on("click",function(d){
+                            	  //console.log(d.date);
+                            	  console.log("Here g"+d.date);
+                            	  var d1 = 	  d.date + "-01-01";
+                                	 var d2 = 	  d.date + "-12-31";
+                      				
+                                	  loadTable(d1,d2);	
+                            	  
+                              });
                                                  svg.call(tip)
                       }
                       // handles multiple json parameter
@@ -720,7 +730,13 @@ if(action.toString().equals("getstats")){
                                        svg.selectAll(".circle-point").data(mergedarray)
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
-                                      .on("click",function(d){console.log(d.date)});
+                                      .on("click",function(d){
+                                    	  console.log("Here g"+d.date);
+                                    	  var d1 = 	  d.date + "-01-01";
+ 	                                   	 var d2 = 	  d.date + "-12-31";
+ 	                         				
+ 	                                   	  loadTable(d1,d2);	  
+                                      });
                                  //                         svg.call(tip)
 
                                //console.log(newi);
@@ -729,7 +745,14 @@ if(action.toString().equals("getstats")){
                                      svg.selectAll(".circle-point").data(mergedarray)
                                      .on("mouseover",tip.show)
                                      .on("mouseout",tip.hide)
-                                     .on("click",function(d){console.log(d.date)});
+                                     .on("click",function(d){
+                                    	 console.log("Here"+d.date);
+                                    	 var d1 = 	  d.date + "-01-01";
+	                                   	 var d2 = 	  d.date + "-12-31";
+	                         				
+	                                   	  loadTable(d1,d2);	
+	                                   	  
+                                     });
                                                         svg.call(tip)
 
 

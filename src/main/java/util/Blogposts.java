@@ -793,6 +793,7 @@ public class Blogposts {
 	public ArrayList _searchByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
 
 		int size = 20;
+		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
@@ -806,6 +807,27 @@ public class Blogposts {
 				"			}\r\n" + 
 				"	}\r\n" + 
 				"}");
+		*/
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"       \"query\": {\r\n" + 
+				"          \"bool\": { \r\n" + 
+				"               \"must\": {\r\n" + 
+				"                    \"query_string\" : {\r\n" + 
+				"            			\"fields\" : [\"post\",\"post\"],\r\n" + 
+				"            			\"query\" : \""+term+"\"\r\n" + 
+				"                    }\r\n" + 
+				"                },\r\n" + 
+				"                \"filter\": {\r\n" + 
+				"                    \"range\" : {\r\n" + 
+				"                        \"date\" : {\r\n" + 
+				"                            \"gte\": \""+start+"\",\r\n" + 
+				"                            \"lte\": \""+end+"\"\r\n" + 
+				"                        }\r\n" + 
+				"                    }\r\n" + 
+				"                }\r\n" + 
+				"            }\r\n" + 
+				"        }\r\n" + 
+				"    }");
 	
 		String url = base_url+"_search?size="+size; 
 		//System.out.println(url);
