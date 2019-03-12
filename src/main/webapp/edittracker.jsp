@@ -21,6 +21,7 @@ String profileimage= "";
 String username ="";
 String name="";
 String phone="";
+String total_post = "";
 String date_modified = "";
 ArrayList detail = new ArrayList();
 Trackers tracker = new Trackers();
@@ -72,6 +73,28 @@ if(f.exists() && !f.isDirectory()) {
 	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
 }
 }catch(Exception e){}
+String ids = "";
+Blogposts post = new Blogposts();
+
+if (detail.size() > 0) {
+	//String res = detail.get(0).toString();
+	ArrayList resp = (ArrayList<?>)detail.get(0);
+
+	String tracker_userid = resp.get(1).toString();
+	if (tracker_userid.equals(user.toString())) {
+		isowner = true;
+		String query = resp.get(5).toString();//obj.get("query").toString();
+		query = query.replaceAll("blogsite_id in ", "");
+		query = query.replaceAll("\\(", "");
+		query = query.replaceAll("\\)", "");
+		ids = query;
+	}
+}
+if(ids.length()>0){
+	total_post = Integer.parseInt(post._getTotalByBlogId(ids, ""))+"";
+}else{
+	total_post="0";
+}
 
 %>
 <!DOCTYPE html>
@@ -329,7 +352,7 @@ if(f.exists() && !f.isDirectory()) {
 	<h6 class="text-primary labeltext">Blogs</h6>
 	</div>
 	<div class="float-left statcontainer">
-	<b class="stattext"><%=NumberFormat.getNumberInstance(Locale.US).format(totalpost)%></b>
+	<b class="stattext"><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(total_post))%></b>
 	<h6 class="text-primary labeltext">Posts</h6>
 	</div>
 	
