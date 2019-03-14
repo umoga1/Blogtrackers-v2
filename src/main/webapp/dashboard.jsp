@@ -23,7 +23,6 @@
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
-	HashMap<String, String> langMapper = new HashMap<String, String>();
 	
 	//System.out.println(date_start);
 	if (user == null || user == "") {
@@ -342,7 +341,7 @@
 					    String auth = tobj.get("blogger").toString();
 					    String lang = tobj.get("language").toString();
 					    
-					    
+					    lang = blog.normalizeLanguage(lang);
 					  	JSONObject content = new JSONObject();
 					   
 					  	String[] dateyear=tobj.get("date").toString().split("-");
@@ -1721,31 +1720,6 @@ $(function () {
       //
       //
       
-      <%
-      HashMap<String, String> hm = new HashMap<String, String>();
-		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new FileReader("C:\\Users\\amobadimu\\Desktop\\Blogtrackers\\0.csv"));
-			String temp = "";
-			String[] arr;
-			while((temp= br.readLine()) != null) {
-				temp = temp.trim();  											 	// Strip the whitespaces 
-				if(temp.isEmpty()) { 						
-					continue;														// Skip the comments, for example the author, created on and document type
-				}
-				else {
-					arr = temp.split(",");											// Split it by ##, for example, if you have name##wale, then arr[0] = name and arr[1] = wale and arr.length = 2 since it contains 2 elements
-					if(arr.length == 2) {
-						hm.put(arr[0].trim(), arr[1].trim());	
-						langMapper = hm;// Save the element as a key value pair. Using example above, the Hashmap will be [user, wale], where user is the key and wale is the value
-					}
-				}	
-			}
-		}catch(Exception e) {
-			
-		}
-		//System.out.println(langMapper);
-		%>
      data = [
     	  <%
     	  
