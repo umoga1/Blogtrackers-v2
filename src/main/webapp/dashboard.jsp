@@ -440,6 +440,7 @@
 							content.put("blogger", auth);
 							content.put("influence", influence);
 							content.put("totalpost",valu);
+							
 							influentialauthors.put(auth, content);
 							influentialauthorlooper.add(j,auth);
 							j++;
