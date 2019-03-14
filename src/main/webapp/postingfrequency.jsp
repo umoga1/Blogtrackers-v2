@@ -243,8 +243,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
-		//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-		allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 		
 			
 	

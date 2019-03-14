@@ -270,7 +270,7 @@
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-			ArrayList allauthors2= post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+			ArrayList allauthors2 = post._getBloggerByBlogId("date",dt, dte,ids);//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 			allauthors = allauthors2;//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		
 			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
@@ -360,6 +360,8 @@
 						} else {
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
+
+						    btoty = post._searchRangeTotalByBlogger("date",dt, dte,auth);
 						   	Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
 							int valu = new Double(btoty).intValue(); 
 							   if(valu==0){
@@ -427,7 +429,7 @@
 						} else {
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
-						    
+						    btoty = post._searchRangeTotalByBlogger("date",dt, dte,auth);
 						   // System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
 						   Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
 						
