@@ -3703,11 +3703,11 @@ data = {
 			for (int y = 0; y < bloggers.length(); y++) {
 				String key = looper.get(y).toString();
 				JSONObject resu = bloggers.getJSONObject(key);
-				int size = new Double(resu.get("totalposts").toString()).intValue();
+				int size = new Double(resu.get("postingfreq").toString()).intValue();
 				
 				if (size > 0 && k < 20) {
 					k++;%>
-					{"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=resu.get("totalposts")%>},
+					{"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=size%>},
 	<% }
 			}
 		}%>
