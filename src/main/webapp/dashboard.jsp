@@ -27,7 +27,6 @@
 	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
 	} else {
-
 		ArrayList<?> userinfo = null;
 		String profileimage = "";
 		String username = "";
@@ -272,7 +271,7 @@
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 			ArrayList allauthors2= post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+			allauthors = allauthors2;//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		
 			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
@@ -288,6 +287,7 @@
 				//ystint=0;
 				//yendint = diff;
 			}
+			
 			int b=0;
 			for(int y=ystint; y<=yendint; y++){
 				/*
@@ -318,8 +318,7 @@
 		    
 		    JSONArray authorcount = new JSONArray();
 		    JSONObject language = new JSONObject();
-		    ArrayList langlooper = new ArrayList();
-		    
+		    ArrayList langlooper = new ArrayList();	    
 		    
 			ArrayList authorlooper = new ArrayList();
 			ArrayList influentialauthorlooper = new ArrayList();
@@ -848,7 +847,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=allauthors.size()%></h3>
+						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=authors.length()%></h3>
 					</div>
 				</div>
 			</div>
@@ -1174,8 +1173,10 @@
 							<p class="text-primary mt10 float-left">
 
 								Most Influential <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
+								
+								<option value="bloggers">Bloggers</option>
 								<option value="blogs">Blogs </option>
-								<option value="bloggers">Bloggers</option></select> 
+								</select> 
 								  <%-- 
 						   of Past <select
 									class="text-primary filtersort sortbytimerange"><option

@@ -32,7 +32,6 @@ public class Blogposts {
 
 	public ArrayList _list(String order, String from, String sortby) throws Exception {
 		int size = 20;
-
 		int fr = 0;
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"    \"query\": {\r\n" + 
