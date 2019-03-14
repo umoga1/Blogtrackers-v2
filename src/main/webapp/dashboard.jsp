@@ -269,7 +269,7 @@
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 			ArrayList allauthors2= post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 			allauthors = allauthors2;//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		

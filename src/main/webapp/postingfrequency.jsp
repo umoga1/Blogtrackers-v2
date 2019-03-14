@@ -243,7 +243,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
-		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+		//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+		allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		
 			
 	
@@ -1964,7 +1965,7 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=878909"></script>
+<script src="pagedependencies/postingfrequency.js?v=9878909"></script>
 
 </body>
 </html>

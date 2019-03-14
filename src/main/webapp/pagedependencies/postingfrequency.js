@@ -85,8 +85,8 @@ function loadChart(blogger,blog_id,start_date,end_date){
 
 		$("#chart-container").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 
-			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
-			  });*/
+			 $.getScript("pagedependencies/baseurl.js?v=93", function(data, textStatus, jqxhr) {	});
+			 $.getScript("pagedependencies/postingfrequency.js?v=78878909", function(data, textStatus, jqxhr) {	});
 		}
 	});
 	
