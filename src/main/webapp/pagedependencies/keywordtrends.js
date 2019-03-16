@@ -106,6 +106,7 @@ function loadTable(date_start,date_end){
 				action:"gettable",
 				term:$("#term").val(),
 				id:$("#term_id").val(),
+				tid:$("#tid").val(),
 				date_start:date_start,
 				date_end:date_end,
 			},
@@ -115,17 +116,19 @@ function loadTable(date_start,date_end){
 			},
 			success: function(response)
 			{   
-				$("#combined-div").html(response);
+				//$("#combined-div").html(response);
 				
-				$.getScript("assets/vendors/DataTables/datatables.min.js", function(data, textStatus, jqxhr) { });
-				$.getScript("assets/vendors/DataTables/dataTables.bootstrap4.min.js", function(data, textStatus, jqxhr) { });
-				$.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js", function(data, textStatus, jqxhr) { });
-				$.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js", function(data, textStatus, jqxhr) { });
+				$("#combined-div").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 				
-				$.getScript("assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js", function(data, textStatus, jqxhr) { });
-				$.getScript("assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js", function(data, textStatus, jqxhr) { });
-				$.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js", function(data, textStatus, jqxhr) { });
-				$.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js", function(data, textStatus, jqxhr) { });
+				$.getScript("assets/js/jquery-3.2.1.slim.min.js", function(data, textStatus, jqxhr) {	 });
+				$.getScript("assets/js/popper.min.js", function(data, textStatus, jqxhr) {	 });
+				
+				$.getScript("assets/vendors/DataTables/datatables.min.js", function(data, textStatus, jqxhr) {	 });
+				
+				$.getScript("pagedependencies/baseurl.js?v=38", function(data, textStatus, jqxhr) {	 });
+				$.getScript("pagedependencies/keywordtrends.js?v=0879", function(data, textStatus, jqxhr) {	 });
+				
+				
 		
 			}
 		});
@@ -149,6 +152,7 @@ $('.blogpost_link').on("click", function(){
 		data: {
 			action:"fetchpost",
 			key:"blogpost_id",
+			tid:$("#tid").val(),
 			value:post_id,
 			term:$("#term").val(),
 			source:"keywordtrend",

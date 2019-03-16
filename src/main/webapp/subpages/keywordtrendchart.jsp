@@ -24,6 +24,7 @@ String mostactiveterm = (null == request.getParameter("term")) ? "" : request.ge
 Object sort = (null == request.getParameter("sort")) ? "" : request.getParameter("sort");
 Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
 Object id = (null == request.getParameter("id")) ? "" : request.getParameter("id");
+Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 
 
 Trackers tracker  = new Trackers();
@@ -106,11 +107,28 @@ if(action.toString().equals("getstats")){
 <% }else if(action.toString().equals("gettable")){
 	//System.out.println("start:"+dt+",End:"+dte); 
 %>
-<link rel="stylesheet" href="assets/css/table.css" />
-<link rel="stylesheet" href="assets/css/style.css" />
-		<div class="row m0 mt20 mb0 d-flex align-items-stretch">
-			<div
-				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
+
+          <%  
+          ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);
+          %>
+          
+          
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/bootstrap/css/bootstrap-grid.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/assets/fonts/fontawesome/css/fontawesome-all.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/fonts/iconic/css/open-iconic.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/table.css" />
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
+
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/daterangepicker.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/style.css" />
+
+          <div class="row m0 mt20 mb0 d-flex align-items-stretch">
+			<div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright" id="post-list">
 				<div class="card-body p0 pt20 pb20" style="min-height: 420px;">
 					<p>
 						Posts that mentioned <b class="text-green active-term"><%=mostactiveterm%></b>
@@ -119,12 +137,8 @@ if(action.toString().equals("getstats")){
           Export Options
           </div> -->
           <%  
-          ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);
           JSONObject firstpost = new JSONObject();
           if(allposts.size()>0){	%>
-          			<link rel="stylesheet" href="assets/css/style.css" />          			
-					<link rel="stylesheet" href="assets/css/table.css" />
-					<link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 					<table id="DataTables_Table_2_wrapper" class="display"
 						style="width: 100%">
 						<thead>
@@ -138,19 +152,18 @@ if(action.toString().equals("getstats")){
 									String tres = null;
 									JSONObject tresp = null;
 									String tresu = null;
-									JSONObject tobj = null;
-									
+									JSONObject tobj = null;								
 									
 									int k=0;
-									int tloc = 0;
+									
 									for(int i=0; i< allposts.size(); i++){
 										tres = allposts.get(i).toString();	
-										tresp = new JSONObject(tres);
-										
+										tresp = new JSONObject(tres);									
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
 										
 										
+												
 												//System.out.println("postdet +"+tobj3);
 												if(i==0){
 													firstpost = tobj;
@@ -159,10 +172,8 @@ if(action.toString().equals("getstats")){
 												int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
 												
 										        String str = tobj.get("post").toString()+" "+ tobj.get("post").toString();
-												
-										        str = str.toLowerCase();
+												str = str.toLowerCase();
 												mostactiveterm = mostactiveterm.toLowerCase();
-										        
 										        String findStr = mostactiveterm;
 												int lastIndex = 0;
 												//int count = 0;
@@ -173,16 +184,17 @@ if(action.toString().equals("getstats")){
 
 												    if(lastIndex != -1){
 												        bodyoccurencece++;
+												       // alloccurence+=bodyoccurencece;
 												        lastIndex += findStr.length();
 												    }
+												    
+												    
+												    
 												}
-												
-												//int keycount = term.getTermOcuurence(mostactiveterm, dt, dte);
-												
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></buttton></a>
 								</td>
 								<td align="center"><%=(bodyoccurencece) %></td>
                                      </tr>
@@ -190,7 +202,8 @@ if(action.toString().equals("getstats")){
 							</tr>						
 						</tbody>
 					</table>
-					<% } %>				</div>
+					<% } %>
+				</div>
 
 			</div>
 
@@ -208,8 +221,8 @@ if(action.toString().equals("getstats")){
 									String date = dtf.format(datee);
 									String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
 									String link = tobj.get("permalink").toString();
-									String maindomain="";
 									
+									String maindomain="";
 									try {
 										URI uri = new URI(link);
 										String domain = uri.getHost();
@@ -220,6 +233,7 @@ if(action.toString().equals("getstats")){
 										}
 									} catch (Exception ex) {}
 									
+
 									title = title.replaceAll(mostactiveterm,replace);
 									String active2 = mostactiveterm.substring(0,1).toUpperCase()+mostactiveterm.substring(1,mostactiveterm.length());
 									String active3= mostactiveterm.toUpperCase();
@@ -236,12 +250,13 @@ if(action.toString().equals("getstats")){
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=title%></h5>
 										<div class="text-center mb20 mt20">
-											<a href=""><button class="btn stylebuttonblue">
+											<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid.toString()%>&blogger=<%=tobj.get("blogger")%>">
+											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-
-											<button class="btn stylebuttonnocolor nocursor"><%=date%></button>
+											</a>
+											<button class="btn stylebuttonnocolor nocursor"><%=date %></button>
 											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
@@ -251,16 +266,15 @@ if(action.toString().equals("getstats")){
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 550px; overflow-y: scroll;">
 											<%=body%>
-										</div> 
-										</div>                     
+										</div>         
+										</div>             
                      		<% } %>
 
 				</div>
 				</div>
 			</div>
-		</div>
- <script type="text/javascript" src="pagedependencies/blogpostselectkeywordtrend.js">
-</script> 
+          		
+ <script type="text/javascript" src="pagedependencies/blogpostselectkeywordtrend.js"></script> 
 	
 <%}else{ 
 
