@@ -1346,7 +1346,7 @@
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
 							int size = new Double(resu.get("postingfreq").toString()).intValue();
-							if (size > 0 && p < 20) {
+							if (size > 0 && p < 15) {
 								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
     			 <%}}}%>
 			</textarea>
@@ -1355,7 +1355,7 @@
 				String key = authorlooper.get(y).toString();
 				JSONObject resu = authors.getJSONObject(key);
 				int size = new Double(resu.get("totalpost").toString()).intValue(); 
-				if (size > 0 && k < 20) {
+				if (size > 0 && k < 15) {
 					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 <%}}}%></textarea>
 
@@ -1368,7 +1368,7 @@
 							JSONObject resu = bloggers.getJSONObject(key);
 							
 							int size =  new Double(resu.get("postingfreq").toString()).intValue(); 
-							if (size > 0 && p < 20) {
+							if (size > 0 && p < 15) {
 								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
     			 <%}}}%>
 			 </textarea>
@@ -1382,7 +1382,7 @@
 					String key = influentialauthorlooper.get(y).toString();
 					JSONObject resu = influentialauthors.getJSONObject(key);
 					Double size = Double.parseDouble(resu.get("influence").toString());
-					if (p < 20) {
+					if (p < 15) {
 						p++;%>
 		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 		 <%}
@@ -2038,7 +2038,7 @@ $(function () {
 					String key = influentialauthorlooper.get(y).toString();
 					JSONObject resu = influentialauthors.getJSONObject(key);
 					Double size = Double.parseDouble(resu.get("influence").toString());
-					if (p < 20) {
+					if (p < 15) {
 						p++;%>
 		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
 		 <%}
@@ -2331,7 +2331,7 @@ $(function () {
 							String key = looper.get(y).toString();
 							JSONObject resu = bloggers.getJSONObject(key);
 							int size =  new Double(resu.get("postingfreq").toString()).intValue();
-							if (size > 0 && p < 20) {
+							if (size > 0 && p < 15) {
 								p++;%>
     							{letter:"<%=resu.get("blog").toString().toLowerCase()%>", frequency:<%=size%>, name:"<%=resu.get("blogger").toString().toLowerCase()%>", type:"blogger"},
     		 <% 			}
@@ -3453,7 +3453,7 @@ data = {
 				String key = authorlooper.get(y).toString();
 				JSONObject resu = authors.getJSONObject(key);
 				int size =  new Double(resu.get("totalpost").toString()).intValue();  
-				if (size > 0 && k < 20) {
+				if (size > 0 && k < 15) {
 					k++;%>
 {"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=size%>},
 <% }
@@ -3707,7 +3707,7 @@ data = {
 				JSONObject resu = bloggers.getJSONObject(key);
 				int size = new Double(resu.get("postingfreq").toString()).intValue();
 				
-				if (size > 0 && k < 20) {
+				if (size > 0 && k < 15) {
 					k++;%>
 					{"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=size%>},
 	<% }
