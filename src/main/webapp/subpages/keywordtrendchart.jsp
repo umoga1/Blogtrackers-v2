@@ -115,16 +115,10 @@ if(action.toString().equals("getstats")){
           
 <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/bootstrap/css/bootstrap-grid.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/assets/fonts/fontawesome/css/fontawesome-all.css" />
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/fonts/iconic/css/open-iconic.css" />
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/fonts/fontawesome/css/fontawesome-all.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/table.css" />
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
-
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/daterangepicker.css" />
+<link rel="style
+sheet" href="<%=request.getContextPath()%>/assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/style.css" />
 
           <div class="row m0 mt20 mb0 d-flex align-items-stretch">
