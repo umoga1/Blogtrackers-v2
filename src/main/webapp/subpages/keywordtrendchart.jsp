@@ -113,15 +113,7 @@ if(action.toString().equals("getstats")){
           %>
           
           
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/bootstrap/css/bootstrap-grid.css" />
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/fonts/fontawesome/css/fontawesome-all.css" />
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/table.css" />
-<link rel="style
-sheet" href="<%=request.getContextPath()%>/assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/style.css" />
-
-          <div class="row m0 mt20 mb0 d-flex align-items-stretch">
+ <div class="row m0 mt20 mb0 d-flex align-items-stretch">
 			<div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright" id="post-list">
 				<div class="card-body p0 pt20 pb20" style="min-height: 420px;">
 					<p>
@@ -267,9 +259,44 @@ sheet" href="<%=request.getContextPath()%>/assets/vendors/DataTables/dataTables.
 				</div>
 				</div>
 			</div>
-          		
- <script type="text/javascript" src="pagedependencies/blogpostselectkeywordtrend.js"></script> 
+<link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />	
+<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
+ 
+<script>
+			
+ $(document).ready(function() {
+	 
+	 
+	$('#printdoc').on('click',function(){
+		print();
+	}) 
 	
+		  
+		  // datatable setup
+		    $('#DataTables_Table_2_wrapper').DataTable( {
+		        "scrollY": 480,
+		        "scrollX": true,
+		         "pagingType": "simple",
+		        	 "bLengthChange": false
+		      /*    ,
+		         dom: 'Bfrtip',
+		         "columnDefs": [
+		      { "width": "80%", "targets": 0 }
+		    ],
+		      buttons:{
+		        buttons: [
+		            { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
+		            {extend:'csv',className: 'btn-primary stylebutton1'},
+		            {extend:'excel',className: 'btn-primary stylebutton1'},
+		           // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
+		            {extend:'print',className: 'btn-primary stylebutton1'},
+		        ]
+		      } */
+		    } );
+	 
+ } );
+ </script>       		
+ 	
 <%}else{ 
 
 	String[] yst = dt.split("-");
@@ -308,47 +335,9 @@ sheet" href="<%=request.getContextPath()%>/assets/vendors/DataTables/dataTables.
 		<div class="chart" id="d3-line-basic"></div>
 </div>
 
-<link rel="stylesheet"
-	href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />	
-<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
-			<script>
-			
- $(document).ready(function() {
-	 
-	 
-	$('#printdoc').on('click',function(){
-		print();
-	}) 
-	
-		  
-		  // datatable setup
-		    $('#DataTables_Table_2_wrapper').DataTable( {
-		        "scrollY": 480,
-		        "scrollX": true,
-		         "pagingType": "simple",
-		        	 "bLengthChange": false
-		      /*    ,
-		         dom: 'Bfrtip',
-		         "columnDefs": [
-		      { "width": "80%", "targets": 0 }
-		    ],
-		      buttons:{
-		        buttons: [
-		            { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
-		            {extend:'csv',className: 'btn-primary stylebutton1'},
-		            {extend:'excel',className: 'btn-primary stylebutton1'},
-		           // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
-		            {extend:'print',className: 'btn-primary stylebutton1'},
-		        ]
-		      } */
-		    } );
-	 
- } );
- </script>
+
 	<!--end for table  -->	
-<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
-	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
-	<script>
+<script>
 
  $(function () {
 
