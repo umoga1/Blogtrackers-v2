@@ -28,13 +28,14 @@
 <div class="chart" id="influencebar"></div>
 <script>
 
+
 $(function () {
 
     // Initialize chart
-    postingfrequencybar('#influencebar', 450);
+    influencebar('#influencebar', 450);
 
     // Chart setup
-    function postingfrequencybar(element, height) {
+    function influencebar(element, height) {
 
       // Basic setup
       // ------------------------------
@@ -59,9 +60,10 @@ $(function () {
           .range([0,width]);
 
       // Color
-    //  var color = d3.scale.category20c();
+      var color = d3.scale.category20c();
 
-  	
+
+
       // Create axes
       // ------------------------------
 
@@ -102,11 +104,9 @@ $(function () {
       // // ------------------------------
       //
       //
-     //sort by influence score
-      data = [
-    	  <%=bloggersstr.toString().toLowerCase()%>
-    		// {letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},      
-       ];
+      //sort by influence score
+      data = [ <%=bloggersstr.toString().toLowerCase()%>
+        ];
       data = data.sort(function(a, b){
     	    return a.frequency - b.frequency;
     	}); 
@@ -132,13 +132,22 @@ $(function () {
            // Initialize tooltip
            svg.call(tip);
 
-
-
+      //
+      //     // Pull out values
+      //     data.forEach(function(d) {
+      //         d.frequency = +d.frequency;
+      //     });
+      //
+      //
+      //
+      //     // Set input domains
+      //     // ------------------------------
+      //
       //     // Horizontal
-          y.domain(data.map(function(d) { return d.letter; }))
+          y.domain(data.map(function(d) { return d.letter; }));
 
           // Vertical
-          x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
+          x.domain([d3.min(data, function(d) { return d.frequency-20; }),d3.max(data, function(d) { return d.frequency; })]);
       //
       //
       //     //
@@ -163,16 +172,29 @@ $(function () {
               .style("font-size",12)
               .style("text-transform","capitalize")
    			/* .attr("y", -25)
-    			.attr("x", 40)
+    		.attr("x", 20)
     		.attr("dy", ".75em")
-    		.attr("transform", "rotate(-70)") */
-     
-      
-      var colorblogs = d3.scale.linear()
+    		.attr("transform", "rotate(-70)"); */
+      //
+      //
+      //     // Add text label
+      //     verticalAxis.append("text")
+      //         .attr("transform", "rotate(-90)")
+      //         .attr("y", 10)
+      //         .attr("dy", ".71em")
+      //         .style("text-anchor", "end")
+      //         .style("fill", "#999")
+      //         .style("font-size", 12)
+      //         // .text("Frequency")
+      //         ;
+      //
+      //
+      //     // Add bars
+       var colorblogs = d3.scale.linear()
 	.domain([0,1,2,3,4,5,6,10,15,20])
 	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
 
-         transitionbar =  svg.selectAll(".d3-bar")
+          var transitionbarinfluence = svg.selectAll(".d3-bar")
               .data(data)
               .enter()
               .append("rect")
@@ -183,26 +205,69 @@ $(function () {
                   .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
                   .attr("width", 0)
-                  .style("fill", function(d,i) {
-                
-                 // return colorblogs(data.length - i - 1);
-                  <% if(sort.equalsIgnoreCase("blogs")){ %>
-                  return colorblogs(data.length - i - 1);
-                 <% } else { %>
-                 return colorblogs(data.length - i - 1);
-                 //return colorblogs(i)
-                 <% } %>
+                  /* .style("fill", function(d) {
+                	 
+                  maxvalue = d3.max(data, function(d) { return d.frequency; });
+                  if(d.frequency == maxvalue)
+                  {
+                    return "#0080CC";
+                    
+                  }
+                  else
+                  {
+                    return "#78BCE4";
+                  }
 
-                })
+                })*/
+                .style("fill", function(d,i) {
+                    
+                     return colorblogs(data.length - i - 1);
+                    
+                   })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
-          
-          transitionbar.transition()
-          .delay(200)
-          .duration(1000)
-          .attr("width", function(d) { return x(d.frequency); })
-          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+          $(element).bind('inview', function (event, visible) {
+        	  if (visible == true) {
+        	    // element is now visible in the viewport
+        		  transitionbarinfluence.transition()
+                  .delay(200)
+                  .duration(1000)
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+        	  } else {
+        		  
+        		  transitionbarinfluence.attr("width", 0)
+        	    // element has gone out of viewport
+        	  }
+        	});
+        
+         /*  svg.append("g")
+          .attr("transform", "translate("+x(50)+",0)")
+          .append("line")
+          .attr("y2", height)
+          .style("stroke", "#2ecc71")
+          .style("stroke-width", "1px") */
 
+
+                  // svg.selectAll(".d3-bar")
+                  //     .data(data)
+                  //     .enter()
+                  //     .append("rect")
+                  //         .attr("class", "d3-bar")
+                  //         .attr("x", function(d) { return x(d.letter); })
+                  //         .attr("width", x.rangeBand())
+                  //         .attr("y", function(d) { return y(d.frequency); })
+                  //         .attr("height", function(d) { return height - y(d.frequency); })
+                  //         .style("fill", function(d) { return "#58707E"; })
+                  //         .on('mouseover', tip.show)
+                  //         .on('mouseout', tip.hide);
+
+
+
+
+
+        // Resize chart
+        // ------------------------------
 
         // Call function on window resize
         $(window).on('resize', resize);
@@ -210,20 +275,45 @@ $(function () {
         // Call function on sidebar width change
         $('.sidebar-control').on('click', resize);
 
+        // Resize function
+        //
+        // Since D3 doesn't support SVG resize by default,
+        // we need to manually specify parts of the graph that need to
+        // be updated on window resize
         function resize() {
 
+            // Layout variables
             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
 
+
+            // // Layout
+            // // -------------------------
+            //
+            // // Main svg width
             container.attr("width", width + margin.left + margin.right);
 
+            // Width of appended group
             svg.attr("width", width + margin.left + margin.right);
+            //
+            //
+            // // Axes
+            // // -------------------------
+            //
+            // // Horizontal range
            x.range([0,width]);
+            //
+            // // Horizontal axis
             svg.selectAll('.d3-axis-horizontal').call(xAxis);
+             // svg.selectAll('.d3-bar-vertical').call(yAxis);
 
+            //
+            // // Chart elements
+            // // -------------------------
+            //
+            // // Line path
            svg.selectAll('.d3-bar').attr("width", function(d) { return x(d.frequency); });
         }
     }
 });
-
 </script>
 

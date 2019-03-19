@@ -322,6 +322,13 @@
 		    
 			ArrayList authorlooper = new ArrayList();
 			ArrayList influentialauthorlooper = new ArrayList();
+			
+			JSONArray authorarr = new JSONArray();
+			JSONArray authorinfluencearr = new JSONArray();
+			JSONArray authorpostingfreqarr = new JSONArray();
+			JSONArray bloginfluencearr = new JSONArray();
+			JSONArray blogpostingfreqarr = new JSONArray();
+			
 			if(allauthors.size()>0){
 				String tres = null;
 				JSONObject tresp = null;
@@ -346,18 +353,7 @@
 					    String yy= dateyear[0];
 					    sentimentpost.put(tobj.get("blogpost_id").toString());
 					   
-					    if(authors.has(auth)){
-							content = new JSONObject(authors.get(auth).toString());
-							Double inf = Double.parseDouble(content.get("influence").toString());
-							//inf = inf+influence;
-							//Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-							
-							int valu = new Double(content.get("totalpost").toString()).intValue();
-							content.put("blogger", auth);
-							content.put("influence", inf);
-							content.put("totalpost",valu);
-							authors.put(auth, content);
-						} else {
+					    if(!authors.has(auth)){
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
 
@@ -371,6 +367,7 @@
 							content.put("blogger", auth);
 							content.put("influence", influence);
 							content.put("totalpost",valu);
+							authorarr.put(valu+"___"+auth);
 							authors.put(auth, content);
 							authorlooper.add(j,auth);
 							j++;
@@ -417,16 +414,7 @@
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
 					   
-					    if(influentialauthors.has(auth)){
-							content = new JSONObject(influentialauthors.get(auth).toString());
-							Double inf = Double.parseDouble(content.get("influence").toString());
-							//inf = inf+influence;
-							int valu = new Double(content.get("totalpost").toString()).intValue(); 
-							content.put("blogger", auth);
-							content.put("influence", inf);
-							content.put("totalpost",valu);
-							influentialauthors.put(auth, content);
-						} else {
+					    if(!influentialauthors.has(auth)){
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
 						    btoty = post._searchRangeTotalByBlogger("date",dt, dte,auth);
@@ -442,6 +430,9 @@
 							content.put("blogger", auth);
 							content.put("influence", influence);
 							content.put("totalpost",valu);
+							
+							authorinfluencearr.put(influence+"___"+auth);
+							authorpostingfreqarr.put(valu+"___"+auth);
 							
 							influentialauthors.put(auth, content);
 							influentialauthorlooper.add(j,auth);
@@ -554,8 +545,6 @@
 
 			ArrayList looper = new ArrayList();
 			
-			
-
 			if (blogs.size() > 0) {
 				String bres = null;
 				JSONObject bresp = null;
@@ -590,30 +579,23 @@
 					
 						String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
 						//String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
+						Double influence =  Double.parseDouble(post._searchRangeMaxByBlogId("date",dt, dte,bobj.get("blogsite_id").toString()));
+						
 						int valu = 1;//Integer.parseInt(btoty);
-						if (bloggers.has(blogger)) {
-							content = new JSONObject(bloggers.get(blogger).toString());						
+						if (!bloggers.has(blogger)) {
 							content.put("blog", blogname);
 							content.put("id", bobj.get("blogsite_id").toString());
 							content.put("blogger", blogger);
 							content.put("sentiment", sentiment);
 							content.put("postingfreq", posting);
 							content.put("value", valu);
+							content.put("influence", influence);
 							content.put("totalposts", toty);
 							content.put("blogsite_url", bobj.get("blogsite_url").toString());
 							content.put("blogsite_domain", durl);
 							bloggers.put(blogger, content);
-						} else {
-							content.put("blog", blogname);
-							content.put("id", bobj.get("blogsite_id").toString());
-							content.put("blogger", blogger);
-							content.put("sentiment", sentiment);
-							content.put("postingfreq", posting);
-							content.put("value", valu);
-							content.put("totalposts", toty);
-							content.put("blogsite_url", bobj.get("blogsite_url").toString());
-							content.put("blogsite_domain", durl);
-							bloggers.put(blogger, content);
+							bloginfluencearr.put(influence+"___"+blogger);
+							blogpostingfreqarr.put(posting+"___"+blogger);
 							looper.add(m, blogger);
 							m++;
 						}	
@@ -621,6 +603,12 @@
 
 			}
 			
+			
+			authorinfluencearr = post._sortJson2(authorinfluencearr);
+			authorpostingfreqarr = post._sortJson2(authorpostingfreqarr);
+			
+			bloginfluencearr = post._sortJson2(bloginfluencearr);
+			blogpostingfreqarr = post._sortJson2(blogpostingfreqarr);
 			
 %>
 <!DOCTYPE html>
@@ -1340,54 +1328,60 @@
 		<input type="hidden" name="date_start" id="date_start" value="" /> 
 		<input type="hidden" name="date_end" id="date_end" value="" />
 			<textarea style="display:none" name="blogs" id="blogs" >
-			 <% if (bloggers.length() > 0) {
-						int p = 0;
-						for (int y = 0; y < bloggers.length(); y++) {
-							String key = looper.get(y).toString();
-							JSONObject resu = bloggers.getJSONObject(key);
-							int size = new Double(resu.get("postingfreq").toString()).intValue();
-							if (size > 0 && p < 15) {
-								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
+			<%if (blogpostingfreqarr.length() > 0) {	
+			int p = 0;
+		 for(int m=0; m<blogpostingfreqarr.length(); m++){
+				String key = blogpostingfreqarr.get(m).toString();			
+				String[] splitter = key.split("___");
+				String blg = splitter[1];
+				int size =  new Double(splitter[0].toString()).intValue();	
+				if (size > 0 && p < 15) {
+					p++;%>{letter:"<%=blg%>", frequency:<%=size%>, name:"<%=blg%>", type:"blog"},
     			 <%}}}%>
 			</textarea>
-			<textarea style="display:none" name="bloggers" id="bloggers" ><%if (authors.length() > 0) {
-			int k = 0;for (int y = 0; y < authors.length(); y++) {
-				String key = authorlooper.get(y).toString();
-				JSONObject resu = authors.getJSONObject(key);
-				int size = new Double(resu.get("totalpost").toString()).intValue(); 
-				if (size > 0 && k < 15) {
-					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+			<textarea style="display:none" name="bloggers" id="bloggers" >
+<%if (authorpostingfreqarr.length() > 0) {	
+			int p = 0;
+		 for(int m=0; m<authorpostingfreqarr.length(); m++){
+				String key = authorpostingfreqarr.get(m).toString();			
+				String[] splitter = key.split("___");
+				String au = splitter[1];
+				int size =  new Double(splitter[0].toString()).intValue();	
+				if (size > 0 && p < 15) {
+					p++;%>{letter:"<%=au%>", frequency:<%=size%>, name:"<%=au%>", type:"blogger"},
 <%}}}%></textarea>
 
 <!-- Influence Bar chart loader -->
 	<textarea style="display:none" name="influencialBlogs" id="InfluencialBlogs" >
- <% if (bloggers.length() > 0) {
-						int p = 0;
-						for (int y = 0; y < bloggers.length(); y++) {
-							String key = looper.get(y).toString();
-							JSONObject resu = bloggers.getJSONObject(key);
-							
-							int size =  new Double(resu.get("postingfreq").toString()).intValue(); 
-							if (size > 0 && p < 15) {
-								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
+<%if (bloginfluencearr.length() > 0) {	
+			int p = 0;
+		 for(int m=0; m<bloginfluencearr.length(); m++){
+				String key = bloginfluencearr.get(m).toString();
+				
+				String[] splitter = key.split("___");
+				String blg = splitter[1];
+				int size =  new Double(splitter[0].toString()).intValue();	
+				if (size > 0 && p < 15) {
+					p++;%>{letter:"<%=blg%>", frequency:<%=size%>, name:"<%=blg%>", type:"blog"},
     			 <%}}}%>
 			 </textarea>
         </textarea>
 
 <textarea style="display:none" name="influencialBloggers" id="InfluencialBloggers" >
-	 <% if (allauthors.size() > 0) {
-				int p = 0;
-				//System.out.println(bloggers);
-				for (int y = 0; y < influentialauthors.length(); y++) {
-					String key = influentialauthorlooper.get(y).toString();
-					JSONObject resu = influentialauthors.getJSONObject(key);
-					Double size = Double.parseDouble(resu.get("influence").toString());
-					if (p < 15) {
-						p++;%>
-		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-		 <%}
+<%if (authorinfluencearr.length() > 0) {	
+			int k = 0;
+		 for(int m=0; m<authorinfluencearr.length(); m++){
+				String key = authorinfluencearr.get(m).toString();
+				
+				String[] splitter = key.split("___");
+				String au = splitter[1];
+				int size =  new Double(splitter[0].toString()).intValue();	
+				if (size > 0 && k < 15) {
+					k++;%>
+		{letter:"<%=au%>", frequency:<%=size%>, name:"<%=au%>", type:"blogger"},
+		 <% }
 				}
-			}%> </textarea>
+			}%></textarea>
 
 </form>
 
@@ -2031,19 +2025,19 @@ $(function () {
       //
       //sort by influence score
       data = [
-    	  <% if (influentialauthors.length() > 0) {
-				int p = 0;
-				//System.out.println(bloggers);
-				for (int y = 0; y < influentialauthors.length(); y++) {
-					String key = influentialauthorlooper.get(y).toString();
-					JSONObject resu = influentialauthors.getJSONObject(key);
-					Double size = Double.parseDouble(resu.get("influence").toString());
-					if (p < 15) {
-						p++;%>
-		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-		 <%}
+    	  <%if (authorinfluencearr.length() > 0) {
+ 			 int p=0;
+ 						 for(int m=0; m<authorinfluencearr.length(); m++){
+ 								String key = authorinfluencearr.get(m).toString();							
+ 								String[] splitter = key.split("___");
+ 								String au = splitter[1];
+ 								int size =  new Double(splitter[0].toString()).intValue();
+ 					if (size > 0 && p < 15) {
+ 						p++;%>
+			{letter:"<%=au%>", frequency:<%=size%>, name:"<%=au%>", type:"blogger"},
+			 <%}
 				}
-			}%>    
+				}%>
         ];
       data = data.sort(function(a, b){
     	    return a.frequency - b.frequency;
@@ -2128,6 +2122,10 @@ $(function () {
       //
       //
       //     // Add bars
+       var colorblogs = d3.scale.linear()
+	.domain([0,1,2,3,4,5,6,10,15,20])
+	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
+
           var transitionbarinfluence = svg.selectAll(".d3-bar")
               .data(data)
               .enter()
@@ -2139,18 +2137,25 @@ $(function () {
                   .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
                   .attr("x", function(d) { return 0; })
                   .attr("width", 0)
-                  .style("fill", function(d) {
+                  /* .style("fill", function(d) {
+                	 
                   maxvalue = d3.max(data, function(d) { return d.frequency; });
                   if(d.frequency == maxvalue)
                   {
                     return "#0080CC";
+                    
                   }
                   else
                   {
                     return "#78BCE4";
                   }
 
-                })
+                })*/
+                .style("fill", function(d,i) {
+                    
+                     return colorblogs(data.length - i - 1);
+                    
+                   })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
           $(element).bind('inview', function (event, visible) {
@@ -2324,16 +2329,16 @@ $(function () {
       //
       //
       data = [
-    		 <% if (bloggers.length() > 0) {
-						int p = 0;
-						//System.out.println(bloggers);
-						for (int y = 0; y < bloggers.length(); y++) {
-							String key = looper.get(y).toString();
-							JSONObject resu = bloggers.getJSONObject(key);
-							int size =  new Double(resu.get("postingfreq").toString()).intValue();
-							if (size > 0 && p < 15) {
-								p++;%>
-    							{letter:"<%=resu.get("blog").toString().toLowerCase()%>", frequency:<%=size%>, name:"<%=resu.get("blogger").toString().toLowerCase()%>", type:"blogger"},
+    	  <%if (blogpostingfreqarr.length() > 0) {
+    			 int p=0;
+    						 for(int m=0; m<blogpostingfreqarr.length(); m++){
+    								String key = blogpostingfreqarr.get(m).toString();							
+    								String[] splitter = key.split("___");
+    								String blg = splitter[1];
+    								int size =  new Double(splitter[0].toString()).intValue();
+    					if (size > 0 && p < 15) {
+    						p++;%>
+    							{letter:"<%=blg.toLowerCase()%>", frequency:<%=size%>, name:"<%=blg.toLowerCase()%>", type:"blogger"},
     		 <% 			}
 					}
 				}
@@ -3447,15 +3452,18 @@ $(function () {
 data = {
  //"name":"flare blogger",
  "bloggers":[
-	 <%if (authors.length() > 0) {
+	 <%if (authorpostingfreqarr.length() > 0) {	
 			int k = 0;
-			for (int y = 0; y < authors.length(); y++) {
-				String key = authorlooper.get(y).toString();
-				JSONObject resu = authors.getJSONObject(key);
-				int size =  new Double(resu.get("totalpost").toString()).intValue();  
-				if (size > 0 && k < 15) {
+		 for(int m=0; m<authorpostingfreqarr.length(); m++){
+				String key = authorpostingfreqarr.get(m).toString();
+				
+				String[] splitter = key.split("___");
+				String au = splitter[1];
+				int size =  new Double(splitter[0].toString()).intValue();
+		
+			if (size > 0 && k < 15) {
 					k++;%>
-{"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=size%>},
+{"label":"<%=au.toLowerCase()%>","name":"<%=au.toLowerCase()%>", "size":<%=size%>},
 <% }
 				}
 		}%>
@@ -3699,17 +3707,16 @@ $(function () {
 data = {
  //"name":"flare blogger",
  "bloggs":[
-	 <% if (bloggers.length() > 0) {
-			//System.out.println(bloggers);
-			int k = 0;
-			for (int y = 0; y < bloggers.length(); y++) {
-				String key = looper.get(y).toString();
-				JSONObject resu = bloggers.getJSONObject(key);
-				int size = new Double(resu.get("postingfreq").toString()).intValue();
-				
+	 <%if (blogpostingfreqarr.length() > 0) {
+		 int k=0;
+					 for(int m=0; m<blogpostingfreqarr.length(); m++){
+							String key = blogpostingfreqarr.get(m).toString();							
+							String[] splitter = key.split("___");
+							String blg = splitter[1];
+							int size =  new Double(splitter[0].toString()).intValue();
 				if (size > 0 && k < 15) {
 					k++;%>
-					{"label":"<%=resu.get("blogger").toString().toLowerCase()%>","name":"<%=resu.get("blogger").toString().toLowerCase()%>", "size":<%=size%>},
+					{"label":"<%=blg.toLowerCase()%>","name":"<%=blg.toLowerCase()%>", "size":<%=size%>},
 	<% }
 			}
 		}%>
