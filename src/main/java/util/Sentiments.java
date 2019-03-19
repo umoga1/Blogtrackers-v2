@@ -24,7 +24,7 @@ String base_url = hm.get("elasticIndex")+"blogpost_entitysentiment/";
 String totalpost;
 
 public ArrayList _list(String order, String from, String sortby) throws Exception {	
-	 int size = 10000;
+	 int size = 20;
 	 int fr = 0;
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 		 		"    \"query\": {\r\n" + 
@@ -54,7 +54,7 @@ public ArrayList _list(String order, String from, String sortby) throws Exceptio
 		 
 	 }
 	 	 
-     String url = base_url+"_search?size=10000";
+     String url = base_url+"_search?size=20";
      return this._getResult(url, jsonObj);
      
    }
@@ -79,7 +79,7 @@ public ArrayList _search(String term,String from) throws Exception {
 	 		"}");
 	
 	 
-    String url = base_url+"_search?size=1000";
+    String url = base_url+"_search?size=20";
     if(!from.equals("")) {
     	jsonObj = new JSONObject("{\r\n" + 
     			"  \"query\": {\r\n" + 
@@ -123,7 +123,7 @@ public ArrayList _fetch(String ids) throws Exception {
 		
 	 }
 	 
-	 String arg2 = "200";
+	 String arg2 = "20";
 
 	 //String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":[\""+arg+"\"]}}}}}";
 	 String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":[\"259\",\"37\"]}}}}}";
