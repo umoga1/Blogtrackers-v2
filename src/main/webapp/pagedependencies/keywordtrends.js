@@ -153,10 +153,10 @@ function loadTable(date_start,date_end){
 				//$.getScript("assets/js/jquery-3.2.1.slim.min.js", function(data, textStatus, jqxhr) {	 });
 				//$.getScript("assets/js/popper.min.js", function(data, textStatus, jqxhr) {	 });
 				
-				$.getScript("assets/vendors/DataTables/datatables.min.js", function(data, textStatus, jqxhr) {	 });
+				//$.getScript("assets/vendors/DataTables/datatables.min.js", function(data, textStatus, jqxhr) {	 });
 				
-				//$.getScript("pagedependencies/baseurl.js?v=38", function(data, textStatus, jqxhr) {	 });
-				//$.getScript("pagedependencies/keywordtrends.js?v=0879", function(data, textStatus, jqxhr) {	 });
+				$.getScript("pagedependencies/baseurl.js?v=38", function(data, textStatus, jqxhr) {	 });
+				$.getScript("pagedependencies/keywordtrends.js?v=0879", function(data, textStatus, jqxhr) {	 });
 				
 				
 		
