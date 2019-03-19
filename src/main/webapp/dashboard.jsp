@@ -840,11 +840,8 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
-<<<<<<< HEAD
 						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=authors.length()%></h3>
-=======
-						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=influentialauthors.length()%></h3>
->>>>>>> c5eeaf593b3733b9b8b5fc4800b2459e44a9fbc3
+
 					</div>
 				</div>
 			</div>
