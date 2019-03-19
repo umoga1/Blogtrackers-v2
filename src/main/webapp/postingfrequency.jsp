@@ -665,8 +665,9 @@ if(authorcount.length()>0){
 					}else if(b==yendint){
 						dtue = dte;
 					}
-				   String totu = post._searchRangeTotalByBlogger("date",dtu, dtue,authorcount.get(n).toString());
-				   
+				   String totu = post._searchRangeTotalByBlogger("date",dtu, dtue,mostactiveblogger);
+				  // totu = post._searchRangeTotalByBlogger("date",dtu, dtue,blogger.toString());
+					
 				   if(!years.has(y+"")){
 			    		years.put(y+"",y);
 			    		yearsarray.put(b,y);
