@@ -168,6 +168,9 @@ function loadInfluence(start_date,end_date){
 			 
 			// $.getScript("pagedependencies/postingfrequency.js?v=1980", function(data, textStatus, jqxhr) {	});
 			 
+			 $.getScript("pagedependencies/baseurl.js?v=38", function(data, textStatus, jqxhr) {	 });
+			$.getScript("pagedependencies/postingfrequency.js?v=900", function(data, textStatus, jqxhr) {	 });
+				
 			 
 			//$("#influence_table").html(response);
 			loadSinglePost(blogger,blog_id,start_date,end_date);

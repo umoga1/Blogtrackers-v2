@@ -1249,7 +1249,7 @@ public class Blogposts {
 				"}");
 
 
-		String url = base_url+"_search?size=1000";
+		String url = base_url+"_search?size=1";
 	return this._getResult(url, jsonObj);
 	}
 

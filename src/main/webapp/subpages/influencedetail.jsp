@@ -125,7 +125,8 @@ if(action.toString().equals("gettotal")){
 <% }else{
 	ArrayList allauthors = new ArrayList();
 if(action.toString().equals("fetchpost")){	
-	allauthors = post._getPost("post_id",post_id.toString());
+	allauthors = post._getPost("blogpost_id",post_id.toString());
+	//System.out.println("posts hre"+allauthors);
 }else{
 	
 	allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
