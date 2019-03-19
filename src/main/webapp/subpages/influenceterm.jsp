@@ -22,7 +22,7 @@ Object action = (null == request.getParameter("action")) ? "" : request.getParam
 
 String dt = date_start.toString();
 String dte = date_end.toString();
-ArrayList allterms = new Terms()._searchByRange("date", dt, dte, post_ids.toString(),"blogpostid","50");
+ArrayList allterms = new Terms()._searchByRange("date", dt, dte, post_ids.toString(),"blogpostid","200");
 int highestfrequency = 0;
 
 
@@ -103,6 +103,7 @@ function wordtagcloud(element, height) {
 	d3.layout.cloud().size([450,400])
 	        .words(frequency_list)
 	        .rotate(0)
+	        .padding(7)
 	        .fontSize(function(d) { return d.size * 1.20; })
 	        .on("end", draw)
 	        .start();

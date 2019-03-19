@@ -2,12 +2,15 @@
 <%@page import="util.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.json.JSONObject"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+
+
 <%@ page import="java.io.*,java.util.*, javax.servlet.*"%>
 <%
   Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
   Object username = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
   String sort =  (null == request.getParameter("sortby")) ? "date" : request.getParameter("sortby");
-
   Object selected = (null == session.getAttribute("selected")) ? "" : session.getAttribute("selected");
   
   JSONObject jblog = new JSONObject();
@@ -24,7 +27,7 @@
 
 		String submitted = request.getParameter("load");		
 	    if(submitted!=null && submitted.equals("yes")){	
-	        
+	        String viewtype = request.getParameter("viewtype");
 	        String cpage = request.getParameter("from");
 	        int from = Integer.parseInt(cpage);
 			Blogposts post  = new Blogposts();
@@ -80,8 +83,10 @@
 							 }
 					     String totaltrack  = trackers.getTotalTrack(blogid);
 					     %>
+<% if (viewtype.equalsIgnoreCase("grid") || viewtype.equalsIgnoreCase("")){ %>					     
+<!-- Start of grid look  --> 
 		<div class="card noborder curved-card mb30" >
-			<div class="curved-card selectcontainer border-white curve_<%=blogid%> <%=jblog.has(blogid)?"border-selected":""%>">
+			<div class="curved-card selectcontainer borders-white curve_<%=blogid%> <%=jblog.has(blogid)?"border-selected":""%>">
 			<% if(!username.equals("") || username.equals("")){ %>
 			 <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="<%=jblog.has(blogid)?"Remove Blog from Tracker":"Select to Track Blog"%>"></i></div>
 			<% } %>
@@ -130,11 +135,29 @@ for(int j=0; j<allblogarray.length; j++)
 			  <div class="text-center"><i id="blogpostt_<%=obj.get("blogpost_id").toString() %>" class="<%=favoritestatus %> fa-heart text-medium pb30  favorites-text icon-big favoritestoggle cursor-pointer" data-toggle="tooltip" data-placement="top" title="<%=title %>"></i></div>
 			</div>
 			</div>
+<!-- grid look  -->
+<%}%>
+<% if (viewtype.equalsIgnoreCase("list")){ %>	
+  <tr class="curve_<%=blogid%>">
+          <td class="noborderright borders-white <%=jblog.has(blogid)?"border-selected":""%>"><i class="fas text-medium fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="Select to Track Blog"></i></td>
+          <td class="noborderleft noborderright borders-white blogsitename <%=jblog.has(blogid)?"border-selected":""%>"><h6 class="text-primary myposttitle"><a class="blogname-<%=blogid%>" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>">
+          <%=blogtitle%></a></h6></td>
+          <td class="noborderleft noborderright borders-white <%=jblog.has(blogid)?"border-selected":""%>"><h6 class="text-primary"><a class="blogname-<%=blogid%>" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>">
+          <%=obj.get("title").toString()%></a></h6></td>
+          <td class="noborderleft noborderright borders-white <%=jblog.has(blogid)?"border-selected":""%>"><%=obj.get("blogger") %></td>
+          <td class="noborderleft borders-white"><%=dt[0]%></td>
+        </tr>
+<%} %>
+
+			
+			
 		<%}
 		}else{ 
 			pww.write("empty");
 	  }
-	}
+			
+			
+	}// end of check submitted 
 //} catch (Exception ex) {}		
 
 %>  

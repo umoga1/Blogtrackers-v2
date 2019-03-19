@@ -237,7 +237,7 @@
 			}
 			
 			totalpost = post._searchRangeTotal("date", dt, dte, ids);
-			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","50");
+			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","10000");
 			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			outlinks = outl._searchByRange("date", dst, dend, ids);
 
@@ -272,7 +272,7 @@
 				}
 			}
 
-			System.out.println("sentiment posts here:"+sentimentpost);
+			//System.out.println("sentiment posts here:"+sentimentpost);
 			JSONObject graphyearspos = new JSONObject();
 			JSONObject graphyearsneg = new JSONObject();
 			JSONArray yearsarray = new JSONArray();
@@ -497,7 +497,7 @@
 			int anx = 0;
 			int sad = 0;
 
-			System.out.println(sentimentpost2);
+			//System.out.println(sentimentpost2);
 
 			ArrayList sentimentor2 = new Liwc()._searchByRange("date", dt, dte, sentimentpost2);
 
@@ -509,7 +509,7 @@
 					bstr = bj.get("_source").toString();
 
 					bj = new JSONObject(bstr);
-					System.out.println("result eree"+bj);
+					//System.out.println("result eree"+bj);
 
 					death += Integer.parseInt(bj.get("death").toString());
 					work += Integer.parseInt(bj.get("work").toString());
@@ -580,6 +580,7 @@
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
+<%@include file="subpages/loader.jsp" %>
 	<noscript>
 		<%@include file="subpages/googletagmanagernoscript.jsp"%>
 	</noscript>
@@ -875,6 +876,7 @@
 												{
 												color = "#0080CC";	
 												}
+												
 
 												y++;
 							%>
@@ -1352,7 +1354,7 @@ $(function () {
     //////////////////////////////////////////////////////////////
 
     var color = d3.scale.ordinal()
-      .range(["#0080CC","#CC333F","#00A0B0"]);
+      .range(["#0080CC","#0080CC","#0080CC"]);
 
     var radarChartOptions1 = {
       w: width,
@@ -1752,8 +1754,8 @@ $(function () {
                               .on("mouseout",tip.hide)
                               .on("click",function(d){
                             	  
-                            	  console.log("point clicked");
-                            	  console.log(d.date);
+                            	 // console.log("point clicked");
+                            	 // console.log(d.date);
                             	  
                               });
                                                  svg.call(tip)
@@ -1785,10 +1787,10 @@ $(function () {
                            // console.log(e)
                            // })
 
-                           console.log(data);
+                          // console.log(data);
 
                               var mergedarray = [].concat(...data);
-                               console.log(mergedarray)
+                               //console.log(mergedarray)
                                  circles = svg.append("g").attr("class","circlecontainer")
                                      .selectAll(".circle-point")
                                      .data(mergedarray)
@@ -1810,7 +1812,8 @@ $(function () {
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
                                       .on("click",function(d){						
-                                          console.log(d.date)});
+                                          //console.log(d.date)
+                                          });
                                  //                         svg.call(tip)
 
                                //console.log(newi);
@@ -1821,7 +1824,7 @@ $(function () {
                                      .on("mouseout",tip.hide)
                                      .on("click",function(d){
                                     	 
-                                    	 console.log("The clicked date is "+d.date);
+                                    	// console.log("The clicked date is "+d.date);
                                     	 loadPost(d.date);
                                      }); 
                                                         svg.call(tip)
@@ -2010,20 +2013,20 @@ $(function () {
  </script>
 	<script>
 $(".option-only").on("change",function(e){
-	console.log("only changed ");
+	//console.log("only changed ");
 	var valu =  $(this).val();
 	$("#single_date").val(valu);
 	$('form#customformsingle').submit();
 });
 
 $(".option-only").on("click",function(e){
-	console.log("only Click ");
+	//console.log("only Click ");
 	$("#single_date").val($(this).val());
 	//$('form#customformsingle').submit();
 });
 
 $(".option-lable").on("click",function(e){
-	console.log("Label Click ");
+	//console.log("Label Click ");
 	
 	$("#single_date").val($(this).val());
 	//$('form#customformsingle').submit();

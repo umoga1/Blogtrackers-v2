@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	var selected_blogs = Cookies.get('selectedblogs').split(",");
-	//console.log(selected_blogs);
+
+    //console.log(selected_blogs);
 	//console.log(selected_blogs.length);
 	/*for( blog_id in  selected_blogs)
 		{
@@ -20,6 +21,9 @@ $(document).ready(function(){
 	
 	for (i=0; i<selected_blogs.length;i++)
 		{
+		$(".curve_"+selected_blogs[i]+" td").addClass("border-selected");
+		$(".curve_"+selected_blogs[i]+" td .myposttitle a").addClass("text-selected");
+		
 		$(".curve_"+selected_blogs[i]).addClass("border-selected");
 		$(".curve_"+selected_blogs[i]).find(".posttitle a").addClass("text-selected");
 		$(".curve_"+selected_blogs[i]).find(".trackingtracks").addClass("makeinvisible");

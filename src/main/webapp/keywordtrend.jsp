@@ -273,7 +273,7 @@
 		JSONObject termsyears = new JSONObject();
 
 		
-		allterms = term._searchByRange("date", dt, dte, ids,"blogsiteid","5");
+		allterms = term._searchByRange("date", dt, dte, ids,"blogsiteid","50");
 		
 		int postmentioned=0;
 		int blogmentioned=0;
@@ -460,6 +460,7 @@
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
+<%@include file="subpages/loader.jsp" %>
 	<%@include file="subpages/googletagmanagernoscript.jsp"%>
 	<div class="modal-notifications">
 		<div class="row">
@@ -668,10 +669,10 @@
 						<h6 class="mt20 mb20">Top Keywords</h6>
 						<div style="padding-right: 10px !important;">
 							<input type="search"
-								class="form-control stylesearch mb20 inputportfolio2"
-								placeholder="| Search Keyword" /> <i
+								class="form-control stylesearch mb20 inputportfolio2 searchkeywords"
+								placeholder="Search Keyword" /> <i
 								class="fas fa-search searchiconinputothers"></i> <i
-								class="fas fa-times searchiconinputclose cursor-pointer"></i>
+								class="fas fa-times searchiconinputclose cursor-pointer resetsearch"></i>
 						</div>
 						<!-- <h6 class="card-title mb0">Maximum Influence</h6> -->
 						<!-- <h4 class="mt20 mb0">Technology</h4> -->
@@ -947,9 +948,9 @@
 										<th>Post Count</th>
 										<th>Blog Count</th>
 										<th>Keyword Count</th>
-										<th>Leading Blogger</th>
+										<!-- <th>Leading Blogger</th>
 										<th>Language</th>
-										<th>Location</th>
+										<th>Location</th> -->
 
 									</tr>
 								</thead>
@@ -973,9 +974,9 @@
 										<td><%=postcount%> <%-- <sub>of <%=postcount%></sub> --%></td>
 										<td><%=blogcount%> <%-- <sub>of <%=blogcount%></sub> --%></td>
 										<td><%=keycount%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
-										<td><%=blogger%></td>
+										<%-- <td><%=blogger%></td>
 										<td><%=language%></td>
-										<td><%=location%></td>
+										<td><%=location%></td> --%>
 
 									</tr>
 											<%
@@ -1875,6 +1876,7 @@
 <script src="pagedependencies/baseurl.js?v=38"></script>
  
 <script src="pagedependencies/keywordtrends.js?v=1690"></script>
+
 <script>
 $(".blogger-mentioned").html("<%=alloccurence%>");
 </script>

@@ -34,12 +34,13 @@ function loadChart(postid,color){
 		},
 		error: function(response)
 		{						
-			console.log(response);
+			//console.log(response);
+			console.log(color);
 			$("#carouseller").html(response);
 		},
 		success: function(response)
 		{   
-			console.log(response);
+			//console.log(response);
 			$("#mainCarInd").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
 			  });*/

@@ -50,6 +50,7 @@
 </head>
 
 <body class="bgwhite">
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
   <nav class="navbar navbar-inverse bg-primary d-md-block d-sm-block d-xs-block d-lg-none d-xl-none">
     <div class="container-fluid">

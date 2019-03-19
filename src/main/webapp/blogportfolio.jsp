@@ -670,6 +670,7 @@
   <script src="pagedependencies/baseurl.js"></script>
 </head>
 <body>
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<div class="modal-notifications">
 		<div class="row">
@@ -2679,7 +2680,7 @@
  </script>
 
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/blogportfolio.js?v=9988909"></script>
+<script src="pagedependencies/blogportfolio.js"></script>
 
 </body>
 </html>

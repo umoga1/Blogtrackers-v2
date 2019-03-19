@@ -314,6 +314,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
     <div class="modal-notifications">
 <div class="row">
@@ -463,7 +464,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
   <div class="card-body  p30 pt5 pb5 mb20">
     <h5 class="mt20 mb20">Bloggers</h5>
     <div style="padding-right:10px !important;">
-      <input type="search" class="form-control stylesearch mb20" placeholder="Search Bloggers" /></div>
+      <input type="search" class="form-control stylesearch mb20 searchbloggers" placeholder="Search Bloggers" /></div>
     <div class="scrolly" style="height:270px; padding-right:10px !important;">
     
 							<%
@@ -950,8 +951,7 @@ String formatedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Inte
   <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
  <script src="assets/bootstrap/js/bootstrap.js">
  </script>
- <script src="assets/js/generic.js">
- </script>
+
  <script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
  <script src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
  <!-- Start for tables  -->
@@ -1832,6 +1832,7 @@ var svg =  container;
 d3.layout.cloud().size([450,400])
         .words(frequency_list)
         .rotate(0)
+        .padding(7)
         .fontSize(function(d) { return d.size * 1.20; })
         .on("end", draw)
         .start();
@@ -1964,7 +1965,9 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=9878909"></script>
+
+ <script src="assets/js/generic.js"></script>
+<script src="pagedependencies/postingfrequency.js?v=990"></script>
 
 </body>
 </html>

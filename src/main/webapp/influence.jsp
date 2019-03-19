@@ -23,7 +23,7 @@ Object user = (null == session.getAttribute("username")) ? "" : session.getAttri
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
-String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
+String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString();//.replaceAll("[^a-zA-Z]", " ");
 
 
 ArrayList<?> userinfo = new ArrayList();
@@ -313,7 +313,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <script src="assets/js/popper.min.js"></script>
 </head>
 <body>
-
+<%@include file="subpages/loader.jsp" %>
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<div class="modal-notifications">
 		<div class="row">
 			<div class="col-lg-10 closesection"></div>
@@ -853,7 +854,7 @@ authoryears.put(mostactiveblogger,postyear);
 							
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Overall Sentiment</h6>
-								<h2 class="mb0 bold-text total-sentiment"><%=totalsenti%></h2>
+								<h2 class="mb0 bold-text total-sentiment"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalsenti)) %></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -2362,7 +2363,8 @@ wordtagcloud("#tagcloudcontainer",450);
      d3.layout.cloud().size([450, 300])
              .words(frequency_list)
              .rotate(0)
-             .fontSize(function(d) { return d.size; })
+             .padding(5)
+             .fontSize(function(d) { return d.size * 1.20; })
              .on("end", draw)
              .start();
 
@@ -2407,7 +2409,7 @@ wordtagcloud("#tagcloudcontainer",450);
        		  svg.selectAll("text").transition()
                  .delay(200)
                  .duration(1000)
-                 .style("font-size", function(d) { return d.size * 1.10 + "px"; })
+                 .style("font-size", function(d) { return d.size * 1.50 + "px"; })
        	  } else {
        		  svg.selectAll("text")
                  .style("font-size", 0)
@@ -2539,9 +2541,9 @@ wordtagcloud("#tagcloudcontainer",450);
      }
 	}
  </script>
-<script src="pagedependencies/baseurl.js?v=38"></script>
+<script src="pagedependencies/baseurl.js"></script>
  
-<script src="pagedependencies/influence.js?v=4979"></script>
+<script src="pagedependencies/influence.js"></script>
 	
 </body>
 </html>

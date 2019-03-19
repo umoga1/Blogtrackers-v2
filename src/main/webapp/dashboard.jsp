@@ -8,6 +8,7 @@
 <%@page import="java.text.NumberFormat" %>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
+<%@page import="java.io.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.time.LocalDateTime"%>
@@ -265,7 +266,7 @@
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			}
 			
-			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","50");
+			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","100");
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
@@ -346,15 +347,15 @@
 					    String auth = tobj.get("blogger").toString();
 					    String lang = tobj.get("language").toString();
 					    
-					    
+					    lang = blog.normalizeLanguage(lang);
 					  	JSONObject content = new JSONObject();
 					   
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
 					    sentimentpost.put(tobj.get("blogpost_id").toString());
 					   
-					    if(!authors.has(auth)){
-							 
+
+					    if(!authors.has(auth)){							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
 
 						    btoty = post._searchRangeTotalByBlogger("date",dt, dte,auth);
@@ -418,13 +419,13 @@
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
 						    btoty = post._searchRangeTotalByBlogger("date",dt, dte,auth);
+
 						   // System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
 						   Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-						
-						   
-							int valu = new Double(btoty).intValue(); 
+							
+						   Double valu = influence;//Integer.parseInt(btoty);
 							   if(valu==0){
-								   valu=1;
+								   valu=1.0;
 							   }
 							   
 							content.put("blogger", auth);
@@ -657,6 +658,7 @@
   <script src="pagedependencies/baseurl.js"></script>
 </head>
 <body>
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<div class="modal-notifications">
 		<div class="row">
@@ -838,7 +840,11 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
+<<<<<<< HEAD
 						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=authors.length()%></h3>
+=======
+						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=influentialauthors.length()%></h3>
+>>>>>>> c5eeaf593b3733b9b8b5fc4800b2459e44a9fbc3
 					</div>
 				</div>
 			</div>
@@ -1353,6 +1359,7 @@
 
 <!-- Influence Bar chart loader -->
 	<textarea style="display:none" name="influencialBlogs" id="InfluencialBlogs" >
+
 <%if (bloginfluencearr.length() > 0) {	
 			int p = 0;
 		 for(int m=0; m<bloginfluencearr.length(); m++){
@@ -1719,10 +1726,16 @@ $(function () {
       //
       //
       //
+      
      data = [
-    	  <%if (langlooper.size() > 0) {
+    	  <%
+    	  
+    	  if (langlooper.size() > 0) {
 						for (int y = 0; y < langlooper.size(); y++) {
-							String key = langlooper.get(y).toString();%>
+							String key = langlooper.get(y).toString();
+							
+							
+							%>
     		{letter:"<%=key%>", frequency:<%=language.get(key)%>},
     		<%}
 					}%>
@@ -3172,6 +3185,7 @@ var mymarker = [
      d3.layout.cloud().size([450,400])
              .words(frequency_list)
              .rotate(0)
+             .padding(7)
              .fontSize(function(d) { return d.size * 1.20; })
              .on("end", draw)
              .start();
@@ -3450,7 +3464,7 @@ $(function () {
 
 
 data = {
- //"name":"flare blogger",
+ //"name":"flare",
  "bloggers":[
 	 <%if (authorpostingfreqarr.length() > 0) {	
 			int k = 0;
@@ -3464,8 +3478,7 @@ data = {
 			if (size > 0 && k < 15) {
 					k++;%>
 {"label":"<%=au.toLowerCase()%>","name":"<%=au.toLowerCase()%>", "size":<%=size%>},
-<% }
-				}
+<% }			}
 		}%>
  /* {"label":"Blogger 2","name":"Obadimu Adewale", "size":2500},
  {"label":"Blogger 3","name":"Oluwaseun Walter", "size":2800},
@@ -3486,7 +3499,7 @@ data = {
 	}); */
 	
 	
-	var myblogs = 
+	var mybloggers = 
 		  data.bloggers.sort(function(a, b){
 		return b.size - a.size;
 		})
@@ -3495,14 +3508,14 @@ data = {
 		/* resort the bubbles chart by size */
 		var alldata=[];
 		
-	  for(i=0;i<myblogs.length;i++)
+	  for(i=0;i<mybloggers.length;i++)
 		{
 		var myconcat = ",";
-		if(i == myblogs.length - 1)
+		if(i == mybloggers.length - 1)
 		{
 			myconcat = "";	
 		} 
-		alldata[i]= {"label":myblogs[i].label,"name":myblogs[i].name,"size":myblogs[i].size}
+		alldata[i]= {"label":mybloggers[i].label,"name":mybloggers[i].name,"size":mybloggers[i].size}
 
 		} 
 	/* End of sorting   */
@@ -3727,7 +3740,7 @@ data = {
      
       
   var mybloggers = 
-	  data.bloggs.sort(function(a, b){
+	  data.bloggers.sort(function(a, b){
 	return b.size - a.size;
 	})
 	
@@ -3746,9 +3759,9 @@ data = {
 
 	} 
 /* End of sorting   */
-  bloggs = alldata;
+  bloggers = alldata;
   
-  data = {   bloggs  }
+  data = {   bloggers  }
   
   
             //
@@ -3830,7 +3843,7 @@ data = {
             var classes = [];
 
             function recurse(name, node) {
-                if (node.bloggs) node.bloggs.forEach(function(child) { recurse(node.name, child); });
+                if (node.bloggers) node.bloggers.forEach(function(child) { recurse(node.name, child); });
                 else classes.push({packageName: name, className: node.name, value: node.size,label:node.label});
             }
 
@@ -4611,7 +4624,6 @@ $(".option-lable").on("click",function(e){
 });
 
  
- 
  function loadDomain(){
 	 $("#top-domain-box").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");		
 		$.ajax({
@@ -4639,5 +4651,4 @@ $(".option-lable").on("click",function(e){
  
 </body>
 </html>
-
 <% }} %>

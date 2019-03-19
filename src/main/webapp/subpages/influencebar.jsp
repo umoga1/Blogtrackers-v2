@@ -15,7 +15,7 @@
 
 	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 	String single = (null == request.getParameter("sortdate")) ? "" : request.getParameter("sortdate");
-	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
+	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString();//.replaceAll("[^a-zA-Z]", " ");
 	String date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 	String date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	String bloggersstr = (null == request.getParameter("bloggers")) ? "" : request.getParameter("bloggers");

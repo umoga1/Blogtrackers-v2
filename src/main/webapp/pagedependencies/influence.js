@@ -40,8 +40,8 @@ $(document).delegate('.blogger-select', 'click', function(){
 $(document).delegate('.blogpost_link', 'click', function(){
 	var post_id = $(this).attr("id");
 	//alert(post_id);
-	console.log(post_id);
-	console.log("nddshhfjsdfjhds")
+	//console.log(post_id);
+	//console.log("nddshhfjsdfjhds")
 	$("#blogpost_detail").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	$(".viewpost").addClass("makeinvisible");
 	$('.blogpost_link').removeClass("activeselectedblog");
@@ -70,9 +70,9 @@ $(document).delegate('.blogpost_link', 'click', function(){
 			$("#blogpost_detail").html(response).hide();
 			$("#blogpost_detail").fadeIn(700);
 			
-			$.getScript("pagedependencies/influence.js?v=7788979", function(data, textStatus, jqxhr) {
+			/*$.getScript("pagedependencies/influence.js", function(data, textStatus, jqxhr) {
 				
-			});
+			});*/
 		}
 	});
 });
@@ -153,8 +153,9 @@ function loadInfluence(start_date,end_date){
 	
 			//$("#influence_table").html(response);
 			loadSinglePost(blogger,blog_id);
-			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
-			  });*/
+			 $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
+			  });
+			 //console.log("loadinfluence")
 		}
 	});
 }

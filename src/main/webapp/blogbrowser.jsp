@@ -134,6 +134,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
     <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body >
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 <%-- <%@ include file="templates/profilepanel.jsp" %> --%>
 
@@ -269,8 +270,7 @@ String total = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt
 <div class="trackcreationsection1">
 <i class="cursor-pointer lnr lnr-cross float-right closedialog" data-toggle="tooltip" data-placement="top" title="Close Dialog"></i>
 <h3 class="text-primary bold-text">Track the selected blogs using the following list of trackers: </h3>
-<div id="added-info" class="no-display" style="border:1px solid red" >Blog successfully added. Go to <a href="blogbrowser.jsp" style="text-decoration:underline">Blogbrowser Page</a>
-</div>
+
 <button class="col-md-10 mt30 form-control text-primary bold-text cursor-pointer btn createtrackerbtn">+</button>
 <div class="trackerlist mt20" style="position: relative; overflow: auto; height: 250px;">
 <%
@@ -288,6 +288,9 @@ if(mytrackers.size()>0){
 </div>
 <div class="col-md-12 mt20 text-primary">
 <b class="selectedtrackercount text-primary">0</b> Tracker(s) selected
+</div>
+<br/><br/>
+<div id="added-info" class="no-display"> <a href="trackerlist.jsp" style="text-decoration:underline">Go to trackerlist page</a>
 </div>
 </div>
 
@@ -324,21 +327,92 @@ if(mytrackers.size()>0){
 
 <div class="row mt50">
 <div class="col-md-12 ">
-
 <% if(!term.equals("")){ %>
 <h6 class="float-left text-primary bold-text"><%=total %> posts found for "<%=term%>"</h6>
 <%}else{%>
 <h6 class="float-left text-primary bold-text"><%=total %> posts in our knowledge database</h6>
 
 <%}%>
+
 <h6 class="float-right text-primary">
   <select class="text-primary filtersort sortby"  id="sortbyselect"><option value="date" <%=(sort.equals("date"))?"selected":"" %>>Recent</option><option <%=(sort.equals("influence_score"))?"selected":"" %> value="influence_score">Influence Score</option></select>
 </h6>
+<p class="float-right text-primary mr20"><i data-toggle="tooltip" data-placement="top" title="" data-original-title="List View" class="fas fa-bars cursor-pointer" id="listtoggle"></i> &nbsp;<i data-toggle="tooltip" data-placement="top" title="" data-original-title="Grid View" id="gridtoggle" class="fas fa-th cursor-pointer"></i></p>
 </div>
 </div>
 
+<div class="col-md-12 p0 pt0 pb10  mt20 mb50 listlook hidden">
+<table id="blogbrowser" style="width:100%">
+     <thead>
+      <tr>
+        <td></td>
+        <td><b>Blog Name</b></td>
+        <td><b>Title</b></td>
+        <td><b>Blogger</b></td>
+        <td><b>Posted</b></td>
+      </tr> 
+     </thead> 
+      <tbody id="appendee2">
+<% 
+if(results.size()>0){
+	String res = null;
+	JSONObject resp = null;
+	String resu = null;
+	JSONObject obj = null;
+	int totalpost = 0;
+	String bres = null;
+	JSONObject bresp = null;
+	String bresu =null;
+	JSONObject bobj =null;
+	
 
-<div class="card-columns pt0 pb10  mt20 mb50" id="appendee">
+		for(int i=0; i< results.size(); i++){
+
+			 String blogtitle="";		
+			 res = results.get(i).toString();
+			 resp = new JSONObject(res);
+		     resu = resp.get("_source").toString();
+		     obj = new JSONObject(resu);
+		     String blogid = obj.get("blogsite_id").toString();
+		     String[] dt = obj.get("date").toString().split("T");
+		     
+
+			
+			 ArrayList blog = blogs._fetch(blogid); 
+			 if( blog.size()>0){
+						 bres = blog.get(0).toString();			
+						 bresp = new JSONObject(bres);
+						 bresu = bresp.get("_source").toString();
+						 bobj = new JSONObject(bresu);
+						 blogtitle = bobj.get("blogsite_name").toString();			 
+			}
+		     String totaltrack  = trackers.getTotalTrack(blogid);		     
+%>      
+        <tr class="curve_<%=blogid%>">
+          <td class="noborderright borders-white"><i class="fas text-medium fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="Select to Track Blog"></i></td>
+          <td class="noborderleft noborderright borders-white blogsitename"><h6 class="text-primary myposttitle"><a class="blogname-<%=blogid%>" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>">
+          <%=blogtitle%></a></h6></td>
+          <td class="noborderleft noborderright borders-white"><h6 class="text-primary"><a class="blogname-<%=blogid%>" href="<%=request.getContextPath()%>/blogpostpage.jsp?p=<%=obj.get("blogpost_id")%>">
+          <%=obj.get("title").toString()%></a></h6></td>
+          <td class="noborderleft noborderright borders-white"><%=obj.get("blogger") %></td>
+          <td class="noborderleft borders-white"><%=dt[0]%></td>
+        </tr>
+        
+<% } }%>        
+
+  <!--       <tr>
+            <td><i class="fas text-medium fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></td>
+            <td class="blogsitename"><h6 class="text-primary">Crooks and Liars</h6></td>
+            <td><h6 class="text-primary">Bpple Employees forced to phone 911 for workers injured after walking into glass walls</h6></td>
+            <td>Richard Young</td>
+            <td>February 20, 2019</td>
+        </tr> -->
+
+      </tbody>   
+</table>
+</div>
+
+<div class="card-columns pt0 pb10  mt20 mb50 gridlook hidden" id="appendee">
 
 <% 
 if(results.size()>0){
@@ -374,7 +448,7 @@ if(results.size()>0){
 		     String totaltrack  = trackers.getTotalTrack(blogid);		     
 %>
 <div class="card noborder curved-card mb30" >
-<div class="curved-card selectcontainer border-white curve_<%=blogid%>">
+<div class="curved-card selectcontainer borders-white curve_<%=blogid%>">
 <% if(!username.equals("") || username.equals("")){ %>
  <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog blog_id_<%=blogid%>" data-toggle="tooltip" data-placement="top"  title="Select to Track Blog"></i></div>
 <% } %>
@@ -471,16 +545,35 @@ for(int j=0; j<allblogarray.length; j++)
 <script type="text/javascript" src="assets/vendors/ui/prism.min.js"></script>
 <script type="text/javascript" src="assets/vendors/typeahead/typeahead.bundle.min.js"></script>
 <script type="text/javascript" src="assets/js/form_tags_input.js"></script>
-
+<script type="text/javascript"
+src="assets/vendors/DataTables/datatables.min.js"></script>
+<script type="text/javascript"
+src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
+<script
+src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
+<script
+src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
+<script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script>
+<script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
+<script
+src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
+<script
+src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+      $('#blogbrowser').DataTable({
+      "paging":false,
+      "bInfo" : false,
+      "searching": false,
+      "columnDefs": [ {"targets": 0,"width":"1%"},{"targets": 2,"width":"40%"},{"targets": 1,"width":"25%"}]
+      });
+  } );
+  </script>
 <!--end for table  -->
 <!-- Added for interactivity for selecting tracker and add to favorite actions  -->
-<script>
-
-</script>
 
 
-
-<script src="pagedependencies/blogbrowser3.js?v=5345301">
+<script src="pagedependencies/blogbrowser3.js">
 </script>
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
@@ -490,7 +583,7 @@ for(int j=0; j<allblogarray.length; j++)
 
 <script src="pagedependencies/imageloader.js?v=09"></script>
 
-<script src="js/functions.js?v=19920"></script>
+<script src="js/functions.js"></script>
 <script>
 $(window).scroll(function() {
 	if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {
