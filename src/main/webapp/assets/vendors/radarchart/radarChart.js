@@ -57,7 +57,7 @@ function RadarChart(id, data, options) {
 			"translate(" + (cfg.w + cfg.margin.left/2) + 
 			"," + (cfg.h/2 + cfg.margin.top) + ")");*/
 			.attr("transform", 
-			"translate(" + (cfg.w/2 + cfg.margin.left) + 
+			"translate(" + (cfg.w) + 
 			"," + (cfg.h/2 + cfg.margin.top) + ")");
 
 	/////////////////////////////////////////////////////////
