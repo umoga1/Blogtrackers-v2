@@ -412,7 +412,7 @@
 						   // System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
 						   Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
 							
-						   Double valu = influence;//Integer.parseInt(btoty);
+						   Double valu = Double.parseDouble(btoty);
 							   if(valu==0){
 								   valu=1.0;
 							   }

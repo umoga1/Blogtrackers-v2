@@ -244,10 +244,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
 		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-		System.out.println("all authors"+ allauthors);
 		
-			
-	
+		
 	String allpost = "0";
 	float totalinfluence = 0;
 	String mostactiveblog="";
@@ -542,10 +540,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										}else{
 											postauth = new JSONArray(authorposts.get(auth).toString());
 											postauth.put(postid);
-											
 										}
 								    	
 								    	authorposts.put(auth,postauth);
+
+										System.out.println("print"+postauth);
+										
 									    String bloggerselect="";
 									    if(!authors.has(auth)){
 									    	String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
@@ -583,6 +583,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					String dselected = "";
 				
 					JSONArray selposts = new JSONArray(det.get("postarray").toString());
+					
 					String postids = "";
 					for(int r=0; r<selposts.length(); r++){
 						postids += selposts.get(r).toString()+",";
