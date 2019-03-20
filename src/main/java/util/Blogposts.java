@@ -73,6 +73,7 @@ public class Blogposts {
 
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids) throws Exception {
+
 		String url = base_url+"_search";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -84,7 +85,7 @@ public class Blogposts {
 		String arg2 = pars.toString();
 		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
 		String que="{\r\n" + 
-				"	\"size\":1000,\r\n" + 
+				"	\"size\":20,\r\n" + 
 				"		\"sort\":{ \r\n" + 
 				"			\"date\":{\r\n" + 
 				"				\"order\":\"asc\"\r\n" + 
@@ -151,7 +152,7 @@ public class Blogposts {
 	}
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers) throws Exception {
-		String url = base_url+"_search?size=1000";
+		String url = base_url+"_search?size=20";
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -217,7 +218,7 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
-		String url = base_url+"_search?size=1000";
+		String url = base_url+"_search?size=20";
 	
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -684,7 +685,7 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids,String sort,String order) throws Exception {
-		String url = base_url+"_search?size=2000";
+		String url = base_url+"_search?size=20";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	

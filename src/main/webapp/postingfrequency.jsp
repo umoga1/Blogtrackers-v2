@@ -244,6 +244,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
 		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+		System.out.println("all authors"+ allauthors);
 		
 			
 	
@@ -539,7 +540,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								    	if(!authorposts.has(auth)){
 								    		postauth.put(postid);
 										}else{
-											
 											postauth = new JSONArray(authorposts.get(auth).toString());
 											postauth.put(postid);
 											
@@ -549,7 +549,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    String bloggerselect="";
 									    if(!authors.has(auth)){
 									    	String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
-									
+
 											l++;
 											bloggersort.put(auth,Integer.parseInt(postcount));
 											JSONObject bloggerj = new JSONObject();
@@ -592,7 +592,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							dselected = "abloggerselected";
 							mostactiveblogger = au;
 							allterms = term._searchByRange("blogsiteid", dt, dte, det.get("blogid").toString());//_searchByRange("blogpostid",dt, dte,postids);
-							System.out.println("all terms"+allterms);
+						
 							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
 							selectedid=det.get("blogid").toString();
 							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");							
