@@ -73,7 +73,6 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 }
 	 
 	 String arg2 = pars.toString();
-	 
 	 String que ="{\r\n" + 
 	 		"	\"size\":400,\r\n" + 
 	 		"	\r\n" + 
@@ -85,7 +84,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 		"									\"filter\":{ \r\n" + 
 	 		"											\"terms\":{ \r\n" + 
 	 		"												\r\n" + 
-	 		"											\"blogpostid\":"+arg2+"\r\n"+
+	 		"											\""+field+"\":"+arg2+"\r\n"+
 	 		"													}\r\n" + 
 	 		"											}\r\n" + 
 	 		"										} \r\n" + 

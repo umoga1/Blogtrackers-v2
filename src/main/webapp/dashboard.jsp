@@ -250,7 +250,7 @@
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			}
 			
-			termss = term._searchByRange("date", dt, dte, ids);
+			termss = term._searchByRange("blogsiteid", dt, dte, ids);
 		
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
