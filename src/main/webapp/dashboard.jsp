@@ -250,6 +250,8 @@
 			}
 			
 			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","100");
+			System.out.println("ids here "+ids);
+			System.out.println("terms here "+termss);
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
