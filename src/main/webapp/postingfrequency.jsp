@@ -538,8 +538,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    JSONArray postauth = new JSONArray();
 								    	if(!authorposts.has(auth)){
 								    		postauth.put(postid);
-										}else{
-											
+										}else{				
 											postauth = new JSONArray(authorposts.get(auth).toString());
 											postauth.put(postid);
 											
