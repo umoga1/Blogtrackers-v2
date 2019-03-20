@@ -57,9 +57,10 @@ function RadarChart(id, data, options) {
 			/*.attr("transform", 
 			"translate(" + (cfg.w + cfg.margin.left/2) + 
 			"," + (cfg.h/2 + cfg.margin.top) + ")");*/
-			.attr("transform", 
+			/*.attr("transform", 
 			"translate(" + (cfg.w) + 
-			"," + (cfg.h/2 + cfg.margin.top) + ")");
+			"," + (cfg.h/2 + cfg.margin.top) + ")")*/
+			.style('transform', 'translate(50%,50%)');
 
 	/////////////////////////////////////////////////////////
 	////////// Glow filter for some extra pizzazz ///////////
