@@ -73,7 +73,7 @@ public class Blogposts {
 
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids) throws Exception {
-		String url = base_url+"_search?size=2000";
+		String url = base_url+"_search";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -84,30 +84,66 @@ public class Blogposts {
 		String arg2 = pars.toString();
 		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
 		String que="{\r\n" + 
-				"  \"query\": {\r\n" + 
-				"    \"bool\": {\r\n" + 
-				"      \"must\": [\r\n" + 
-				"        {\r\n" + 
-				"		  \"constant_score\":{\r\n" + 
-				"					\"filter\":{\r\n" + 
-				"							\"terms\":{\r\n" + 
-				"							\"blogsite_id\":"+arg2+"\r\n" + 
-				"									}\r\n" + 
-				"							}\r\n" + 
-				"						}\r\n" + 
-				"		},\r\n" + 
-				"        {\r\n" + 
-				"		  \"range\" : {\r\n" + 
-				"            \""+field+"\" : {\r\n" + 
-				"                \"gte\" : "+greater+",\r\n" + 
-				"                \"lte\" : "+less+",\r\n" + 
-				"				},\r\n" +
-				"			}\r\n" + 
-				"		}\r\n" + 
-				"      ]\r\n" + 
-				"    }\r\n" + 
-				"  }\r\n" + 
+				"	\"size\":1000,\r\n" + 
+				"		\"sort\":{ \r\n" + 
+				"			\"date\":{\r\n" + 
+				"				\"order\":\"asc\"\r\n" + 
+				"				}\r\n" + 
+				"	},\r\n" + 
+				"	\"query\": { \r\n" + 
+				"			 \"bool\": {\r\n" + 
+				"				      \"must\": [\r\n" + 
+				"				      	{\r\n" + 
+				"						  \"constant_score\":{ \r\n" + 
+				"									\"filter\":{ \r\n" + 
+				"											\"terms\":{ \r\n" + 
+				"												\r\n" + 
+				"											\"blogsite_id\":"+arg2+"\r\n"+ 
+				"													}\r\n" + 
+				"											}\r\n" + 
+				"										} \r\n" + 
+				"						}, \r\n" + 
+				"						\r\n" + 
+				"	 		        { \r\n" + 
+				"	 				  \"range\" : { \r\n" + 
+				"	 		            \"date\" : { \r\n" + 
+				"	 		                \"gte\" : "+greater+",\r\n" +
+				"	 		                \"lte\" : "+less+",\r\n"+ 
+				"	 						}\r\n" + 
+				"	 					} \r\n" + 
+				"	 				} \r\n" + 
+				"	 		      ] \r\n" + 
+				"	 		    } \r\n" + 
+				"	 		  \r\n" + 
+				"                 }\r\n" + 
+				"	 	\r\n" + 
 				"}";
+		
+//		String que="{\r\n" + 
+//				"  \"query\": {\r\n" + 
+//				"    \"bool\": {\r\n" + 
+//				"      \"must\": [\r\n" + 
+//				"        {\r\n" + 
+//				"		  \"constant_score\":{\r\n" + 
+//				"					\"filter\":{\r\n" + 
+//				"							\"terms\":{\r\n" + 
+//				"							\"blogsite_id\":"+arg2+"\r\n" + 
+//				"									}\r\n" + 
+//				"							}\r\n" + 
+//				"						}\r\n" + 
+//				"		},\r\n" + 
+//				"        {\r\n" + 
+//				"		  \"range\" : {\r\n" + 
+//				"            \""+field+"\" : {\r\n" + 
+//				"                \"gte\" : "+greater+",\r\n" + 
+//				"                \"lte\" : "+less+",\r\n" + 
+//				"				},\r\n" +
+//				"			}\r\n" + 
+//				"		}\r\n" + 
+//				"      ]\r\n" + 
+//				"    }\r\n" + 
+//				"  }\r\n" + 
+//				"}";
 
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
@@ -1076,31 +1112,60 @@ public class Blogposts {
 
 		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
-		String que="{\r\n" + 
-				"  \"query\": {\r\n" + 
-				"    \"bool\": {\r\n" + 
-				"      \"must\": [\r\n" + 
-				"        {\r\n" + 
-				"		  \"constant_score\":{\r\n" + 
-				"					\"filter\":{\r\n" + 
-				"							\"terms\":{\r\n" + 
-				"							\"blogsite_id\":"+arg2+"\r\n" + 
-				"									}\r\n" + 
-				"							}\r\n" + 
-				"						}\r\n" + 
-				"		},\r\n" + 
-				"        {\r\n" + 
-				"		  \"range\" : {\r\n" + 
-				"            \""+field+"\" : {\r\n" + 
-				"                \"gte\" : "+greater+",\r\n" + 
-				"                \"lte\" : "+less+",\r\n" + 
-				"				},\r\n" +
-				"			}\r\n" + 
-				"		}\r\n" + 
-				"      ]\r\n" + 
-				"    }\r\n" + 
-				"  }\r\n" + 
-				"}";
+		String que ="{\r\n" + 
+		 		"	\"size\":400,\r\n" + 
+		 		"	\r\n" + 
+		 		"	\"query\": { \r\n" + 
+		 		"			 \"bool\": {\r\n" + 
+		 		"				      \"must\": [\r\n" + 
+		 		"				      	{\r\n" + 
+		 		"						  \"constant_score\":{ \r\n" + 
+		 		"									\"filter\":{ \r\n" + 
+		 		"											\"terms\":{ \r\n" + 
+		 		"												\r\n" + 
+		 		"											\"blogsite_id\":"+arg2+"\r\n"+
+		 		"													}\r\n" + 
+		 		"											}\r\n" + 
+		 		"										} \r\n" + 
+		 		"						}, \r\n" + 
+		 		"	 		        { \r\n" + 
+		 		"	 				  \"range\" : { \r\n" + 
+		 		"	 		            \"date\" : { \r\n" + 
+		 		"	 		                \"gte\" : "+greater+",\r\n"+
+		 		"	 		                \"lte\" : "+less+"\r\n" + 
+		 		"	 						}\r\n" + 
+		 		"	 					} \r\n" + 
+		 		"	 				} \r\n" + 
+		 		"	 		      ] \r\n" + 
+		 		"	 		    } \r\n" + 
+		 		"	 		  } \r\n" + 
+		 		"	 		}";
+//
+//		String que="{\r\n" + 
+//				"  \"query\": {\r\n" + 
+//				"    \"bool\": {\r\n" + 
+//				"      \"must\": [\r\n" + 
+//				"        {\r\n" + 
+//				"		  \"constant_score\":{\r\n" + 
+//				"					\"filter\":{\r\n" + 
+//				"							\"terms\":{\r\n" + 
+//				"							\"blogsite_id\":"+arg2+"\r\n" + 
+//				"									}\r\n" + 
+//				"							}\r\n" + 
+//				"						}\r\n" + 
+//				"		},\r\n" + 
+//				"        {\r\n" + 
+//				"		  \"range\" : {\r\n" + 
+//				"            \""+field+"\" : {\r\n" + 
+//				"                \"gte\" : "+greater+",\r\n" + 
+//				"                \"lte\" : "+less+",\r\n" + 
+//				"				},\r\n" +
+//				"			}\r\n" + 
+//				"		}\r\n" + 
+//				"      ]\r\n" + 
+//				"    }\r\n" + 
+//				"  }\r\n" + 
+//				"}";
 		JSONObject jsonObj = new JSONObject(que);
 
 		String url = base_url+"_search";
@@ -1115,59 +1180,97 @@ public class Blogposts {
 			pars.put(args[i].toLowerCase());
 		}
 
-		/*
 		String arg2 = pars.toString();
 		
-		JSONObject jsonObj  = new JSONObject("{\r\n" + 
-				"       \"query\": {\r\n" + 
-				"          \"bool\": { \r\n" + 
-				"               \"must\": {\r\n" + 
-				"                    \"query_string\" : {\r\n" + 
-				"            			\"fields\" : [\"blogger\"],\r\n" + 
-				"            			\"query\" : \""+bloggers+"\"\r\n" + 
-				"                    }\r\n" + 
-				"                },\r\n" + 
-				"                \"filter\": {\r\n" + 
-				"                    \"range\" : {\r\n" + 
-				"                        \"date\" : {\r\n" + 
-				"                            \"gte\": \""+greater+"\",\r\n" + 
-				"                            \"lte\": \""+less+"\"\r\n" + 
-				"                        }\r\n" + 
-				"                    }\r\n" + 
-				"                }\r\n" + 
-				"            }\r\n" + 
-				"        }\r\n" + 
-				"    }");
-		
-		//JSONObject jsonObj = new JSONObject(que);
-*/
-		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
-		String que="{\r\n" + 
-				"  \"query\": {\r\n" + 
-				"    \"bool\": {\r\n" + 
-				"      \"must\": [\r\n" + 
-				"        {\r\n" + 
-				"		  \"constant_score\":{\r\n" + 
-				"					\"filter\":{\r\n" + 
-				"							\"terms\":{\r\n" + 
-				"							\"blogger\":"+arg2+"\r\n" + 
-				"									}\r\n" + 
-				"							}\r\n" + 
-				"						}\r\n" + 
-				"		},\r\n" + 
-				"        {\r\n" + 
-				"		  \"range\" : {\r\n" + 
-				"            \""+field+"\" : {\r\n" + 
-				"                \"gte\" : "+greater+",\r\n" + 
-				"                \"lte\" : "+less+",\r\n" + 
-				"				},\r\n" +
-				"			}\r\n" + 
-				"		}\r\n" + 
-				"      ]\r\n" + 
-				"    }\r\n" + 
-				"  }\r\n" + 
+		String que = "{\r\n" + 
+				"	\"size\":10,\r\n" + 
+				"		\"sort\":{ \r\n" + 
+				"			\"date\":{\r\n" + 
+				"				\"order\":\"desc\"\r\n" + 
+				"				}\r\n" + 
+				"	},\r\n" + 
+				"	\"query\": { \r\n" + 
+				"			 \"bool\": {\r\n" + 
+				"				      \"must\": [\r\n" + 
+				"				      \r\n" + 
+				"				      	{\r\n" + 
+				"						  \"match_phrase\":{ \r\n" + 
+				"													\"blogger\":"+bloggers+"\r\n"+ 
+				"											\r\n" + 
+				"										} \r\n" + 
+				"						}, \r\n" + 
+				"						\r\n" + 
+				"	 		        { \r\n" + 
+				"	 				  \"range\" : { \r\n" + 
+				"	 		            \"date\" : { \r\n" + 
+				"	 		                \"gte\" : "+greater+",\r\n" + 
+				"	 		                \"lte\" : "+less+"\r\n" + 
+				"	 						}\r\n" + 
+				"	 					} \r\n" + 
+				"	 				} \r\n" + 
+				"	 		      ],\r\n" + 
+				"			 	\"minimum_should_match\": \"100%\"\r\n" + 
+				"			 } \r\n" + 
+				"	 		  \r\n" + 
+				"                 }\r\n" + 
+				"	 	\r\n" + 
 				"}";
+		//		String que ="{\r\n" + 
+//		 		"	\"size\":400,\r\n" + 
+//		 		"	\r\n" + 
+//		 		"	\"query\": { \r\n" + 
+//		 		"			 \"bool\": {\r\n" + 
+//		 		"				      \"must\": [\r\n" + 
+//		 		"				      	{\r\n" + 
+//		 		"						  \"constant_score\":{ \r\n" + 
+//		 		"									\"filter\":{ \r\n" + 
+//		 		"											\"terms\":{ \r\n" + 
+//		 		"												\r\n" + 
+//		 		"											\"blogger\":"+arg2+"\r\n"+
+//		 		"													}\r\n" + 
+//		 		"											}\r\n" + 
+//		 		"										} \r\n" + 
+//		 		"						}, \r\n" + 
+//		 		"	 		        { \r\n" + 
+//		 		"	 				  \"range\" : { \r\n" + 
+//		 		"	 		            \"date\" : { \r\n" + 
+//		 		"	 		                \"gte\" : "+greater+",\r\n"+
+//		 		"	 		                \"lte\" : "+less+"\r\n" + 
+//		 		"	 						}\r\n" + 
+//		 		"	 					} \r\n" + 
+//		 		"	 				} \r\n" + 
+//		 		"	 		      ] \r\n" +
+//		 		"				\"minimum_should_match\": 100%"+
+//		 		"	 		    } \r\n" + 
+//		 		"	 		  } \r\n" + 
+//		 		"	 		}";
+//		
+//		String que="{\r\n" + 
+//				"  \"query\": {\r\n" + 
+//				"    \"bool\": {\r\n" + 
+//				"      \"must\": [\r\n" + 
+//				"        {\r\n" + 
+//				"		  \"constant_score\":{\r\n" + 
+//				"					\"filter\":{\r\n" + 
+//				"							\"terms\":{\r\n" + 
+//				"							\"blogger\":"+arg2+"\r\n" + 
+//				"									}\r\n" + 
+//				"							}\r\n" + 
+//				"						}\r\n" + 
+//				"		},\r\n" + 
+//				"        {\r\n" + 
+//				"		  \"range\" : {\r\n" + 
+//				"            \""+field+"\" : {\r\n" + 
+//				"                \"gte\" : "+greater+",\r\n" + 
+//				"                \"lte\" : "+less+",\r\n" + 
+//				"				},\r\n" +
+//				"			}\r\n" + 
+//				"		}\r\n" + 
+//				"      ]\r\n" + 
+//				"    }\r\n" + 
+//				"  }\r\n" + 
+//				"}";
 		JSONObject jsonObj = new JSONObject(que);
 		String url = base_url+"_search";
 		return this._getTotal(url,jsonObj);
