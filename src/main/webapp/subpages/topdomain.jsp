@@ -202,6 +202,7 @@
 													for (int y = 0; y < outlinklooper.size(); y++) {
 														String key = outlinklooper.get(y).toString();
 														JSONObject resu = outerlinks.getJSONObject(key);
+														if(resu.get("domain")!=""){
 									%>
 									<tr>
 									<% if(listtype.equals("urls")){ %>
@@ -211,7 +212,7 @@
 									<% } %>
 										<td><%=resu.get("value")%></td>
 									</tr>
-									<% }}} %>
+									<% }}}} %>
 									
 									</tbody>
 							</table>

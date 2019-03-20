@@ -616,7 +616,8 @@ if(allauthors2.size()>0){
 }
 
 outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
-termss = term._searchByRange("date", dt, dte, blogids,"blogsiteid","50");
+
+termss = term._searchByRange("blogsiteid", dt, dte, blogids);
 
 JSONArray topterms = new JSONArray();
 if (termss.size() > 0) {

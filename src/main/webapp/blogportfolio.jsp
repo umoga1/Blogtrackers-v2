@@ -243,7 +243,7 @@
 			String[] idss = ids.split(",");
 			String selectedblogid = idss[0];
 			totalpost = post._searchRangeTotal("date", dt, dte, selectedblogid);
-			termss = term._searchByRange("date", dt, dte, selectedblogid,"blogsiteid","50");
+			termss = term._searchByRange("blogsiteid", dt, dte, selectedblogid);
 			
 			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
 			
