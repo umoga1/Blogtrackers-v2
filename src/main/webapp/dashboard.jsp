@@ -1336,11 +1336,12 @@
 		 for(int m=0; m<blogpostingfreqarr.length(); m++){
 				String key = blogpostingfreqarr.get(m).toString();			
 				String[] splitter = key.split("___");
+				if(splitter.length>1){
 				String blg = splitter[1];
 				int size =  new Double(splitter[0].toString()).intValue();	
 				if (size > 0 && p < 15) {
 					p++;%>{letter:"<%=blg%>", frequency:<%=size%>, name:"<%=blg%>", type:"blog"},
-    			 <%}}}%>
+    			 <%}}}}%>
 			</textarea>
 			<textarea style="display:none" name="bloggers" id="bloggers" >
 <%if (authorpostingfreqarr.length() > 0) {	
@@ -1348,11 +1349,12 @@
 		 for(int m=0; m<authorpostingfreqarr.length(); m++){
 				String key = authorpostingfreqarr.get(m).toString();			
 				String[] splitter = key.split("___");
+				if(splitter.length>1){
 				String au = splitter[1];
 				int size =  new Double(splitter[0].toString()).intValue();	
 				if (size > 0 && p < 15) {
 					p++;%>{letter:"<%=au%>", frequency:<%=size%>, name:"<%=au%>", type:"blogger"},
-<%}}}%></textarea>
+<%}}}}%></textarea>
 
 <!-- Influence Bar chart loader -->
 	<textarea style="display:none" name="influencialBlogs" id="InfluencialBlogs" >
@@ -1363,11 +1365,12 @@
 				String key = bloginfluencearr.get(m).toString();
 				
 				String[] splitter = key.split("___");
+				if(splitter.length>1){
 				String blg = splitter[1];
 				int size =  new Double(splitter[0].toString()).intValue();	
 				if (size > 0 && p < 15) {
 					p++;%>{letter:"<%=blg%>", frequency:<%=size%>, name:"<%=blg%>", type:"blog"},
-    			 <%}}}%>
+    			 <%}}}}%>
 			 </textarea>
         </textarea>
 
@@ -1378,12 +1381,14 @@
 				String key = authorinfluencearr.get(m).toString();
 				
 				String[] splitter = key.split("___");
+				if(splitter.length>1){
 				String au = splitter[1];
 				int size =  new Double(splitter[0].toString()).intValue();	
 				if (size > 0 && k < 15) {
 					k++;%>
 		{letter:"<%=au%>", frequency:<%=size%>, name:"<%=au%>", type:"blogger"},
 		 <% }
+				}
 				}
 			}%></textarea>
 
@@ -2040,12 +2045,14 @@ $(function () {
  						 for(int m=0; m<authorinfluencearr.length(); m++){
  								String key = authorinfluencearr.get(m).toString();							
  								String[] splitter = key.split("___");
+ 								if(splitter.length>1){
  								String au = splitter[1];
  								int size =  new Double(splitter[0].toString()).intValue();
  					if (size > 0 && p < 15) {
  						p++;%>
 			{letter:"<%=au%>", frequency:<%=size%>, name:"<%=au%>", type:"blogger"},
 			 <%}
+ 								}
 				}
 				}%>
         ];
@@ -2344,12 +2351,14 @@ $(function () {
     						 for(int m=0; m<blogpostingfreqarr.length(); m++){
     								String key = blogpostingfreqarr.get(m).toString();							
     								String[] splitter = key.split("___");
+    								if(splitter.length>1){
     								String blg = splitter[1];
     								int size =  new Double(splitter[0].toString()).intValue();
     					if (size > 0 && p < 15) {
     						p++;%>
     							{letter:"<%=blg.toLowerCase()%>", frequency:<%=size%>, name:"<%=blg.toLowerCase()%>", type:"blogger"},
     		 <% 			}
+    								}
 					}
 				}
 			%>
@@ -3469,6 +3478,7 @@ data = {
 				String key = authorpostingfreqarr.get(m).toString();
 				
 				String[] splitter = key.split("___");
+				if(splitter.length>1){
 				String au = splitter[1];
 				int size =  new Double(splitter[0].toString()).intValue();
 		
@@ -3476,6 +3486,7 @@ data = {
 					k++;%>
 {"label":"<%=au.toLowerCase()%>","name":"<%=au.toLowerCase()%>", "size":<%=size%>},
 <% }			}
+		 }
 		}%>
  /* {"label":"Blogger 2","name":"Obadimu Adewale", "size":2500},
  {"label":"Blogger 3","name":"Oluwaseun Walter", "size":2800},
@@ -3722,13 +3733,15 @@ data = {
 					 for(int m=0; m<blogpostingfreqarr.length(); m++){
 							String key = blogpostingfreqarr.get(m).toString();							
 							String[] splitter = key.split("___");
+							if(splitter.length>1){
 							String blg = splitter[1];
 							int size =  new Double(splitter[0].toString()).intValue();
 				if (size > 0 && k < 15) {
 					k++;%>
 					{"label":"<%=blg.toLowerCase()%>","name":"<%=blg.toLowerCase()%>", "size":<%=size%>},
 	<% }
-			}
+			
+							}}
 		}%>
  ]
 }  
