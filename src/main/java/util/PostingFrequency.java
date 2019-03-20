@@ -56,7 +56,7 @@ public ArrayList _list(String order, String from) throws Exception {
 	 }
 	 
 	 
-     String url = base_url+"_search?size=1000";
+     String url = base_url+"_search?size=20";
  
      
      URL obj = new URL(url);
@@ -124,7 +124,7 @@ public ArrayList _search(String term,String from) throws Exception {
 	 		"}");
 	
 	 
-    String url = base_url+"_search?size=1000";
+    String url = base_url+"_search?size=20";
     if(!from.equals("")) {
     	jsonObj = new JSONObject("{\r\n" + 
     			"  \"query\": {\r\n" + 
