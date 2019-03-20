@@ -17,7 +17,8 @@ console.log($(this).hasClass("blogger-select"));
 if($(this).hasClass("dropdown-toggle") 
  || $(this).hasClass("blogger-select") || 
  $(this).hasClass("blogpost_link") ||
- $(this).hasClass("select-term") || $(this).hasClass("page-link"))
+ $(this).hasClass("select-term") || $(this).hasClass("page-link") ||
+ $(this).hasClass("carousel-control-prev") || $(this).hasClass("carousel-control-next"))
 {
 $("body").addClass('loaded');
 //console.log($(this).hasClass("blogger_select"));
