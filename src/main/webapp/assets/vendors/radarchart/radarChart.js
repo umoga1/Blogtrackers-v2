@@ -2,8 +2,8 @@
 
 function RadarChart(id, data, options) {
 	var cfg = {
-	 w: d3.select(".personalcontent").node().getBoundingClientRect().width,				//Width of the circle
-	// w:600,
+	 //w: d3.select(".personalcontent").node().getBoundingClientRect().width,				//Width of the circle
+	 w:600,
 	 h: 600,				//Height of the circle
 	 margin: {top: 20, right: 20, bottom: 20, left: 20}, //The margins of the SVG
 	 levels: 3,				//How many levels or inner circles should there be drawn
