@@ -726,7 +726,7 @@ String formattedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Int
 
 String totalsenti  = comb+"";
 //System.out.println("Post ids ="+postidss);
-allterms = term._searchByRange("date", dt, dte,postidss,"blogpostid","50");
+allterms = term._searchByRange("blogpostid", dt, dte,postidss);
 
 
 

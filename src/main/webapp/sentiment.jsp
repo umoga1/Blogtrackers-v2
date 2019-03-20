@@ -237,7 +237,7 @@
 			}
 			
 			totalpost = post._searchRangeTotal("date", dt, dte, ids);
-		    termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","10000");
+			termss = term._searchByRange("blogsiteid", dt, dte, ids);
 			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			outlinks = outl._searchByRange("date", dst, dend, ids);
 

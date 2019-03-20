@@ -1115,7 +1115,7 @@ public class Blogposts {
 		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
 		String que ="{\r\n" + 
-		 		"	\"size\":400,\r\n" + 
+		 		"	\"size\":1000,\r\n" + 
 		 		"	\r\n" + 
 		 		"	\"query\": { \r\n" + 
 		 		"			 \"bool\": {\r\n" + 

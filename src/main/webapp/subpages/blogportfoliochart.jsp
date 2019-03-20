@@ -166,7 +166,7 @@ if(action.toString().equals("getstats")){
 	String mostactiveterm = "";
 
 	int highestfrequency = 0; 
-	ArrayList termss =  term._searchByRange("date", dt, dte, selectedblogid,"blogsiteid","50");
+	ArrayList termss =   term._searchByRange("blogsiteid", dt, dte, selectedblogid);
 	JSONArray topterms = new JSONArray();
 	if (termss.size() > 0) {
 		for (int p = 0; p < termss.size(); p++) {
