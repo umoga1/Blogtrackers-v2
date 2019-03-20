@@ -244,14 +244,14 @@
 			
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+			totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			
 			if(totalpost.equals("")){
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			}
 			
-			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","100");
-			System.out.println("ids here "+ids);
-			System.out.println("terms here "+termss);
+			termss = term._searchByRange("date", dt, dte, ids);
+		
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
@@ -2861,8 +2861,6 @@ var gdpData = {
     {latLng: [0.33, 6.73], name: 'São Tomé and Príncipe'}
     */ 
 <%JSONObject location = new JSONObject();
-					location.put("null", "0, 0");
-					location.put("unknown", "0, 0");
 					location.put("Vatican City", "41.90, 12.45");
 					location.put("Monaco", "43.73, 7.41");
 					location.put("Salt Lake City", "40.726, -111.778");
