@@ -64,14 +64,16 @@ public String _getTotal() {
 	return this.totalpost;
 }
 
+
+
 public ArrayList _searchByRange(String field,String greater, String less, String blog_ids) throws Exception {
 	String[] args = blog_ids.split(","); 
+	
 	 JSONArray pars = new JSONArray(); 
 	 ArrayList<String> ar = new ArrayList<String>();	
 	 for(int i=0; i<args.length; i++){
 		 pars.put(args[i].replaceAll(" ", ""));
 	 }
-	 
 	 String arg2 = pars.toString();
 	 String que ="{\r\n" + 
 	 		"	\"size\":400,\r\n" + 
