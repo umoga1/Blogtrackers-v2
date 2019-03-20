@@ -579,7 +579,7 @@
 <script src="assets/js/popper.min.js"></script>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
-<body>
+<body> 
 <%@include file="subpages/loader.jsp" %>
 	<noscript>
 		<%@include file="subpages/googletagmanagernoscript.jsp"%>
