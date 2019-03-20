@@ -480,7 +480,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 								JSONObject bloggersortdet = new JSONObject();
 								JSONArray bloggerarr = new JSONArray();
-								
+								JSONArray postauth = new JSONArray();
 								
 								String selectedid="";
 								
@@ -534,8 +534,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										String yy= dateyear[0];
 									    String mm = dateyear[1];
 									    
-									    JSONArray postauth = new JSONArray();
 								    	if(!authorposts.has(auth)){
+								    		postauth = new JSONArray();
 								    		postauth.put(postid);
 										}else{
 											postauth = new JSONArray(authorposts.get(auth).toString());
@@ -544,7 +544,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								    	
 								    	authorposts.put(auth,postauth);
 
-										System.out.println("print"+postauth);
 										
 									    String bloggerselect="";
 									    if(!authors.has(auth)){
@@ -582,18 +581,18 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			  		JSONObject det= new JSONObject(bloggersortdet.get(au).toString());
 					String dselected = "";
 				
-					JSONArray selposts = new JSONArray(det.get("postarray").toString());
+					JSONArray selposts = new JSONArray(authorposts.get(au).toString());
+					
 					
 					String postids = "";
 					for(int r=0; r<selposts.length(); r++){
 						postids += selposts.get(r).toString()+",";
 					}
-					
 					if(m==0){
 							dselected = "abloggerselected";
 							mostactiveblogger = au;
-							allterms = term._searchByRange("blogsiteid", dt, dte, det.get("blogid").toString());//_searchByRange("blogpostid",dt, dte,postids);
-						
+							allterms = term._searchByRange("blogpostid", dt, dte, postids);//_searchByRange("blogpostid",dt, dte,postids);
+
 							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
 							selectedid=det.get("blogid").toString();
 							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");							

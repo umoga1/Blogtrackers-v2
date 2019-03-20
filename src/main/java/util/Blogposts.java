@@ -85,7 +85,7 @@ public class Blogposts {
 		String arg2 = pars.toString();
 		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
 		String que="{\r\n" + 
-				"	\"size\":10,\r\n" + 
+				"	\"size\":1000,\r\n" + 
 				"		\"sort\":{ \r\n" + 
 				"			\"date\":{\r\n" + 
 				"				\"order\":\"asc\"\r\n" + 
@@ -148,6 +148,7 @@ public class Blogposts {
 
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
+
 		return this._getResult(url, jsonObj);
 	}
 	
