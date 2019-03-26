@@ -497,6 +497,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									JSONObject tobj = null;
 									int j=0;
 									int k=0;
+									String sellect = "";
 									for(int i=0; i< allauthors.size(); i++){
 										tres = allauthors.get(i).toString();	
 										tresp = new JSONObject(tres);
@@ -538,12 +539,16 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								    	if(!authorposts.has(auth)){
 								    		postauth = new JSONArray();
 								    		postauth.put(postid);
+								    		
 										}else{				
 											postauth = new JSONArray(authorposts.get(auth).toString());
 											postauth.put(postid);
 											
+											
 										}
 								    	
+								    	
+								    	//System.out.println(auth+"id fake ree:"+postid);
 								    	authorposts.put(auth,postauth);
 									    
 									    String bloggerselect="";
@@ -567,11 +572,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	
 									    	j++;
 									    	
-									    	 }  
+									    	 }
 										   // System.out.println(authoryears);
 										}
 									} 
 								
+								System.out.println("authorp here"+authorposts);
 				
 				bloggerarr = post._sortJson2(bloggerarr);
 				 
@@ -579,10 +585,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
 					String au = splitter[1];
+					
+					JSONArray det2= new JSONArray(authorposts.get(au).toString());
 			  		JSONObject det= new JSONObject(bloggersortdet.get(au).toString());
 					String dselected = "";
 					
-					JSONArray selposts = new JSONArray(det.get("postarray").toString());
+					JSONArray selposts = new JSONArray(authorposts.get(au).toString());//new JSONArray(det.get("postarray").toString());
 					String postids = "";
 					for(int r=0; r<selposts.length(); r++){
 						postids += selposts.get(r).toString()+",";
@@ -602,7 +610,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	    			<% 
 					//JSONObject jsonObj = bloggersort.getJSONObject(m);
 				}
-								
+			//System.out.println(allauthors);					
 	%>
         <!--  
     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
