@@ -5,7 +5,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL; 
+import java.net.URL;
+import java.sql.SQLException;
+
 import org.json.JSONObject;
 import java.util.*;
 
@@ -148,6 +150,7 @@ public class Blogposts {
 
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
+
 		return this._getResult(url, jsonObj);
 	}
 	
@@ -263,6 +266,23 @@ public class Blogposts {
 
 	
 	public String _getTotalByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		
+		try {
+			ArrayList response = db.query("SELECT count(*) as total FROM blogposts WHERE blogger = '"+bloggers+" AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ");	
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		return count;
+		/*
+		
 		String url = base_url+"_search?size=1";
 	
 		String[] args = bloggers.split(","); 
@@ -302,9 +322,27 @@ public class Blogposts {
 		
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getTotal(url, jsonObj);
+		*/
 	}
 	
 	public String _searchRangeAggregate(String field,String greater, String less, String blog_ids) throws Exception {
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blog_ids = "("+blog_ids+")";
+		try {
+			ArrayList response = db.query("SELECT sum(influence_score) as total FROM blogposts WHERE blogsite_id IN "+blog_ids+" AND date>='"+greater+"' AND date<='"+less+"' ");	
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		return count;
+		
+		/*
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -349,10 +387,28 @@ public class Blogposts {
 
 		String url = base_url+"_search?size=1";
 		return this._getAggregate(url,jsonObj);
+		*/
 	}
 	
 	
 	public String _searchRangeAggregate(String field,String greater, String less, String blog_ids, String filter) throws Exception {
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blog_ids = "("+blog_ids+")";
+		try {
+			ArrayList response = db.query("SELECT sum("+filter+") as total FROM blogposts WHERE blogsite_id IN "+blog_ids+" AND date>='"+greater+"' AND date<='"+less+"' ");			
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		return count;
+		
+		/*
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -397,9 +453,27 @@ public class Blogposts {
 
 		String url = base_url+"_search?size=1";
 		return this._getAggregate(url,jsonObj);
+		*/
 	}
 	
 	public String _searchRangeAggregateByBloggers(String field,String greater, String less, String bloggers) throws Exception {
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		//blog_ids = "("+blog_ids+")";
+		try {
+			ArrayList response = db.query("SELECT sum(influence_score) as total FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ");	
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		return count;
+		
+		/*
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -444,10 +518,29 @@ public class Blogposts {
 		JSONObject jsonObj = new JSONObject(que);
 		String url = base_url+"_search?size=1";
 		return this._getAggregate(url,jsonObj);
+		*/
 	}
 	
 	
 	public String _searchRangeMaxByBloggers(String field,String greater, String less, String bloggers) throws Exception {
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		try {
+			ArrayList response = db.query("SELECT influence_score as total FROM blogposts WHERE blogger='"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+" <='"+less+"' ORDER BY influence_score DESC LIMIT 1");
+			 
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		
+		return count;
+		/*
+		
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -504,10 +597,28 @@ public class Blogposts {
 			}
 		}
 		return res;
+		*/
 	}
 	
 	
 	public String _searchRangeMaxByBlogId(String field,String greater, String less, String blogid) throws Exception {
+		DbConnection db = new DbConnection();
+		String count = "0";
+		try {
+			ArrayList response = db.query("SELECT influence_score as total FROM blogposts WHERE blogsite_id='"+blogid+"' AND "+field+">='"+greater+"' AND "+field+" <='"+less+"' ORDER BY influence_score DESC LIMIT 1");
+			 
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		
+		return count;
+		
+		/*
 		String[] args = blogid.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -545,6 +656,7 @@ public class Blogposts {
 				"		}\r\n" +
 				"    }");
 		*/
+		/*
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"    \"bool\": {\r\n" + 
@@ -595,9 +707,28 @@ public class Blogposts {
 			}
 		}
 		return res;
+		*/
 	}
 	
 	public String _searchRangeAggregateByBloggers(String field,String greater, String less, String bloggers, String sort) throws Exception {
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		try {
+			ArrayList response = db.query("SELECT sum("+field+") as total FROM blogposts WHERE blogger='"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+" <='"+less+"' ");
+			 
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		
+		return count;
+		
+		
 		/*
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -643,6 +774,7 @@ public class Blogposts {
 		String url = base_url+"_search?size=1";
 		return this._getAggregate(url,jsonObj);
 		*/
+		/*
 		String url = base_url+"_search?size=1";
 		
 		String[] args = bloggers.split(","); 
@@ -680,11 +812,25 @@ public class Blogposts {
 		
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getAggregate(url, jsonObj);
+		*/
 	}
 	
 	
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids,String sort,String order) throws Exception {
+		int size= 20;
+		blog_ids = "("+blog_ids+")";
+		DbConnection db = new DbConnection();
+		ArrayList response = new ArrayList();
+		try {
+			response = db.queryJSON("SELECT DISTINCT blogger,blogsite_id,language,date,blogpost_id FROM blogposts WHERE blogsite_id IN "+blog_ids+" AND date>='"+greater+"' AND date<='"+less+"' ORDER BY "+sort+" "+order+" LIMIT "+size+" ");				
+		}catch(Exception e){
+			return response;
+		}
+		
+		return response;
+		
+		/*
 		String url = base_url+"_search?size=20";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -729,6 +875,7 @@ public class Blogposts {
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
+		*/
 	}
 	
 	public String _getDate(String blog_ids,String type) throws Exception {
@@ -827,8 +974,21 @@ public class Blogposts {
 
 	
 	public ArrayList _searchByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
-
+		
 		int size = 20;
+		ArrayList response =new ArrayList();
+		DbConnection db = new DbConnection();
+		String count = "0";
+		try {
+			response = db.queryJSON("SELECT * FROM blogposts WHERE (title LIKE '%"+term+"%' OR post LIKE '%"+term+"%') AND date>='"+start+"' AND date <='"+end+"' ORDER BY date DESC LIMIT "+size+"");
+			 
+			
+		}catch(Exception e){
+			return response;
+		}
+		
+		
+		return response;
 		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
@@ -844,6 +1004,7 @@ public class Blogposts {
 				"	}\r\n" + 
 				"}");
 		*/
+		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
@@ -868,11 +1029,32 @@ public class Blogposts {
 		String url = base_url+"_search?size="+size; 
 		//System.out.println(url);
 		return this._getResult(url, jsonObj);
+		*/
 	}
 
 
 	
 	public String _searchTotalByBody(String term, String start, String end) throws Exception {
+		
+		ArrayList response =new ArrayList();
+		DbConnection db = new DbConnection();
+		String count = "0";
+		try {
+			response = db.queryJSON("SELECT count(*) FROM blogposts WHERE post LIKE '%"+term+"%' AND date>='"+start+"' AND date <='"+end+"' ");
+			 
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		
+		return count;
+		
+		/*
+		return response;
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
@@ -899,11 +1081,29 @@ public class Blogposts {
 		//String vl = this._getTotalTest(url, jsonObj);
 		//System.out.println("Val Here:"+vl);
 		return this._getTotal(url, jsonObj);
+		*/
 	}
 	
 	
 	
 	public String _searchTotalByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
+		ArrayList response =new ArrayList();
+		DbConnection db = new DbConnection();
+		String count = "0";
+		try {
+			response = db.queryJSON("SELECT count(*) FROM blogposts WHERE (title LIKE '%"+term+"%' OR post LIKE '%"+term+"%') AND date>='"+start+"' AND date <='"+end+"' ");
+			 
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		
+		return count;
+		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
@@ -928,9 +1128,25 @@ public class Blogposts {
 	
 		String url = base_url+"_search?size=1"; 
 		return this._getTotal(url, jsonObj);
+		*/
 	}
 	
 	public String _searchTotalAndUnique(String term,String sortby, String start, String end, String filter ) throws Exception {
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		
+		try {
+			ArrayList response = db.query("SELECT count(DISTINCT blogger) as total FROM blogposts WHERE (title LIKE '%"+term+"%' OR post LIKE '%"+term+"%' ) AND date>='"+start+"' AND date<='"+end+"' ");		
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		return count;
 		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
@@ -949,6 +1165,7 @@ public class Blogposts {
 				"    }"+
 				" }");
 		*/
+		/*
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
@@ -984,9 +1201,28 @@ public class Blogposts {
 		
 	
 		return this._getAggregate(url, jsonObj);
+		*/
 	}
 
 	public String _searchTotalAndUniqueBlogger(String term,String sortby, String start, String end, String filter ) throws Exception {
+		
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		
+		try {
+			ArrayList response = db.query("SELECT count(DISTINCT blogger) as total FROM blogposts WHERE (title LIKE '%"+term+"%' OR post LIKE '%"+term+"%' OR blogger LIKE '%"+term+"%' ) AND date>='"+start+"' AND date<='"+end+"' ");		
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		return count;
+		
+		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
@@ -1019,10 +1255,23 @@ public class Blogposts {
 	
 		String url = base_url+"_search?size=1"; 
 		return this._getTotal(url, jsonObj);
+		*/
 	}
 	
 	
 	public ArrayList _getPostByBlogger(String blogger)throws Exception {
+		int size = 20;
+		DbConnection db = new DbConnection();
+		ArrayList response = new ArrayList();
+		try {
+			response = db.queryJSON("SELECT * FROM blogposts WHERE blogger = '"+blogger+"' ORDER BY date DESC LIMIT "+size+"");				
+		}catch(Exception e){
+			return response;
+		}
+		
+		return response;
+		
+		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
@@ -1038,10 +1287,30 @@ public class Blogposts {
 				"}");
 		String url = base_url+"_search?size=20";
 		return this._getResult(url, jsonObj);
+		*/
 	}
 	
 	/* Fetch posts by blog ids*/
 	public String _getTotalByBlogId(String blog_ids,String from) throws Exception {
+		
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blog_ids = "("+blog_ids+")";
+		
+		try {
+			ArrayList response = db.query("SELECT count(*) as total FROM blogposts WHERE blogsite_id IN "+blog_ids+" ");		
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		return count;
+		
+		/*
 		String url = base_url+"_search?size=1";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -1055,10 +1324,28 @@ public class Blogposts {
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this.totalpost;
+		*/
 	}
 	
 	/* Fetch posts by blog ids*/
 	public String _getTotalByBlogger(String blogger,String field,String greater, String less) throws Exception {
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		
+		try {
+			ArrayList response = db.query("SELECT count(*) as total FROM blogposts WHERE blogger = '"+blogger+" AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ");	
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		return count;
+		
+		/*
 		String url = base_url+"_search?size=1";
 		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogger\":"+blogger+"}}}}}";
 
@@ -1079,6 +1366,7 @@ public class Blogposts {
 				"}");
 
 		return this._getTotal(url, jsonObj);
+		*/
 	}
 
 	/* Fetch posts by blog ids*/
@@ -1104,6 +1392,24 @@ public class Blogposts {
 
 
 	public String _searchRangeTotal(String field,String greater, String less, String blog_ids) throws Exception {
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blog_ids = "("+blog_ids+")";
+		
+		try {
+			ArrayList response = db.query("SELECT count(*) as total FROM blogposts WHERE blogsite_id IN "+blog_ids+" AND date>='"+greater+"' AND date<='"+less+"' ");		
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		return count;
+		
+		/*
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -1114,7 +1420,7 @@ public class Blogposts {
 		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
 		String que ="{\r\n" + 
-		 		"	\"size\":400,\r\n" + 
+		 		"	\"size\":20,\r\n" + 
 		 		"	\r\n" + 
 		 		"	\"query\": { \r\n" + 
 		 		"			 \"bool\": {\r\n" + 
@@ -1171,75 +1477,151 @@ public class Blogposts {
 
 		String url = base_url+"_search";
 		return this._getTotal(url,jsonObj);
+		*/
 	}
 	
 	
-	public String _searchRangeTotalByBlogger(String field,String greater, String less, String bloggers) throws Exception {
+	 public String _searchRangeTotalByBlogger(String field,String greater, String less, String bloggers) throws Exception {
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		
+		try {
+			ArrayList response = db.query("SELECT count(*) as total FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ");		
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		return count;
+		
+		/*
 		String[] args = bloggers.split(","); 
 		JSONArray pars = new JSONArray(); 	
 		for(int i=0; i<args.length; i++){
 			pars.put(args[i].toLowerCase());
 		}
 
-		/*
 		String arg2 = pars.toString();
 		
-		JSONObject jsonObj  = new JSONObject("{\r\n" + 
-				"       \"query\": {\r\n" + 
-				"          \"bool\": { \r\n" + 
-				"               \"must\": {\r\n" + 
-				"                    \"query_string\" : {\r\n" + 
-				"            			\"fields\" : [\"blogger\"],\r\n" + 
-				"            			\"query\" : \""+bloggers+"\"\r\n" + 
-				"                    }\r\n" + 
-				"                },\r\n" + 
-				"                \"filter\": {\r\n" + 
-				"                    \"range\" : {\r\n" + 
-				"                        \"date\" : {\r\n" + 
-				"                            \"gte\": \""+greater+"\",\r\n" + 
-				"                            \"lte\": \""+less+"\"\r\n" + 
-				"                        }\r\n" + 
-				"                    }\r\n" + 
-				"                }\r\n" + 
-				"            }\r\n" + 
-				"        }\r\n" + 
-				"    }");
-		
-		//JSONObject jsonObj = new JSONObject(que);
-*/
-		String arg2 = pars.toString();
 		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
-		String que="{\r\n" + 
-				"  \"query\": {\r\n" + 
-				"    \"bool\": {\r\n" + 
-				"      \"must\": [\r\n" + 
-				"        {\r\n" + 
-				"		  \"constant_score\":{\r\n" + 
-				"					\"filter\":{\r\n" + 
-				"							\"terms\":{\r\n" + 
-				"							\"blogger\":"+arg2+"\r\n" + 
-				"									}\r\n" + 
-				"							}\r\n" + 
-				"						}\r\n" + 
-				"		},\r\n" + 
-				"        {\r\n" + 
-				"		  \"range\" : {\r\n" + 
-				"            \""+field+"\" : {\r\n" + 
-				"                \"gte\" : "+greater+",\r\n" + 
-				"                \"lte\" : "+less+",\r\n" + 
-				"				},\r\n" +
-				"			}\r\n" + 
-				"		}\r\n" + 
-				"      ]\r\n" + 
-				"    }\r\n" + 
-				"  }\r\n" + 
+		String que = "{\r\n" + 
+				"	\"size\":10,\r\n" + 
+				"		\"sort\":{ \r\n" + 
+				"			\"date\":{\r\n" + 
+				"				\"order\":\"desc\"\r\n" + 
+				"				}\r\n" + 
+				"	},\r\n" + 
+				"	\"query\": { \r\n" + 
+				"			 \"bool\": {\r\n" + 
+				"				      \"must\": [\r\n" + 
+				"				      \r\n" + 
+				"				      	{\r\n" + 
+				"						  \"match_phrase\":{ \r\n" + 
+				"													\"blogger\":"+bloggers+"\r\n"+ 
+				"											\r\n" + 
+				"										} \r\n" + 
+				"						}, \r\n" + 
+				"						\r\n" + 
+				"	 		        { \r\n" + 
+				"	 				  \"range\" : { \r\n" + 
+				"	 		            \"date\" : { \r\n" + 
+				"	 		                \"gte\" : "+greater+",\r\n" + 
+				"	 		                \"lte\" : "+less+"\r\n" + 
+				"	 						}\r\n" + 
+				"	 					} \r\n" + 
+				"	 				} \r\n" + 
+				"	 		      ],\r\n" + 
+				"			 	\"minimum_should_match\": \"100%\"\r\n" + 
+				"			 } \r\n" + 
+				"	 		  \r\n" + 
+				"                 }\r\n" + 
+				"	 	\r\n" + 
 				"}";
+		//		String que ="{\r\n" + 
+//		 		"	\"size\":400,\r\n" + 
+//		 		"	\r\n" + 
+//		 		"	\"query\": { \r\n" + 
+//		 		"			 \"bool\": {\r\n" + 
+//		 		"				      \"must\": [\r\n" + 
+//		 		"				      	{\r\n" + 
+//		 		"						  \"constant_score\":{ \r\n" + 
+//		 		"									\"filter\":{ \r\n" + 
+//		 		"											\"terms\":{ \r\n" + 
+//		 		"												\r\n" + 
+//		 		"											\"blogger\":"+arg2+"\r\n"+
+//		 		"													}\r\n" + 
+//		 		"											}\r\n" + 
+//		 		"										} \r\n" + 
+//		 		"						}, \r\n" + 
+//		 		"	 		        { \r\n" + 
+//		 		"	 				  \"range\" : { \r\n" + 
+//		 		"	 		            \"date\" : { \r\n" + 
+//		 		"	 		                \"gte\" : "+greater+",\r\n"+
+//		 		"	 		                \"lte\" : "+less+"\r\n" + 
+//		 		"	 						}\r\n" + 
+//		 		"	 					} \r\n" + 
+//		 		"	 				} \r\n" + 
+//		 		"	 		      ] \r\n" +
+//		 		"				\"minimum_should_match\": 100%"+
+//		 		"	 		    } \r\n" + 
+//		 		"	 		  } \r\n" + 
+//		 		"	 		}";
+//		
+//		String que="{\r\n" + 
+//				"  \"query\": {\r\n" + 
+//				"    \"bool\": {\r\n" + 
+//				"      \"must\": [\r\n" + 
+//				"        {\r\n" + 
+//				"		  \"constant_score\":{\r\n" + 
+//				"					\"filter\":{\r\n" + 
+//				"							\"terms\":{\r\n" + 
+//				"							\"blogger\":"+arg2+"\r\n" + 
+//				"									}\r\n" + 
+//				"							}\r\n" + 
+//				"						}\r\n" + 
+//				"		},\r\n" + 
+//				"        {\r\n" + 
+//				"		  \"range\" : {\r\n" + 
+//				"            \""+field+"\" : {\r\n" + 
+//				"                \"gte\" : "+greater+",\r\n" + 
+//				"                \"lte\" : "+less+",\r\n" + 
+//				"				},\r\n" +
+//				"			}\r\n" + 
+//				"		}\r\n" + 
+//				"      ]\r\n" + 
+//				"    }\r\n" + 
+//				"  }\r\n" + 
+//				"}";
 		JSONObject jsonObj = new JSONObject(que);
 		String url = base_url+"_search";
 		return this._getTotal(url,jsonObj);
+		*/
 	}
 
 	public String _searchRangeTotal(String field,String greater, String less, String date_from, String date_to, String blog_ids) throws Exception {
+		
+		
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blog_ids = "("+blog_ids+")";
+		
+		try {
+			ArrayList response = db.query("SELECT count(DISTINCT blogger) as total FROM blogposts WHERE blogsite_id IN "+blog_ids+" AND "+field+">='"+date_from+"' AND "+field+"<='"+date_to+"' ");		
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		return count;
+		
+		/*
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -1280,6 +1662,7 @@ public class Blogposts {
 
 		String url = base_url+"_search";
 		return this._getTotal(url,jsonObj);
+		*/
 	}
 
 	public ArrayList _fetch(String ids) throws Exception {

@@ -56,7 +56,7 @@ public ArrayList _list(String order, String from) throws Exception {
 	 }
 	 
 	 
-     String url = base_url+"_search?size=200";
+     String url = base_url+"_search?size=100";
      return this._getResult(url, jsonObj);   
     }
 
@@ -64,18 +64,19 @@ public String _getTotal() {
 	return this.totalpost;
 }
 
+
+
 public ArrayList _searchByRange(String field,String greater, String less, String blog_ids) throws Exception {
 	String[] args = blog_ids.split(","); 
+	
 	 JSONArray pars = new JSONArray(); 
 	 ArrayList<String> ar = new ArrayList<String>();	
 	 for(int i=0; i<args.length; i++){
 		 pars.put(args[i].replaceAll(" ", ""));
 	 }
-	 
 	 String arg2 = pars.toString();
-	 
 	 String que ="{\r\n" + 
-	 		"	\"size\":400,\r\n" + 
+	 		"	\"size\":100,\r\n" + 
 	 		"	\r\n" + 
 	 		"	\"query\": { \r\n" + 
 	 		"			 \"bool\": {\r\n" + 
@@ -85,7 +86,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 		"									\"filter\":{ \r\n" + 
 	 		"											\"terms\":{ \r\n" + 
 	 		"												\r\n" + 
-	 		"											\"blogpostid\":"+arg2+"\r\n"+
+	 		"											\""+field+"\":"+arg2+"\r\n"+
 	 		"													}\r\n" + 
 	 		"											}\r\n" + 
 	 		"										} \r\n" + 

@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class DbConnection {
 	/**
 	 * loadConstant() - For loading the configuration file from a remote repository	
@@ -273,8 +276,7 @@ public class DbConnection {
 				pstmt.close();
 				conn.close();
 			}
-		}catch(SQLException e)
-		{
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 		
@@ -282,6 +284,65 @@ public class DbConnection {
 	}
 	
 	
+	/* Query Database and return json result*/
+	public ArrayList queryJSON(String query){
+		ArrayList result=new ArrayList();
+		
+		ArrayList<String> list = new ArrayList<String>();
+		
+		
+		
+		try{
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();
+			Statement stmt = null;
+			if(rs.next())
+			{
+				stmt = conn.prepareStatement(query);
+				rs = stmt.executeQuery(query); 
+				ResultSetMetaData rsmd = rs.getMetaData();
+				int column_size = rsmd.getColumnCount();
+				
+				
+				int i=0;
+				while(rs.next()){
+					ArrayList output=new ArrayList();
+					int total=column_size;
+					JSONObject jobj = new JSONObject();
+					for(int j=1;j<=(total); j++ ){
+						String name = rsmd.getColumnName(j);					 
+						output.add((j-1), rs.getString(j));
+						jobj.put(name,rs.getString(j));
+						
+					}
+					
+					JSONObject source = new JSONObject();
+					source.put("_source",jobj);
+					list.add(new JSONArray(source).toString());
+					//result.add(i, output);
+				
+				     
+					i++;
+				}
+				
+				
+				rs.close();
+				pstmt.close();
+				conn.close();
+			}
+			else
+			{
+				rs.close();
+				pstmt.close();
+				conn.close();
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		  return list;
+	}
 	
 	public ArrayList<String> query2(String query){
 		ArrayList<String> result=new ArrayList<String>(); 

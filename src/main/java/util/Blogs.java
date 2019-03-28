@@ -112,7 +112,40 @@ public class Blogs extends DbConnection{
 		return this._getResult(url, jsonObj);
 	}
 
-
+	public String _getTotalBloggers(String greater, String less, String blogids) throws Exception {
+			
+			DbConnection db = new DbConnection();
+			String count = "0";
+			blogids = "("+blogids+")";
+			System.out.println("SELECT count(DISTINCT blogger) as total FROM blogposts WHERE blogsite_id IN "+blogids+" AND date>='"+greater+"' AND date<='"+less+"' "); 
+			try {
+				ArrayList response = db.query("SELECT count(DISTINCT blogger) as total FROM blogposts WHERE blogsite_id IN "+blogids+" AND date>='"+greater+"' AND date<='"+less+"' ");		
+				if(response.size()>0){
+				 	ArrayList hd = (ArrayList)response.get(0);
+					count = hd.get(0).toString();
+				}
+			}catch(Exception e){
+				return count;
+			}
+			
+			return count;
+	}
+	
+	
+	public ArrayList _getBloggers(String greater, String less, String blogids) throws Exception {	
+		blogids = "("+blogids+")";
+		DbConnection db = new DbConnection();
+		ArrayList response = new ArrayList();
+		try {
+			response = db.query("SELECT DISTINCT blogger,blogsite_id,language,date,blogpost_id FROM blogposts WHERE blogsite_id IN "+blogids+" AND date>='"+greater+"' AND date<='"+less+"' ORDER BY influence_score DESC LIMIT 20 ");				
+		}catch(Exception e){
+			return response;
+		}
+		
+		return response;
+	}
+	
+	
 
 	/* Fetch posts by blog ids*/
 	public ArrayList _getBloggerByBlogId(String blog_ids,String from) throws Exception {
@@ -152,6 +185,9 @@ public class Blogs extends DbConnection{
 		return this._getResult(url, jsonObj);
 
 	}
+	
+	
+	
 
 	public ArrayList _getMostactive(String blog_ids) throws Exception { 
 		ArrayList mostactive = new ArrayList();

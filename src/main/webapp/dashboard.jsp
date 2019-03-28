@@ -226,6 +226,8 @@
 				}
 			}
 			
+			String totalbloggers = blog._getTotalBloggers(dt, dte, ids);
+			
 			String[] yst = dt.split("-");
 			String[] yend = dte.split("-");
 			year_start = yst[0];
@@ -251,15 +253,19 @@
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			}
 			
-			termss = term._searchByRange("date", dt, dte, ids);
+			termss = term._searchByRange("blogsiteid", dt, dte, ids);
 		
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+			//allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"date","ASC");
+			//post._getBloggerByBlogId("date",dt, dte,ids);
 			ArrayList allauthors2= post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+			allauthors = allauthors2;
 			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-		
+			//ArrayList auths = blog._getBloggers(dt, dte,ids);
+			
+			//System.out.println();
 			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
 			
@@ -818,7 +824,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=authors.length()%></h3>
+						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=totalbloggers%></h3>
 					</div>
 				</div>
 			</div>

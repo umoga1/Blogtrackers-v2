@@ -11,8 +11,7 @@
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
@@ -245,8 +244,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 		
-			
-	
+		
 	String allpost = "0";
 	float totalinfluence = 0;
 	String mostactiveblog="";
@@ -281,7 +279,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	
 
 	toplocation = blog._getTopLocation(mostactiveblogid);
-	System.out.println("most-act"+mostactive);
+
 	ArrayList allposts = new ArrayList();
 %>
 <!DOCTYPE html>
@@ -542,20 +540,18 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								    		
 										}else{				
 											postauth = new JSONArray(authorposts.get(auth).toString());
-											postauth.put(postid);
-											
-											
+											postauth.put(postid);											
 										}
 								    	
 								    	
 								    	//System.out.println(auth+"id fake ree:"+postid);
 								    	authorposts.put(auth,postauth);
-									    
+
+										
 									    String bloggerselect="";
 									    if(!authors.has(auth)){
 									    	String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
-									    	
-									    	
+
 											l++;
 											bloggersort.put(auth,Integer.parseInt(postcount));
 											JSONObject bloggerj = new JSONObject();
@@ -584,22 +580,24 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 				for(int m=0; m<bloggerarr.length(); m++){
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
+	
 					String au = splitter[1];
 					
 					JSONArray det2= new JSONArray(authorposts.get(au).toString());
 			  		JSONObject det= new JSONObject(bloggersortdet.get(au).toString());
 					String dselected = "";
-					
-					JSONArray selposts = new JSONArray(authorposts.get(au).toString());//new JSONArray(det.get("postarray").toString());
+				
+					JSONArray selposts = new JSONArray(authorposts.get(au).toString());
+				
 					String postids = "";
 					for(int r=0; r<selposts.length(); r++){
 						postids += selposts.get(r).toString()+",";
 					}
-					
 					if(m==0){
 							dselected = "abloggerselected";
 							mostactiveblogger = au;
-							allterms = term._searchByRange("date", dt, dte,postids);
+							allterms = term._searchByRange("blogpostid", dt, dte, postids);//_searchByRange("blogpostid",dt, dte,postids);
+
 							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
 							selectedid=det.get("blogid").toString();
 							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");							
