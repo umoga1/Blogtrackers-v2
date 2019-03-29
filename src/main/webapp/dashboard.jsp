@@ -1147,8 +1147,10 @@
 							<p class="text-primary mt10 float-left">
 
 								Most Influential <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
+								<option value="bloggers" >Bloggers</option>
 								<option value="blogs">Blogs </option>
-								<option value="bloggers">Bloggers</option></select> 
+								
+								</select> 
 								  <%-- 
 						   of Past <select
 									class="text-primary filtersort sortbytimerange"><option
