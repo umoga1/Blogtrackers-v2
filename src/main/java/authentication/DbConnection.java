@@ -286,10 +286,9 @@ public class DbConnection {
 	
 	/* Query Database and return json result*/
 	public ArrayList queryJSON(String query){
-		ArrayList result=new ArrayList();
 		
 		ArrayList<String> list = new ArrayList<String>();
-		
+		ArrayList result=new ArrayList(); 
 		
 		
 		try{
@@ -307,21 +306,19 @@ public class DbConnection {
 				
 				int i=0;
 				while(rs.next()){
-					ArrayList output=new ArrayList();
+					//ArrayList output=new ArrayList();
 					int total=column_size;
 					JSONObject jobj = new JSONObject();
 					for(int j=1;j<=(total); j++ ){
 						String name = rsmd.getColumnName(j);					 
-						output.add((j-1), rs.getString(j));
-						jobj.put(name,rs.getString(j));
-						
+						//output.add((j-1), rs.getString(j));
+						jobj.put(name,rs.getString(j));					
 					}
 					
 					JSONObject source = new JSONObject();
 					source.put("_source",jobj);
-					list.add(new JSONArray(source).toString());
-					//result.add(i, output);
-				
+					list.add(source.toString());
+					
 				     
 					i++;
 				}
@@ -340,8 +337,8 @@ public class DbConnection {
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		
-		  return list;
+			 
+		return list;
 	}
 	
 	public ArrayList<String> query2(String query){

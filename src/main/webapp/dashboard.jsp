@@ -265,7 +265,7 @@
 			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 			//ArrayList auths = blog._getBloggers(dt, dte,ids);
 			
-			//System.out.println();
+			System.out.println("Authors:"+allauthors);
 			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
 			
