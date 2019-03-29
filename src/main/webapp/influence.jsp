@@ -665,7 +665,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							
 							selectedid=det.get("blogid").toString();
 							allposts =  post._getBloggerByBloggerName("date",dt, dte,au,"influence_score","DESC");
-									
+							System.out.println("all posts="+allposts);		
 					}
 			    	%>
 					<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>" value="<%=postids%>" />

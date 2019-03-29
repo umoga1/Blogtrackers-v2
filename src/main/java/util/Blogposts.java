@@ -564,7 +564,7 @@ public class Blogposts {
 		DbConnection db = new DbConnection();
 		String count = "0";
 		try {
-			ArrayList response = db.query("SELECT influence_score as total FROM blogposts WHERE blogger='"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+" <='"+less+"' ORDER BY influence_score DESC LIMIT 1");
+			ArrayList response = db.query("SELECT MAX(influence_score) as total FROM blogposts WHERE blogger='"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+" <='"+less+"' ");
 			 
 			if(response.size()>0){
 			 	ArrayList hd = (ArrayList)response.get(0);
@@ -573,8 +573,7 @@ public class Blogposts {
 		}catch(Exception e){
 			return count;
 		}
-		
-		
+				
 		return count;
 		/*
 		
