@@ -68,7 +68,7 @@ public String _getTotal() {
 
 public ArrayList _searchByRange(String field,String greater, String less, String blog_ids) throws Exception {
 	
-
+/*
 	blog_ids = blog_ids.replaceAll(",$", "");
 	blog_ids = blog_ids.replaceAll(", $", "");
 	blog_ids = "("+blog_ids+")";
@@ -89,8 +89,8 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	
 	
 	return response;
+	*/
 	
-	/*
 	String[] args = blog_ids.split(","); 
 	
 	 JSONArray pars = new JSONArray(); 
@@ -99,6 +99,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 		 pars.put(args[i].replaceAll(" ", ""));
 	 }
 	 String arg2 = pars.toString();
+	 /*
 	 String que ="{\r\n" + 
 	 		"	\"size\":20,\r\n" +
 	 		"	\"query\": { \r\n" + 
@@ -126,7 +127,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 		"	 		    } \r\n" + 
 	 		"	 		  } \r\n" + 
 	 		"	 		}";
-
+*/
 	 
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
 				"       \"query\": {\r\n" + 
@@ -135,7 +136,6 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 		 		"						  \"constant_score\":{ \r\n" + 
 		 		"									\"filter\":{ \r\n" + 
 		 		"											\"terms\":{ \r\n" + 
-		 		"												\r\n" + 
 		 		"											\""+field+"\":"+arg2+"\r\n"+
 		 		"													}\r\n" + 
 		 		"											}\r\n" + 
@@ -168,7 +168,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 		
     String url = base_url+"_search";
     return this._getResult(url,jsonObj);
-    */
+    
     
 }
 

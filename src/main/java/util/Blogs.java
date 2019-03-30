@@ -120,7 +120,6 @@ public class Blogs extends DbConnection{
 			blogids = blogids.replaceAll(", $", "");
 			blogids = "("+blogids+")";
 			
-			blogids = "("+blogids+")";
 			//System.out.println("SELECT count(DISTINCT blogger) as total FROM blogposts WHERE blogsite_id IN "+blogids+" AND date>='"+greater+"' AND date<='"+less+"' "); 
 			//return "0";
 			
