@@ -253,8 +253,10 @@
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			}
 			
+			System.out.println("DT E:"+dt+",fte:"+dte+"ids:"+ids);
+			
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
-		
+			System.out.println("All t terms:"+termss);
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
@@ -265,7 +267,6 @@
 			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 			//ArrayList auths = blog._getBloggers(dt, dte,ids);
 			
-			System.out.println("Authors:"+allauthors);
 			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
 			
@@ -595,6 +596,8 @@
 			
 			bloginfluencearr = post._sortJson2(bloginfluencearr);
 			blogpostingfreqarr = post._sortJson2(blogpostingfreqarr);
+			
+			System.out.println("all terdss "+topterms);
 %>
 <!DOCTYPE html>
 <html>
@@ -2955,7 +2958,7 @@ var mymarker = [
     	 <%if (topterms.length() > 0) {
 						for (int i = 0; i < topterms.length(); i++) {
 							JSONObject jsonObj = topterms.getJSONObject(i);
-							int size =  new Double(jsonObj.getString("frequency")).intValue() * 5;%>
+							int size =  new Double(jsonObj.getString("frequency")).intValue();%>
     		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
     	 <%}
 					}%>

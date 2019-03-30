@@ -272,9 +272,10 @@
 
 		JSONObject termsyears = new JSONObject();
 
-		
+		System.out.println("DT E:"+dt+",fte:"+dte+"ids:"+ids);
 		allterms = term._searchByRange("blogsiteid", dt, dte, ids);//term._searchByRange("date", dt, dte, ids);
-		
+		//termss = term._searchByRange("blogsiteid", dt, dte, ids);
+		System.out.println("All terms:"+allterms);
 		int postmentioned=0;
 		int blogmentioned=0;
 		int bloggermentioned=0;
@@ -352,17 +353,11 @@
 					mostactiveterm_id = tmid;
 					
 					postc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogpost_id");//post._searchTotalByTitleAndBody(tm,"date", dt,dte);
+					
+					//System.out.println("postc="+postc);
 					blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
 					bloggerc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogger");//post._searchTotalAndUniqueBlogger(tm,"date", dt,dte,"blogger");
 					
-					/*
-					ArrayList bloggercc = new DbConnection().query("SELECT * from blogposts where title LIKE '%"+tm+"%' OR post LIKE '%"+tm+"%' ");
-					System.out.println("blogerc :"+bloggercc);
-					if(bloggercc.size()>0){
-					  //bloggercc = (ArrayList<?>) bloggercc.get(0);
-					   //bloggerc = (null == bloggercc.get(0)) ? "0" : bloggercc.get(0).toString();
-					}
-					*/
 					
 					postmentioned+=(Integer.parseInt(postc));
 					blogmentioned+=(Integer.parseInt(blogc));
@@ -695,8 +690,7 @@
 												dselected = "abloggerselected";
 											}
 																			
-											%><a
-											class="btn btn-primary form-control select-term bloggerinactive mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=terms%></b></a>
+											%><a class="btn btn-primary form-control select-term bloggerinactive mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=terms%></b></a>
 											<%
 										}
 									}	

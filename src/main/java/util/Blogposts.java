@@ -161,7 +161,7 @@ public class Blogposts {
 		String count = "0";
 		ArrayList result = new ArrayList();
 		try {
-			result = db.queryJSON("SELECT *  FROM blogposts WHERE blogger = '"+bloggers+" AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ORDER BY date ASC LIMIT "+size+"");	
+			result = db.queryJSON("SELECT *  FROM blogposts WHERE blogger = '"+bloggers+" AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' GROUP BY(blogger) ORDER BY date ASC LIMIT "+size+"");	
 			
 		}catch(Exception e){
 			return result;
@@ -867,8 +867,8 @@ public class Blogposts {
 		//System.out.println("SELECT DISTINCT blogger,blogsite_id,language,date,blogpost_id,influence_score,location FROM blogposts WHERE blogsite_id IN "+blog_ids+" LIMIT "+size+" ");				
 		
 		try {
-			//response = db.queryJSON("SELECT DISTINCT blogger,blogsite_id,language,date,blogpost_id FROM blogposts WHERE blogsite_id IN "+blog_ids+" AND date>='"+greater+"' AND date<='"+less+"' ORDER BY "+sort+" "+order+" LIMIT "+size+" ");				
-			response = db.queryJSON("SELECT DISTINCT blogger,blogsite_id,language,date,blogpost_id,influence_score,location,num_comments,sentiment FROM blogposts WHERE blogsite_id IN "+blog_ids+" LIMIT "+size+" ");				
+			//response = db.queryJSON("SELECT * FROM blogposts WHERE blogsite_id IN "+blog_ids+" AND date>='"+greater+"' AND date<='"+less+"' GROUP BY(blogger) ORDER BY "+sort+" "+order+" LIMIT "+size+" ");				
+			response = db.queryJSON("SELECT * FROM blogposts WHERE blogsite_id IN "+blog_ids+" GROUP BY(blogger) LIMIT "+size+" ");				
 			System.out.println("Resp:"+response);
 		}catch(Exception e){
 			System.out.println("Error:");
@@ -1133,6 +1133,9 @@ public class Blogposts {
 	
 	
 	public String _searchTotalByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
+		
+		
+		
 		ArrayList response =new ArrayList();
 		DbConnection db = new DbConnection();
 		String count = "0";
@@ -1149,6 +1152,7 @@ public class Blogposts {
 		
 		
 		return count;
+		
 		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"       \"query\": {\r\n" + 
@@ -1179,11 +1183,12 @@ public class Blogposts {
 	
 	public String _searchTotalAndUnique(String term,String sortby, String start, String end, String filter ) throws Exception {
 		
+		
 		DbConnection db = new DbConnection();
 		String count = "0";
 		
 		try {
-			ArrayList response = db.query("SELECT count(*) as total FROM blogposts WHERE (title LIKE '%"+term+"%' OR post LIKE '%"+term+"%' ) AND date>='"+start+"' AND date<='"+end+"' ");		
+			ArrayList response = db.query("SELECT count(DISTINCT "+filter+") as total FROM blogposts WHERE (title LIKE '%"+term+"%' OR post LIKE '%"+term+"%' ) AND date>='"+start+"' AND date<='"+end+"' ");		
 			if(response.size()>0){
 			 	ArrayList hd = (ArrayList)response.get(0);
 				count = hd.get(0).toString();
@@ -1193,6 +1198,7 @@ public class Blogposts {
 		}
 		
 		return count;
+		
 		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
@@ -1257,7 +1263,7 @@ public class Blogposts {
 		String count = "0";
 		//Modify to distinct blogger
 		try {
-			ArrayList response = db.query("SELECT count(*) as total FROM blogposts WHERE (title LIKE '%"+term+"%' OR post LIKE '%"+term+"%' OR blogger LIKE '%"+term+"%' ) AND date>='"+start+"' AND date<='"+end+"' ");		
+			ArrayList response = db.query("SELECT count(DISTINCT "+filter+") as total FROM blogposts WHERE (title LIKE '%"+term+"%' OR post LIKE '%"+term+"%' OR blogger LIKE '%"+term+"%' ) AND date>='"+start+"' AND date<='"+end+"' ");		
 			if(response.size()>0){
 			 	ArrayList hd = (ArrayList)response.get(0);
 				count = hd.get(0).toString();

@@ -67,6 +67,30 @@ public String _getTotal() {
 
 
 public ArrayList _searchByRange(String field,String greater, String less, String blog_ids) throws Exception {
+	
+
+	blog_ids = blog_ids.replaceAll(",$", "");
+	blog_ids = blog_ids.replaceAll(", $", "");
+	blog_ids = "("+blog_ids+")";
+	int size = 20;
+	ArrayList response =new ArrayList();
+	DbConnection db = new DbConnection();
+	String count = "0";
+	System.out.println("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" AND date>='"+greater+"' AND date <='"+less+"' GROUP BY(term) ORDER BY frequency DESC LIMIT "+size+"");
+	
+	try {
+		response = db.queryJSON("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" AND date>='"+greater+"' AND date <='"+less+"' GROUP BY(term) ORDER BY frequency DESC LIMIT "+size+"");
+		//response = db.queryJSON("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" GROUP BY(term) LIMIT "+size+"");
+		 
+		
+	}catch(Exception e){
+		return response;
+	}
+	
+	
+	return response;
+	
+	/*
 	String[] args = blog_ids.split(","); 
 	
 	 JSONArray pars = new JSONArray(); 
@@ -76,8 +100,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 }
 	 String arg2 = pars.toString();
 	 String que ="{\r\n" + 
-	 		"	\"size\":100,\r\n" + 
-	 		"	\r\n" + 
+	 		"	\"size\":20,\r\n" +
 	 		"	\"query\": { \r\n" + 
 	 		"			 \"bool\": {\r\n" + 
 	 		"				      \"must\": [\r\n" + 
@@ -104,10 +127,49 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 		"	 		  } \r\n" + 
 	 		"	 		}";
 
-	JSONObject jsonObj = new JSONObject(que);
 	 
+		JSONObject jsonObj  = new JSONObject("{\r\n" + 
+				"       \"query\": {\r\n" + 
+				"          \"bool\": { \r\n" + 
+				"               \"must\": {\r\n" + 
+		 		"						  \"constant_score\":{ \r\n" + 
+		 		"									\"filter\":{ \r\n" + 
+		 		"											\"terms\":{ \r\n" + 
+		 		"												\r\n" + 
+		 		"											\""+field+"\":"+arg2+"\r\n"+
+		 		"													}\r\n" + 
+		 		"											}\r\n" + 
+		 		"										} \r\n" + 
+				"                },\r\n" + 
+				"                \"filter\": {\r\n" + 
+				"                    \"range\" : {\r\n" + 
+				"                        \"date\" : {\r\n" + 
+				"                            \"gte\": \""+greater+"\",\r\n" + 
+				"                            \"lte\": \""+less+"\"\r\n" + 
+				"                        }\r\n" + 
+				"                    }\r\n" + 
+				"                }\r\n" + 
+				"            }\r\n" + 
+				"        },\r\n" + 
+				"		\"sort\":{\r\n" + 
+				"		\"frequency\":{\r\n" + 
+				"			\"order\":\"DESC\"\r\n" + 
+				"			}\r\n" + 
+				"		},\r\n" +
+				"    	\"aggregations\": {\r\n" + 
+		 		"        	\"term\": {\r\n" + 
+		 		"            \"terms\": {\r\n" + 
+		 		"                \"field\": \"term\",\r\n" + 
+		 		"                \"size\": 200\r\n" + 
+		 		"            }\r\n" + 
+		 		"        	}\r\n" + 
+		 		"    	}\r\n"+
+				"    }");
+		
     String url = base_url+"_search";
     return this._getResult(url,jsonObj);
+    */
+    
 }
 
 public ArrayList _search(String term,String from) throws Exception {
