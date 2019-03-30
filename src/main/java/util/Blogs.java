@@ -116,6 +116,10 @@ public class Blogs extends DbConnection{
 			
 			DbConnection db = new DbConnection();
 			String count = "0";
+			blogids = blogids.replaceAll(",$", "");
+			blogids = blogids.replaceAll(", $", "");
+			blogids = "("+blogids+")";
+			
 			blogids = "("+blogids+")";
 			//System.out.println("SELECT count(DISTINCT blogger) as total FROM blogposts WHERE blogsite_id IN "+blogids+" AND date>='"+greater+"' AND date<='"+less+"' "); 
 			//return "0";
@@ -136,6 +140,11 @@ public class Blogs extends DbConnection{
 	
 	
 	public ArrayList _getBloggers(String greater, String less, String blogids) throws Exception {	
+		
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
 		blogids = "("+blogids+")";
 		DbConnection db = new DbConnection();
 		ArrayList response = new ArrayList();
