@@ -130,6 +130,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 */
 	 
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
+		 		"	\"size\":20,\r\n" +
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
 				"               \"must\": {\r\n" + 
@@ -155,7 +156,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 				"		\"frequency\":{\r\n" + 
 				"			\"order\":\"DESC\"\r\n" + 
 				"			}\r\n" + 
-				"		},\r\n" +
+				"		}\r\n" +/*
 				"    	\"aggregations\": {\r\n" + 
 		 		"        	\"term\": {\r\n" + 
 		 		"            \"terms\": {\r\n" + 
@@ -163,7 +164,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 		 		"                \"size\": 200\r\n" + 
 		 		"            }\r\n" + 
 		 		"        	}\r\n" + 
-		 		"    	}\r\n"+
+		 		"    	}\r\n"+ */
 				"    }");
 		
     String url = base_url+"_search";
