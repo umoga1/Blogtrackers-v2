@@ -1345,7 +1345,7 @@ public class Blogposts {
 	/* Fetch posts by blog ids*/
 	public String _getTotalByBlogId(String blog_ids,String from) throws Exception {
 		
-		
+		/*
 		DbConnection db = new DbConnection();
 		String count = "0";
 		blog_ids = blog_ids.replaceAll(",$", "");
@@ -1364,8 +1364,8 @@ public class Blogposts {
 		}
 		
 		return count;
+		*/
 		
-		/*
 		String url = base_url+"_search?size=1";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
@@ -1379,7 +1379,7 @@ public class Blogposts {
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this.totalpost;
-		*/
+		
 	}
 	
 	/* Fetch posts by blog ids*/

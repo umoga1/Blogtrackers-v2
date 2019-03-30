@@ -79,8 +79,8 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	System.out.println("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" AND date>='"+greater+"' AND date <='"+less+"' GROUP BY(term) ORDER BY frequency DESC LIMIT "+size+"");
 	
 	try {
-		response = db.queryJSON("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" AND date>='"+greater+"' AND date <='"+less+"' GROUP BY(term) ORDER BY frequency DESC LIMIT "+size+"");
-		//response = db.queryJSON("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" GROUP BY(term) LIMIT "+size+"");
+		//response = db.queryJSON("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" AND date>='"+greater+"' AND date <='"+less+"' GROUP BY(term) ORDER BY frequency DESC LIMIT "+size+"");
+		response = db.queryJSON("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" GROUP BY(term) LIMIT "+size+"");
 		 
 		
 	}catch(Exception e){
