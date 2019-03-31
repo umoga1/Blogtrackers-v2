@@ -1449,7 +1449,7 @@ public class Blogposts {
 
 
 	public String _searchRangeTotal(String field,String greater, String less, String blog_ids) throws Exception {
-		
+		/*
 		DbConnection db = new DbConnection();
 		String count = "0";
 		blog_ids = blog_ids.replaceAll(",$", "");
@@ -1468,8 +1468,9 @@ public class Blogposts {
 		}
 		
 		return count;
+		*/
 		
-		/*
+		
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -1537,7 +1538,7 @@ public class Blogposts {
 
 		String url = base_url+"_search";
 		return this._getTotal(url,jsonObj);
-		*/
+		
 	}
 	
 	

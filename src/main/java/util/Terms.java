@@ -99,7 +99,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 		 pars.put(args[i].replaceAll(" ", ""));
 	 }
 	 String arg2 = pars.toString();
-	 /*
+	 
 	 String que ="{\r\n" + 
 	 		"	\"size\":20,\r\n" +
 	 		"	\"query\": { \r\n" + 
@@ -125,9 +125,14 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 		"	 				} \r\n" + 
 	 		"	 		      ] \r\n" + 
 	 		"	 		    } \r\n" + 
-	 		"	 		  } \r\n" + 
-	 		"	 		}";
-*/
+	 		"	 		  }, \r\n" + 
+			"		\"sort\":{\r\n" + 
+			"		\"frequency\":{\r\n" + 
+			"			\"order\":\"DESC\"\r\n" + 
+			"			}\r\n" + 
+			"		}\r\n" +
+	 		"	 }";
+
 	 
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
 		 		"	\"size\":20,\r\n" +
@@ -166,7 +171,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 		 		"        	}\r\n" + 
 		 		"    	}\r\n"+ */
 				"    }");
-		
+		jsonObj = new JSONObject(que);
     String url = base_url+"_search";
     return this._getResult(url,jsonObj);
     
