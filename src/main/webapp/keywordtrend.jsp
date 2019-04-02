@@ -734,13 +734,13 @@
 						<div class="row">
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Blog Mentioned</h6>
-								<h2 class="mb0 bold-text blog-mentioned"><%=blogmentioned%></h2>
+								<h2 class="mb0 bold-text blog-mentioned"><%=NumberFormat.getNumberInstance(Locale.US).format(new Integer(blogmentioned))%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Keyword Count</h6>
-								<h2 class="mb0 bold-text blogger-mentioned"><%=topterms.length()%></h2>
+								<h2 class="mb0 bold-text blogger-mentioned"><%=NumberFormat.getNumberInstance(Locale.US).format(topterms.length())%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 							
@@ -970,10 +970,10 @@
 								%>
 									<tr>
 										<td><%=terms%></td>
-										<td><%=size%></td>
-										<td><%=postcount%> <%-- <sub>of <%=postcount%></sub> --%></td>
-										<td><%=blogcount%> <%-- <sub>of <%=blogcount%></sub> --%></td>
-										<td><%=keycount%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
+										<td><%=NumberFormat.getNumberInstance(Locale.US).format(size)%></td>
+										<td><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(postcount))%> <%-- <sub>of <%=postcount%></sub> --%></td>
+										<td><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(blogcount))%> <%-- <sub>of <%=blogcount%></sub> --%></td>
+										<td><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(keycount))%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
 										<%-- <td><%=blogger%></td>
 										<td><%=language%></td>
 										<td><%=location%></td> --%>
