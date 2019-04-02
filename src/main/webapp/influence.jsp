@@ -251,8 +251,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 		
 		
-		allauthors = post._getBloggerByBlogId("date",dt, dte,ids);//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+		//allauthors = post._getBloggerByBlogId("date",dt, dte,ids);//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		//post._getBloggerByBlogId("date",dt, dte,ids);
+	    allauthors= post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+
 	String allpost = "0";
 	float totalinfluence = 0;
 	String mostactiveblog="";
