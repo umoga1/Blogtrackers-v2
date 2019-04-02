@@ -344,8 +344,7 @@
 					    sentimentpost.put(tobj.get("blogpost_id").toString());
 					   
 					    if(!authors.has(auth)){							 
-						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
-						    btoty = post._searchRangeTotalByBlogger("date",dt, dte,auth);
+						    String btoty = post._searchRangeTotalByBlogger("date",dt, dte,auth);
 
 						   	Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
 							int valu = new Double(btoty).intValue(); 

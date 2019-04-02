@@ -598,14 +598,15 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							dselected = "abloggerselected";
 							mostactiveblogger = au;
 							allterms = term._searchByRange("blogpostid", dt, dte, postids);//_searchByRange("blogpostid",dt, dte,postids);
-
+							//allterms = term._fetchByPostId(postids);
+							
 							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
 							selectedid=det.get("blogid").toString();
 							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");							
 					}
 			    	%>
-					<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>" value="<%=postids%>" />
-	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","_")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
+					<input type="hidden" id="postby<%=au.replaceAll(" ","__")%>" value="<%=postids%>" />
+	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","__")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
 	    			<% 
 					//JSONObject jsonObj = bloggersort.getJSONObject(m);
 				}
@@ -1998,7 +1999,7 @@ function draw(words) {
 <script src="pagedependencies/baseurl.js?v=93"></script>
 
  <script src="assets/js/generic.js"></script>
-<script src="pagedependencies/postingfrequency.js?v=6990"></script>
+<script src="pagedependencies/postingfrequency.js?v=66990"></script>
 
 </body>
 </html>

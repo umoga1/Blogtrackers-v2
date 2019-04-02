@@ -100,7 +100,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 		 pars.put(args[i].replaceAll(" ", ""));
 	 }
 	 String arg2 = pars.toString();
-
+	 System.out.println("Args:"+field+","+blog_ids.toString());
 	 
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
 		 		"	\"size\":20,\r\n" +
@@ -143,12 +143,32 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	//jsonObj = new JSONObject(que3);
     String url = base_url+"_search";
     return this._getResult(url,jsonObj);
-    
-    
-    
+  
 }
 
 
+
+
+
+public ArrayList _searchByRangeByPostId(String blog_ids) throws Exception {
+	
+	blog_ids = blog_ids.replaceAll(",$", "");
+	blog_ids = blog_ids.replaceAll(", $", "");
+	blog_ids = "("+blog_ids+")";
+	
+	ArrayList response =new ArrayList();
+	DbConnection db = new DbConnection();
+	
+	//System.out.println("SELECT * FROM terms WHERE blogpostid IN "+blog_ids+" ");
+	try {
+		response = db.queryJSON("SELECT * FROM terms WHERE blogpostid IN "+blog_ids+" ");		
+	}catch(Exception e){
+		return response;
+	}
+	
+	
+	return response;
+}
 
 public ArrayList _search(String term,String from) throws Exception {
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
@@ -305,6 +325,9 @@ public ArrayList _fetch(String ids) throws Exception {
 	return this._getResult(url, jsonObj);
 	   
 }
+
+
+
 
 public ArrayList _getMostUsed(String blog_ids) throws Exception { 
 	ArrayList mostactive = new ArrayList();
