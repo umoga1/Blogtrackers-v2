@@ -226,8 +226,7 @@
 				}
 			}
 			
-			ArrayList allbloggers = blog._fetch(ids);
-			String totalbloggers = allbloggers.size()+"";
+			String totalbloggers = blog._getTotalBloggers(dt, dte, ids);
 			
 			String[] yst = dt.split("-");
 			String[] yend = dte.split("-");
