@@ -22,7 +22,7 @@
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 	
-	//System.out.println(date_start);
+	
 	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
 	} else {
@@ -42,12 +42,10 @@
 		Outlinks outl = new Outlinks();
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
-			//System.out.println(detail);
+			
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
-			//System.out.println("List:"+detail);
 		}
-		
 		boolean isowner = false;
 		JSONObject obj = null;
 		String ids = "";
@@ -109,7 +107,6 @@
 			
 			String stdate = post._getDate(ids,"first");
 			String endate = post._getDate(ids,"last");
-			
 			Date dstart = new Date();
 			Date today = new Date();
 			Date nnow = new Date();  
@@ -217,17 +214,16 @@
 				
 				
 			} else {
-				dt = dst;
+				/* dt = dst;
 				dte = dend;
 				if(ids.length()>0){
 					totalpost = Integer.parseInt(post._getTotalByBlogId(ids, ""))+"";
 				}else{
 					totalpost="0";
-				}
+				} */
 			}
 			
-			String totalbloggers = blog._getTotalBloggers(dt, dte, ids);
-			
+			String totalbloggers = "10";// blog._getTotalBloggers(dt, dte, ids);
 			String[] yst = dt.split("-");
 			String[] yend = dte.split("-");
 			year_start = yst[0];
@@ -251,6 +247,7 @@
 			
 			if(totalpost.equals("")){
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+				System.out.println("Totalpost here"+totalpost);
 			}
 			
 			
@@ -2974,9 +2971,10 @@ var mymarker = [
     	 <%if (topterms.length() > 0) {
 						for (int i = 0; i < topterms.length(); i++) {
 							JSONObject jsonObj = topterms.getJSONObject(i);
-							int size =  new Double(jsonObj.getString("frequency")).intValue();%>
+							int size = 10;// new Double(jsonObj.getString("frequency")).intValue();%>
     		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
-    	 <%}
+    	 <%
+						}
 					}%>
     	
     

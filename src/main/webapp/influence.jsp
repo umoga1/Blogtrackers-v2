@@ -313,7 +313,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <script src="assets/js/popper.min.js"></script>
 </head>
 <body>
-<%@include file="subpages/loader.jsp" %>
+<%-- <%@include file="subpages/loader.jsp" %> --%>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<div class="modal-notifications">
 		<div class="row">
