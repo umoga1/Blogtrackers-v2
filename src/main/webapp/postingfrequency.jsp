@@ -242,7 +242,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
-		allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+			allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		//allauthors = post._getBloggerByBlogId("date",dt, dte,ids);
 		
 		
@@ -632,6 +632,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 int highestfrequency = 0;
 JSONArray topterms = new JSONArray();
 JSONObject keys = new JSONObject();
+System.out.println("All terms: "+allterms);
+JSONObject positions = new JSONObject();
+int termsposition = 0;
 if (allterms.size() > 0) {
 	for (int p = 0; p < allterms.size(); p++) {
 		String bstr = allterms.get(p).toString();
@@ -646,13 +649,34 @@ if (allterms.size() > 0) {
 			highestfrequency = freq;
 			mostusedkeyword = tm;
 		}
+		
 		JSONObject cont = new JSONObject();
+		
+		if(keys.has(tm)){
+			String allfreq = keys.get(tm).toString();
+			String pos = positions.get(tm).toString();
+			int fr1 = Integer.parseInt(frequency);
+			int fr2 = Integer.parseInt(allfreq);
+			
+			cont.put("key", tm);
+			cont.put("frequency", (fr1+fr2));
+			topterms.put(Integer.parseInt(pos),cont);
+		}else{
+			cont.put("key", tm);
+			cont.put("frequency", frequency);
+			keys.put(tm,frequency);
+			positions.put(tm,termsposition);
+			topterms.put(cont);
+		}
+		
+		/*
 		cont.put("key", tm);
 		cont.put("frequency", frequency);
 		if(!keys.has(tm)){
 			keys.put(tm,tm);
 			topterms.put(cont);
 		}
+		*/
 	}
 }
 
@@ -1826,7 +1850,7 @@ console.log("here");
 	 <%if (topterms.length() > 0) {
 					for (int i = 0; i < topterms.length(); i++) {
 						JSONObject jsonObj = topterms.getJSONObject(i);
-						int size = Integer.parseInt(jsonObj.getString("frequency"))*2;%>
+						int size = Integer.parseInt(jsonObj.getString("frequency"));%>
 		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
 	 <%}
 				}%>

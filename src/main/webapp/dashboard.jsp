@@ -253,10 +253,9 @@
 				totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			}
 			
-			System.out.println("DT E:"+dt+",fte:"+dte+"ids:"+ids);
 			
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
-			System.out.println("All t terms:"+termss);
+			//System.out.println("All t terms:"+termss);
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
@@ -470,6 +469,9 @@
 			
 			//System.out.println("termss "+termss);
 			JSONArray topterms = new JSONArray();
+			JSONObject keys = new JSONObject();
+			JSONObject positions = new JSONObject();
+			int termsposition = 0;
 			if (termss.size() > 0) {
 				for (int p = 0; p < termss.size(); p++) {
 					String bstr = termss.get(p).toString();
@@ -479,9 +481,24 @@
 					String frequency = bj.get("frequency").toString();
 					String tm = bj.get("term").toString();
 					JSONObject cont = new JSONObject();
-					cont.put("key", tm);
-					cont.put("frequency", frequency);
-					topterms.put(cont);
+					if(keys.has(tm)){
+						String freq = keys.get(tm).toString();
+						String pos = positions.get(tm).toString();
+						int fr1 = Integer.parseInt(frequency);
+						int fr2 = Integer.parseInt(freq);
+						
+						cont.put("key", tm);
+						cont.put("frequency", (fr1+fr2));
+						topterms.put(Integer.parseInt(pos),cont);
+					}else{
+						cont.put("key", tm);
+						cont.put("frequency", frequency);
+						keys.put(tm,frequency);
+						positions.put(tm,termsposition);
+						topterms.put(cont);
+					}
+					
+					
 				}
 			}
 			

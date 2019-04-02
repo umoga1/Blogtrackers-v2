@@ -159,9 +159,11 @@ public class Blogposts {
 		int size =20;
 		DbConnection db = new DbConnection();
 		String count = "0";
+		System.out.println("SELECT *  FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ORDER BY date ASC LIMIT "+size+"");	
+		
 		ArrayList result = new ArrayList();
 		try {
-			result = db.queryJSON("SELECT *  FROM blogposts WHERE blogger = '"+bloggers+" AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' GROUP BY(blogger) ORDER BY date ASC LIMIT "+size+"");	
+			result = db.queryJSON("SELECT *  FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">="+greater+" AND "+field+"<="+less+" ORDER BY date ASC LIMIT "+size+"");	
 			
 		}catch(Exception e){
 			return result;
@@ -243,7 +245,8 @@ public class Blogposts {
 		String count = "0";
 		ArrayList result = new ArrayList();
 		try {
-			result = db.queryJSON("SELECT *  FROM blogposts WHERE blogger = '"+bloggers+" AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ORDER BY "+sort+" "+order+" LIMIT "+size+"");	
+			result = db.queryJSON("SELECT *  FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ORDER BY "+sort+" "+order+" LIMIT "+size+"");	
+			//result = db.queryJSON("SELECT *  FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">="+greater+" AND "+field+"<="+less+" ORDER BY date ASC LIMIT "+size+"");	
 			
 		}catch(Exception e){
 			return result;
@@ -302,7 +305,7 @@ public class Blogposts {
 		String count = "0";
 		
 		try {
-			ArrayList response = db.query("SELECT count(*) as total FROM blogposts WHERE blogger = '"+bloggers+" AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ");	
+			ArrayList response = db.query("SELECT count(*) as total FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ");	
 			if(response.size()>0){
 			 	ArrayList hd = (ArrayList)response.get(0);
 				count = hd.get(0).toString();
