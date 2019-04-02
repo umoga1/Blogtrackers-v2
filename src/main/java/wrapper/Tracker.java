@@ -202,7 +202,7 @@ public class Tracker extends HttpServlet {
 							 
 							 String[] allblogs = mergedblogs.replaceAll(",$", "").split(",");
 							 int blognum = allblogs.length;
-							 System.out.println("Blog during update ajax request "+  mergedblogs);
+							// System.out.println("Blog during update ajax request "+  mergedblogs);
 							 addendum = "blogsite_id in ("+mergedblogs+")";//"blogsite_id in ("+addendum+blog_id+")";
 							 
 							 String modifiedDate= getDateTime();
@@ -224,9 +224,10 @@ public class Tracker extends HttpServlet {
 					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+tracker_id+"' AND userid='"+userid+"'");
 					
 					 if(tracker.size()>0){
-						 
-						 db.updateTable("UPDATE trackers SET tracker_name='"+tracker_name+"', description='"+description+"' WHERE  tid='"+tracker_id+"'");	
-						 tracker = db.query("SELECT * FROM trackers WHERE tid='"+tracker_id+"' AND userid='"+userid+"'");
+						 String modifiedDate= getDateTime();
+							
+						 db.updateTable("UPDATE trackers SET tracker_name='"+tracker_name+"', description='"+description+"', date_modified='"+modifiedDate+"' WHERE  tid='"+tracker_id+"'");	
+						 //tracker = db.query("SELECT * FROM trackers WHERE tid='"+tracker_id+"' AND userid='"+userid+"'");
 						 //System.out.println("tracker here :"+tracker_name+"-"+tracker);
 						 
 						 pww.write("success");
@@ -256,11 +257,9 @@ public class Tracker extends HttpServlet {
 			try {
 					String tid = request.getParameter("tracker_id");
 					new DbConnection().updateTable("DELETE FROM trackers WHERE  tid='"+tracker_id+"' AND userid='"+userid+"'");						
-					
-					ArrayList trackers = new DbConnection().query("SELECT * FROM trackers WHERE userid='"+userid+"'");
-		        	pww.write("true");
+					pww.write("success");
 				}catch(Exception ex) {
-					 pww.write("false"); 
+					 pww.write("error"); 
 				}			
 				
 		}else if(action.equals("removeblog")) {
@@ -323,9 +322,11 @@ public class Tracker extends HttpServlet {
 							 blogcounter++;
 						 }
 					 }
-					 	System.out.println(mergedblogs);		
-					que =  "blogsite_id in ("+mergedblogs+")";			 
-					db.updateTable("UPDATE trackers SET query='"+que+"', blogsites_num = '"+blogcounter+"' WHERE  tid='"+tracker_id+"'");	
+					 	//System.out.println(mergedblogs);		
+					que =  "blogsite_id in ("+mergedblogs+")";	
+					String modifiedDate= getDateTime();
+					
+					db.updateTable("UPDATE trackers SET query='"+que+"', blogsites_num = '"+blogcounter+"', date_modified='"+modifiedDate+"' WHERE  tid='"+tracker_id+"'");	
 					pww.write("success");
 			 }else {
 				 pww.write("false");

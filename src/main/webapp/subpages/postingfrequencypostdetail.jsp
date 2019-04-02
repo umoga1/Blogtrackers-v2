@@ -108,7 +108,9 @@ if(action.toString().equals("gettotal")){
 %>
 <%=toplocation%>	
 <% }else{
-ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
+	//ArrayList allauthors = post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),"influence_score","DESC");
+	//System.out.println("bloggers:"+blogger.toString());
+ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString().toLowerCase(),sort.toString(),"DESC");
 %>
 
 <%
@@ -119,8 +121,8 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
 									JSONObject tobj = null;
 									int j=0;
 									int k=0;
-									for(int i=0; i< 1; i++){
-										tres = allauthors.get(i).toString();	
+									for(int i=allauthors.size(); i> allauthors.size()-1; i--){
+										tres = allauthors.get(i-1).toString();	
 										tresp = new JSONObject(tres);
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
@@ -133,12 +135,13 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title").toString().replaceAll("[^a-zA-Z]", " ")%></h5>
 										<div class="text-center mb20 mt20">
-											<button class="btn stylebuttonblue">
-												<b class="float-left ultra-bold-text"><a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid.toString()%>&blogger=<%=tobj.get("blogger")%>"><%=tobj.get("blogger")%></a></b> <i
+											<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid.toString()%>&blogger=<%=tobj.get("blogger")%>"><button class="btn stylebuttonblue">
+												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											<button class="btn stylebuttonnocolor"><%=date%></button>
-											<button class="btn stylebuttonnocolor">
+											</a>
+											<button class="btn stylebuttonnocolor nocursor"><%=date%></button>
+											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>

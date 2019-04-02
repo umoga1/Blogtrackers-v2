@@ -14,12 +14,14 @@
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
+Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 
 ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";
 String username ="";
 String name="";
 String phone="";
+String total_post = "";
 String date_modified = "";
 ArrayList detail = new ArrayList();
 Trackers tracker = new Trackers();
@@ -29,8 +31,17 @@ Blogs blg = new Blogs();
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
 detail = tracker._fetch(tid.toString());
  //System.out.println(userinfo);
-if (userinfo.size()<1 || detail.size()<1) {
-	response.sendRedirect("login.jsp");
+boolean isowner = false;
+
+if (detail.size() > 0) {
+			ArrayList resp = (ArrayList<?>)detail.get(0);
+			String tracker_userid = resp.get(1).toString();			
+			if (tracker_userid.equals(user.toString())) {
+				isowner = true;
+			}
+}
+if (userinfo.size()<1 || detail.size()<1 || !isowner) {
+	response.sendRedirect("index.jsp");
 }else{
 userinfo = (ArrayList<?>)userinfo.get(0);
 try{
@@ -62,9 +73,28 @@ if(f.exists() && !f.isDirectory()) {
 	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
 }
 }catch(Exception e){}
+String ids = "";
+Blogposts post = new Blogposts();
 
+if (detail.size() > 0) {
+	//String res = detail.get(0).toString();
+	ArrayList resp = (ArrayList<?>)detail.get(0);
 
-
+	String tracker_userid = resp.get(1).toString();
+	if (tracker_userid.equals(user.toString())) {
+		isowner = true;
+		String query = resp.get(5).toString();//obj.get("query").toString();
+		query = query.replaceAll("blogsite_id in ", "");
+		query = query.replaceAll("\\(", "");
+		query = query.replaceAll("\\)", "");
+		ids = query;
+	}
+}
+if(ids.length()>0){
+	total_post = Integer.parseInt(post._getTotalByBlogId(ids, ""))+"";
+}else{
+	total_post="0";
+}
 
 %>
 <!DOCTYPE html>
@@ -100,6 +130,7 @@ if(f.exists() && !f.isDirectory()) {
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body class="bgwhite">
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
   <div class="modal-notifications">
 <div class="row">
@@ -119,8 +150,8 @@ if(f.exists() && !f.isDirectory()) {
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
   <% if(userinfo.size()>0){ %>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+  <%-- <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+   --%> <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   <%}else{ %>
@@ -321,7 +352,7 @@ if(f.exists() && !f.isDirectory()) {
 	<h6 class="text-primary labeltext">Blogs</h6>
 	</div>
 	<div class="float-left statcontainer">
-	<b class="stattext"><%=NumberFormat.getNumberInstance(Locale.US).format(totalpost)%></b>
+	<b class="stattext"><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.valueOf(total_post))%></b>
 	<h6 class="text-primary labeltext">Posts</h6>
 	</div>
 	

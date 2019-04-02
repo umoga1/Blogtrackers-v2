@@ -56,16 +56,16 @@
 			//String res = detail.get(0).toString();
 			ArrayList resp = (ArrayList<?>)detail.get(0);
 
-			String tracker_userid = resp.get(0).toString();
+			String tracker_userid = resp.get(1).toString();
 			trackername = resp.get(2).toString();
-			//if (tracker_userid.equals(user.toString())) {
+			if (tracker_userid.equals(user.toString())) {
 				isowner = true;
 				String query = resp.get(5).toString();//obj.get("query").toString();
 				query = query.replaceAll("blogsite_id in ", "");
 				query = query.replaceAll("\\(", "");
 				query = query.replaceAll("\\)", "");
 				ids = query;
-			//}
+			}
 		}
 		
 		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
@@ -139,15 +139,6 @@
 
 			//ArrayList posts = post._list("DESC","");
 			ArrayList sentiments = senti._list("DESC", "", "id");
-			 
-		 	/* Liwc liwc = new Liwc();
-			
-			ArrayList liwcSent = liwc._list("DESC", ""); 
-			
-			String test = post._searchRangeTotal("date", "2013-04-01", "2018-04-01", "1");
-			
-			System.out.println(test);  */
-		
 			
 			String totalpost = "0";
 			ArrayList allauthors = new ArrayList();
@@ -246,6 +237,8 @@
 			String month_start = yst[1];
 			String month_end = yend[1];
 			
+			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
 			String[] idss = ids.split(",");
 			String selectedblogid = idss[0];
@@ -255,9 +248,8 @@
 			outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
 			
 			//String totalinfluence = post._searchRangeMaxByBlogId("date", dt, dte, selectedblogid);
-			String totalinfluence = post._searchRangeAggregate("date", dt, dte, selectedblogid);
-			
-			
+			String totalinfluence = post._searchRangeMaxByBlogId("date", dt, dte, selectedblogid);
+			Long infl = Math.round(Double.parseDouble(totalinfluence));
 			String mostactiveterm ="";
 			String mostactiveblog ="";
 					
@@ -503,6 +495,7 @@
 				}
 			}
 			
+			String mostactiveblogurl ="";
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
 			if (outlinks.size() > 0) {
@@ -594,8 +587,9 @@
 						String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
 						//String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
 						int valu = 1;//Integer.parseInt(btoty);
-						if(m==0){
+						if(selectedblogid.equals(bobj.get("blogsite_id").toString())){
 							mostactiveblog = blogname;
+							mostactiveblogurl = durl;
 						}
 						if (bloggers.has(blogger)) {
 							content = new JSONObject(bloggers.get(blogger).toString());						
@@ -676,6 +670,7 @@
   <script src="pagedependencies/baseurl.js"></script>
 </head>
 <body>
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<div class="modal-notifications">
 		<div class="row">
@@ -696,11 +691,11 @@
 
 				</div>
 				<div id="othersection" class="col-md-12 mt10" style="clear: both">
-					<a class="cursor-pointer profilemenulink"
+					<%-- <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a> 
+						</h6> </a>  --%>
 						 <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
 						<a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
@@ -808,12 +803,12 @@
 						href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a> 
 						<a class="breadcrumb-item text-primary"	href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
 					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
-					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/blogportfolio.jsp?tid=<%=tid%>">Blogportfolio</a>
+					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/blogportfolio.jsp?tid=<%=tid%>">Blog Portfolio</a>
 				</nav>
-				<div>
+			<!-- 	<div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
 						AS PDF</button>
-				</div>
+				</div> -->
 			</div>
 
 			<div class="col-md-6 text-right mt10">
@@ -861,10 +856,11 @@
 							JSONObject resu = bloggers.getJSONObject(key);
 							int size = Integer.parseInt(resu.get("postingfreq").toString());
 							String blogname = resu.get("blog").toString();
+							String blogid = resu.get("id").toString();
 							if (size > 0 && p < 15) {
 								p++;
 							%>
-								<option value="<%=resu.get("id").toString()%>_<%=blogname%>"><%=resu.get("blog")%></option>
+								<option value="<%=resu.get("id").toString()%>_<%=blogname%>" <% if(blogname.equals(mostactiveblog)){%> selected <% } %>><%=resu.get("blog")%></option>
    <%}}}%>
 </select>
 </h6>
@@ -877,7 +873,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-exchange-alt icondash "></i>Influence
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label total-influence"><%=totalinfluence%></h3>
+						<h3 class="text-blue mb0 countdash dash-label total-influence"><%=NumberFormat.getNumberInstance(Locale.US).format(infl)%></h3>
 					</div>
 				</div>
 			</div>
@@ -910,7 +906,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-adjust icondash"></i>Sentiment
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label total-sentiment"><%=(Integer.parseInt(possentiment)+Integer.parseInt(negsentiment))%></h3>
+						<h3 class="text-blue mb0 countdash dash-label total-sentiment"><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(possentiment)+Integer.parseInt(negsentiment))%></h3>
 					</div>
 				</div>
 			</div>
@@ -918,7 +914,7 @@
 
 <div class="col-md-2 text-right">
 <!-- <small class="text-primary cursor-pointer"><a href="">Visit Blog</a></small> --><br/>
-<button class="btn buttonportfolio"><b class="float-left active-blog styleactiveblog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button>
+<a href="http://<%=mostactiveblogurl%>" target="_blank"><button class="btn buttonportfolio"><b class="float-left active-blog styleactiveblog"><%=mostactiveblog %></b> <b class="fas fa-location-arrow float-right iconportfolio"></b></button></a>
 </div>
  <!--  <div class="col-md-3">
   <small class="text-primary">Find Blog</small>
@@ -970,7 +966,7 @@
   <div class="card card-style mt20 ">
     <div class="card-body  p30 pt5 pb5">
       <div style="min-height: 475px;">
-<div><p class="text-primary mt10 float-left"><b class="text-blue">Posts</b> Published by <b class="text-blue"><%=mostactiveblog%></b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
+<div><p class="text-primary mt10 float-left"><b class="text-blue">Posts</b> Published by <b class="text-blue active-blog"><%=mostactiveblog%></b> <!-- of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select> --></p></div>
 <!-- <svg class="linesvg" width="960" height="400"></svg> -->
 <!-- <div id="lineplot" style="min-height: 380px;"></div> -->
 
@@ -1099,7 +1095,7 @@
 <input type="hidden" id="blogid" value="<%=selectedblogid%>" />
 </form>>
 
-  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
+<!--   <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script> -->
  <script src="assets/bootstrap/js/bootstrap.js">
  </script>
  <script src="assets/js/generic.js">
@@ -2684,7 +2680,7 @@
  </script>
 
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/blogportfolio.js?v=9988909"></script>
+<script src="pagedependencies/blogportfolio.js"></script>
 
 </body>
 </html>

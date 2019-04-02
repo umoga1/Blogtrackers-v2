@@ -25,8 +25,38 @@ $('.select-term').on("click", function(){
 	loadChart(tm);
 	loadTable(date_start,date_end);
 });
+var r = /a/;
+//console.log(typeof r.test('a')); // true
+//console.log(r.test('ba')); // false
 
+$('.resetsearch').on("click",function(){
+$('.searchkeywords').val("");	
+});
 
+$('.searchkeywords').on("keyup",function(e){
+var valuetype = e.target.value;
+//console.log(valuetype==="");
+if(valuetype === "")
+{
+$('.select-term').removeClass("hidesection");	
+}
+$('.select-term').removeClass("hidesection")
+var valuetocheck = new RegExp(valuetype);
+var checkclass = ""
+$('.select-term').each(function(el,i)
+{
+var eachvalue = $(this).children("b").html();
+//console.log(valuetocheck.test(eachvalue));
+
+	//console.log(typeof eachvalue);
+if(!valuetocheck.test(eachvalue) && e.target.value !== "")
+{
+	$(this).addClass("hidesection");	
+}
+
+//console.log(el);	
+})
+})
 
 function loadStat(term){
 	$(".blog-mentioned").html("<img src='images/loading.gif' />");
@@ -85,8 +115,11 @@ function loadChart(term){
 		{   
 
 		$("#main-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
-			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
-			  });*/
+		//$.getScript("pagedependencies/baseurl.js?v=38", function(data, textStatus, jqxhr) {	 });
+		 //$.getScript("pagedependencies/keywordtrends.js?v=0879", function(data, textStatus, jqxhr) {	 });
+			
+			 
+			 
 		}
 	});
 }
@@ -103,6 +136,7 @@ function loadTable(date_start,date_end){
 				action:"gettable",
 				term:$("#term").val(),
 				id:$("#term_id").val(),
+				tid:$("#tid").val(),
 				date_start:date_start,
 				date_end:date_end,
 			},
@@ -112,9 +146,20 @@ function loadTable(date_start,date_end){
 			},
 			success: function(response)
 			{   
-				$("#combined-div").html(response);
-				/*$.getScript("pagedependencies/keywordtrends.js", function(data, textStatus, jqxhr) { });*/
-				/*$.getScript("pagedependencies/blogpostselectkeywordtrend.js", function(data, textStatus, jqxhr) { });*/
+				//$("#combined-div").html(response);
+				
+				$("#combined-div").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
+				
+				//$.getScript("assets/js/jquery-3.2.1.slim.min.js", function(data, textStatus, jqxhr) {	 });
+				//$.getScript("assets/js/popper.min.js", function(data, textStatus, jqxhr) {	 });
+				
+				//$.getScript("assets/vendors/DataTables/datatables.min.js", function(data, textStatus, jqxhr) {	 });
+				
+				$.getScript("pagedependencies/baseurl.js?v=38", function(data, textStatus, jqxhr) {	 });
+				$.getScript("pagedependencies/keywordtrends.js?v=0879", function(data, textStatus, jqxhr) {	 });
+				
+				
+		
 			}
 		});
 	}
@@ -137,6 +182,7 @@ $('.blogpost_link').on("click", function(){
 		data: {
 			action:"fetchpost",
 			key:"blogpost_id",
+			tid:$("#tid").val(),
 			value:post_id,
 			term:$("#term").val(),
 			source:"keywordtrend",

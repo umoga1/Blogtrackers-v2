@@ -20,7 +20,7 @@
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 	String listtype =  (null == request.getParameter("listtype")) ? "ulr" : request.getParameter("listtype").toString().replaceAll("[^a-zA-Z]", " ");
 	
-
+	String selectedblog_id="";
 
 			ArrayList<?> userinfo = null;
 			String profileimage = "";
@@ -33,6 +33,8 @@
 			String ids = "";
 			
 			ArrayList allauthors2 = post._getBloggerByBloggerName("date", date_start, date_end, blogger, "influence_score", "DESC");
+			
+			//System.out.println("all authors"+allauthors2);
 			if(allauthors2.size()>0){
 				String tres = null;
 				JSONObject tresp = null;
@@ -45,7 +47,12 @@
 							tres = allauthors2.get(i).toString();			
 							tresp = new JSONObject(tres);
 						    tresu = tresp.get("_source").toString();
-						    tobj = new JSONObject(tresu);				    
+						    tobj = new JSONObject(tresu);	
+						    String bloggerr = tobj.get("blogger").toString();
+						    String blog_id = tobj.get("blogsite_id").toString();
+						    if(bloggerr.equals(blogger)){
+						    	selectedblog_id = blog_id;
+						    }
 						    ids+=tobj.get("blogpost_id").toString()+",";
 					}
 			} 	
@@ -55,8 +62,9 @@
 			
 		
 
-			outlinks = outl._searchByRange("date",date_start, date_end, ids);
-			
+			outlinks = outl._searchByRange("date",date_start, date_end, selectedblog_id);
+
+			//outlinks = outl._searchByRange("date", date_start, date_end,blogger);
 		
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
@@ -106,10 +114,14 @@
 		}
 %>
 
+<link rel="stylesheet" href="assets/css/table.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
   <table id="DataTables_Table_0_wrapper" class="display" style="width:100%">
+
+
                         <thead>
                             <tr>
-                                <th>URL</th>
+                                <th>Domain</th>
                                 <th>Frequency</th>
 
 
@@ -124,11 +136,7 @@
 														JSONObject resu = outerlinks.getJSONObject(key);
 									%>
 									<tr>
-									<% if(listtype.equals("urls")){ %>
-										<td class=""><a href="<%=resu.get("link")%>" target="_blank"><%=resu.get("link")%></a></td>
-									<% }else{ %>
-										<td class=""><a href="<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a> </td>
-									<% } %>
+										<td class=""><a href="http://<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a></td>
 										<td><%=resu.get("value")%></td>
 									</tr>
 									<%
@@ -136,4 +144,51 @@
 									}
 									%>                     
                         </tbody>
+
 </table>
+
+<script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>						
+									
+<script type="text/javascript"
+		src="assets/vendors/DataTables/datatables.min.js"></script>
+
+			<script>
+ $(document).ready(function() {
+	 
+	 
+	$('#printdoc').on('click',function(){
+		print();
+	}) 
+	
+	 $(function () {
+		    $('[data-toggle="tooltip"]').tooltip()
+		  })
+		  
+     $('#DataTables_Table_0_wrapper').DataTable( {
+         "scrollY": 430,
+         "scrollX": 250,
+          "pagingType": "simple",
+         /*  dom: 
+        	   'Bfrtip', 
+                    "columnDefs": [
+                 { "width": "80%", "targets": 0 }
+               ]  */
+  /*    ,
+       buttons:{
+         buttons: [
+             { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
+             {extend:'csv',className: 'btn-primary stylebutton1'},
+             {extend:'excel',className: 'btn-primary stylebutton1'},
+            // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
+             {extend:'print',className: 'btn-primary stylebutton1'},
+         ]
+       } */
+     } );
+	 
+ } );
+
+
+	<!--end for table  -->	
+
+ </script>
+

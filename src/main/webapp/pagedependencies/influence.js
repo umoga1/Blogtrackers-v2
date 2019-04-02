@@ -1,7 +1,9 @@
 // delete all blog from tracker action
 
 
-$('.blogger-select').on("click", function(){
+//$('.blogger-select').on("click", function(){
+
+$(document).delegate('.blogger-select', 'click', function(){
 	$(".blogger-select").removeClass("abloggerselected");
 	$(this).addClass("abloggerselected");
 
@@ -34,11 +36,12 @@ $('.blogger-select').on("click", function(){
 });
 
 
-$('.blogpost_link').on("click", function(){
+//$('.blogpost_link').on("click", function(){
+$(document).delegate('.blogpost_link', 'click', function(){
 	var post_id = $(this).attr("id");
 	//alert(post_id);
-	console.log(post_id);
-	console.log("nddshhfjsdfjhds")
+	//console.log(post_id);
+	//console.log("nddshhfjsdfjhds")
 	$("#blogpost_detail").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
 	$(".viewpost").addClass("makeinvisible");
 	$('.blogpost_link').removeClass("activeselectedblog");
@@ -53,6 +56,7 @@ $('.blogpost_link').on("click", function(){
 			key:"blogpost_id",
 			value:post_id,
 			source:"influence",
+			sort:"influence_score",
 			section:"detail_table"
 		},
 		error: function(response)
@@ -65,6 +69,10 @@ $('.blogpost_link').on("click", function(){
 			//console.log(response);
 			$("#blogpost_detail").html(response).hide();
 			$("#blogpost_detail").fadeIn(700);
+			
+			/*$.getScript("pagedependencies/influence.js", function(data, textStatus, jqxhr) {
+				
+			});*/
 		}
 	});
 });
@@ -92,8 +100,7 @@ function loadChart(blogger,blog_id){
 		{   
 
 		$("#chart-container").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
-			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
-			  });*/
+		
 		}
 	});
 }
@@ -134,7 +141,7 @@ function loadInfluence(start_date,end_date){
 		{   
 			
 			$("#influence_table").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
-			 $.getScript("assets/vendors/DataTables/datatables.min.js", function(data, textStatus, jqxhr) {	});
+			/* $.getScript("assets/vendors/DataTables/datatables.min.js", function(data, textStatus, jqxhr) {	});
 			 $.getScript("assets/vendors/DataTables/dataTables.bootstrap4.min.js", function(data, textStatus, jqxhr) {	});
 			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js", function(data, textStatus, jqxhr) {	});
 			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js", function(data, textStatus, jqxhr) {	});
@@ -142,12 +149,13 @@ function loadInfluence(start_date,end_date){
 			 $.getScript("assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js", function(data, textStatus, jqxhr) {	});
 			 $.getScript("assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js", function(data, textStatus, jqxhr) {	});
 			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js", function(data, textStatus, jqxhr) {	});
-			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js", function(data, textStatus, jqxhr) {	});
+			 $.getScript("assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js", function(data, textStatus, jqxhr) {	});*/
 	
 			//$("#influence_table").html(response);
 			loadSinglePost(blogger,blog_id);
-			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
-			  });*/
+			 $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	
+			  });
+			 //console.log("loadinfluence")
 		}
 	});
 }
@@ -165,6 +173,7 @@ function loadTerms(blogger,blog_id){
 			post_ids:$("#postby"+blger).val(),
 			blogger:blogger,
 			date_start:$("#date_start").val(),
+			sort:"influence_score",
 			date_end:$("#date_end").val(),
 		},
 		error: function(response)

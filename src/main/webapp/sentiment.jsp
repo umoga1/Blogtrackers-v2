@@ -237,7 +237,7 @@
 			}
 			
 			totalpost = post._searchRangeTotal("date", dt, dte, ids);
-			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","50");
+			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","10000");
 			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			outlinks = outl._searchByRange("date", dst, dend, ids);
 
@@ -272,7 +272,7 @@
 				}
 			}
 
-			System.out.println("sentiment posts here:"+sentimentpost);
+			//System.out.println("sentiment posts here:"+sentimentpost);
 			JSONObject graphyearspos = new JSONObject();
 			JSONObject graphyearsneg = new JSONObject();
 			JSONArray yearsarray = new JSONArray();
@@ -281,15 +281,23 @@
 			String[] yend = dte.split("-");
 			year_start = yst[0];
 			year_end = yend[0];
-			int ystint = Integer.parseInt(year_start);
-			int yendint = Integer.parseInt(year_end);
+			int ystint = new Double(year_start).intValue();
+			int yendint = new Double(year_end).intValue();
 			
-			/* if (single.equals("month")) {
-				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
-				//ystint=0;
-				//yendint = diff;
+			
+			if(yendint>Integer.parseInt(YEAR_ONLY.format(new Date()))){
+				dte = DATE_FORMAT2.format(new Date()).toString();	
+				yendint = Integer.parseInt(YEAR_ONLY.format(new Date()));
 			}
- */
+			
+			if(ystint<2000){
+				ystint = 2000;
+				dt = "2000-01-01";
+			}
+			
+ 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
+			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
+			
 			int b = 0;
 			for (int y = ystint; y <= yendint; y++) {
 				/*
@@ -489,7 +497,7 @@
 			int anx = 0;
 			int sad = 0;
 
-			System.out.println(sentimentpost2);
+			//System.out.println(sentimentpost2);
 
 			ArrayList sentimentor2 = new Liwc()._searchByRange("date", dt, dte, sentimentpost2);
 
@@ -501,7 +509,7 @@
 					bstr = bj.get("_source").toString();
 
 					bj = new JSONObject(bstr);
-					System.out.println("result eree"+bj);
+					//System.out.println("result eree"+bj);
 
 					death += Integer.parseInt(bj.get("death").toString());
 					work += Integer.parseInt(bj.get("work").toString());
@@ -571,7 +579,8 @@
 <script src="assets/js/popper.min.js"></script>
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
-<body>
+<body> 
+<%@include file="subpages/loader.jsp" %>
 	<noscript>
 		<%@include file="subpages/googletagmanagernoscript.jsp"%>
 	</noscript>
@@ -602,11 +611,11 @@
 					<%
 						if (userinfo.size() > 0) {
 					%>
-					<a class="cursor-pointer profilemenulink"
+					<%-- <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a>  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+						</h6> </a> --%>  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
 						<a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
 							class="text-primary">Profile</h6></a> <a
@@ -727,10 +736,10 @@
 						<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
 					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/sentiment.jsp?tid=<%=tid%>">Sentiment Analysis</a>
 				</nav>
-				<div>
+				<!-- <div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
 						AS PDF</button>
-				</div>
+				</div> -->
 			</div>
 			<div class="col-md-6 text-right mt10">
 				<div class="text-primary demo">
@@ -867,6 +876,7 @@
 												{
 												color = "#0080CC";	
 												}
+												
 
 												y++;
 							%>
@@ -1344,7 +1354,7 @@ $(function () {
     //////////////////////////////////////////////////////////////
 
     var color = d3.scale.ordinal()
-      .range(["#0080CC","#CC333F","#00A0B0"]);
+      .range(["#0080CC","#0080CC","#0080CC"]);
 
     var radarChartOptions1 = {
       w: width,
@@ -1744,8 +1754,8 @@ $(function () {
                               .on("mouseout",tip.hide)
                               .on("click",function(d){
                             	  
-                            	  console.log("point clicked");
-                            	  console.log(d.date);
+                            	 // console.log("point clicked");
+                            	 // console.log(d.date);
                             	  
                               });
                                                  svg.call(tip)
@@ -1777,10 +1787,10 @@ $(function () {
                            // console.log(e)
                            // })
 
-                           console.log(data);
+                          // console.log(data);
 
                               var mergedarray = [].concat(...data);
-                               console.log(mergedarray)
+                               //console.log(mergedarray)
                                  circles = svg.append("g").attr("class","circlecontainer")
                                      .selectAll(".circle-point")
                                      .data(mergedarray)
@@ -1802,7 +1812,8 @@ $(function () {
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
                                       .on("click",function(d){						
-                                          console.log(d.date)});
+                                          //console.log(d.date)
+                                          });
                                  //                         svg.call(tip)
 
                                //console.log(newi);
@@ -1813,7 +1824,7 @@ $(function () {
                                      .on("mouseout",tip.hide)
                                      .on("click",function(d){
                                     	 
-                                    	 console.log("The clicked date is "+d.date);
+                                    	// console.log("The clicked date is "+d.date);
                                     	 loadPost(d.date);
                                      }); 
                                                         svg.call(tip)
@@ -2002,20 +2013,20 @@ $(function () {
  </script>
 	<script>
 $(".option-only").on("change",function(e){
-	console.log("only changed ");
+	//console.log("only changed ");
 	var valu =  $(this).val();
 	$("#single_date").val(valu);
 	$('form#customformsingle').submit();
 });
 
 $(".option-only").on("click",function(e){
-	console.log("only Click ");
+	//console.log("only Click ");
 	$("#single_date").val($(this).val());
 	//$('form#customformsingle').submit();
 });
 
 $(".option-lable").on("click",function(e){
-	console.log("Label Click ");
+	//console.log("Label Click ");
 	
 	$("#single_date").val($(this).val());
 	//$('form#customformsingle').submit();

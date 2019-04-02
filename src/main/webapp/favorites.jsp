@@ -25,7 +25,7 @@ String firstname = "";
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
 if (userinfo.size()<1) {
-	//response.sendRedirect("login.jsp");
+	response.sendRedirect("login.jsp");
 }else{
 userinfo = (ArrayList<?>)userinfo.get(0);
 try{
@@ -90,6 +90,7 @@ if(f.exists() && !f.isDirectory()) {
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body >
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
      <div class="modal-notifications">
 <div class="row">
@@ -109,8 +110,8 @@ if(f.exists() && !f.isDirectory()) {
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
   <% if(userinfo.size()>0){ %>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+ <%--  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  --%>  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   <%}else{ %>
@@ -313,7 +314,7 @@ String blogsiteid = myfavoritespost.selectBlogTitle(allblogarray[12]);
 
  <div class="card noborder curved-card mb30 border-white curve_<%=eachblogpostid %>" >
 <div class="curved-card selectcontainer">
- <div class="text-center"><i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i></div>
+ <div class="text-center pt40"><!-- <i class="fas text-medium pt40 fa-check text-light-color icon-big2 cursor-pointer trackblog" data-toggle="tooltip" data-placement="top" title="Select to Track Blog"></i> --></div>
 <h4 class="text-primary text-center p10 pt20 posttitle"><a><%=blogsiteid %></a></h4>
 <div class="text-center mt10 mb10 trackingtracks"><button class="btn btn-primary stylebutton7">TRACKING</button> <button class="btn btn-primary stylebutton8">0 Tracks</button></div>
 

@@ -37,7 +37,9 @@ String dte = date_end.toString();
 String year_start="";
 String year_end="";	
 
-ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
+//ArrayList allauthors = post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),"influence_score","DESC");
+ArrayList allauthors = post._getBloggerByBloggerName("date",dt, dte,blogger.toString().toLowerCase(),sort.toString(),"DESC");
+//System.out.println("sort"+sort);
 %>
 <link rel="stylesheet" href="assets/css/table.css" />
 <link rel="stylesheet" href="assets/css/style.css" />
@@ -72,6 +74,7 @@ ArrayList allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toStri
                                     <tr>
                                         <td><a  class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %><br/>
                                         <a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></a></td>
+                                       
                                         <td align="center">
                                         <% if(sort.toString().equals("date")){ %> <%=date %><% }else{ %><%=tobj.get("influence_score") %><% }  %>
                                         

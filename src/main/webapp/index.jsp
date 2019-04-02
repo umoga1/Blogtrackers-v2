@@ -10,8 +10,6 @@
 	pageEncoding="UTF-8"%>
 <%
 
-
-
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 ArrayList<?> userinfo = new ArrayList();
 String profileimage= "";
@@ -87,6 +85,7 @@ try{
 
 </head>
 <body style="background-color:none;">
+<%@include file="subpages/loader.jsp" %>
 <noscript>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 </noscript>
@@ -110,8 +109,8 @@ try{
 
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+  <%-- <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  --%> <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
@@ -338,7 +337,7 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
 </div>
 <div class="col-md-4 borderleftprimary">
 <h1 class="text-primary headertextwhatcanyoudo">Influence <br/>Analysis</h1>
-<p class="text-primary whatcanyoudodesc">Check influence of Blogs, Blog posts, and Bloggers</p>
+<p class="text-primary whatcanyoudodesc">Check influence of Blogs, Posts, and Bloggers</p>
 </div>
 </div>
 

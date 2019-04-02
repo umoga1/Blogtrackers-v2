@@ -125,9 +125,11 @@ if(action.toString().equals("gettotal")){
 <% }else{
 	ArrayList allauthors = new ArrayList();
 if(action.toString().equals("fetchpost")){	
-	allauthors = post._getPost("post_id",post_id.toString());
+	allauthors = post._getPost("blogpost_id",post_id.toString());
+	//System.out.println("posts hre"+allauthors);
 }else{
-	 allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
+	
+	allauthors=post._getBloggerByBloggerName("date",dt, dte,blogger.toString(),sort.toString(),"DESC");
 }
 %>
 <%
@@ -157,10 +159,10 @@ if(action.toString().equals("fetchpost")){
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-
-											<button class="btn stylebuttonnocolor"><%=date %></button>
-									</a>
-											<button class="btn stylebuttonnocolor">
+</a>
+											<button class="btn stylebuttonnocolor nocursor"><%=date %></button>
+									
+											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -169,7 +171,7 @@ if(action.toString().equals("fetchpost")){
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 550px; overflow-y: scroll;">
 
-											<%=tobj.get("post").toString().replaceAll("[^a-zA-Z]", " ")%>
+											<%=tobj.get("post").toString()%>
 
 										</div>
 										</div>       

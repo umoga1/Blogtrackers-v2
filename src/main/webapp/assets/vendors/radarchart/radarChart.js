@@ -2,7 +2,8 @@
 
 function RadarChart(id, data, options) {
 	var cfg = {
-	 w: 600,				//Width of the circle
+	 //w: d3.select(".personalcontent").node().getBoundingClientRect().width,				//Width of the circle
+	 w:600,
 	 h: 600,				//Height of the circle
 	 margin: {top: 20, right: 20, bottom: 20, left: 20}, //The margins of the SVG
 	 levels: 3,				//How many levels or inner circles should there be drawn
@@ -53,7 +54,13 @@ function RadarChart(id, data, options) {
 			.attr("class", "radar"+id);
 	//Append a g element
 	var g = svg.append("g")
-			.attr("transform", "translate(" + (cfg.w + cfg.margin.left/2) + "," + (cfg.h/2 + cfg.margin.top) + ")");
+			/*.attr("transform", 
+			"translate(" + (cfg.w + cfg.margin.left/2) + 
+			"," + (cfg.h/2 + cfg.margin.top) + ")");*/
+			/*.attr("transform", 
+			"translate(" + (cfg.w) + 
+			"," + (cfg.h/2 + cfg.margin.top) + ")")*/
+			.style('transform', 'translate(50%,50%)');
 
 	/////////////////////////////////////////////////////////
 	////////// Glow filter for some extra pizzazz ///////////

@@ -253,8 +253,8 @@ if(action.toString().equals("getstats")){
 	
 %>
   <div class="chart" id="d3-bar-horizontal"></div>
- <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
- <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
+<!--  <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
+ <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script> -->
  
 <script>
  $(function () {
@@ -506,8 +506,8 @@ if(action.toString().equals("getstats")){
 <% }else if(action.toString().equals("getdailychart")){ %>
  <div class="chart" id="yearlypattern"></div>
  
- <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
- <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
+<!--  <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
+ <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script> -->
  
  <!-- Yearly patterns  -->
  <script>
@@ -1045,8 +1045,8 @@ if(action.toString().equals("getstats")){
 <div class="chart" id="d3-line-basic"></div>
 </div>
 	
-<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
- <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
+<!-- <script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
+ <script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script> -->
  <script>
 
  $(function () {

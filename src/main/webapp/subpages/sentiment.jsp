@@ -296,8 +296,10 @@ $(function () {
     //////////////////// Draw the Chart //////////////////////////
     //////////////////////////////////////////////////////////////
 
-    var color = d3.scale.ordinal()
-      .range(["<%=color%>","#CC333F","#00A0B0"]);
+   <%--  var color = d3.scale.ordinal()
+      .range(["<%=color%>","#CC333F","#00A0B0"]); --%>
+      var color = d3.scale.ordinal()
+      .range(["<%=color%>","#0080CC","#0080CC"]);
 
     var radarChartOptions1 = {
       w: width,

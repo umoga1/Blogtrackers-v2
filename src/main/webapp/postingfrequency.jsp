@@ -93,9 +93,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		//String res = detail.get(0).toString();
 		ArrayList resp = (ArrayList<?>)detail.get(0);
 
-		String tracker_userid = resp.get(0).toString();
+		String tracker_userid = resp.get(1).toString();
 		trackername = resp.get(2).toString();
-		//if (tracker_userid.equals(user.toString())) {
+		if (tracker_userid.equals(user.toString())) {
 			isowner = true;
 			String query = resp.get(5).toString();//obj.get("query").toString();
 			query = query.replaceAll("blogsite_id in ", "");
@@ -103,9 +103,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			query = query.replaceAll("\\)", "");
 			
 			ids = query;
-		//}
+		}
 	}
 	
+	if (!isowner) {
+		response.sendRedirect("index.jsp");
+	}
 
 	SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 	SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -311,6 +314,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
     <div class="modal-notifications">
 <div class="row">
@@ -330,7 +334,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
   <% if(userinfo.size()>0){ %>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+  <%-- <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a> --%>
    <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
@@ -418,7 +422,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
   <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
   <a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/postingfrequency.jsp?tid=<%=tid%>">Posting Frequency</a>
   </nav>
-<div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div>
+<!-- <div><button class="btn btn-primary stylebutton1 " id="printdoc">SAVE AS PDF</button></div> -->
 </div>
 
 <div class="col-md-6 text-right mt10">
@@ -460,7 +464,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
   <div class="card-body  p30 pt5 pb5 mb20">
     <h5 class="mt20 mb20">Bloggers</h5>
     <div style="padding-right:10px !important;">
-      <input type="search" class="form-control stylesearch mb20" placeholder="Search Bloggers" /></div>
+      <input type="search" class="form-control stylesearch mb20 searchbloggers" placeholder="Search Bloggers" /></div>
     <div class="scrolly" style="height:270px; padding-right:10px !important;">
     
 							<%
@@ -586,16 +590,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					}
 					
 					if(m==0){
-						dselected = "abloggerselected";
+							dselected = "abloggerselected";
 							mostactiveblogger = au;
-							
-							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid","50");
+							allterms = term._searchByRange("date", dt, dte,postids,"blogpostid","100");
 							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
 							selectedid=det.get("blogid").toString();
-							//totalpost = det.get("totalpost").toString();
-							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");
-							//System.out.println("All post :"+allposts);
-							//toplocation = det.get("blogger").toString();
+							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");							
 					}
 			    	%>
 					<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>" value="<%=postids%>" />
@@ -665,8 +665,9 @@ if(authorcount.length()>0){
 					}else if(b==yendint){
 						dtue = dte;
 					}
-				   String totu = post._searchRangeTotalByBlogger("date",dtu, dtue,authorcount.get(n).toString());
-				   
+				   String totu = post._searchRangeTotalByBlogger("date",dtu, dtue,mostactiveblogger);
+				  // totu = post._searchRangeTotalByBlogger("date",dtu, dtue,blogger.toString());
+					
 				   if(!years.has(y+"")){
 			    		years.put(y+"",y);
 			    		yearsarray.put(b,y);
@@ -692,6 +693,7 @@ else if(sentimentval.equalsIgnoreCase("positive"))
 }
 
 totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);
+String formatedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
 %>
 
 <div class="col-md-9">
@@ -712,7 +714,7 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
       <div class="row">
      <div class="col-md-3 mt5 mb5">
        <h6 class="card-title mb0">Total Posts</h6>
-       <h3 class="mb0 bold-text total-post"><%=totalpost%></h3>
+       <h3 class="mb0 bold-text total-post"><%=formatedtotalpost%></h3>
        <!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
      </div>
 
@@ -895,10 +897,10 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-
-											<button class="btn stylebuttonnocolor"><%=date %></button>
-									</a>
-											<button class="btn stylebuttonnocolor">
+											</a>
+											<button class="btn stylebuttonnocolor nocursor"><%=date %></button>
+									
+											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -950,8 +952,7 @@ totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger)
   <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
  <script src="assets/bootstrap/js/bootstrap.js">
  </script>
- <script src="assets/js/generic.js">
- </script>
+
  <script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
  <script src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
  <!-- Start for tables  -->
@@ -1832,6 +1833,7 @@ var svg =  container;
 d3.layout.cloud().size([450,400])
         .words(frequency_list)
         .rotate(0)
+        .padding(7)
         .fontSize(function(d) { return d.size * 1.20; })
         .on("end", draw)
         .start();
@@ -1964,7 +1966,9 @@ function draw(words) {
  }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
-<script src="pagedependencies/postingfrequency.js?v=88909"></script>
+
+ <script src="assets/js/generic.js"></script>
+<script src="pagedependencies/postingfrequency.js?v=6990"></script>
 
 </body>
 </html>

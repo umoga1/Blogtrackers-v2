@@ -10,6 +10,7 @@
 
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
+String userid = (null == session.getAttribute("username")) ? "" : session.getAttribute("username").toString();
 
 //if (email == null || email == "") {
 	//response.sendRedirect("login.jsp");
@@ -69,12 +70,11 @@ String status = "pending";
 
 if(term.equals("")){
 	
-}
-else{
-	results = new_blog._addBlog(username, term, status);
+}else{
+	results = new_blog._addBlog(userid, term, status);
 	
 }
-results_blogadded = new_blog._fetchBlog(username);
+results_blogadded = new_blog._fetchBlog(userid);
 
 }
 
@@ -129,8 +129,8 @@ results_blogadded = new_blog._fetchBlog(username);
   </div>
   <div id="othersection" class="col-md-12 mt10" style="clear:both">
   <% if(userinfo.size()>0){ %>
-  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
-   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+  <%-- <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
+   --%> <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   <%}else{ %>
@@ -236,31 +236,32 @@ results_blogadded = new_blog._fetchBlog(username);
 
 
 <div class="col-lg-12 col-md-12 pt0 pb10  mt10 mb10 notification ">
+<form enctype="multipart/form-data" id="image-form" name="blog_form" action="blogupload.jsp" method="POST">
 <h1 class="text-primary addblogtitle">Add Blogs</h1>
 
 <div class="card noborder curved-card mb30 containerdropfile pt40 pb40 mt20 createblog ">
 <h5 class="text-primary text-center">Click here to add blog</h5>
 <div>
-<button class="offset-md-4 col-md-4 mt10 form-control text-primary bold-text cursor-pointer btn createtrackerbtn bgwhite addblogbtn">+</button>
+<button type="button" class="offset-md-4 col-md-4 mt10 form-control text-primary bold-text cursor-pointer btn createtrackerbtn bgwhite addblogbtn">+</button>
 </div>
 <div class="offset-md-4 col-md-4 mt20">
 <a class="orcontainer pt10">or</a>
 <hr /></div>
 <h5 class="text-primary text-center">Drag in or choose a .txt file</h5>
-<input type="file" class="offset-md-4 col-md-4 form-control"/> 
+<input type="file" accept=".txt" id="selected_file" name="blog_file" class="offset-md-4 col-md-4 form-control"/> 
 </div>
 
 <div class="card noborder curved-card mb30 containeraddblog pt60 pb60 mt20 hidesection">
 <div class="createblogsection" >
 <h5 class="text-primary text-center mt20 mb20">Enter Blog's Name and URL</h5>
-<form>
+
 <div class="form-group">
-<input class= "form-control offset-md-2 col-md-8 col-md-2 blogtitle pt10 pb10 mb20" type="text" placeholder="Enter Blog Name" />
+<input class= "form-control offset-md-2 col-md-8 col-md-2 blogtitle pt10 pb10 mb20" id="blog_name" type="text" placeholder="Enter Blog Name" />
 </div>
 <div class="form-group mt20">
-<input class=" form-control offset-md-2 col-md-8 col-md-2 blogurl pt10 pb10" placeholder="http://example.com" type="url" />
+<input class=" form-control offset-md-2 col-md-8 col-md-2 blogurl pt10 pb10" id="blog_url" placeholder="http://example.com" type="url" />
 </div>
-<div class="text-center"><button class="btn text-primary cancelbtn">Cancel</button>&nbsp;<button class="btn btn-success createbtn">Create</button></div>
+<div class="text-center"><button type="button" class="btn text-primary cancelbtn">Cancel</button>&nbsp;<button id="create_blog" type="button" class="btn btn-success createbtn">Create</button></div>
 </form>
 </div>
 
@@ -282,12 +283,12 @@ results_blogadded = new_blog._fetchBlog(username);
 		<table cellpadding="4" id="bloglist" style="width:100%">
 		<thead>
 		<tr>
-		<td  class="text-primary"></td>
+		<td class="text-primary"></td>
 		<th class="text-primary">Blog Name</th>
 		<th class="text-primary">Status</th>
 		<th class="text-primary">No. of Posts</th>
 		<th class="text-primary">Latest Update</th>
-		<th></th>
+		<th> </th>
 		</tr>
 		</thead>
 		<tbody>
@@ -297,15 +298,27 @@ results_blogadded = new_blog._fetchBlog(username);
 				String id = (String)blog.get(0);
 				String blogname = (String) blog.get(2);
 				String status = (String) blog.get(3);
+				String statusstyle = "";
+			if(status.equalsIgnoreCase("complete"))
+			{
+			statusstyle = "successstatus";	
+			}
+			else if(status.equalsIgnoreCase("error"))
+			{
+			statusstyle = "errorstatus";	
+			}
+			else
+			{
+				statusstyle = "defaultstatus";	
+			}
 		%>							
-			<tr>
-		
-			<td class="text-left pl0"><%=k+1 %></td>
-			<td class="text-primary text-left"><%=blogname %></td>
-			<td class="text-primary text-left"><%=status %></td>
+			<tr class="<%=statusstyle %>">
+			<td class="text-left pl0 blogcount"><%=k+1 %></td>
+			<td class="text-primary text-left nameofblog"><%=blogname %></td>
+			<td class="text-primary text-left blogstatus"><%=status %></td>
 			<td class="text-primary text-left"></td>
 			<td class="text-primary text-left"></td>
-			<td class="text-primary text-center"><i onclick="deleteBlog()" class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i></td>
+			<td class="text-primary text-center"><i id="<%=id %>" class="text-primary icontrackersize cursor-pointer deleteblog deletebtn text-center" data-toggle="tooltip" data-placement="top" title="Delete Blog"></i></td>
 			<%-- <td class="text-center"><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" onclick= "<% new_blog._deleteBlog(username, Integer.parseInt(id)); %>" data-toggle="tooltip" id="<%=id%>_select" data-placement="top" title="Delete Blog"></i></td> --%>
 			</tr>
 		<% }} %>
@@ -369,7 +382,7 @@ results_blogadded = new_blog._fetchBlog(username);
 
  <script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.js">
-<script>
+
 <% String blogname = "";
 %>
 function deleteBlog(){
@@ -386,7 +399,7 @@ function deleteBlog(){
 	console.log(blogname);
 	
 }
-</script>
+
 </script>
 <!-- <script>
 $(document).ready(function() {
@@ -453,9 +466,11 @@ $(document).ready(function() {
 <!--end for table  -->
 
 <script type="text/javascript" src="assets/js/toastr.js"></script>
+
+<script type="text/javascript" src="pagedependencies/baseurl.js"></script>
 <script src="assets/js/generic.js">
 </script>
-<script src="pagedependencies/addblog.js"> </script>
+<script src="pagedependencies/addblog.js?v=79078906"> </script>
 
 </body>
 </html>

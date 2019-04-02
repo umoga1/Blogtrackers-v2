@@ -583,6 +583,8 @@ function updateTracker(element,type){
 					if(response.indexOf("success")>-1){
 						toastr.success('Tracker successfully updated!','Success');
 						//location.href=app_url+"blogbrowser.jsp";
+						console.log("updated");
+						$("#added-info").removeClass("no-display");
 					}else{
 						if(type=="update"){
 							toastr.error('Blog already exist in tracker','Error');

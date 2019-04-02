@@ -13,8 +13,8 @@
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page import="java.net.URI"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
@@ -24,6 +24,7 @@ String mostactiveterm = (null == request.getParameter("term")) ? "" : request.ge
 Object sort = (null == request.getParameter("sort")) ? "" : request.getParameter("sort");
 Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
 Object id = (null == request.getParameter("id")) ? "" : request.getParameter("id");
+Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 
 
 Trackers tracker  = new Trackers();
@@ -57,6 +58,8 @@ if(action.toString().equals("getstats")){
     ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);
     JSONObject firstpost = new JSONObject();
     JSONObject locations = new JSONObject();
+    
+    
     if(allposts.size()>0){			
 								String tres = null;
 								JSONObject tresp = null;
@@ -72,10 +75,10 @@ if(action.toString().equals("getstats")){
 									
 									tresu = tresp.get("_source").toString();
 									tobj = new JSONObject(tresu);
-									String country = 	tobj.get("location").toString();
+									String country = 	blog._getTopLocation(tobj.get("blogsite_id").toString());
+									
 									if(locations.has(country)){
-										int val = Integer.parseInt(locations.get(country).toString());
-										
+										int val = Integer.parseInt(locations.get(country).toString());			
 										locations.put(country,val);
 										if(val>tloc){
 											tloc = val;
@@ -86,24 +89,32 @@ if(action.toString().equals("getstats")){
 									}
 									
 											
-								
-                             }
-						
-				 }
+									
+
+                             }					
+	}
+    
+    int keycount = term.getTermOcuurence(mostactiveterm, dt, dte);
+	
 				
 	JSONObject result = new JSONObject();
 	result.put("postmentioned",postc);
 	result.put("blogmentioned",blogc);
-	result.put("bloggermentioned",bloggerc);
+	result.put("bloggermentioned",keycount);
 	result.put("toplocation",toplocation);
 %>
 <%=result.toString()%>
-<% }else if(action.toString().equals("gettable")){%>
-<link rel="stylesheet" href="assets/css/table.css" />
-<link rel="stylesheet" href="assets/css/style.css" />
-		<div class="row m0 mt20 mb0 d-flex align-items-stretch">
-			<div
-				class="col-md-6 mt20 card card-style nobordertopright noborderbottomright">
+<% }else if(action.toString().equals("gettable")){
+	//System.out.println("start:"+dt+",End:"+dte); 
+%>
+
+          <%  
+          ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);
+          %>
+          
+          
+ <div class="row m0 mt20 mb0 d-flex align-items-stretch">
+			<div class="col-md-6 mt20 card card-style nobordertopright noborderbottomright" id="post-list">
 				<div class="card-body p0 pt20 pb20" style="min-height: 420px;">
 					<p>
 						Posts that mentioned <b class="text-green active-term"><%=mostactiveterm%></b>
@@ -112,7 +123,6 @@ if(action.toString().equals("getstats")){
           Export Options
           </div> -->
           <%  
-          ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);
           JSONObject firstpost = new JSONObject();
           if(allposts.size()>0){	%>
 					<table id="DataTables_Table_2_wrapper" class="display"
@@ -128,19 +138,18 @@ if(action.toString().equals("getstats")){
 									String tres = null;
 									JSONObject tresp = null;
 									String tresu = null;
-									JSONObject tobj = null;
-									
+									JSONObject tobj = null;								
 									
 									int k=0;
-									int tloc = 0;
+									
 									for(int i=0; i< allposts.size(); i++){
 										tres = allposts.get(i).toString();	
-										tresp = new JSONObject(tres);
-										
+										tresp = new JSONObject(tres);									
 										tresu = tresp.get("_source").toString();
 										tobj = new JSONObject(tresu);
 										
 										
+												
 												//System.out.println("postdet +"+tobj3);
 												if(i==0){
 													firstpost = tobj;
@@ -149,7 +158,9 @@ if(action.toString().equals("getstats")){
 												int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
 												
 										        String str = tobj.get("post").toString()+" "+ tobj.get("post").toString();
-												String findStr = mostactiveterm;
+												str = str.toLowerCase();
+												mostactiveterm = mostactiveterm.toLowerCase();
+										        String findStr = mostactiveterm;
 												int lastIndex = 0;
 												//int count = 0;
 
@@ -159,21 +170,26 @@ if(action.toString().equals("getstats")){
 
 												    if(lastIndex != -1){
 												        bodyoccurencece++;
+												       // alloccurence+=bodyoccurencece;
 												        lastIndex += findStr.length();
 												    }
+												    
+												    
+												    
 												}
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer blogpost_link" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></buttton></a>
 								</td>
-								<td align="center"><%=(bodyoccurencece+1) %></td>
+								<td align="center"><%=(bodyoccurencece) %></td>
                                      </tr>
                                     <% }%>
 							</tr>						
 						</tbody>
 					</table>
-					<% } %>				</div>
+					<% } %>
+				</div>
 
 			</div>
 
@@ -190,15 +206,44 @@ if(action.toString().equals("getstats")){
 									DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 									String date = dtf.format(datee);
 									String replace = 	"<span style=background:red;color:#fff>"+mostactiveterm+"</span>";
+									String link = tobj.get("permalink").toString();
+									
+									String maindomain="";
+									try {
+										URI uri = new URI(link);
+										String domain = uri.getHost();
+										if (domain.startsWith("www.")) {
+											maindomain = domain.substring(4);
+										} else {
+											maindomain = domain;
+										}
+									} catch (Exception ex) {}
+									
+
+									title = title.replaceAll(mostactiveterm,replace);
+									String active2 = mostactiveterm.substring(0,1).toUpperCase()+mostactiveterm.substring(1,mostactiveterm.length());
+									String active3= mostactiveterm.toUpperCase();
+									
+									
+									title = title.replaceAll(mostactiveterm,replace);
+									title = title.replaceAll(active2,replace);
+									title = title.replaceAll(active3,replace);
+									
+									
+									body = body.replaceAll(mostactiveterm,replace);
+									body = body.replaceAll(active2,replace);
+									body = body.replaceAll(active3,replace);
 									%>                                    
-                                    <h5 class="text-primary p20 pt0 pb0"><%=title.replaceAll(mostactiveterm,replace)%></h5>
+                                    <h5 class="text-primary p20 pt0 pb0"><%=title%></h5>
 										<div class="text-center mb20 mt20">
+											<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid.toString()%>&blogger=<%=tobj.get("blogger")%>">
 											<button class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											<button class="btn stylebuttonnocolor"><%=date%></button>
-											<button class="btn stylebuttonnocolor">
+											</a>
+											<button class="btn stylebuttonnocolor nocursor"><%=date %></button>
+											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -206,58 +251,19 @@ if(action.toString().equals("getstats")){
 										<div style="height: 600px;">
 										<div class="p20 pt0 pb20 text-blog-content text-primary"
 											style="height: 550px; overflow-y: scroll;">
-											<%=body.replaceAll(mostactiveterm,replace)%>
-										</div> 
-										</div>                     
+											<%=body%>
+										</div>         
+										</div>             
                      		<% } %>
 
 				</div>
 				</div>
 			</div>
-		</div>
- <script type="text/javascript" src="pagedependencies/blogpostselectkeywordtrend.js">
-</script> 
-	
-<%}else{ 
-
-	String[] yst = dt.split("-");
-	String[] yend = dte.split("-");
-	year_start = yst[0];
-	year_end = yend[0];
-	int ystint = Integer.parseInt(year_start);
-	int yendint = Integer.parseInt(year_end);
-
-	
-			int b=0;
-			JSONObject postyear =new JSONObject();
-			for(int y=ystint; y<=yendint; y++){ 
-					   String dtu = y + "-01-01";
-					   String dtue = y + "-12-31";
-					   if(b==0){
-							dtu = dt;
-						}else if(b==yendint){
-							dtue = dte;
-						}
-					   
-					   String totu = post._searchTotalByTitleAndBody(mostactiveterm,"date", dtu,dtue);//term._searchRangeTotal("date",dtu, dtue,termscount.get(n).toString());
-					   
-					   if(!years.has(y+"")){
-				    		years.put(y+"",y);
-				    		yearsarray.put(b,y);
-				    		b++;
-				    	}
-					   System.out.println("totu here "+totu);
-					   postyear.put(y+"",totu);
-			}
-			termsyears.put(mostactiveterm,postyear);
-
-%>
-<div class="chart-container">
-		<div class="chart" id="d3-line-basic"></div>
-</div>
-	
+<link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />	
 <script type="text/javascript" src="assets/vendors/DataTables/datatables.min.js"></script>
-			<script>
+ 
+<script>
+			
  $(document).ready(function() {
 	 
 	 
@@ -289,11 +295,49 @@ if(action.toString().equals("getstats")){
 		    } );
 	 
  } );
- </script>
+ </script>       		
+ 	
+<%}else{ 
+
+	String[] yst = dt.split("-");
+	String[] yend = dte.split("-");
+	year_start = yst[0];
+	year_end = yend[0];
+	int ystint = Integer.parseInt(year_start);
+	int yendint = Integer.parseInt(year_end);
+
+	
+			int b=0;
+			JSONObject postyear =new JSONObject();
+			for(int y=ystint; y<=yendint; y++){ 
+					   String dtu = y + "-01-01";
+					   String dtue = y + "-12-31";
+					   if(b==0){
+							dtu = dt;
+						}else if(b==yendint){
+							dtue = dte;
+						}
+					   
+					   String totu = post._searchTotalByTitleAndBody(mostactiveterm,"date", dtu,dtue);//term._searchRangeTotal("date",dtu, dtue,termscount.get(n).toString());
+					   
+					   if(!years.has(y+"")){
+				    		years.put(y+"",y);
+				    		yearsarray.put(b,y);
+				    		b++;
+				    	}
+					   //System.out.println("totu here "+totu);
+					   postyear.put(y+"",totu);
+			}
+			termsyears.put(mostactiveterm,postyear);
+
+%>
+<div class="chart-container">
+		<div class="chart" id="d3-line-basic"></div>
+</div>
+
+
 	<!--end for table  -->	
-<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
-	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
-	<script>
+<script>
 
  $(function () {
 
@@ -628,7 +672,15 @@ if(action.toString().equals("getstats")){
                               svg.selectAll(".circle-point").data(data[0])
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
-                              .on("click",function(d){console.log(d.date)});
+                              .on("click",function(d){
+                            	  //console.log(d.date);
+                            	  console.log("Here g"+d.date);
+                            	  var d1 = 	  d.date + "-01-01";
+                                	 var d2 = 	  d.date + "-12-31";
+                      				
+                                	  loadTable(d1,d2);	
+                            	  
+                              });
                                                  svg.call(tip)
                       }
                       // handles multiple json parameter
@@ -678,7 +730,13 @@ if(action.toString().equals("getstats")){
                                        svg.selectAll(".circle-point").data(mergedarray)
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
-                                      .on("click",function(d){console.log(d.date)});
+                                      .on("click",function(d){
+                                    	  console.log("Here g"+d.date);
+                                    	  var d1 = 	  d.date + "-01-01";
+ 	                                   	 var d2 = 	  d.date + "-12-31";
+ 	                         				
+ 	                                   	  loadTable(d1,d2);	  
+                                      });
                                  //                         svg.call(tip)
 
                                //console.log(newi);
@@ -687,7 +745,14 @@ if(action.toString().equals("getstats")){
                                      svg.selectAll(".circle-point").data(mergedarray)
                                      .on("mouseover",tip.show)
                                      .on("mouseout",tip.hide)
-                                     .on("click",function(d){console.log(d.date)});
+                                     .on("click",function(d){
+                                    	 console.log("Here"+d.date);
+                                    	 var d1 = 	  d.date + "-01-01";
+	                                   	 var d2 = 	  d.date + "-12-31";
+	                         				
+	                                   	  loadTable(d1,d2);	
+	                                   	  
+                                     });
                                                         svg.call(tip)
 
 

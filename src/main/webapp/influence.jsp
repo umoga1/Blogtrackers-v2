@@ -1,5 +1,3 @@
-
-
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="authentication.*"%>
@@ -25,7 +23,7 @@ Object user = (null == session.getAttribute("username")) ? "" : session.getAttri
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
-String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
+String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString();//.replaceAll("[^a-zA-Z]", " ");
 
 
 ArrayList<?> userinfo = new ArrayList();
@@ -100,17 +98,20 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 		String tracker_userid = resp.get(1).toString();
 		trackername = resp.get(2).toString();
-		//if (tracker_userid.equals(user.toString())) {
+		if (tracker_userid.equals(user.toString())) {
 			isowner = true;
 			String query = resp.get(5).toString();//obj.get("query").toString();
 			query = query.replaceAll("blogsite_id in ", "");
 			query = query.replaceAll("\\(", "");
 			query = query.replaceAll("\\)", "");
 			ids = query;
-		//}
+		}
 	}
 	
-
+	if (!isowner) {
+		response.sendRedirect("index.jsp");
+	}
+	
 	SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 	SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -250,8 +251,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 		
 		
-		allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-		
+		allauthors = post._getBloggerByBlogId("date",dt, dte,ids);//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+		//post._getBloggerByBlogId("date",dt, dte,ids);
 	String allpost = "0";
 	float totalinfluence = 0;
 	String mostactiveblog="";
@@ -292,23 +293,17 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <title>Blogtrackers-Influence</title>
 <link rel="shortcut icon" href="images/favicons/favicon-48x48.png">
 <link rel="apple-touch-icon" href="images/favicons/favicon-48x48.png">
-<link rel="apple-touch-icon" sizes="96x96"
-	href="images/favicons/favicon-96x96.png">
-<link rel="apple-touch-icon" sizes="144x144"
-	href="images/favicons/favicon-144x144.png">
+<link rel="apple-touch-icon" sizes="96x96" href="images/favicons/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="144x144" href="images/favicons/favicon-144x144.png">
 <!-- start of bootsrap -->
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
 <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.css" />
 <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet"
-	href="assets/fonts/fontawesome/css/fontawesome-all.css" />
+<link rel="stylesheet" href="assets/fonts/fontawesome/css/fontawesome-all.css" />
 <link rel="stylesheet" href="assets/fonts/iconic/css/open-iconic.css" />
-<link rel="stylesheet"
-	href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="assets/vendors/bootstrap-daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="assets/css/table.css" />
-<link rel="stylesheet"
-	href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
+<link rel="stylesheet" href="assets/vendors/DataTables/dataTables.bootstrap4.min.css" />
 
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
 <link rel="stylesheet" href="assets/css/style.css" />
@@ -318,7 +313,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <script src="assets/js/popper.min.js"></script>
 </head>
 <body>
-
+<%@include file="subpages/loader.jsp" %>
+<%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<div class="modal-notifications">
 		<div class="row">
 			<div class="col-lg-10 closesection"></div>
@@ -340,11 +336,11 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 				</div>
 				<div id="othersection" class="col-md-12 mt10" style="clear: both">
 					<% if(userinfo.size()>0){ %>
-					<a class="cursor-pointer profilemenulink"
+					<%-- <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a>
+						</h6> </a> --%>
 						<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
 						 <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
@@ -451,13 +447,13 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					<a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a> 
 				<a class="breadcrumb-item text-primary" href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
 				<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
-						 <a class="breadcrumb-item active text-primary"	href="<%=request.getContextPath()%>influence.jsp?tid=<%=tid%>">Influence Analysis</a>
+						 <a class="breadcrumb-item active text-primary"	href="<%=request.getContextPath()%>/influence.jsp?tid=<%=tid%>">Influence Analysis</a>
 
 				</nav>
-				<div>
+				<!-- <div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
 						AS PDF</button>
-				</div>
+				</div> -->
 			</div>
 
 			<div class="col-md-6 text-right mt10">
@@ -612,11 +608,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	
 									    	String x =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
 									    	int val = new Double(post._searchRangeMaxByBloggers("date",dt, dte,auth)).intValue(); 
-									    			//Integer.parseInt(post._searchRangeAggregateByBloggers("date",dt, dte,auth,"influence_score"));
-									    	
+									    		
 									    	String y = val+"";
-									    	xy.put("x",x);
-									    	xy.put("y",y);
+									    	xy.put("x",y);
+									    	xy.put("y",x);
 											
 									    	influencecount+=val;
 									    	
@@ -646,10 +641,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										}
 									} 
 								
-				System.out.println("authors"+bloggerarr);
+				//System.out.println("authors"+bloggerarr);
 				//bloggertosort =  post._sortJson2(bloggertosort);
 			    bloggerarr = post._sortJson2(bloggerarr);
-				System.out.println("hello"+bloggerarr);
+				//System.out.println("hello"+bloggerarr);
 
 				for(int m=0; m<bloggerarr.length(); m++){
 					String key = bloggerarr.get(m).toString();
@@ -719,9 +714,14 @@ String negsentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimen
 
 int comb = new Double(possentiment2).intValue() + new Double(negsentiment2).intValue();
 String totalcomment = tcomment+"";// post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
+// formated total comment
+String formattedtotalcomment = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment));
 totalinfluence  = influencecount;// Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
 
+String formatedtotalinfluence = NumberFormat.getNumberInstance(Locale.US).format(totalinfluence);
+
 totalpost = post._searchRangeTotal("date", dt, dte,ids);
+String formattedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
 //totalpost = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
 
 String totalsenti  = comb+"";
@@ -836,13 +836,13 @@ authoryears.put(mostactiveblogger,postyear);
 						<div class="row">
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Influence Score</h6>
-								<h2 class="mb0 bold-text total-influence"><%=totalinfluence%></h2>
+								<h2 class="mb0 bold-text total-influence"><%=formatedtotalinfluence%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Total Posts</h6>
-								<h2 class="mb0 bold-text total-post"><%=totalpost%></h2>
+								<h2 class="mb0 bold-text total-post"><%=formattedtotalpost%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
@@ -854,7 +854,7 @@ authoryears.put(mostactiveblogger,postyear);
 							
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Overall Sentiment</h6>
-								<h2 class="mb0 bold-text total-sentiment"><%=totalsenti%></h2>
+								<h2 class="mb0 bold-text total-sentiment"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalsenti)) %></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -865,7 +865,7 @@ authoryears.put(mostactiveblogger,postyear);
 							</div> --%>
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Comments</h6>
-								<h2 class="mb0 bold-text total-comments"><%= totalcomment%></h2>
+								<h2 class="mb0 bold-text total-comments"><%=formattedtotalcomment%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -954,7 +954,8 @@ authoryears.put(mostactiveblogger,postyear);
 									%>
                                     <tr>
                                    <td><a class="blogpost_link cursor-pointer" id="<%=tobj.get("blogpost_id")%>" ><%=tobj.get("title") %></a><br/>
-								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a></td>
+								<a class="mt20 viewpost makeinvisible" href="<%=tobj.get("permalink") %>" target="_blank"><buttton class="btn btn-primary btn-sm mt10 visitpost">Visit Post &nbsp;<i class="fas fa-external-link-alt"></i></button></buttton></a>
+								</td>
 								<td align="center"><%=tobj.get("influence_score") %></td>
                                      </tr>
                                     <% }} %>
@@ -999,8 +1000,8 @@ authoryears.put(mostactiveblogger,postyear);
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
 											</a>
-											<button class="btn stylebuttonnocolor"><%=date%></button>
-											<button class="btn stylebuttonnocolor">
+											<button class="btn stylebuttonnocolor nocursor"><%=date%></button>
+											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
 													class="far fa-comments float-right blogcontenticon"></i>
 											</button>
@@ -1602,8 +1603,14 @@ authoryears.put(mostactiveblogger,postyear);
                               .on("mouseout",tip.hide)
                               .on("click",function(d){
                             	  console.log(d.date);
+                            	  var d1 = 	  d.date + "-01-01";
+                              	  var d2 = 	  d.date + "-12-31";
+                    				
+                              	  loadInfluence(d1,d2); 
+                              	  console.log("reloaded"); 
                             	  });
-                                                 svg.call(tip)
+                                svg.call(tip)
+                                
                       }
                       // handles multiple json parameter
                       else if(data.length > 1)
@@ -1950,6 +1957,7 @@ authoryears.put(mostactiveblogger,postyear);
    					String au = authorcount.get(p).toString();
    			  		JSONObject jxy = new JSONObject(influecechart.get(au).toString());
    			  		int x = new Double(jxy.get("x").toString()).intValue();
+   			  		
    			  		int y = new Double(jxy.get("y").toString()).intValue(); %>{"x":<%=x%>,"y":<%=y%>},<% }} %>]   		
          ];
 
@@ -1980,7 +1988,7 @@ authoryears.put(mostactiveblogger,postyear);
                   return "No Information Available";
                 }
                 else if(d !== null) {
-                 return "("+d.x+","+d.y+")<br/> Click for more information";
+                 return " ("+d.x+","+d.y+")<br/> Click for more information";
                   }
 
                 });
@@ -2355,7 +2363,8 @@ wordtagcloud("#tagcloudcontainer",450);
      d3.layout.cloud().size([450, 300])
              .words(frequency_list)
              .rotate(0)
-             .fontSize(function(d) { return d.size; })
+             .padding(5)
+             .fontSize(function(d) { return d.size * 1.20; })
              .on("end", draw)
              .start();
 
@@ -2400,7 +2409,7 @@ wordtagcloud("#tagcloudcontainer",450);
        		  svg.selectAll("text").transition()
                  .delay(200)
                  .duration(1000)
-                 .style("font-size", function(d) { return d.size * 1.10 + "px"; })
+                 .style("font-size", function(d) { return d.size * 1.50 + "px"; })
        	  } else {
        		  svg.selectAll("text")
                  .style("font-size", 0)
@@ -2532,9 +2541,9 @@ wordtagcloud("#tagcloudcontainer",450);
      }
 	}
  </script>
-<script src="pagedependencies/baseurl.js?v=38"></script>
+<script src="pagedependencies/baseurl.js"></script>
  
-<script src="pagedependencies/influence.js?v=8979"></script>
+<script src="pagedependencies/influence.js"></script>
 	
 </body>
 </html>

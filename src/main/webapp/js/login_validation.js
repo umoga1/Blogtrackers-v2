@@ -399,3 +399,17 @@ $("#change_password").validate({
 	}
 });
 */
+
+$(window).load(function(){	
+	
+})
+
+$("body").removeClass("loaded");
+$(document).ready(function(e)
+{
+$('a').on("click",function(e){
+$("body").removeClass('loaded');
+	  });
+	 
+$("body").addClass("loaded");
+});

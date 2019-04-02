@@ -8,6 +8,7 @@
 <%@page import="java.text.NumberFormat" %>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
+<%@page import="java.io.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.time.LocalDateTime"%>
@@ -15,19 +16,16 @@
 <%
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
-
 	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 	Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
-
 	
 	//System.out.println(date_start);
 	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
 	} else {
-
 		ArrayList<?> userinfo = null;
 		String profileimage = "";
 		String username = "";
@@ -38,7 +36,6 @@
 		ArrayList termss = new ArrayList();
 		ArrayList outlinks = new ArrayList();
 		ArrayList liwcpost = new ArrayList();
-
 		Trackers tracker = new Trackers();
 		Terms term = new Terms();
 		Outlinks outl = new Outlinks();
@@ -57,17 +54,16 @@
 		if (detail.size() > 0) {
 			//String res = detail.get(0).toString();
 			ArrayList resp = (ArrayList<?>)detail.get(0);
-
-			String tracker_userid = resp.get(0).toString();
+			String tracker_userid = resp.get(1).toString();
 			trackername = resp.get(2).toString();
-			//if (tracker_userid.equals(user.toString())) {
+			if (tracker_userid.equals(user.toString())) {
 				isowner = true;
 				String query = resp.get(5).toString();//obj.get("query").toString();
 				query = query.replaceAll("blogsite_id in ", "");
 				query = query.replaceAll("\\(", "");
 				query = query.replaceAll("\\)", "");
 				ids = query;
-			//}
+			}
 		}
 		
 		userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '" + email + "'");
@@ -97,16 +93,13 @@
 			} catch (Exception e) {
 			
 			}
-
 			String[] user_name = name.split(" ");
 			Blogposts post = new Blogposts();
 			Blogs blog = new Blogs();
 			Sentiments senti = new Sentiments();
-
 			//Date today = new Date();
 			SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy");
 			SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
-
 			SimpleDateFormat DAY_ONLY = new SimpleDateFormat("dd");
 			SimpleDateFormat MONTH_ONLY = new SimpleDateFormat("MM");
 			SimpleDateFormat SMALL_MONTH_ONLY = new SimpleDateFormat("mm");
@@ -118,7 +111,6 @@
 			
 			Date dstart = new Date();
 			Date today = new Date();
-
 			Date nnow = new Date();  
 			
 			try{
@@ -139,18 +131,14 @@
 			String month = MONTH_ONLY.format(today);
 			
 			String smallmonth = SMALL_MONTH_ONLY.format(today);
-
 			String year = YEAR_ONLY.format(today);
-
 			String dispfrom = DATE_FORMAT.format(dstart);
 			String dispto = DATE_FORMAT.format(today);
 			
 			String historyfrom = DATE_FORMAT.format(dstart);
 			String historyto = DATE_FORMAT.format(today);
-
 			String dst = DATE_FORMAT2.format(dstart);
 			String dend = DATE_FORMAT2.format(today);
-
 			//ArrayList posts = post._list("DESC","");
 			ArrayList sentiments = senti._list("DESC", "", "id");
 			 
@@ -163,9 +151,8 @@
 			System.out.println(test);  */
 		
 			
-			String totalpost = "0";
+			String totalpost = "";
 			ArrayList allauthors = new ArrayList();
-
 			String possentiment = "0";
 			String negsentiment = "0";
 			String ddey = "31";
@@ -189,12 +176,10 @@
 			//System.out.println(s)
 			//System.out.println("start date"+date_start+"end date "+date_end);
 			if (!date_start.equals("") && !date_end.equals("")) {
-				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
-
+				//totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
 				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
 				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
 								
-
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
 				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
 				
@@ -203,7 +188,6 @@
 				
 				historyfrom = DATE_FORMAT.format(start);
 				historyto = DATE_FORMAT.format(end);
-
 				//allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
 			} else if (single.equals("day")) {
 				 dt = year + "-" + month + "-" + day;
@@ -212,7 +196,7 @@
 					
 			} else if (single.equals("week")) {
 				
-				 dte = year + "-" + month + "-" + day;
+				dte = year + "-" + month + "-" + day;
 				int dd = new Double(day).intValue()-7;
 				
 				Calendar cal = Calendar.getInstance();
@@ -224,7 +208,6 @@
 			} else if (single.equals("month")) {
 				dt = year + "-" + month + "-01";
 				dte = year + "-" + month + "-"+day;	
-
 				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 				
 			} else if (single.equals("year")) {
@@ -234,7 +217,12 @@
 				
 			} else {
 				dt = dst;
-				dte = dend;		
+				dte = dend;
+				if(ids.length()>0){
+					totalpost = Integer.parseInt(post._getTotalByBlogId(ids, ""))+"";
+				}else{
+					totalpost="0";
+				}
 			}
 			
 			String[] yst = dt.split("-");
@@ -257,14 +245,17 @@
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
-			totalpost = post._searchRangeTotal("date", dt, dte, ids);
-			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","50");
+			if(totalpost.equals("")){
+				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			}
+			
+			termss = term._searchByRange("date", dt, dte, ids,"blogsiteid","100");
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-			ArrayList allauthors2= post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+			ArrayList allauthors2 = post._getBloggerByBlogId("date",dt, dte,ids);//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+			allauthors = allauthors2;//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		
 			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
@@ -280,6 +271,7 @@
 				//ystint=0;
 				//yendint = diff;
 			}
+			
 			int b=0;
 			for(int y=ystint; y<=yendint; y++){
 				/*
@@ -287,7 +279,6 @@
 					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
 					*/  
 					   String dtu = y + "-01-01";
-
 					   String dtue = y + "-12-31";
 					   
 					   if(b==0){
@@ -310,11 +301,17 @@
 		    
 		    JSONArray authorcount = new JSONArray();
 		    JSONObject language = new JSONObject();
-		    ArrayList langlooper = new ArrayList();
-		    
+		    ArrayList langlooper = new ArrayList();	    
 		    
 			ArrayList authorlooper = new ArrayList();
 			ArrayList influentialauthorlooper = new ArrayList();
+			
+			JSONArray authorarr = new JSONArray();
+			JSONArray authorinfluencearr = new JSONArray();
+			JSONArray authorpostingfreqarr = new JSONArray();
+			JSONArray bloginfluencearr = new JSONArray();
+			JSONArray blogpostingfreqarr = new JSONArray();
+			
 			if(allauthors.size()>0){
 				String tres = null;
 				JSONObject tresp = null;
@@ -332,25 +329,16 @@
 					    String auth = tobj.get("blogger").toString();
 					    String lang = tobj.get("language").toString();
 					    
-					    
+					    lang = blog.normalizeLanguage(lang);
 					  	JSONObject content = new JSONObject();
 					   
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
 					    sentimentpost.put(tobj.get("blogpost_id").toString());
 					   
-					    if(authors.has(auth)){
-							content = new JSONObject(authors.get(auth).toString());
-							Double inf = Double.parseDouble(content.get("influence").toString());
-							//inf = inf+influence;
-							int valu = new Double(content.get("totalpost").toString()).intValue();
-							content.put("blogger", auth);
-							content.put("influence", inf);
-							content.put("totalpost",valu);
-							authors.put(auth, content);
-						} else {
-							 
+					    if(!authors.has(auth)){							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
+						    btoty = post._searchRangeTotalByBlogger("date",dt, dte,auth);
 						   	Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
 							int valu = new Double(btoty).intValue(); 
 							   if(valu==0){
@@ -360,6 +348,7 @@
 							content.put("blogger", auth);
 							content.put("influence", influence);
 							content.put("totalpost",valu);
+							//authorarr.put(valu+"___"+auth);
 							authors.put(auth, content);
 							authorlooper.add(j,auth);
 							j++;
@@ -375,7 +364,6 @@
 							langlooper.add(n, lang);
 							n++;
 						}
-
 				}
 			//System.out.println("Authors here:"+graphyears);
 			} 
@@ -406,18 +394,10 @@
 					  	String[] dateyear=tobj.get("date").toString().split("-");
 					    String yy= dateyear[0];
 					   
-					    if(influentialauthors.has(auth)){
-							content = new JSONObject(influentialauthors.get(auth).toString());
-							Double inf = Double.parseDouble(content.get("influence").toString());
-							//inf = inf+influence;
-							int valu = new Double(content.get("totalpost").toString()).intValue(); 
-							content.put("blogger", auth);
-							content.put("influence", inf);
-							content.put("totalpost",valu);
-							influentialauthors.put(auth, content);
-						} else {
+					    if(!influentialauthors.has(auth)){
 							 
 						    String btoty = post._getTotalByBlogger(auth,"date",dt, dte);
+						    btoty = post._searchRangeTotalByBlogger("date",dt, dte,auth);
 						   // System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
 						   Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
 							
@@ -429,16 +409,18 @@
 							content.put("blogger", auth);
 							content.put("influence", influence);
 							content.put("totalpost",valu);
+							
+							authorinfluencearr.put(influence+"___"+auth);
+							authorpostingfreqarr.put(valu+"___"+auth);
+							
 							influentialauthors.put(auth, content);
 							influentialauthorlooper.add(j,auth);
 							j++;
 						}
 					
-
 				}
 			//System.out.println("Authors here:"+graphyears);
 			} 
-
 			/*
 			ArrayList sentimentor = new Liwc()._searchByRange("date", dt, dte, sentimentpost);
 			int allposemo =0;
@@ -459,7 +441,6 @@
 				}
 			}
 			*/
-
 			
 			possentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"posemo");
 			negsentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"negemo");
@@ -509,7 +490,6 @@
 							maindomain = domain;
 						}
 					} catch (Exception ex) {}
-
 					
 					if (outerlinks.has(maindomain)) {
 						content = new JSONObject(outerlinks.get(maindomain).toString());
@@ -533,19 +513,14 @@
 				
 				}
 			}
-
 			//System.out.println("senti"+ sentimentblog);
 			
 			JSONObject bloggers = new JSONObject();
-
 			ArrayList looper = new ArrayList();
 			
-			
-
 			if (blogs.size() > 0) {
 				String bres = null;
 				JSONObject bresp = null;
-
 				String bresu = null;
 				JSONObject bobj = null;
 				int m = 0;
@@ -560,9 +535,7 @@
 					//System.out.println("blogger here+"+blogger);
 					String sentiment = "1";// bobj.get("sentiment").toString();
 					String posting = bobj.get("totalposts").toString();
-
 					JSONObject content = new JSONObject();
-
 					String durl = bobj.get("blogsite_url").toString();//"";
 					try {
 						URI uri = new URI(bobj.get("blogsite_url").toString());
@@ -576,37 +549,35 @@
 					
 						String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
 						//String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
+						Double influence =  Double.parseDouble(post._searchRangeMaxByBlogId("date",dt, dte,bobj.get("blogsite_id").toString()));
+						
 						int valu = 1;//Integer.parseInt(btoty);
-						if (bloggers.has(blogger)) {
-							content = new JSONObject(bloggers.get(blogger).toString());						
+						if (!bloggers.has(blogger)) {
 							content.put("blog", blogname);
 							content.put("id", bobj.get("blogsite_id").toString());
 							content.put("blogger", blogger);
 							content.put("sentiment", sentiment);
 							content.put("postingfreq", posting);
 							content.put("value", valu);
+							content.put("influence", influence);
 							content.put("totalposts", toty);
 							content.put("blogsite_url", bobj.get("blogsite_url").toString());
 							content.put("blogsite_domain", durl);
 							bloggers.put(blogger, content);
-						} else {
-							content.put("blog", blogname);
-							content.put("id", bobj.get("blogsite_id").toString());
-							content.put("blogger", blogger);
-							content.put("sentiment", sentiment);
-							content.put("postingfreq", posting);
-							content.put("value", valu);
-							content.put("totalposts", toty);
-							content.put("blogsite_url", bobj.get("blogsite_url").toString());
-							content.put("blogsite_domain", durl);
-							bloggers.put(blogger, content);
+							bloginfluencearr.put(influence+"___"+blogger);
+							blogpostingfreqarr.put(posting+"___"+blogger);
 							looper.add(m, blogger);
 							m++;
 						}	
 				}
-
 			}
 			
+			
+			authorinfluencearr = post._sortJson2(authorinfluencearr);
+			authorpostingfreqarr = post._sortJson2(authorpostingfreqarr);
+			
+			bloginfluencearr = post._sortJson2(bloginfluencearr);
+			blogpostingfreqarr = post._sortJson2(blogpostingfreqarr);
 			
 %>
 <!DOCTYPE html>
@@ -645,6 +616,7 @@
 <link rel="stylesheet" href="assets/css/toastr.css">
 
 <script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
 <!-- <script src="assets/js/jquery-3.2.1.slim.min.js"></script>-->
@@ -654,6 +626,7 @@
   <script src="pagedependencies/baseurl.js"></script>
 </head>
 <body>
+<%@include file="subpages/loader.jsp" %>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<div class="modal-notifications">
 		<div class="row">
@@ -674,11 +647,11 @@
 
 				</div>
 				<div id="othersection" class="col-md-12 mt10" style="clear: both">
-					<a class="cursor-pointer profilemenulink"
+					<%-- <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a> 
+						</h6> </a>  --%>
 						<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
 						
 						<a class="cursor-pointer profilemenulink"
@@ -781,10 +754,10 @@
 						<a class="breadcrumb-item text-primary"	href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
 					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
 				</nav>
-				<div>
+				<!-- <div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
 						AS PDF</button>
-				</div>
+				</div> -->
 			</div>
 
 			<div class="col-md-6 text-right mt10">
@@ -922,8 +895,18 @@
 									</select> --%>
 							</p>
 						</div>
-						<div class="min-height-table" style="min-height: 500px;">
-							<div class="chart-container">
+	<div class="min-height-table" style="min-height: 500px;">
+					<div class="chart-container">
+	<!-- 						  <div class="btn-group float-right">
+    <button id="btnGroupDrop1" type="button" class="btn btn-primary " data-toggle="dropdown" aria-expanded="false">
+      <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+      <a class="dropdown-item savelanguagejpg" href="#">Export as JPG</a>
+      <a class="dropdown-item savelanguagepng" href="#">Export as PNG</a>
+    </div>
+  </div> -->
+							<!-- <button id='savelanguage'>Export my D3 visualization to PNG</button> -->
 								<div class="chart" id="languageusage"></div>
 							</div>
 						</div>
@@ -944,7 +927,6 @@
 								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
@@ -983,7 +965,6 @@
 									<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
@@ -1020,7 +1001,6 @@
 									<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
 							</p>
@@ -1195,7 +1175,6 @@
 										<!-- of <select id="top-sorttype"
 										class="text-primary filtersort sortbyblogblogger" ><option
 											value="blogs">Blogs</option>
-
 										<option value="bloggers">Bloggers</option></select>  -->
 									<%-- 	of Past <select
 										class="text-primary filtersort sortbytimerange" id="top-sortdate" ><option
@@ -1225,12 +1204,14 @@
 													for (int y = 0; y < outlinklooper.size(); y++) {
 														String key = outlinklooper.get(y).toString();
 														JSONObject resu = outerlinks.getJSONObject(key);
+														if(resu.get("domain")!=""){
 									%>
 									<tr>
 										<td class=""><a href="http://<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a></td>
 										<td><%=resu.get("value")%></td>
 									</tr>
 									<%
+														}
 										}
 									}
 									%>
@@ -1254,15 +1235,10 @@
                <a class="dropdown-item" href="#">Something else here</a>
              </div>
           </div> -->
-
 <div class="dropdown show text-primary p15 pb20 pt0">List of Top URLs of <select class="text-primary filtersort sortbyblogblogger"><option value="blogs">Blogs</option><option value="bloggers">Bloggers</option></select> of Past <select class="text-primary filtersort sortbytimerange"><option value="week">Week</option><option value="month">Month</option><option value="year">Year</option></select>
-
  
-
 </div>
-
           <!-- Example split danger button -->
-
          <!--  <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
@@ -1271,8 +1247,6 @@
                             <tr>
                                 <th>URL</th>
                                 <th>Frequency</th>
-
-
                             </tr>
                         </thead>
                         <tbody>
@@ -1289,7 +1263,6 @@
 						<% }} %>
                             
                             
-
                         </tbody>
                     </table>
         </div>
@@ -1301,8 +1274,7 @@
 
 
 	</div>
-
-	<form action="" name="customformsingle" id="customformsingle"
+<form action="" name="customformsingle" id="customformsingle"
 		method="post">
 		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" /> <input
 			type="hidden" name="single_date" id="single_date" value="" />
@@ -1313,54 +1285,66 @@
 		<input type="hidden" name="date_start" id="date_start" value="" /> 
 		<input type="hidden" name="date_end" id="date_end" value="" />
 			<textarea style="display:none" name="blogs" id="blogs" >
-			 <% if (bloggers.length() > 0) {
-						int p = 0;
-						for (int y = 0; y < bloggers.length(); y++) {
-							String key = looper.get(y).toString();
-							JSONObject resu = bloggers.getJSONObject(key);
-							int size = new Double(resu.get("postingfreq").toString()).intValue();
-							if (size > 0 && p < 15) {
-								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
-    			 <%}}}%>
+			<%if (blogpostingfreqarr.length() > 0) {	
+			int p = 0;
+		 for(int m=0; m<blogpostingfreqarr.length(); m++){
+				String key = blogpostingfreqarr.get(m).toString();			
+				String[] splitter = key.split("___");
+				if(splitter.length > 1){
+				String blg = splitter[1];
+				int size =  new Double(splitter[0].toString()).intValue();	
+				if (size > 0 && p < 15) {
+					p++;%>{letter:"<%=blg%>", frequency:<%=size%>, name:"<%=blg%>", type:"blog"},
+    			 <%}}}}%>
 			</textarea>
-			<textarea style="display:none" name="bloggers" id="bloggers" ><%if (authors.length() > 0) {
-			int k = 0;for (int y = 0; y < authors.length(); y++) {
-				String key = authorlooper.get(y).toString();
-				JSONObject resu = authors.getJSONObject(key);
-				int size = new Double(resu.get("totalpost").toString()).intValue(); 
-				if (size > 0 && k < 15) {
-					k++;%>{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-<%}}}%></textarea>
+			<textarea style="display:none" name="bloggers" id="bloggers" >
+<%if (authorpostingfreqarr.length() > 0) {	
+			int p = 0;
+		 for(int m=0; m<authorpostingfreqarr.length(); m++){
+				String key = authorpostingfreqarr.get(m).toString();			
+				String[] splitter = key.split("___");
+				if(splitter.length > 1){
+				String au = splitter[1];
+				int size =  new Double(splitter[0].toString()).intValue();	
+				if (size > 0 && p < 15) {
+					p++;%>{letter:"<%=au%>", frequency:<%=size%>, name:"<%=au%>", type:"blogger"},
+<%}}}}%></textarea>
 
 <!-- Influence Bar chart loader -->
 	<textarea style="display:none" name="influencialBlogs" id="InfluencialBlogs" >
- <% if (bloggers.length() > 0) {
-						int p = 0;
-						for (int y = 0; y < bloggers.length(); y++) {
-							String key = looper.get(y).toString();
-							JSONObject resu = bloggers.getJSONObject(key);
-							
-							int size =  new Double(resu.get("postingfreq").toString()).intValue(); 
-							if (size > 0 && p < 15) {
-								p++;%>{letter:"<%=resu.get("blog")%>", frequency:<%=size%>, name:"<%=resu.get("blog")%>", type:"blog"},
-    			 <%}}}%>
+
+<%if (bloginfluencearr.length() > 0) {	
+			int p = 0;
+		 for(int m=0; m<bloginfluencearr.length(); m++){
+				String key = bloginfluencearr.get(m).toString();
+				
+				String[] splitter = key.split("___");
+				if(splitter.length > 1){
+				String blg = splitter[1];
+				int size =  new Double(splitter[0].toString()).intValue();	
+				if (size > 0 && p < 15) {
+					p++;%>{letter:"<%=blg%>", frequency:<%=size%>, name:"<%=blg%>", type:"blog"},
+    			 <%}}}}%>
 			 </textarea>
         </textarea>
 
 <textarea style="display:none" name="influencialBloggers" id="InfluencialBloggers" >
-	 <% if (influentialauthors.length() > 0) {
-				int p = 0;
-				//System.out.println(bloggers);
-				for (int y = 0; y < influentialauthors.length(); y++) {
-					String key = influentialauthorlooper.get(y).toString();
-					JSONObject resu = influentialauthors.getJSONObject(key);
-					Double size = Double.parseDouble(resu.get("influence").toString());
-					if (p < 10) {
-						p++;%>
-		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
-		 <%}
+<%if (authorinfluencearr.length() > 0) {	
+			int k = 0;
+		 for(int m=0; m<authorinfluencearr.length(); m++){
+				String key = authorinfluencearr.get(m).toString();
+				
+				String[] splitter = key.split("___");
+				if(splitter.length > 1){
+				String au = splitter[1];
+				int size =  new Double(splitter[0].toString()).intValue();	
+				if (size > 0 && k < 15) {
+					k++;%>
+		{letter:"<%=au%>", frequency:<%=size%>, name:"<%=au%>", type:"blogger"},
+		 <% }
 				}
-			}%> </textarea>
+				}
+			}%></textarea>
 
 </form>
 
@@ -1375,7 +1359,6 @@
 <!-- Added for interactivity for selecting tracker and favorites actions -->
 
 <!-- <script src="assets/js/generic.js">
-
 </script> -->
 
 
@@ -1427,7 +1410,6 @@ $(document).ready(function() {
         ]
       } */
     } );
-
 // table set up 2
     $('#DataTables_Table_0_wrapper').DataTable( {
         "scrollY": 430,
@@ -1436,7 +1418,6 @@ $(document).ready(function() {
         	 "bLengthChange": false
     /*      ,
          dom: 'Bfrtip',
-
          "columnDefs": [
       { "width": "80%", "targets": 0 }
     ],
@@ -1451,7 +1432,6 @@ $(document).ready(function() {
       } */
     } );
 } );
-
 </script>
 	<!--end for table  -->
 	<script>
@@ -1467,7 +1447,6 @@ $(document).ready(function() {
 	 function printHTML(input){
 		  var iframe = document.createElement("iframe"); // create the element
 		  document.body.appendChild(iframe);  // insert the element to the DOM 
-
 		  iframe.contentWindow.document.write(input); // write the HTML to be printed
 		  iframe.contentWindow.print();  // print it
 		  document.body.removeChild(iframe); // remove the iframe from the DOM
@@ -1483,7 +1462,6 @@ $(document).ready(function() {
           //$('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
           $('#reportrange input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY')).trigger('change');
         };
-
         var optionSet1 =
              {   startDate: moment().subtract(90, 'days'),
                  endDate: moment(),
@@ -1498,7 +1476,6 @@ $(document).ready(function() {
                  showWeekNumbers: true,
            dateLimit: { days: 50000 },
                      ranges: {
-
                      'This Year' : [
              moment()
                  .startOf('year'),
@@ -1522,10 +1499,7 @@ $(document).ready(function() {
                  monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                  firstDay: 1
                }
-
              };
-
-
    // if('${datepicked}' == '')
    // {
     //   $('#reportrange span').html(moment().subtract('days', 500).format('MMMM D') + ' - ' + moment().format('MMMM D'));
@@ -1606,84 +1580,65 @@ $(document).ready(function() {
                 // set attribute for the form
       //$('#trackerform').attr("action","ExportJSON");
       //$('#dateform').attr("action","ExportJSON");
-
-
   //$('#config-demo').daterangepicker(options, function(start, end, label) { console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); });
 });
 </script>
 	<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
 	<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
 	<script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
+	 <script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
+		 <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
 	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
 	<script type="text/javascript" src="assets/js/jquery.inview.js"></script>
+	<script type="text/javascript" src="assets/js/exporthandler.js"></script>
 	<!--start of language bar chart  -->
 	<script>
 $(function () {
-
+	
     // Initialize chart
     languageusage('#languageusage', 455);
-
     // Chart setup
     function languageusage(element, height) {
-
       // Basic setup
       // ------------------------------
-
       // Define main variables
       var d3Container = d3.select(element),
           margin = {top: 5, right: 50, bottom: 20, left: 150},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
-
          var formatPercent = d3.format("");
-
       // Construct scales
       // ------------------------------
-
       // Horizontal
       var y = d3.scale.ordinal()
           .rangeRoundBands([height,0], .5, .40);
-
       // Vertical
       var x = d3.scale.linear()
           .range([0,width]);
-
       // Color
       var color = d3.scale.category20c();
-
-
-
       // Create axes
       // ------------------------------
-
       // Horizontal
       var xAxis = d3.svg.axis()
           .scale(x)
           .orient("bottom")
           .ticks(6);
-
       // Vertical
       var yAxis = d3.svg.axis()
           .scale(y)
           .orient("left")
           //.tickFormat(formatPercent);
-
-
-
       // Create chart
       // ------------------------------
-
       // Add SVG element
-      var container = d3Container.append("svg");
-
+      var container = d3Container.append("svg").attr('class','languagesvg');
       // Add SVG group
       var svg = container
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
-              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
       //         // Create tooltip
       //             // ------------------------------
       //
@@ -1694,14 +1649,19 @@ $(function () {
       //
       //
       //
+      
      data = [
-    	  <%if (langlooper.size() > 0) {
+    	  <%
+    	  
+    	  if (langlooper.size() > 0) {
 						for (int y = 0; y < langlooper.size(); y++) {
-							String key = langlooper.get(y).toString();%>
+							String key = langlooper.get(y).toString();
+							
+							
+							%>
     		{letter:"<%=key%>", frequency:<%=language.get(key)%>},
     		<%}
 					}%>
-
 	 ]; 
      data.sort(function(a, b){
     	    return a.frequency - b.frequency;
@@ -1725,10 +1685,8 @@ $(function () {
                .html(function(d) {
                    return d.letter+" ("+d.frequency+")";
                });
-
            // Initialize tooltip
            svg.call(tip);
-
       //
       //     // Pull out values
       //     data.forEach(function(d) {
@@ -1742,7 +1700,6 @@ $(function () {
       //
       //    // Vertical
           y.domain(data.map(function(d) { return d.letter; }));
-
           
           
           // Horizontal domain
@@ -1760,8 +1717,10 @@ $(function () {
           svg.append("g")
               .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
               .attr("transform", "translate(0," + height + ")")
+              //.attr("stroke","#333")
+              //.attr("fill","#333")
+              .attr("stroke-height","1")
               .call(xAxis);
-
           // Vertical
           var verticalAxis = svg.append("g")
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
@@ -1806,7 +1765,6 @@ $(function () {
                   {
                     return "#78BCE4";
                   }
-
                 }) 
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
@@ -1844,37 +1802,39 @@ $(function () {
                   //         .style("fill", function(d) { return "#58707E"; })
                   //         .on('mouseover', tip.show)
                   //         .on('mouseout', tip.hide);
-
-
-
-
-
+ 
+ 
+ ExportSVGAsImage('.savelanguagejpg','click','.languagesvg',width,height,'jpg');
+ ExportSVGAsImage('.savelanguagepng','click','.languagesvg',width,height,'png');
+ 
+//Set-up the export button
+/*  d3.select('#savelanguage').on('click', function(){
+ 	var svgString = getSVGString(d3.select('.languagesvg').node());
+ 	svgString2Image( svgString, 2*width, 2*height, 'png', save ); // passes Blob and filesize String to the callback
+ 	function save( dataBlob, filesize ){
+ 		saveAs( dataBlob, 'D3 vis exported to PNG.png' ); // FileSaver.js function
+ 	}
+ }); */
+ 
         // Resize chart
         // ------------------------------
-
         // Call function on window resize
         $(window).on('resize', resize);
-
         // Call function on sidebar width change
         $('.sidebar-control').on('click', resize);
-
         // Resize function
         //
         // Since D3 doesn't support SVG resize by default,
         // we need to manually specify parts of the graph that need to
         // be updated on window resize
         function resize() {
-
             // Layout variables
             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
-
-
             // // Layout
             // // -------------------------
             //
             // // Main svg width
             container.attr("width", width + margin.left + margin.right);
-
             // Width of appended group
             svg.attr("width", width + margin.left + margin.right);
             //
@@ -1888,7 +1848,6 @@ $(function () {
             // // Horizontal axis
             svg.selectAll('.d3-axis-horizontal').call(xAxis);
              // svg.selectAll('.d3-bar-vertical').call(yAxis);
-
             //
             // // Chart elements
             // // -------------------------
@@ -1905,71 +1864,50 @@ $(function () {
 	<!-- start of influence bar chart  -->
 	<script>
 $(function () {
-
     // Initialize chart
     influencebar('#influencebar', 450);
-
     // Chart setup
     function influencebar(element, height) {
-
       // Basic setup
       // ------------------------------
-
       // Define main variables
       var d3Container = d3.select(element),
           margin = {top: 5, right: 50, bottom: 20, left: 150},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
-
          var formatPercent = d3.format("");
-
       // Construct scales
       // ------------------------------
-
       // Horizontal
       var y = d3.scale.ordinal()
           .rangeRoundBands([height,0], .5, .40);
-
       // Vertical
       var x = d3.scale.linear()
           .range([0,width]);
-
       // Color
       var color = d3.scale.category20c();
-
-
-
       // Create axes
       // ------------------------------
-
       // Horizontal
       var xAxis = d3.svg.axis()
           .scale(x)
           .orient("bottom")
           .ticks(6);
-
       // Vertical
       var yAxis = d3.svg.axis()
           .scale(y)
           .orient("left")
           //.tickFormat(formatPercent);
-
-
-
       // Create chart
       // ------------------------------
-
       // Add SVG element
       var container = d3Container.append("svg");
-
       // Add SVG group
       var svg = container
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
       //         // Create tooltip
       //             // ------------------------------
       //
@@ -2009,17 +1947,13 @@ $(function () {
                  {
                    return "Blogger Name: "+d.name+"<br/> Influence Score: "+d.frequency;
                  }
-
                  if(d.type === "blog")
                  {
                    return d.letter+" ("+d.frequency+")<br/> Blog: "+d.name;
                  }
-
                });
-
            // Initialize tooltip
            svg.call(tip);
-
       //
       //     // Pull out values
       //     data.forEach(function(d) {
@@ -2033,7 +1967,6 @@ $(function () {
       //
       //     // Horizontal
           y.domain(data.map(function(d) { return d.letter; }));
-
           // Vertical
           x.domain([d3.min(data, function(d) { return d.frequency-20; }),d3.max(data, function(d) { return d.frequency; })]);
       //
@@ -2050,7 +1983,6 @@ $(function () {
               .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
               .attr("transform", "translate(0," + height + ")")
               .call(xAxis);
-
           // Vertical
           var verticalAxis = svg.append("g")
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
@@ -2099,7 +2031,6 @@ $(function () {
                   {
                     return "#78BCE4";
                   }
-
                 })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
@@ -2124,8 +2055,6 @@ $(function () {
           .attr("y2", height)
           .style("stroke", "#2ecc71")
           .style("stroke-width", "1px") */
-
-
                   // svg.selectAll(".d3-bar")
                   //     .data(data)
                   //     .enter()
@@ -2138,37 +2067,25 @@ $(function () {
                   //         .style("fill", function(d) { return "#58707E"; })
                   //         .on('mouseover', tip.show)
                   //         .on('mouseout', tip.hide);
-
-
-
-
-
         // Resize chart
         // ------------------------------
-
         // Call function on window resize
         $(window).on('resize', resize);
-
         // Call function on sidebar width change
         $('.sidebar-control').on('click', resize);
-
         // Resize function
         //
         // Since D3 doesn't support SVG resize by default,
         // we need to manually specify parts of the graph that need to
         // be updated on window resize
         function resize() {
-
             // Layout variables
             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
-
-
             // // Layout
             // // -------------------------
             //
             // // Main svg width
             container.attr("width", width + margin.left + margin.right);
-
             // Width of appended group
             svg.attr("width", width + margin.left + margin.right);
             //
@@ -2182,7 +2099,6 @@ $(function () {
             // // Horizontal axis
             svg.selectAll('.d3-axis-horizontal').call(xAxis);
              // svg.selectAll('.d3-bar-vertical').call(yAxis);
-
             //
             // // Chart elements
             // // -------------------------
@@ -2199,70 +2115,51 @@ $(function () {
 	<!-- start of posting frequency  -->
 	<script>
 $(function () {
-
     // Initialize chart
     postingfrequencybar('#postingfrequencybar', 450);
-
     // Chart setup
     function postingfrequencybar(element, height) {
-
       // Basic setup
       // ------------------------------
-
       // Define main variables
       var d3Container = d3.select(element),
           margin = {top: 5, right: 50, bottom: 20, left:150},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
-
          var formatPercent = d3.format("");
-
       // Construct scales
       // ------------------------------
-
       // Horizontal
       var y = d3.scale.ordinal()
           .rangeRoundBands([height,0], .5, .40);
-
       // Vertical
       var x = d3.scale.linear()
           .range([0,width]);
-
       // Color
     //  var color = d3.scale.category20c();
-
   	
       // Create axes
       // ------------------------------
-
       // Horizontal
       var xAxis = d3.svg.axis()
           .scale(x)
           .orient("bottom")
           .ticks(6);
-
       // Vertical
       var yAxis = d3.svg.axis()
           .scale(y)
           .orient("left")
           //.tickFormat(formatPercent);
-
-
-
       // Create chart
       // ------------------------------
-
       // Add SVG element
       var container = d3Container.append("svg");
-
       // Add SVG group
       var svg = container
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
       //         // Create tooltip
       //             // ------------------------------
       //
@@ -2309,13 +2206,11 @@ $(function () {
                    return "Blog Name: "+toTitleCase(d.letter)+"<br/> Total Blogposts: "+ thefrequency
                    //d.letter+" ("+thefrequency+")<br/> Blogger: "+d.name;
                  }
-
                  if(d.type === "blog")
                  {
                    thefrequency = formatNumber(d.frequency); 	 
                    return d.letter+" ("+thefrequency+")<br/> Blog: "+d.name;
                  }
-
                });
       
         function formatNumber(num) {
@@ -2329,10 +2224,8 @@ $(function () {
                 }
             );
         }
-
            // Initialize tooltip
            svg.call(tip);
-
       //
       //     // Pull out values
       //     data.forEach(function(d) {
@@ -2346,7 +2239,6 @@ $(function () {
       //
       //     // Horizontal
           y.domain(data.map(function(d) { return d.letter; }))
-
           // Vertical
           x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
       //
@@ -2363,7 +2255,6 @@ $(function () {
               .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
               .attr("transform", "translate(0," + height + ")")
               .call(xAxis);
-
           // Vertical
           var verticalAxis = svg.append("g")
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
@@ -2397,7 +2288,6 @@ $(function () {
       var colorblogs = d3.scale.linear()
 	.domain([0,1,2,3,4,5,6,10,15,20])
 	.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
-
          var transitionbarpostingfrequency =  svg.selectAll(".d3-bar")
               .data(data)
               .enter()
@@ -2427,7 +2317,6 @@ $(function () {
                   } */
                   //console.log(data.length - i -1)
                   return colorblogs(data.length - i - 1);
-
                 })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
@@ -2450,8 +2339,6 @@ $(function () {
          .duration(1000)
          .attr("width", function(d) { return x(d.frequency); })
          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');  */
-
-
                   // svg.selectAll(".d3-bar")
                   //     .data(data)
                   //     .enter()
@@ -2464,37 +2351,25 @@ $(function () {
                   //         .style("fill", function(d) { return "#58707E"; })
                   //         .on('mouseover', tip.show)
                   //         .on('mouseout', tip.hide);
-
-
-
-
-
         // Resize chart
         // ------------------------------
-
         // Call function on window resize
         $(window).on('resize', resize);
-
         // Call function on sidebar width change
         $('.sidebar-control').on('click', resize);
-
         // Resize function
         //
         // Since D3 doesn't support SVG resize by default,
         // we need to manually specify parts of the graph that need to
         // be updated on window resize
         function resize() {
-
             // Layout variables
             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
-
-
             // // Layout
             // // -------------------------
             //
             // // Main svg width
             container.attr("width", width + margin.left + margin.right);
-
             // Width of appended group
             svg.attr("width", width + margin.left + margin.right);
             //
@@ -2508,7 +2383,6 @@ $(function () {
             // // Horizontal axis
             svg.selectAll('.d3-axis-horizontal').call(xAxis);
              // svg.selectAll('.d3-bar-vertical').call(yAxis);
-
             //
             // // Chart elements
             // // -------------------------
@@ -2518,76 +2392,55 @@ $(function () {
         }
     }
 });
-
 </script>
 	<!-- end of posting frequency  -->
 	<!--  Start of sentiment Bar Chart -->
 	<script>
 $(function () {
-
     // Initialize chart
     sentimentbar('#sentimentbar', 400);
     // Chart setup
     function sentimentbar(element, height) {
-
       // Basic setup
       // ------------------------------
-
       // Define main variables
       var d3Container = d3.select(element),
           margin = {top: 5, right: 50, bottom: 20, left: 150},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
-
          var formatPercent = d3.format("");
-
       // Construct scales
       // ------------------------------
-
       // Horizontal
       var y = d3.scale.ordinal()
           .rangeRoundBands([height,0], .6, .8);
-
       // Vertical
       var x = d3.scale.linear()
           .range([0,width]);
-
       // Color
       var color = d3.scale.category20c();
-
-
-
       // Create axes
       // ------------------------------
-
       // Horizontal
       var xAxis = d3.svg.axis()
           .scale(x)
           .orient("bottom")
           .ticks(6);
-
       // Vertical
       var yAxis = d3.svg.axis()
           .scale(y)
           .orient("left")
           //.tickFormat(formatPercent);
-
-
-
       // Create chart
       // ------------------------------
-
       // Add SVG element
       var container = d3Container.append("svg");
-
       // Add SVG group
       var svg = container
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
       //         // Create tooltip
       //             // ------------------------------
       //
@@ -2611,15 +2464,11 @@ $(function () {
                .html(function(d) {
                    return d.letter+" ("+d.frequency+")";
                });
-
            // Initialize tooltip
            svg.call(tip);
-
            var color = d3.scale.linear()
                    .domain([0,1])
                    .range(["#FF7D7D", "#72c28e"]);
-
-
       //
       //     // Pull out values
       //     data.forEach(function(d) {
@@ -2633,7 +2482,6 @@ $(function () {
       //
       //     // Horizontal
           y.domain(data.map(function(d) { return d.letter; }));
-
           // Vertical
           x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
       //
@@ -2650,7 +2498,6 @@ $(function () {
               .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
               .attr("transform", "translate(0," + height + ")")
               .call(xAxis);
-
           // Vertical
           var verticalAxis = svg.append("g")
               .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
@@ -2688,7 +2535,6 @@ $(function () {
                   .style("fill", function(d,i) { return color(i);   })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
-
           transitionbarsentiment.transition()
           .delay(200)
           .duration(1000)
@@ -2721,37 +2567,25 @@ $(function () {
                   //         .style("fill", function(d) { return "#58707E"; })
                   //         .on('mouseover', tip.show)
                   //         .on('mouseout', tip.hide);
-
-
-
-
-
         // Resize chart
         // ------------------------------
-
         // Call function on window resize
         $(window).on('resize', resize);
-
         // Call function on sidebar width change
         $('.sidebar-control').on('click', resize);
-
         // Resize function
         //
         // Since D3 doesn't support SVG resize by default,
         // we need to manually specify parts of the graph that need to
         // be updated on window resize
         function resize() {
-
             // Layout variables
             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
-
-
             // // Layout
             // // -------------------------
             //
             // // Main svg width
             container.attr("width", width + margin.left + margin.right);
-
             // Width of appended group
             svg.attr("width", width + margin.left + margin.right);
             //
@@ -2765,7 +2599,6 @@ $(function () {
             // // Horizontal axis
             svg.selectAll('.d3-axis-horizontal').call(xAxis);
              // svg.selectAll('.d3-bar-vertical').call(yAxis);
-
             //
             // // Chart elements
             // // -------------------------
@@ -3025,7 +2858,6 @@ var gdpData = {
     
     {latLng: [0.33, 6.73], name: 'São Tomé and Príncipe'}
     */ 
-
 <%JSONObject location = new JSONObject();
 					location.put("null", "0, 0");
 					location.put("unknown", "0, 0");
@@ -3047,9 +2879,9 @@ var gdpData = {
 					location.put("FR", "46.2276, 2.2137");
 					location.put("PL", "51.9194, 19.1451");
 					location.put("EE", "58.5953, 25.0136");
-					location.put("ZW", "19.0154, 29.1549");
+					location.put("ZW", "-19.0154, 29.1549");
 					location.put("SK", "48.6690, 19.6990");
-					location.put("IE", "53.4129, 8.2439");
+					location.put("IE", "53.4129, -8.2439");
 					location.put("IT","41.871941,12.567380");
 					location.put("ES","40.463669,-3.749220");
 					%>
@@ -3085,7 +2917,6 @@ var mymarker = [
 
 	<!--word cloud  -->
 	<script>
-
 	wordtagcloud("#tagcloudcontainer",450);
 	
 	function wordtagcloud(element, height) {
@@ -3096,7 +2927,6 @@ var mymarker = [
         height = height - margin.top - margin.bottom - 5;
 		
 		var container = d3Container.append("svg");
-
      var frequency_list = [
     	 <%if (topterms.length() > 0) {
 						for (int i = 0; i < topterms.length(); i++) {
@@ -3109,7 +2939,6 @@ var mymarker = [
     
     	 ];
 	
-
      var color = d3.scale.linear()
              .domain([0,1,2,3,4,5,6,10,12,15,20])
              .range(["#0080CC", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
@@ -3117,6 +2946,7 @@ var mymarker = [
      d3.layout.cloud().size([450,400])
              .words(frequency_list)
              .rotate(0)
+             .padding(7)
              .fontSize(function(d) { return d.size * 1.20; })
              .on("end", draw)
              .start();
@@ -3154,7 +2984,6 @@ var mymarker = [
                  .attr("transform", function(d) {
                      return "translate(" + [d.x + 12, d.y + 3] + ")rotate(" + d.rotate + ")";
                  })
-
                  .text(function(d) { return d.text; });
     	 		
     	 		// animation effect for tag cloud
@@ -3209,20 +3038,15 @@ var mymarker = [
     	 	        translate0 = [],
     	 	        l = [],
     	 	        view = {x: translate[0], y: translate[1], k: zoom.scale()};
-
     	 	    d3.event.preventDefault();
     	 	    direction = (this.id === 'zoom_in') ? 1 : -1;
     	 	    target_zoom = zoom.scale() * (1 + factor * direction);
-
     	 	    if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
-
     	 	    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
     	 	    view.k = target_zoom;
     	 	    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
-
     	 	    view.x += center[0] - l[0];
     	 	    view.y += center[1] - l[1];
-
     	 	    interpolateZoom([view.x, view.y], view.k);
     	 	}
     	 		
@@ -3247,20 +3071,16 @@ var mymarker = [
      }
      // Resize chart
      // ------------------------------
-
      // Call function on window resize
      $(window).on('resize', resize);
-
      // Call function on sidebar width change
      $('.sidebar-control').on('click', resize);
-
      // Resize function
      //
      // Since D3 doesn't support SVG resize by default,
      // we need to manually specify parts of the graph that need to
      // be updated on window resize
      function resize() {
-
        // Layout variables
        width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
        //
@@ -3290,71 +3110,48 @@ var mymarker = [
        //
        // // Line path
       
-
        //
        // // Crosshair
        // svg.selectAll('.d3-crosshair-overlay').attr("width", width);
-
      }
 	}
 	
-
  </script>
 <!-- End of Tag Cloud  -->
 	<!-- Blogger Bubble Chart -->
 	<script>
-
-
 $(function () {
-
     // Initialize chart
     bubblesblogger('#bubblesblogger', 470);
-
     // Chart setup
     function bubblesblogger(element, diameter) {
-
-
         // Basic setup
         // ------------------------------
-
         // Format data
         var format = d3.format(",d");
-
         // Color scale
         color = d3.scale.category10();
-
         // Define main variables
         var d3Container = d3.select(element),
             margin = {top: 5, right: 20, bottom: 20, left: 50},
             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
             height = height - margin.top - margin.bottom;
             diamter = height;
-
-
-
-
             // Add SVG element
             var container = d3Container.append("svg");
-
             // Add SVG group
             var svg = container
                 .attr("width", diameter + margin.left + margin.right)
                 .attr("height",diameter + margin.top + margin.bottom)
                 .attr("class", "bubble");
-
         // Create chart
         // ------------------------------
-
         // var svg = d3.select(element).append("svg")
         //     .attr("width", diameter)
         //     .attr("height", diameter)
         //     .attr("class", "bubble");
-
-
-
         // Create chart
         // ------------------------------
-
         // Add tooltip
         var tip = d3.tip()
             .attr('class', 'd3-tip')
@@ -3364,10 +3161,8 @@ $(function () {
                 //+d.className + ": " 
                 + format(d.value) ;
             });
-
         // Initialize tooltip
         svg.call(tip);
-
         function toTitleCase(str) {
             return str.replace(
                 /\w\S*/g,
@@ -3376,24 +3171,16 @@ $(function () {
                 }
             );
         }
-
         // Construct chart layout
         // ------------------------------
-
         // Pack
         
         var bubble = d3.layout.pack()
             .sort(null)
             .size([diameter, diameter])
             .padding(15);
-
-
-
         // Load data
         // ------------------------------
-
-
-
 data = {
  //"name":"flare",
  "bloggers":[
@@ -3445,15 +3232,11 @@ data = {
 			myconcat = "";	
 		} 
 		alldata[i]= {"label":mybloggers[i].label,"name":mybloggers[i].name,"size":mybloggers[i].size}
-
 		} 
 	/* End of sorting   */
 	  bloggers = alldata;
 	  
 	  data = {  bloggers } 
-
-
-
             //
             // Append chart elements
             //
@@ -3470,8 +3253,6 @@ data = {
 			var color = d3.scale.linear()
 			.domain([0,1,2,3,4,5,6,10,15,20])
 			.range(["#17394C", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
-
-
             // Append circles
             node.append("circle")
                 .attr("r", 0)
@@ -3489,7 +3270,6 @@ data = {
                 })
                 .on('mouseover', tip.show)
                 .on('mouseout', tip.hide);
-
             // Append text
             node.append("text")
                 .attr("dy", ".3em")
@@ -3526,17 +3306,13 @@ data = {
             	});
            
            
-
-
         // Returns a flattened hierarchy containing all leaf nodes under the root.
         function classes(root) {
             var classes = [];
-
             function recurse(name, node) {
                 if (node.bloggers) node.bloggers.forEach(function(child) { recurse(node.name, child); });
                 else classes.push({packageName: name, className: node.name, value: node.size,label:node.label});
             }
-
             recurse(null, root);
             return {children: classes};
         }
@@ -3544,70 +3320,47 @@ data = {
 });
 </script>
 	<script>
-
-
     var color = d3.scale.linear()
             .domain([0,1,2,3,4,5,6,10,15,20,80])
             .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
-
 </script>
 	<!-- end of blogger bubble chart -->
 
 
 	<!-- Blog Bubble Chart -->
 	<script>
-
-
 $(function () {
-
     // Initialize chart
     bubblesblog('#bubblesblog', 470);
-
     // Chart setup
     function bubblesblog(element, diameter) {
-
-
         // Basic setup
         // ------------------------------
-
         // Format data
         var format = d3.format(",d");
-
         // Color scale
         color = d3.scale.category10();
-
         // Define main variables
         var d3Container = d3.select(element),
             margin = {top: 5, right: 20, bottom: 20, left: 50},
             width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
             height = height - margin.top - margin.bottom;
             diamter = height;
-
-
-
-
             // Add SVG element
             var container = d3Container.append("svg");
-
             // Add SVG group
             var svg = container
                 .attr("width", diameter + margin.left + margin.right)
                 .attr("height",diameter + margin.top + margin.bottom)
                 .attr("class", "bubble");
-
         // Create chart
         // ------------------------------
-
         // var svg = d3.select(element).append("svg")
         //     .attr("width", diameter)
         //     .attr("height", diameter)
         //     .attr("class", "bubble");
-
-
-
         // Create chart
         // ------------------------------
-
         // Add tooltip
         var tip = d3.tip()
             .attr('class', 'd3-tip')
@@ -3617,10 +3370,8 @@ $(function () {
                 //+d.className + ": " 
                 + format(d.value);
             });
-
         // Initialize tooltip
         svg.call(tip);
-
         function toTitleCase(str) {
             return str.replace(
                 /\w\S*/g,
@@ -3629,23 +3380,15 @@ $(function () {
                 }
             );
         }
-
         // Construct chart layout
         // ------------------------------
-
         // Pack
         var bubble = d3.layout.pack()
             .sort(null)
             .size([diameter, diameter])
             .padding(15);
-
-
-
         // Load data
         // ------------------------------
-
-
-
 data = {
  //"name":"flare",
  "bloggers":[
@@ -3685,7 +3428,6 @@ data = {
 		myconcat = "";	
 	} 
 	alldata[i]= {"label":mybloggers[i].label,"name":mybloggers[i].name,"size":mybloggers[i].size}
-
 	} 
 /* End of sorting   */
   bloggers = alldata;
@@ -3696,7 +3438,6 @@ data = {
             //
             // Append chart elements
             //
-
             // Bind data
             var node = svg.selectAll(".d3-bubbles-node")
                 .data(bubble.nodes(classes(data))
@@ -3764,18 +3505,13 @@ data = {
                     .attr("r", 0 )
           	  }
           	});
-
-
-
         // Returns a flattened hierarchy containing all leaf nodes under the root.
         function classes(root) {
             var classes = [];
-
             function recurse(name, node) {
                 if (node.bloggers) node.bloggers.forEach(function(child) { recurse(node.name, child); });
                 else classes.push({packageName: name, className: node.name, value: node.size,label:node.label});
             }
-
             recurse(null, root);
             return {children: classes};
         }
@@ -3789,13 +3525,11 @@ $(".option-only").on("change",function(e){
 	$("#single_date").val(valu);
 	$('form#customformsingle').submit();
 });
-
 $(".option-only").on("click",function(e){
 	console.log("only Click ");
 	$("#single_date").val($(this).val());
 	//$('form#customformsingle').submit();
 });
-
 $(".option-lable").on("click",function(e){
 	console.log("Label Click ");
 	
@@ -3807,97 +3541,65 @@ $(".option-lable").on("click",function(e){
 
 	<!-- posting frequency -->
 	<script>
-
  $(function () {
-
      // Initialize chart
      lineBasic('#postingfrequency', 300);
-
      // Chart setup
      function lineBasic(element, height) {
-
-
          // Basic setup
          // ------------------------------
-
          // Define main variables
          var d3Container = d3.select(element),
              margin = {top: 10, right: 10, bottom: 20, left: 50},
              width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
              height = height - margin.top - margin.bottom;
-
-
          // var formatPercent = d3.format(",.3f");
          // Format data
          // var parseDate = d3.time.format("%d-%b-%y").parse,
          //     bisectDate = d3.bisector(function(d) { return d.date; }).left,
          //     formatValue = d3.format(",.0f"),
          //     formatCurrency = function(d) { return formatValue(d); }
-
-
-
          // Construct scales
          // ------------------------------
-
          // Horizontal
          var x = d3.scale.ordinal()
              //.rangeRoundBands([0, width], .72, .5);
          .rangeRoundBands([0, width]);
-
          // Vertical
          var y = d3.scale.linear()
              .range([height, 0]);
-
-
-
          // Create axes
          // ------------------------------
-
          // Horizontal
          var xAxis = d3.svg.axis()
              .scale(x)
              .orient("bottom")
             .ticks(9)
-
            // .tickFormat(formatPercent);
-
-
          // Vertical
          var yAxis = d3.svg.axis()
              .scale(y)
              .orient("left")
              .ticks(6);
-
         
-
          // Create chart
          // ------------------------------
-
          // Add SVG element
          var container = d3Container.append("svg");
-
          // Add SVG group
          var svg = container
              .attr("width", width + margin.left + margin.right)
              .attr("height", height + margin.top + margin.bottom)
              .append("g")
              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-
          // Construct chart layout
          // ------------------------------
-
          // Line
-
-
          // Load data
          // ------------------------------
-
          // data = [[{"date": "Jan","close": 120},{"date": "Feb","close": 140},{"date": "Mar","close":160},{"date": "Apr","close": 180},{"date": "May","close": 200},{"date": "Jun","close": 220},{"date": "Jul","close": 240},{"date": "Aug","close": 260},{"date": "Sep","close": 280},{"date": "Oct","close": 300},{"date": "Nov","close": 320},{"date": "Dec","close": 340}],
          // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
          // ];
-
          data = [	
         	[<% for(int q=0; q<sortedyearsarray.length(); q++){ 
      		  		String yer=sortedyearsarray.get(q).toString(); 
@@ -3912,10 +3614,8 @@ $(".option-lable").on("click",function(e){
            [{"date":"2014","close":350},{"date":"2015","close":700},{"date":"2016","close":1500},{"date":"2017","close":1600},{"date":"2018","close":1250}],
          	*/
            ];
-
          //console.log(data);
          // data = [];
-
          // data = [
          // [
          //   {
@@ -3968,7 +3668,6 @@ $(".option-lable").on("click",function(e){
          //   }
          // ]
          // ];
-
          // console.log(data);
          var line = d3.svg.line()
          .interpolate("monotone")
@@ -3978,9 +3677,7 @@ $(".option-lable").on("click",function(e){
          
               // .x(function(d){d.forEach(function(e){return x(d.date);})})
              // .y(function(d){d.forEach(function(e){return y(d.close);})});
-
   			
-
          // Create tooltip
          var tip = d3.tip()
                 .attr('class', 'd3-tip')
@@ -4001,15 +3698,11 @@ $(".option-lable").on("click",function(e){
          
             // Initialize tooltip
             //svg.call(tip);
-
-
            // Pull out values
            // data.forEach(function(d) {
            //     d.frequency = +d.close;
            //
            // });
-
-
                      // Pull out values
                      // data.forEach(function(d) {
                      //     // d.date = parseDate(d.date);
@@ -4017,20 +3710,14 @@ $(".option-lable").on("click",function(e){
                      //     //d.date = d.date;
                      //     d.close = +d.close;
                      // });
-
                      // Sort data
                      // data.sort(function(a, b) {
                      //     return a.date - b.date;
                      // });
-
-
                      // Set input domains
                      // ------------------------------
-
                      // Horizontal
            //  console.log(data[0])
-
-
                    // Vertical
          // extract max value from list of json object
          // console.log(data.length)
@@ -4041,27 +3728,20 @@ $(".option-lable").on("click",function(e){
              {
                d.forEach(function(f,i){
                mvalue[i] = f.close;
-
                })
              return d3.max(mvalue);
              }
-
              //console.log(mvalue);
              });
-
-
-
          ////console.log(data)
          if(data.length == 1)
          {
            var returnedvalue = data[0].map(function(e){
            return e.date
            });
-
          // for single json data
          x.domain(returnedvalue);
          // rewrite x domain
-
          var maxvalue2 =
          data.map(function(d){
          return d3.max(d,function(t){return t.close});
@@ -4072,7 +3752,6 @@ $(".option-lable").on("click",function(e){
          {
          //console.log(data.length);
          //console.log(data);
-
          var returnedata = data.map(function(e){
          // console.log(k)
          var all = []
@@ -4089,7 +3768,6 @@ $(".option-lable").on("click",function(e){
          return result.concat(current);
          });
          
-
          //console.log(newArr);
          var set = new Set(newArr);
          var filteredArray = Array.from(set);
@@ -4098,17 +3776,9 @@ $(".option-lable").on("click",function(e){
          x.domain(filteredArray);
          y.domain([0, d3.max(maxvalue)]);
          }
-
-
-
-
                      //
                      // Append chart elements
                      //
-
-
-
-
          // svg.call(tip);
                       // data.map(function(d){})
                       if(data.length == 1)
@@ -4173,8 +3843,6 @@ $(".option-lable").on("click",function(e){
                         		  .selectAll(".circle-point")
                                   .data(data[0])
                                   .enter();
-
-
                               circles
                               // .enter()
                               
@@ -4185,9 +3853,7 @@ $(".option-lable").on("click",function(e){
                               .style("fill","#4CAF50")
                               .attr("cx",function(d) { return x(d.date); })
                               .attr("cy", function(d){return y(d.close)})
-
                               //.attr("transform", "translate("+margin.left/4.7+",0)");
-
                               svg.selectAll(".circle-point").data(data[0])
                               .on("mouseover",tip.show)
                               .on("mouseout",tip.hide)
@@ -4200,7 +3866,6 @@ $(".option-lable").on("click",function(e){
                       else if(data.length > 1)
                       {
                         // add multiple line
-
                         var path = svg.selectAll('.d3-line')
                                   .data(data)
                                   .enter()
@@ -4211,24 +3876,16 @@ $(".option-lable").on("click",function(e){
                                   .style("stroke-width", 2)
                                   .style("stroke", function(d,i) { return color(i);})
                                   .attr("transform", "translate("+margin.left/4.7+",0)");
-
-
-
-
                        // add multiple circle points
-
                            // data.forEach(function(e){
                            // console.log(e)
                            // })
-
                            // console.log(data);
-
                               var mergedarray = [].concat(...data);
                                 //console.log(mergedarray);
                                  circles = svg.selectAll(".circle-point")
                                      .data(mergedarray)
                                      .enter();
-
                                        circles
                                        // .enter()
                                        .append("circle")
@@ -4238,54 +3895,31 @@ $(".option-lable").on("click",function(e){
                                        .style("fill","#4CAF50")
                                        .attr("cx",function(d) { return x(d.date)})
                                        .attr("cy", function(d){return y(d.close)})
-
                                        .attr("transform", "translate("+margin.left/4.7+",0)");
                                        svg.selectAll(".circle-point").data(mergedarray)
                                       .on("mouseover",tip.show)
                                       .on("mouseout",tip.hide)
                                       .on("click",function(d){console.log(d.date)});
                                  
-
-
                                      svg.selectAll(".circle-point").data(mergedarray)
                                      .on("mouseover",tip.show)
                                      .on("mouseout",tip.hide)
                                      .on("click",function(d){console.log(d.date)});
                                                         svg.call(tip)
-
-
-
-
-
-
-
-
-
-
                       }
-
-
          // show data tip
-
-
                      // Append axes
                      // ------------------------------
-
                      // Horizontal
                      svg.append("g")
                          .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
                          .attr("transform", "translate(0," + height + ")")
                          .call(xAxis);
-
                      // Vertical
                      var verticalAxis = svg.append("g")
                          .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
                          .call(yAxis);
-
-
-
 					
-
                      // Add text label
                      verticalAxis.append("text")
                          .attr("transform", "rotate(-90)")
@@ -4335,34 +3969,20 @@ $(".option-lable").on("click",function(e){
                         
                     	 }
                     
-
-
-
-
              // Append tooltip
              // -------------------------
-
-
-
-
-
-
          // Resize chart
          // ------------------------------
-
          // Call function on window resize
          $(window).on('resize', resize);
-
          // Call function on sidebar width change
          $('.sidebar-control').on('click', resize);
-
          // Resize function
          //
          // Since D3 doesn't support SVG resize by default,
          // we need to manually specify parts of the graph that need to
          // be updated on window resize
          function resize() {
-
            // Layout variables
            width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
            //
@@ -4392,9 +4012,6 @@ $(".option-lable").on("click",function(e){
            //
            // // Line path
            svg.selectAll('.d3-line').attr("d", line);
-
-
-
              svg.selectAll(".circle-point")
              .attr("cx",function(d) { return x(d.date);})
              .attr("cy", function(d){return y(d.close)});
@@ -4417,7 +4034,6 @@ $(".option-lable").on("click",function(e){
                 browser = "Chrome";
                 // chrome browser
             transformfirsttick =  tick[0][0].attributes[1].value;
-
             } else if (f > -1) {
                 browser = "Firefox";
                  // firefox browser
@@ -4436,12 +4052,9 @@ $(".option-lable").on("click",function(e){
             //console.log(browser);
             
         	 }
-
-
            //
            // // Crosshair
            // svg.selectAll('.d3-crosshair-overlay').attr("width", width);
-
          }
      }
  });
@@ -4452,10 +4065,8 @@ $(".option-lable").on("click",function(e){
      var color = d3.scale.linear()
              .domain([0,1,2,3,4,5,6,10,15,20,80])
              .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
-
  </script>
  <script>
-
 	
  $(document).ready(function() {
 		$('#top-sorttype').on("change",function(e){	
@@ -4551,8 +4162,6 @@ $(".option-lable").on("click",function(e){
 		
 	});
 });
-
- 
  
  function loadDomain(){
 	 $("#top-domain-box").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");		

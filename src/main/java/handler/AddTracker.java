@@ -32,6 +32,7 @@ import org.json.JSONArray;
  * @author Adewale
  * 
  */
+
 @WebServlet("/api/add")
 public class AddTracker extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -141,6 +142,7 @@ public class AddTracker extends HttpServlet {
 				pww.write("Invalid request \n");
 			}
 		}
+		response.setContentType("text/plain");
 
 		
 	}

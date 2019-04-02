@@ -29,7 +29,7 @@ if(confirmdelete)
 		success: function(response)
 		{   
 			//console.log(response);
-			if(response.indexOf("true")>-1){
+			if(response.indexOf("success")>-1){
 //				 $.getScript("assets/js/toastr.js", function(data, textStatus, jqxhr) {
 //					 loadCSS("assets/css/toastr.css");
 				toastr.success('Tracker successfully deleted!','Success');

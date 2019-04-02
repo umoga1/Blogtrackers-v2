@@ -5,6 +5,9 @@
 <%@page import="util.Blogs"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.NumberFormat" %>
+
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page import="org.json.JSONObject"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -63,6 +66,8 @@
 			//tracker._add("hello",test);
 			//pimage = pimage.replace("build/", "");
 			//System.out.println("Result here:"+results);
+			SimpleDateFormat DATE_FORMAT2 = new SimpleDateFormat("yyyy-MM-dd");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -117,6 +122,7 @@
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 </head>
 <body>
+<%@include file="subpages/loader.jsp" %>
 <noscript>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 </noscript>
@@ -139,17 +145,14 @@
 
 				</div>
 				<div id="othersection" class="col-md-12 mt10" style="clear: both">
-					<a class="cursor-pointer profilemenulink"
+					<%-- <a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/notifications.jsp"><h6
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
-						</h6> </a>  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
-						<a class="cursor-pointer profilemenulink"
-						href="<%=request.getContextPath()%>/profile.jsp"><h6
-							class="text-primary">Profile</h6></a> <a
-						class="cursor-pointer profilemenulink"
-						href="<%=request.getContextPath()%>/logout"><h6
-							class="text-primary">Log Out</h6></a>
+						</h6> </a> --%>  
+		<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
+		<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a> 
+		<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
 				</div>
 			</div>
 
@@ -301,6 +304,7 @@
 								query = query.replaceAll("blogsite_id in ", "");
 								query = query.replaceAll("\\(", "");
 								query = query.replaceAll("\\)", "");
+								
 								String dtt =resut.get(3).toString();
 								totalpost = 0;
 								String dt = "";
@@ -312,6 +316,34 @@
 								if (!query.equals("") ) {
 									blogs = blg._fetch(query);
 									totalblog = blogs.size();
+									/*
+									String stdate = post._getDate(query,"first");
+									String endate = post._getDate(query,"last");
+									
+
+									Date dstart = new Date();
+									Date today = new Date();
+
+									Date nnow = new Date();  
+									
+									try{
+										dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
+									}catch(Exception ex){
+										dstart = nnow;//new SimpleDateFormat("yyyy-MM-dd").parse(nnow);
+									}
+									
+									try{
+										today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
+									}catch(Exception ex){
+										today = nnow;//new SimpleDateFormat("yyyy-MM-dd").parse(nnow);
+									}
+									
+									String dst = DATE_FORMAT2.format(dstart);
+									String dend = DATE_FORMAT2.format(today);
+									
+									String tot = post._searchRangeTotal("date", dst, dend, query);
+									totalpost = Integer.parseInt(tot);
+									*/
 									totalpost = Integer.parseInt(post._getTotalByBlogId(query, ""));
 								}
 			%>
@@ -509,6 +541,8 @@ trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-
 	
 	
 	  });
+	  
+	 
 
 	/// refresh a tracker
 	   $.getScript("pagedependencies/refreshtracker.js", function(data, textStatus, jqxhr) {
@@ -519,7 +553,7 @@ trackersetupform += '<div class="text-center mt30"><i type="submit" class="text-
 <script src="js/jscookie.js">
 </script>
 
-<script src="pagedependencies/deletetracker.js">
+<script src="pagedependencies/deletetracker.js?v=900">
 
 </script>
 
