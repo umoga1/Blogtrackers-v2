@@ -289,7 +289,10 @@
 		
 		
 		JSONArray topterms = new JSONArray();
+		
 		JSONObject keys = new JSONObject();
+		JSONObject positions = new JSONObject();
+		int termsposition = 0;
 		if (allterms.size() > 0) {
 			for (int p = 0; p < allterms.size(); p++) {
 				String bstr = allterms.get(p).toString();
@@ -367,6 +370,8 @@
 				}
 				
 				JSONObject cont = new JSONObject();
+				
+				
 				cont.put("key", tm);
 				cont.put("id", tmid);
 				cont.put("frequency", frequency);
@@ -378,11 +383,31 @@
 				cont.put("language",language);
 				cont.put("location",location);
 				
+
+				if(keys.has(tm)){
+					String frequ = keys.get(tm).toString();
+					String pos = positions.get(tm).toString();
+					int fr1 = Integer.parseInt(frequency);
+					int fr2 = Integer.parseInt(frequ);
+					
+					cont.put("key", tm);
+					cont.put("frequency", (fr1+fr2));
+					topterms.put(Integer.parseInt(pos),cont);
+				}else{
+					cont.put("key", tm);
+					cont.put("frequency", frequency);
+					keys.put(tm,frequency);
+					positions.put(tm,termsposition);
+					topterms.put(cont);
+					termscount.put(p, tm);
+				}
+				/*
 				if(!keys.has(tm)){
 					keys.put(tm,tm);
 					topterms.put(cont);
 					termscount.put(p, tm);
 				}
+				*/
 			}
 		}
 

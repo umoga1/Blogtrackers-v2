@@ -1025,6 +1025,7 @@ public class Blogposts {
 	public ArrayList _searchByTitleAndBody(String term,String sortby, String start, String end) throws Exception {
 		
 		int size = 20;
+		/*
 		ArrayList response =new ArrayList();
 		DbConnection db = new DbConnection();
 		String count = "0";
@@ -1038,7 +1039,8 @@ public class Blogposts {
 		
 		
 		return response;
-		/*
+		*/
+		
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
@@ -1052,7 +1054,6 @@ public class Blogposts {
 				"			}\r\n" + 
 				"	}\r\n" + 
 				"}");
-		*/
 		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"       \"query\": {\r\n" + 
@@ -1074,11 +1075,11 @@ public class Blogposts {
 				"            }\r\n" + 
 				"        }\r\n" + 
 				"    }");
-	
+	   */
 		String url = base_url+"_search?size="+size; 
 		//System.out.println(url);
 		return this._getResult(url, jsonObj);
-		*/
+		
 	}
 
 
@@ -1186,7 +1187,7 @@ public class Blogposts {
 	
 	public String _searchTotalAndUnique(String term,String sortby, String start, String end, String filter ) throws Exception {
 		
-		
+		/*
 		DbConnection db = new DbConnection();
 		String count = "0";
 		
@@ -1201,8 +1202,8 @@ public class Blogposts {
 		}
 		
 		return count;
+		*/
 		
-		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
@@ -1219,7 +1220,7 @@ public class Blogposts {
 				"        }\r\n" + 
 				"    }"+
 				" }");
-		*/
+		
 		/*
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
 				"       \"query\": {\r\n" + 
@@ -1249,14 +1250,14 @@ public class Blogposts {
 				"        }\r\n" + 
 				"    }"+
 				"    }");
-		
+		*/
 		String url = base_url+"_search?size=1"; 
 		
 		
 		
 	
 		return this._getAggregate(url, jsonObj);
-		*/
+		
 	}
 
 	public String _searchTotalAndUniqueBlogger(String term,String sortby, String start, String end, String filter ) throws Exception {
