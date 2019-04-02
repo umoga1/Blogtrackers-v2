@@ -670,8 +670,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							System.out.println("all posts="+allposts);		
 					}
 			    	%>
-					<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>" value="<%=postids%>" />
-	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","_")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
+					<input type="hidden" id="postby<%=au.replaceAll(" ","__")%>" value="<%=postids%>" />
+	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","__")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
 	    			<% 
 					//JSONObject jsonObj = bloggersort.getJSONObject(m);
 				}
@@ -2545,7 +2545,7 @@ wordtagcloud("#tagcloudcontainer",450);
  </script>
 <script src="pagedependencies/baseurl.js"></script>
  
-<script src="pagedependencies/influence.js"></script>
+<script src="pagedependencies/influence.js?v=67"></script>
 	
 </body>
 </html>
