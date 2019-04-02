@@ -14,7 +14,7 @@ $(document).delegate('.blogger-select', 'click', function(){
 	var blg = blogger.split("***");
 	
 	var bloog = blg[0];
-	bloog = bloog.replaceAll("_"," ");
+	bloog = bloog.replaceAll("__"," ");
 	
 	$(".activeblogger").html(bloog);
 	$(".activeblog").html(blg[2]);
@@ -163,8 +163,8 @@ function loadInfluence(start_date,end_date){
 
 function loadTerms(blogger,blog_id){
 	$("#tagcloudbox").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
-	var blger = blogger.replaceAll(" ","_");
-	console.log("Posts:"+$("#postby"+blger).val());
+	var blger = blogger.replaceAll(" ","__");
+	//console.log("Posts:"+$("#postby"+blger).val());
 	$.ajax({
 		url: app_url+"subpages/influenceterm.jsp",
 		method: 'POST',
