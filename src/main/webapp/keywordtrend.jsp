@@ -973,7 +973,7 @@
 										<td><%=NumberFormat.getNumberInstance(Locale.US).format(size)%></td>
 										<td><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(postcount))%> <%-- <sub>of <%=postcount%></sub> --%></td>
 										<td><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(blogcount))%> <%-- <sub>of <%=blogcount%></sub> --%></td>
-										<td><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(keycount))%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
+										<td><%=NumberFormat.getNumberInstance(Locale.US).format(keycount)%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
 										<%-- <td><%=blogger%></td>
 										<td><%=language%></td>
 										<td><%=location%></td> --%>
