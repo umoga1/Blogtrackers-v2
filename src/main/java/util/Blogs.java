@@ -455,6 +455,7 @@ public class Blogs extends DbConnection{
 	public String normalizeLanguage(String language) {
 		switch(language.toLowerCase()) {
 		case "en":
+		case "english":
 			language ="English";
 			break;
 		case "ar":
