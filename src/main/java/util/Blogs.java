@@ -172,6 +172,28 @@ public class Blogs extends DbConnection{
 		return this._getResult(url, jsonObj);
 	}
 
+	//Obtain the count of blogs based on the blogsite ids
+	public String _blogsiteCount(String blogids) throws Exception {
+//		
+//		DbConnection db = new DbConnection();
+//		String count = "0";
+//		blogids = blogids.replaceAll(",$", "");
+//		blogids = blogids.replaceAll(", $", "");
+//		blogids = "("+blogids+")";
+//		
+//		try {
+//			ArrayList response = db.query("SELECT DISTINCT blogger FROM blogposts WHERE blogsite_id IN "+blogids+" AND date>='"+greater+"' AND date<='"+less+"' ");		
+//			if(response.size()>0){
+//				count = response.size()+"";
+//			}
+//		}catch(Exception e){
+//			return count;
+//		}
+//		System.out.println(count);
+//		return count;
+		String count ="";
+		return count; 
+	}
 
 	public ArrayList _fetch(String ids) throws Exception {
 		ArrayList result = new ArrayList();
@@ -188,7 +210,7 @@ public class Blogs extends DbConnection{
 
 		JSONObject jsonObj = new JSONObject(que);
 
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=2000";
 		return this._getResult(url, jsonObj);
 
 	}

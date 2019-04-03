@@ -26,7 +26,7 @@ ArrayList mytrackers = new ArrayList();
 Trackers trackers  = new Trackers();
 Blogs blogs  = new Blogs();
 
-userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+userinfo = DbConnection.query("SELECT * FROM usercredentials where Email = '"+email+"'");
  //System.out.println(userinfo);
 if (userinfo.size()<1) {
 	//response.sendRedirect("login.jsp");

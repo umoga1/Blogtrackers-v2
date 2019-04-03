@@ -69,7 +69,7 @@ public ArrayList _list(String order, String from, String userid, String size) th
 	ArrayList trackerlist = new ArrayList();
 	try {
 		//System.out.println("userid:"+userid);
-		trackerlist = new DbConnection().query("select * from trackers where userid = '"+userid+"' ORDER BY tid DESC ");				
+		trackerlist = DbConnection.query("select * from trackers where userid = '"+userid+"' ORDER BY tid DESC ");				
 	} catch (Exception ex) {}
 	
 	return trackerlist;
@@ -167,7 +167,7 @@ public ArrayList _search(String term,String username) throws Exception {
 	try {
 		if(!term.trim().isEmpty()){
 			
-			   bloglist = new DbConnection().query("select * from trackers where userid='"+username+"' AND tracker_name like '%"+term+"%' ");				
+			   bloglist = DbConnection.query("select * from trackers where userid='"+username+"' AND tracker_name like '%"+term+"%' ");				
 		}
 	} catch (Exception ex) {}
 	

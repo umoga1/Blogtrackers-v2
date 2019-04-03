@@ -63,7 +63,7 @@ public class DbConnection {
 	 * getConnection() - For getting the connection parameter and connecting to the database driver
 	 */
 // hello
-	public Connection getConnection() {
+	public  static Connection getConnection() {
 		try{
 			HashMap<String, String> hm = new HashMap<String, String>();
 			
@@ -241,7 +241,8 @@ public class DbConnection {
 	
 	
 	/* Query Database*/
-	public ArrayList query(String query){
+	
+	public static ArrayList query(String query){
 		ArrayList result=new ArrayList(); 
 		try{
 			Connection conn = getConnection();
