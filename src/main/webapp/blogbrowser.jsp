@@ -478,7 +478,7 @@ if(!email.equals(""))
 {
 Favorites favorites = new Favorites();
 String allblogstring = favorites.checkIfFavoritePost(username);
-System.out.println(allblogstring);
+
 String[] allblogarray = allblogstring.split(",");
 String blogpostid = obj.get("blogpost_id").toString(); 
 //favoritestatus = "far";

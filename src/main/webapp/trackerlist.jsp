@@ -306,7 +306,6 @@
 								query = query.replaceAll("\\(", "");
 								query = query.replaceAll("\\)", "");
 								
-								
 								String dtt =resut.get(3).toString();
 								totalpost = 0;
 								String dt = "";

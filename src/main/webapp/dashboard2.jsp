@@ -38,8 +38,10 @@
 		ArrayList outlinks = new ArrayList();
 		ArrayList liwcpost = new ArrayList();
 		Trackers tracker = new Trackers();
+		Blogger bloggerss = new Blogger();
 		Terms term = new Terms();
 		Outlinks outl = new Outlinks();
+		Comment comment = new Comment();
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
 			
@@ -127,7 +129,7 @@
 			String day = DAY_ONLY.format(today);
 			
 			String month = MONTH_ONLY.format(today);
-			
+			String endDate = DATE_FORMAT.format(today);
 			String smallmonth = SMALL_MONTH_ONLY.format(today);
 			String year = YEAR_ONLY.format(today);
 			String dispfrom = DATE_FORMAT.format(dstart);
@@ -224,7 +226,7 @@
 				} */
 			}
 			
-			String totalbloggers = "10";// blog._getTotalBloggers(dt, dte, ids);
+			String totalbloggers = bloggerss._getBloggerById(ids);
 			String[] yst = dt.split("-");
 			String[] yend = dte.split("-");
 			year_start = yst[0];
@@ -244,7 +246,8 @@
 			
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
-			totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			//totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			totalpost = post._getBlogPostById(ids);
 			System.out.println("dt is "+dt);
 			System.out.println("dte is "+dte);
 			System.out.println("Totalpost in here"+totalpost);
@@ -265,12 +268,15 @@
 			allauthors = allauthors2;
 			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 			//ArrayList auths = blog._getBloggers(dt, dte,ids);
-			
-			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
+			String totalcomment = comment._getCommentById(ids);
+			//String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
 			
 			ArrayList blogs = blog._fetch(ids);
-			int totalblog = blogs.size();
+			
+			String[] blogss = ids.split(",");
+			int totalblog = blogss.length;
+			
 			
 			JSONObject graphyears = new JSONObject();
 		    JSONArray yearsarray = new JSONArray();
@@ -843,7 +849,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=totalbloggers%></h3>
+						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=NumberFormat.getNumberInstance(Locale.US).format(new Double(totalbloggers).intValue())%></h3>
 					</div>
 				</div>
 			</div>
@@ -877,7 +883,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-clock icondash"></i>History
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%=dispfrom%> - <%=today%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=dispfrom%> - <%=endDate%></h3>
 					</div>
 				</div>
 			</div>

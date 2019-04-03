@@ -197,7 +197,7 @@ public String getTotalTrack(String blogsite_id) throws Exception {
     
     */
 	ArrayList result = new ArrayList();
-	 result =  new DbConnection().query("select * from trackers where query LIKE '%,"+blogsite_id+",%' OR query LIKE '%\\("+blogsite_id+",%' OR query LIKE '%,"+blogsite_id+"\\)%' OR query LIKE '%\\("+blogsite_id+"\\)%' GROUP BY userid ");			
+	 result =  DbConnection.query("select * from trackers where query LIKE '%,"+blogsite_id+",%' OR query LIKE '%\\("+blogsite_id+",%' OR query LIKE '%,"+blogsite_id+"\\)%' OR query LIKE '%\\("+blogsite_id+"\\)%' GROUP BY userid ");			
 
     return result.size()+"";
 }
@@ -207,7 +207,7 @@ public ArrayList _fetch(String ids) throws Exception {
 	 ArrayList result = new ArrayList();
 	 String s = "("+ids+")";
 	
-	 result =  new DbConnection().query("select * from trackers where tid in "+s+"");			
+	 result =  DbConnection.query("select * from trackers where tid in "+s+"");			
 
 	 /*
 	 JSONObject query = new JSONObject(); 
@@ -296,7 +296,7 @@ public String _add(String userid, JSONObject params) throws Exception {
 	 String createdDate= getDateTime();
 	// String totalblogs = blognum+"";
 	 
-	 ArrayList prev = new DbConnection().query("SELECT * FROM trackers WHERE tracker_name='"+trackerName+"'");
+	 ArrayList prev = DbConnection.query("SELECT * FROM trackers WHERE tracker_name='"+trackerName+"'");
 		
 		if(prev!=null && prev.size()>0) {
 			output = "false";

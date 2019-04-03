@@ -22,17 +22,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class Blogger {
+public class Comment {
 	HashMap<String, String> hm = DbConnection.loadConstant();
 	
-	public String _getBloggerById(String blog_ids) {
+	public String _getCommentById(String blog_ids) {
 		String count = "";
 		blog_ids = blog_ids.replaceAll(",$", "");
 		blog_ids = blog_ids.replaceAll(", $", "");
 		blog_ids = "("+blog_ids+")";
 		
 		try {
-			ArrayList response = DbConnection.query("select count(distinct(blogger_name)) from blogger where blogsite_id in  "+blog_ids+" ");		
+			ArrayList response = DbConnection.query("SELECT sum(comment_count) from comments where blogsite_id in "+blog_ids+" ");		
 			if(response.size()>0){
 			 	ArrayList hd = (ArrayList)response.get(0);
 				count = hd.get(0).toString();
@@ -42,6 +42,5 @@ public class Blogger {
 		}
 		return count;
 	}
-	
-	
+
 }

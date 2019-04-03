@@ -1451,8 +1451,7 @@ public class Blogposts {
 
 
 	public String _searchRangeTotal(String field,String greater, String less, String blog_ids) throws Exception {
-		/*
-		DbConnection db = new DbConnection();
+		
 		String count = "0";
 		blog_ids = blog_ids.replaceAll(",$", "");
 		blog_ids = blog_ids.replaceAll(", $", "");
@@ -1460,7 +1459,7 @@ public class Blogposts {
 		blog_ids = "("+blog_ids+")";
 		
 		try {
-			ArrayList response = db.query("SELECT count(*) as total FROM blogposts WHERE blogsite_id IN "+blog_ids+" AND date>='"+greater+"' AND date<='"+less+"' ");		
+			ArrayList response = DbConnection.query("SELECT count(*) as total FROM blogposts WHERE blogsite_id IN "+blog_ids+" AND date>='"+greater+"' AND date<='"+less+"' ");		
 			if(response.size()>0){
 			 	ArrayList hd = (ArrayList)response.get(0);
 				count = hd.get(0).toString();
@@ -1470,46 +1469,46 @@ public class Blogposts {
 		}
 		
 		return count;
-		*/
 		
 		
-		String[] args = blog_ids.split(","); 
-		JSONArray pars = new JSONArray(); 
-		ArrayList<String> ar = new ArrayList<String>();	
-		for(int i=0; i<args.length; i++){
-			pars.put(args[i].replaceAll(" ", ""));
-		}
-
-		String arg2 = pars.toString();
-		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
-		String que ="{\r\n" + 
-		 		"	\"size\":20,\r\n" + 
-		 		"	\r\n" + 
-		 		"	\"query\": { \r\n" + 
-		 		"			 \"bool\": {\r\n" + 
-		 		"				      \"must\": [\r\n" + 
-		 		"				      	{\r\n" + 
-		 		"						  \"constant_score\":{ \r\n" + 
-		 		"									\"filter\":{ \r\n" + 
-		 		"											\"terms\":{ \r\n" + 
-		 		"												\r\n" + 
-		 		"											\"blogsite_id\":"+arg2+"\r\n"+
-		 		"													}\r\n" + 
-		 		"											}\r\n" + 
-		 		"										} \r\n" + 
-		 		"						}, \r\n" + 
-		 		"	 		        { \r\n" + 
-		 		"	 				  \"range\" : { \r\n" + 
-		 		"	 		            \"date\" : { \r\n" + 
-		 		"	 		                \"gte\" : "+greater+",\r\n"+
-		 		"	 		                \"lte\" : "+less+"\r\n" + 
-		 		"	 						}\r\n" + 
-		 		"	 					} \r\n" + 
-		 		"	 				} \r\n" + 
-		 		"	 		      ] \r\n" + 
-		 		"	 		    } \r\n" + 
-		 		"	 		  } \r\n" + 
-		 		"	 		}";
+		
+//		String[] args = blog_ids.split(","); 
+//		JSONArray pars = new JSONArray(); 
+//		ArrayList<String> ar = new ArrayList<String>();	
+//		for(int i=0; i<args.length; i++){
+//			pars.put(args[i].replaceAll(" ", ""));
+//		}
+//
+//		String arg2 = pars.toString();
+//		// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
+//		String que ="{\r\n" + 
+//		 		"	\"size\":20,\r\n" + 
+//		 		"	\r\n" + 
+//		 		"	\"query\": { \r\n" + 
+//		 		"			 \"bool\": {\r\n" + 
+//		 		"				      \"must\": [\r\n" + 
+//		 		"				      	{\r\n" + 
+//		 		"						  \"constant_score\":{ \r\n" + 
+//		 		"									\"filter\":{ \r\n" + 
+//		 		"											\"terms\":{ \r\n" + 
+//		 		"												\r\n" + 
+//		 		"											\"blogsite_id\":"+arg2+"\r\n"+
+//		 		"													}\r\n" + 
+//		 		"											}\r\n" + 
+//		 		"										} \r\n" + 
+//		 		"						}, \r\n" + 
+//		 		"	 		        { \r\n" + 
+//		 		"	 				  \"range\" : { \r\n" + 
+//		 		"	 		            \"date\" : { \r\n" + 
+//		 		"	 		                \"gte\" : "+greater+",\r\n"+
+//		 		"	 		                \"lte\" : "+less+"\r\n" + 
+//		 		"	 						}\r\n" + 
+//		 		"	 					} \r\n" + 
+//		 		"	 				} \r\n" + 
+//		 		"	 		      ] \r\n" + 
+//		 		"	 		    } \r\n" + 
+//		 		"	 		  } \r\n" + 
+//		 		"	 		}";
 //
 //		String que="{\r\n" + 
 //				"  \"query\": {\r\n" + 
@@ -1536,10 +1535,10 @@ public class Blogposts {
 //				"    }\r\n" + 
 //				"  }\r\n" + 
 //				"}";
-		JSONObject jsonObj = new JSONObject(que);
-
-		String url = base_url+"_search";
-		return this._getTotal(url,jsonObj);
+//		JSONObject jsonObj = new JSONObject(que);
+//
+//		String url = base_url+"_search";
+//		return this._getTotal(url,jsonObj);
 		
 	}
 	
