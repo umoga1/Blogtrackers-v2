@@ -1,3 +1,4 @@
+<%@page import="java.util.stream.Collectors"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
@@ -248,23 +249,19 @@
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			//totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			totalpost = post._getBlogPostById(ids);
-			System.out.println("dt is "+dt);
-			System.out.println("dte is "+dte);
-			System.out.println("Totalpost in here"+totalpost);
 			if(totalpost.equals("")){
-				totalpost = post._searchRangeTotal("date", dt, dte, ids);
+				totalpost = post._searchRangeTotal("date", dt, dte, ids);  // To be modified later
 	
 			}
 			
-			
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
-			//System.out.println("All t terms:"+termss);
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 			
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			//allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"date","ASC");
 			//post._getBloggerByBlogId("date",dt, dte,ids);
 			ArrayList allauthors2= post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+		
 			allauthors = allauthors2;
 			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 			//ArrayList auths = blog._getBloggers(dt, dte,ids);
@@ -477,16 +474,25 @@
 			JSONObject keys = new JSONObject();
 			JSONObject positions = new JSONObject();
 			int termsposition = 0;
+
+			Map<String, Integer> top_terms = new HashMap<String, Integer>();
 			if (termss.size() > 0) {
 				for (int p = 0; p < termss.size(); p++) {
 					String bstr = termss.get(p).toString();
 					JSONObject bj = new JSONObject(bstr);
 					bstr = bj.get("_source").toString();
 					bj = new JSONObject(bstr);
-					String frequency = bj.get("frequency").toString();
 					String tm = bj.get("term").toString();
+					String frequency = bj.get("frequency").toString();
+					int frequency2 = Integer.parseInt(frequency);
+					if(top_terms.containsKey(tm)){
+						top_terms.put(tm, top_terms.get(tm)+frequency2);
+					}else{
+						top_terms.put(tm, frequency2);
+					}
 					JSONObject cont = new JSONObject();
-					if(keys.has(tm)){
+					 
+					/* if(keys.has(tm)){
 						String freq = keys.get(tm).toString();
 						String pos = positions.get(tm).toString();
 						int fr1 = Integer.parseInt(frequency);
@@ -500,10 +506,8 @@
 						cont.put("frequency", frequency);
 						keys.put(tm,frequency);
 						positions.put(tm,termsposition);
-						topterms.put(cont);
-					}
-					
-					
+						topterms.put(cont);	
+					}		 */		
 				}
 			}
 			
@@ -559,7 +563,7 @@
 			
 			
 
-			if (blogs.size() > 0) {
+			if (totalblog > 0) {
 				String bres = null;
 				JSONObject bresp = null;
 				String bresu = null;
@@ -568,6 +572,7 @@
 				
 				for (int k = 0; k < blogs.size(); k++) {
 					bres = blogs.get(k).toString();
+					
 					bresp = new JSONObject(bres);
 					bresu = bresp.get("_source").toString();
 					bobj = new JSONObject(bresu);
@@ -619,7 +624,6 @@
 			bloginfluencearr = post._sortJson2(bloginfluencearr);
 			blogpostingfreqarr = post._sortJson2(blogpostingfreqarr);
 			
-			System.out.println("all terdss "+topterms);
 %>
 <!DOCTYPE html>
 <html>
@@ -2963,210 +2967,26 @@ var mymarker = [
 		src="assets/vendors/maps/jvectormap/map_files/countries/germany.js"></script>
 	<script type="text/javascript"
 		src="assets/vendors/maps/vector_maps_demo.js"></script>
-
+<script type="text/javascript"	src="chartdependencies/keywordtrendd3.js"></script>
 	<!--word cloud  -->
 	<script>
-	wordtagcloud("#tagcloudcontainer",450);
+	var word_count2 = {}; 
+	   <% if (top_terms.size() > 0) {
+			for(String terms : top_terms.keySet()){ 
+						int size = top_terms.get(terms) ;%>
+			    		
+						<%-- {"text":"<%=terms.toString() %>","size":<%=size %>}, --%>
+						 word_count2["<%=terms.toString() %>"] = <%=size %> 
+	 <%
+					}
+				}%>
+				
+	wordtagcloud("#tagcloudcontainer",450,word_count2);
 	
-	function wordtagcloud(element, height) {
-		
-		var d3Container = d3.select(element),
-        margin = {top: 5, right: 50, bottom: 20, left: 60},
-        width = d3Container.node().getBoundingClientRect().width,
-        height = height - margin.top - margin.bottom - 5;
-		
-		var container = d3Container.append("svg");
-     var frequency_list = [
-    	 <%if (topterms.length() > 0) {
-						for (int i = 0; i < topterms.length(); i++) {
-							JSONObject jsonObj = topterms.getJSONObject(i);
-							int size = 10;// new Double(jsonObj.getString("frequency")).intValue();%>
-    		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
-    	 <%
-						}
-					}%>
-    	
-    
-    	 ];
-	
-     var color = d3.scale.linear()
-             .domain([0,1,2,3,4,5,6,10,12,15,20])
-             .range(["#0080CC", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
-     var svg =  container;
-     d3.layout.cloud().size([450,400])
-             .words(frequency_list)
-             .rotate(0)
-             .padding(7)
-             .fontSize(function(d) { return d.size * 1.20; })
-             .on("end", draw)
-             .start();
-    
-       
-     function draw(words) {
-    	 		svg
-                 .attr("width", width)
-                 .attr("height", height)
-                 //.attr("class", "wordcloud")
-                 .append("g")
-                 .attr("transform", "translate("+ width/2 +",180)")
-                  .on("wheel", function() { d3.event.preventDefault(); })
-                  .call(d3.behavior.zoom().on("zoom", function () {
-                	var g = svg.selectAll("g"); 
-                  g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")").style("cursor","zoom-out")
-                 }))
-                 
-                 
-                 
-                 
-                
-         		
-                 .selectAll("text")
-                 .data(words)
-                 .enter().append("text")
-                 .style("font-size", 0)
-                 .style("fill", function(d, i) { return color(i); })
-                 .call(d3.behavior.drag()
-         		.origin(function(d) { return d; })
-         		.on("dragstart", dragstarted) 
-         		.on("drag", dragged)			
-         		)
-         		
-                 .attr("transform", function(d) {
-                     return "translate(" + [d.x + 12, d.y + 3] + ")rotate(" + d.rotate + ")";
-                 })
-                 .text(function(d) { return d.text; });
-    	 		
-    	 		// animation effect for tag cloud
-    	 		 $(element).bind('inview', function (event, visible) {
-            	  if (visible == true) {
-            		  svg.selectAll("text").transition()
-                      .delay(200)
-                      .duration(1000)
-                      .style("font-size", function(d) { return d.size * 1.10 + "px"; })
-            	  } else {
-            		  svg.selectAll("text")
-                      .style("font-size", 0)
-            	  }
-            	});
-    	 		
-    	 		d3.selectAll('.zoombutton').on("click",zoomClick);
-    	 		
-    	 		var zoom = d3.behavior.zoom().scaleExtent([1, 20]).on("zoom", zoomed);
-    	 		
-    	 		function zoomed() {
-    	 			var g = svg.selectAll("g"); 
-                   g.attr("transform",
-    	 		        "translate(" + (width/2-10) + ",180)" +
-    	 		        "scale(" + zoom.scale() + ")"
-    	 		    );
-    	 		}
-    	 		
-    	 	// trasnlate and scale the zoom	
-    	 	function interpolateZoom (translate, scale) {
-    	 	    var self = this;
-    	 	    return d3.transition().duration(350).tween("zoom", function () {
-    	 	        var iTranslate = d3.interpolate(zoom.translate(), translate),
-    	 	            iScale = d3.interpolate(zoom.scale(), scale);
-    	 	        return function (t) {
-    	 	            zoom
-    	 	                .scale(iScale(t))
-    	 	                .translate(iTranslate(t));
-    	 	            zoomed();
-    	 	        };
-    	 	    });
-    	 	}
-    	 	
-    	 	// respond to click efffect on the zoom
-    	 	function zoomClick() {
-    	 	    var clicked = d3.event.target,
-    	 	        direction = 1,
-    	 	        factor = 0.2,
-    	 	        target_zoom = 1,
-    	 	        center = [width / 2-10, "180"],
-    	 	        extent = zoom.scaleExtent(),
-    	 	        translate = zoom.translate(),
-    	 	        translate0 = [],
-    	 	        l = [],
-    	 	        view = {x: translate[0], y: translate[1], k: zoom.scale()};
-    	 	    d3.event.preventDefault();
-    	 	    direction = (this.id === 'zoom_in') ? 1 : -1;
-    	 	    target_zoom = zoom.scale() * (1 + factor * direction);
-    	 	    if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
-    	 	    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
-    	 	    view.k = target_zoom;
-    	 	    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
-    	 	    view.x += center[0] - l[0];
-    	 	    view.y += center[1] - l[1];
-    	 	    interpolateZoom([view.x, view.y], view.k);
-    	 	}
-    	 		
-    	 		
-    	 		
-                	function dragged(d) {
-                	 var movetext = svg.select("g").selectAll("text");
-                	 movetext.attr("dx",d3.event.x)
-                	 .attr("dy",d3.event.y)
-                	 .style("cursor","move"); 
-                	 /* g.attr("transform","translateX("+d3.event.x+")")
-                	 .attr("transform","translateY("+d3.event.y+")")
-                	 .attr("width", width)
-                     .attr("height", height); */
-                	} 
-                	function dragstarted(d){
-        				d3.event.sourceEvent.stopPropagation();
-        			}
-    	 	
-                
-                 
-     }
-     // Resize chart
-     // ------------------------------
-     // Call function on window resize
-     $(window).on('resize', resize);
-     // Call function on sidebar width change
-     $('.sidebar-control').on('click', resize);
-     // Resize function
-     //
-     // Since D3 doesn't support SVG resize by default,
-     // we need to manually specify parts of the graph that need to
-     // be updated on window resize
-     function resize() {
-       // Layout variables
-       width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
-       //
-       //
-       // // Layout
-       // // -------------------------
-       //
-       // // Main svg width
-       container.attr("width", width + margin.left + margin.right);
-       //
-       // // Width of appended group
-       svg.attr("width", width + margin.left + margin.right);
-       //
-       //
-       // // Axes
-       // // -------------------------
-       //
-       // // Horizontal range
-       //x.rangeRoundBands([0, width]);
-       //
-       // // Horizontal axis
-      // svg.selectAll('.d3-axis-horizontal').call(xAxis);
-       //
-       //
-       // // Chart elements
-       // // -------------------------
-       //
-       // // Line path
-      
-       //
-       // // Crosshair
-       // svg.selectAll('.d3-crosshair-overlay').attr("width", width);
-     }
-	}
+
 	
  </script>
+ 
 <!-- End of Tag Cloud  -->
 	<!-- Blogger Bubble Chart -->
 	<script>
