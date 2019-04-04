@@ -215,6 +215,42 @@ public class Blogs extends DbConnection{
 
 	}
 	
+	public ArrayList _getLocation(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+			result = db.query("SELECT DISTINCT(location) FROM blogsites WHERE blogsite_id IN "+blogids+" and location is not null");		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
+	
+	public ArrayList _getLanguage(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+			result = db.query("select language, language_count from language where blogsite_id in "+blogids+" and language is not null group by language");		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
+	
 	
 	
 

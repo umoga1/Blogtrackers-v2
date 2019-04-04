@@ -228,6 +228,10 @@
 			}
 			
 			String totalbloggers = bloggerss._getBloggerById(ids);
+			ArrayList locations = blog._getLocation(ids);
+			ArrayList languages = blog._getLanguage(ids);
+			System.out.println(languages);
+			
 			String[] yst = dt.split("-");
 			String[] yend = dte.split("-");
 			year_start = yst[0];
@@ -269,7 +273,7 @@
 			//String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
 			
-			ArrayList blogs = blog._fetch(ids);
+			ArrayList blogs = blog._fetch(ids); //To be removed
 			
 			String[] blogss = ids.split(",");
 			int totalblog = blogss.length;
@@ -1696,14 +1700,13 @@ $(function () {
       
      data = [
     	  <%
-    	  
-    	  if (langlooper.size() > 0) {
-						for (int y = 0; y < langlooper.size(); y++) {
-							String key = langlooper.get(y).toString();
-							
+    	  if (languages.size() > 0) {
+						for (int y = 0; y < languages.size(); y++) {
+							ArrayList<?> langu = (ArrayList<?>)languages.get(y);
+							System.out.println(langu);
 							
 							%>
-    		{letter:"<%=key%>", frequency:<%=language.get(key)%>},
+    		<%-- {letter:"<%=key%>", frequency:<%=language.get(key)%>}, --%>
     		<%}
 					}%>
 	 ]; 
@@ -2937,25 +2940,23 @@ var gdpData = {
 					location.put("IE", "53.4129, -8.2439");
 					location.put("IT","41.871941,12.567380");
 					location.put("ES","40.463669,-3.749220");
+					location.put("AU","-25.274399,133.775131");
+					location.put("HU","47.162495,19.503304");
+					location.put("IS","64.147209,-21.942400");
+					location.put("NO","59.913818,10.738740");
+					location.put("RO","45.943161,24.966761");
+					location.put("RS","44.815071,20.460480");
+					
+					
 					%>
 // map marker location by longitude and latitude
 var mymarker = [
-	<%if (blogs.size() > 0) {
-						String bres = null;
-						JSONObject bresp = null;
-						String bresu = null;
-						JSONObject bobj = null;
-						for (int k = 0; k < blogs.size(); k++) {
-							bres = blogs.get(k).toString();
-							bresp = new JSONObject(bres);
-							bresu = bresp.get("_source").toString();
-							bobj = new JSONObject(bresu);
-							if (location.has(bobj.get("location").toString())) {%>
-	 		{latLng: [<%=location.get(bobj.get("location").toString())%>], name: '<%=bobj.get("location").toString()%>'},
-			<%}
-						}
-					}%>
-]
+	<%if (locations.size() > 0) {
+		for(int i = 0; i < locations.size(); i++){
+			ArrayList<?> loca = (ArrayList<?>)locations.get(i);
+			String loc = loca.get(0).toString();%>
+			{latLng: [<%=location.get(loc)%>], name: '<%=loc%>'},
+	<%}	} %>]
   </script>
 	<script type="text/javascript"
 		src="assets/vendors/maps/jvectormap/jvectormap.min.js"></script>
