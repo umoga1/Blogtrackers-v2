@@ -243,7 +243,25 @@ public class Blogs extends DbConnection{
 		blogids = "("+blogids+")";
 		
 		try {
-			result = db.query("select language, language_count from language where blogsite_id in "+blogids+" and language is not null group by language");		
+			result = db.query("select language, language_count from language where blogsite_id in "+blogids+" and language != '"+"null"+"' and language != '"+"unknown"+"' group by language");		
+			
+		}catch(Exception e){
+		}
+		return result;
+	}
+	
+	public ArrayList _getInfluencialBlog(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+		result = db.query("SELECT (select distinct blogsite_name from blogsites bs where bl.blogsite_id = bs.blogsite_id) AS blogsiteName, MAX(bl.influence_score) FROM blogger bl where blogsite_id in "+
+				(blogids)+" group by blogsiteName order by influence_score desc");		
 			
 		}catch(Exception e){
 		}
@@ -251,6 +269,59 @@ public class Blogs extends DbConnection{
 
 	}
 	
+	public ArrayList _getInfluencialBlogger(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		try {
+		result = db.query("select blogger_name, max(influence_score) from blogger where blogsite_id in "+
+				(blogids)+" group by blogger_name order by influence_score desc");		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
+	
+	public ArrayList _getblogPostFrequency(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+		result = db.query("select blogsite_name, totalposts from blogsites where blogsite_id in "+blogids);		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
+	
+	public ArrayList _getblogPostID(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+		result = db.query("select blogsite_name, totalposts from blogsites where blogsite_id in "+blogids);		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
 	
 	
 

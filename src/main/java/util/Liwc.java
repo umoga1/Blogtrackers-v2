@@ -207,7 +207,42 @@ public class Liwc {
 
 		return this._getResult(url, jsonObj);
 	}
+	
+	public ArrayList _getPosEmotion(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
 
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+		result = db.query("SELECT SUM(posemo) FROM blogtrackers.liwc where blogpostid in (select blogpost_id from blogposts where blogsite_id in"+blogids+")");		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
+	
+	public ArrayList _getNegEmotion(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+		result = db.query("SELECT SUM(negemo) FROM blogtrackers.liwc where blogpostid in (select blogpost_id from blogposts where blogsite_id in "+blogids+")");		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
 	public ArrayList _fetch(String ids) throws Exception {
 		ArrayList result = new ArrayList();
 		String[] args = ids.split(",");

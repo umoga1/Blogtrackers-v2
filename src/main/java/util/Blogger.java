@@ -44,4 +44,22 @@ public class Blogger {
 	}
 	
 	
+	public ArrayList _getBloggerPostFrequency(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+			result = db.query("select distinct blogger_name, sum(blogpost_count) as totalpost from blogger where blogsite_id in "+blogids+" group by blogger_name order by totalpost desc limit 1000");		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
+	
 }
