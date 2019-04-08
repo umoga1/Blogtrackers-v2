@@ -84,9 +84,15 @@ function loadStat(term){
 		//console.log(response);
 		var data = JSON.parse(response);
 		//console.log(data);
-		$(".blog-mentioned").html(data.blogmentioned);
-		$(".post-mentioned").html(data.postmentioned);
-		$(".blogger-mentioned").html(data.bloggermentioned);
+		function numberWithCommas(x) {
+		    var parts = x.toString().split(".");
+		    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		    return parts.join(".");
+		}
+		
+		$(".blog-mentioned").html(numberWithCommas(data.blogmentioned));
+		$(".post-mentioned").html(numberWithCommas(data.postmentioned));
+		$(".blogger-mentioned").html(numberWithCommas(data.bloggermentioned));
 		$(".top-location").html(data.toplocation);
 		//$("#overall-chart").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			/* $.getScript("assets/js/generic.js", function(data, textStatus, jqxhr) {	

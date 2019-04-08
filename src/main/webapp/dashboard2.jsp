@@ -1075,8 +1075,8 @@
 							</p>
 						</div>
 						<div style="min-height: 420px;">
-							<div class="chart-container">
-								<div class="chart" id="sentimentbar"></div>
+							<div class="chart-container text-center">
+								<div class="chart svg-center" id="sentimentpiechart"></div>
 							</div>
 						</div>
 					</div>
@@ -1682,10 +1682,8 @@ $(document).ready(function() {
 	<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
 	<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
 	<script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
-	<script
-		src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
-	<script
-		src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
+	<script		src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
+	<script		src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
 	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
 	<script type="text/javascript" src="assets/js/jquery.inview.js"></script>
 	<script type="text/javascript" src="assets/js/exporthandler.js"></script>
@@ -2512,65 +2510,13 @@ $(function () {
     }
 });
 </script>
+<script src="chartdependencies/piechartanimated.js"></script>
 	<!-- end of posting frequency  -->
 	<!--  Start of sentiment Bar Chart -->
-	<script>
-$(function () {
-    // Initialize chart
-    sentimentbar('#sentimentbar', 400);
-    // Chart setup
-    function sentimentbar(element, height) {
-      // Basic setup
-      // ------------------------------
-      // Define main variables
-      var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 150},
-          width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
-          height = height - margin.top - margin.bottom - 5;
-         var formatPercent = d3.format("");
-      // Construct scales
-      // ------------------------------
-      // Horizontal
-      var y = d3.scale.ordinal()
-          .rangeRoundBands([height,0], .6, .8);
-      // Vertical
-      var x = d3.scale.linear()
-          .range([0,width]);
-      // Color
-      var color = d3.scale.category20c();
-      // Create axes
-      // ------------------------------
-      // Horizontal
-      var xAxis = d3.svg.axis()
-          .scale(x)
-          .orient("bottom")
-          .ticks(6);
-      // Vertical
-      var yAxis = d3.svg.axis()
-          .scale(y)
-          .orient("left")
-          //.tickFormat(formatPercent);
-      // Create chart
-      // ------------------------------
-      // Add SVG element
-      var container = d3Container.append("svg");
-      // Add SVG group
-      var svg = container
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-      //         // Create tooltip
-      //             // ------------------------------
-      //
-      //
-      //
-      // // Load data
-      // // ------------------------------
-      //
-      //
-      //
-      <%
+	<script type="text/javascript">
+	  $(function () {
+	
+	 <%
       String pos = "";
       String neg = "";
 		for (int i = 0; i <getPositiveEmotion.size(); i++){
@@ -2587,164 +2533,15 @@ $(function () {
       	System.out.println("negative"+ neg);
       
       %>
-      data = [
-            {letter:"Negative", frequency:<%=Integer.parseInt(pos)%>},
-            {letter:"Positive", frequency:<%=Integer.parseInt(neg)%>}
+      sentimentdata = [
+            {label:"Negative", value:<%=Integer.parseInt(pos)%>},
+            {label:"Positive", value:<%=Integer.parseInt(neg)%>}
         ];
-      //
-      //
-      //   // Create tooltip
-        var tip = d3.tip()
-               .attr('class', 'd3-tip')
-               .offset([-10, 0])
-               .html(function(d) {
-                   return d.letter+" ("+d.frequency+")";
-               });
-           // Initialize tooltip
-           svg.call(tip);
-           var color = d3.scale.linear()
-                   .domain([0,1])
-                   .range(["#FF7D7D", "#72c28e"]);
-      //
-      //     // Pull out values
-      //     data.forEach(function(d) {
-      //         d.frequency = +d.frequency;
-      //     });
-      //
-      //
-      //
-      //     // Set input domains
-      //     // ------------------------------
-      //
-      //     // Horizontal
-          y.domain(data.map(function(d) { return d.letter; }));
-          // Vertical
-          x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
-      //
-      //
-      //     //
-      //     // Append chart elements
-      //     //
-      //
-      //     // Append axes
-      //     // ------------------------------
-      //
-          // Horizontal
-          svg.append("g")
-              .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
-              .attr("transform", "translate(0," + height + ")")
-              .call(xAxis);
-          // Vertical
-          var verticalAxis = svg.append("g")
-              .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
-              .style("color","yellow")
-              .call(yAxis)
-              .selectAll("text")
-              .style("font-size",12)
-              .style("text-transform","capitalize");
-      //
-      //
-      //     // Add text label
-      //     verticalAxis.append("text")
-      //         .attr("transform", "rotate(-90)")
-      //         .attr("y", 10)
-      //         .attr("dy", ".71em")
-      //         .style("text-anchor", "end")
-      //         .style("fill", "#999")
-      //         .style("font-size", 12)
-      //         // .text("Frequency")
-      //         ;
-      //
-      //
-      //     // Add bars
-          transitionbarsentiment = svg.selectAll(".d3-bar")
-              .data(data)
-              .enter()
-              .append("rect")
-                  .attr("class", "d3-bar")
-                  .attr("y", function(d) { return y(d.letter); })
-                  //.attr("height", y.rangeBand())
-                  .attr("height", 30)
-                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
-                  .attr("x", function(d) { return 0; })
-                  .attr("width", 0)
-                  .style("fill", function(d,i) { return color(i);   })
-                  .on('mouseover', tip.show)
-                  .on('mouseout', tip.hide);
-          transitionbarsentiment.transition()
-          .delay(200)
-          .duration(1000)
-          .attr("width", function(d) { return x(d.frequency); })
-          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
-          
-          $(element).bind('inview', function (event, visible) {
-        	  if (visible == true) {
-        	    // element is now visible in the viewport
-        		  transitionbarsentiment.transition()
-                  .delay(200)
-                  .duration(1000)
-                  .attr("width", function(d) { return x(d.frequency); })
-                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
-        	  } else {
-        		  
-        		  transitionbarsentiment.attr("width", 0)
-        	    // element has gone out of viewport
-        	  }
-        	});
-                  // svg.selectAll(".d3-bar")
-                  //     .data(data)
-                  //     .enter()
-                  //     .append("rect")
-                  //         .attr("class", "d3-bar")
-                  //         .attr("x", function(d) { return x(d.letter); })
-                  //         .attr("width", x.rangeBand())
-                  //         .attr("y", function(d) { return y(d.frequency); })
-                  //         .attr("height", function(d) { return height - y(d.frequency); })
-                  //         .style("fill", function(d) { return "#58707E"; })
-                  //         .on('mouseover', tip.show)
-                  //         .on('mouseout', tip.hide);
-        // Resize chart
-        // ------------------------------
-        // Call function on window resize
-        $(window).on('resize', resize);
-        // Call function on sidebar width change
-        $('.sidebar-control').on('click', resize);
-        // Resize function
-        //
-        // Since D3 doesn't support SVG resize by default,
-        // we need to manually specify parts of the graph that need to
-        // be updated on window resize
-        function resize() {
-            // Layout variables
-            width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
-            // // Layout
-            // // -------------------------
-            //
-            // // Main svg width
-            container.attr("width", width + margin.left + margin.right);
-            // Width of appended group
-            svg.attr("width", width + margin.left + margin.right);
-            //
-            //
-            // // Axes
-            // // -------------------------
-            //
-            // // Horizontal range
-           x.range([0,width]);
-            //
-            // // Horizontal axis
-            svg.selectAll('.d3-axis-horizontal').call(xAxis);
-             // svg.selectAll('.d3-bar-vertical').call(yAxis);
-            //
-            // // Chart elements
-            // // -------------------------
-            //
-            // // Line path
-           svg.selectAll('.d3-bar').attr("width", function(d) { return x(d.frequency); });
-        }
-    }
-});
-</script>
+      
+      pieChartAnimation("#sentimentpiechart",180,sentimentdata);
+	  });
+        
+      </script>
 
 	<script type="text/javascript">
 // map data
