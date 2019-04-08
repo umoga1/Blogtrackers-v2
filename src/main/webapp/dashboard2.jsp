@@ -24,7 +24,7 @@
 	String sort = (null == request.getParameter("sortby"))
 			? "blog"
 			: request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
-
+	
 	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
 	} else {
@@ -46,7 +46,6 @@
 		Comment comment = new Comment();
 		if (tid != "") {
 			detail = tracker._fetch(tid.toString());
-
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
 		}
@@ -66,6 +65,7 @@
 				query = query.replaceAll("\\(", "");
 				query = query.replaceAll("\\)", "");
 				ids = query;
+				System.out.println(ids);
 			}
 		}
 
@@ -242,10 +242,9 @@
 			ArrayList influenceBlogger = blog._getInfluencialBlogger(ids);
 			ArrayList getPositiveEmotion = liwc._getPosEmotion(ids);
 			ArrayList getNegativeEmotion = liwc._getNegEmotion(ids);
-			
-			System.out.println(getPositiveEmotion);
-			System.out.println(getNegativeEmotion);
-			
+			termss = term._searchByRange("blogsiteid", dt, dte, ids);
+			outlinks = outl._searchByRange("date", dt, dte, ids);
+		
 			String[] yst = dt.split("-");
 			String[] yend = dte.split("-");
 			year_start = yst[0];
@@ -267,29 +266,29 @@
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			//totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			totalpost = post._getBlogPostById(ids);
-			if (totalpost.equals("")) {
+			String totalcomment = comment._getCommentById(ids);
+			/* if (totalpost.equals("")) {
 				totalpost = post._searchRangeTotal("date", dt, dte, ids); // To be modified later
 
 			}
-			System.out.println(ids);
-			termss = term._searchByRange("blogsiteid", dt, dte, ids);
-			outlinks = outl._searchByRange("date", dt, dte, ids);
+			System.out.println(ids); */
+
 
 			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			//allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"date","ASC");
 			//post._getBloggerByBlogId("date",dt, dte,ids);
-			ArrayList allauthors2 = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+			/* ArrayList allauthors2 = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 	
 
 			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+			 *///allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 			//ArrayList auths = blog._getBloggers(dt, dte,ids);
-			String totalcomment = comment._getCommentById(ids);
+			
 			//String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
 			//System.out.println("Terms here:"+termss);
 
-			ArrayList blogs = blog._fetch(ids); //To be removed
-
+			/* ArrayList blogs = blog._fetch(ids); //To be removed
+ */
 			String[] blogss = ids.split(",");
 			int totalblog = blogss.length;
 
@@ -323,7 +322,7 @@
 				b++;
 			}
 
-			//System.out.println("grapgh yeres"+yearsarray);
+		/* 	//System.out.println("grapgh yeres"+yearsarray);
 			JSONObject authors = new JSONObject();
 			JSONObject influentialauthors = new JSONObject();
 			JSONArray sentimentpost = new JSONArray();
@@ -454,7 +453,7 @@
 
 				}
 				//System.out.println("Authors here:"+graphyears);
-			}
+			} */
 			/*
 			ArrayList sentimentor = new Liwc()._searchByRange("date", dt, dte, sentimentpost);
 			int allposemo =0;
@@ -475,12 +474,12 @@
 				}
 			}
 			*/
-
+/* 
 			possentiment = new Liwc()._searchRangeAggregate("date", dt, dte,
 					sentimentpost, "posemo");
 			negsentiment = new Liwc()._searchRangeAggregate("date", dt, dte,
 					sentimentpost, "negemo");
-
+ */
 			//possentiment=allposemo+"";
 			//negsentiment=allnegemo+"";
 
@@ -579,7 +578,7 @@
 			JSONObject bloggers = new JSONObject();
 			ArrayList looper = new ArrayList();
 
-			if (totalblog > 0) {
+	/* 		if (totalblog > 0) {
 				String bres = null;
 				JSONObject bresp = null;
 				String bresu = null;
@@ -641,7 +640,7 @@
 			authorpostingfreqarr = post._sortJson2(authorpostingfreqarr);
 
 			bloginfluencearr = post._sortJson2(bloginfluencearr);
-			blogpostingfreqarr = post._sortJson2(blogpostingfreqarr);
+			blogpostingfreqarr = post._sortJson2(blogpostingfreqarr); */
 %>
 <!DOCTYPE html>
 <html>
@@ -1747,6 +1746,7 @@ $(function () {
       //
       //
       
+    
      data = [
     	  <%if (languages.size() > 0) {
 						for (int y = 0; y < languages.size(); y++) {
@@ -1754,13 +1754,19 @@ $(function () {
 							String languag = langu.get(0).toString();
 							
 							String languag_freq = langu.get(1).toString();
+							Map<String, Integer> lan = new HashMap<String, Integer>();
+							if (lan.containsKey(Blogs.normalizeLanguage(languag))) {
+								lan.put(languag, lan.get(languag) + Integer.parseInt(languag_freq));
+							} else {
+								lan.put(languag, Integer.parseInt(languag_freq));
+							}
 							if (y<15){
 							%>
-							{letter:"<%=languag%>", frequency:<%=languag_freq%>},
+							{letter:"<%=languag%>", frequency:<%=lan.get(languag)%>},
     		<%}
 						}
 					}%>
-	 ]; 
+	 ];
      data.sort(function(a, b){
     	    return a.frequency - b.frequency;
     	});

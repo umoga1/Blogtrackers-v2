@@ -65,7 +65,7 @@
            .style("fill", function(d, i) { return fill(i); })
            .attr("text-anchor", "middle")
            .attr("transform", function(d) {
-             return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+             return "translate(" + [d.x, d.y] + ")"+"rotate(" + d.rotate + ")";
            })
            /* .on("wheel", function() { d3.event.preventDefault(); })
                   .call(d3.behavior.zoom().on("zoom", function () {
