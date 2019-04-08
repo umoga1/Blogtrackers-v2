@@ -7,7 +7,18 @@
     background: rgba(255,255,255,0.9);
     z-index: 1000;
 }
- 
+
+
+ .zoom {
+  transition: transform .3s;
+
+}
+
+.zoom:hover {
+  -ms-transform: scale(1.03); /* IE 9 */
+  -webkit-transform: scale(1.03); /* Safari 3-8 */
+  transform: scale(1.03); 
+}
 #loader-wrapper .loader-section.section-left {
     left: 0;
 }

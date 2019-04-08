@@ -919,7 +919,7 @@
 		</div>
 
 		<div class="row mb0">
-			<div class="col-md-6 mt20 ">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body  p15 pt15 pb15">
 						<div>
@@ -944,7 +944,7 @@
 				</div>
 			</div>
 
-			<div class="col-md-6 mt20">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card  card-style  mt20">
 					<div class="card-body  p30 pt5 pb5">
 						<div>
@@ -985,7 +985,7 @@
 		</div>
 
 		<div class="row mb0">
-			<div class="col-md-12 mt20">
+			<div class="col-md-12 mt20 zoom">
 
 				<div class="card  card-style  mt20">
 					<div class="card-body  p30 pt5 pb5">
@@ -1020,7 +1020,7 @@
 		</div>
 
 		<div class="row mb0">
-			<div class="col-md-6 mt20 ">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body  p30 pt5 pb5">
 						<div>
@@ -1057,7 +1057,7 @@
 				</div>
 			</div>
 
-			<div class="col-md-6 mt20">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body  p30 pt5 pb5">
 						<div>
@@ -1093,7 +1093,7 @@
 		</div>
 
 		<div class="row mb0">
-			<div class="col-md-6 mt20">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body   p30 pt5 pb5">
 						<div>
@@ -1124,7 +1124,7 @@
 
 			</div>
 
-			<div class="col-md-6 mt20">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body p30 pt5 pb5">
 						<div>
@@ -1158,7 +1158,7 @@
 		</div>
 
 		<div class="row mb0">
-			<div class="col-md-6 mt20">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body   p30 pt5 pb5">
 						<div>
@@ -1194,7 +1194,7 @@
 
 			</div>
 
-			<div class="col-md-6 mt20">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body p30 pt5 pb5">
 						<div>
@@ -1236,7 +1236,7 @@
 		</div>
 
 		<div class="row mb50">
-			<div class="col-md-12 mt20 ">
+			<div class="col-md-12 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body  p5 pt10 pb10">
 
