@@ -351,7 +351,7 @@
 								}
 			%>
 			
-			<div class="card noborder curved-card mb30 pt30">
+			<div class="card noborder curved-card mb30 pt30 zoom">
 				<a href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=resut.get(0).toString()%>">
 				<div class="text-center mt10 stylebutton6 text-primary m20 mt0 mb0 cursor-pointer">
 				

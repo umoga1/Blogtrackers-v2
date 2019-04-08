@@ -132,7 +132,7 @@
                           .attr("dy", ".35em")
                           .style("opacity", 0)
                           .style("fill", "#fff")
-                          .style("font-size", 12)
+                          .style("font-size", 16)
                           .style("text-anchor", "middle")
                           .text(function(d) { return d.data.label; })
                           .transition()
