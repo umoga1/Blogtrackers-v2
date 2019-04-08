@@ -2760,7 +2760,10 @@ var mymarker = [
 	<%if (locations.size() > 0) {
 						for (int i = 0; i < locations.size(); i++) {
 							ArrayList<?> loca = (ArrayList<?>) locations.get(i);
-							String loc = loca.get(0).toString();%>
+							String loc = loca.get(0).toString();
+							String size = loca.get(1).toString();
+							System.out.println(loc+":"+size);
+							%>
 			{latLng: [<%=location.get(loc)%>], name: '<%=loc%>'},
 	<%}
 					}%>]
