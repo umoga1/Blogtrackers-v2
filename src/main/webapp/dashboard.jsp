@@ -1640,7 +1640,7 @@ $(function () {
       // ------------------------------
       // Define main variables
       var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 150},
+          margin = {top: 5, right: 50, bottom: 20, left: 110},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
          var formatPercent = d3.format("");
@@ -2762,9 +2762,10 @@ var mymarker = [
 							ArrayList<?> loca = (ArrayList<?>) locations.get(i);
 							String loc = loca.get(0).toString();
 							String size = loca.get(1).toString();
+							int markerSize = Integer.parseInt(loca.get(1).toString());
 							System.out.println(loc+":"+size);
 							%>
-			{latLng: [<%=location.get(loc)%>], name: '<%=size%>'},
+			{latLng: [<%=location.get(loc)%>], name: '<%=size%>' , r:<%=markerSize %>},
 	<%}
 					}%>]
   </script>
@@ -3354,7 +3355,7 @@ $(".option-lable").on("click",function(e){
              .x(function(d) { return x(d.date); })
              .y(function(d) { return y(d.close); });
          
-              // .x(function(d){d.forEach(function(e){return x(d.date);})})
+	        // .x(function(d){d.forEach(function(e){return x(d.date);})})
              // .y(function(d){d.forEach(function(e){return y(d.close);})});
   			
          // Create tooltip

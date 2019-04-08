@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 import org.json.JSONObject;
 
-import com.mysql.jdbc.Connection;
+/*import com.mysql.jdbc.Connection;*/
 
 import java.util.*;
 
