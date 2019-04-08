@@ -12,12 +12,17 @@
 $(function() {
 
 
-
+//console.log(mymarker[2].size);
     // Choropleth map
-    $('.map-choropleth').vectorMap({
+    var mapObj = new jvm.WorldMap({
+    	container: $('.map-choropleth'),
         map: 'world_mill_en',
         backgroundColor: 'transparent',
         series: {
+        	markers: [{
+        		attribute: 'r',
+                scale: [3,10]	
+        	}],
             regions: [{
                 values: gdpData,
                 scale: ['#E5DBD2', '#E6CEC3'],
@@ -26,7 +31,7 @@ $(function() {
         },
         markerStyle: {
                 initial: {
-                    r: 4,
+                    r: 3,
                     'fill': '#F26247',
                     'fill-opacity': 0.8,
                     'stroke': '#fff',
@@ -44,7 +49,8 @@ $(function() {
                 y: 0.5,
                 scale: 2
             },
-            markers: mymarker,
+            markers:[],
+           // markers: mymarker,
         onRegionLabelShow: function(e, el, code){
             el.html(el.html()
             		// remove the data count
@@ -52,100 +58,23 @@ $(function() {
             		//gdpData[code]
             );
         }
+                 
     });
-
-
-    //
-    // Regions selection
-    //
-
-    // Set data
-    // markers = [
-    //     {latLng: [52.50, 13.39], name: 'Berlin'},
-    //     {latLng: [53.56, 10.00], name: 'Hamburg'},
-    //     {latLng: [48.13, 11.56], name: 'Munich'},
-    //     {latLng: [50.95, 6.96], name: 'Cologne'},
-    //     {latLng: [50.11, 8.68], name: 'Frankfurt am Main'},
-    //     {latLng: [48.77, 9.17], name: 'Stuttgart'},
-    //     {latLng: [51.23, 6.78], name: 'Düsseldorf'},
-    //     {latLng: [51.51, 7.46], name: 'Dortmund'},
-    //     {latLng: [51.45, 7.01], name: 'Essen'},
-    //     {latLng: [53.07, 8.80], name: 'Bremen'}
-    // ],
-    // cityAreaData = [
-    //     887.70,
-    //     755.16,
-    //     310.69,
-    //     405.17,
-    //     248.31,
-    //     207.35,
-    //     217.22,
-    //     280.71,
-    //     210.32,
-    //     325.42
-    // ]
-
-    // Configuration
-    // var map = new jvm.WorldMap({
-    //     container: $('.map-regions'),
-    //     map: 'de_mill_en',
-    //     backgroundColor: 'transparent',
-    //     regionsSelectable: true,
-    //     markersSelectable: true,
-    //     markers: markers,
-    //     markerStyle: {
-    //         initial: {
-    //             'fill': '#E77644',
-    //             'stroke': '#fff',
-    //             'stroke-width' : 1.5,
-    //             'stroke-opacity': 0.9
-    //         },
-    //         hover: {
-    //             'stroke': '#fff',
-    //             'fill-opacity': 1,
-    //             'stroke-width': 1.5
-    //         },
-    //         selected: {
-    //             'fill': '#CA0020'
-    //         }
-    //     },
-    //     regionStyle: {
-    //         initial: {
-    //             "stroke-width": 1.5,
-    //             'stroke': '#fff',
-    //             'fill': '#93D389'
-    //         },
-    //         selected: {
-    //             'fill': '#00a2ca'
-    //         }
-    //     },
-    //     series: {
-    //         markers: [{
-    //             attribute: 'r',
-    //             scale: [5, 15],
-    //             values: cityAreaData
-    //         }]
-    //     },
-    //     onRegionSelected: function(){
-    //         if (window.localStorage) {
-    //             window.localStorage.setItem(
-    //                 'jvectormap-selected-regions',
-    //                 JSON.stringify(map.getSelectedRegions())
-    //             );
-    //         }
-    //     },
-    //     onMarkerSelected: function(){
-    //         if (window.localStorage) {
-    //             window.localStorage.setItem(
-    //                 'jvectormap-selected-markers',
-    //                 JSON.stringify(map.getSelectedMarkers())
-    //             );
-    //         }
-    //     }
-    // });
-
-    // Set regions
-    // map.setSelectedRegions( JSON.parse( window.localStorage.getItem('jvectormap-selected-regions') || '[]' ) );
-    // map.setSelectedMarkers( JSON.parse( window.localStorage.getItem('jvectormap-selected-markers') || '[]' ) );
+    var mapMarkers = [];
+    var mapMarkersValues = [];
+    mapMarkers.length = 0;
+    mapMarkersValues.length = 0;
+    console.log(mymarker.length);
+    for (var i = 0, l= mymarker.length; i < l; i++) {
+    	//console.log(mymarker[i].name)      
+     mapMarkers.push({name: mymarker[i].name, latLng: mymarker[i].latLng, r:mymarker[i].r *10});
+    }
+    mapObj.addMarkers(mapMarkers, []); 
+    
+    for (var i = 0, l= mymarker.length; i < l; i++) {
+    	console.log(mapObj.markers[i].element);
+        mapObj.markers[i].element.style.initial.r = mymarker[i].r / 1.15 * 3.0;
+    }
+    mapObj.applyTransform();
 
 });

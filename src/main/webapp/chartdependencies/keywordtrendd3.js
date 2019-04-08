@@ -45,7 +45,8 @@
        .words(word_entries)
        .fontSize(function(d) { return xScale(+d.value); })
        .text(function(d) { return d.key; })
-       .rotate(function() { return ~~(Math.random() * 2) * 90; })
+      // .rotate(function() { return ~~(Math.random() * 2) * 90; })
+       .rotate(0)
        .font("Impact")
        .on("end", draw)
        .start();
