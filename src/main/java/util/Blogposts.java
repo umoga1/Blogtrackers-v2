@@ -926,6 +926,7 @@ public class Blogposts {
 		return this._getResult(url, jsonObj);	
 	}
 	
+	// SELECT * FROM blogposts WHERE blogsite_id IN (149,148,153,302,127,62) order by date desc LIMIT 1
 	public String _getDate(String blog_ids,String type) throws Exception {
 		String url = base_url+"_search?size=1";
 		String dt = "";
@@ -945,6 +946,7 @@ public class Blogposts {
 
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
+		//System.out.println("results:"+result);
 		if(result.size()>0) {
 			String bres = result.get(0).toString();
 			JSONObject bresp = new JSONObject(bres);

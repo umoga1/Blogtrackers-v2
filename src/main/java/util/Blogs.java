@@ -225,7 +225,7 @@ public class Blogs extends DbConnection{
 		blogids = "("+blogids+")";
 		
 		try {
-			result = db.query("SELECT DISTINCT(location) FROM blogsites WHERE blogsite_id IN "+blogids+" and location is not null");		
+			result = db.query("SELECT DISTINCT(location), count(location) FROM blogsites WHERE blogsite_id IN "+blogids+" and location is not null group by location");		
 			
 		}catch(Exception e){
 		}
@@ -577,7 +577,7 @@ public class Blogs extends DbConnection{
 		return  list;
 	}
 
-	public String normalizeLanguage(String language) {
+	public static String normalizeLanguage(String language) {
 		switch(language.toLowerCase()) {
 		case "en":
 		case "english":

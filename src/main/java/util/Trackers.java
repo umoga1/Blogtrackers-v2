@@ -207,7 +207,7 @@ public ArrayList _fetch(String ids) throws Exception {
 	 ArrayList result = new ArrayList();
 	 String s = "("+ids+")";
 	
-	 result =  DbConnection.query("select * from trackers where tid in "+s+"");			
+	 result =  DbConnection.query("select * from trackers where tid ="+s+"");			
 
 	 /*
 	 JSONObject query = new JSONObject(); 
