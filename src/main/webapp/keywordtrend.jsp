@@ -187,6 +187,7 @@
 					ddey = "30";
 				}
 			}
+			termss = term._searchByRange("blogsiteid", dt, dte, ids);
 			//System.out.println(s)
 			//System.out.println("start date"+date_start+"end date "+date_end);
 				if (!date_start.equals("") && !date_end.equals("")) {
@@ -269,12 +270,47 @@
 		JSONArray yearsarray = new JSONArray();
 		JSONObject locations = new JSONObject();
 		
+		Map<String, Integer> top_terms = new HashMap<String, Integer>();
+		if (termss.size() > 0) {
+			for (int p = 0; p < termss.size(); p++) {
+				String bstr = termss.get(p).toString();
+				JSONObject bj = new JSONObject(bstr);
+				bstr = bj.get("_source").toString();
+				bj = new JSONObject(bstr);
+				String tm = bj.get("term").toString();
+				String frequency = bj.get("frequency").toString();
+				int frequency2 = Integer.parseInt(frequency);
+				if (top_terms.containsKey(tm)) {
+					top_terms.put(tm, top_terms.get(tm) + frequency2);
+				} else {
+					top_terms.put(tm, frequency2);
+				}
+				JSONObject cont = new JSONObject();
 
+				/* if(keys.has(tm)){
+					String freq = keys.get(tm).toString();
+					String pos = positions.get(tm).toString();
+					int fr1 = Integer.parseInt(frequency);
+					int fr2 = Integer.parseInt(freq);
+					
+					cont.put("key", tm);
+					cont.put("frequency", (fr1+fr2));
+					topterms.put(Integer.parseInt(pos),cont);
+				}else{
+					cont.put("key", tm);
+					cont.put("frequency", frequency);
+					keys.put(tm,frequency);
+					positions.put(tm,termsposition);
+					topterms.put(cont);	
+				}		 */
+			}
+		}
 		JSONObject termsyears = new JSONObject();
 
-		
+		System.out.println("DT E:"+dt+",fte:"+dte+"ids:"+ids);
 		allterms = term._searchByRange("blogsiteid", dt, dte, ids);//term._searchByRange("date", dt, dte, ids);
-		
+		//termss = term._searchByRange("blogsiteid", dt, dte, ids);
+		System.out.println("All terms:"+allterms);
 		int postmentioned=0;
 		int blogmentioned=0;
 		int bloggermentioned=0;
@@ -288,7 +324,10 @@
 		
 		
 		JSONArray topterms = new JSONArray();
+		
 		JSONObject keys = new JSONObject();
+		JSONObject positions = new JSONObject();
+		int termsposition = 0;
 		if (allterms.size() > 0) {
 			for (int p = 0; p < allterms.size(); p++) {
 				String bstr = allterms.get(p).toString();
@@ -352,17 +391,11 @@
 					mostactiveterm_id = tmid;
 					
 					postc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogpost_id");//post._searchTotalByTitleAndBody(tm,"date", dt,dte);
+					
+					//System.out.println("postc="+postc);
 					blogc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogsite_id");
 					bloggerc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogger");//post._searchTotalAndUniqueBlogger(tm,"date", dt,dte,"blogger");
 					
-					/*
-					ArrayList bloggercc = new DbConnection().query("SELECT * from blogposts where title LIKE '%"+tm+"%' OR post LIKE '%"+tm+"%' ");
-					System.out.println("blogerc :"+bloggercc);
-					if(bloggercc.size()>0){
-					  //bloggercc = (ArrayList<?>) bloggercc.get(0);
-					   //bloggerc = (null == bloggercc.get(0)) ? "0" : bloggercc.get(0).toString();
-					}
-					*/
 					
 					postmentioned+=(Integer.parseInt(postc));
 					blogmentioned+=(Integer.parseInt(blogc));
@@ -372,6 +405,8 @@
 				}
 				
 				JSONObject cont = new JSONObject();
+				
+				
 				cont.put("key", tm);
 				cont.put("id", tmid);
 				cont.put("frequency", frequency);
@@ -383,11 +418,31 @@
 				cont.put("language",language);
 				cont.put("location",location);
 				
+
+				if(keys.has(tm)){
+					String frequ = keys.get(tm).toString();
+					String pos = positions.get(tm).toString();
+					int fr1 = Integer.parseInt(frequency);
+					int fr2 = Integer.parseInt(frequ);
+					
+					cont.put("key", tm);
+					cont.put("frequency", (fr1+fr2));
+					topterms.put(Integer.parseInt(pos),cont);
+				}else{
+					cont.put("key", tm);
+					cont.put("frequency", frequency);
+					keys.put(tm,frequency);
+					positions.put(tm,termsposition);
+					topterms.put(cont);
+					termscount.put(p, tm);
+				}
+				/*
 				if(!keys.has(tm)){
 					keys.put(tm,tm);
 					topterms.put(cont);
 					termscount.put(p, tm);
 				}
+				*/
 			}
 		}
 
@@ -683,7 +738,7 @@
 						<div class="scrolly"
 							style="height: 250px; padding-right: 10px !important;">
 							
-									<%if (topterms.length() > 0) {
+									<%if (top_terms.size() > 0) {
 													
 										for (int i = 0; i < topterms.length(); i++) {
 											JSONObject jsonObj = topterms.getJSONObject(i);
@@ -695,8 +750,7 @@
 												dselected = "abloggerselected";
 											}
 																			
-											%><a
-											class="btn btn-primary form-control select-term bloggerinactive mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=terms%></b></a>
+											%><a class="btn btn-primary form-control select-term bloggerinactive mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=terms%></b></a>
 											<%
 										}
 									}	
@@ -1347,7 +1401,7 @@
   	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
   		  		String yearr=yearsarray.get(q).toString(); 
   		  		if(specific_auth.has(yearr)){ %>
-  		  			{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr)%>},
+  		  	{"date":"<%=yearr%>","close":<%=specific_auth.get(yearr)%>},
   			<%
   		  		}else{ %>
   		  			{"date":"<%=yearr%>","close":0},

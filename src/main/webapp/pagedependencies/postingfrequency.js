@@ -13,7 +13,7 @@ $('.blogger-select').on("click", function(e){
 	var blg = blogger.split("***");
 	
 	var bloog = blg[0];
-	bloog = bloog.replaceAll("_"," ");
+	bloog = bloog.replaceAll("__"," ");
 	
 	$(".activeblogger").html(bloog);
 	$(".activeblog").html(blg[2]);
@@ -186,7 +186,7 @@ function loadInfluence(start_date,end_date){
 
 function loadTerms(blogger,blog_id,start_date,end_date){
 	$("#tagcloudbox").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
-	var blger = blogger.replaceAll(" ","_");
+	var blger = blogger.replaceAll(" ","__");
 	$.ajax({
 		url: app_url+"subpages/postingfrequencyterm.jsp",
 		method: 'POST',
@@ -215,7 +215,7 @@ function loadTerms(blogger,blog_id,start_date,end_date){
 
 function loadTopKeyword(blogger,blog_id,start_date,end_date){
 	$(".most-used-keyword").html("");
-	var blger = blogger.replaceAll(" ","_");
+	var blger = blogger.replaceAll(" ","__");
 	$.ajax({
 		url: app_url+"subpages/postingfrequencyterm.jsp",
 		method: 'POST',
@@ -242,7 +242,7 @@ function loadTopKeyword(blogger,blog_id,start_date,end_date){
 
 function loadSentiments(blogger,blog_id,start_date,end_date){
 	$("#entity_table").html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />");
-	var blger = blogger.replaceAll(" ","_");
+	var blger = blogger.replaceAll(" ","__");
 	$.ajax({
 		url: app_url+"subpages/postingfrequencysentiment.jsp",
 		method: 'POST',

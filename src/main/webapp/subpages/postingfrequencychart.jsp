@@ -52,11 +52,11 @@ Blogs blog  = new Blogs();
 							}else if(b==yendint){
 								dtue = dte;
 							}
-						   if(sort.toString().equals("influence_score")){
-							   	totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,blogger.toString());							   	
-						   }else{
-						   	    totu = post._searchRangeTotalByBlogger("date",dtu, dtue,blogger.toString());
-						   }
+						   
+						   //if(sort.toString().equals("influence_score")){
+							
+						   	 totu = post._searchRangeTotalByBlogger("date",dtu, dtue,blogger.toString());
+						   //}
 						   
 						   if(!years.has(y+"")){
 					    		years.put(y+"",y);

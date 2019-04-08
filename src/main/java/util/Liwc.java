@@ -98,6 +98,33 @@ public class Liwc {
 	
 	
 	public String _searchRangeAggregate(String field,String greater, String less, JSONArray post_ids,String column) throws Exception {
+		/*
+		String pids = "";
+		for(int y=0; y< post_ids.length(); y++) {
+			if(y==post_ids.length()-1) {
+				pids +=post_ids.get(y);
+			}else {
+				pids +=post_ids.get(y)+",";
+			}
+		}
+		
+		pids = "("+pids+")";
+		ArrayList response =new ArrayList();
+		DbConnection db = new DbConnection();
+		String count = "0";
+		try {
+			response = db.queryJSON("SELECT sum("+column+") FROM liwc WHERE blogpostid IN "+pids+" AND "+field+">='"+greater+"' AND "+field+" <='"+less+"' ");
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		
+		return count;
+		*/
 		
 		String que="{\r\n" + 
 				"  \"query\": {\r\n" + 
@@ -133,6 +160,7 @@ public class Liwc {
 
 		String url = base_url+"_search?size=1";
 		return this._getAggregate(url,jsonObj);
+		
 	}
 
 	
@@ -179,7 +207,42 @@ public class Liwc {
 
 		return this._getResult(url, jsonObj);
 	}
+	
+	public ArrayList _getPosEmotion(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
 
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+		result = db.query("SELECT SUM(posemo) FROM blogtrackers.liwc where blogpostid in (select blogpost_id from blogposts where blogsite_id in"+blogids+")");		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
+	
+	public ArrayList _getNegEmotion(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+		result = db.query("SELECT SUM(negemo) FROM blogtrackers.liwc where blogpostid in (select blogpost_id from blogposts where blogsite_id in "+blogids+")");		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
 	public ArrayList _fetch(String ids) throws Exception {
 		ArrayList result = new ArrayList();
 		String[] args = ids.split(",");

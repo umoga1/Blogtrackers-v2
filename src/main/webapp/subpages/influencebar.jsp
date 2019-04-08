@@ -21,7 +21,7 @@
 	String bloggersstr = (null == request.getParameter("bloggers")) ? "" : request.getParameter("bloggers");
 		
 	
-	JSONObject bloggers = new JSONObject(bloggersstr);
+	//JSONObject bloggers = new JSONObject(bloggersstr);
 	//System.out.println("bloggers here "+bloggersstr);
 %>
 			
@@ -105,6 +105,8 @@ $(function () {
       //
       //
       //sort by influence score
+     
+      
       data = [ <%=bloggersstr.toString().toLowerCase()%>
         ];
       data = data.sort(function(a, b){
@@ -226,20 +228,14 @@ $(function () {
                    })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
-          $(element).bind('inview', function (event, visible) {
-        	  if (visible == true) {
-        	    // element is now visible in the viewport
-        		  transitionbarinfluence.transition()
-                  .delay(200)
-                  .duration(1000)
-                  .attr("width", function(d) { return x(d.frequency); })
-                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
-        	  } else {
-        		  
-        		  transitionbarinfluence.attr("width", 0)
-        	    // element has gone out of viewport
-        	  }
-        	});
+          
+          transitionbarinfluence.transition()
+          .delay(200)
+          .duration(1000)
+          .attr("width", function(d) { return x(d.frequency); })
+          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
+          
+      
         
          /*  svg.append("g")
           .attr("transform", "translate("+x(50)+",0)")

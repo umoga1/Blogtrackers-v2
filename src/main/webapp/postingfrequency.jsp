@@ -11,8 +11,7 @@
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
 Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
@@ -243,7 +242,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
-		allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
+			allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+		//allauthors = post._getBloggerByBlogId("date",dt, dte,ids);
 		
 		
 	String allpost = "0";
@@ -496,6 +496,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									JSONObject tobj = null;
 									int j=0;
 									int k=0;
+									String sellect = "";
 									for(int i=0; i< allauthors.size(); i++){
 										tres = allauthors.get(i).toString();	
 										tresp = new JSONObject(tres);
@@ -537,11 +538,14 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								    	if(!authorposts.has(auth)){
 								    		postauth = new JSONArray();
 								    		postauth.put(postid);
-										}else{
+								    		
+										}else{				
 											postauth = new JSONArray(authorposts.get(auth).toString());
-											postauth.put(postid);
+											postauth.put(postid);											
 										}
 								    	
+								    	
+								    	//System.out.println(auth+"id fake ree:"+postid);
 								    	authorposts.put(auth,postauth);
 
 										
@@ -565,11 +569,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	
 									    	j++;
 									    	
-									    	 }  
+									    	 }
 										   // System.out.println(authoryears);
 										}
 									} 
 								
+								System.out.println("authorp here"+authorposts);
 				
 				bloggerarr = post._sortJson2(bloggerarr);
 				 
@@ -578,12 +583,13 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					String[] splitter = key.split("___");
 	
 					String au = splitter[1];
+					
+					JSONArray det2= new JSONArray(authorposts.get(au).toString());
 			  		JSONObject det= new JSONObject(bloggersortdet.get(au).toString());
 					String dselected = "";
 				
 					JSONArray selposts = new JSONArray(authorposts.get(au).toString());
-					
-					
+				
 					String postids = "";
 					for(int r=0; r<selposts.length(); r++){
 						postids += selposts.get(r).toString()+",";
@@ -592,18 +598,19 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							dselected = "abloggerselected";
 							mostactiveblogger = au;
 							allterms = term._searchByRange("blogpostid", dt, dte, postids);//_searchByRange("blogpostid",dt, dte,postids);
-
+							//allterms = term._fetchByPostId(postids);
+							
 							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
 							selectedid=det.get("blogid").toString();
 							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");							
 					}
 			    	%>
-					<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>" value="<%=postids%>" />
-	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","_")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
+					<input type="hidden" id="postby<%=au.replaceAll(" ","__")%>" value="<%=postids%>" />
+	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","__")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
 	    			<% 
 					//JSONObject jsonObj = bloggersort.getJSONObject(m);
 				}
-								
+			//System.out.println(allauthors);					
 	%>
         <!--  
     <a class="btn form-control stylebuttoninactive opacity53 text-primary mb20"><b>Matt Fincane</b></a>
@@ -626,6 +633,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 int highestfrequency = 0;
 JSONArray topterms = new JSONArray();
 JSONObject keys = new JSONObject();
+System.out.println("All terms: "+allterms);
+JSONObject positions = new JSONObject();
+int termsposition = 0;
 if (allterms.size() > 0) {
 	for (int p = 0; p < allterms.size(); p++) {
 		String bstr = allterms.get(p).toString();
@@ -640,13 +650,34 @@ if (allterms.size() > 0) {
 			highestfrequency = freq;
 			mostusedkeyword = tm;
 		}
+		
 		JSONObject cont = new JSONObject();
+		
+		if(keys.has(tm)){
+			String allfreq = keys.get(tm).toString();
+			String pos = positions.get(tm).toString();
+			int fr1 = Integer.parseInt(frequency);
+			int fr2 = Integer.parseInt(allfreq);
+			
+			cont.put("key", tm);
+			cont.put("frequency", (fr1+fr2));
+			topterms.put(Integer.parseInt(pos),cont);
+		}else{
+			cont.put("key", tm);
+			cont.put("frequency", frequency);
+			keys.put(tm,frequency);
+			positions.put(tm,termsposition);
+			topterms.put(cont);
+		}
+		
+		/*
 		cont.put("key", tm);
 		cont.put("frequency", frequency);
 		if(!keys.has(tm)){
 			keys.put(tm,tm);
 			topterms.put(cont);
 		}
+		*/
 	}
 }
 
@@ -1820,7 +1851,7 @@ console.log("here");
 	 <%if (topterms.length() > 0) {
 					for (int i = 0; i < topterms.length(); i++) {
 						JSONObject jsonObj = topterms.getJSONObject(i);
-						int size = Integer.parseInt(jsonObj.getString("frequency"))*2;%>
+						int size = Integer.parseInt(jsonObj.getString("frequency"));%>
 		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
 	 <%}
 				}%>
@@ -1968,7 +1999,7 @@ function draw(words) {
 <script src="pagedependencies/baseurl.js?v=93"></script>
 
  <script src="assets/js/generic.js"></script>
-<script src="pagedependencies/postingfrequency.js?v=6990"></script>
+<script src="pagedependencies/postingfrequency.js?v=66990"></script>
 
 </body>
 </html>

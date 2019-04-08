@@ -251,8 +251,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 		
 		
-		allauthors = post._getBloggerByBlogId("date",dt, dte,ids);//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+		//allauthors = post._getBloggerByBlogId("date",dt, dte,ids);//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		//post._getBloggerByBlogId("date",dt, dte,ids);
+	    allauthors= post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
+
 	String allpost = "0";
 	float totalinfluence = 0;
 	String mostactiveblog="";
@@ -313,7 +315,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 <script src="assets/js/popper.min.js"></script>
 </head>
 <body>
-<%@include file="subpages/loader.jsp" %>
+<%-- <%@include file="subpages/loader.jsp" %> --%>
 <%@include file="subpages/googletagmanagernoscript.jsp" %>
 	<div class="modal-notifications">
 		<div class="row">
@@ -665,11 +667,11 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							
 							selectedid=det.get("blogid").toString();
 							allposts =  post._getBloggerByBloggerName("date",dt, dte,au,"influence_score","DESC");
-									
+							System.out.println("all posts="+allposts);		
 					}
 			    	%>
-					<input type="hidden" id="postby<%=au.replaceAll(" ","_")%>" value="<%=postids%>" />
-	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","_")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
+					<input type="hidden" id="postby<%=au.replaceAll(" ","__")%>" value="<%=postids%>" />
+	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","__")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
 	    			<% 
 					//JSONObject jsonObj = bloggersort.getJSONObject(m);
 				}
@@ -2543,7 +2545,7 @@ wordtagcloud("#tagcloudcontainer",450);
  </script>
 <script src="pagedependencies/baseurl.js"></script>
  
-<script src="pagedependencies/influence.js"></script>
+<script src="pagedependencies/influence.js?v=67"></script>
 	
 </body>
 </html>

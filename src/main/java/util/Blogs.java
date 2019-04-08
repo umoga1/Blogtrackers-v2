@@ -112,7 +112,47 @@ public class Blogs extends DbConnection{
 		return this._getResult(url, jsonObj);
 	}
 
-
+	public String _getTotalBloggers(String greater, String less, String blogids) throws Exception {
+			
+			DbConnection db = new DbConnection();
+			String count = "0";
+			blogids = blogids.replaceAll(",$", "");
+			blogids = blogids.replaceAll(", $", "");
+			blogids = "("+blogids+")";
+			
+			try {
+				ArrayList response = db.query("SELECT DISTINCT blogger FROM blogposts WHERE blogsite_id IN "+blogids+" AND date>='"+greater+"' AND date<='"+less+"' ");		
+				if(response.size()>0){
+					count = response.size()+"";
+				}
+			}catch(Exception e){
+				return count;
+			}
+			System.out.println(count);
+			return count;
+			
+	}
+	
+	
+	public ArrayList _getBloggers(String greater, String less, String blogids) throws Exception {	
+		
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		blogids = "("+blogids+")";
+		DbConnection db = new DbConnection();
+		ArrayList response = new ArrayList();
+		try {
+			response = db.query("SELECT DISTINCT blogger,blogsite_id,language,date,blogpost_id FROM blogposts WHERE blogsite_id IN "+blogids+" AND date>='"+greater+"' AND date<='"+less+"' ORDER BY influence_score DESC LIMIT 20 ");				
+		}catch(Exception e){
+			return response;
+		}
+		
+		return response;
+	}
+	
+	
 
 	/* Fetch posts by blog ids*/
 	public ArrayList _getBloggerByBlogId(String blog_ids,String from) throws Exception {
@@ -132,6 +172,28 @@ public class Blogs extends DbConnection{
 		return this._getResult(url, jsonObj);
 	}
 
+	//Obtain the count of blogs based on the blogsite ids
+	public String _blogsiteCount(String blogids) throws Exception {
+//		
+//		DbConnection db = new DbConnection();
+//		String count = "0";
+//		blogids = blogids.replaceAll(",$", "");
+//		blogids = blogids.replaceAll(", $", "");
+//		blogids = "("+blogids+")";
+//		
+//		try {
+//			ArrayList response = db.query("SELECT DISTINCT blogger FROM blogposts WHERE blogsite_id IN "+blogids+" AND date>='"+greater+"' AND date<='"+less+"' ");		
+//			if(response.size()>0){
+//				count = response.size()+"";
+//			}
+//		}catch(Exception e){
+//			return count;
+//		}
+//		System.out.println(count);
+//		return count;
+		String count ="";
+		return count; 
+	}
 
 	public ArrayList _fetch(String ids) throws Exception {
 		ArrayList result = new ArrayList();
@@ -148,10 +210,120 @@ public class Blogs extends DbConnection{
 
 		JSONObject jsonObj = new JSONObject(que);
 
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=2000";
 		return this._getResult(url, jsonObj);
 
 	}
+	
+	public ArrayList _getLocation(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+			result = db.query("SELECT DISTINCT(location) FROM blogsites WHERE blogsite_id IN "+blogids+" and location is not null");		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
+	
+	public ArrayList _getLanguage(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+			result = db.query("select language, language_count from language where blogsite_id in "+blogids+" and language != '"+"null"+"' and language != '"+"unknown"+"' group by language");		
+			
+		}catch(Exception e){
+		}
+		return result;
+	}
+	
+	public ArrayList _getInfluencialBlog(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+		result = db.query("SELECT (select distinct blogsite_name from blogsites bs where bl.blogsite_id = bs.blogsite_id) AS blogsiteName, MAX(bl.influence_score) FROM blogger bl where blogsite_id in "+
+				(blogids)+" group by blogsiteName order by influence_score desc");		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
+	
+	public ArrayList _getInfluencialBlogger(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		try {
+		result = db.query("select blogger_name, max(influence_score) from blogger where blogsite_id in "+
+				(blogids)+" group by blogger_name order by influence_score desc");		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
+	
+	public ArrayList _getblogPostFrequency(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+		result = db.query("select blogsite_name, totalposts from blogsites where blogsite_id in "+blogids);		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
+	
+	public ArrayList _getblogPostID(String blogids) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		blogids = blogids.replaceAll(",$", "");
+		blogids = blogids.replaceAll(", $", "");
+		blogids = "("+blogids+")";
+		
+		try {
+		result = db.query("select blogsite_name, totalposts from blogsites where blogsite_id in "+blogids);		
+			
+		}catch(Exception e){
+		}
+		return result;
+
+	}
+	
+	
 
 	public ArrayList _getMostactive(String blog_ids) throws Exception { 
 		ArrayList mostactive = new ArrayList();
@@ -408,6 +580,7 @@ public class Blogs extends DbConnection{
 	public String normalizeLanguage(String language) {
 		switch(language.toLowerCase()) {
 		case "en":
+		case "english":
 			language ="English";
 			break;
 		case "ar":

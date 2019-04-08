@@ -21,14 +21,14 @@ String profileimage= "";
 String username ="";
 String name="";
 String phone="";
-String total_post = "";
+int total_post = 0;
 String date_modified = "";
 ArrayList detail = new ArrayList();
 Trackers tracker = new Trackers();
 ArrayList allblogs = new ArrayList();
 Blogs blg = new Blogs();
 
-userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
+userinfo = DbConnection.query("SELECT * FROM usercredentials where Email = '"+email+"'");
 detail = tracker._fetch(tid.toString());
  //System.out.println(userinfo);
 boolean isowner = false;
@@ -91,9 +91,9 @@ if (detail.size() > 0) {
 	}
 }
 if(ids.length()>0){
-	total_post = Integer.parseInt(post._getTotalByBlogId(ids, ""))+"";
+	total_post = Integer.parseInt(post._getBlogPostById(ids));
 }else{
-	total_post="0";
+	total_post=0;
 }
 
 %>

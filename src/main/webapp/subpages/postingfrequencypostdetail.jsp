@@ -41,6 +41,8 @@ String year_start="";
 String year_end="";	
 
 if(action.toString().equals("gettotal")){
+	System.out.println("blogger:"+blogger.toString());
+	
 %>	
 <%=post._searchRangeTotalByBlogger("date", dt, dte, blogger.toString())%>
 <%}else if(action.toString().equals("gettotalinfluence")){%>
