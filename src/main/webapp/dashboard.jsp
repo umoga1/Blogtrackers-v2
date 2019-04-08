@@ -2764,7 +2764,7 @@ var mymarker = [
 							String size = loca.get(1).toString();
 							System.out.println(loc+":"+size);
 							%>
-			{latLng: [<%=location.get(loc)%>], name: '<%=loc%>'},
+			{latLng: [<%=location.get(loc)%>], name: '<%=size%>'},
 	<%}
 					}%>]
   </script>
