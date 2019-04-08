@@ -30,7 +30,7 @@ public class Blogposts {
 	HashMap<String, String> hm = DbConnection.loadConstant();		
 
 	
-	String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
+	String base_url = hm.get("elasticIndex")+"blogposts1/"; // - For testing server 
 	
 	String totalpost;
 	String date;
@@ -926,6 +926,7 @@ public class Blogposts {
 		return this._getResult(url, jsonObj);	
 	}
 	
+	// SELECT * FROM blogposts WHERE blogsite_id IN (149,148,153,302,127,62) order by date desc LIMIT 1
 	public String _getDate(String blog_ids,String type) throws Exception {
 		String url = base_url+"_search?size=1";
 		String dt = "";
