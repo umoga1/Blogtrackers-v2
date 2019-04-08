@@ -53,7 +53,7 @@
 <script type="text/javascript" src="assets/js/toastr.js"></script>
 
 <!-- Base URL  -->
-<script src="pagedependencies/baseurl.js">
+<script src="pagedependencies/baseurl.js?v=908">
 	
 </script>
 <script src="js/jscookie.js"></script>

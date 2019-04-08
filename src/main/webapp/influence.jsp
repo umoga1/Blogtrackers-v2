@@ -253,8 +253,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		
 		//allauthors = post._getBloggerByBlogId("date",dt, dte,ids);//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		//post._getBloggerByBlogId("date",dt, dte,ids);
-	    allauthors= post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-
+	    allauthors= post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+		
 	String allpost = "0";
 	float totalinfluence = 0;
 	String mostactiveblog="";
@@ -610,7 +610,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									    	
 									    	String x =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
 									    	int val = new Double(post._searchRangeMaxByBloggers("date",dt, dte,auth)).intValue(); 
-									    		
+									    	
+									    	
 									    	String y = val+"";
 									    	xy.put("x",y);
 									    	xy.put("y",x);
@@ -643,11 +644,19 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										}
 									} 
 								
-				//System.out.println("authors"+bloggerarr);
-				//bloggertosort =  post._sortJson2(bloggertosort);
-			    bloggerarr = post._sortJson2(bloggerarr);
-				//System.out.println("hello"+bloggerarr);
-
+				
+				/* Use this to get influenctial blogger from session */
+				/*
+				Object tempinfluentialbloggers = session.getAttribute("influential_bloggers");
+				
+				if(null!=tempinfluentialbloggers && tempinfluentialbloggers.toString().equals("{}") ){
+					bloggerarr = new JSONArray(tempinfluentialbloggers.toString()); 
+				}else{
+			    	bloggerarr = post._sortJson2(bloggerarr);
+				}
+				*/
+				
+				bloggerarr = post._sortJson2(bloggerarr);
 				for(int m=0; m<bloggerarr.length(); m++){
 					String key = bloggerarr.get(m).toString();
 					String[] splitter = key.split("___");
@@ -667,7 +676,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							
 							selectedid=det.get("blogid").toString();
 							allposts =  post._getBloggerByBloggerName("date",dt, dte,au,"influence_score","DESC");
-							System.out.println("all posts="+allposts);		
+							//System.out.println("all posts="+allposts);		
 					}
 			    	%>
 					<input type="hidden" id="postby<%=au.replaceAll(" ","__")%>" value="<%=postids%>" />

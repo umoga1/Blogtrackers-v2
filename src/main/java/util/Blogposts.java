@@ -30,7 +30,7 @@ public class Blogposts {
 	HashMap<String, String> hm = DbConnection.loadConstant();		
 
 	
-	String base_url = hm.get("elasticIndex")+"blogposts1/"; // - For testing server 
+	String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
 	
 	String totalpost;
 	String date;
@@ -946,6 +946,7 @@ public class Blogposts {
 
 		JSONObject jsonObj = new JSONObject(que);
 		ArrayList result =  this._getResult(url, jsonObj);
+		//System.out.println("results:"+result);
 		if(result.size()>0) {
 			String bres = result.get(0).toString();
 			JSONObject bresp = new JSONObject(bres);

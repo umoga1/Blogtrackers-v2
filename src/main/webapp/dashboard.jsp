@@ -114,6 +114,9 @@
 			Date dstart = new Date();
 			Date today = new Date();
 			Date nnow = new Date();
+			
+			
+			System.out.println("start:"+stdate+", End:"+endate);
 
 			try {
 				dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
@@ -138,19 +141,10 @@
 
 			String historyfrom = DATE_FORMAT.format(dstart);
 			String historyto = DATE_FORMAT.format(today);
+			
 			String dst = DATE_FORMAT2.format(dstart);
 			String dend = DATE_FORMAT2.format(today);
-			//ArrayList posts = post._list("DESC","");
-			/* ArrayList sentiments = senti._list("DESC", "", "id");
-			System.out.println(sentiments); */
-
-			/* Liwc liwc = new Liwc();
 			
-			ArrayList liwcSent = liwc._list("DESC", ""); 
-			
-			String test = post._searchRangeTotal("date", "2013-04-01", "2018-04-01", "1");
-			
-			System.out.println(test);  */
 
 			String totalpost = "";
 			ArrayList allauthors = new ArrayList();
@@ -175,29 +169,18 @@
 					ddey = "30";
 				}
 			}
-			//System.out.println(s)
-			//System.out.println("start date"+date_start+"end date "+date_end);
+			
+			
 			if (!date_start.equals("") && !date_end.equals("")) {
-				//totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
-				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
-
+				
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
 				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
 
 				dt = date_start.toString();
 				dte = date_end.toString();
-
-				historyfrom = DATE_FORMAT.format(start);
-				historyto = DATE_FORMAT.format(end);
-				//allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
 			} else if (single.equals("day")) {
 				dt = year + "-" + month + "-" + day;
-
-				//allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
-
 			} else if (single.equals("week")) {
-
 				dte = year + "-" + month + "-" + day;
 				int dd = new Double(day).intValue() - 7;
 
@@ -206,31 +189,17 @@
 				Date dateBefore7Days = cal.getTime();
 				dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-"
 						+ DAY_ONLY.format(dateBefore7Days);
-				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
 
 			} else if (single.equals("month")) {
 				dt = year + "-" + month + "-01";
 				dte = year + "-" + month + "-" + day;
-				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-
 			} else if (single.equals("year")) {
 				dt = year + "-01-01";
 				dte = year + "-12-" + ddey;
-
-			} else {
-				/* dt = dst;
-				dte = dend;
-				if(ids.length()>0){
-					totalpost = Integer.parseInt(post._getTotalByBlogId(ids, ""))+"";
-				}else{
-					totalpost="0";
-				} */
-			}
-
+			} 
 			
 			//Our New Code
 			Liwc liwc = new Liwc();
-			
 			
 			String totalbloggers = bloggerss._getBloggerById(ids);
 
@@ -243,8 +212,6 @@
 			ArrayList getPositiveEmotion = liwc._getPosEmotion(ids);
 			ArrayList getNegativeEmotion = liwc._getNegEmotion(ids);
 			
-			System.out.println(getPositiveEmotion);
-			System.out.println(getNegativeEmotion);
 			
 			String[] yst = dt.split("-");
 			String[] yend = dte.split("-");
@@ -252,10 +219,12 @@
 			year_end = yend[0];
 			int ystint = new Double(year_start).intValue();
 			int yendint = new Double(year_end).intValue();
-
+			
+			System.out.println(Integer.parseInt(YEAR_ONLY.format(new Date()))+"-"+smallmonth+"-"+day);
 			if (yendint > Integer.parseInt(YEAR_ONLY.format(new Date()))) {
 				dte = DATE_FORMAT2.format(new Date()).toString();
 				yendint = Integer.parseInt(YEAR_ONLY.format(new Date()));
+				endDate = DATE_FORMAT.format(new Date()).toString();
 			}
 
 			if (ystint < 2000) {
@@ -275,19 +244,12 @@
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 
-			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-			//allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"date","ASC");
-			//post._getBloggerByBlogId("date",dt, dte,ids);
 			ArrayList allauthors2 = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 	
 
-			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-			//ArrayList auths = blog._getBloggers(dt, dte,ids);
+			allauthors = allauthors2; //post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			String totalcomment = comment._getCommentById(ids);
-			//String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
-			//System.out.println("Terms here:"+termss);
-
+			
 			ArrayList blogs = blog._fetch(ids); //To be removed
 
 			String[] blogss = ids.split(",");
@@ -303,10 +265,7 @@
 			}
 			int b = 0;
 			for (int y = ystint; y <= yendint; y++) {
-				/*
-					   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
-					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
-					*/
+				
 				String dtu = y + "-01-01";
 				String dtue = y + "-12-31";
 
@@ -323,7 +282,6 @@
 				b++;
 			}
 
-			//System.out.println("grapgh yeres"+yearsarray);
 			JSONObject authors = new JSONObject();
 			JSONObject influentialauthors = new JSONObject();
 			JSONArray sentimentpost = new JSONArray();
@@ -387,13 +345,11 @@
 						int val = new Double(language.get(lang).toString()).intValue() + 1;
 						language.put(lang, val);
 					} else {
-						//  	int val  = Integer.parseInt(ex.toString())+1;
 						language.put(lang, 1);
 						langlooper.add(n, lang);
 						n++;
 					}
 				}
-				//System.out.println("Authors here:"+graphyears);
 			}
 
 			if (allauthors2.size() > 0) {
@@ -455,26 +411,7 @@
 				}
 				//System.out.println("Authors here:"+graphyears);
 			}
-			/*
-			ArrayList sentimentor = new Liwc()._searchByRange("date", dt, dte, sentimentpost);
-			int allposemo =0;
-			int allnegemo =0;
 			
-			if(sentimentor.size()>0){
-				for(int v=0; v<sentimentor.size();v++){
-					String bstr = sentimentor.get(v).toString();
-					JSONObject bj = new JSONObject(bstr);
-					bstr = bj.get("_source").toString();
-					bj = new JSONObject(bstr);
-					//System.out.println("result eree"+bj);
-					int posemo = Integer.parseInt(bj.get("posemo").toString());
-					int negemo = Integer.parseInt(bj.get("negemo").toString());
-					allposemo+=posemo;
-					allnegemo+=negemo;
-					
-				}
-			}
-			*/
 
 			possentiment = new Liwc()._searchRangeAggregate("date", dt, dte,
 					sentimentpost, "posemo");
@@ -507,7 +444,7 @@
 					} else {
 						top_terms.put(tm, frequency2);
 					}
-					JSONObject cont = new JSONObject();
+					//JSONObject cont = new JSONObject();
 
 					/* if(keys.has(tm)){
 						String freq = keys.get(tm).toString();
@@ -642,6 +579,9 @@
 
 			bloginfluencearr = post._sortJson2(bloginfluencearr);
 			blogpostingfreqarr = post._sortJson2(blogpostingfreqarr);
+			//store influenctial bloggers in session
+			session.setAttribute("influential_bloggers",authorinfluencearr);
+			
 %>
 <!DOCTYPE html>
 <html>
@@ -909,7 +849,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-clock icondash"></i>History
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%=dispfrom%>
+						<h3 class="text-blue mb0 countdash dash-label"><%=historyfrom%>
 							-
 							<%=endDate%></h3>
 					</div>
