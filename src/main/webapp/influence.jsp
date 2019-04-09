@@ -623,31 +623,34 @@ String totalsenti  = comb+"";
 allterms = term.getTermsByBlogger(mostactiveblogger, dt, dte);
 
 int highestfrequency = 0;
-JSONArray topterms = new JSONArray();
-JSONObject keys = new JSONObject();
+
+Map<String, Integer> topterms = new HashMap<String, Integer>();
 if (allterms.size() > 0) {
 	for (int p = 0; p < allterms.size(); p++) {
 		String bstr = allterms.get(p).toString();
 		JSONObject bj = new JSONObject(bstr);
 		bstr = bj.get("_source").toString();
 		bj = new JSONObject(bstr);
-		String frequency = bj.get("frequency").toString();
-		int freq = new Double(frequency).intValue();
-		
 		String tm = bj.get("term").toString();
+		String frequency = bj.get("frequency").toString();
+		int frequency2 = Integer.parseInt(frequency);
+		
+		int freq = frequency2;
+		if (topterms.containsKey(tm)) {
+			topterms.put(tm, topterms.get(tm) + frequency2);
+			freq= topterms.get(tm) + frequency2;
+		} else {
+			topterms.put(tm, frequency2);
+		}
+		
 		if(freq>highestfrequency){
 			highestfrequency = freq;
 			mostusedkeyword = tm;
 		}
-		JSONObject cont = new JSONObject();
-		cont.put("key", tm);
-		cont.put("frequency", frequency);
-		if(!keys.has(tm)){
-			keys.put(tm,tm);
-			topterms.put(cont);
-		}
+		
 	}
 }
+
 
 
 
