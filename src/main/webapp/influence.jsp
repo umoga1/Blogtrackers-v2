@@ -1844,12 +1844,16 @@ authoryears.put(mostactiveblogger,postyear);
          // Load data
          // ------------------------------
          //
-         data = [[<% if(authorcount.length()>0){ for(int p=0; p<authorcount.length(); p++){ 
-   					String au = authorcount.get(p).toString();
-   			  		JSONObject jxy = new JSONObject(influecechart.get(au).toString());
-   			  		int x = new Double(jxy.get("x").toString()).intValue();
-   			  		
-   			  		int y = new Double(jxy.get("y").toString()).intValue(); %>{"x":<%=x%>,"y":<%=y%>},<% }} %>]   		
+         data = [[
+         <% if (influenceBlogger.size() > 0) {
+				for (int y = 0; y < influenceBlogger.size(); y++) {
+					if(y<10){
+				ArrayList<?> bloggerInfluence = (ArrayList<?>) influenceBlogger.get(y);
+				String au = bloggerInfluence.get(0).toString();
+				
+				JSONObject jxy = new JSONObject(influecechart.get(au).toString());
+   			  		int xaxis = new Double(jxy.get("x").toString()).intValue();		
+   			  		int yaxis = new Double(jxy.get("y").toString()).intValue(); %>{"x":<%= xaxis%>,"y":<%=yaxis%>},<% }}} %>]   		
          ];
 
          // data = [];
@@ -2243,7 +2247,7 @@ wordtagcloud("#tagcloudcontainer",450);
 					JSONObject jsonObj = topterms.getJSONObject(i);
 					int size = new Double(jsonObj.getString("frequency")).intValue();
 					%>
-	{"text":"<%=jsonObj.getString("key")%>","size":<%=size*2%>},
+	{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
  <%}
 			}%>];
 

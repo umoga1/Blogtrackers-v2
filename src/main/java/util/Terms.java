@@ -177,7 +177,7 @@ public ArrayList getTermsByBlogger(String blogger,String date_start, String date
 	
 	try {
 		//response = db.queryJSON("SELECT * FROM terms WHERE blogpostid IN "+blog_ids+" ");
-		response = db.queryJSON("SELECT (select blogpost_id from blogposts bp where bp.blogpost_id = cm.blogpostid AND bp.blogger='"+blogger+"' ) as blogpostid, cm.blogsiteid as blogsiteid, cm.blogpostid as blogpostid, cm.term as term, cm.frequency as frequency   FROM terms cm ");
+		response = db.queryJSON("SELECT (select blogpost_id from blogposts bp where bp.blogpost_id = tm.blogpostid AND bp.blogger='"+blogger+"' ) as blogpostid, tm.blogsiteid as blogsiteid, tm.blogpostid as blogpostid, tm.term as term, tm.frequency as frequency   FROM terms tm GROUP BY tm.term ORDER BY tm.frequency DESC ");
 	}catch(Exception e){
 		return response;
 	}
