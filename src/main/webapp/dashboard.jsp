@@ -148,8 +148,8 @@
 
 			String totalpost = "";
 			ArrayList allauthors = new ArrayList();
-			String possentiment = "0";
-			String negsentiment = "0";
+			//String possentiment = "0";
+			//String negsentiment = "0";
 			String ddey = "31";
 			String dt = dst;
 			String dte = dend;
@@ -220,7 +220,6 @@
 			int ystint = new Double(year_start).intValue();
 			int yendint = new Double(year_end).intValue();
 			
-			System.out.println(Integer.parseInt(YEAR_ONLY.format(new Date()))+"-"+smallmonth+"-"+day);
 			if (yendint > Integer.parseInt(YEAR_ONLY.format(new Date()))) {
 				dte = DATE_FORMAT2.format(new Date()).toString();
 				yendint = Integer.parseInt(YEAR_ONLY.format(new Date()));
@@ -240,14 +239,10 @@
 				totalpost = post._searchRangeTotal("date", dt, dte, ids); // To be modified later
 
 			}
-			System.out.println(ids);
+			
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
 			outlinks = outl._searchByRange("date", dt, dte, ids);
 
-			ArrayList allauthors2 = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-	
-
-			allauthors = allauthors2; //post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 			String totalcomment = comment._getCommentById(ids);
 			
 			ArrayList blogs = blog._fetch(ids); //To be removed
@@ -258,11 +253,7 @@
 			JSONObject graphyears = new JSONObject();
 			JSONArray yearsarray = new JSONArray();
 
-			if (single.equals("month")) {
-				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
-				//ystint=0;
-				//yendint = diff;
-			}
+			
 			int b = 0;
 			for (int y = ystint; y <= yendint; y++) {
 				
@@ -282,153 +273,12 @@
 				b++;
 			}
 
-			JSONObject authors = new JSONObject();
-			JSONObject influentialauthors = new JSONObject();
-			JSONArray sentimentpost = new JSONArray();
-
-			JSONArray authorcount = new JSONArray();
-			JSONObject language = new JSONObject();
-			ArrayList langlooper = new ArrayList();
-
-			JSONArray authorinfluencearr = new JSONArray();
-			JSONArray authorpostingfreqarr = new JSONArray();
-			JSONArray bloginfluencearr = new JSONArray();
-			JSONArray blogpostingfreqarr = new JSONArray();
-
-			ArrayList authorlooper = new ArrayList();
-			ArrayList influentialauthorlooper = new ArrayList();
-			if (allauthors.size() > 0) {
-				String tres = null;
-				JSONObject tresp = null;
-				String tresu = null;
-				JSONObject tobj = null;
-				int j = 0;
-				int k = 0;
-				int n = 0;
-				for (int i = 0; i < allauthors.size(); i++) {
-					tres = allauthors.get(i).toString();
-					tresp = new JSONObject(tres);
-					tresu = tresp.get("_source").toString();
-					tobj = new JSONObject(tresu);
-
-					String auth = tobj.get("blogger").toString();
-					String lang = tobj.get("language").toString();
-
-					lang = blog.normalizeLanguage(lang);
-					JSONObject content = new JSONObject();
-
-					String[] dateyear = tobj.get("date").toString().split("-");
-					String yy = dateyear[0];
-					sentimentpost.put(tobj.get("blogpost_id").toString());
-
-					if (!authors.has(auth)) {
-						String btoty = post._searchRangeTotalByBlogger("date", dt, dte, auth);
-
-						Double influence = Double
-								.parseDouble(post._searchRangeMaxByBloggers("date", dt, dte, auth));
-						int valu = new Double(btoty).intValue();
-						if (valu == 0) {
-							valu = 1;
-						}
-
-						content.put("blogger", auth);
-						content.put("influence", influence);
-						content.put("totalpost", valu);
-
-						authors.put(auth, content);
-						authorlooper.add(j, auth);
-						j++;
-					}
-
-					//Object ex = language.get(lang);
-					if (language.has(lang)) {
-						int val = new Double(language.get(lang).toString()).intValue() + 1;
-						language.put(lang, val);
-					} else {
-						language.put(lang, 1);
-						langlooper.add(n, lang);
-						n++;
-					}
-				}
-			}
-
-			if (allauthors2.size() > 0) {
-				String tres = null;
-				JSONObject tresp = null;
-				String tresu = null;
-				JSONObject tobj = null;
-				int j = 0;
-				int k = 0;
-				int n = 0;
-
-				for (int i = 0; i < allauthors2.size(); i++) {
-					tres = allauthors2.get(i).toString();
-					tresp = new JSONObject(tres);
-					tresu = tresp.get("_source").toString();
-					tobj = new JSONObject(tresu);
-
-					String auth = tobj.get("blogger").toString();
-					String lang = tobj.get("language").toString();
-
-					JSONObject content = new JSONObject();
-
-					String[] dateyear = tobj.get("date").toString().split("-");
-					String yy = dateyear[0];
-
-					if (influentialauthors.has(auth)) {
-						content = new JSONObject(influentialauthors.get(auth).toString());
-						Double inf = Double.parseDouble(content.get("influence").toString());
-						//inf = inf+influence;
-						int valu = new Double(content.get("totalpost").toString()).intValue();
-						content.put("blogger", auth);
-						content.put("influence", inf);
-						content.put("totalpost", valu);
-						influentialauthors.put(auth, content);
-					} else {
-
-						String btoty = post._searchRangeTotalByBlogger("date", dt, dte, auth);
-
-						// System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
-						Double influence = Double
-								.parseDouble(post._searchRangeMaxByBloggers("date", dt, dte, auth));
-
-						Double valu = Double.parseDouble(btoty);
-						if (valu == 0) {
-							valu = 1.0;
-						}
-
-						content.put("blogger", auth);
-						content.put("influence", influence);
-						content.put("totalpost", valu);
-						influentialauthors.put(auth, content);
-						influentialauthorlooper.add(j, auth);
-
-						authorinfluencearr.put(influence + "___" + auth);
-						authorpostingfreqarr.put(valu + "___" + auth);
-						j++;
-					}
-
-				}
-				//System.out.println("Authors here:"+graphyears);
-			}
-			
-
-			possentiment = new Liwc()._searchRangeAggregate("date", dt, dte,
-					sentimentpost, "posemo");
-			negsentiment = new Liwc()._searchRangeAggregate("date", dt, dte,
-					sentimentpost, "negemo");
-
-			//possentiment=allposemo+"";
-			//negsentiment=allnegemo+"";
-
 			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
 
-			//System.out.println("termss "+termss);
-		/* 	JSONArray topterms = new JSONArray(); */
+			
 			JSONObject keys = new JSONObject();
 			JSONObject positions = new JSONObject();
-			/* int termsposition = 0; */
-
+			
 			Map<String, Integer> top_terms = new HashMap<String, Integer>();
 			if (termss.size() > 0) {
 				for (int p = 0; p < termss.size(); p++) {
@@ -444,24 +294,7 @@
 					} else {
 						top_terms.put(tm, frequency2);
 					}
-					//JSONObject cont = new JSONObject();
-
-					/* if(keys.has(tm)){
-						String freq = keys.get(tm).toString();
-						String pos = positions.get(tm).toString();
-						int fr1 = Integer.parseInt(frequency);
-						int fr2 = Integer.parseInt(freq);
-						
-						cont.put("key", tm);
-						cont.put("frequency", (fr1+fr2));
-						topterms.put(Integer.parseInt(pos),cont);
-					}else{
-						cont.put("key", tm);
-						cont.put("frequency", frequency);
-						keys.put(tm,frequency);
-						positions.put(tm,termsposition);
-						topterms.put(cont);	
-					}		 */
+					
 				}
 			}
 
@@ -511,77 +344,7 @@
 
 				}
 			}
-			//System.out.println("senti"+ sentimentblog);
-
-			JSONObject bloggers = new JSONObject();
-			ArrayList looper = new ArrayList();
-
-			if (totalblog > 0) {
-				String bres = null;
-				JSONObject bresp = null;
-				String bresu = null;
-				JSONObject bobj = null;
-				int m = 0;
-
-				for (int k = 0; k < blogs.size(); k++) {
-					bres = blogs.get(k).toString();
-
-					bresp = new JSONObject(bres);
-					bresu = bresp.get("_source").toString();
-					bobj = new JSONObject(bresu);
-					String blogger = bobj.get("blogsite_name").toString();
-					String blogname = bobj.get("blogsite_name").toString();
-					//System.out.println("blogger here+"+blogger);
-					String sentiment = "1";// bobj.get("sentiment").toString();
-					String posting = bobj.get("totalposts").toString();
-					JSONObject content = new JSONObject();
-					String durl = bobj.get("blogsite_url").toString();//"";
-					try {
-						URI uri = new URI(bobj.get("blogsite_url").toString());
-						String domain = uri.getHost();
-						if (domain.startsWith("www.")) {
-							durl = domain.substring(4);
-						} else {
-							durl = domain;
-						}
-					} catch (Exception ex) {
-					}
-
-					String toty = post._searchRangeTotal("date", dt, dte, bobj.get("blogsite_id").toString());
-					//String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
-					Double influence = Double.parseDouble(
-							post._searchRangeMaxByBlogId("date", dt, dte, bobj.get("blogsite_id").toString()));
-
-					int valu = 1;//Integer.parseInt(btoty);
-					if (!bloggers.has(blogger)) {
-						content.put("blog", blogname);
-						content.put("id", bobj.get("blogsite_id").toString());
-						content.put("blogger", blogger);
-						content.put("sentiment", sentiment);
-						content.put("postingfreq", posting);
-						content.put("value", valu);
-						content.put("totalposts", toty);
-						content.put("blogsite_url", bobj.get("blogsite_url").toString());
-						content.put("blogsite_domain", durl);
-						bloggers.put(blogger, content);
-
-						bloginfluencearr.put(influence + "___" + blogger);
-						blogpostingfreqarr.put(posting + "___" + blogger);
-						looper.add(m, blogger);
-						m++;
-					}
-					
-				}
-			}
-
-			authorinfluencearr = post._sortJson2(authorinfluencearr);
-			authorpostingfreqarr = post._sortJson2(authorpostingfreqarr);
-
-			bloginfluencearr = post._sortJson2(bloginfluencearr);
-			blogpostingfreqarr = post._sortJson2(blogpostingfreqarr);
-			//store influenctial bloggers in session
-			session.setAttribute("influential_bloggers",authorinfluencearr);
-			
+						
 %>
 <!DOCTYPE html>
 <html>
@@ -1301,8 +1064,7 @@
 			type="hidden" name="date_start" id="date_start" value="" /> <input
 			type="hidden" name="date_end" id="date_end" value="" />
 		<textarea style="display: none" name="blogs" id="blogs">
-			<%
-			
+			<%	
 			if (blogPostFrequency.size() > 0) {
 							int p = 0;
 							for (int m = 0; m < blogPostFrequency.size(); m++) {
