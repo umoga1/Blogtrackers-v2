@@ -73,7 +73,7 @@ $(function() {
     
     for (var i = 0, l= mymarker.length; i < l; i++) {
     	console.log(mapObj.markers[i].element);
-        mapObj.markers[i].element.style.initial.r = mymarker[i].r / 1.15 * 3.0;
+        mapObj.markers[i].element.style.initial.r = (mymarker[i].r / 0.15) * 1.2;
     }
     mapObj.applyTransform();
 
