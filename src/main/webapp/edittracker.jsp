@@ -285,7 +285,7 @@ if(ids.length()>0){
 								if (!query.equals("")) {
 									blogs = blg._fetch(query);
 									
-									//System.out.println(blogs);
+									System.out.println(blogs);
 									if (blogs.size() > 0) {
 										totalblog = blogs.size();	
 									
