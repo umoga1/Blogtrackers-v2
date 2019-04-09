@@ -46,12 +46,21 @@ if(action.toString().equals("gettotal")){
 <%=post._searchRangeAggregateByBloggers("date", dt, dte, blogger.toString())%>	
 <% }else if(action.toString().equals("getstats")){
 	
-	String totalpost = post._searchRangeTotal("date", dt, dte, blog_id.toString());
-	String totalinfluence = post._searchRangeAggregate("date", dt, dte, blogger.toString());
+	//String totalpost = post._searchRangeTotal("date", dt, dte, blog_id.toString());
+	//String totalinfluence = post._searchRangeAggregate("date", dt, dte, blogger.toString());
 	
-	String totalcomment = post._searchRangeAggregate("date", dt, dte, blogger.toString(),"num_comments");
+	String totalpost = post._searchRangeTotalByBlogger("date",dt, dte, blogger.toString());
+   String formattedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
+
+	float totalinfluence  = Float.parseFloat(post._searchRangeAggregateByBloggers("date",dt, dte, blogger.toString()));
 	
-	JSONArray sentimentpost = new JSONArray();
+	String totalcomment =  new Comment()._getCommentByBlogger(blogger.toString());
+	String formattedtotalcomment = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment));
+
+	//String totalcomment = post._searchRangeAggregate("date", dt, dte, blogger.toString(),"num_comments");
+	
+	//JSONArray sentimentpost = new JSONArray();
+	/*
 	ArrayList allauthors = post._getBloggerByBloggerName("date", dt, dte, blogger.toString(), "influence_score", "DESC");
 	if(allauthors.size()>0){
 		String tres = null;
@@ -72,7 +81,12 @@ if(action.toString().equals("gettotal")){
 
 	String possentiment=new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"posemo");
 	String negsentiment=new Liwc()._searchRangeAggregate("date", date_start.toString(), date_end.toString(), sentimentpost,"negemo");
+	*/
+	Liwc liwc = new Liwc();
 	
+	String possentiment= liwc._getPosEmotionByBlogger(blogger.toString());
+	String negsentiment  = liwc._getNegEmotionByBlogger(blogger.toString());
+
 	int comb = Integer.parseInt(possentiment)+Integer.parseInt(negsentiment);
 
 	String totalsenti  = comb+"";
@@ -81,7 +95,7 @@ if(action.toString().equals("gettotal")){
 	result.put("totalpost",totalpost);
 	result.put("totalinfluence",totalinfluence);
 	result.put("totalsentiment",totalsenti);
-	result.put("totalcomment",totalcomment);
+	result.put("totalcomment",formattedtotalcomment);
 %>
 <%=result.toString()%>
  <% }else if(action.toString().equals("getmostacticelocation")){ 

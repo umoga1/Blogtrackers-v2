@@ -260,7 +260,7 @@ public class Blogs extends DbConnection{
 		blogids = "("+blogids+")";
 		
 		try {
-		result = db.query("SELECT (select distinct blogsite_name from blogsites bs where bl.blogsite_id = bs.blogsite_id) AS blogsiteName, MAX(bl.influence_score) FROM blogger bl where blogsite_id in "+
+		result = db.query("SELECT (select distinct blogsite_name from blogsites bs where bl.blogsite_id = bs.blogsite_id) AS blogsiteName,  MAX(bl.influence_score), bl.blogsite_id FROM blogger bl where blogsite_id in "+
 				(blogids)+" group by blogsiteName order by influence_score desc");		
 			
 		}catch(Exception e){
@@ -278,7 +278,7 @@ public class Blogs extends DbConnection{
 		blogids = blogids.replaceAll(", $", "");
 		blogids = "("+blogids+")";
 		try {
-		result = db.query("select blogger_name, max(influence_score) from blogger where blogsite_id in "+
+		result = db.query("select blogger_name, max(influence_score), blogsite_id from blogger where blogsite_id in "+
 				(blogids)+" group by blogger_name order by influence_score desc");		
 			
 		}catch(Exception e){
