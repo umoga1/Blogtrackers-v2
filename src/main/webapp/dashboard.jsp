@@ -200,8 +200,8 @@
 			
 			//Our New Code
 			Liwc liwc = new Liwc();
-			
 			String totalbloggers = bloggerss._getBloggerById(ids);
+
 
 			ArrayList locations = blog._getLocation(ids);
 			ArrayList languages = blog._getLanguage(ids);
@@ -236,10 +236,8 @@
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			//totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			totalpost = post._getBlogPostById(ids);
-			System.out.println(ids);
 			if (totalpost.equals("")) {
 				totalpost = post._searchRangeTotal("date", dt, dte, ids); // To be modified later
-
 			}
 			
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
@@ -255,7 +253,6 @@
 			JSONObject graphyears = new JSONObject();
 			JSONArray yearsarray = new JSONArray();
 
-			
 			int b = 0;
 			for (int y = ystint; y <= yendint; y++) {
 				
@@ -300,6 +297,7 @@
 				}
 			}
 
+			
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
 			if (outlinks.size() > 0) {
