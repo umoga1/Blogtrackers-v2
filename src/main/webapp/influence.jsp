@@ -41,8 +41,7 @@ Terms term  = new Terms();
 Blogpost_entitysentiment blogpostsentiment  = new Blogpost_entitysentiment();
 ArrayList allterms = new ArrayList(); 
 ArrayList allentitysentiments = new ArrayList(); 
-
-
+Comment comment = new Comment();
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
 if (userinfo.size()<1) {
@@ -250,10 +249,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 		dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 		
+		Object infbloggers = (null == session.getAttribute("influentialbloggers")) ? blog._getInfluencialBlog(ids) : session.getAttribute("influentialbloggers");
 		
-		//allauthors = post._getBloggerByBlogId("date",dt, dte,ids);//post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-		//post._getBloggerByBlogId("date",dt, dte,ids);
-	    allauthors= post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+		ArrayList influenceBlogger = (ArrayList)infbloggers;
+	   // allauthors= post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 		
 	String allpost = "0";
 	float totalinfluence = 0;
@@ -522,19 +521,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject influecechart = new JSONObject();
 								JSONObject authors = new JSONObject();
 								JSONObject authoryears = new JSONObject();
-								JSONArray authorcount = new JSONArray();
-								JSONArray posttodisplay = new JSONArray();
 								JSONObject years = new JSONObject();
 								JSONArray yearsarray = new JSONArray();
 								JSONObject locations = new JSONObject();
-								JSONObject authorposts = new JSONObject();
-								JSONObject bloggersort = new JSONObject();
 								int tcomment = 0;
-								JSONObject bloggersortdet = new JSONObject();
-								JSONArray bloggerarr = new JSONArray();
-								
-								
-								JSONArray bloggertosort = new JSONArray();
 								
 								int influencecount=0;
 								
@@ -545,146 +535,52 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								int l=0;
 								int qc=0;
 								int tloc =0;
-								if(allauthors.size()>0){
-									
-									String tres = null;
-									JSONObject tresp = null;
-									String tresu = null;
-									JSONObject tobj = null;
-									int j=0;
-									int k=0;
-									for(int i=0; i< allauthors.size(); i++){
-										tres = allauthors.get(i).toString();	
-										tresp = new JSONObject(tres);
-										tresu = tresp.get("_source").toString();
-										tobj = new JSONObject(tresu);
-										
-										String auth  = tobj.get("blogger").toString();
-										String posttitle  = tobj.get("title").toString();
-										String posturl = tobj.get("permalink").toString();
-										String postid  = tobj.get("blogpost_id").toString();
-										String blogid  = tobj.get("blogsite_id").toString();
-										String body  = tobj.get("post").toString();
-										String dat  = tobj.get("date").toString();
-										String num_comment  = tobj.get("num_comments").toString();
-										num_comment = num_comment.equals("null")?"0":num_comment;
-										
-										
-										tcomment+=Integer.parseInt(num_comment);
 
-									    sentimentpost.put(tobj.get("blogpost_id").toString());
-									    postidss+=tobj.get("blogpost_id").toString()+",";
-										
-									   
-
-									    if(i==0){
-											postidss+=tobj.get("blogpost_id").toString()+",";
-											
-											// Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-											 //totalinfluence+=influence;
-										}
-									    
-										
-										String[] dateyear=tobj.get("date").toString().split("-");
-										String yy= dateyear[0];
-									    String mm = dateyear[1];
-									    
-									    JSONArray postauth = new JSONArray();
-								    	if(!authorposts.has(auth)){
-								    		postauth.put(postid);
-										}else{
-											
-											postauth = new JSONArray(authorposts.get(auth).toString());
-											postauth.put(postid);
-											
-										}
-								    	
-								    	authorposts.put(auth,postauth);
-									    
-									    String bloggerselect="";
-									    
-									    if(!authors.has(auth)){
-									    	String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
-									    	
-											JSONObject xy = new JSONObject();
-									    	
-									    	String x =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
-									    	int val = new Double(post._searchRangeMaxByBloggers("date",dt, dte,auth)).intValue(); 
-									    	
-									    	
-									    	String y = val+"";
-									    	xy.put("x",y);
-									    	xy.put("y",x);
-											
-									    	influencecount+=val;
-									    	
-											l++;
-											bloggersort.put(auth, new Double(postcount).intValue());
-											JSONObject bloggerj = new JSONObject();
-											bloggerj.put("blogger",auth);
-											bloggerj.put("blogid",blogid);
-											bloggerj.put("influence",val);
-											bloggerj.put("selected",bloggerselect);
-											bloggerj.put("totalpost",postcount);
-											bloggerj.put("postarray",postauth);
-											bloggerarr.put(val+"___"+auth);
-											
-											//bloggertosort.put(auth,val);
-										    bloggersortdet.put(auth,bloggerj);
-									    	authors.put(auth, auth);
-									    	authorcount.put(j, auth);
-									    	
-									    	bloggertosort.put(bloggerj);
-									    	influecechart.put(auth,xy);
-									    	
-									    	j++;
-									    	
-									    	 }  
-										   // System.out.println(authoryears);
-										}
-									} 
-								
+			    if (influenceBlogger.size() > 0) {
+					int k = 0;
+					for (int y = 0; y < influenceBlogger.size(); y++) {
+					ArrayList<?> bloggerInfluence = (ArrayList<?>) influenceBlogger.get(y);
+					String bloggerInf = bloggerInfluence.get(0).toString();
+					String bloggerInfFreq = bloggerInfluence.get(1).toString();
+					String blogsiteid = bloggerInfluence.get(2).toString();
 				
-				/* Use this to get influenctial blogger from session */
-				/*
-				Object tempinfluentialbloggers = session.getAttribute("influential_bloggers");
-				
-				if(null!=tempinfluentialbloggers && tempinfluentialbloggers.toString().equals("{}") ){
-					bloggerarr = new JSONArray(tempinfluentialbloggers.toString()); 
-				}else{
-			    	bloggerarr = post._sortJson2(bloggerarr);
-				}
-				*/
-				
-				bloggerarr = post._sortJson2(bloggerarr);
-				for(int m=0; m<bloggerarr.length(); m++){
-					String key = bloggerarr.get(m).toString();
-					String[] splitter = key.split("___");
-					String au = splitter[1];
-			  		JSONObject det= new JSONObject(bloggersortdet.get(au).toString());
 					String dselected = "";
-					
-					JSONArray selposts = new JSONArray(det.get("postarray").toString());
-					String postids = "";
-					for(int r=0; r<selposts.length(); r++){
-						postids += selposts.get(r).toString()+",";
-					}
-					
-					if(m==0){
-						dselected = "abloggerselected";
-							mostactiveblogger = au;
-							
-							selectedid=det.get("blogid").toString();
-							allposts =  post._getBloggerByBloggerName("date",dt, dte,au,"influence_score","DESC");
-							//System.out.println("all posts="+allposts);		
-					}
-			    	%>
-					<input type="hidden" id="postby<%=au.replaceAll(" ","__")%>" value="<%=postids%>" />
-	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","__")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
-	    			<% 
-					//JSONObject jsonObj = bloggersort.getJSONObject(m);
-				}
+				
+					//JSONArray selposts = new JSONArray(det.get("postarray").toString());
+					String postids = "";					
+						if (k < 10) {
 								
+								String postcount = post._searchRangeTotalByBlogger("date", dt, dte, bloggerInf);				    	
+								JSONObject xy = new JSONObject();
+						    	
+						    	String xaxis =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
+						    	int val = new Double(post._searchRangeMaxByBloggers("date",dt, dte,bloggerInf)).intValue(); 
+						    	
+						    	String yaxis = val+"";
+						    	xy.put("x",yaxis);
+						    	xy.put("y",xaxis);
+								
+						    	//influencecount+=val;
+								
+						    	influecechart.put(bloggerInf,xy);
+						    	
+							if(k==0){
+								dselected = "abloggerselected";
+								mostactiveblogger = bloggerInf;								
+								allposts =  post._getBloggerByBloggerName("date",dt, dte,bloggerInf,"influence_score","DESC");
+							}
+							%>
+							<input type="hidden" id="postby<%=bloggerInf.replaceAll(" ","__")%>" value="<%=postids%>" />
+	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=bloggerInf.replaceAll(" ","__")%>***<%=blogsiteid%>" ><b><%=bloggerInf%></b></a>
+	    			
+							<%
+							k++;
+										
+						}
+					}
+			    }
+			    
+							
 			%>
 
 						</div>
@@ -696,50 +592,35 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 <!--  Populate terms and influence score json for chart-->
 <%
-/*
-JSONArray sentimentpost = new JSONArray();
-String postidss = "";
-		
-ArrayList allauthors2 = post._getBloggerByBloggerName("date", dt, dte, mostactiveblogger, "influence_score", "DESC");
-if(allauthors2.size()>0){
-	String tres = null;
-	JSONObject tresp = null;
-	String tresu = null;
-	JSONObject tobj = null;
-	int j=0;
-	int k=0;
-	int n = 0;
-	for(int i=0; i< allauthors2.size(); i++){
-				tres = allauthors2.get(i).toString();			
-				tresp = new JSONObject(tres);
-			    tresu = tresp.get("_source").toString();
-			    tobj = new JSONObject(tresu);				    
-			    sentimentpost.put(tobj.get("blogpost_id").toString());
-			    postidss+=tobj.get("blogpost_id").toString()+",";
-		}
-} 	
-*/
 
-String possentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"posemo");
-String negsentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"negemo");
+Liwc liwc = new Liwc();
+//String possentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"posemo");
+//String negsentiment2 =new Liwc()._searchRangeAggregate("date", dt, dte, sentimentpost,"negemo");
+
+String possentiment2= liwc._getPosEmotionByBlogger(mostactiveblogger);
+String negsentiment2  = liwc._getNegEmotionByBlogger(mostactiveblogger);
+
 
 int comb = new Double(possentiment2).intValue() + new Double(negsentiment2).intValue();
-String totalcomment = tcomment+"";// post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
-// formated total comment
+//String totalcomment = tcomment+"";// post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
+
+String totalcomment =  comment._getCommentByBlogger(mostactiveblogger);
 String formattedtotalcomment = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment));
-totalinfluence  = influencecount;// Float.parseFloat(post._searchRangeAggregate("date", dt, dte, ids,"influence_score"));
+
+totalinfluence  = Float.parseFloat(post._searchRangeAggregateByBloggers("date",dt, dte, mostactiveblogger));
 
 String formatedtotalinfluence = NumberFormat.getNumberInstance(Locale.US).format(totalinfluence);
 
-totalpost = post._searchRangeTotal("date", dt, dte,ids);
+//totalpost = post._searchRangeTotal("date", dt, dte,ids);
+
+//totalpost = post._getBlogPostById(ids);
+totalpost = post._searchRangeTotalByBlogger("date",dt, dte, mostactiveblogger);
 String formattedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
-//totalpost = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
 
 String totalsenti  = comb+"";
-//System.out.println("Post ids ="+postidss);
-allterms = term._searchByRange("blogpostid", dt, dte,postidss);
 
-
+//allterms = term._searchByRange("blogpostid", dt, dte,postidss);
+allterms = term.getTermsByBlogger(mostactiveblogger, dt, dte);
 
 int highestfrequency = 0;
 JSONArray topterms = new JSONArray();
@@ -773,7 +654,7 @@ if (allterms.size() > 0) {
 int base = 0;
 
 JSONObject postyear =new JSONObject();
-if(authorcount.length()>0){
+if(influenceBlogger.size()>0){
 	for(int n=0; n<1;n++){
 		int b=0;
 
@@ -786,8 +667,7 @@ if(authorcount.length()>0){
 						dtue = dte;
 					}
 				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger,"influence_score");
-				   //String totu = post._searchRangeMaxByBloggers("date",dt, dte,mostactiveblogger);
-			    	
+				   
 				   if(new Double(totu).intValue() <base){
 					   base = new Double(totu).intValue();
 				   }
@@ -2554,7 +2434,7 @@ wordtagcloud("#tagcloudcontainer",450);
  </script>
 <script src="pagedependencies/baseurl.js"></script>
  
-<script src="pagedependencies/influence.js?v=67"></script>
+<script src="pagedependencies/influence.js?v=78967"></script>
 	
 </body>
 </html>

@@ -168,6 +168,26 @@ public ArrayList _searchByRangeByPostId(String blog_ids) throws Exception {
 	return response;
 }
 
+
+public ArrayList getTermsByBlogger(String blogger,String date_start, String date_end) throws Exception {
+	
+
+	ArrayList response =new ArrayList();
+	DbConnection db = new DbConnection();
+	
+	try {
+		//response = db.queryJSON("SELECT * FROM terms WHERE blogpostid IN "+blog_ids+" ");
+		response = db.queryJSON("SELECT (select blogpost_id from blogposts bp where bp.blogpost_id = cm.blogpostid AND bp.blogger='"+blogger+"' ) as blogpostid, cm.blogsiteid as blogsiteid, cm.blogpostid as blogpostid, cm.term as term, cm.frequency as frequency   FROM terms cm ");
+	}catch(Exception e){
+		return response;
+	}
+	
+	
+	return response;
+}
+
+
+
 public ArrayList _search(String term,String from) throws Exception {
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 
 	 		"  \"query\": {\r\n" + 

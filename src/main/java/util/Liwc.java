@@ -243,6 +243,43 @@ public class Liwc {
 		return result;
 
 	}
+	
+	
+	public String _getNegEmotionByBlogger(String blogger) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		
+		try {
+		result = db.query("SELECT SUM(negemo) FROM blogtrackers.liwc where blogpostid in (select blogpost_id from blogposts where blogger ='"+blogger+"')");		
+			if(result.size()>0){
+			 	ArrayList hd = (ArrayList)result.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+		}
+		return count;
+
+	}
+	
+	public String _getPosEmotionByBlogger(String blogger) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		
+		try {
+		result = db.query("SELECT SUM(posemo) FROM blogtrackers.liwc where blogpostid in (select blogpost_id from blogposts where blogger ='"+blogger+"')");		
+			if(result.size()>0){
+			 	ArrayList hd = (ArrayList)result.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+		}
+		return count;
+
+	}
 	public ArrayList _fetch(String ids) throws Exception {
 		ArrayList result = new ArrayList();
 		String[] args = ids.split(",");

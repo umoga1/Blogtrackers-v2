@@ -17,13 +17,15 @@
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 Object post_ids = (null == request.getParameter("post_ids")) ? "" : request.getParameter("post_ids");
+Object blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 
 Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
 
 String dt = date_start.toString();
 String dte = date_end.toString();
-ArrayList allterms = new Terms()._searchByRange("blogsiteid", dt, dte, post_ids.toString());
+//ArrayList allterms = new Terms()._searchByRange("blogsiteid", dt, dte, post_ids.toString());
 int highestfrequency = 0;
+ArrayList allterms = new Terms().getTermsByBlogger(blogger.toString(), dt.toString(), dte.toString());
 
 
 JSONArray topterms = new JSONArray();

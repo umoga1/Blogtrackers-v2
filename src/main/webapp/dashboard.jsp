@@ -212,6 +212,7 @@
 			ArrayList getPositiveEmotion = liwc._getPosEmotion(ids);
 			ArrayList getNegativeEmotion = liwc._getNegEmotion(ids);
 			
+			session.setAttribute("influentialbloggers", influenceBlogger);
 			
 			String[] yst = dt.split("-");
 			String[] yend = dte.split("-");
