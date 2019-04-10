@@ -27,34 +27,36 @@ String dte = date_end.toString();
 int highestfrequency = 0;
 ArrayList allterms = new Terms().getTermsByBlogger(blogger.toString(), dt.toString(), dte.toString());
 
-
-JSONArray topterms = new JSONArray();
-JSONObject keys = new JSONObject();
 String mostusedkeyword="";
+Map<String, Integer> topterms = new HashMap<String, Integer>();
 if (allterms.size() > 0) {
 	for (int p = 0; p < allterms.size(); p++) {
 		String bstr = allterms.get(p).toString();
 		JSONObject bj = new JSONObject(bstr);
 		bstr = bj.get("_source").toString();
 		bj = new JSONObject(bstr);
-		String frequency = bj.get("frequency").toString();
-		int freq = Integer.parseInt(frequency);
-		
 		String tm = bj.get("term").toString();
+		String frequency = bj.get("frequency").toString();
+		int frequency2 = Integer.parseInt(frequency);
+		
+		int freq = frequency2;
+		if (topterms.containsKey(tm)) {
+			topterms.put(tm, topterms.get(tm) + frequency2);
+			freq= topterms.get(tm) + frequency2;
+		} else {
+			topterms.put(tm, frequency2);
+		}
+		
 		if(freq>highestfrequency){
 			highestfrequency = freq;
 			mostusedkeyword = tm;
 		}
-		
-		JSONObject cont = new JSONObject();
-		cont.put("key", tm);
-		cont.put("frequency", frequency);
-		if(!keys.has(tm)){
-			keys.put(tm,tm);
-			topterms.put(cont);
-		}
 	}
 }
+
+
+
+
 
 if(action.toString().equals("gettopkeyword")){
 %>
@@ -89,15 +91,11 @@ function wordtagcloud(element, height) {
     height = height - margin.top - margin.bottom - 5;
 		
 		var container = d3Container.append("svg");
-	var frequency_list = [
-	 <%if (topterms.length() > 0) {
-					for (int i = 0; i < topterms.length(); i++) {
-						JSONObject jsonObj = topterms.getJSONObject(i);
-						int size = Integer.parseInt(jsonObj.getString("frequency")) * 2;%>
-		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
-	 <%}
-				}%>
-	 ];
+	var frequency_list = [<%if (topterms.size() > 0) {
+		for (String terms : topterms.keySet()) {
+			int size = topterms.get(terms);%>
+			{"text":"<%=terms.toString()%>","size":<%=size%>},
+		<%}}%>];
 	var color = d3.scale.linear()
 	.domain([0,1,2,3,4,5,6,10,12,15,20])
 	.range(["#0080CC", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
