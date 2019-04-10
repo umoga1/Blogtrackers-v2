@@ -1449,7 +1449,23 @@ public class Blogposts {
 	}
 
 
-
+public ArrayList _searchPostTotal(String field, int greater, int less, String blog_ids) throws Exception {
+		
+		ArrayList hd = new ArrayList();
+		blog_ids = blog_ids.replaceAll(",$", "");
+		blog_ids = blog_ids.replaceAll(", $", "");
+		
+		blog_ids = "("+blog_ids+")";
+		
+		try {
+			hd = DbConnection.query("select year, sum(totalpost) from blogpostyearcount_byblogsite where blogsite_id in "+blog_ids+" and year between '"+greater+"' AND '"+less+"' group by year ");		
+	
+		}catch(Exception e){
+			return hd;
+		}
+		
+		return hd;
+}
 
 
 	public String _searchRangeTotal(String field,String greater, String less, String blog_ids) throws Exception {

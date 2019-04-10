@@ -15,6 +15,7 @@
 <%@page import="java.time.LocalDateTime"%>
 
 <%
+  
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
@@ -24,7 +25,7 @@
 	String sort = (null == request.getParameter("sortby"))
 			? "blog"
 			: request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
-
+	
 	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
 	} else {
@@ -45,11 +46,15 @@
 		Outlinks outl = new Outlinks();
 		Comment comment = new Comment();
 		if (tid != "") {
+		// fast query	
 			detail = tracker._fetch(tid.toString());
-
+			
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
+			
 		}
+		
+		// fast query
 		boolean isowner = false;
 		JSONObject obj = null;
 		String ids = "";
@@ -68,8 +73,13 @@
 				ids = query;
 			}
 		}
+		
+		
+		
 
 		userinfo = DbConnection.query("SELECT * FROM usercredentials where Email = '" + email + "'");
+		
+		
 		if (userinfo.size() < 1 || !isowner) {
 			response.sendRedirect("index.jsp");
 		} else {
@@ -96,6 +106,7 @@
 			} catch (Exception e) {
 
 			}
+			
 			String[] user_name = name.split(" ");
 			Blogposts post = new Blogposts();
 			Blogs blog = new Blogs();
@@ -198,19 +209,34 @@
 				dte = year + "-12-" + ddey;
 			} 
 			
+			// fast till here
+			
 			//Our New Code
 			Liwc liwc = new Liwc();
 			String totalbloggers = bloggerss._getBloggerById(ids);
 
 
 			ArrayList locations = blog._getLocation(ids);
+			System.out.println("all blog location");
 			ArrayList languages = blog._getLanguage(ids);
+			System.out.println("all blog language");
 			ArrayList bloggerPostFrequency = bloggerss._getBloggerPostFrequency(ids);
+			System.out.println("all blogger post frequency");
 			ArrayList blogPostFrequency = blog._getblogPostFrequency(ids);
+			System.out.println("all blog post frequency");
 			ArrayList influenceBlog = blog._getInfluencialBlog(ids);
+			System.out.println("all blog influencial");
 			ArrayList influenceBlogger = blog._getInfluencialBlogger(ids);
+			System.out.println("all bloggger influencial");
+			
+			// needs reindexing for large data set
 			ArrayList getPositiveEmotion = liwc._getPosEmotion(ids);
+			// slow
+			System.out.println("all positive emotion");
 			ArrayList getNegativeEmotion = liwc._getNegEmotion(ids);
+			// slow
+			System.out.println("all negative emotion");
+			Map<Integer, Integer> postingTrend = new TreeMap<Integer, Integer>();
 			
 			session.setAttribute("influentialbloggers", influenceBlogger);
 			
@@ -235,18 +261,25 @@
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			//totalpost = post._searchRangeTotal("date", dt, dte, ids);
+			
 			totalpost = post._getBlogPostById(ids);
+			
 			if (totalpost.equals("")) {
 				totalpost = post._searchRangeTotal("date", dt, dte, ids); // To be modified later
 			}
-			
+			System.out.println("termss start");
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
+			System.out.println("termss end");
+			System.out.println("outlinks start");
 			outlinks = outl._searchByRange("date", dt, dte, ids);
-
+			System.out.println("outlinks end");
+			System.out.println("totalcomment start");
 			String totalcomment = comment._getCommentById(ids);
+			System.out.println("totalcomment end");
 			
+			System.out.println("blogfetch start");
 			ArrayList blogs = blog._fetch(ids); //To be removed
-
+			System.out.println("blogfetch end");
 			String[] blogss = ids.split(",");
 			int totalblog = blogss.length;
 
@@ -254,6 +287,28 @@
 			JSONArray yearsarray = new JSONArray();
 
 			int b = 0;
+			System.out.println("year start"+ystint +":"+yendint);
+			ArrayList postingTotal = post._searchPostTotal("date", ystint, yendint, ids);
+
+			for(int i = ystint; i <= yendint; i++){
+				postingTrend.put(i, 0);
+			}
+			if (postingTotal.size() > 0) {
+				
+				for (int m = 0; m < postingTotal.size(); m++) {
+				ArrayList<?> postCount = (ArrayList<?>) postingTotal.get(m);
+				String postyear = postCount.get(0).toString();
+				String yearcount = postCount.get(1).toString();
+				System.out.println(postyear+":"+yearcount);
+				if(postingTrend.containsKey(Integer.parseInt(postyear))){
+					postingTrend.put(Integer.parseInt(postyear), Integer.parseInt(yearcount));
+				}
+				}
+				}
+			for (int y = ystint; y <= yendint; y++){
+				System.out.println(y+":"+postingTrend.get(y)+"wale kunl");
+			}
+	/* 		
 			for (int y = ystint; y <= yendint; y++) {
 				
 				String dtu = y + "-01-01";
@@ -264,14 +319,17 @@
 				} else if (b == yendint) {
 					dtue = dte;
 				}
-
+				System.out.println("search range start");
 				String totu = post._searchRangeTotal("date", dtu, dtue, ids);
-
+				
+				System.out.println("search range end");	
 				graphyears.put(y + "", totu);
 				yearsarray.put(b, y);
 				b++;
 			}
-
+			System.out.println("year end");
+			 */
+			
 			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
 
 			
@@ -279,6 +337,7 @@
 			JSONObject positions = new JSONObject();
 			
 			Map<String, Integer> top_terms = new HashMap<String, Integer>();
+			System.out.println("Start of terms");
 			if (termss.size() > 0) {
 				for (int p = 0; p < termss.size(); p++) {
 					String bstr = termss.get(p).toString();
@@ -296,7 +355,7 @@
 					
 				}
 			}
-
+			System.out.println("End of terms");
 			
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
@@ -3044,11 +3103,16 @@ $(".option-lable").on("click",function(e){
          // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
          // ];
          data = [	
-        	[<%for (int q = 0; q < sortedyearsarray.length(); q++) {
-						String yer = sortedyearsarray.get(q).toString();
-						int vlue = new Double(graphyears.get(yer).toString()).intValue();%>
-     		  			{"date":"<%=yer%>","close":<%=vlue%>},
-     		<%}%>
+        	[<%
+        	 if (postingTrend.size() > 0) {
+        		 System.out.println(postingTrend+"right here");
+					for (int key: postingTrend.keySet()) {
+						System.out.println(postingTrend.get(key)+"good good g");
+						/* String postYear = postingTrend.get(key).toString(); */
+						int postCount = Integer.parseInt(postingTrend.get(key).toString());
+						%>
+     		  			{"date":"<%=key%>","close":<%=postCount%>},
+     		<%}}%>
      		]
      	  
         	 /*

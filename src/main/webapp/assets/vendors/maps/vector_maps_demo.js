@@ -73,7 +73,15 @@ $(function() {
     
     for (var i = 0, l= mymarker.length; i < l; i++) {
     	console.log(mapObj.markers[i].element);
-        mapObj.markers[i].element.style.initial.r = (mymarker[i].r / 0.40) * 1.03;
+    	if(mymarker[i].r >=1 && mymarker[i].r <=3)
+    		{
+    		mapObj.markers[i].element.style.initial.r = (mymarker[i].r / 0.75) * 1.15;
+    		}
+    	else if(mymarker[i].r > 30)
+    		{
+    		mapObj.markers[i].element.style.initial.r = mymarker[i].r/5;
+    		}
+        
     }
     mapObj.applyTransform();
 
