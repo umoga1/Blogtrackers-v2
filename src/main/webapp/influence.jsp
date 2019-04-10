@@ -550,7 +550,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject xy = new JSONObject();
 						    	
 						    	String xaxis =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
-						    	int val = new Double(post._searchRangeMaxByBloggers("date",dt, dte,bloggerInf)).intValue(); 
+						    	//int val = new Double(post._searchRangeMaxByBloggers("date",dt, dte,bloggerInf)).intValue(); 
+						    	int val = new Double(blog._getBloggerInfluenceScore(bloggerInf)).intValue(); 
 						    	
 						    	String yaxis = val+"";
 						    	xy.put("x",yaxis);
