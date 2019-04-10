@@ -524,17 +524,13 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								JSONObject years = new JSONObject();
 								JSONArray yearsarray = new JSONArray();
 								JSONObject locations = new JSONObject();
-								int tcomment = 0;
 								
 								int influencecount=0;
 								
 								String selectedid="";
-								JSONArray sentimentpost = new JSONArray();
-								String postidss = "";
 								
-								int l=0;
-								int qc=0;
-								int tloc =0;
+								String postidss = "";
+							
 
 			    if (influenceBlogger.size() > 0) {
 					int k = 0;
@@ -669,7 +665,7 @@ if(influenceBlogger.size()>0){
 					}else if(b==yendint){
 						dtue = dte;
 					}
-				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger,"influence_score");
+				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger);
 				   
 				   if(new Double(totu).intValue() <base){
 					   base = new Double(totu).intValue();

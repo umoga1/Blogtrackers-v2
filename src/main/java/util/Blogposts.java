@@ -498,6 +498,7 @@ public class Blogposts {
 		
 	}
 	
+	
 	public String _searchRangeAggregateByBloggers(String field,String greater, String less, String bloggers) throws Exception {
 		
 		String count = "0";
