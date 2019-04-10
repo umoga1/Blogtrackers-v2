@@ -10,6 +10,9 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.io.*"%>
+<%@page import="java.util.logging.Logger" %>
+<%-- <%@ page buffer="none" %> --%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.time.LocalDateTime"%>
@@ -127,7 +130,7 @@
 			Date nnow = new Date();
 			
 			
-			System.out.println("start:"+stdate+", End:"+endate);
+			//System.out.println("start:"+stdate+", End:"+endate);
 
 			try {
 				dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
@@ -217,25 +220,25 @@
 
 
 			ArrayList locations = blog._getLocation(ids);
-			System.out.println("all blog location");
+			//System.out.println("all blog location");
 			ArrayList languages = blog._getLanguage(ids);
-			System.out.println("all blog language");
+			//System.out.println("all blog language");
 			ArrayList bloggerPostFrequency = bloggerss._getBloggerPostFrequency(ids);
-			System.out.println("all blogger post frequency");
+			//System.out.println("all blogger post frequency");
 			ArrayList blogPostFrequency = blog._getblogPostFrequency(ids);
-			System.out.println("all blog post frequency");
+			//System.out.println("all blog post frequency");
 			ArrayList influenceBlog = blog._getInfluencialBlog(ids);
-			System.out.println("all blog influencial");
+			//System.out.println("all blog influencial");
 			ArrayList influenceBlogger = blog._getInfluencialBlogger(ids);
-			System.out.println("all bloggger influencial");
+			//System.out.println("all bloggger influencial");
 			
 			// needs reindexing for large data set
 			ArrayList getPositiveEmotion = liwc._getPosEmotion(ids);
 			// slow
-			System.out.println("all positive emotion");
+			//System.out.println("all positive emotion");
 			ArrayList getNegativeEmotion = liwc._getNegEmotion(ids);
 			// slow
-			System.out.println("all negative emotion");
+			//System.out.println("all negative emotion");
 			Map<Integer, Integer> postingTrend = new TreeMap<Integer, Integer>();
 			
 			session.setAttribute("influentialbloggers", influenceBlogger);
@@ -267,19 +270,19 @@
 			if (totalpost.equals("")) {
 				totalpost = post._searchRangeTotal("date", dt, dte, ids); // To be modified later
 			}
-			System.out.println("termss start");
+			//System.out.println("termss start");
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
-			System.out.println("termss end");
-			System.out.println("outlinks start");
+			//System.out.println("termss end");
+			//System.out.println("outlinks start");
 			outlinks = outl._searchByRange("date", dt, dte, ids);
-			System.out.println("outlinks end");
-			System.out.println("totalcomment start");
+			//System.out.println("outlinks end");
+			//System.out.println("totalcomment start");
 			String totalcomment = comment._getCommentById(ids);
-			System.out.println("totalcomment end");
+			//System.out.println("totalcomment end");
 			
-			System.out.println("blogfetch start");
+			//System.out.println("blogfetch start");
 			ArrayList blogs = blog._fetch(ids); //To be removed
-			System.out.println("blogfetch end");
+			//System.out.println("blogfetch end");
 			String[] blogss = ids.split(",");
 			int totalblog = blogss.length;
 
@@ -287,7 +290,7 @@
 			JSONArray yearsarray = new JSONArray();
 
 			int b = 0;
-			System.out.println("year start"+ystint +":"+yendint);
+			//System.out.println("year start"+ystint +":"+yendint);
 			ArrayList postingTotal = post._searchPostTotal("date", ystint, yendint, ids);
 
 			for(int i = ystint; i <= yendint; i++){
@@ -299,15 +302,13 @@
 				ArrayList<?> postCount = (ArrayList<?>) postingTotal.get(m);
 				String postyear = postCount.get(0).toString();
 				String yearcount = postCount.get(1).toString();
-				System.out.println(postyear+":"+yearcount);
+				//System.out.println(postyear+":"+yearcount);
 				if(postingTrend.containsKey(Integer.parseInt(postyear))){
 					postingTrend.put(Integer.parseInt(postyear), Integer.parseInt(yearcount));
 				}
 				}
 				}
-			for (int y = ystint; y <= yendint; y++){
-				System.out.println(y+":"+postingTrend.get(y)+"wale kunl");
-			}
+		
 	/* 		
 			for (int y = ystint; y <= yendint; y++) {
 				
@@ -337,7 +338,8 @@
 			JSONObject positions = new JSONObject();
 			
 			Map<String, Integer> top_terms = new HashMap<String, Integer>();
-			System.out.println("Start of terms");
+	/* 		System.out.println("Start of terms"); */
+	try{
 			if (termss.size() > 0) {
 				for (int p = 0; p < termss.size(); p++) {
 					String bstr = termss.get(p).toString();
@@ -355,8 +357,11 @@
 					
 				}
 			}
-			System.out.println("End of terms");
-			
+	}catch(Exception e){
+		System.err.println(e);
+	}
+	/* 		System.out.println("End of terms");
+	 */		
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
 			if (outlinks.size() > 0) {
@@ -1515,7 +1520,7 @@ $(function () {
 							String languag = langu.get(0).toString();
 							
 							String languag_freq = langu.get(1).toString();
-							if (y<15){
+							if (y<10){
 							%>
 							{letter:"<%=languag%>", frequency:<%=languag_freq%>},
     		<%}
@@ -1785,7 +1790,7 @@ $(function () {
 							ArrayList<?> blogInfluence = (ArrayList<?>) influenceBlog.get(y);
 							String blogInf = blogInfluence.get(0).toString();
 							String blogInfFreq = blogInfluence.get(1).toString();
-							if (p < 20) {
+							if (p < 10) {
 								p++;%>
 		{letter:"<%=blogInf%>", frequency:<%=blogInfFreq%>, name:"<%=blogInf%>", type:"blogger"},
 		 <%}
@@ -2283,9 +2288,6 @@ $(function () {
 			neg = nega.get(0).toString();
 			
 		} 
-      	System.out.println("positive"+ pos);
-
-      	System.out.println("negative"+ neg);
       
       %>
       sentimentdata = [
@@ -2584,7 +2586,7 @@ var mymarker = [
 							String loc = loca.get(0).toString();
 							String size = loca.get(1).toString();
 							int markerSize = Integer.parseInt(loca.get(1).toString());
-							System.out.println(loc+":"+size);
+					
 							%>
 			{latLng: [<%=location.get(loc)%>], name: '<%=size%>' , r:<%=markerSize %>},
 	<%}
@@ -3105,9 +3107,7 @@ $(".option-lable").on("click",function(e){
          data = [	
         	[<%
         	 if (postingTrend.size() > 0) {
-        		 System.out.println(postingTrend+"right here");
 					for (int key: postingTrend.keySet()) {
-						System.out.println(postingTrend.get(key)+"good good g");
 						/* String postYear = postingTrend.get(key).toString(); */
 						int postCount = Integer.parseInt(postingTrend.get(key).toString());
 						%>
