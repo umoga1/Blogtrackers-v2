@@ -623,31 +623,34 @@ String totalsenti  = comb+"";
 allterms = term.getTermsByBlogger(mostactiveblogger, dt, dte);
 
 int highestfrequency = 0;
-JSONArray topterms = new JSONArray();
-JSONObject keys = new JSONObject();
+
+Map<String, Integer> topterms = new HashMap<String, Integer>();
 if (allterms.size() > 0) {
 	for (int p = 0; p < allterms.size(); p++) {
 		String bstr = allterms.get(p).toString();
 		JSONObject bj = new JSONObject(bstr);
 		bstr = bj.get("_source").toString();
 		bj = new JSONObject(bstr);
-		String frequency = bj.get("frequency").toString();
-		int freq = new Double(frequency).intValue();
-		
 		String tm = bj.get("term").toString();
+		String frequency = bj.get("frequency").toString();
+		int frequency2 = Integer.parseInt(frequency);
+		
+		int freq = frequency2;
+		if (topterms.containsKey(tm)) {
+			topterms.put(tm, topterms.get(tm) + frequency2);
+			freq= topterms.get(tm) + frequency2;
+		} else {
+			topterms.put(tm, frequency2);
+		}
+		
 		if(freq>highestfrequency){
 			highestfrequency = freq;
 			mostusedkeyword = tm;
 		}
-		JSONObject cont = new JSONObject();
-		cont.put("key", tm);
-		cont.put("frequency", frequency);
-		if(!keys.has(tm)){
-			keys.put(tm,tm);
-			topterms.put(cont);
-		}
+		
 	}
 }
+
 
 
 
@@ -1844,12 +1847,16 @@ authoryears.put(mostactiveblogger,postyear);
          // Load data
          // ------------------------------
          //
-         data = [[<% if(authorcount.length()>0){ for(int p=0; p<authorcount.length(); p++){ 
-   					String au = authorcount.get(p).toString();
-   			  		JSONObject jxy = new JSONObject(influecechart.get(au).toString());
-   			  		int x = new Double(jxy.get("x").toString()).intValue();
-   			  		
-   			  		int y = new Double(jxy.get("y").toString()).intValue(); %>{"x":<%=x%>,"y":<%=y%>},<% }} %>]   		
+         data = [[
+         <% if (influenceBlogger.size() > 0) {
+				for (int y = 0; y < influenceBlogger.size(); y++) {
+					if(y<10){
+				ArrayList<?> bloggerInfluence = (ArrayList<?>) influenceBlogger.get(y);
+				String au = bloggerInfluence.get(0).toString();
+				
+				JSONObject jxy = new JSONObject(influecechart.get(au).toString());
+   			  		int xaxis = new Double(jxy.get("x").toString()).intValue();		
+   			  		int yaxis = new Double(jxy.get("y").toString()).intValue(); %>{"x":<%= xaxis%>,"y":<%=yaxis%>},<% }}} %>]   		
          ];
 
          // data = [];
@@ -2238,12 +2245,11 @@ wordtagcloud("#tagcloudcontainer",450);
 		
 		var container = d3Container.append("svg");
      //var frequency_list = [{"text":"study","size":40},{"text":"motion","size":15},{"text":"forces","size":10},{"text":"electricity","size":15},{"text":"movement","size":10},{"text":"relation","size":5},{"text":"things","size":10},{"text":"force","size":5},{"text":"ad","size":5},{"text":"energy","size":85},{"text":"living","size":5},{"text":"nonliving","size":5},{"text":"laws","size":15},{"text":"speed","size":45},{"text":"velocity","size":30},{"text":"define","size":5},{"text":"constraints","size":5},{"text":"universe","size":10},{"text":"distinguished","size":5},{"text":"chemistry","size":5},{"text":"biology","size":5},{"text":"includes","size":5},{"text":"radiation","size":5},{"text":"sound","size":5},{"text":"structure","size":5},{"text":"atoms","size":5},{"text":"including","size":10},{"text":"atomic","size":10},{"text":"nuclear","size":10},{"text":"cryogenics","size":10},{"text":"solid-state","size":10},{"text":"particle","size":10},{"text":"plasma","size":10},{"text":"deals","size":5},{"text":"merriam-webster","size":5},{"text":"dictionary","size":10},{"text":"analysis","size":5},{"text":"conducted","size":5},{"text":"order","size":5},{"text":"understand","size":5},{"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
-	     var frequency_list = [ <%if (topterms.length() > 0) {
-				for (int i = 0; i < topterms.length(); i++) {
-					JSONObject jsonObj = topterms.getJSONObject(i);
-					int size = new Double(jsonObj.getString("frequency")).intValue();
-					%>
-	{"text":"<%=jsonObj.getString("key")%>","size":<%=size*2%>},
+	     var frequency_list = [<%if (topterms.size() > 0) {
+					for (String terms : topterms.keySet()) {
+						int size = topterms.get(terms);
+						%>
+	{"text":"<%=terms.toString()%>","size":<%=size%>},
  <%}
 			}%>];
 
