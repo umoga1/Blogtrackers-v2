@@ -55,13 +55,12 @@ Blogs blog  = new Blogs();
 								dtue = dte;
 							}
 						  
-						   totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,bloggerstr,"influence_score");	
-						  //totu = post._getTotalByBloggerName("date",dtu, dtue,bloggerstr,"influence_score","DESC");
-							
-						   if(Integer.parseInt(totu)<base){
-							   base = Integer.parseInt(totu);
-						   }
+						  
+						   totu = blog._getBloggerInfluenceScore(bloggerstr);//post._searchRangeAggregateByBloggers("date",dtu, dtue,bloggerstr);
 						   
+						   if(new Double(totu).intValue() <base){
+							   base = new Double(totu).intValue();
+						   }
 						   if(!years.has(y+"")){
 					    		years.put(y+"",y);
 					    		yearsarray.put(b,y);

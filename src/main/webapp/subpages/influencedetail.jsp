@@ -31,6 +31,7 @@ Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("
 String bloggerstr = blogger.toString().replaceAll("_"," ");
 
 Blogposts post  = new Blogposts();
+Blogs blog  = new Blogs();
 ArrayList allentitysentiments = new ArrayList(); 
 
 
@@ -52,7 +53,7 @@ if(action.toString().equals("gettotal")){
 	String totalpost = post._searchRangeTotalByBlogger("date",dt, dte, blogger.toString());
    String formattedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
 
-	float totalinfluence  = Float.parseFloat(post._searchRangeAggregateByBloggers("date",dt, dte, blogger.toString()));
+	float totalinfluence  =Float.parseFloat(blog._getBloggerInfluenceScore(blogger.toString()));// Float.parseFloat(post._searchRangeAggregateByBloggers("date",dt, dte, blogger.toString()));
 	
 	String totalcomment =  new Comment()._getCommentByBlogger(blogger.toString());
 	String formattedtotalcomment = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment));

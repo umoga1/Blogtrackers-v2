@@ -287,6 +287,23 @@ public class Blogs extends DbConnection{
 
 	}
 	
+	public String _getBloggerInfluenceScore(String blogger) throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		
+		try {
+		result = db.query("select max(influence_score) as total from blogger where  blogger_name ='"+blogger+"' ");		
+			if(result.size()>0){
+			 	ArrayList hd = (ArrayList)result.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+		}
+		return count;
+
+	}
 	public ArrayList _getblogPostFrequency(String blogids) throws Exception {
 		ArrayList result = new ArrayList();
 
