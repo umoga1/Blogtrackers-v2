@@ -603,7 +603,8 @@ int comb = new Double(possentiment2).intValue() + new Double(negsentiment2).intV
 String totalcomment =  comment._getCommentByBlogger(mostactiveblogger);
 String formattedtotalcomment = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment));
 
-totalinfluence  = Float.parseFloat(post._searchRangeAggregateByBloggers("date",dt, dte, mostactiveblogger));
+totalinfluence  = Float.parseFloat(blog._getBloggerInfluenceScore(mostactiveblogger));
+//Float.parseFloat(post._searchRangeAggregateByBloggers("date",dt, dte, mostactiveblogger));
 
 String formatedtotalinfluence = NumberFormat.getNumberInstance(Locale.US).format(totalinfluence);
 
@@ -665,7 +666,7 @@ if(influenceBlogger.size()>0){
 					}else if(b==yendint){
 						dtue = dte;
 					}
-				   String totu = post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger);
+				   String totu = blog._getBloggerInfluenceScore(mostactiveblogger);//post._searchRangeAggregateByBloggers("date",dtu, dtue,mostactiveblogger);
 				   
 				   if(new Double(totu).intValue() <base){
 					   base = new Double(totu).intValue();
