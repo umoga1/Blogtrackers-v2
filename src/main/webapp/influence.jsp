@@ -679,7 +679,6 @@ if(influenceBlogger.size()>0){
 				   
 				   postyear.put(y+"",totu);
 		}
-		//authoryears.put(mostactiveblogger,postyear);
 	}
 }
 
@@ -694,7 +693,6 @@ if(postyear.length()>0){
 		
 }
 authoryears.put(mostactiveblogger,postyear);
-//System.out.println(authoryears);
 %>
 
 
@@ -2436,7 +2434,7 @@ wordtagcloud("#tagcloudcontainer",450);
  </script>
 <script src="pagedependencies/baseurl.js"></script>
  
-<script src="pagedependencies/influence.js?v=78967"></script>
+<script src="pagedependencies/influence.js?v=578967"></script>
 	
 </body>
 </html>

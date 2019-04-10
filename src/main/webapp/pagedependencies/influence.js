@@ -32,7 +32,7 @@ $(document).delegate('.blogger-select', 'click', function(){
 	//getTotalInfluence(bloog,blg[1]);
 	loadChart(bloog,blg[1]);
 	//loadTerms(bloog,blg[1]);
-	//loadStat(bloog,blg[1]);
+	loadStat(bloog,blg[1]);
 });
 
 
