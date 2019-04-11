@@ -56,7 +56,7 @@ Blogs blog  = new Blogs();
 							}
 						  
 						  
-						   totu = blog._getBloggerInfluenceScore(bloggerstr);//post._searchRangeAggregateByBloggers("date",dtu, dtue,bloggerstr);
+						   totu = post._searchRangeMaxByBloggers("date",dtu, dtue,bloggerstr);
 						   
 						   if(new Double(totu).intValue() <base){
 							   base = new Double(totu).intValue();

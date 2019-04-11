@@ -287,14 +287,14 @@ public class Blogs extends DbConnection{
 
 	}
 	
-	public String _getBloggerInfluenceScore(String blogger) throws Exception {
+	public String _getBloggerInfluenceScore(String blogger, String start, String end) throws Exception {
 		ArrayList result = new ArrayList();
 
 		DbConnection db = new DbConnection();
 		String count = "0";
 		
 		try {
-		result = db.query("select max(influence_score) as total from blogger where  blogger_name ='"+blogger+"' ");		
+			result = db.query("SELECT (select  sum(influence_score)  from blogtrackers.blogposts bp where bp.blogger='"+blogger+"' AND bl.blogger_name='"+blogger+"' bp.last_crawled >='"+start+"' AND bp.last_crawled <='"+end+"') as influence_score, bl.blogger_name as blogger_name FROM blogtrackers.blogger bl WHERE bl.blogger_name = '"+blogger+"'  ORDER BY bl.influence_score DESC LIMIT 1 ");		
 			if(result.size()>0){
 			 	ArrayList hd = (ArrayList)result.get(0);
 				count = hd.get(0).toString();

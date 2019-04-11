@@ -504,9 +504,13 @@ public class Blogposts {
 		String count = "0";
 		//blog_ids = "("+blog_ids+")";
 		try {
-			ArrayList response = DbConnection.query("SELECT max(influence_score) as total FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ");	
+			ArrayList response = DbConnection.query("SELECT sum(influence_score) as total, blogger,date FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ORDER BY influence_score DESC LIMIT 1");	
+			//
+			//ArrayList response = DbConnection.query("SELECT max(influence_score) as total, blogger,date FROM blogposts WHERE blogger = '"+bloggers+"'  ORDER BY influence_score DESC LIMIT 1");	
+			
 			if(response.size()>0){
 			 	ArrayList hd = (ArrayList)response.get(0);
+			 	//System.out.println("resp:"+response);
 				count = hd.get(0).toString();
 			}
 		}catch(Exception e){
@@ -563,6 +567,24 @@ public class Blogposts {
 		*/
 	}
 	
+	
+public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
+		
+		String count = "0";
+		
+		try {
+			ArrayList response = DbConnection.query("SELECT max(influence_score) as total, blogger,date FROM blogposts WHERE blogger = '"+bloggers+"'  ORDER BY influence_score DESC LIMIT 1");	
+			
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return count;
+		}
+		
+		return count;
+}
 	
 	public String _searchRangeMaxByBloggers(String field,String greater, String less, String bloggers) throws Exception {
 		
