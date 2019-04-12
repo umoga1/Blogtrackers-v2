@@ -27,11 +27,11 @@
             })  */
             
             
-					console.log(typeof word_count2);
+					//console.log(typeof word_count2);
           var fill = d3.scale.category20();
             
 		 var word_entries = d3.entries(word_count);
-		 console.log(word_count);
+		 //console.log(word_count);
             
 		var xScale = d3.scale.linear()
         .domain([0, d3.max(word_entries, function(d) {

@@ -730,6 +730,10 @@
 						
 									</select> --%>
 							</p>
+		<button id="flip" type="button" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+							title="Flip the Language Usage" aria-expanded="false">
+      <i class="fab fa-think-peaks" aria-hidden="true"></i>
+    </button>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
 							<div class="chart-container">
@@ -1631,7 +1635,12 @@ $(function () {
                   }
                 }) 
                   .on('mouseover', tip.show)
-                  .on('mouseout', tip.hide);
+                  .on('mouseout', tip.hide)
+                  transitionbarlanguage.transition()
+                  .delay(200)
+                  .duration(1000)
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
       
           $(element).bind('inview', function (event, visible) {
         	  if (visible == true) {

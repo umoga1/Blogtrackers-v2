@@ -47,7 +47,7 @@ $(function() {
             focusOn: {
                 x: 0.5,
                 y: 0.5,
-                scale: 2
+                scale: 1
             },
             markers:[],
            // markers: mymarker,
@@ -64,7 +64,7 @@ $(function() {
     var mapMarkersValues = [];
     mapMarkers.length = 0;
     mapMarkersValues.length = 0;
-    console.log(mymarker.length);
+    //console.log(mymarker.length);
     for (var i = 0, l= mymarker.length; i < l; i++) {
     	//console.log(mymarker[i].name)      
      mapMarkers.push({name: mymarker[i].name, latLng: mymarker[i].latLng, r:mymarker[i].r *10});
@@ -72,14 +72,14 @@ $(function() {
     mapObj.addMarkers(mapMarkers, []); 
     
     for (var i = 0, l= mymarker.length; i < l; i++) {
-    	console.log(mapObj.markers[i].element);
-    	if(mymarker[i].r >=1 && mymarker[i].r <=3)
+    	//console.log(mapObj.markers[i].element);
+    	if(mymarker[i].r >=1 && mymarker[i].r < 3)
     		{
-    		mapObj.markers[i].element.style.initial.r = (mymarker[i].r / 0.75) * 1.15;
+    		mapObj.markers[i].element.style.initial.r = (mymarker[i].r / 0.75) * 1.5;
     		}
     	else if(mymarker[i].r > 30)
     		{
-    		mapObj.markers[i].element.style.initial.r = mymarker[i].r/5;
+    		mapObj.markers[i].element.style.initial.r = mymarker[i].r/8;
     		}
         
     }

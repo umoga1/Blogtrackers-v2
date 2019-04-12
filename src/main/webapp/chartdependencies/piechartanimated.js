@@ -35,20 +35,7 @@
         // ------------------------------
 
 
-        var tip = d3.tip()
-               .attr('class', 'd3-tip')
-               .offset([-10, 0])
-               .html(function(d) {
-                // console.log(d);
-               if(d === null)
-               {
-                 return "No Information Available";
-               }
-               else if(d !== null) {
-                return d.data.label+" ("+d.value+")";
-                 }
-               // return "here";
-               });
+        
 
         // Arc
         var arc = d3.svg.arc()
@@ -64,6 +51,36 @@
 
               data.forEach(function(d) {
                   d.value = +d.value;
+              });
+              
+              console.log(data);
+              
+              var totalValue = 0;
+              
+              data.forEach(function(d){
+            	totalValue = totalValue + d.value;  
+              });
+              
+              console.log(totalValue);
+              
+              
+              var tip = d3.tip()
+              .attr('class', 'd3-tip')
+              .offset([-10, 0])
+              .html(function(d) {
+            	  
+           	console.log(d)
+               // console.log(d);
+              if(d === null)
+              {
+                return "No Information Available";
+              }
+              else if(d !== null) {
+             // calculate the percentage on the fly
+            	percentageValue = d.value/totalValue * 100;  
+               return d.data.label+" ("+percentageValue.toFixed(2)+"%)";
+                }
+              // return "here";
               });
 
               // contrstruct the chart
