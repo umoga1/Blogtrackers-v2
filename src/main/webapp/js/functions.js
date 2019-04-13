@@ -30,7 +30,13 @@ function loadMoreResult(){
 	page_no=parseInt(page_no);
 	page_no++;
 
-	console.log(viewtype);
+	if(viewtype == null)
+	{
+		viewtype = "grid";
+		console.log(viewtype);
+		console.log("view is undefined");
+	}
+	
 
 	//console.log(page_no);
 
