@@ -711,27 +711,20 @@
 				</div>
 			</div>
 
-			<div class="col-md-6 mt20 zoom">
-				<div class="card  card-style  mt20">
-					<div class="card-body  p30 pt5 pb5">
-						<div>
-							<p class="text-primary mt10 float-left">
-								Language Usage
-								<!-- <select
-									class="text-primary filtersort sortbyblogblogger"><option
-										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select>  -->
-								<%-- for Past <select
-									class="text-primary filtersort sortbytimerange">
-									<option value="" >All</option>
-									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
-									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
-						
-									</select> --%>
-							</p>
-						</div>
-						<div class="min-height-table" style="min-height: 500px;">
+	<div class="col-md-6 mt20 zoom">
+				<div class="card card-style mt20">
+				
+ 				<div class="card-body mt0 pt0 pl0" style="min-height:520px;">
+ 				<div class="mycard ">
+ 				<div class="front p30 pt5 pb5">	
+ 		<div>
+		<p class="text-primary mt10 float-left">Language Usage</p>
+		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+							title="Flip the Language Usage" aria-expanded="false">
+        <i class="fab fa-think-peaks" aria-hidden="true"></i>
+       </button>
+	   </div>
+	   <div class="min-height-table" >
 							<div class="chart-container">
 								<!-- 						  <div class="btn-group float-right">
     <button id="btnGroupDrop1" type="button" class="btn btn-primary " data-toggle="dropdown" aria-expanded="false">
@@ -745,10 +738,40 @@
 								<!-- <button id='savelanguage'>Export my D3 visualization to PNG</button> -->
 								<div class="chart" id="languageusage"></div>
 							</div>
-						</div>
-					</div>
+						</div></div>
+                <div class="back p30 pt5 pb5">
+                
+                <div>
+		<p class="text-primary mt10 float-left">Language Usage</p>
+		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+							title="Flip the Language Usage" aria-expanded="false">
+        <i class="fab fa-think-peaks" aria-hidden="true"></i>
+       </button>
+	   </div>
+	   
+                </div>
+ 				</div>
+ 				
+					
+						
+						
+						
+						
+						
+						
+					
+ 				
+    
+    			
+				</div>
+					
+					
+
 				</div>
 			</div>
+			
+
+			
 		</div>
 
 		<div class="row mb0">
@@ -1250,7 +1273,11 @@
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
 	<script>
+	function flip() {
+	    $('.mycard').toggleClass('flipped');
+	}
 $(document).ready(function() {
+	
 	
   // datatable setup
     $('#DataTables_Table_1_wrapper').DataTable( {
@@ -1631,7 +1658,12 @@ $(function () {
                   }
                 }) 
                   .on('mouseover', tip.show)
-                  .on('mouseout', tip.hide);
+                  .on('mouseout', tip.hide)
+                  transitionbarlanguage.transition()
+                  .delay(200)
+                  .duration(1000)
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
       
           $(element).bind('inview', function (event, visible) {
         	  if (visible == true) {

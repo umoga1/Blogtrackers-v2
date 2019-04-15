@@ -28,6 +28,7 @@ pageEncoding="UTF-8"%>
 		String submitted = request.getParameter("load");		
 	    if(submitted!=null && submitted.equals("yes")){	
 	        String viewtype = request.getParameter("viewtype");
+	        System.out.println("View Type: "+viewtype);
 	        String cpage = request.getParameter("from");
 	        int from = Integer.parseInt(cpage);
 			Blogposts post  = new Blogposts();

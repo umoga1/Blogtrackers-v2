@@ -1,30 +1,33 @@
 // adekunle tweak version of blog browser page
 var selected_blogs = new Array();
 var looper = 0;
-var viewtype = "";
+var viewtype = Cookies.get("viewtype");
 $(document).ready(function() {
 //type of view
 // default view is unknown	
 //Cookies.set('viewtype',"",{path:'/'})
-viewtype = Cookies.get("viewtype");
-if(viewtype === "" || viewtype==="grid")
+
+// show the grid
+if(viewtype == null || viewtype === "" || viewtype==="grid")
 {
 	$('.listlook').addClass("hidden");
 	$(".gridlook").removeClass("hidden");	
 }
+
+// show the list
 if(viewtype === "list" )
 {
 	$('.listlook').removeClass("hidden");
 	$(".gridlook").addClass("hidden");	
 }
-console.log(viewtype)
+console.log(viewtype);
 //end
 $('#listtoggle').on("click",() => {
 Cookies.set('viewtype',"list",{path:'/'})
 viewtype = Cookies.get("viewtype");
 $('.listlook').removeClass("hidden");
 $(".gridlook").addClass("hidden");
-console.log(viewtype);
+
 })
 
 $('#gridtoggle').on("click",() => {
