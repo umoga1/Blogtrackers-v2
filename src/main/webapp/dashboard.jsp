@@ -720,7 +720,7 @@
  		<div>
 		<p class="text-primary mt10 float-left">Language Usage</p>
 		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
-							title="Flip the Language Usage" aria-expanded="false">
+							title="Flip to view language usage" aria-expanded="false">
         <i class="fab fa-think-peaks" aria-hidden="true"></i>
        </button>
 	   </div>
@@ -740,15 +740,58 @@
 							</div>
 						</div></div>
                 <div class="back p30 pt5 pb5">
-                
+              
                 <div>
 		<p class="text-primary mt10 float-left">Language Usage</p>
 		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
-							title="Flip the Language Usage" aria-expanded="false">
+							title="Flip to view language usage" aria-expanded="false">
+							
         <i class="fab fa-think-peaks" aria-hidden="true"></i>
        </button>
 	   </div>
 	   
+	   <div class="min-height-table" >
+							<div class="chart-container">
+															<div id="top-domain-box">
+								<table id="DataTables_Table_0_wrapper" class="display"
+									style="width: 100%">
+									<thead>
+										<tr>
+											<th>Language</th>
+											<th>Frequency</th>
+
+										</tr>
+									</thead>
+									<tbody>
+
+										    	  <%if (languages.size() > 0) {
+																for (int y = 0; y < languages.size(); y++) {
+																	ArrayList<?> langu = (ArrayList<?>) languages.get(y);
+																	String languag = langu.get(0).toString();
+																	
+																	String languag_freq = langu.get(1).toString();
+																	if (y<10){
+																	%>
+																		<tr>
+											<td class=""><%=languag%></td>
+											<td><%=languag_freq%></td>
+										</tr>
+										    		<%}
+																}
+															}%>
+										
+									
+									
+
+									</tbody>
+								</table>
+							</div>
+							</div>
+						</div>
+	   
+	   <div>
+	   
+	   </div>
                 </div>
  				</div>
  				
