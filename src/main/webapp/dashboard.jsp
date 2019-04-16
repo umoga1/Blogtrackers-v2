@@ -787,11 +787,8 @@
 								</table>
 							</div>
 							</div>
-						</div>
-	   
-	   <div>
-	   
-	   </div>
+		</div>
+	
                 </div>
  				</div>
  				
@@ -1067,7 +1064,7 @@
 			</div>
 
 		</div>
-
+		
 		<div class="row mb50">
 			<div class="col-md-12 mt20 zoom">
 				<div class="card card-style mt20">
