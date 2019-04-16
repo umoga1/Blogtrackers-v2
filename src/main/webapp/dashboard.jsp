@@ -732,6 +732,7 @@
 									</div>
 								</div>
 							</div>
+<<<<<<< HEAD
 							<div class="back p30 pt5 pb5">
 
 								<div>
@@ -778,9 +779,33 @@
 																	}
 																}
 													%>
+=======
+						</div></div>
+                <div class="back p30 pt5 pb5">
+              
+                <div>
+		<p class="text-primary mt10 float-left">Language Usage</p>
+		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+							title="Flip to view language usage" aria-expanded="false">
+							
+        <i class="fab fa-think-peaks" aria-hidden="true"></i>
+       </button>
+	   </div>
+	   
+	   <div class="min-height-table">
+							
+															
+								<table id="DataTables_Table_1_wrapper" class="display"
+									style="width: 100%">
+									<thead>
+										<tr>
+											<th>Language</th>
+											<th>Frequency</th>
+>>>>>>> a00e0abf314efdd1c44786ba9ba6519d4213ee8f
 
 
 
+<<<<<<< HEAD
 
 												</tbody>
 											</table>
@@ -805,6 +830,31 @@
 					</div>
 
 
+=======
+									</tbody>
+								</table>
+							
+							
+		</div>
+	
+                </div>
+ 				</div>
+ 				
+					
+						
+						
+						
+						
+						
+						
+					
+ 				
+    
+    			
+				</div>
+					
+					
+>>>>>>> a00e0abf314efdd1c44786ba9ba6519d4213ee8f
 
 				</div>
 			</div>
@@ -1317,24 +1367,12 @@ $(document).ready(function() {
 	
   // datatable setup
     $('#DataTables_Table_1_wrapper').DataTable( {
-        "scrollY": 430,
+        "scrollY": 280,
         "scrollX": true,
          "pagingType": "simple",
-        	 "bLengthChange": false
-      /*    ,
-         dom: 'Bfrtip',
-         "columnDefs": [
-      { "width": "80%", "targets": 0 }
-    ],
-      buttons:{
-        buttons: [
-            { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
-            {extend:'csv',className: 'btn-primary stylebutton1'},
-            {extend:'excel',className: 'btn-primary stylebutton1'},
-           // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
-            {extend:'print',className: 'btn-primary stylebutton1'},
-        ]
-      } */
+        	 "bLengthChange": false,
+        	 "bFilter":false,
+  
     } );
 // table set up 2
     $('#DataTables_Table_0_wrapper').DataTable( {
