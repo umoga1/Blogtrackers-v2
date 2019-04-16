@@ -750,10 +750,10 @@
        </button>
 	   </div>
 	   
-	   <div class="min-height-table" >
-							<div class="chart-container">
-															<div id="top-domain-box">
-								<table id="DataTables_Table_0_wrapper" class="display"
+	   <div class="min-height-table">
+							
+															
+								<table id="DataTables_Table_1_wrapper" class="display"
 									style="width: 100%">
 									<thead>
 										<tr>
@@ -785,8 +785,8 @@
 
 									</tbody>
 								</table>
-							</div>
-							</div>
+							
+							
 		</div>
 	
                 </div>
@@ -1321,24 +1321,12 @@ $(document).ready(function() {
 	
   // datatable setup
     $('#DataTables_Table_1_wrapper').DataTable( {
-        "scrollY": 430,
+        "scrollY": 280,
         "scrollX": true,
          "pagingType": "simple",
-        	 "bLengthChange": false
-      /*    ,
-         dom: 'Bfrtip',
-         "columnDefs": [
-      { "width": "80%", "targets": 0 }
-    ],
-      buttons:{
-        buttons: [
-            { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
-            {extend:'csv',className: 'btn-primary stylebutton1'},
-            {extend:'excel',className: 'btn-primary stylebutton1'},
-           // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
-            {extend:'print',className: 'btn-primary stylebutton1'},
-        ]
-      } */
+        	 "bLengthChange": false,
+        	 "bFilter":false,
+  
     } );
 // table set up 2
     $('#DataTables_Table_0_wrapper').DataTable( {
