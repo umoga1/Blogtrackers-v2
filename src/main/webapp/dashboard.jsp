@@ -715,13 +715,13 @@
 				<div class="card card-style mt20">
 				
  				<div class="card-body mt0 pt0 pl0" style="min-height:520px;">
- 				<div class="mycard ">
+ 				<div class="mecard">
  				<div class="front p30 pt5 pb5">	
  		<div>
 		<p class="text-primary mt10 float-left">Language Usage</p>
 		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
 							title="Flip to view language usage" aria-expanded="false">
-        <i class="fab fa-think-peaks" aria-hidden="true"></i>
+        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
        </button>
 	   </div>
 	   <div class="min-height-table" >
@@ -746,7 +746,7 @@
 		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
 							title="Flip to view language usage" aria-expanded="false">
 							
-        <i class="fab fa-think-peaks" aria-hidden="true"></i>
+        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
        </button>
 	   </div>
 	   
@@ -1314,7 +1314,7 @@
 
 	<script>
 	function flip() {
-	    $('.mycard').toggleClass('flipped');
+	    $('.mecard').toggleClass('flipped');
 	}
 $(document).ready(function() {
 	
@@ -2758,7 +2758,7 @@ data = {
 							String bloggerName = bloggerFreq.get(0).toString();
 							String bloggerPostFreq = bloggerFreq.get(1).toString();
 							%>
-							{"label":"<%=bloggerName%>","name":"<%=bloggerName%>", "size":<%=Integer.parseInt(bloggerPostFreq)%>},
+							{"label":"<%=bloggerName.trim( )%>","name":"<%=bloggerName.trim()%>", "size":<%=Integer.parseInt(bloggerPostFreq)%>},
 <%}
 							
 					}%>
