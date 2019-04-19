@@ -720,7 +720,7 @@
  				<div class="front p30 pt5 pb5">	
  		<div>
 		<p class="text-primary mt10 float-left">Language Usage</p>
-		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+		<button  id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
 							title="Flip to view language usage" aria-expanded="false">
         <i class="fas fa-exchange-alt" aria-hidden="true"></i>
        </button>
@@ -744,7 +744,7 @@
               
                 <div>
 		<p class="text-primary mt10 float-left">Language Usage</p>
-		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+		<button  id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
 							title="Flip to view language usage" aria-expanded="false">
 							
         <i class="fas fa-exchange-alt" aria-hidden="true"></i>
@@ -2674,10 +2674,10 @@ var mymarker = [
 			    		
 						{"text":"<%=terms.toString() %>","size":<%=size %>},
 						 word_count2["<%=terms.toString()%>"] = <%=size%> 
-	 <%}
-					}%>
-				
-	wordtagcloud("#tagcloudcontainer",450,word_count2);
+						 <%}
+		}%>
+	
+wordtagcloud("#tagcloudcontainer",450,word_count2);
 	
 
 	
@@ -2709,7 +2709,7 @@ $(function () {
             var svg = container
                 .attr("width", diameter + margin.left + margin.right)
                 .attr("height",diameter + margin.top + margin.bottom)
-                .attr("class", "bubble");
+                .attr("class", "bubble").style("alignment-baseline", "middle");//.append("g").attr("class","bubble-container");
         // Create chart
         // ------------------------------
         // var svg = d3.select(element).append("svg")
@@ -2919,7 +2919,7 @@ $(function () {
             var svg = container
                 .attr("width", diameter + margin.left + margin.right)
                 .attr("height",diameter + margin.top + margin.bottom)
-                .attr("class", "bubble");
+                .attr("class", "bubble").style("alignment-baseline", "middle");
         // Create chart
         // ------------------------------
         // var svg = d3.select(element).append("svg")
