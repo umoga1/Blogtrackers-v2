@@ -2673,10 +2673,10 @@ var mymarker = [
 			    		
 						<%-- {"text":"<%=terms.toString() %>","size":<%=size %>}, --%>
 						 word_count2["<%=terms.toString()%>"] = <%=size%> 
-	 <%}
-					}%>
-				
-	wordtagcloud("#tagcloudcontainer",450,word_count2);
+						 <%}
+		}%>
+	
+wordtagcloud("#tagcloudcontainer",450,word_count2);
 	
 
 	
@@ -2708,7 +2708,7 @@ $(function () {
             var svg = container
                 .attr("width", diameter + margin.left + margin.right)
                 .attr("height",diameter + margin.top + margin.bottom)
-                .attr("class", "bubble");
+                .attr("class", "bubble").style("alignment-baseline", "middle");//.append("g").attr("class","bubble-container");
         // Create chart
         // ------------------------------
         // var svg = d3.select(element).append("svg")
@@ -2918,7 +2918,7 @@ $(function () {
             var svg = container
                 .attr("width", diameter + margin.left + margin.right)
                 .attr("height",diameter + margin.top + margin.bottom)
-                .attr("class", "bubble");
+                .attr("class", "bubble").style("alignment-baseline", "middle");
         // Create chart
         // ------------------------------
         // var svg = d3.select(element).append("svg")
