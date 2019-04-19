@@ -243,7 +243,7 @@ public class Blogs extends DbConnection{
 		blogids = "("+blogids+")";
 		
 		try {
-			result = db.query("select language, language_count from language where blogsite_id in "+blogids+" and language != '"+"null"+"' and language != '"+"unknown"+"' group by language");		
+			result = db.query("select language, sum(language_count) from language where blogsite_id in "+blogids+" and language != '"+"null"+"' and language != '"+"unknown"+"' group by language");		
 			
 		}catch(Exception e){
 		}

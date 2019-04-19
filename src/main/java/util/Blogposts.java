@@ -10,6 +10,8 @@ import java.sql.SQLException;
 
 import org.json.JSONObject;
 
+import com.mysql.cj.api.mysqla.result.Resultset;
+
 /*import com.mysql.jdbc.Connection;*/
 
 import java.util.*;
@@ -903,7 +905,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 		return response;
 		*/
 		
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -1206,6 +1208,24 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 		String url = base_url+"_search?size=1"; 
 		return this._getTotal(url, jsonObj);
 		
+	}
+	
+	public ArrayList _getPostId(String blog_ids) {
+		DbConnection db = new DbConnection();
+		ArrayList response = new ArrayList<>();
+		String result ="";
+		blog_ids = blog_ids.replaceAll(",$", "");
+		blog_ids = blog_ids.replaceAll(", $", "");
+		blog_ids = "("+blog_ids+")";
+		try {
+			 response = db.query("select blogpost_id from blogposts where blogsite_id in "+blog_ids);
+			if(response.size()>0) {
+				return response;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public String _searchTotalAndUnique(String term,String sortby, String start, String end, String filter ) throws Exception {

@@ -222,6 +222,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 		}  
 		
+			
 			String[] yst = dt.split("-");
 			String[] yend = dte.split("-");
 			year_start = yst[0];
@@ -241,7 +242,15 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
-			
+			Blogger bloggerss = new Blogger();
+			ArrayList bloggerPostFrequency = bloggerss._getBloggerPostFrequency(ids);
+			String postidss ="";
+			ArrayList post_id = post._getPostId(ids);
+			for (int y = 0; y < post_id.size(); y++) {
+				ArrayList<?> postids = (ArrayList<?>) post_id.get(y);
+				postidss =postids.get(0)+",";
+			}
+			System.out.println("wale post id s "+postidss);
 			allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
 		//allauthors = post._getBloggerByBlogId("date",dt, dte,ids);
 		
@@ -597,7 +606,11 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					if(m==0){
 							dselected = "abloggerselected";
 							mostactiveblogger = au;
-							allterms = term._searchByRange("blogpostid", dt, dte, postids);//_searchByRange("blogpostid",dt, dte,postids);
+							System.out.println("The post id is "+postids);
+							allterms = term._searchByRange("blogpostid", dt, dte, postids);
+							System.out.println(postids);
+							System.out.println("The site id is "+ids);
+							//_searchByRange("blogpostid",dt, dte,postids);
 							//allterms = term._fetchByPostId(postids);
 							
 							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
@@ -636,6 +649,7 @@ JSONObject keys = new JSONObject();
 System.out.println("All terms: "+allterms);
 JSONObject positions = new JSONObject();
 int termsposition = 0;
+
 if (allterms.size() > 0) {
 	for (int p = 0; p < allterms.size(); p++) {
 		String bstr = allterms.get(p).toString();
@@ -1848,7 +1862,9 @@ console.log("here");
 
 */
 	var frequency_list = [
-	 <%if (topterms.length() > 0) {
+	 <%
+	 System.out.println("wale top term "+topterms);
+	 if (topterms.length() > 0) {
 					for (int i = 0; i < topterms.length(); i++) {
 						JSONObject jsonObj = topterms.getJSONObject(i);
 						int size = Integer.parseInt(jsonObj.getString("frequency"));%>

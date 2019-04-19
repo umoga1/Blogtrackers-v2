@@ -222,6 +222,7 @@
 			ArrayList locations = blog._getLocation(ids);
 			//System.out.println("all blog location");
 			ArrayList languages = blog._getLanguage(ids);
+			System.out.println(languages);
 			//System.out.println("all blog language");
 			ArrayList bloggerPostFrequency = bloggerss._getBloggerPostFrequency(ids);
 			//System.out.println("all blogger post frequency");
@@ -338,7 +339,7 @@
 			JSONObject positions = new JSONObject();
 			
 			Map<String, Integer> top_terms = new HashMap<String, Integer>();
-	/* 		System.out.println("Start of terms"); */
+/* 	
 	try{
 			if (termss.size() > 0) {
 				for (int p = 0; p < termss.size(); p++) {
@@ -359,7 +360,7 @@
 			}
 	}catch(Exception e){
 		System.err.println(e);
-	}
+	} */
 	/* 		System.out.println("End of terms");
 	 */		
 			JSONObject outerlinks = new JSONObject();
@@ -2665,13 +2666,13 @@ var mymarker = [
 	<script type="text/javascript"
 		src="chartdependencies/keywordtrendd3.js"></script>
 	<!--word cloud  -->
-	<script>
+<%-- 	<script>
 	var word_count2 = {}; 
 	   <%if (top_terms.size() > 0) {
 						for (String terms : top_terms.keySet()) {
 							int size = top_terms.get(terms);%>
 			    		
-						<%-- {"text":"<%=terms.toString() %>","size":<%=size %>}, --%>
+						{"text":"<%=terms.toString() %>","size":<%=size %>},
 						 word_count2["<%=terms.toString()%>"] = <%=size%> 
 	 <%}
 					}%>
@@ -2680,7 +2681,7 @@ var mymarker = [
 	
 
 	
- </script>
+ </script> --%>
 
 	<!-- End of Tag Cloud  -->
 	<!-- Blogger Bubble Chart -->

@@ -409,7 +409,7 @@ if(ids.length()>0){
 		<tr>
 		<th class="text-primary">Blog Name</th>
 		<th class="text-primary text-center">No. of Posts</th>
-		<th class="text-primary text-center">Last Crawl</th>
+		<th class="text-primary text-center">Last post recorded</th>
 		<th></th>
 		</tr>
 		</thead>
