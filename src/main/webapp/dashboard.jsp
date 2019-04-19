@@ -719,7 +719,7 @@
  				<div class="front p30 pt5 pb5">	
  		<div>
 		<p class="text-primary mt10 float-left">Language Usage</p>
-		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+		<button  id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
 							title="Flip to view language usage" aria-expanded="false">
         <i class="fas fa-exchange-alt" aria-hidden="true"></i>
        </button>
@@ -743,7 +743,7 @@
               
                 <div>
 		<p class="text-primary mt10 float-left">Language Usage</p>
-		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+		<button  id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
 							title="Flip to view language usage" aria-expanded="false">
 							
         <i class="fas fa-exchange-alt" aria-hidden="true"></i>

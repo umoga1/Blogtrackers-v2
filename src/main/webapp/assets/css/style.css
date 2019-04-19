@@ -45,11 +45,14 @@
     backface-visibility: hidden;
 }
 .mecard .front {
-  /* background: red; */
-  position: absolute;
+   background: white; 
+   position: absolute; 
+    border-radius:3px;
 }
 .mecard .back {
-	position: absolute;
+	 position: absolute;
+	  background: white; 
+	  border-radius:3px;
     /* background: blue; */
     -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );

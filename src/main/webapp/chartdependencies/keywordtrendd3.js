@@ -101,7 +101,7 @@
    	 		function zoomed() {
    	 			var g = svg.selectAll("g"); 
                   g.attr("transform",
-   	 		        "translate(" + (width/2-10) + ",180)" +
+   	 		        "translate(" +[width >> 1, height >> 1] +")" +
    	 		        "scale(" + zoom.scale() + ")"
    	 		    );
    	 		}
@@ -125,14 +125,15 @@
    	 	function zoomClick() {
    	 	    var clicked = d3.event.target,
    	 	        direction = 1,
-   	 	        factor = 0.2,
+   	 	        factor = 0.1,
    	 	        target_zoom = 1,
-   	 	        center = [width / 2-10, "180"],
+   	 	        center = [width >> 1, height >> 1],
    	 	        extent = zoom.scaleExtent(),
    	 	        translate = zoom.translate(),
    	 	        translate0 = [],
    	 	        l = [],
    	 	        view = {x: translate[0], y: translate[1], k: zoom.scale()};
+   	 	    //console.log(this.id);
    	 	    d3.event.preventDefault();
    	 	    direction = (this.id === 'zoom_in') ? 1 : -1;
    	 	    target_zoom = zoom.scale() * (1 + factor * direction);
