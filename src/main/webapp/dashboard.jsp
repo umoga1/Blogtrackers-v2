@@ -339,7 +339,7 @@
 			JSONObject positions = new JSONObject();
 			
 			Map<String, Integer> top_terms = new HashMap<String, Integer>();
-/* 	
+	
 	try{
 			if (termss.size() > 0) {
 				for (int p = 0; p < termss.size(); p++) {
@@ -360,7 +360,7 @@
 			}
 	}catch(Exception e){
 		System.err.println(e);
-	} */
+	}
 	/* 		System.out.println("End of terms");
 	 */		
 			JSONObject outerlinks = new JSONObject();
@@ -720,7 +720,7 @@
  				<div class="front p30 pt5 pb5">	
  		<div>
 		<p class="text-primary mt10 float-left">Language Usage</p>
-		<button  id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
 							title="Flip to view language usage" aria-expanded="false">
         <i class="fas fa-exchange-alt" aria-hidden="true"></i>
        </button>
@@ -744,7 +744,7 @@
               
                 <div>
 		<p class="text-primary mt10 float-left">Language Usage</p>
-		<button  id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
 							title="Flip to view language usage" aria-expanded="false">
 							
         <i class="fas fa-exchange-alt" aria-hidden="true"></i>
@@ -2666,22 +2666,22 @@ var mymarker = [
 	<script type="text/javascript"
 		src="chartdependencies/keywordtrendd3.js"></script>
 	<!--word cloud  -->
-<%-- 	<script>
+	<script>
 	var word_count2 = {}; 
 	   <%if (top_terms.size() > 0) {
 						for (String terms : top_terms.keySet()) {
 							int size = top_terms.get(terms);%>
 			    		
-						{"text":"<%=terms.toString() %>","size":<%=size %>},
+						<%-- {"text":"<%=terms.toString() %>","size":<%=size %>}, --%>
 						 word_count2["<%=terms.toString()%>"] = <%=size%> 
-						 <%}
-		}%>
-	
-wordtagcloud("#tagcloudcontainer",450,word_count2);
+	 <%}
+					}%>
+				
+	wordtagcloud("#tagcloudcontainer",450,word_count2);
 	
 
 	
- </script> --%>
+ </script>
 
 	<!-- End of Tag Cloud  -->
 	<!-- Blogger Bubble Chart -->
@@ -2709,7 +2709,7 @@ $(function () {
             var svg = container
                 .attr("width", diameter + margin.left + margin.right)
                 .attr("height",diameter + margin.top + margin.bottom)
-                .attr("class", "bubble").style("alignment-baseline", "middle");//.append("g").attr("class","bubble-container");
+                .attr("class", "bubble");
         // Create chart
         // ------------------------------
         // var svg = d3.select(element).append("svg")
@@ -2919,7 +2919,7 @@ $(function () {
             var svg = container
                 .attr("width", diameter + margin.left + margin.right)
                 .attr("height",diameter + margin.top + margin.bottom)
-                .attr("class", "bubble").style("alignment-baseline", "middle");
+                .attr("class", "bubble");
         // Create chart
         // ------------------------------
         // var svg = d3.select(element).append("svg")
