@@ -1322,11 +1322,13 @@ $(document).ready(function() {
 	
   // datatable setup
     $('#DataTables_Table_1_wrapper').DataTable( {
-        "scrollY": 280,
+        "scrollY": 350,
         "scrollX": true,
          "pagingType": "simple",
         	 "bLengthChange": false,
         	 "bFilter":false,
+        	 "bPaginate":false,
+        	 "bInfo":false,
   
     } );
 // table set up 2
