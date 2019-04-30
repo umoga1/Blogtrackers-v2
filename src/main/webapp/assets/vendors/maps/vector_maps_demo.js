@@ -77,10 +77,14 @@ $(function() {
     		{
     		mapObj.markers[i].element.style.initial.r = (mymarker[i].r / 0.75) * 1.5;
     		}
+    	
     	else if(mymarker[i].r > 30)
     		{
     		mapObj.markers[i].element.style.initial.r = mymarker[i].r/8;
     		}
+    	else{
+    		mapObj.markers[i].element.style.initial.r = mymarker[i].r;
+    	}
         
     }
     mapObj.applyTransform();
