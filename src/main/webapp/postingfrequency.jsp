@@ -36,6 +36,7 @@ Trackers tracker  = new Trackers();
 Blogposts post  = new Blogposts();
 Blogs blog  = new Blogs();
 Terms term  = new Terms();
+Blogger bloggerss = new Blogger();
 Blogpost_entitysentiment blogpostsentiment  = new Blogpost_entitysentiment();
 ArrayList allterms = new ArrayList(); 
 ArrayList allentitysentiments = new ArrayList(); 
@@ -243,7 +244,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 			
 			allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-		//allauthors = post._getBloggerByBlogId("date",dt, dte,ids);
+			ArrayList bloggerPostFrequency = bloggerss._getBloggerPostFrequency(ids);
 		
 		
 	String allpost = "0";
@@ -282,6 +283,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	toplocation = blog._getTopLocation(mostactiveblogid);
 
 	ArrayList allposts = new ArrayList();
+	
+	JSONObject authoryears = new JSONObject();
+	JSONObject years = new JSONObject();
+	JSONArray yearsarray = new JSONArray();
 %>
 <!DOCTYPE html>
 <html>
@@ -464,152 +469,40 @@ userinfo = (ArrayList<?>)userinfo.get(0);
     <h5 class="mt20 mb20">Bloggers</h5>
     <div style="padding-right:10px !important;">
       <input type="search" class="form-control stylesearch mb20 searchbloggers" placeholder="Search Bloggers" /></div>
-    <div class="scrolly" style="height:270px; padding-right:10px !important;">
+    	<div class="scrolly" style="height:270px; padding-right:10px !important;">
     
-							<%
-								
-								JSONObject authors = new JSONObject();
-								JSONObject authoryears = new JSONObject();
-								JSONArray authorcount = new JSONArray();
-								JSONArray posttodisplay = new JSONArray();
-								JSONObject years = new JSONObject();
-								JSONArray yearsarray = new JSONArray();
-								JSONObject locations = new JSONObject();
-								JSONObject authorposts = new JSONObject();
-								JSONObject bloggersort = new JSONObject();
-
-								JSONObject bloggersortdet = new JSONObject();
-								JSONArray bloggerarr = new JSONArray();
-								JSONArray postauth = new JSONArray();
-								
-								String selectedid="";
-								
-								int l=0;
-								int qc=0;
-								int tloc =0;
-								
-								if(allauthors.size()>0){
-									
-									String tres = null;
-									JSONObject tresp = null;
-									String tresu = null;
-									JSONObject tobj = null;
-									int j=0;
-									int k=0;
-									String sellect = "";
-									for(int i=0; i< allauthors.size(); i++){
-										tres = allauthors.get(i).toString();	
-										tresp = new JSONObject(tres);
-										tresu = tresp.get("_source").toString();
-										tobj = new JSONObject(tresu);
-										
-										String auth  = tobj.get("blogger").toString();
-										String posttitle  = tobj.get("title").toString();
-										String posturl = tobj.get("permalink").toString();
-										String postid  = tobj.get("blogpost_id").toString();
-										String blogid  = tobj.get("blogsite_id").toString();
-										String body  = tobj.get("post").toString();
-										String dat  = tobj.get("date").toString();
-										String num_comment  = tobj.get("num_comments").toString();
-										num_comment = num_comment.equals("null")?"0":num_comment;
-										
-										String country = tobj.get("location").toString();
-										if(locations.has(country)){
-											int val = Integer.parseInt(locations.get(country).toString());
-											
-											locations.put(country,val);
-											if(val>tloc){
-												tloc = val;
-												//toplocation = country;
-											}
-										}else{
-											locations.put(country,1);
-										}
-										
-										
-										
-										float influence = Float.parseFloat(tobj.get("influence_score").toString());
-										totalinfluence+=influence;
-										
-										String[] dateyear=tobj.get("date").toString().split("-");
-										String yy= dateyear[0];
-									    String mm = dateyear[1];
-									    
-								    	if(!authorposts.has(auth)){
-								    		postauth = new JSONArray();
-								    		postauth.put(postid);
-								    		
-										}else{				
-											postauth = new JSONArray(authorposts.get(auth).toString());
-											postauth.put(postid);											
-										}
-								    	
-								    	
-								    	//System.out.println(auth+"id fake ree:"+postid);
-								    	authorposts.put(auth,postauth);
-
-										
-									    String bloggerselect="";
-									    if(!authors.has(auth)){
-									    	String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
-
-											l++;
-											bloggersort.put(auth,Integer.parseInt(postcount));
-											JSONObject bloggerj = new JSONObject();
-											bloggerj.put("blogger",auth);
-											bloggerj.put("blogid",blogid);
-											bloggerj.put("selected",bloggerselect);
-											bloggerj.put("totalpost",postcount);
-											bloggerj.put("postarray",postauth);
-											bloggerarr.put(Integer.parseInt(postcount)+"___"+auth);
-											
-										    bloggersortdet.put(auth,bloggerj);
-									    	authors.put(auth, auth);
-									    	authorcount.put(j, auth);
-									    	
-									    	j++;
-									    	
-									    	 }
-										   // System.out.println(authoryears);
-										}
-									} 
-								
-								System.out.println("authorp here"+authorposts);
-				
-				bloggerarr = post._sortJson2(bloggerarr);
-				 
-				for(int m=0; m<bloggerarr.length(); m++){
-					String key = bloggerarr.get(m).toString();
-					String[] splitter = key.split("___");
-	
-					String au = splitter[1];
-					
-					JSONArray det2= new JSONArray(authorposts.get(au).toString());
-			  		JSONObject det= new JSONObject(bloggersortdet.get(au).toString());
+					<%
 					String dselected = "";
-				
-					JSONArray selposts = new JSONArray(authorposts.get(au).toString());
-				
-					String postids = "";
-					for(int r=0; r<selposts.length(); r++){
-						postids += selposts.get(r).toString()+",";
-					}
-					if(m==0){
-							dselected = "abloggerselected";
-							mostactiveblogger = au;
-							allterms = term._searchByRange("blogpostid", dt, dte, postids);//_searchByRange("blogpostid",dt, dte,postids);
-							//allterms = term._fetchByPostId(postids);
-							
-							allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids);
-							selectedid=det.get("blogid").toString();
-							allposts = post._getBloggerByBloggerName("date",dt, dte,au,"date","DESC");							
-					}
+					String selectedid="";
+					if (bloggerPostFrequency.size() > 0) {
+						int p = 0;
+						for (int m = 0; m < bloggerPostFrequency.size(); m++) {
+							ArrayList<?> bloggerFreq = (ArrayList<?>) bloggerPostFrequency.get(m);
+							String bloggerName = bloggerFreq.get(0).toString();
+							String bloggerPostFreq = bloggerFreq.get(1).toString();
+							String blogsiteId = bloggerFreq.get(2).toString();
+								if (p < 10) {
+									p++;		
+										if(m==0){
+												dselected = "abloggerselected";
+												mostactiveblogger = bloggerName;
+												String pids = post._getPostIdsByBloggerName("date",dt, dte,bloggerName,"date","DESC");
+												allterms = term._searchByRange("blogpostid", dt, dte, pids);//_searchByRange("blogpostid",dt, dte,postids);
+												
+												System.out.println("Post ids "+pids);
+												System.out.println("Top terms "+allterms);
+												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, pids);
+												selectedid=blogsiteId;
+												allposts = post._getBloggerByBloggerName("date",dt, dte,bloggerName,"date","DESC");							
+										}
 			    	%>
-					<input type="hidden" id="postby<%=au.replaceAll(" ","__")%>" value="<%=postids%>" />
-	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=au.replaceAll(" ","__")%>***<%=det.get("blogid")%>" ><b><%=det.get("blogger")%></b></a>
+					<input type="hidden" id="postby<%=bloggerName.replaceAll(" ","__")%>" value="" />
+	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=bloggerName.replaceAll(" ","__")%>***<%=blogsiteId%>" ><b><%=bloggerName%></b></a>
 	    			<% 
 					//JSONObject jsonObj = bloggersort.getJSONObject(m);
 				}
+			}
+		}
 			//System.out.println(allauthors);					
 	%>
         <!--  
@@ -683,9 +576,14 @@ if (allterms.size() > 0) {
 
 
 
+if (bloggerPostFrequency.size() > 0) {
 
-if(authorcount.length()>0){
-	for(int n=0; n<1;n++){
+	for (int n=0; n<1;n++) {
+		ArrayList<?> bloggerFreq = (ArrayList<?>) bloggerPostFrequency.get(n);
+		String bloggerName = bloggerFreq.get(0).toString();
+		String bloggerPostFreq = bloggerFreq.get(1).toString();
+		String blogsiteId = bloggerFreq.get(2).toString();
+		
 		int b=0;
 		JSONObject postyear =new JSONObject();
 		for(int y=ystint; y<=yendint; y++){ 
@@ -707,7 +605,7 @@ if(authorcount.length()>0){
 				   
 				   postyear.put(y+"",totu);
 		}
-		authoryears.put(authorcount.get(n).toString(),postyear);
+		authoryears.put(bloggerName,postyear);
 	}
 }
 
@@ -812,8 +710,7 @@ String formatedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Inte
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <%
-                                if(allentitysentiments.size()>0){							
+                               <% if(allentitysentiments.size()>0){							
 									String tres = null;
 									JSONObject tresp = null;
 									String tresu = null;
@@ -1266,9 +1163,9 @@ String formatedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Inte
   // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
   // ];
 
-  data = [<% if(authorcount.length()>0){
+  data = [<% if(bloggerPostFrequency.size()>0){
 	  for(int p=0; p<1; p++){ 
-	  		String au = authorcount.get(p).toString();
+	  		String au = mostactiveblogger;//authorcount.get(p).toString();
 	  		JSONObject specific_auth= new JSONObject(authoryears.get(au).toString());
 	  		
 	  %>[<% for(int q=0; q<yearsarray.length(); q++){ 
@@ -1280,7 +1177,7 @@ String formatedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Inte
 		  			{"date":"<%=yearr%>","close":0},
 	   		<% } %>
 		<%  
-	  		}%>]<% if(p<authorcount.length()-1){%>,<%}%>
+	  		}%>]<% if(p<bloggerPostFrequency.size()-1){%>,<%}%>
 	  <%	}}
 	  %> ];
 	/*

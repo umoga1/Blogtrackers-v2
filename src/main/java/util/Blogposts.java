@@ -242,6 +242,32 @@ public class Blogposts {
 	}
 	
 	
+	public String _getPostIdsByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
+		int size =20;
+		DbConnection db = new DbConnection();
+		String ids = "";
+		ArrayList result = new ArrayList();
+		ArrayList resut = new ArrayList();
+		try {
+			result = db.query("SELECT blogpost_id  FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ORDER BY "+sort+" "+order+" LIMIT "+size+"");	
+			//result = db.queryJSON("SELECT *  FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">="+greater+" AND "+field+"<="+less+" ORDER BY date ASC LIMIT "+size+"");	
+			
+		}catch(Exception e){
+			
+		}
+		
+		for (int i = 0; i < result.size(); i++) {
+			resut = (ArrayList)result.get(i);
+			
+		    String id = resut.get(0).toString();
+		    ids+=id+",";
+		    
+		}
+		
+		return ids;
+	}
+	
+	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
 		int size =20;
 		DbConnection db = new DbConnection();
