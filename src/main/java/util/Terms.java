@@ -101,7 +101,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 }
 	 String arg2 = pars.toString();
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
-		 		"	\"size\":20,\r\n" +
+		 		"	\"size\":500,\r\n" +
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
 				"               \"must\": {\r\n" + 
