@@ -264,6 +264,8 @@ public class Blogposts {
 		    
 		}
 		
+		ids = ids.replaceAll(",$", "");
+		ids = ids.replaceAll(", $", "");
 		return ids;
 	}
 	
