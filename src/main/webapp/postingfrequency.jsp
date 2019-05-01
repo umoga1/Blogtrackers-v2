@@ -494,6 +494,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, pids);
 												selectedid=blogsiteId;
 												allposts = post._getBloggerByBloggerName("date",dt, dte,bloggerName,"date","DESC");							
+										}else{
+												dselected = "";
 										}
 			    	%>
 					<input type="hidden" id="postby<%=bloggerName.replaceAll(" ","__")%>" value="" />
