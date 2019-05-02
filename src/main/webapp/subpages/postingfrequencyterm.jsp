@@ -16,13 +16,16 @@
 <%
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
-Object post_ids = (null == request.getParameter("post_ids")) ? "" : request.getParameter("post_ids");
+//Object post_ids = (null == request.getParameter("post_ids")) ? "" : request.getParameter("post_ids");
 
 Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
+Object blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 
 String dt = date_start.toString();
 String dte = date_end.toString();
-ArrayList allterms = new Terms()._searchByRange("blogpostid", dt, dte, post_ids.toString());//_searchByRange(dt, dte, post_ids.toString());
+String pids = new Blogposts()._getPostIdsByBloggerName("date",dt, dte,blogger.toString(),"date","DESC");
+
+ArrayList allterms = new Terms()._searchByRange("blogpostid", dt, dte, pids);//_searchByRange(dt, dte, post_ids.toString());
 int highestfrequency = 0;
 
 

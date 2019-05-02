@@ -193,7 +193,7 @@ function loadTerms(blogger,blog_id,start_date,end_date){
 		data: {
 			action:"getchart",
 			blogger:blogger,
-			post_ids:$("#postby"+blger).val(),
+			//post_ids:$("#postby"+blger).val(),
 			date_start:start_date,
 			date_end:end_date,
 		},

@@ -27,8 +27,10 @@ ArrayList allentitysentiments = new ArrayList();
 String dt = date_start.toString();
 String dte = date_end.toString();
 String year_start="";
-String year_end="";		
-allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, postids.toString());
+String year_end="";	
+String pids = new Blogposts()._getPostIdsByBloggerName("date",dt, dte,blogger.toString(),"date","DESC");
+
+allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, pids);
 %>
 <link rel="stylesheet" href="assets/css/table.css" />
 <link rel="stylesheet" href="assets/css/style.css" />
