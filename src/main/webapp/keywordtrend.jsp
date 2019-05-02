@@ -22,14 +22,14 @@
 
 	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 	Object userid = (null == session.getAttribute("user")) ? "" : session.getAttribute("user");
+	Object termites = (null == session.getAttribute("top_terms")) ? "" : session.getAttribute("top_terms");
 	
 	Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
-	
-	//System.out.println(date_start);
+
 	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
 	} else {
@@ -188,7 +188,7 @@
 				}
 			}
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
-			//System.out.println(s)
+			
 			//System.out.println("start date"+date_start+"end date "+date_end);
 				if (!date_start.equals("") && !date_end.equals("")) {
 			
@@ -278,7 +278,9 @@
 				bstr = bj.get("_source").toString();
 				bj = new JSONObject(bstr);
 				String tm = bj.get("term").toString();
+				
 				String frequency = bj.get("frequency").toString();
+				//String frequency = "10";
 				int frequency2 = Integer.parseInt(frequency);
 				if (top_terms.containsKey(tm)) {
 					top_terms.put(tm, top_terms.get(tm) + frequency2);
@@ -307,10 +309,8 @@
 		}
 		JSONObject termsyears = new JSONObject();
 
-		System.out.println("DT E:"+dt+",fte:"+dte+"ids:"+ids);
 		allterms = term._searchByRange("blogsiteid", dt, dte, ids);//term._searchByRange("date", dt, dte, ids);
 		//termss = term._searchByRange("blogsiteid", dt, dte, ids);
-		System.out.println("All terms:"+allterms);
 		int postmentioned=0;
 		int blogmentioned=0;
 		int bloggermentioned=0;
@@ -334,7 +334,8 @@
 				JSONObject bj = new JSONObject(bstr);
 				bstr = bj.get("_source").toString();
 				bj = new JSONObject(bstr);
-				String frequency = bj.get("frequency").toString();
+				/* String frequency = bj.get("frequency").toString(); */
+				String frequency = "10";
 				int freq = Integer.parseInt(frequency);
 				
 				
@@ -1012,7 +1013,8 @@
 								<%if (topterms.length() > 0) {										
 										for (int i = 0; i < topterms.length(); i++) {
 											JSONObject jsonObj = topterms.getJSONObject(i);
-											int size = Integer.parseInt(jsonObj.getString("frequency"));
+											int size = 10;
+											/* int size = Integer.parseInt(jsonObj.getString("frequency")); */
 											String terms = jsonObj.getString("key");
 											String postcount = post._searchTotalByTitleAndBody(terms,"date", dt,dte);
 											String blogcount = post._searchTotalAndUnique(terms,"date", dt,dte,"blogsite_id");

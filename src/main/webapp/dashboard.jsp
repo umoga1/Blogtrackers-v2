@@ -273,6 +273,7 @@
 			}
 			//System.out.println("termss start");
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
+			session.setAttribute("terms", termss);
 			//System.out.println("termss end");
 			//System.out.println("outlinks start");
 			outlinks = outl._searchByRange("date", dt, dte, ids);
@@ -357,6 +358,7 @@
 					}
 					
 				}
+				session.setAttribute("top_term", top_terms);
 			}
 	}catch(Exception e){
 		System.err.println(e);

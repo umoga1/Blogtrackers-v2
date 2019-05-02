@@ -73,7 +73,7 @@ public class Tracker extends HttpServlet {
         String query = "";
 		String action = (null==request.getParameter("action"))?"":request.getParameter("action");
 		String userid = username;//(String) session.getAttribute("user");
-	    
+		
 		if(action.equals("create"))
 		{	
 			/*
