@@ -51,8 +51,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
 	
 	name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
-	
-	
+		
 	email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 	phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
 	//date_modified = userinfo.get(11).toString();
@@ -68,8 +67,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	if(userpic.indexOf("http")>-1){
 		profileimage = userpic;
 	}
-	
-	
 	
 	File f = new File(filename);
 	if(f.exists() && !f.isDirectory()) { 
