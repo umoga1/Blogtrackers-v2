@@ -75,9 +75,9 @@
 }
 
 .zoom:hover {
-  -ms-transform: scale(1.03); /* IE 9 */
-  -webkit-transform: scale(1.03); /* Safari 3-8 */
-  transform: scale(1.03); 
+  -ms-transform: scale(1.02); /* IE 9 */
+  -webkit-transform: scale(1.02); /* Safari 3-8 */
+  transform: scale(1.02); 
 }
 #loader-wrapper .loader-section.section-left {
     left: 0;

@@ -9,9 +9,19 @@
 		<description></description>
 		<servlet-class>wrapper.AddBlog</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>CreateTracker</servlet-name>
+		<display-name>CreateTracker</display-name>
+		<description></description>
+		<servlet-class>handler.CreateTracker</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>AddBlog</servlet-name>
 		<url-pattern>/AddBlog</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CreateTracker</servlet-name>
+		<url-pattern>/CreateTracker</url-pattern>
 	</servlet-mapping>
 <error-page>
     <error-code>404</error-code>

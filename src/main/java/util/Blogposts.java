@@ -10,6 +10,8 @@ import java.sql.SQLException;
 
 import org.json.JSONObject;
 
+import com.mysql.cj.api.mysqla.result.Resultset;
+
 /*import com.mysql.jdbc.Connection;*/
 
 import java.util.*;
@@ -239,6 +241,34 @@ public class Blogposts {
 		ArrayList result =  this._getResult(url, jsonObj);
 		return this._getResult(url, jsonObj);
 		*/
+	}
+	
+	
+	public String _getPostIdsByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
+		int size =20;
+		DbConnection db = new DbConnection();
+		String ids = "";
+		ArrayList result = new ArrayList();
+		ArrayList resut = new ArrayList();
+		try {
+			result = db.query("SELECT blogpost_id  FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ORDER BY "+sort+" "+order+" LIMIT "+size+"");	
+			//result = db.queryJSON("SELECT *  FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">="+greater+" AND "+field+"<="+less+" ORDER BY date ASC LIMIT "+size+"");	
+			
+		}catch(Exception e){
+			
+		}
+		
+		for (int i = 0; i < result.size(); i++) {
+			resut = (ArrayList)result.get(i);
+			
+		    String id = resut.get(0).toString();
+		    ids+=id+",";
+		    
+		}
+		
+		ids = ids.replaceAll(",$", "");
+		ids = ids.replaceAll(", $", "");
+		return ids;
 	}
 	
 	
@@ -903,7 +933,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 		return response;
 		*/
 		
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=1000";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -1206,6 +1236,24 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 		String url = base_url+"_search?size=1"; 
 		return this._getTotal(url, jsonObj);
 		
+	}
+	
+	public ArrayList _getPostId(String blog_ids) {
+		DbConnection db = new DbConnection();
+		ArrayList response = new ArrayList<>();
+		String result ="";
+		blog_ids = blog_ids.replaceAll(",$", "");
+		blog_ids = blog_ids.replaceAll(", $", "");
+		blog_ids = "("+blog_ids+")";
+		try {
+			 response = db.query("select blogpost_id from blogposts where blogsite_id in "+blog_ids);
+			if(response.size()>0) {
+				return response;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public String _searchTotalAndUnique(String term,String sortby, String start, String end, String filter ) throws Exception {

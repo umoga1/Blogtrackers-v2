@@ -64,8 +64,6 @@ public String _getTotal() {
 	return this.totalpost;
 }
 
-
-
 public ArrayList _searchByRange(String field,String greater, String less, String blog_ids) throws Exception {
 	blog_ids = blog_ids.replaceAll(",$", "");
 	blog_ids = blog_ids.replaceAll(", $", "");

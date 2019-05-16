@@ -222,6 +222,7 @@
 			ArrayList locations = blog._getLocation(ids);
 			//System.out.println("all blog location");
 			ArrayList languages = blog._getLanguage(ids);
+			System.out.println(languages);
 			//System.out.println("all blog language");
 			ArrayList bloggerPostFrequency = bloggerss._getBloggerPostFrequency(ids);
 			//System.out.println("all blogger post frequency");
@@ -272,6 +273,7 @@
 			}
 			//System.out.println("termss start");
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
+			session.setAttribute("terms", termss);
 			//System.out.println("termss end");
 			//System.out.println("outlinks start");
 			outlinks = outl._searchByRange("date", dt, dte, ids);
@@ -338,7 +340,7 @@
 			JSONObject positions = new JSONObject();
 			
 			Map<String, Integer> top_terms = new HashMap<String, Integer>();
-	/* 		System.out.println("Start of terms"); */
+	
 	try{
 			if (termss.size() > 0) {
 				for (int p = 0; p < termss.size(); p++) {
@@ -356,6 +358,7 @@
 					}
 					
 				}
+				session.setAttribute("top_term", top_terms);
 			}
 	}catch(Exception e){
 		System.err.println(e);
@@ -719,7 +722,7 @@
  				<div class="front p30 pt5 pb5">	
  		<div>
 		<p class="text-primary mt10 float-left">Language Usage</p>
-		<button  id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
 							title="Flip to view language usage" aria-expanded="false">
         <i class="fas fa-exchange-alt" aria-hidden="true"></i>
        </button>
@@ -743,7 +746,7 @@
               
                 <div>
 		<p class="text-primary mt10 float-left">Language Usage</p>
-		<button  id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
 							title="Flip to view language usage" aria-expanded="false">
 							
         <i class="fas fa-exchange-alt" aria-hidden="true"></i>
@@ -2675,10 +2678,10 @@ var mymarker = [
 			    		
 						<%-- {"text":"<%=terms.toString() %>","size":<%=size %>}, --%>
 						 word_count2["<%=terms.toString()%>"] = <%=size%> 
-						 <%}
-		}%>
-	
-wordtagcloud("#tagcloudcontainer",450,word_count2);
+	 <%}
+					}%>
+				
+	wordtagcloud("#tagcloudcontainer",450,word_count2);
 	
 
 	
@@ -2710,7 +2713,7 @@ $(function () {
             var svg = container
                 .attr("width", diameter + margin.left + margin.right)
                 .attr("height",diameter + margin.top + margin.bottom)
-                .attr("class", "bubble").style("alignment-baseline", "middle");//.append("g").attr("class","bubble-container");
+                .attr("class", "bubble");
         // Create chart
         // ------------------------------
         // var svg = d3.select(element).append("svg")
@@ -2920,7 +2923,7 @@ $(function () {
             var svg = container
                 .attr("width", diameter + margin.left + margin.right)
                 .attr("height",diameter + margin.top + margin.bottom)
-                .attr("class", "bubble").style("alignment-baseline", "middle");
+                .attr("class", "bubble");
         // Create chart
         // ------------------------------
         // var svg = d3.select(element).append("svg")
