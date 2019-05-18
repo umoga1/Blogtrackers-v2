@@ -1259,11 +1259,11 @@
 				if (influenceBlogger.size() > 0) {
 					int k = 0;
 					for (int y = 0; y < influenceBlogger.size(); y++) {
-					ArrayList<?> bloggerInfluence = (ArrayList<?>) influenceBlogger.get(y);
-					String bloggerInf = bloggerInfluence.get(0).toString();
-					 String bloggerInfFreq =  bloggerInfluence.get(1).toString();
-					if (k < 10) {
-						k++;
+						ArrayList<?> bloggerInfluence = (ArrayList<?>) influenceBlogger.get(y);
+						 String bloggerInf = bloggerInfluence.get(0).toString();
+						 String bloggerInfFreq =  bloggerInfluence.get(1).toString();
+						if (k < 10) {
+							k++;
 			%>
 		{letter:"<%=bloggerInf%>", frequency:<%=bloggerInfFreq%>, name:"<%=bloggerInf%>", type:"blogger"},
 		 <%

@@ -10,13 +10,12 @@
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
 <%
 Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
-Object post_ids = (null == request.getParameter("post_ids")) ? "" : request.getParameter("post_ids");
+//Object post_ids = (null == request.getParameter("post_ids")) ? "" : request.getParameter("post_ids");
 Object blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 
 Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
@@ -58,8 +57,7 @@ if (allterms.size() > 0) {
 
 
 
-if(action.toString().equals("gettopkeyword")){
-%>
+if(action.toString().equals("gettopkeyword")){%>
 <%=mostusedkeyword%>
 <%}else{ 
 %>
