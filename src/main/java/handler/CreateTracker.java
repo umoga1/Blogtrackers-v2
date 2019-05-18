@@ -19,7 +19,7 @@ import authentication.DbConnection;
 /**
  * Servlet implementation class CreateTracker
  */
-@WebServlet("/api/create")
+@WebServlet("/api/createtracker")
 public class CreateTracker extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -66,6 +66,9 @@ public class CreateTracker extends HttpServlet {
 		}
 	    
 	    pww.write(object.getInt("userid"));
+	    if(usession.equals(key) && !key.equals("")){ //check if supplied session key is valid
+			pww.write("\n Validated the user session \n");
+	    }
 	    /*String trackerName= object.getString("name");
 	    String userid = object.getString("userid");
 	    
