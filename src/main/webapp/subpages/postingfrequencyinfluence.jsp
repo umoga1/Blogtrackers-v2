@@ -101,6 +101,10 @@ ArrayList allauthors = post._getBloggerByBloggerName("date",dt, dte,blogger.toSt
      $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 430,
           "pagingType": "simple",
+          "columnDefs": [
+    	      { "width": "75%", "targets": 0 },
+    	      { "width": "25%", "targets": 0 }
+    	    ]
          /*  dom: 
         	   'Bfrtip', 
                     "columnDefs": [
