@@ -185,6 +185,22 @@ public ArrayList getTermsByBlogger(String blogger,String date_start, String date
 }
 
 
+public String _getMostActiveByBlog(String date_start, String date_end, String blogsiteid) throws Exception {
+	
+
+	ArrayList response =new ArrayList();
+	DbConnection db = new DbConnection();
+	
+	try {
+		response = db.queryJSON("SELECT term FROM blog WHERE blogsite_id='"+blogsiteid+"' ORDER BY frequency DESC LIMIT 1 ");
+	}catch(Exception e){
+		ArrayList hd = (ArrayList)response.get(0);
+		return hd.get(0).toString();
+	}
+	
+	return "";
+}
+
 
 public ArrayList _search(String term,String from) throws Exception {
 	 JSONObject jsonObj = new JSONObject("{\r\n" + 

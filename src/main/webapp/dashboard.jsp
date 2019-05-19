@@ -2670,7 +2670,7 @@ var mymarker = [
 	<!--word cloud  -->
 	<script>
 	var word_count2 = {}; 
-	   <%if (top_terms.size() > 0) {
+	   <% if (top_terms.size() > 0) {
 						for (String terms : top_terms.keySet()) {
 							int size = top_terms.get(terms);%>
 			    		
