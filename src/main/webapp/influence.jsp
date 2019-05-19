@@ -161,8 +161,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	String dst = DATE_FORMAT2.format(dstart);
 	String dend = DATE_FORMAT2.format(today);
 
-		//ArrayList posts = post._list("DESC","");
-		
 		String totalpost = "0";
 		ArrayList allauthors = new ArrayList();
 
@@ -251,8 +249,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		
 		Object infbloggers = (null == session.getAttribute("influentialbloggers")) ? blog._getInfluencialBlog(ids) : session.getAttribute("influentialbloggers");
 		
-		ArrayList influenceBlogger = (ArrayList)infbloggers;
-		
+		//ArrayList influenceBlogger = (ArrayList)infbloggers;
+		ArrayList influenceBlogger = blog._getInfluencialBlogger(ids);
 		
 	   // allauthors= post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 		
@@ -282,8 +280,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	
 
 	ArrayList allposts = new ArrayList();
-	
-
 
 //System.out.println(topterms);
 %>
@@ -533,41 +529,49 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 								
 								String postidss = "";
 							
-
-			    if (influenceBlogger.size() > 0) {
-					int k = 0;
-					for (int y = 0; y < influenceBlogger.size(); y++) {
-					ArrayList<?> bloggerInfluence = (ArrayList<?>) influenceBlogger.get(y);
-					String bloggerInf = bloggerInfluence.get(0).toString();
-					String bloggerInfFreq = bloggerInfluence.get(1).toString();
-					String blogsiteid = bloggerInfluence.get(2).toString();
-				
-					String dselected = "";
-				
-					//JSONArray selposts = new JSONArray(det.get("postarray").toString());
-					String postids = "";					
-						if (k < 10) {
+							    if (influenceBlogger.size() > 0) {
+									int k = 0;
+									for (int y = 0; y < influenceBlogger.size(); y++) {
+									ArrayList<?> bloggerInfluence = (ArrayList<?>) influenceBlogger.get(y);
+									String bloggerInf = bloggerInfluence.get(0).toString();
+									String bloggerInfFreq = bloggerInfluence.get(1).toString();
+									String blogsiteid = bloggerInfluence.get(2).toString();
+									
+									String dselected = "";
 								
-								String postcount = post._searchRangeTotalByBlogger("date", dt, dte, bloggerInf);				    	
-								JSONObject xy = new JSONObject();
-						    	
-						    	String xaxis =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
-						    	int val = new Double(post._searchRangeMaxTotalByBloggers(bloggerInf)).intValue(); 
-						    	
-						    	String yaxis = val+"";
-						    	xy.put("x",yaxis);
-						    	xy.put("y",xaxis);
-								
-						    	//influencecount+=val;
-								
-						    	influecechart.put(bloggerInf,xy);
-						    	
-							if(k==0){
-								dselected = "abloggerselected";
-								mostactiveblogger = bloggerInf;								
-								allposts =  post._getBloggerByBloggerName("date",dt, dte,bloggerInf,"influence_score","DESC");
-							}
+									String postids = "";					
+										if (k < 10) {
+												
+												String postcount = post._searchRangeTotalByBlogger("date", dt, dte, bloggerInf);				    	
+												JSONObject xy = new JSONObject();
+										    	
+										    	String xaxis =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
+										    	int val = new Double(post._searchRangeMaxTotalByBloggers(bloggerInf)).intValue(); 
+										    	
+										    	String yaxis = val+"";
+										    	xy.put("x",yaxis);
+										    	xy.put("y",xaxis);
+												
+												
+										    	influecechart.put(bloggerInf,xy);
+										    	
+											if(k==0){
+												dselected = "abloggerselected";
+												mostactiveblogger = bloggerInf;								
+												allposts =  post._getBloggerByBloggerName("date",dt, dte,bloggerInf,"influence_score","DESC");
+											}
+											%>
+											<input type="hidden" id="postby<%=bloggerInf.replaceAll(" ","__")%>" value="<%=postids%>" />
+					    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=bloggerInf.replaceAll(" ","__")%>***<%=blogsiteid%>" ><b><%=bloggerInf%></b></a>
+					    			
+											<%
+											k++;
+														
+										}
+									}
+							    }			
 							%>
+<<<<<<< HEAD
 							<input type="hidden" id="postby<%=bloggerInf.replaceAll(" ","__")%>" value="<%=postids%>" />
 	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>" style="overflow:hidden;"  id="<%=bloggerInf.replaceAll(" ","__")%>***<%=blogsiteid%>" ><b><%=bloggerInf%></b></a>
 	    			
@@ -580,6 +584,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			    
 							
 			%>
+=======
+>>>>>>> df9d1cfb18836601382e4db4e2d6ce189cf60363
 
 						</div>
 
