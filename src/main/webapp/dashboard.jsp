@@ -1336,7 +1336,8 @@ $(document).ready(function() {
         "scrollY": 430,
         "scrollX": false,
          "pagingType": "simple",
-        	 "bLengthChange": false
+        	 "bLengthChange": false,
+        	 "ordering": false
     /*      ,
          dom: 'Bfrtip',
          "columnDefs": [

@@ -465,7 +465,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
   <div class="card-body  p30 pt5 pb5 mb20">
     <h5 class="mt20 mb20">Bloggers</h5>
     <div style="padding-right:10px !important;">
-      <input type="search" class="form-control stylesearch mb20 searchbloggers" placeholder="Search Bloggers" /></div>
+      <input type="search" class="form-control stylesearch mb20 searchbloggers" placeholder="Search Bloggers" 
+       
+      /></div>
     	<div class="scrolly" style="height:270px; padding-right:10px !important;">
     
 					<%
@@ -495,8 +497,11 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 												dselected = "";
 										}
 			    	%>
-					<input type="hidden" id="postby<%=bloggerName.replaceAll(" ","__")%>" value="" />
-	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>"  id="<%=bloggerName.replaceAll(" ","__")%>***<%=blogsiteId%>" ><b><%=bloggerName%></b></a>
+					<input type="hidden" id="postby<%=bloggerName.replaceAll(" ","__")%>" value="" 
+					/>
+	    			<a
+	    			data-toggle="tooltip" data-placement="top" data-original-title="<%=bloggerName%>"
+	    			 class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>" style="overflow:hidden;"  id="<%=bloggerName.replaceAll(" ","__")%>***<%=blogsiteId%>" ><b><%=bloggerName%></b></a>
 	    			<% 
 					//JSONObject jsonObj = bloggersort.getJSONObject(m);
 				}
@@ -919,7 +924,11 @@ String formatedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Inte
      $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 430,
          "scrollX": true,
-          "pagingType": "simple"
+          "pagingType": "simple",
+        	  "columnDefs": [
+        	      { "width": "75%", "targets": 0 },
+        	      { "width": "25%", "targets": 0 }
+        	    ]
        /*    ,
           dom: 'Bfrtip',
        buttons:{
@@ -1728,169 +1737,24 @@ console.log("here");
   .range(["#17394C", "#F5CC0E", "#CE0202", "#1F90D0", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
  </script>
  
-
+<script type="text/javascript"
+		src="chartdependencies/keywordtrendd3.js"></script>
 <!--word cloud  -->
  <script>
- wordtagcloud("#tagcloudcontainer",450);
- function wordtagcloud(element, height) {
-	 var d3Container = d3.select(element),
-     margin = {top: 5, right: 50, bottom: 20, left: 60},
-     width = d3Container.node().getBoundingClientRect().width,
-     height = height - margin.top - margin.bottom - 5;
-		
-		var container = d3Container.append("svg");
-/*
-     var frequency_list = [{"text":"study","size":40},{"text":"motion","size":15},{"text":"forces","size":10},{"text":"electricity","size":15},{"text":"movement","size":10},{"text":"relation","size":5},{"text":"things","size":10},{"text":"force","size":5},{"text":"ad","size":5},{"text":"energy","size":85},{"text":"living","size":5},{"text":"nonliving","size":5},{"text":"laws","size":15},{"text":"speed","size":45},{"text":"velocity","size":30},{"text":"define","size":5},{"text":"constraints","size":5},{"text":"universe","size":10},{"text":"distinguished","size":5},{"text":"chemistry","size":5},{"text":"biology","size":5},{"text":"includes","size":5},{"text":"radiation","size":5},{"text":"sound","size":5},{"text":"structure","size":5},{"text":"atoms","size":5},{"text":"including","size":10},{"text":"atomic","size":10},{"text":"nuclear","size":10},{"text":"cryogenics","size":10},{"text":"solid-state","size":10},{"text":"particle","size":10},{"text":"plasma","size":10},{"text":"deals","size":5},{"text":"merriam-webster","size":5},{"text":"dictionary","size":10},{"text":"analysis","size":5},{"text":"conducted","size":5},{"text":"order","size":5},{"text":"understand","size":5},{"text":"behaves","size":5},{"text":"en","size":5},{"text":"wikipedia","size":5},{"text":"wiki","size":5},{"text":"physics-","size":5},{"text":"physical","size":5},{"text":"behaviour","size":5},{"text":"collinsdictionary","size":5},{"text":"english","size":5},{"text":"time","size":35},{"text":"distance","size":35},{"text":"wheels","size":5},{"text":"revelations","size":5},{"text":"minute","size":5},{"text":"acceleration","size":20},{"text":"torque","size":5},{"text":"wheel","size":5},{"text":"rotations","size":5},{"text":"resistance","size":5},{"text":"momentum","size":5},{"text":"measure","size":10},{"text":"direction","size":10},{"text":"car","size":5},{"text":"add","size":5},{"text":"traveled","size":5},{"text":"weight","size":5},{"text":"electrical","size":5},{"text":"power","size":5}];
-
-*/
-	var frequency_list = [
-	 <%if (topterms.length() > 0) {
-					for (int i = 0; i < topterms.length(); i++) {
-						JSONObject jsonObj = topterms.getJSONObject(i);
-						int size = Integer.parseInt(jsonObj.getString("frequency"));%>
-		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
-	 <%}
-				}%>
-	 ];
-var color = d3.scale.linear()
-.domain([0,1,2,3,4,5,6,10,12,15,20])
-.range(["#0080CC", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
-
-var svg =  container;
-d3.layout.cloud().size([450,400])
-        .words(frequency_list)
-        .rotate(0)
-        .padding(7)
-        .fontSize(function(d) { return d.size * 1.20; })
-        .on("end", draw)
-        .start();
-
-  
-function draw(words) {
-		svg
-     .attr("width", width)
-     .attr("height", height)
-     //.attr("class", "wordcloud")
-     .append("g")
-     .attr("transform", "translate("+ width/2 +",180)")
-      .on("wheel", function() { d3.event.preventDefault(); })
-      .call(d3.behavior.zoom().on("zoom", function () {
-    	var g = svg.selectAll("g"); 
-      g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")").style("cursor","zoom-out")
-     }))
-     
-     
-     
-     
-    
-		
-     .selectAll("text")
-     .data(words)
-     .enter().append("text")
-     .style("font-size", 0)
-     .style("fill", function(d, i) { return color(i); })
-     .call(d3.behavior.drag()
-		.origin(function(d) { return d; })
-		.on("dragstart", dragstarted) 
-		.on("drag", dragged)			
-		)
-		
-     .attr("transform", function(d) {
-         return "translate(" + [d.x + 12, d.y + 3] + ")rotate(" + d.rotate + ")";
-     })
-
-     .text(function(d) { return d.text; });
-		
-		// animation effect for tag cloud
-		 $(element).bind('inview', function (event, visible) {
-	  if (visible == true) {
-		  svg.selectAll("text").transition()
-          .delay(200)
-          .duration(1000)
-          .style("font-size", function(d) { return d.size * 1.20 + "px"; })
-	  } else {
-		  svg.selectAll("text")
-          .style("font-size", 0)
-	  }
-	});
-		
-		d3.selectAll('.zoombutton').on("click",zoomClick);
-		
-		var zoom = d3.behavior.zoom().scaleExtent([1, 20]).on("zoom", zoomed);
-		
-		function zoomed() {
-			var g = svg.selectAll("g"); 
-       g.attr("transform",
-		        "translate(" + (width/2-10) + ",180)" +
-		        "scale(" + zoom.scale() + ")"
-		    );
-		}
-		
-	// trasnlate and scale the zoom	
-	function interpolateZoom (translate, scale) {
-	    var self = this;
-	    return d3.transition().duration(350).tween("zoom", function () {
-	        var iTranslate = d3.interpolate(zoom.translate(), translate),
-	            iScale = d3.interpolate(zoom.scale(), scale);
-	        return function (t) {
-	            zoom
-	                .scale(iScale(t))
-	                .translate(iTranslate(t));
-	            zoomed();
-	        };
-	    });
-	}
+ 
+ var word_count2 = {}; 
+ 
+ <%if (topterms.length() > 0) {
+	 for (int i = 0; i < topterms.length(); i++) {
+		 JSONObject jsonObj = topterms.getJSONObject(i);
+			int size = Integer.parseInt(jsonObj.getString("frequency"));%>
+		<%-- {"text":"<%=terms.toString() %>","size":<%=size %>}, --%>
+		 word_count2["<%=jsonObj.getString("key")%>"] = <%=size%> 
+<%}
+	}%>
 	
-	// respond to click efffect on the zoom
-	function zoomClick() {
-	    var clicked = d3.event.target,
-	        direction = 1,
-	        factor = 0.2,
-	        target_zoom = 1,
-	        center = [width / 2-10, "180"],
-	        extent = zoom.scaleExtent(),
-	        translate = zoom.translate(),
-	        translate0 = [],
-	        l = [],
-	        view = {x: translate[0], y: translate[1], k: zoom.scale()};
+ wordtagcloud("#tagcloudcontainer",450,word_count2);
 
-	    d3.event.preventDefault();
-	    direction = (this.id === 'zoom_in') ? 1 : -1;
-	    target_zoom = zoom.scale() * (1 + factor * direction);
-
-	    if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
-
-	    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
-	    view.k = target_zoom;
-	    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
-
-	    view.x += center[0] - l[0];
-	    view.y += center[1] - l[1];
-
-	    interpolateZoom([view.x, view.y], view.k);
-	}
-		
-		
-		
-    	function dragged(d) {
-    	 var movetext = svg.select("g").selectAll("text");
-    	 movetext.attr("x",d3.event.x)
-    	 .attr("y",d3.event.y)
-    	 .style("cursor","move"); 
-    	 /* g.attr("transform","translateX("+d3.event.x+")")
-    	 .attr("transform","translateY("+d3.event.y+")")
-    	 .attr("width", width)
-         .attr("height", height); */
-    	} 
-    	function dragstarted(d){
-			d3.event.sourceEvent.stopPropagation();
-		}
-	
-    
-     
-}
-     
- }
  </script>
 <script src="pagedependencies/baseurl.js?v=93"></script>
 
