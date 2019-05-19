@@ -51,8 +51,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
 	
 	name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
-	
-	
+		
 	email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 	phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
 	//date_modified = userinfo.get(11).toString();
@@ -68,8 +67,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	if(userpic.indexOf("http")>-1){
 		profileimage = userpic;
 	}
-	
-	
 	
 	File f = new File(filename);
 	if(f.exists() && !f.isDirectory()) { 
@@ -486,13 +483,13 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										if(m==0){
 												dselected = "abloggerselected";
 												mostactiveblogger = bloggerName;
-												String pids = post._getPostIdsByBloggerName("date",dt, dte,bloggerName,"date","DESC");
-												allterms = term._searchByRange("blogpostid", dt, dte, pids);//_searchByRange("blogpostid",dt, dte,postids);
+												//String pids = post._getPostIdsByBloggerName("date",dt, dte,bloggerName,"date","DESC");
+												/* allterms = term._searchByRange("blogpostid", dt, dte, pids);//_searchByRange("blogpostid",dt, dte,postids);
 												
-												System.out.println("Post ids "+pids);
+												System.out.println("Post ids "+pids); */
 												System.out.println("Top terms "+allterms);
-												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, pids);
-												selectedid=blogsiteId;
+											/* 	allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, pids);
+												 selectedid=blogsiteId; */
 												allposts = post._getBloggerByBloggerName("date",dt, dte,bloggerName,"date","DESC");							
 										}else{
 												dselected = "";

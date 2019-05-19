@@ -283,8 +283,7 @@
 			year_end = yend[0];
 			int ystint = new Double(year_start).intValue();
 			int yendint = new Double(year_end).intValue();
-			
-			
+
 			if(yendint>Integer.parseInt(YEAR_ONLY.format(new Date()))){
 				dte = DATE_FORMAT2.format(new Date()).toString();	
 				yendint = Integer.parseInt(YEAR_ONLY.format(new Date()));

@@ -391,10 +391,8 @@
 
 					if (outerlinks.has(maindomain)) {
 						content = new JSONObject(outerlinks.get(maindomain).toString());
-
 						int valu = new Double(content.get("value").toString()).intValue();
 						valu++;
-
 						content.put("value", valu);
 						content.put("link", link);
 						content.put("domain", maindomain);
