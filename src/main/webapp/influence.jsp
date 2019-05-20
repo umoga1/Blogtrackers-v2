@@ -571,21 +571,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									}
 							    }			
 							%>
-<<<<<<< HEAD
-							<input type="hidden" id="postby<%=bloggerInf.replaceAll(" ","__")%>" value="<%=postids%>" />
-	    			<a class="blogger-select btn btn-primary form-control bloggerinactive mb20 <%=dselected%>" style="overflow:hidden;"  id="<%=bloggerInf.replaceAll(" ","__")%>***<%=blogsiteid%>" ><b><%=bloggerInf%></b></a>
-	    			
-							<%
-							k++;
-										
-						}
-					}
-			    }
-			    
-							
-			%>
-=======
->>>>>>> df9d1cfb18836601382e4db4e2d6ce189cf60363
 
 						</div>
 
