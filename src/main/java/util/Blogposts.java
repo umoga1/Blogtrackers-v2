@@ -933,7 +933,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 		return response;
 		*/
 		
-		String url = base_url+"_search?size=1000";
+		String url = base_url+"_search?size=20";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
