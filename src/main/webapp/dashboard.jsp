@@ -1331,6 +1331,7 @@ $(document).ready(function() {
         	 "bFilter":false,
         	 "bPaginate":false,
         	 "bInfo":false,
+        	 "ordering": false
   
     } );
 // table set up 2
