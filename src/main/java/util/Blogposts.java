@@ -2151,13 +2151,34 @@ public ArrayList _searchPostTotal(String field, int greater, int less, String bl
 		try {
 			ArrayList response = DbConnection.query("select sum(blogpost_count) from blogger where blogsite_id in  "+blog_ids+" ");		
 			if(response.size()>0){
-			 	ArrayList hd = (ArrayList)response.get(0);
+			 	ArrayList hd = (ArrayList<?>)response.get(0);
 				count = hd.get(0).toString();
 			}
 		}catch(Exception e){
 			System.out.print("Error in getBlogPostById");
 		}
 		return count;
+	}
+	
+	public ArrayList _getBloggerPostId(String bloggerName) {
+		ArrayList hd = null;
+		String res = "";
+		ArrayList result = new ArrayList<>();
+		try {
+			ArrayList response = DbConnection.query("SELECT blogpost_id from blogposts where blogger= '"+bloggerName+"'");		
+			if(response.size()>0){
+				for(int i=0; i < response.size(); i++) {
+					hd = (ArrayList)response.get(i);
+					res = hd.get(0).toString();
+					result.add(res);
+				}
+			 	
+			}
+		}catch(Exception e){
+			System.out.print("Error in getBlogPostById");
+		}
+		
+		return result;
 	}
 	/*
 	public  Date addDay(Date date, int i) {

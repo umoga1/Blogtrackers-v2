@@ -210,7 +210,7 @@ public class Blogs extends DbConnection{
 
 		JSONObject jsonObj = new JSONObject(que);
 
-		String url = base_url+"_search?size=2000";
+		String url = base_url+"_search?size=10000";
 		return this._getResult(url, jsonObj);
 
 	}
