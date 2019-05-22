@@ -772,6 +772,7 @@
 																	
 																	String languag_freq = langu.get(1).toString();
 																	if (y<10){
+																   System.out.println(languag+":"+languag_freq);		
 																	%>
 																		<tr>
 											<td class=""><%=languag%></td>
@@ -1329,7 +1330,7 @@ $(document).ready(function() {
         	 "bFilter":false,
         	 "bPaginate":false,
         	 "bInfo":false,
-        	 "ordering": false
+        	 "order": [[ 1, "desc" ]]
   
     } );
 // table set up 2
@@ -1338,7 +1339,7 @@ $(document).ready(function() {
         "scrollX": false,
          "pagingType": "simple",
         	 "bLengthChange": false,
-        	 "ordering": false
+        	 "order": [[ 1, "desc" ]]
     /*      ,
          dom: 'Bfrtip',
          "columnDefs": [

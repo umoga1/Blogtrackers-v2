@@ -236,7 +236,8 @@
 		       /*  "scrollX": "100%", */
 		        /* "scrollX": true, */
 		         "pagingType": "simple",
-		        	 "bLengthChange": false
+		        	 "bLengthChange": false,
+		        	 "order": [[ 1, "desc" ]]
 		        	/*  ,
 		        	    "columnDefs": [
 		      		      { "width": "50%", "targets": 0 },
