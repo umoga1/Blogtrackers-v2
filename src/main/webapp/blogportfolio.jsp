@@ -8,8 +8,7 @@
 <%@page import="java.text.NumberFormat" %>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="java.time.LocalDateTime"%>
 	
 <%
@@ -22,7 +21,7 @@
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
 
-	
+	Normalizer normalizer = new Normalizer();
 	//System.out.println(date_start);
 	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
@@ -162,14 +161,9 @@
 					ddey = "30";
 				}
 			}
-			//System.out.println(s)
-			//System.out.println("start date"+date_start+"end date "+date_end);
+			
 			if (!date_start.equals("") && !date_end.equals("")) {
 				totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
-
-				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
-								
 
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
 				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
@@ -180,12 +174,8 @@
 				historyfrom = DATE_FORMAT.format(start);
 				historyto = DATE_FORMAT.format(end);
 
-				//allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
 			} else if (single.equals("day")) {
 				 dt = year + "-" + month + "-" + day;
-				
-				//allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
-					
 			} else if (single.equals("week")) {
 				
 				 dte = year + "-" + month + "-" + day;
@@ -195,21 +185,13 @@
 				cal.add(Calendar.DATE, -7);
 				Date dateBefore7Days = cal.getTime();
 				dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
-				
-				
-
-				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-					
+			
 			} else if (single.equals("month")) {
 				dt = year + "-" + month + "-01";
 				dte = year + "-" + month + "-"+day;	
-
-				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-				
 			} else if (single.equals("year")) {
 				dt = year + "-01-01";
 				dte = year + "-12-"+ddey;
-				
 				
 			} else {
 				dt = dst;
@@ -250,11 +232,11 @@
 			//String totalinfluence = post._searchRangeMaxByBlogId("date", dt, dte, selectedblogid);
 			String totalinfluence = post._searchRangeMaxByBlogId("date", dt, dte, selectedblogid);
 			Long infl = Math.round(Double.parseDouble(totalinfluence));
-			String mostactiveterm =term._getMostActiveByBlog(dt, dte, selectedblogid);;
 			String mostactiveblog ="";
 					
 			ArrayList activeblogposts = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");
 			ArrayList blogPostFrequency = blog._getblogPostFrequency(ids);
+			String mostactiveterm =term._getMostActiveByBlog(dt, dte, selectedblogid);;
 			
 			ArrayList blogs = blog._fetch(ids);
 			int totalblog = blogs.size();
@@ -281,6 +263,8 @@
 			int nov=0;
 			int dec=0;
 			
+			int min = 0;
+			int max = 0;
 			for(int y=ystint; y<=yendint; y++){
 					   String dtu = y + "-01-01";
 					   String dtue = y + "-12-31";				   
@@ -291,6 +275,9 @@
 						}
 					   					   
 					   String totu = post._searchRangeTotal("date",dtu, dtue,selectedblogid);
+					    
+					   
+					   
 					   jan += Integer.parseInt(post._searchRangeTotal("date",y + "-01-01", y + "-01-31",selectedblogid));
 					   feb += Integer.parseInt(post._searchRangeTotal("date",y + "-02-01", y + "-02-29",selectedblogid));
 					   march += Integer.parseInt(post._searchRangeTotal("date",y + "-03-01", y + "-03-31",selectedblogid));
@@ -303,16 +290,13 @@
 					   oct += Integer.parseInt(post._searchRangeTotal("date",y + "-10-01", y + "-10-31",selectedblogid));
 					   nov += Integer.parseInt(post._searchRangeTotal("date",y + "-11-01", y + "-11-30",selectedblogid));
 					   dec += Integer.parseInt(post._searchRangeTotal("date",y + "-12-01", y + "-12-31",selectedblogid));
+					   
 					   graphyears.put(y+"",totu);
 			    	   yearsarray.put(b,y);	
 			    	   b++;
 			}
 			
-			//System.out.println("grapgh yeres"+yearsarray);
-		    JSONObject authors = new JSONObject();
-		    JSONObject blgers = new JSONObject();
 		    JSONArray sentimentpost = new JSONArray();
-		    
 		    
 		    int sun=0;
 		    int mon=0;
@@ -372,37 +356,7 @@
 			negsentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"negemo");
 			
 			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
-			/*
-			int highestfrequency = 0;
-			
-			JSONObject keys = new JSONObject();
-			JSONObject positions = new JSONObject();
-			
-			Map<String, Integer> top_terms = new HashMap<String, Integer>();
-	
-			try{
-					if (termss.size() > 0) {
-						for (int p = 0; p < termss.size(); p++) {
-							String bstr = termss.get(p).toString();
-							JSONObject bj = new JSONObject(bstr);
-							bstr = bj.get("_source").toString();
-							bj = new JSONObject(bstr);
-							String tm = bj.get("term").toString();
-							String frequency = bj.get("frequency").toString();
-							int frequency2 = Integer.parseInt(frequency);
-							if (top_terms.containsKey(tm)) {
-								top_terms.put(tm, top_terms.get(tm) + frequency2);
-							} else {
-								top_terms.put(tm, frequency2);
-							}
-							
-						}
-					}
-			}catch(Exception e){
-				System.err.println(e);
-			}
-		*/
-			
+		
 			String mostactiveblogurl ="";
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
@@ -450,9 +404,7 @@
 				
 				}
 			}
-			//System.out.println("senti"+ sentimentblog);
-			JSONObject bloggers = new JSONObject();
-			ArrayList looper = new ArrayList();		
+				
 %>
 <!DOCTYPE html>
 <html>

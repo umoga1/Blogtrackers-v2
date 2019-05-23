@@ -975,7 +975,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 				"}";
 
 		JSONObject jsonObj = new JSONObject(que);
-		ArrayList result =  this._getResult(url, jsonObj);
+		ArrayList result =  this._getResult(url, jsonObj); 	
 		return this._getResult(url, jsonObj);	
 	}
 	
@@ -1336,6 +1336,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 		
 		String count = "0";
 		//Modify to distinct blogger
+		/*
 		try {
 			ArrayList response = DbConnection.query("SELECT count(DISTINCT "+filter+") as total FROM blogposts WHERE (title LIKE '%"+term+"%' OR post LIKE '%"+term+"%' OR blogger LIKE '%"+term+"%' ) AND date>='"+start+"' AND date<='"+end+"' ");		
 			if(response.size()>0){
@@ -1347,8 +1348,8 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 		}
 		
 		return count;
+		*/
 		
-		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
@@ -1381,7 +1382,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 	
 		String url = base_url+"_search?size=1"; 
 		return this._getTotal(url, jsonObj);
-		*/
+		
 	}
 	
 	

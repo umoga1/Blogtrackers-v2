@@ -100,6 +100,7 @@
 			String[] user_name = name.split(" ");
 			Blogposts post = new Blogposts();
 			Blogs blog = new Blogs();
+			Blogger bloggerss = new Blogger();
 			Sentiments senti = new Sentiments();
 
 			//Date today = new Date();
@@ -152,8 +153,7 @@
 		
 			
 			String totalpost = "0";
-			ArrayList allauthors = new ArrayList();
-
+			
 			String possentiment = "0";
 			String negsentiment = "0";
 			String ddey = "31";
@@ -187,12 +187,8 @@
 				
 				dt = date_start.toString();
 				dte = date_end.toString();
-				
-				//allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
 			} else if (single.equals("day")) {
 				 dt = year + "-" + month + "-" + day;
-				
-				//allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
 					
 			} else if (single.equals("week")) {
 				
@@ -204,16 +200,10 @@
 				Date dateBefore7Days = cal.getTime();
 				dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
 				
-				
-
-				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-					
 			} else if (single.equals("month")) {
 				dt = year + "-" + month + "-01";
 				dte = year + "-" + month + "-"+day;	
 
-				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-				
 			} else if (single.equals("year")) {
 				dt = year + "-01-01";
 				dte = year + "-12-"+ddey;
@@ -252,16 +242,12 @@
 			String[] idss = ids.split(",");
 			String selectedblogid = idss[0];
 			
-			
-			
-			String mostactiveterm ="";
 			String mostactiveblogger ="";
 			String mostactiveblogurl ="";
 			
-			
-			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-			allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-
+			ArrayList activeblogposts = post._getBloggerByBlogId("date", dt, dte, selectedblogid, "influence_score", "DESC");
+			String mostactiveterm = "";
+			ArrayList bloggerPostFrequency = bloggerss._getBloggerPostFrequency(ids);
 			//System.out.println("Terms here:"+termss);
 			
 			ArrayList blogs = blog._fetch(ids);
@@ -270,7 +256,6 @@
 			JSONObject graphyears = new JSONObject();
 		    JSONArray yearsarray = new JSONArray();
 		    
-						//System.out.println("grapgh yeres"+yearsarray);
 		    JSONObject authors = new JSONObject();
 		    JSONObject blgers = new JSONObject();
 		    JSONArray sentimentpost = new JSONArray();
@@ -287,14 +272,20 @@
 		    int fri=0;
 		    int sat =0;
 		    
-		    JSONObject bloggersortdet = new JSONObject();
-			JSONArray bloggerarr = new JSONArray();
-			JSONObject bloggersort = new JSONObject();
 
 			int highestpost = 0;
+			if (bloggerPostFrequency.size() > 0) {
+				int p = 0;
+				for (int m = 0; m < 1; m++) {
+					ArrayList<?> bloggerFreq = (ArrayList<?>) bloggerPostFrequency.get(m);
+					String bloggerName = bloggerFreq.get(0).toString();
+					String blogsiteId = bloggerFreq.get(2).toString();
+					mostactiveblogger = bloggerName;
+					selectedblogid = blogsiteId;
+				}
+			}
 			
-			ArrayList authorlooper = new ArrayList();
-			if(allauthors.size()>0){
+			if(activeblogposts.size()>0){
 				String tres = null;
 				JSONObject tresp = null;
 				String tresu = null;
@@ -302,8 +293,8 @@
 				int j=0;
 				int k=0;
 				int n = 0;
-			for(int i=0; i< allauthors.size(); i++){
-						tres = allauthors.get(i).toString();			
+			for(int i=0; i< activeblogposts.size(); i++){
+						tres = activeblogposts.get(i).toString();			
 						tresp = new JSONObject(tres);
 					    tresu = tresp.get("_source").toString();
 					    tobj = new JSONObject(tresu);
@@ -317,7 +308,7 @@
 						
 						if(totalcounter>highestpost){
 							highestpost = totalcounter;
-							mostactiveblogger = auth;							
+							//mostactiveblogger = auth;							
 							mostactiveblogurl = uri.getHost();
 						}
 					    
@@ -355,65 +346,7 @@
 						    }
 					    }
 					   
-					    
-					    if(authors.has(auth)){
-							content = new JSONObject(authors.get(auth).toString());
-							//Double inf = Double.parseDouble(content.get("influence").toString());
-							//inf = inf+influence;
-							int valu = Integer.parseInt(content.get("totalpost").toString());
-							String pids = content.get("postids").toString();
-							pids = pids+","+tobj.get("blogpost_id").toString();
-							
-							content.put("blogger", auth);
-							//content.put("influence", inf);
-							content.put("totalpost",valu);
-							content.put("blogsite_id",blogsite_id);
-							content.put("postids", pids);
-							authors.put(auth, content);
-						} else {
-							 
-						    // System.out.println("toty-"+btoty);
-							int valu = Integer.parseInt(btoty);
-							if(valu==0){
-								   valu=1;
-							}
-								 
-							content.put("blogger", auth);
-							//content.put("influence", influence);
-							content.put("totalpost",valu);
-							content.put("blogsite_id",blogsite_id);
-							content.put("postids", tobj.get("blogpost_id").toString());
-							authors.put(auth, content);
-							authorlooper.add(j,auth);
-							
-							
-							String postcount = post._searchRangeTotalByBlogger("date", dt, dte, auth);
-					    	
-							bloggersort.put(auth,Integer.parseInt(postcount));
-							JSONObject bloggerj = new JSONObject();
-							bloggerj.put("blogger",auth);
-							bloggerj.put("blogsite_id",blogsite_id);
-							//bloggerj.put("selected",bloggerselect);
-							bloggerj.put("totalpost",postcount);
-							//bloggerj.put("postarray",postauth);
-							bloggerarr.put(Integer.parseInt(postcount)+"___"+auth);							
-						    bloggersortdet.put(auth,bloggerj);					    	
-							j++;
-						}
-					    
-					  //Object ex = language.get(lang);
-						if (language.has(lang)) {
-							int val = Integer.parseInt(language.get(lang).toString()) + 1;
-							language.put(lang, val);
-						} else {
-							//  	int val  = Integer.parseInt(ex.toString())+1;
-							language.put(lang, 1);
-							langlooper.add(n, lang);
-							n++;
-						}
-
 				}
-			//System.out.println("Authors here:"+graphyears);
 			} 
 			
 			
@@ -440,11 +373,7 @@
 			int nov=0;
 			int dec=0;
 			
-			for(int y=ystint; y<=yendint; y++){
-				/*
-					   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
-					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
-					*/  
+			for(int y=ystint; y<=yendint; y++){ 
 					   String dtu = y + "-01-01";
 
 					   String dtue = y + "-12-31";
@@ -457,49 +386,19 @@
 					   
 					   
 					   String totu = post._searchRangeTotal("date",dtu, dtue,selectedblogid);
-					   
-					   //if(1 >= Integer.parseInt(month_start)){
-					   		jan += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-01-01", y + "-01-31",mostactiveblogger));
-					   //}
-					   			
-					   //System.out.println("jan "+jan+"-"+mostactiveblogger);
-					   //if(2>=Integer.parseInt(month_start) && y>=ystint){
-						   feb += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-02-01", y + "-02-29",mostactiveblogger));
-					   //}
-					   
-					   //if(3>=Integer.parseInt(month_start) && y>=ystint){						
-					   		march += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-03-01", y + "-03-31",mostactiveblogger));
-					   //}
-					   
-					   //if(4>=Integer.parseInt(month_start) && y>=ystint){						
+					    
+					   jan += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-01-01", y + "-01-31",mostactiveblogger));
+					    feb += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-02-01", y + "-02-29",mostactiveblogger));
+					    march += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-03-01", y + "-03-31",mostactiveblogger));
 					   	apr += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-04-01", y + "-04-30",mostactiveblogger));
-					   //}
-					   
-					   //if(5>=Integer.parseInt(month_start) && y>=ystint){							
-					  	 may += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-05-01", y + "-05-31",mostactiveblogger));
-					   //}
-					   
-					   //if( 6 >=Integer.parseInt(month_start) && y>=ystint){							
-					   	june += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-06-01", y + "-06-30",mostactiveblogger));
-					   //}
-					  // if(7 >= Integer.parseInt(month_start) && y>=ystint){							
+					    may += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-05-01", y + "-05-31",mostactiveblogger));
+					    june += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-06-01", y + "-06-30",mostactiveblogger));
 					   	july += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-07-01", y + "-07-31",mostactiveblogger));
-					   //}
-					   //if(8 >= Integer.parseInt(month_start) && y>=ystint){							
 					   	aug += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-08-01", y + "-08-31",mostactiveblogger));
-					   //}
-					   //if(9 >= Integer.parseInt(month_start) && y>=ystint){					
-					   	sep += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-09-01", y + "-09-30",mostactiveblogger));
-					  // }
-					   //if(10 >= Integer.parseInt(month_start) && y>=ystint){			
+					    sep += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-09-01", y + "-09-30",mostactiveblogger));
 					   oct += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-10-01", y + "-10-31",mostactiveblogger));
-					   //}
-					   //if(11 >= Integer.parseInt(month_start) && y>=ystint){						
-					   		nov += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-11-01", y + "-11-30",mostactiveblogger));
-					   //}
-					   //if(12 >= Integer.parseInt(month_start) && y>=ystint){						
-					   	dec += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-12-01", y + "-12-31",mostactiveblogger));
-					   //}
+					   nov += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-11-01", y + "-11-30",mostactiveblogger));
+					   dec += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-12-01", y + "-12-31",mostactiveblogger));
 					   
 					   graphyears.put(y+"",totu);
 			    	   yearsarray.put(b,y);	
@@ -513,141 +412,9 @@
 			
 			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
 			int highestfrequency = 0;
-
-
-			//System.out.println("senti"+ sentimentblog);
-			
-			JSONObject bloggers = new JSONObject();
-
-			ArrayList looper = new ArrayList();
-			
-			bloggerarr = post._sortJson2(bloggerarr);
-			
-			/*
-			if (blogs.size() > 0) {
-				String bres = null;
-				JSONObject bresp = null;
-
-				String bresu = null;
-				JSONObject bobj = null;
-				int m = 0;
-				
-				for (int k = 0; k < blogs.size(); k++) {
-					bres = blogs.get(k).toString();
-					bresp = new JSONObject(bres);
-					bresu = bresp.get("_source").toString();
-					bobj = new JSONObject(bresu);
-					
-					String blogger = bobj.get("blogsite_name").toString();
-					String blogname = bobj.get("blogsite_name").toString();
-					//System.out.println("blogger here+"+blogger);
-					String sentiment = "1";// bobj.get("sentiment").toString();
-					String posting = bobj.get("totalposts").toString();
-
-					JSONObject content = new JSONObject();
-
-					String durl = bobj.get("blogsite_url").toString();//"";
-					try {
-						URI uri = new URI(bobj.get("blogsite_url").toString());
-						String domain = uri.getHost();
-						if (domain.startsWith("www.")) {
-							durl = domain.substring(4);
-						} else {
-							durl = domain;
-						}
-					} catch (Exception ex) {}
-					
-						String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
-						//String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
-						int valu = 1;//Integer.parseInt(btoty);
-						
-						if (bloggers.has(blogger)) {
-							content = new JSONObject(bloggers.get(blogger).toString());						
-							content.put("blog", blogname);
-							content.put("id", bobj.get("blogsite_id").toString());
-							content.put("blogger", blogger);
-							content.put("sentiment", sentiment);
-							content.put("postingfreq", posting);
-							content.put("value", valu);
-							content.put("totalposts", toty);
-							content.put("blogsite_url", bobj.get("blogsite_url").toString());
-							content.put("blogsite_domain", durl);
-							bloggers.put(blogger, content);
-						} else {
-							content.put("blog", blogname);
-							content.put("id", bobj.get("blogsite_id").toString());
-							content.put("blogger", blogger);
-							content.put("sentiment", sentiment);
-							content.put("postingfreq", posting);
-							content.put("value", valu);
-							content.put("totalposts", toty);
-							content.put("blogsite_url", bobj.get("blogsite_url").toString());
-							content.put("blogsite_domain", durl);
-							bloggers.put(blogger, content);
-							looper.add(m, blogger);
-							m++;
-						}	
-						
-								
-				}
-
-			}
-			
-			*/
-String blogids = "";
-ArrayList allauthors2 = post._getBloggerByBloggerName("date", dt, dte, mostactiveblogger, "influence_score", "DESC");
-
-
-if(allauthors2.size()>0){
-	String tres = null;
-	JSONObject tresp = null;
-	String tresu = null;
-	JSONObject tobj = null;
-	int j=0;
-	int k=0;
-	int n = 0;
-	for(int i=0; i< allauthors2.size(); i++){
-				tres = allauthors2.get(i).toString();			
-				tresp = new JSONObject(tres);
-			    tresu = tresp.get("_source").toString();
-			    tobj = new JSONObject(tresu);				    
-			    blogids+=tobj.get("blogsite_id").toString()+",";
-		}
-}
+			 String blogids = "";
 
 outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
-
-termss = term._searchByRange("blogsiteid", dt, dte, blogids);
-
-JSONArray topterms = new JSONArray();
-if (termss.size() > 0) {
-
-	for (int p = 0; p < termss.size(); p++) {
-		String bstr = termss.get(p).toString();
-		JSONObject bj = new JSONObject(bstr);
-		bstr = bj.get("_source").toString();
-		bj = new JSONObject(bstr);
-		String frequency = bj.get("frequency").toString();
-		String tm = bj.get("term").toString();
-		JSONObject cont = new JSONObject();
-		
-		
-		int freq = Integer.parseInt(frequency);
-		
-		String blogpostid = bj.get("blogpostid").toString();
-		
-		if(freq>highestfrequency){
-			highestfrequency = freq;
-			mostactiveterm = tm;
-		}
-		
-		
-		cont.put("key", tm);
-		cont.put("frequency", frequency);
-		topterms.put(cont);
-	}
-}
-
 
 JSONObject outerlinks = new JSONObject();
 ArrayList outlinklooper = new ArrayList();
@@ -695,21 +462,21 @@ if (outlinks.size() > 0) {
 	
 	}
 }
+
+
+mostactiveterm = term._getMostActiveByBlogger(dt, dte, mostactiveblogger);;
 String totalinfluence ="";
 
-		try{			
-			//totalinfluence = post._searchRangeAggregateByBloggers("date", dt, dte, mostactiveblogger);
-			totalpost = post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);
-			Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,mostactiveblogger));
-			totalinfluence = influence+"";
-		}
-		catch(Exception e){
-			totalinfluence = "0";
-			totalpost = "0";
-		}
-		
+try{			
+	totalpost = post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);
+	Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,mostactiveblogger));
+	totalinfluence = influence+"";
+}
+catch(Exception e){
+	totalinfluence = "0";
+	totalpost = "0";
+}
 
-			
 %>
 <!DOCTYPE html>
 <html>
@@ -894,30 +661,29 @@ String totalinfluence ="";
 						</h5>
 <h6 class="mt5">
 <select id="blogger-changed" class="custom-select">
-   
-  
- <% for(int m=0; m<bloggerarr.length(); m++){
-					String key = bloggerarr.get(m).toString();
-					String[] splitter = key.split("___");
-					String au = splitter[1];
-			  		JSONObject det= new JSONObject(bloggersortdet.get(au).toString());
-					String dselected = "";
-					String blogger = det.get("blogger").toString();
-					JSONObject det2 = new JSONObject(authors.get(au).toString());
-					if(mostactiveblogger.equals("")){
-						if(m==0){
-							mostactiveblogger = blogger;
-						}
-					}else if(blogger.equals(mostactiveblogger)){
-						mostactiveblogger = blogger;
-					}
+ <%
+ if (bloggerPostFrequency.size() > 0) {
+		int p = 0;
+		for (int m = 0; m < bloggerPostFrequency.size(); m++) {
+			ArrayList<?> bloggerFreq = (ArrayList<?>) bloggerPostFrequency.get(m);
+			String bloggerName = bloggerFreq.get(0).toString();
+			String bloggerPostFreq = bloggerFreq.get(1).toString();
+			String blogsiteId = bloggerFreq.get(2).toString();
+				if(p==0){
+					mostactiveblogger = bloggerName;
+				}
+				if (p < 10) {
+					%>
+					<option value="<%=blogsiteId%>_<%=bloggerName%>" <% if(mostactiveblogger.equals(bloggerName)){ %> selected <% } %>><%=bloggerName%></option>
+ 
+				<%	p++;
 					
-					String blogidd = det.get("blogsite_id").toString();
-					if(!blogger.trim().equals("")){				
-			    	%>
-					<option value="<%=blogidd%>_<%=blogger%>" <% if(mostactiveblogger.equals(blogger)){ %> selected <% } %>><%=blogger%></option>
- <% }} %>
+				}
+		}
+ }
+ %>
 </select>
+
 </h6>
 <!-- <h2 class="textblue styleheading">AdNovum <div class="circle"></div></h2> -->
 </div>

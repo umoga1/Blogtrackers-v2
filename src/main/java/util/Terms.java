@@ -14,7 +14,10 @@ import java.io.OutputStreamWriter;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 public class Terms {
 
@@ -56,7 +59,7 @@ public ArrayList _list(String order, String from) throws Exception {
 	 }
 	 
 	 
-     String url = base_url+"_search?size=100";
+     String url = base_url+"_search?size=50";
      return this._getResult(url, jsonObj);   
     }
 
@@ -91,9 +94,9 @@ public ArrayList _searchByRange(String field,String greater, String less, ArrayL
 	
 
 	
-	 System.out.println("post wale id "+blog_ids);
+	 //System.out.println("post wale id "+blog_ids);
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
-		 		"	\"size\":500,\r\n" +
+		 		"	\"size\":50,\r\n" +
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
 				"               \"must\": {\r\n" + 
@@ -139,19 +142,20 @@ public ArrayList _searchByRange(String field,String greater, String less, ArrayL
 public ArrayList _searchByRange(String field,String greater, String less, String blog_ids) throws Exception {
 	blog_ids = blog_ids.replaceAll(",$", "");
 	blog_ids = blog_ids.replaceAll(", $", "");
-  /*
-	blog_ids = blog_ids.replaceAll(",$", "");
-	blog_ids = blog_ids.replaceAll(", $", "");
+ 
+	/*
 	blog_ids = "("+blog_ids+")";
 	int size = 20;
 	ArrayList response =new ArrayList();
+	
 	DbConnection db = new DbConnection();
 	
 	System.out.println("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" AND date>='"+greater+"' AND date <='"+less+"' GROUP BY(term) ORDER BY frequency DESC LIMIT "+size+"");
 	
 	try {
 		//response = db.queryJSON("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" AND date>='"+greater+"' AND date <='"+less+"' GROUP BY(term) ORDER BY frequency DESC LIMIT "+size+"");
-		response = db.queryJSON("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" GROUP BY(term) ORDER BY frequency DESC LIMIT "+size+"");
+		//response = db.queryJSON("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" GROUP BY(term) ORDER BY frequency DESC LIMIT "+size+"");
+		response = db.queryJSON("SELECT term,frequency,date,blogpostid,id,blogsiteid FROM terms WHERE blogsiteid IN "+blog_ids+" AND date>='"+greater+"' AND date <='"+less+"' ORDER BY frequency DESC LIMIT "+size+"");
 		 
 		
 	}catch(Exception e){
@@ -160,10 +164,11 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	
 	
 	return response;
+	
 	*/
 	
 	String[] args = blog_ids.split(","); 
-	System.out.println(args);
+	//System.out.println(args);
 	
 	 JSONArray pars = new JSONArray(); 
 	 ArrayList<String> ar = new ArrayList<String>();	
@@ -172,7 +177,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 }
 	 String arg2 = pars.toString();
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
-		 		"	\"size\":500,\r\n" +
+		 		"	\"size\":20,\r\n" +
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
 				"               \"must\": {\r\n" + 
@@ -261,19 +266,34 @@ public ArrayList getTermsByBlogger(String blogger,String date_start, String date
 
 
 public String _getMostActiveByBlog(String date_start, String date_end, String blogsiteid) throws Exception {
-	
-
 	ArrayList response =new ArrayList();
 	DbConnection db = new DbConnection();
 	
 	try {
-		response = db.queryJSON("SELECT term FROM blog WHERE blogsite_id='"+blogsiteid+"' ORDER BY frequency DESC LIMIT 1 ");
+		response = db.queryJSON("SELECT term FROM terms WHERE blogsiteid='"+blogsiteid+"' ORDER BY frequency DESC LIMIT 1 ");
 	}catch(Exception e){
 		ArrayList hd = (ArrayList)response.get(0);
 		return hd.get(0).toString();
 	}
 	
 	return "";
+}
+
+public String _getMostActiveByBlogger(String blogger,String date_start, String date_end) throws Exception {
+	
+
+	ArrayList response =new ArrayList();
+	DbConnection db = new DbConnection();
+	
+	try {
+		//response = db.queryJSON("SELECT * FROM terms WHERE blogpostid IN "+blog_ids+" ");
+		response = db.queryJSON("SELECT (select blogpost_id from blogposts bp where bp.blogpost_id = tm.blogpostid AND bp.blogger='"+blogger+"' ) as blogpostid, tm.blogsiteid as blogsiteid, tm.blogpostid as blogpostid, tm.term as term, tm.frequency as frequency   FROM terms tm ORDER BY tm.frequency DESC LIMIT 1 ");
+		ArrayList hd = (ArrayList)response.get(0);
+		return hd.get(5).toString();
+	}catch(Exception e){
+		return "";
+	}
+	
 }
 
 
@@ -646,5 +666,33 @@ public Integer getTermOcuurence(String term,String start_date,String end_date) {
 	return alloccurence;
 }
 
+
+	public JSONArray _sortJson2(JSONArray termsarray) {
+		JSONArray sortedtermsarray = new JSONArray();
+		List<String> jsonList = new ArrayList<String>();
+		for (int i = 0; i < termsarray.length(); i++) {
+		    jsonList.add(termsarray.get(i).toString());
+		}
+		
+		Collections.sort(jsonList, new Comparator<String>() {
+		    public int compare(String o1, String o2) {
+		    	String[] a1 = o1.split("___");
+	        	String[] b1 = o2.split("___");
+		        return extractInt(b1[0]) - extractInt(a1[0]);
+		    }
+	
+		    int extractInt(String s) {
+		        String num = s.replaceAll("\\D", "");
+		        // return 0 if no digits found
+		        return num.isEmpty() ? 0 : Integer.parseInt(num);
+		    }
+		});
+		
+		
+		for (int i = 0; i < termsarray.length(); i++) {
+		    sortedtermsarray.put(jsonList.get(i));
+		}
+		return sortedtermsarray;
+	}
 
 }
