@@ -187,6 +187,7 @@
 					ddey = "30";
 				}
 			}
+			
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
 			
 			//System.out.println("start date"+date_start+"end date "+date_end);
@@ -270,6 +271,8 @@
 		JSONArray yearsarray = new JSONArray();
 		JSONObject locations = new JSONObject();
 		
+		JSONArray unsortedterms = new JSONArray();
+		JSONObject termstore = new JSONObject();
 		Map<String, Integer> top_terms = new HashMap<String, Integer>();
 		if (termss.size() > 0) {
 			for (int p = 0; p < termss.size(); p++) {
@@ -280,37 +283,28 @@
 				String tm = bj.get("term").toString();
 				
 				String frequency = bj.get("frequency").toString();
+				String id = bj.get("id").toString();
 				//String frequency = "10";
 				int frequency2 = Integer.parseInt(frequency);
 				if (top_terms.containsKey(tm)) {
 					top_terms.put(tm, top_terms.get(tm) + frequency2);
+					frequency2 = top_terms.get(tm) + frequency2;
 				} else {
 					top_terms.put(tm, frequency2);
 				}
 				JSONObject cont = new JSONObject();
-
-				/* if(keys.has(tm)){
-					String freq = keys.get(tm).toString();
-					String pos = positions.get(tm).toString();
-					int fr1 = Integer.parseInt(frequency);
-					int fr2 = Integer.parseInt(freq);
-					
-					cont.put("key", tm);
-					cont.put("frequency", (fr1+fr2));
-					topterms.put(Integer.parseInt(pos),cont);
-				}else{
-					cont.put("key", tm);
-					cont.put("frequency", frequency);
-					keys.put(tm,frequency);
-					positions.put(tm,termsposition);
-					topterms.put(cont);	
-				}		 */
+				unsortedterms.put(frequency2+"___"+tm+"___"+id);
+				
 			}
 		}
+		
+		
+		
 		JSONObject termsyears = new JSONObject();
 
 		allterms = term._searchByRange("blogsiteid", dt, dte, ids);//term._searchByRange("date", dt, dte, ids);
 		//termss = term._searchByRange("blogsiteid", dt, dte, ids);
+		
 		int postmentioned=0;
 		int blogmentioned=0;
 		int bloggermentioned=0;
@@ -334,8 +328,8 @@
 				JSONObject bj = new JSONObject(bstr);
 				bstr = bj.get("_source").toString();
 				bj = new JSONObject(bstr);
-				/* String frequency = bj.get("frequency").toString(); */
-				String frequency = "10";
+			     String frequency = bj.get("frequency").toString(); 
+				//String frequency = "10";
 				int freq = Integer.parseInt(frequency);
 				
 				
@@ -736,24 +730,34 @@
 						<!-- <small class="text-success pb10 ">+5% from <b>Last Week</b>
 
     </small> -->
-						<div class="scrolly"
-							style="height: 250px; padding-right: 10px !important;">
+		<div class="scrolly" style="height: 250px; padding-right: 10px !important;">
 							
-									<%if (top_terms.size() > 0) {
+							
+									<%
+									JSONArray sortedterms = term._sortJson2(unsortedterms);
+									System.out.println("TM:"+sortedterms);
+									if (sortedterms.length() > 0) {								
+										
+											for (int i=0; i<sortedterms.length(); i++) {
+												//int size = top_terms.get(terms);
+												String[] vals = sortedterms.get(i).toString().split("___");
+												String size = vals[0];
+												String tm = vals[1];
+												String terms_id = vals[2];
+												
+												if(!termstore.has(tm)){
 													
-										for (int i = 0; i < topterms.length(); i++) {
-											JSONObject jsonObj = topterms.getJSONObject(i);
-											String terms = jsonObj.getString("key");
-											String terms_id = jsonObj.getString("id");
-											
-											String dselected = "";
-											if(i==0){
-												dselected = "abloggerselected";
-											}
+													termstore.put(tm, tm);
+												
+												String dselected = "";
+												if(i==0){
+													dselected = "abloggerselected";
+												}
 																			
-											%><a class="btn btn-primary form-control select-term bloggerinactive mb20 <%=dselected%>" id="<%=terms.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=terms%></b></a>
+											%><a class="btn btn-primary form-control select-term bloggerinactive mb20 <%=dselected%> size-<%=size%>" id="<%=tm.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=tm%></b></a>
 											<%
 										}
+									  }
 									}	
 							%>
 

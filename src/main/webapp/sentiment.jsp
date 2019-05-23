@@ -1111,6 +1111,7 @@
          "scrollY": 320,
          "order": [[ 0, "asc" ]],
          "pagingType": "simple",
+         "ordering": false
         /*   dom: 'Bfrtip',
 
                     "columnDefs": [

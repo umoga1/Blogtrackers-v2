@@ -1329,6 +1329,7 @@ $(document).ready(function() {
         	 "bFilter":false,
         	 "bPaginate":false,
         	 "bInfo":false,
+        	 "ordering": false
   
     } );
 // table set up 2
@@ -1336,7 +1337,8 @@ $(document).ready(function() {
         "scrollY": 430,
         "scrollX": false,
          "pagingType": "simple",
-        	 "bLengthChange": false
+        	 "bLengthChange": false,
+        	 "ordering": false
     /*      ,
          dom: 'Bfrtip',
          "columnDefs": [

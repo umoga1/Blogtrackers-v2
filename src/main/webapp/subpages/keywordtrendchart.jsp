@@ -94,7 +94,7 @@ if(action.toString().equals("getstats")){
                              }					
 	}
     
-    int keycount = term.getTermOcuurence(mostactiveterm, dt, dte);
+    int keycount = 0;//term.getTermOcuurence(mostactiveterm, dt, dte);
 	
 				
 	JSONObject result = new JSONObject();
