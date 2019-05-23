@@ -99,7 +99,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 }
 	 String arg2 = pars.toString();
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
-		 		"	\"size\":500,\r\n" +
+		 		"	\"size\":20,\r\n" +
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
 				"               \"must\": {\r\n" + 
@@ -186,19 +186,34 @@ public ArrayList getTermsByBlogger(String blogger,String date_start, String date
 
 
 public String _getMostActiveByBlog(String date_start, String date_end, String blogsiteid) throws Exception {
-	
-
 	ArrayList response =new ArrayList();
 	DbConnection db = new DbConnection();
 	
 	try {
-		response = db.queryJSON("SELECT term FROM blog WHERE blogsite_id='"+blogsiteid+"' ORDER BY frequency DESC LIMIT 1 ");
+		response = db.queryJSON("SELECT term FROM terms WHERE blogsiteid='"+blogsiteid+"' ORDER BY frequency DESC LIMIT 1 ");
 	}catch(Exception e){
 		ArrayList hd = (ArrayList)response.get(0);
 		return hd.get(0).toString();
 	}
 	
 	return "";
+}
+
+public String _getMostActiveByBlogger(String blogger,String date_start, String date_end) throws Exception {
+	
+
+	ArrayList response =new ArrayList();
+	DbConnection db = new DbConnection();
+	
+	try {
+		//response = db.queryJSON("SELECT * FROM terms WHERE blogpostid IN "+blog_ids+" ");
+		response = db.queryJSON("SELECT (select blogpost_id from blogposts bp where bp.blogpost_id = tm.blogpostid AND bp.blogger='"+blogger+"' ) as blogpostid, tm.blogsiteid as blogsiteid, tm.blogpostid as blogpostid, tm.term as term, tm.frequency as frequency   FROM terms tm ORDER BY tm.frequency DESC LIMIT 1 ");
+		ArrayList hd = (ArrayList)response.get(0);
+		return hd.get(5).toString();
+	}catch(Exception e){
+		return "";
+	}
+	
 }
 
 

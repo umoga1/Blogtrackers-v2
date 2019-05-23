@@ -975,7 +975,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 				"}";
 
 		JSONObject jsonObj = new JSONObject(que);
-		ArrayList result =  this._getResult(url, jsonObj);
+		ArrayList result =  this._getResult(url, jsonObj); 	
 		return this._getResult(url, jsonObj);	
 	}
 	

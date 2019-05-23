@@ -483,10 +483,10 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										if(m==0){
 												dselected = "abloggerselected";
 												mostactiveblogger = bloggerName;
-												//String pids = post._getPostIdsByBloggerName("date",dt, dte,bloggerName,"date","DESC");
-												/* allterms = term._searchByRange("blogpostid", dt, dte, pids);//_searchByRange("blogpostid",dt, dte,postids);
+												String pids = post._getPostIdsByBloggerName("date",dt, dte,bloggerName,"date","DESC");
+												allterms = term._searchByRange("blogpostid", dt, dte, pids);//_searchByRange("blogpostid",dt, dte,postids);
 												
-												System.out.println("Post ids "+pids); */
+												System.out.println("Post ids "+pids); 
 												System.out.println("Top terms "+allterms);
 											/* 	allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, pids);
 												 selectedid=blogsiteId; */
