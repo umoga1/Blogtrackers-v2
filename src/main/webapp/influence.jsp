@@ -247,7 +247,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 		dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
 		
-		Object infbloggers = (null == session.getAttribute("influentialbloggers")) ? blog._getInfluencialBlog(ids) : session.getAttribute("influentialbloggers");
+		//Object infbloggers = (null == session.getAttribute("influentialbloggers")) ? blog._getInfluencialBlog(ids) : session.getAttribute("influentialbloggers");
 		
 		//ArrayList influenceBlogger = (ArrayList)infbloggers;
 		ArrayList influenceBlogger = blog._getInfluencialBlogger(ids);

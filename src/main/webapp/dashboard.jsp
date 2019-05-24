@@ -277,8 +277,7 @@
 			//System.out.println("termss end");
 			//System.out.println("outlinks start");
 			outlinks = outl._searchByRange("date", dt, dte, ids);
-			//System.out.println("outlinks end");
-			//System.out.println("totalcomment start");
+
 			String totalcomment = comment._getCommentById(ids);
 			//System.out.println("totalcomment end");
 			
@@ -332,10 +331,10 @@
 			}
 			System.out.println("year end");
 			 */
+			 JSONArray unsortedterms = new JSONArray();
+			 JSONObject termstore = new JSONObject();
 			
 			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
-
-			
 			JSONObject keys = new JSONObject();
 			JSONObject positions = new JSONObject();
 			
@@ -350,6 +349,8 @@
 					bj = new JSONObject(bstr);
 					String tm = bj.get("term").toString();
 					String frequency = bj.get("frequency").toString();
+					String id = bj.get("id").toString();
+					
 					int frequency2 = Integer.parseInt(frequency);
 					if (top_terms.containsKey(tm)) {
 						top_terms.put(tm, top_terms.get(tm) + frequency2);
@@ -357,7 +358,10 @@
 						top_terms.put(tm, frequency2);
 					}
 					
+					unsortedterms.put(frequency2+"___"+tm+"___"+id);
+					
 				}
+				
 				session.setAttribute("top_term", top_terms);
 			}
 	}catch(Exception e){
@@ -2672,14 +2676,24 @@ var mymarker = [
 	<!--word cloud  -->
 	<script>
 	var word_count2 = {}; 
-	   <% if (top_terms.size() > 0) {
-						for (String terms : top_terms.keySet()) {
-							int size = top_terms.get(terms);%>
-			    		
+	   <% 
+	    JSONArray sortedterms = term._sortJson2(unsortedterms);
+		//System.out.println("TM:"+sortedterms);
+		if (sortedterms.length() > 0) {																	
+				for (int i=0; i<sortedterms.length(); i++) {
+					String[] vals = sortedterms.get(i).toString().split("___");
+					String size = vals[0];
+					String tm = vals[1];
+					String terms_id = vals[2];
+					
+					if(!termstore.has(tm)){						
+						termstore.put(tm, tm);%>			    		
 						<%-- {"text":"<%=terms.toString() %>","size":<%=size %>}, --%>
-						 word_count2["<%=terms.toString()%>"] = <%=size%> 
-	 <%}
-					}%>
+						 word_count2["<%=tm.toString()%>"] = <%=size%> 
+	 				<%	}
+					}
+				}
+		%>
 				
 	wordtagcloud("#tagcloudcontainer",450,word_count2);
 	

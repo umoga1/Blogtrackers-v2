@@ -736,10 +736,8 @@
 									<%
 									JSONArray sortedterms = term._sortJson2(unsortedterms);
 									System.out.println("TM:"+sortedterms);
-									if (sortedterms.length() > 0) {								
-										
+									if (sortedterms.length() > 0) {																	
 											for (int i=0; i<sortedterms.length(); i++) {
-												//int size = top_terms.get(terms);
 												String[] vals = sortedterms.get(i).toString().split("___");
 												String size = vals[0];
 												String tm = vals[1];
