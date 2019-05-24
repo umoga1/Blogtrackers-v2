@@ -368,8 +368,8 @@
 	}catch(Exception e){
 		System.err.println(e);
 	}
-	/* 		System.out.println("End of terms");
-	 */		
+	 		System.out.println("Outlinks -:"+outlinks);
+			
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
 			if (outlinks.size() > 0) {
