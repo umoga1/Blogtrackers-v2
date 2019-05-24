@@ -65,7 +65,11 @@ public String _getTotal() {
 }
 
 public ArrayList _searchByRange(String field,String greater, String less, String blog_ids) throws Exception {
-	String[] args = blog_ids.split(","); 
+	 blog_ids = blog_ids.replaceAll(",$", "");
+	 blog_ids = blog_ids.replaceAll(", $", "");
+  
+	 
+	 String[] args = blog_ids.split(","); 
 	 JSONArray pars = new JSONArray(); 
 	 ArrayList<String> ar = new ArrayList<String>();	
 	 for(int i=0; i<args.length; i++){
@@ -73,7 +77,6 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 }
 	 
 	 String arg2 = pars.toString();
-	// String range = "\"range\" : {\"sentiment\" : {\"gte\" : "+greater+",\"lte\" : "+less+"}}";
 	 String que ="{\r\n" + 
 		 		"	\"size\":20,\r\n" + 
 		 		"	\r\n" + 
@@ -100,7 +103,13 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 		 		"	 				} \r\n" + 
 		 		"	 		      ] \r\n" + 
 		 		"	 		    } \r\n" + 
-		 		"	 		  } \r\n" + 
+		 		"	 		  }, \r\n" + 
+		 		 
+		 		"   		\"sort\":{\r\n" + 
+		 		"						\"date\":{\r\n" + 
+		 		"						\"order\":\"DESC\"\r\n" + 
+		 		"					}\r\n" + 
+		 		"				}\r\n" + 
 		 		"	 		}";
 
 //	 String que="{\r\n" + 

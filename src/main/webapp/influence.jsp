@@ -246,38 +246,20 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 		
 		dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 		dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
-		
-		Object infbloggers = (null == session.getAttribute("influentialbloggers")) ? blog._getInfluencialBlog(ids) : session.getAttribute("influentialbloggers");
-		
-		//ArrayList influenceBlogger = (ArrayList)infbloggers;
+			
 		ArrayList influenceBlogger = blog._getInfluencialBlogger(ids);
 		
 	   // allauthors= post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
 		
 	String allpost = "0";
 	float totalinfluence = 0;
-	String mostactiveblog="";
-	String mostactivebloglink="";
-	String mostactiveblogposts="0";
-	String mostactiveblogid="0";
 	
 	String mostactiveblogger="";
-	
-	
+
 	String mostusedkeyword = "";
 	String fsid = "";
 
 
-	ArrayList mostactive= blog._getMostactive(ids);
-	if(mostactive.size()>0){
-		mostactiveblog = mostactive.get(0).toString();
-		mostactivebloglink = mostactive.get(1).toString();
-		mostactiveblogposts = mostactive.get(2).toString();
-		mostactiveblogid = mostactive.get(3).toString();
-		fsid = mostactiveblogid;
-		
-	}
-	
 
 	ArrayList allposts = new ArrayList();
 
@@ -600,9 +582,6 @@ totalinfluence  = Float.parseFloat(post._searchRangeMaxTotalByBloggers(mostactiv
 
 String formatedtotalinfluence = NumberFormat.getNumberInstance(Locale.US).format(totalinfluence);
 
-//totalpost = post._searchRangeTotal("date", dt, dte,ids);
-
-//totalpost = post._getBlogPostById(ids);
 totalpost = post._searchRangeTotalByBlogger("date",dt, dte, mostactiveblogger);
 String formattedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
 
