@@ -354,6 +354,7 @@
 					int frequency2 = Integer.parseInt(frequency);
 					if (top_terms.containsKey(tm)) {
 						top_terms.put(tm, top_terms.get(tm) + frequency2);
+						frequency2 = top_terms.get(tm) + frequency2;
 					} else {
 						top_terms.put(tm, frequency2);
 					}
@@ -2678,11 +2679,11 @@ var mymarker = [
 	var word_count2 = {}; 
 	   <% 
 	    JSONArray sortedterms = term._sortJson2(unsortedterms);
-		//System.out.println("TM:"+sortedterms);
+		System.out.println("TM:"+sortedterms);
 		if (sortedterms.length() > 0) {																	
 				for (int i=0; i<sortedterms.length(); i++) {
 					String[] vals = sortedterms.get(i).toString().split("___");
-					String size = vals[0];
+					int size = Integer.parseInt(vals[0].trim());
 					String tm = vals[1];
 					String terms_id = vals[2];
 					
