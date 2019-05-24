@@ -285,6 +285,7 @@
 				String frequency = bj.get("frequency").toString();
 				String id = bj.get("id").toString();
 				//String frequency = "10";
+				
 				int frequency2 = Integer.parseInt(frequency);
 				if (top_terms.containsKey(tm)) {
 					top_terms.put(tm, top_terms.get(tm) + frequency2);
@@ -293,7 +294,11 @@
 					top_terms.put(tm, frequency2);
 				}
 				JSONObject cont = new JSONObject();
-				unsortedterms.put(frequency2+"___"+tm+"___"+id);
+				
+				if(!termstore.has(tm)){
+					termstore.put(tm, tm);
+					unsortedterms.put(frequency2+"___"+tm+"___"+id);
+				}
 				
 			}
 		}
@@ -743,9 +748,8 @@
 												String tm = vals[1];
 												String terms_id = vals[2];
 												
-												if(!termstore.has(tm)){
-													
-													termstore.put(tm, tm);
+												//if(!termstore.has(tm)){												
+													//termstore.put(tm, tm);
 												
 												String dselected = "";
 												if(i==0){
@@ -755,7 +759,7 @@
 											%><a class="btn btn-primary form-control select-term bloggerinactive mb20 <%=dselected%> size-<%=size%>" id="<%=tm.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=tm%></b></a>
 											<%
 										}
-									  }
+									  //}
 									}	
 							%>
 
