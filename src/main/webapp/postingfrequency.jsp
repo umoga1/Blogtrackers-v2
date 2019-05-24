@@ -513,7 +513,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 
 												pids = post._getPostIdsByBloggerName("date",dt, dte,bloggerName,"date","DESC");
 												allterms = term._searchByRange("blogpostid", dt, dte, pids);//_searchByRange("blogpostid",dt, dte,postids);
-												
+											
 												System.out.println("Post ids "+pids); 
 												System.out.println("Top terms "+allterms);
 											/* 	allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, pids);
