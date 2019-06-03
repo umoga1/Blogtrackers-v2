@@ -1150,7 +1150,8 @@
      $('#DataTables_Table_2_wrapper').DataTable( {
          "scrollY": 480,
 
-          "pagingType": "simple"
+          "pagingType": "simple",
+          "order": [[ 1, "desc" ]]
         	  /*  ,
            dom: 'Bfrtip'
          ,

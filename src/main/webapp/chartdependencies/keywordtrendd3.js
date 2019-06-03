@@ -81,6 +81,11 @@
           		.on("drag", dragged)			
           		); */
          
+           svg.selectAll("text").transition()
+                     .delay(200)
+                     .duration(1000)
+                     .style("font-size", function(d) { return xScale(d.value) + "px"; })
+                     
           	// animation effect for tag cloud
    	 		 $(element).bind('inview', function (event, visible) {
            	  if (visible == true) {

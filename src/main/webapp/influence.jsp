@@ -955,7 +955,8 @@ authoryears.put(mostactiveblogger,postyear);
      $('#DataTables_Table_0_wrapper').DataTable( {
          "scrollY": 430,
          // "scrollX": false,
-          "pagingType": "simple"
+          "pagingType": "simple",
+          "order": [[ 1, "desc" ]]
     /*       ,
           "columnDefs": [
        { "width": "80%", "targets": 0 }
@@ -1853,7 +1854,7 @@ authoryears.put(mostactiveblogger,postyear);
                   return "No Information Available";
                 }
                 else if(d !== null) {
-                 return " ("+d.x+","+d.y+")<br/> Click for more information";
+                 return " ( Influence="+d.x+", Activity="+d.y+")<br/> Click for more information";
                   }
 
                 });

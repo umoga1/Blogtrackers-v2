@@ -777,7 +777,6 @@
 																	
 																	String languag_freq = langu.get(1).toString();
 																	if (y<10){
-																   System.out.println(languag+":"+languag_freq);		
 																	%>
 																		<tr>
 											<td class=""><%=languag%></td>

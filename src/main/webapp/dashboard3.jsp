@@ -1,3 +1,4 @@
+<%@page import="java.util.stream.Collectors"%>
 <%@page import="authentication.*"%>
 <%@page import="java.util.*"%>
 <%@page import="util.*"%>
@@ -5,29 +6,28 @@
 <%@page import="org.json.JSONObject"%>
 <%@page import="org.json.JSONArray"%>
 <%@page import="java.net.URI"%>
-<%@page import="java.text.NumberFormat" %>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.io.*"%>
+<%@page import="java.util.logging.Logger" %>
+<%-- <%@ page buffer="none" %> --%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.time.LocalDateTime"%>
-	
+
 <%
+  
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
 	Object tid = (null == request.getParameter("tid")) ? "" : request.getParameter("tid");
 	Object user = (null == session.getAttribute("username")) ? "" : session.getAttribute("username");
 	Object date_start = (null == request.getParameter("date_start")) ? "" : request.getParameter("date_start");
 	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
-<<<<<<< HEAD:src/main/webapp/dashboard2.jsp
 	String sort = (null == request.getParameter("sortby"))
 			? "blog"
 			: request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
-=======
-	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
-	
->>>>>>> 40ee1cfdb87a0f49b3f3217efad15ac46c187053:src/main/webapp/dashboard3.jsp
 	
 	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
@@ -44,24 +44,27 @@
 		ArrayList outlinks = new ArrayList();
 		ArrayList liwcpost = new ArrayList();
 		Trackers tracker = new Trackers();
+		Blogger bloggerss = new Blogger();
 		Terms term = new Terms();
 		Outlinks outl = new Outlinks();
+		Comment comment = new Comment();
 		if (tid != "") {
+		// fast query	
 			detail = tracker._fetch(tid.toString());
-<<<<<<< HEAD:src/main/webapp/dashboard2.jsp
-=======
 			
->>>>>>> 40ee1cfdb87a0f49b3f3217efad15ac46c187053:src/main/webapp/dashboard3.jsp
 		} else {
 			detail = tracker._list("DESC", "", user.toString(), "1");
+			
 		}
+		
+		// fast query
 		boolean isowner = false;
 		JSONObject obj = null;
 		String ids = "";
-		String trackername="";
+		String trackername = "";
 		if (detail.size() > 0) {
 			//String res = detail.get(0).toString();
-			ArrayList resp = (ArrayList<?>)detail.get(0);
+			ArrayList resp = (ArrayList<?>) detail.get(0);
 			String tracker_userid = resp.get(1).toString();
 			trackername = resp.get(2).toString();
 			if (tracker_userid.equals(user.toString())) {
@@ -71,37 +74,42 @@
 				query = query.replaceAll("\\(", "");
 				query = query.replaceAll("\\)", "");
 				ids = query;
-				System.out.println(ids);
 			}
 		}
 		
+		
+		
+
 		userinfo = DbConnection.query("SELECT * FROM usercredentials where Email = '" + email + "'");
+		
+		
 		if (userinfo.size() < 1 || !isowner) {
 			response.sendRedirect("index.jsp");
 		} else {
 			userinfo = (ArrayList<?>) userinfo.get(0);
 			try {
-					username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
-	
-					name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
-					email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
-					phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
-					String userpic = userinfo.get(9).toString();
-					String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
-					String filename = userinfo.get(9).toString();
-	
-					profileimage = "images/default-avatar.png";
-					if (userpic.indexOf("http") > -1) {
-						profileimage = userpic;
-					}
-	
-					File f = new File(filename);
-					if (f.exists() && !f.isDirectory()) {
-						profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
-					}
+				username = (null == userinfo.get(0)) ? "" : userinfo.get(0).toString();
+
+				name = (null == userinfo.get(4)) ? "" : (userinfo.get(4).toString());
+				email = (null == userinfo.get(2)) ? "" : userinfo.get(2).toString();
+				phone = (null == userinfo.get(6)) ? "" : userinfo.get(6).toString();
+				String userpic = userinfo.get(9).toString();
+				String path = application.getRealPath("/").replace('\\', '/') + "images/profile_images/";
+				String filename = userinfo.get(9).toString();
+
+				profileimage = "images/default-avatar.png";
+				if (userpic.indexOf("http") > -1) {
+					profileimage = userpic;
+				}
+
+				File f = new File(filename);
+				if (f.exists() && !f.isDirectory()) {
+					profileimage = "images/profile_images/" + userinfo.get(2).toString() + ".jpg";
+				}
 			} catch (Exception e) {
-			
+
 			}
+			
 			String[] user_name = name.split(" ");
 			Blogposts post = new Blogposts();
 			Blogs blog = new Blogs();
@@ -114,149 +122,128 @@
 			SimpleDateFormat SMALL_MONTH_ONLY = new SimpleDateFormat("mm");
 			SimpleDateFormat WEEK_ONLY = new SimpleDateFormat("dd");
 			SimpleDateFormat YEAR_ONLY = new SimpleDateFormat("yyyy");
-			
-			String stdate = post._getDate(ids,"first");
-			String endate = post._getDate(ids,"last");
+
+			String stdate = post._getDate(ids, "first");
+			String endate = post._getDate(ids, "last");
 			Date dstart = new Date();
 			Date today = new Date();
-			Date nnow = new Date();  
+			Date nnow = new Date();
 			
-			try{
+			
+			//System.out.println("start:"+stdate+", End:"+endate);
+
+			try {
 				dstart = new SimpleDateFormat("yyyy-MM-dd").parse(stdate);
-			}catch(Exception ex){
+			} catch (Exception ex) {
 				dstart = nnow;//new SimpleDateFormat("yyyy-MM-dd").parse(nnow);
 			}
-			
-			try{
+
+			try {
 				today = new SimpleDateFormat("yyyy-MM-dd").parse(endate);
-			}catch(Exception ex){
+			} catch (Exception ex) {
 				today = nnow;//new SimpleDateFormat("yyyy-MM-dd").parse(nnow);
 			}
-			  
-			  
+
 			String day = DAY_ONLY.format(today);
-			
+
 			String month = MONTH_ONLY.format(today);
-			
+			String endDate = DATE_FORMAT.format(today);
 			String smallmonth = SMALL_MONTH_ONLY.format(today);
 			String year = YEAR_ONLY.format(today);
 			String dispfrom = DATE_FORMAT.format(dstart);
 			String dispto = DATE_FORMAT.format(today);
-			
+
 			String historyfrom = DATE_FORMAT.format(dstart);
 			String historyto = DATE_FORMAT.format(today);
+			
 			String dst = DATE_FORMAT2.format(dstart);
 			String dend = DATE_FORMAT2.format(today);
-			//ArrayList posts = post._list("DESC","");
-			/* ArrayList sentiments = senti._list("DESC", "", "id");
-			System.out.println(sentiments); */
-			 
-		 	/* Liwc liwc = new Liwc();
 			
-			ArrayList liwcSent = liwc._list("DESC", ""); 
-			
-			String test = post._searchRangeTotal("date", "2013-04-01", "2018-04-01", "1");
-			
-			System.out.println(test);  */
-		
-			
+
 			String totalpost = "";
 			ArrayList allauthors = new ArrayList();
-			String possentiment = "0";
-			String negsentiment = "0";
+			//String possentiment = "0";
+			//String negsentiment = "0";
 			String ddey = "31";
 			String dt = dst;
 			String dte = dend;
-			String year_start="";
-			String year_end="";
-			
-			if(!single.equals("")){
-				month = MONTH_ONLY.format(nnow); 
-				day = DAY_ONLY.format(nnow); 
-				year = YEAR_ONLY.format(nnow); 
+			String year_start = "";
+			String year_end = "";
+
+			if (!single.equals("")) {
+				month = MONTH_ONLY.format(nnow);
+				day = DAY_ONLY.format(nnow);
+				year = YEAR_ONLY.format(nnow);
 				//System.out.println("Now:"+month+"small:"+smallmonth);
-				if(month.equals("02")){
-					
-					ddey = (new Double(year).intValue()%4==0)?"28":"29";
-				}else if(month.equals("09") || month.equals("04") || month.equals("05") || month.equals("11")){
+				if (month.equals("02")) {
+
+					ddey = (new Double(year).intValue() % 4 == 0) ? "28" : "29";
+				} else if (month.equals("09") || month.equals("04") || month.equals("05")
+						|| month.equals("11")) {
 					ddey = "30";
 				}
 			}
-			//System.out.println(s)
-			//System.out.println("start date"+date_start+"end date "+date_end);
+			
+			
 			if (!date_start.equals("") && !date_end.equals("")) {
-				//totalpost = post._searchRangeTotal("date", date_start.toString(), date_end.toString(), ids);
-				//possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
-				//negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
-								
+				
 				Date start = new SimpleDateFormat("yyyy-MM-dd").parse(date_start.toString());
 				Date end = new SimpleDateFormat("yyyy-MM-dd").parse(date_end.toString());
-				
+
 				dt = date_start.toString();
 				dte = date_end.toString();
-				
-				historyfrom = DATE_FORMAT.format(start);
-				historyto = DATE_FORMAT.format(end);
-				//allauthors=post._getBloggerByBlogId("date",date_start.toString(), date_end.toString(),ids);
 			} else if (single.equals("day")) {
-				 dt = year + "-" + month + "-" + day;
-				
-				//allauthors=post._getBloggerByBlogId("date",dt, dt,ids);
-					
+				dt = year + "-" + month + "-" + day;
 			} else if (single.equals("week")) {
-				
 				dte = year + "-" + month + "-" + day;
-				int dd = new Double(day).intValue()-7;
-				
+				int dd = new Double(day).intValue() - 7;
+
 				Calendar cal = Calendar.getInstance();
 				cal.add(Calendar.DATE, -7);
 				Date dateBefore7Days = cal.getTime();
-				dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-" + DAY_ONLY.format(dateBefore7Days);
-				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-					
+				dt = YEAR_ONLY.format(dateBefore7Days) + "-" + MONTH_ONLY.format(dateBefore7Days) + "-"
+						+ DAY_ONLY.format(dateBefore7Days);
+
 			} else if (single.equals("month")) {
 				dt = year + "-" + month + "-01";
-				dte = year + "-" + month + "-"+day;	
-				//allauthors=post._getBloggerByBlogId("date",dt, dte,ids);
-				
+				dte = year + "-" + month + "-" + day;
 			} else if (single.equals("year")) {
 				dt = year + "-01-01";
-				dte = year + "-12-"+ddey;
-				
-				
-			} else {
-				/* dt = dst;
-				dte = dend;
-				if(ids.length()>0){
-					totalpost = Integer.parseInt(post._getTotalByBlogId(ids, ""))+"";
-				}else{
-					totalpost="0";
-				} */
-			}
-<<<<<<< HEAD:src/main/webapp/dashboard2.jsp
-
+				dte = year + "-12-" + ddey;
+			} 
+			
+			// fast till here
 			
 			//Our New Code
 			Liwc liwc = new Liwc();
-			
-			
 			String totalbloggers = bloggerss._getBloggerById(ids);
 
+
 			ArrayList locations = blog._getLocation(ids);
+			//System.out.println("all blog location");
 			ArrayList languages = blog._getLanguage(ids);
+			System.out.println(languages);
+			//System.out.println("all blog language");
 			ArrayList bloggerPostFrequency = bloggerss._getBloggerPostFrequency(ids);
+			//System.out.println("all blogger post frequency");
 			ArrayList blogPostFrequency = blog._getblogPostFrequency(ids);
+			//System.out.println("all blog post frequency");
 			ArrayList influenceBlog = blog._getInfluencialBlog(ids);
+			//System.out.println("all blog influencial");
 			ArrayList influenceBlogger = blog._getInfluencialBlogger(ids);
-			ArrayList getPositiveEmotion = liwc._getPosEmotion(ids);
-			ArrayList getNegativeEmotion = liwc._getNegEmotion(ids);
-			termss = term._searchByRange("blogsiteid", dt, dte, ids);
-			outlinks = outl._searchByRange("date", dt, dte, ids);
-		
-=======
+			//System.out.println("all bloggger influencial");
 			
-			String totalbloggers = "10";// blog._getTotalBloggers(dt, dte, ids);
->>>>>>> 40ee1cfdb87a0f49b3f3217efad15ac46c187053:src/main/webapp/dashboard3.jsp
+			// needs reindexing for large data set
+			ArrayList getPositiveEmotion = liwc._getPosEmotion(ids);
+			// slow
+			//System.out.println("all positive emotion");
+			ArrayList getNegativeEmotion = liwc._getNegEmotion(ids);
+			// slow
+			//System.out.println("all negative emotion");
+			Map<Integer, Integer> postingTrend = new TreeMap<Integer, Integer>();
+			
+			session.setAttribute("influentialbloggers", influenceBlogger);
+			
 			String[] yst = dt.split("-");
 			String[] yend = dte.split("-");
 			year_start = yst[0];
@@ -264,345 +251,133 @@
 			int ystint = new Double(year_start).intValue();
 			int yendint = new Double(year_end).intValue();
 			
-			if(yendint>Integer.parseInt(YEAR_ONLY.format(new Date()))){
-				dte = DATE_FORMAT2.format(new Date()).toString();	
+			if (yendint > Integer.parseInt(YEAR_ONLY.format(new Date()))) {
+				dte = DATE_FORMAT2.format(new Date()).toString();
 				yendint = Integer.parseInt(YEAR_ONLY.format(new Date()));
+				endDate = DATE_FORMAT.format(new Date()).toString();
 			}
-			
-			if(ystint<2000){
+
+			if (ystint < 2000) {
 				ystint = 2000;
 				dt = "2000-01-01";
 			}
-			
+                
 			dispfrom = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dt));
 			dispto = DATE_FORMAT.format(new SimpleDateFormat("yyyy-MM-dd").parse(dte));
-<<<<<<< HEAD:src/main/webapp/dashboard2.jsp
 			//totalpost = post._searchRangeTotal("date", dt, dte, ids);
-			totalpost = post._getBlogPostById(ids);
-			String totalcomment = comment._getCommentById(ids);
-			/* if (totalpost.equals("")) {
-				totalpost = post._searchRangeTotal("date", dt, dte, ids); // To be modified later
-
-			}
-			System.out.println(ids); */
-
-
-			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-			//allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"date","ASC");
-			//post._getBloggerByBlogId("date",dt, dte,ids);
-			/* ArrayList allauthors2 = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-	
-
-			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-			 *///allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-			//ArrayList auths = blog._getBloggers(dt, dte,ids);
 			
-			//String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
-			//System.out.println("Terms here:"+termss);
-
-			/* ArrayList blogs = blog._fetch(ids); //To be removed
- */
+			totalpost = post._getBlogPostById(ids);
+			
+			if (totalpost.equals("")) {
+				totalpost = post._searchRangeTotal("date", dt, dte, ids); // To be modified later
+			}
+			//System.out.println("termss start");
+			termss = term._searchByRange("blogsiteid", dt, dte, ids);
+			session.setAttribute("terms", termss);
+			//System.out.println("termss end");
+			//System.out.println("outlinks start");
+			outlinks = outl._searchByRange("date", dt, dte, ids);
+			//System.out.println("outlinks end");
+			//System.out.println("totalcomment start");
+			String totalcomment = comment._getCommentById(ids);
+			//System.out.println("totalcomment end");
+			
+			//System.out.println("blogfetch start");
+			ArrayList blogs = blog._fetch(ids); //To be removed
+			//System.out.println("blogfetch end");
 			String[] blogss = ids.split(",");
 			int totalblog = blogss.length;
 
-=======
-			totalpost = post._searchRangeTotal("date", dt, dte, ids);
-			System.out.println("dt is "+dt);
-			System.out.println("dte is "+dte);
-			System.out.println("Totalpost in here"+totalpost);
-			if(totalpost.equals("")){
-				totalpost = post._searchRangeTotal("date", dt, dte, ids);
-	
-			}
-			
-			
-			termss = term._searchByRange("blogsiteid", dt, dte, ids);
-			//System.out.println("All t terms:"+termss);
-			outlinks = outl._searchByRange("date", dt, dte, ids);
-			
-			//allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
-			//allauthors = post._getBloggerByBlogId("date",dt, dte,ids,"date","ASC");
-			//post._getBloggerByBlogId("date",dt, dte,ids);
-			ArrayList allauthors2= post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-			allauthors = allauthors2;
-			//allauthors=post._getBloggerByBlogId("date",dt, dte,ids,"influence_score","DESC");
-			//ArrayList auths = blog._getBloggers(dt, dte,ids);
-			
-			String totalcomment =  post._searchRangeAggregate("date", dt, dte, ids,"num_comments");
-			//System.out.println("Terms here:"+termss);
-			
-			ArrayList blogs = blog._fetch(ids);
-			int totalblog = blogs.size();
-			
->>>>>>> 40ee1cfdb87a0f49b3f3217efad15ac46c187053:src/main/webapp/dashboard3.jsp
 			JSONObject graphyears = new JSONObject();
-		    JSONArray yearsarray = new JSONArray();
-		    
-			if(single.equals("month")){
-				//int diff = post.monthsBetweenDates(DATE_FORMAT2.parse(dt), DATE_FORMAT2.parse(dte));
-				//ystint=0;
-				//yendint = diff;
+			JSONArray yearsarray = new JSONArray();
+
+			int b = 0;
+			//System.out.println("year start"+ystint +":"+yendint);
+			ArrayList postingTotal = post._searchPostTotal("date", ystint, yendint, ids);
+
+			for(int i = ystint; i <= yendint; i++){
+				postingTrend.put(i, 0);
 			}
-			int b=0;
-			for(int y=ystint; y<=yendint; y++){
-				/*
-					   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
-					   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
-					*/  
-					   String dtu = y + "-01-01";
-					   String dtue = y + "-12-31";
-					   
-					   if(b==0){
-							dtu = dt;
-						}else if(b==yendint){
-							dtue = dte;
-						}
-					   
-					   String totu = post._searchRangeTotal("date",dtu, dtue,ids);
-					 
-					   graphyears.put(y+"",totu);
-			    	   yearsarray.put(b,y);	
-			    	   b++;
-			}
-<<<<<<< HEAD:src/main/webapp/dashboard2.jsp
-
-		/* 	//System.out.println("grapgh yeres"+yearsarray);
-			JSONObject authors = new JSONObject();
-			JSONObject influentialauthors = new JSONObject();
-			JSONArray sentimentpost = new JSONArray();
-
-			JSONArray authorcount = new JSONArray();
-			JSONObject language = new JSONObject();
-			ArrayList langlooper = new ArrayList();
-=======
-			
-			//System.out.println("grapgh yeres"+yearsarray);
-		    JSONObject authors = new JSONObject();
-		    JSONObject influentialauthors = new JSONObject();
-		    JSONArray sentimentpost = new JSONArray();
-		    
-		    JSONArray authorcount = new JSONArray();
-		    JSONObject language = new JSONObject();
-		    ArrayList langlooper = new ArrayList();
-		    
->>>>>>> 40ee1cfdb87a0f49b3f3217efad15ac46c187053:src/main/webapp/dashboard3.jsp
-
-			JSONArray authorinfluencearr = new JSONArray();
-			JSONArray authorpostingfreqarr = new JSONArray();
-			JSONArray bloginfluencearr = new JSONArray();
-			JSONArray blogpostingfreqarr = new JSONArray();
-			
-			ArrayList authorlooper = new ArrayList();
-			ArrayList influentialauthorlooper = new ArrayList();
-			if(allauthors.size()>0){
-				String tres = null;
-				JSONObject tresp = null;
-				String tresu = null;
-				JSONObject tobj = null;
-				int j=0;
-				int k=0;
-				int n = 0;
-			for(int i=0; i< allauthors.size(); i++){
-						tres = allauthors.get(i).toString();			
-						tresp = new JSONObject(tres);
-					    tresu = tresp.get("_source").toString();
-					    tobj = new JSONObject(tresu);
-					    
-					    String auth = tobj.get("blogger").toString();
-					    String lang = tobj.get("language").toString();
-					    
-					    lang = blog.normalizeLanguage(lang);
-					  	JSONObject content = new JSONObject();
-					   
-					  	String[] dateyear=tobj.get("date").toString().split("-");
-					    String yy= dateyear[0];
-					    sentimentpost.put(tobj.get("blogpost_id").toString());
-					   
-					    if(!authors.has(auth)){							 
-						    String btoty = post._searchRangeTotalByBlogger("date",dt, dte,auth);
-
-						   	Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-							int valu = new Double(btoty).intValue(); 
-							   if(valu==0){
-								   valu=1;
-							   }
-							   
-							content.put("blogger", auth);
-							content.put("influence", influence);
-							content.put("totalpost",valu);
-
-							authors.put(auth, content);
-							authorlooper.add(j,auth);
-							j++;
-						}
-					    
-					  //Object ex = language.get(lang);
-						if (language.has(lang)) {
-							int val = new Double(language.get(lang).toString()).intValue()+1;
-							language.put(lang, val);
-						} else {
-							//  	int val  = Integer.parseInt(ex.toString())+1;
-							language.put(lang, 1);
-							langlooper.add(n, lang);
-							n++;
-						}
-				}
-			//System.out.println("Authors here:"+graphyears);
-			} 
-			
-			
-			
-			if(allauthors2.size()>0){
-				String tres = null;
-				JSONObject tresp = null;
-				String tresu = null;
-				JSONObject tobj = null;
-				int j=0;
-				int k=0;
-				int n = 0;
+			if (postingTotal.size() > 0) {
 				
-			for(int i=0; i< allauthors2.size(); i++){
-						tres = allauthors2.get(i).toString();			
-						tresp = new JSONObject(tres);
-					    tresu = tresp.get("_source").toString();
-					    tobj = new JSONObject(tresu);
-					    
-					    String auth = tobj.get("blogger").toString();
-					    String lang = tobj.get("language").toString();
-					    
-					    
-					  	JSONObject content = new JSONObject();
-					   
-					  	String[] dateyear=tobj.get("date").toString().split("-");
-					    String yy= dateyear[0];
-					   
-					    if(influentialauthors.has(auth)){
-							content = new JSONObject(influentialauthors.get(auth).toString());
-							Double inf = Double.parseDouble(content.get("influence").toString());
-							//inf = inf+influence;
-							int valu = new Double(content.get("totalpost").toString()).intValue(); 
-							content.put("blogger", auth);
-							content.put("influence", inf);
-							content.put("totalpost",valu);
-							influentialauthors.put(auth, content);
-						} else {
-							 
-						    String btoty = post._searchRangeTotalByBlogger("date",dt, dte,auth);
+				for (int m = 0; m < postingTotal.size(); m++) {
+				ArrayList<?> postCount = (ArrayList<?>) postingTotal.get(m);
+				String postyear = postCount.get(0).toString();
+				String yearcount = postCount.get(1).toString();
+				//System.out.println(postyear+":"+yearcount);
+				if(postingTrend.containsKey(Integer.parseInt(postyear))){
+					postingTrend.put(Integer.parseInt(postyear), Integer.parseInt(yearcount));
+				}
+				}
+				}
+		
+	/* 		
+			for (int y = ystint; y <= yendint; y++) {
+				
+				String dtu = y + "-01-01";
+				String dtue = y + "-12-31";
 
-						   // System.out.println("toty-"+btoty);(String field,String greater, String less, String blog_ids)
-						   Double influence =  Double.parseDouble(post._searchRangeMaxByBloggers("date",dt, dte,auth));
-							
-						   Double valu = Double.parseDouble(btoty);
-							   if(valu==0){
-								   valu=1.0;
-							   }
-							   
-							content.put("blogger", auth);
-							content.put("influence", influence);
-							content.put("totalpost",valu);
-							influentialauthors.put(auth, content);
-							influentialauthorlooper.add(j,auth);
-							
-							authorinfluencearr.put(influence+"___"+auth);
-							authorpostingfreqarr.put(valu+"___"+auth);
-							j++;
-						}
-					
+				if (b == 0) {
+					dtu = dt;
+				} else if (b == yendint) {
+					dtue = dte;
 				}
-<<<<<<< HEAD:src/main/webapp/dashboard2.jsp
-				//System.out.println("Authors here:"+graphyears);
-			} */
-=======
-			//System.out.println("Authors here:"+graphyears);
-			} 
->>>>>>> 40ee1cfdb87a0f49b3f3217efad15ac46c187053:src/main/webapp/dashboard3.jsp
-			/*
-			ArrayList sentimentor = new Liwc()._searchByRange("date", dt, dte, sentimentpost);
-			int allposemo =0;
-			int allnegemo =0;
-			
-			if(sentimentor.size()>0){
-				for(int v=0; v<sentimentor.size();v++){
-					String bstr = sentimentor.get(v).toString();
-					JSONObject bj = new JSONObject(bstr);
-					bstr = bj.get("_source").toString();
-					bj = new JSONObject(bstr);
-					//System.out.println("result eree"+bj);
-					int posemo = Integer.parseInt(bj.get("posemo").toString());
-					int negemo = Integer.parseInt(bj.get("negemo").toString());
-					allposemo+=posemo;
-					allnegemo+=negemo;
-					
-				}
+				System.out.println("search range start");
+				String totu = post._searchRangeTotal("date", dtu, dtue, ids);
+				
+				System.out.println("search range end");	
+				graphyears.put(y + "", totu);
+				yearsarray.put(b, y);
+				b++;
 			}
-			*/
-<<<<<<< HEAD:src/main/webapp/dashboard2.jsp
-/* 
-			possentiment = new Liwc()._searchRangeAggregate("date", dt, dte,
-					sentimentpost, "posemo");
-			negsentiment = new Liwc()._searchRangeAggregate("date", dt, dte,
-					sentimentpost, "negemo");
- */
-=======
-			
-			possentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"posemo");
-			negsentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"negemo");
-			
-			
->>>>>>> 40ee1cfdb87a0f49b3f3217efad15ac46c187053:src/main/webapp/dashboard3.jsp
-			//possentiment=allposemo+"";
-			//negsentiment=allnegemo+"";
+			System.out.println("year end");
+			 */
 			
 			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
+
 			
-			//System.out.println("termss "+termss);
-			JSONArray topterms = new JSONArray();
 			JSONObject keys = new JSONObject();
 			JSONObject positions = new JSONObject();
-			int termsposition = 0;
+			
+			Map<String, Integer> top_terms = new HashMap<String, Integer>();
+	
+	try{
 			if (termss.size() > 0) {
 				for (int p = 0; p < termss.size(); p++) {
 					String bstr = termss.get(p).toString();
 					JSONObject bj = new JSONObject(bstr);
 					bstr = bj.get("_source").toString();
 					bj = new JSONObject(bstr);
-					String frequency = bj.get("frequency").toString();
 					String tm = bj.get("term").toString();
-					JSONObject cont = new JSONObject();
-					if(keys.has(tm)){
-						String freq = keys.get(tm).toString();
-						String pos = positions.get(tm).toString();
-						int fr1 = Integer.parseInt(frequency);
-						int fr2 = Integer.parseInt(freq);
-						
-						cont.put("key", tm);
-						cont.put("frequency", (fr1+fr2));
-						topterms.put(Integer.parseInt(pos),cont);
-					}else{
-						cont.put("key", tm);
-						cont.put("frequency", frequency);
-						keys.put(tm,frequency);
-						positions.put(tm,termsposition);
-						topterms.put(cont);
+					String frequency = bj.get("frequency").toString();
+					int frequency2 = Integer.parseInt(frequency);
+					if (top_terms.containsKey(tm)) {
+						top_terms.put(tm, top_terms.get(tm) + frequency2);
+					} else {
+						top_terms.put(tm, frequency2);
 					}
 					
-					
 				}
+				session.setAttribute("top_term", top_terms);
 			}
-			
+	}catch(Exception e){
+		System.err.println(e);
+	}
+	/* 		System.out.println("End of terms");
+	 */		
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
 			if (outlinks.size() > 0) {
-				int mm=0;
+				int mm = 0;
 				for (int p = 0; p < outlinks.size(); p++) {
 					String bstr = outlinks.get(p).toString();
 					JSONObject bj = new JSONObject(bstr);
 					bstr = bj.get("_source").toString();
 					bj = new JSONObject(bstr);
 					String link = bj.get("link").toString();
-					
+
 					JSONObject content = new JSONObject();
-					String maindomain="";
+					String maindomain = "";
 					try {
 						URI uri = new URI(link);
 						String domain = uri.getHost();
@@ -611,14 +386,13 @@
 						} else {
 							maindomain = domain;
 						}
-					} catch (Exception ex) {}
-					
+					} catch (Exception ex) {
+					}
+
 					if (outerlinks.has(maindomain)) {
 						content = new JSONObject(outerlinks.get(maindomain).toString());
-						
 						int valu = new Double(content.get("value").toString()).intValue();
 						valu++;
-						
 						content.put("value", valu);
 						content.put("link", link);
 						content.put("domain", maindomain);
@@ -631,86 +405,11 @@
 						outerlinks.put(maindomain, content);
 						outlinklooper.add(mm, maindomain);
 						mm++;
-					}				
-				
+					}
+
 				}
 			}
-			//System.out.println("senti"+ sentimentblog);
-			
-			JSONObject bloggers = new JSONObject();
-			ArrayList looper = new ArrayList();
-			
-			
-
-<<<<<<< HEAD:src/main/webapp/dashboard2.jsp
-	/* 		if (totalblog > 0) {
-=======
-			if (blogs.size() > 0) {
->>>>>>> 40ee1cfdb87a0f49b3f3217efad15ac46c187053:src/main/webapp/dashboard3.jsp
-				String bres = null;
-				JSONObject bresp = null;
-				String bresu = null;
-				JSONObject bobj = null;
-				int m = 0;
-				
-				for (int k = 0; k < blogs.size(); k++) {
-					bres = blogs.get(k).toString();
-					bresp = new JSONObject(bres);
-					bresu = bresp.get("_source").toString();
-					bobj = new JSONObject(bresu);
-					String blogger = bobj.get("blogsite_name").toString();
-					String blogname = bobj.get("blogsite_name").toString();
-					//System.out.println("blogger here+"+blogger);
-					String sentiment = "1";// bobj.get("sentiment").toString();
-					String posting = bobj.get("totalposts").toString();
-					JSONObject content = new JSONObject();
-					String durl = bobj.get("blogsite_url").toString();//"";
-					try {
-						URI uri = new URI(bobj.get("blogsite_url").toString());
-						String domain = uri.getHost();
-						if (domain.startsWith("www.")) {
-							durl = domain.substring(4);
-						} else {
-							durl = domain;
-						}
-					} catch (Exception ex) {}
-					
-						String toty = post._searchRangeTotal("date",dt, dte,bobj.get("blogsite_id").toString());
-						//String btoty = post._searchRangeTotalByBLogger("date",dt, dte,blogger);
-						Double influence =  Double.parseDouble(post._searchRangeMaxByBlogId("date",dt, dte,bobj.get("blogsite_id").toString()));
 						
-						int valu = 1;//Integer.parseInt(btoty);
-						if (!bloggers.has(blogger)) {
-							content.put("blog", blogname);
-							content.put("id", bobj.get("blogsite_id").toString());
-							content.put("blogger", blogger);
-							content.put("sentiment", sentiment);
-							content.put("postingfreq", posting);
-							content.put("value", valu);
-							content.put("totalposts", toty);
-							content.put("blogsite_url", bobj.get("blogsite_url").toString());
-							content.put("blogsite_domain", durl);
-							bloggers.put(blogger, content);
-
-							bloginfluencearr.put(influence+"___"+blogger);
-							blogpostingfreqarr.put(posting+"___"+blogger);
-							looper.add(m, blogger);
-							m++;
-						}	
-				}
-			}
-			
-			authorinfluencearr = post._sortJson2(authorinfluencearr);
-			authorpostingfreqarr = post._sortJson2(authorpostingfreqarr);
-			
-			bloginfluencearr = post._sortJson2(bloginfluencearr);
-<<<<<<< HEAD:src/main/webapp/dashboard2.jsp
-			blogpostingfreqarr = post._sortJson2(blogpostingfreqarr); */
-=======
-			blogpostingfreqarr = post._sortJson2(blogpostingfreqarr);
-			
-			System.out.println("all terdss "+topterms);
->>>>>>> 40ee1cfdb87a0f49b3f3217efad15ac46c187053:src/main/webapp/dashboard3.jsp
 %>
 <!DOCTYPE html>
 <html>
@@ -755,11 +454,11 @@
 <!-- <script src="assets/js/popper.min.js"></script> -->
 <script src="pagedependencies/googletagmanagerscript.js"></script>
 
-  <script src="pagedependencies/baseurl.js"></script>
+<script src="pagedependencies/baseurl.js"></script>
 </head>
 <body>
-<%@include file="subpages/loader.jsp" %>
-<%@include file="subpages/googletagmanagernoscript.jsp" %>
+	<%@include file="subpages/loader.jsp"%>
+	<%@include file="subpages/googletagmanagernoscript.jsp"%>
 	<div class="modal-notifications">
 		<div class="row">
 			<div class="col-lg-10 closesection"></div>
@@ -784,9 +483,10 @@
 							class="text-primary">
 							Notifications <b id="notificationcount" class="cursor-pointer">12</b>
 						</h6> </a>  --%>
-						<a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
-						
-						<a class="cursor-pointer profilemenulink"
+					<a class="cursor-pointer profilemenulink"
+						href="<%=request.getContextPath()%>/addblog.jsp"><h6
+							class="text-primary">Add Blog</h6></a> <a
+						class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
 							class="text-primary">Profile</h6></a> <a
 						class="cursor-pointer profilemenulink"
@@ -802,7 +502,8 @@
 	<nav class="navbar navbar-inverse bg-primary">
 		<div class="container-fluid mt10 mb10">
 
-			<div class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
+			<div
+				class="navbar-header d-none d-lg-inline-flex d-xl-inline-flex  col-lg-3">
 				<a class="navbar-brand text-center logohomeothers" href="./"> </a>
 			</div>
 			<!-- Mobile Menu -->
@@ -882,9 +583,11 @@
 			<div class="col-md-6 ">
 				<nav class="breadcrumb">
 					<a class="breadcrumb-item text-primary"
-						href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a> 
-						<a class="breadcrumb-item text-primary"	href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
-					<a class="breadcrumb-item active text-primary" href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
+						href="<%=request.getContextPath()%>/trackerlist.jsp">Trackers</a>
+					<a class="breadcrumb-item text-primary"
+						href="<%=request.getContextPath()%>/edittracker.jsp?tid=<%=tid%>"><%=trackername%></a>
+					<a class="breadcrumb-item active text-primary"
+						href="<%=request.getContextPath()%>/dashboard.jsp?tid=<%=tid%>">Dashboard</a>
 				</nav>
 				<!-- <div>
 					<button class="btn btn-primary stylebutton1 " id="printdoc">SAVE
@@ -940,7 +643,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-user icondash"></i>Bloggers
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=totalbloggers%></h3>
+						<h3 class="text-blue mb0 countdash dash-label blogger-count"><%=NumberFormat.getNumberInstance(Locale.US).format(new Double(totalbloggers).intValue())%></h3>
 					</div>
 				</div>
 			</div>
@@ -951,7 +654,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-file-alt icondash"></i>Posts
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%= NumberFormat.getNumberInstance(Locale.US).format(new Double(totalpost).intValue()) %></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=NumberFormat.getNumberInstance(Locale.US).format(new Double(totalpost).intValue())%></h3>
 					</div>
 				</div>
 			</div>
@@ -962,7 +665,7 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-comment icondash"></i>Comments
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%= NumberFormat.getNumberInstance(Locale.US).format(new Double(totalcomment).intValue())%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=NumberFormat.getNumberInstance(Locale.US).format(new Double(totalcomment).intValue())%></h3>
 					</div>
 				</div>
 			</div>
@@ -974,7 +677,9 @@
 						<h5 class="text-primary mb0">
 							<i class="fas fa-clock icondash"></i>History
 						</h5>
-						<h3 class="text-blue mb0 countdash dash-label"><%=dispfrom%> - <%=today%></h3>
+						<h3 class="text-blue mb0 countdash dash-label"><%=historyfrom%>
+							-
+							<%=endDate%></h3>
 					</div>
 				</div>
 			</div>
@@ -982,17 +687,17 @@
 		</div>
 
 		<div class="row mb0">
-			<div class="col-md-6 mt20 ">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body  p15 pt15 pb15">
 						<div>
 							<p class="text-primary mt0 float-left">
-								Most Active Location 
+								Most Active Location
 								<!-- <select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
-									<%-- for Past <select
+								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange">
 									<option value="" >All</option>
 									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
@@ -1007,29 +712,22 @@
 				</div>
 			</div>
 
-			<div class="col-md-6 mt20">
-				<div class="card  card-style  mt20">
-					<div class="card-body  p30 pt5 pb5">
-						<div>
-							<p class="text-primary mt10 float-left">
-								Language Usage 
-								<!-- <select
-									class="text-primary filtersort sortbyblogblogger"><option
-										value="blogs">Blogs</option>
-									<option value="bloggers">Bloggers</option></select>  -->
-									<%-- for Past <select
-									class="text-primary filtersort sortbytimerange">
-									<option value="" >All</option>
-									<option value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
-									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
-									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select>
-						
-									</select> --%>
-							</p>
-						</div>
-	<div class="min-height-table" style="min-height: 500px;">
-					<div class="chart-container">
-	<!-- 						  <div class="btn-group float-right">
+	<div class="col-md-6 mt20 zoom">
+				<div class="card card-style mt20">
+				
+ 				<div class="card-body mt0 pt0 pl0" style="min-height:520px;">
+ 				<div class="mecard">
+ 				<div class="front p30 pt5 pb5">	
+ 		<div>
+		<p class="text-primary mt10 float-left">Language Usage</p>
+		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+							title="Flip to view language usage" aria-expanded="false">
+        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
+       </button>
+	   </div>
+	   <div class="min-height-table" >
+							<div class="chart-container">
+								<!-- 						  <div class="btn-group float-right">
     <button id="btnGroupDrop1" type="button" class="btn btn-primary " data-toggle="dropdown" aria-expanded="false">
       <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
     </button>
@@ -1038,24 +736,94 @@
       <a class="dropdown-item savelanguagepng" href="#">Export as PNG</a>
     </div>
   </div> -->
-							<!-- <button id='savelanguage'>Export my D3 visualization to PNG</button> -->
+								<!-- <button id='savelanguage'>Export my D3 visualization to PNG</button> -->
 								<div class="chart" id="languageusage"></div>
 							</div>
-						</div>
-					</div>
+						</div></div>
+                <div class="back p30 pt5 pb5">
+              
+                <div>
+		<p class="text-primary mt10 float-left">Language Usage</p>
+		<button style="right:10px; position:absolute" id="flip" type="button" onclick="flip()" class="btn btn-sm btn-primary float-right" data-toggle="tooltip" data-placement="top"
+							title="Flip to view language usage" aria-expanded="false">
+							
+        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
+       </button>
+	   </div>
+	   
+	   <div class="min-height-table">
+							
+															
+								<table id="DataTables_Table_1_wrapper" class="display"
+									style="width: 100%">
+									<thead>
+										<tr>
+											<th>Language</th>
+											<th>Frequency</th>
+
+										</tr>
+									</thead>
+									<tbody>
+
+										    	  <%if (languages.size() > 0) {
+																for (int y = 0; y < languages.size(); y++) {
+																	ArrayList<?> langu = (ArrayList<?>) languages.get(y);
+																	String languag = langu.get(0).toString();
+																	
+																	String languag_freq = langu.get(1).toString();
+																	if (y<10){
+																	%>
+																		<tr>
+											<td class=""><%=languag%></td>
+											<td><%=languag_freq%></td>
+										</tr>
+										    		<%}
+																}
+															}%>
+										
+									
+									
+
+									</tbody>
+								</table>
+							
+							
+		</div>
+	
+                </div>
+ 				</div>
+ 				
+					
+						
+						
+						
+						
+						
+						
+					
+ 				
+    
+    			
+				</div>
+					
+					
+
 				</div>
 			</div>
+			
+
+			
 		</div>
 
 		<div class="row mb0">
-			<div class="col-md-12 mt20">
+			<div class="col-md-12 mt20 zoom">
 
 				<div class="card  card-style  mt20">
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Posting Frequency 
+								Posting Frequency
 								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
@@ -1071,7 +839,7 @@
 					</div>
 				</div>
 
-<div class="float-right">
+				<div class="float-right">
 					<a href="postingfrequency.jsp?tid=<%=tid%>"><button
 							class="btn buttonportfolio2 mt10">
 							<b class="float-left semi-bold-text">Posting Frequency
@@ -1079,11 +847,11 @@
 						</button></a>
 				</div>
 			</div>
-			
+
 		</div>
 
 		<div class="row mb0">
-			<div class="col-md-6 mt20 ">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body  p30 pt5 pb5">
 						<div>
@@ -1093,8 +861,8 @@
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
-									
-									<%-- for Past <select
+
+								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
@@ -1103,15 +871,16 @@
 						</div>
 						<!-- <div class="tagcloudcontainer" style="min-height: 420px;"></div> -->
 						<div class="chart-container">
-								<div class="chart" id="tagcloudcontainer">
+							<div class="chart" id="tagcloudcontainer">
 								<div class="jvectormap-zoomin zoombutton" id="zoom_in">+</div>
-								<div class="jvectormap-zoomout zoombutton" id="zoom_out" >−</div> 
-								</div>
+								<div class="jvectormap-zoomout zoombutton" id="zoom_out">−</div>
 							</div>
+						</div>
 					</div>
 				</div>
 				<div class="float-right">
-					<a href="<%=request.getContextPath()%>/keywordtrend.jsp?tid=<%=tid%>"><button
+					<a
+						href="<%=request.getContextPath()%>/keywordtrend.jsp?tid=<%=tid%>"><button
 							class="btn buttonportfolio2 mt10">
 							<b class="float-left semi-bold-text">Keyword Trend Analysis </b>
 							<b class="fas fa-search float-right icondash2"></b>
@@ -1119,18 +888,18 @@
 				</div>
 			</div>
 
-			<div class="col-md-6 mt20">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body  p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10">
 								Sentiment Usage
-							<!-- 	<select
+								<!-- 	<select
 									class="text-primary filtersort sortbyblogblogger"><option
 										value="blogs">Blogs</option>
 									<option value="bloggers">Bloggers</option></select>  -->
 
-									<%-- for Past <select
+								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
@@ -1138,15 +907,14 @@
 							</p>
 						</div>
 						<div style="min-height: 420px;">
-							<div class="chart-container">
-								<div class="chart" id="sentimentbar"></div>
+							<div class="chart-container text-center">
+								<div class="chart svg-center" id="sentimentpiechart"></div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="float-right">
-					<a
-						href="<%=request.getContextPath()%>/sentiment.jsp?tid=<%=tid%>"><button
+					<a href="<%=request.getContextPath()%>/sentiment.jsp?tid=<%=tid%>"><button
 							class="btn buttonportfolio2 mt10">
 							<b class="float-left semi-bold-text">Sentiment Analysis </b> <b
 								class="fas fa-adjust float-right icondash2"></b>
@@ -1156,13 +924,13 @@
 		</div>
 
 		<div class="row mb0">
-			<div class="col-md-6 mt20">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Blog Distribution 
+								Blog Distribution
 								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
@@ -1187,13 +955,13 @@
 
 			</div>
 
-			<div class="col-md-6 mt20">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Blogger Distribution 
+								Blogger Distribution
 								<%-- for Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
@@ -1221,28 +989,29 @@
 		</div>
 
 		<div class="row mb0">
-			<div class="col-md-6 mt20">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body   p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
-								Most Active 
-								<select id="swapBlogger" class="text-primary filtersort sortbyblogblogger">
+								Most Active <select id="swapBlogger"
+									class="text-primary filtersort sortbyblogblogger">
 									<option value="blogs">Blogs</option>
 
-									<option value="bloggers">Bloggers</option></select> 
-							<%-- 		of Past <select
+									<option value="bloggers">Bloggers</option>
+								</select>
+								<%-- 		of Past <select
 									class="text-primary filtersort sortbytimerange" id="active-sortdate"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
 									<option value="month" <%=(single.equals("month"))?"selected":"" %>>Month</option>
 									<option value="year" <%=(single.equals("year"))?"selected":"" %>>Year</option></select> --%>
-						</p>
+							</p>
 						</div>
 						<div class="min-height-table" style="min-height: 500px;">
 							<div class="chart-container" id="postingfrequencycontainer">
 								<div class="chart" id="postingfrequencybar"></div>
 							</div>
-							
+
 						</div>
 					</div>
 				</div>
@@ -1256,18 +1025,21 @@
 
 			</div>
 
-			<div class="col-md-6 mt20">
+			<div class="col-md-6 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body p30 pt5 pb5">
 						<div>
 							<p class="text-primary mt10 float-left">
 
-								Most Influential <select class="text-primary filtersort sortbyblogblogger" id="swapInfluence">
-								<option value="bloggers" >Bloggers</option>
-								<option value="blogs">Blogs </option>
-								
-								</select> 
-								  <%-- 
+								Most Influential <select
+									class="text-primary filtersort sortbyblogblogger"
+									id="swapInfluence">
+									<option value="blogs">Blogs</option>
+									<option value="bloggers">Bloggers</option>
+									
+
+								</select>
+								<%-- 
 						   of Past <select
 									class="text-primary filtersort sortbytimerange"><option
 										value="week" <%=(single.equals("week"))?"selected":"" %>>Week</option>
@@ -1293,20 +1065,20 @@
 			</div>
 
 		</div>
-
+		
 		<div class="row mb50">
-			<div class="col-md-12 mt20 ">
+			<div class="col-md-12 mt20 zoom">
 				<div class="card card-style mt20">
 					<div class="card-body  p5 pt10 pb10">
 
 						<div style="min-height: 420px;">
 							<div>
 								<p class="text-primary p15 pb5 pt0">
-									List of Top <select id="top-listtype" 
+									List of Top <select id="top-listtype"
 										class="text-primary filtersort sortbydomainsrls"><option
 											value="domains">Domains</option>
-										<option value="urls">URLs</option></select> 
-										<!-- of <select id="top-sorttype"
+										<option value="urls">URLs</option></select>
+									<!-- of <select id="top-sorttype"
 										class="text-primary filtersort sortbyblogblogger" ><option
 											value="blogs">Blogs</option>
 										<option value="bloggers">Bloggers</option></select>  -->
@@ -1320,38 +1092,39 @@
 							<!--   <div class="p15 pb5 pt0" role="group">
           Export Options
           </div> -->
-          <div id="top-domain-box">
-							<table id="DataTables_Table_0_wrapper" class="display"
-								style="width: 100%">
-								<thead>
-									<tr>
-										<th>Domain</th>
-										<th>Frequency</th>
+							<div id="top-domain-box">
+								<table id="DataTables_Table_0_wrapper" class="display"
+									style="width: 100%">
+									<thead>
+										<tr>
+											<th>Domain</th>
+											<th>Frequency</th>
 
-									</tr>
-								</thead>
-								<tbody >
-								
-									<%
-										if (outlinklooper.size() > 0) {
-													//System.out.println(bloggers);
-													for (int y = 0; y < outlinklooper.size(); y++) {
-														String key = outlinklooper.get(y).toString();
-														JSONObject resu = outerlinks.getJSONObject(key);
-														if(resu.get("domain")!=""){
-									%>
-									<tr>
-										<td class=""><a href="http://<%=resu.get("domain")%>" target="_blank"><%=resu.get("domain")%></a></td>
-										<td><%=resu.get("value")%></td>
-									</tr>
-									<%
+										</tr>
+									</thead>
+									<tbody>
+
+										<%
+											if (outlinklooper.size() > 0) {
+														//System.out.println(bloggers);
+														for (int y = 0; y < outlinklooper.size(); y++) {
+															String key = outlinklooper.get(y).toString();
+															JSONObject resu = outerlinks.getJSONObject(key);
+															if (resu.get("domain") != "") {
+										%>
+										<tr>
+											<td class=""><a href="http://<%=resu.get("domain")%>"
+												target="_blank"><%=resu.get("domain")%></a></td>
+											<td><%=resu.get("value")%></td>
+										</tr>
+										<%
+											}
 														}
-										}
-									}
-									%>
+													}
+										%>
 
-								</tbody>
-							</table>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -1408,76 +1181,97 @@
 
 
 	</div>
-<form action="" name="customformsingle" id="customformsingle"
+	<form action="" name="customformsingle" id="customformsingle"
 		method="post">
 		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" /> <input
 			type="hidden" name="single_date" id="single_date" value="" />
 	</form>
 
 	<form action="" name="customform" id="customform" method="post">
-		<input type="hidden" name="tid" value="<%=tid%>" /> 
-		<input type="hidden" name="date_start" id="date_start" value="" /> 
-		<input type="hidden" name="date_end" id="date_end" value="" />
-			<textarea style="display:none" name="blogs" id="blogs" ><%if (blogpostingfreqarr.length() > 0) {	
-			int p = 0;
-		 for(int m=0; m<blogpostingfreqarr.length(); m++){
-				String key = blogpostingfreqarr.get(m).toString();			
-				String[] splitter = key.split("___");
-				if(splitter.length > 1){
-				String blg = splitter[1];
-				int size =  new Double(splitter[0].toString()).intValue();	
-				if (size > 0 && p < 15) {
-					p++;%>{letter:"<%=blg%>", frequency:<%=size%>, name:"<%=blg%>", type:"blog"},
-    			 <%}}}}%>
+		<input type="hidden" name="tid" value="<%=tid%>" /> <input
+			type="hidden" name="date_start" id="date_start" value="" /> <input
+			type="hidden" name="date_end" id="date_end" value="" />
+		<textarea style="display: none" name="blogs" id="blogs">
+			<%	
+			if (blogPostFrequency.size() > 0) {
+							int p = 0;
+							for (int m = 0; m < blogPostFrequency.size(); m++) {
+								ArrayList<?> blogFreq = (ArrayList<?>) blogPostFrequency.get(m);
+								String blogName = blogFreq.get(0).toString();
+								String blogPostFreq = blogFreq.get(1).toString();
+									if (p < 10) {
+										p++;
+			%>{letter:"<%=blogName%>", frequency:<%=blogPostFreq%>, name:"<%=blogName%>", type:"blog"},
+    			 <%
+				}
+								}
+							}
+					
+			%>
 			</textarea>
-			<textarea style="display:none" name="bloggers" id="bloggers" >
-<%if (authorpostingfreqarr.length() > 0) {	
-			int p = 0;
-		 for(int m=0; m<authorpostingfreqarr.length(); m++){
-				String key = authorpostingfreqarr.get(m).toString();			
-				String[] splitter = key.split("___");
-				if(splitter.length > 1){
-				String au = splitter[1];
-				int size =  new Double(splitter[0].toString()).intValue();	
-				if (size > 0 && p < 15) {
-					p++;%>{letter:"<%=au%>", frequency:<%=size%>, name:"<%=au%>", type:"blogger"},
-<%}}}}%></textarea>
+		<textarea style="display: none" name="bloggers" id="bloggers">
+<%
+	if (bloggerPostFrequency.size() > 0) {
+				int p = 0;
+				for (int m = 0; m < bloggerPostFrequency.size(); m++) {
+					ArrayList<?> bloggerFreq = (ArrayList<?>) bloggerPostFrequency.get(m);
+					String bloggerName = bloggerFreq.get(0).toString();
+					String bloggerPostFreq = bloggerFreq.get(1).toString();
+						if (p < 10) {
+							p++;
+%>{letter:"<%=bloggerName%>", frequency:<%=bloggerPostFreq%>, name:"<%=bloggerName%>", type:"blogger"},
+<%
+	}
+					}
+				}
+			
+%>
+		</textarea>
 
-<!-- Influence Bar chart loader -->
-	<textarea style="display:none" name="influencialBlogs" id="InfluencialBlogs" >
+		<!-- Influence Bar chart loader -->
+		<textarea style="display: none" name="influencialBlogs"
+			id="InfluencialBlogs">
 
-<%if (bloginfluencearr.length() > 0) {	
-			int p = 0;
-		 for(int m=0; m<bloginfluencearr.length(); m++){
-				String key = bloginfluencearr.get(m).toString();
-				
-				String[] splitter = key.split("___");
-				if(splitter.length > 1){
-				String blg = splitter[1];
-				int size =  new Double(splitter[0].toString()).intValue();	
-				if (size > 0 && p < 15) {
-					p++;%>{letter:"<%=blg%>", frequency:<%=size%>, name:"<%=blg%>", type:"blog"},
-    			 <%}}}}%>
+<%
+	if (influenceBlog.size() > 0) {
+				int p = 0;
+				for (int m = 0; m < influenceBlog.size(); m++) {
+					ArrayList<?> blogInfluence = (ArrayList<?>) influenceBlog.get(m);
+					String blogInf = blogInfluence.get(0).toString();
+					String blogInfFreq = blogInfluence.get(1).toString();
+					if (p < 10) {
+						p++;%>
+{letter:"<%=blogInf%>", frequency:<%=blogInfFreq%>, name:"<%=blogInf%>", type:"blog"},
+    			 <%
+	}
+					}
+				}
+			
+%>
 			 </textarea>
-        </textarea>
+		</textarea>
 
-<textarea style="display:none" name="influencialBloggers" id="InfluencialBloggers" ><%if (authorinfluencearr.length() > 0) {	
-			int k = 0;
-		 for(int m=0; m<authorinfluencearr.length(); m++){
-				String key = authorinfluencearr.get(m).toString();
-				
-				String[] splitter = key.split("___");
-				if(splitter.length > 1){
-				String au = splitter[1];
-				int size =  new Double(splitter[0].toString()).intValue();	
-				if (size > 0 && k < 15) {
-					k++;%>
-		{letter:"<%=au%>", frequency:<%=size%>, name:"<%=au%>", type:"blogger"},
-		 <% }
+		<textarea style="display: none" name="influencialBloggers"
+			id="InfluencialBloggers">
+			<%
+				if (influenceBlogger.size() > 0) {
+					int k = 0;
+					for (int y = 0; y < influenceBlogger.size(); y++) {
+						ArrayList<?> bloggerInfluence = (ArrayList<?>) influenceBlogger.get(y);
+						 String bloggerInf = bloggerInfluence.get(0).toString();
+						 String bloggerInfFreq =  bloggerInfluence.get(1).toString();
+						if (k < 10) {
+							k++;
+			%>
+		{letter:"<%=bloggerInf%>", frequency:<%=bloggerInfFreq%>, name:"<%=bloggerInf%>", type:"blogger"},
+		 <%
 				}
-				}
-			}%></textarea>
-</form>
+					}
+								}
+							
+			%>
+		</textarea>
+	</form>
 
 
 	<!-- <footer class="footer">
@@ -1485,11 +1279,11 @@
 <p class="text-center text-medium pt10 pb10 mb0">Copyright &copy; Blogtrackers 2017 All Rights Reserved.</p>
 </div>
   </footer> -->
-<!-- <script src="pagedependencies/dashboard.js?v=209">
+	<!-- <script src="pagedependencies/dashboard.js?v=209">
 </script> -->
-<!-- Added for interactivity for selecting tracker and favorites actions -->
+	<!-- Added for interactivity for selecting tracker and favorites actions -->
 
-<!-- <script src="assets/js/generic.js">
+	<!-- <script src="assets/js/generic.js">
 </script> -->
 
 
@@ -1508,45 +1302,43 @@
 		src="assets/vendors/DataTables/datatables.min.js"></script>
 	<script type="text/javascript"
 		src="assets/vendors/DataTables/dataTables.bootstrap4.min.js"></script>
-	<script		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.flash.min.js"></script>
 	<script
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/dataTables.buttons.min.js"></script>
 	<!-- <script src="assets/vendors/DataTables/pdfmake-0.1.32/pdfmake.min.js"></script> -->
 	<script src="assets/vendors/DataTables/pdfmake-0.1.32/vfs_fonts.js"></script>
 	<script
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.html5.min.js"></script>
-	<script src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
+	<script
+		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
 	<script>
+	function flip() {
+	    $('.mecard').toggleClass('flipped');
+	}
 $(document).ready(function() {
+	
 	
   // datatable setup
     $('#DataTables_Table_1_wrapper').DataTable( {
-        "scrollY": 430,
+        "scrollY": 350,
         "scrollX": true,
          "pagingType": "simple",
-        	 "bLengthChange": false
-      /*    ,
-         dom: 'Bfrtip',
-         "columnDefs": [
-      { "width": "80%", "targets": 0 }
-    ],
-      buttons:{
-        buttons: [
-            { extend: 'pdfHtml5',orientation: 'potrait', pageSize: 'LEGAL', className: 'btn-primary stylebutton1'},
-            {extend:'csv',className: 'btn-primary stylebutton1'},
-            {extend:'excel',className: 'btn-primary stylebutton1'},
-           // {extend:'copy',className: 'btn-primary stylebutton1', text: 'Copy to Clipboard'},
-            {extend:'print',className: 'btn-primary stylebutton1'},
-        ]
-      } */
+        	 "bLengthChange": false,
+        	 "bFilter":false,
+        	 "bPaginate":false,
+        	 "bInfo":false,
+        	 "ordering": false
+  
     } );
 // table set up 2
     $('#DataTables_Table_0_wrapper').DataTable( {
         "scrollY": 430,
         "scrollX": false,
          "pagingType": "simple",
-        	 "bLengthChange": false
+        	 "bLengthChange": false,
+        	 "ordering": false
     /*      ,
          dom: 'Bfrtip',
          "columnDefs": [
@@ -1717,8 +1509,8 @@ $(document).ready(function() {
 	<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
 	<script type="text/javascript" src="assets/vendors/d3/d3.min.js"></script>
 	<script src="assets/vendors/wordcloud/d3.layout.cloud.js"></script>
-	 <script src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
-		 <script src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
+	<script		src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"></script>
+	<script		src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
 	<script type="text/javascript" src="assets/vendors/d3/d3_tooltip.js"></script>
 	<script type="text/javascript" src="assets/js/jquery.inview.js"></script>
 	<script type="text/javascript" src="assets/js/exporthandler.js"></script>
@@ -1734,7 +1526,7 @@ $(function () {
       // ------------------------------
       // Define main variables
       var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 150},
+          margin = {top: 5, right: 50, bottom: 20, left: 110},
           width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
           height = height - margin.top - margin.bottom - 5;
          var formatPercent = d3.format("");
@@ -1781,28 +1573,20 @@ $(function () {
       //
       //
       
-    
      data = [
-    	  <%
-    	  
-    	  if (langlooper.size() > 0) {
-						for (int y = 0; y < langlooper.size(); y++) {
-							String key = langlooper.get(y).toString();
-							
+    	  <%if (languages.size() > 0) {
+						for (int y = 0; y < languages.size(); y++) {
+							ArrayList<?> langu = (ArrayList<?>) languages.get(y);
+							String languag = langu.get(0).toString();
 							
 							String languag_freq = langu.get(1).toString();
-							Map<String, Integer> lan = new HashMap<String, Integer>();
-							if (lan.containsKey(Blogs.normalizeLanguage(languag))) {
-								lan.put(languag, lan.get(languag) + Integer.parseInt(languag_freq));
-							} else {
-								lan.put(languag, Integer.parseInt(languag_freq));
-							}
-							if (y<15){
+							if (y<10){
 							%>
-							{letter:"<%=languag%>", frequency:<%=lan.get(languag)%>},
+							{letter:"<%=languag%>", frequency:<%=languag_freq%>},
     		<%}
+						}
 					}%>
-	 ];
+	 ]; 
      data.sort(function(a, b){
     	    return a.frequency - b.frequency;
     	});
@@ -1907,7 +1691,12 @@ $(function () {
                   }
                 }) 
                   .on('mouseover', tip.show)
-                  .on('mouseout', tip.hide);
+                  .on('mouseout', tip.hide)
+                  transitionbarlanguage.transition()
+                  .delay(200)
+                  .duration(1000)
+                  .attr("width", function(d) { return x(d.frequency); })
+                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
       
           $(element).bind('inview', function (event, visible) {
         	  if (visible == true) {
@@ -2059,19 +1848,19 @@ $(function () {
       //
       //sort by influence score
       data = [
-    	  <% if (influentialauthors.length() > 0) {
-				int p = 0;
-				//System.out.println(bloggers);
-				for (int y = 0; y < influentialauthors.length(); y++) {
-					String key = influentialauthorlooper.get(y).toString();
-					JSONObject resu = influentialauthors.getJSONObject(key);
-					Double size = Double.parseDouble(resu.get("influence").toString());
-					if (p < 20) {
-						p++;%>
-		{letter:"<%=resu.get("blogger")%>", frequency:<%=size%>, name:"<%=resu.get("blogger")%>", type:"blogger"},
+    	  <%if (influenceBlog.size() > 0) {
+						int p = 0;
+						//System.out.println(bloggers);
+						for (int y = 0; y < influenceBlog.size(); y++) {
+							ArrayList<?> blogInfluence = (ArrayList<?>) influenceBlog.get(y);
+							String blogInf = blogInfluence.get(0).toString();
+							String blogInfFreq = blogInfluence.get(1).toString();
+							if (p < 10) {
+								p++;%>
+		{letter:"<%=blogInf%>", frequency:<%=blogInfFreq%>, name:"<%=blogInf%>", type:"blogger"},
 		 <%}
-				}
-			}%>    
+						}
+					}%>    
         ];
       data = data.sort(function(a, b){
     	    return a.frequency - b.frequency;
@@ -2322,20 +2111,22 @@ $(function () {
       //
       //
       data = [
-    		 <% if (bloggers.length() > 0) {
-						int p = 0;
-						//System.out.println(bloggers);
-						for (int y = 0; y < bloggers.length(); y++) {
-							String key = looper.get(y).toString();
-							JSONObject resu = bloggers.getJSONObject(key);
-							int size =  new Double(resu.get("postingfreq").toString()).intValue();
-							if (size > 0 && p < 10) {
-								p++;%>
-    							{letter:"<%=resu.get("blog").toString().toLowerCase()%>", frequency:<%=size%>, name:"<%=resu.get("blogger").toString().toLowerCase()%>", type:"blogger"},
-    		 <% 			}
-					}
+    		 <%
+    		 int p = 0;
+    			if (blogPostFrequency.size() > 0) {
+					for (int m = 0; m < blogPostFrequency.size() ; m++) {
+						ArrayList<?> blogFreq = (ArrayList<?>) blogPostFrequency.get(m);
+						String blogName = blogFreq.get(0).toString();
+						String blogPostFreq = blogFreq.get(1).toString();
+								if (p < 10) {
+									p++;%>
+									{letter:"<%=blogName%>", frequency:<%=Integer.parseInt(blogPostFreq)%>, name:"<%=blogName%>", type:"blogger"},
+ 			 <%
 				}
-			%>
+							}
+								
+						}
+    		%>
             //{letter:"Blog 5", frequency:2550, name:"Obadimu Adewale", type:"blogger"},
             
         ];
@@ -2544,222 +2335,35 @@ $(function () {
     }
 });
 </script>
+<script src="chartdependencies/piechartanimated.js"></script>
 	<!-- end of posting frequency  -->
 	<!--  Start of sentiment Bar Chart -->
-	<script>
-$(function () {
-    // Initialize chart
-    sentimentbar('#sentimentbar', 400);
-    // Chart setup
-    function sentimentbar(element, height) {
-      // Basic setup
-      // ------------------------------
-      // Define main variables
-      var d3Container = d3.select(element),
-          margin = {top: 5, right: 50, bottom: 20, left: 150},
-          width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right,
-          height = height - margin.top - margin.bottom - 5;
-         var formatPercent = d3.format("");
-      // Construct scales
-      // ------------------------------
-      // Horizontal
-      var y = d3.scale.ordinal()
-          .rangeRoundBands([height,0], .6, .8);
-      // Vertical
-      var x = d3.scale.linear()
-          .range([0,width]);
-      // Color
-      var color = d3.scale.category20c();
-      // Create axes
-      // ------------------------------
-      // Horizontal
-      var xAxis = d3.svg.axis()
-          .scale(x)
-          .orient("bottom")
-          .ticks(6);
-      // Vertical
-      var yAxis = d3.svg.axis()
-          .scale(y)
-          .orient("left")
-          //.tickFormat(formatPercent);
-      // Create chart
-      // ------------------------------
-      // Add SVG element
-      var container = d3Container.append("svg");
-      // Add SVG group
-      var svg = container
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-      //         // Create tooltip
-      //             // ------------------------------
-      //
-      //
-      //
-      // // Load data
-      // // ------------------------------
-      //
-      //
-      //
-      data = [
-            {letter:"Negative", frequency:<%=negsentiment%>},
-            {letter:"Positive", frequency:<%=possentiment%>}
+	<script type="text/javascript">
+	  $(function () {
+	
+	 <%
+      String pos = "";
+      String neg = "";
+		for (int i = 0; i <getPositiveEmotion.size(); i++){
+			ArrayList<?> posi = (ArrayList<?>) getPositiveEmotion.get(i);
+			pos = posi.get(0).toString();
+		} 
+      	for (int i = 0; i <getNegativeEmotion.size(); i++){
+			ArrayList<?> nega = (ArrayList<?>) getNegativeEmotion.get(i);
+			neg = nega.get(0).toString();
+			
+		} 
+      
+      %>
+      sentimentdata = [
+            {label:"Negative", value:<%=Integer.parseInt(pos)%>},
+            {label:"Positive", value:<%=Integer.parseInt(neg)%>}
         ];
-      //
-      //
-      //   // Create tooltip
-        var tip = d3.tip()
-               .attr('class', 'd3-tip')
-               .offset([-10, 0])
-               .html(function(d) {
-                   return d.letter+" ("+d.frequency+")";
-               });
-           // Initialize tooltip
-           svg.call(tip);
-           var color = d3.scale.linear()
-                   .domain([0,1])
-                   .range(["#FF7D7D", "#72c28e"]);
-      //
-      //     // Pull out values
-      //     data.forEach(function(d) {
-      //         d.frequency = +d.frequency;
-      //     });
-      //
-      //
-      //
-      //     // Set input domains
-      //     // ------------------------------
-      //
-      //     // Horizontal
-          y.domain(data.map(function(d) { return d.letter; }));
-          // Vertical
-          x.domain([0,d3.max(data, function(d) { return d.frequency; })]);
-      //
-      //
-      //     //
-      //     // Append chart elements
-      //     //
-      //
-      //     // Append axes
-      //     // ------------------------------
-      //
-          // Horizontal
-          svg.append("g")
-              .attr("class", "d3-axis d3-axis-horizontal d3-axis-strong")
-              .attr("transform", "translate(0," + height + ")")
-              .call(xAxis);
-          // Vertical
-          var verticalAxis = svg.append("g")
-              .attr("class", "d3-axis d3-axis-vertical d3-axis-strong")
-              .style("color","yellow")
-              .call(yAxis)
-              .selectAll("text")
-              .style("font-size",12)
-              .style("text-transform","capitalize");
-      //
-      //
-      //     // Add text label
-      //     verticalAxis.append("text")
-      //         .attr("transform", "rotate(-90)")
-      //         .attr("y", 10)
-      //         .attr("dy", ".71em")
-      //         .style("text-anchor", "end")
-      //         .style("fill", "#999")
-      //         .style("font-size", 12)
-      //         // .text("Frequency")
-      //         ;
-      //
-      //
-      //     // Add bars
-          transitionbarsentiment = svg.selectAll(".d3-bar")
-              .data(data)
-              .enter()
-              .append("rect")
-                  .attr("class", "d3-bar")
-                  .attr("y", function(d) { return y(d.letter); })
-                  //.attr("height", y.rangeBand())
-                  .attr("height", 30)
-                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')')
-                  .attr("x", function(d) { return 0; })
-                  .attr("width", 0)
-                  .style("fill", function(d,i) { return color(i);   })
-                  .on('mouseover', tip.show)
-                  .on('mouseout', tip.hide);
-          transitionbarsentiment.transition()
-          .delay(200)
-          .duration(1000)
-          .attr("width", function(d) { return x(d.frequency); })
-          .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
-          
-          $(element).bind('inview', function (event, visible) {
-        	  if (visible == true) {
-        	    // element is now visible in the viewport
-        		  transitionbarsentiment.transition()
-                  .delay(200)
-                  .duration(1000)
-                  .attr("width", function(d) { return x(d.frequency); })
-                  .attr('transform', 'translate(0, '+(y.rangeBand()/2-14.5)+')');
-        	  } else {
-        		  
-        		  transitionbarsentiment.attr("width", 0)
-        	    // element has gone out of viewport
-        	  }
-        	});
-                  // svg.selectAll(".d3-bar")
-                  //     .data(data)
-                  //     .enter()
-                  //     .append("rect")
-                  //         .attr("class", "d3-bar")
-                  //         .attr("x", function(d) { return x(d.letter); })
-                  //         .attr("width", x.rangeBand())
-                  //         .attr("y", function(d) { return y(d.frequency); })
-                  //         .attr("height", function(d) { return height - y(d.frequency); })
-                  //         .style("fill", function(d) { return "#58707E"; })
-                  //         .on('mouseover', tip.show)
-                  //         .on('mouseout', tip.hide);
-        // Resize chart
-        // ------------------------------
-        // Call function on window resize
-        $(window).on('resize', resize);
-        // Call function on sidebar width change
-        $('.sidebar-control').on('click', resize);
-        // Resize function
-        //
-        // Since D3 doesn't support SVG resize by default,
-        // we need to manually specify parts of the graph that need to
-        // be updated on window resize
-        function resize() {
-            // Layout variables
-            width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
-            // // Layout
-            // // -------------------------
-            //
-            // // Main svg width
-            container.attr("width", width + margin.left + margin.right);
-            // Width of appended group
-            svg.attr("width", width + margin.left + margin.right);
-            //
-            //
-            // // Axes
-            // // -------------------------
-            //
-            // // Horizontal range
-           x.range([0,width]);
-            //
-            // // Horizontal axis
-            svg.selectAll('.d3-axis-horizontal').call(xAxis);
-             // svg.selectAll('.d3-bar-vertical').call(yAxis);
-            //
-            // // Chart elements
-            // // -------------------------
-            //
-            // // Line path
-           svg.selectAll('.d3-bar').attr("width", function(d) { return x(d.frequency); });
-        }
-    }
-});
-</script>
+      
+      pieChartAnimation("#sentimentpiechart",180,sentimentdata);
+	  });
+        
+      </script>
 
 	<script type="text/javascript">
 // map data
@@ -3031,27 +2635,27 @@ var gdpData = {
 					location.put("ZW", "-19.0154, 29.1549");
 					location.put("SK", "48.6690, 19.6990");
 					location.put("IE", "53.4129, -8.2439");
-					location.put("IT","41.871941,12.567380");
-					location.put("ES","40.463669,-3.749220");
-					%>
+					location.put("IT", "41.871941,12.567380");
+					location.put("ES", "40.463669,-3.749220");
+					location.put("AU", "-25.274399,133.775131");
+					location.put("HU", "47.162495,19.503304");
+					location.put("IS", "64.147209,-21.942400");
+					location.put("NO", "59.913818,10.738740");
+					location.put("RO", "45.943161,24.966761");
+					location.put("RS", "44.815071,20.460480");%>
 // map marker location by longitude and latitude
 var mymarker = [
-	<%if (blogs.size() > 0) {
-						String bres = null;
-						JSONObject bresp = null;
-						String bresu = null;
-						JSONObject bobj = null;
-						for (int k = 0; k < blogs.size(); k++) {
-							bres = blogs.get(k).toString();
-							bresp = new JSONObject(bres);
-							bresu = bresp.get("_source").toString();
-							bobj = new JSONObject(bresu);
-							if (location.has(bobj.get("location").toString())) {%>
-	 		{latLng: [<%=location.get(bobj.get("location").toString())%>], name: '<%=bobj.get("location").toString()%>'},
-			<%}
-						}
-					}%>
-]
+	<%if (locations.size() > 0) {
+						for (int i = 0; i < locations.size(); i++) {
+							ArrayList<?> loca = (ArrayList<?>) locations.get(i);
+							String loc = loca.get(0).toString();
+							String size = loca.get(1).toString();
+							int markerSize = Integer.parseInt(loca.get(1).toString());
+					
+							%>
+			{latLng: [<%=location.get(loc)%>], name: '<%=size%>' , r:<%=markerSize %>},
+	<%}
+					}%>]
   </script>
 	<script type="text/javascript"
 		src="assets/vendors/maps/jvectormap/jvectormap.min.js"></script>
@@ -3063,211 +2667,27 @@ var mymarker = [
 		src="assets/vendors/maps/jvectormap/map_files/countries/germany.js"></script>
 	<script type="text/javascript"
 		src="assets/vendors/maps/vector_maps_demo.js"></script>
-
+	<script type="text/javascript"
+		src="chartdependencies/keywordtrendd3.js"></script>
 	<!--word cloud  -->
 	<script>
-	wordtagcloud("#tagcloudcontainer",450);
-	
-	function wordtagcloud(element, height) {
-		
-		var d3Container = d3.select(element),
-        margin = {top: 5, right: 50, bottom: 20, left: 60},
-        width = d3Container.node().getBoundingClientRect().width,
-        height = height - margin.top - margin.bottom - 5;
-		
-		var container = d3Container.append("svg");
-     var frequency_list = [
-    	 <%if (topterms.length() > 0) {
-						for (int i = 0; i < topterms.length(); i++) {
-							JSONObject jsonObj = topterms.getJSONObject(i);
-							int size = 10;// new Double(jsonObj.getString("frequency")).intValue();%>
-    		{"text":"<%=jsonObj.getString("key")%>","size":<%=size%>},
-    	 <%
-						}
+	var word_count2 = {}; 
+	   <% if (top_terms.size() > 0) {
+						for (String terms : top_terms.keySet()) {
+							int size = top_terms.get(terms);%>
+			    		
+						<%-- {"text":"<%=terms.toString() %>","size":<%=size %>}, --%>
+						 word_count2["<%=terms.toString()%>"] = <%=size%> 
+	 <%}
 					}%>
-    	
-    
-    	 ];
+				
+	wordtagcloud("#tagcloudcontainer",450,word_count2);
 	
-     var color = d3.scale.linear()
-             .domain([0,1,2,3,4,5,6,10,12,15,20])
-             .range(["#0080CC", "#FFBB78", "#CE0202", "#0080CC", "#72C28E", "#D6A78D", "#FF7E7E", "#666", "#555", "#444"]);
-     var svg =  container;
-     d3.layout.cloud().size([450,400])
-             .words(frequency_list)
-             .rotate(0)
-             .padding(7)
-             .fontSize(function(d) { return d.size * 1.20; })
-             .on("end", draw)
-             .start();
-    
-       
-     function draw(words) {
-    	 		svg
-                 .attr("width", width)
-                 .attr("height", height)
-                 //.attr("class", "wordcloud")
-                 .append("g")
-                 .attr("transform", "translate("+ width/2 +",180)")
-                  .on("wheel", function() { d3.event.preventDefault(); })
-                  .call(d3.behavior.zoom().on("zoom", function () {
-                	var g = svg.selectAll("g"); 
-                  g.attr("transform", "translate("+(width/2-10) +",180)" + " scale(" + d3.event.scale + ")").style("cursor","zoom-out")
-                 }))
-                 
-                 
-                 
-                 
-                
-         		
-                 .selectAll("text")
-                 .data(words)
-                 .enter().append("text")
-                 .style("font-size", 0)
-                 .style("fill", function(d, i) { return color(i); })
-                 .call(d3.behavior.drag()
-         		.origin(function(d) { return d; })
-         		.on("dragstart", dragstarted) 
-         		.on("drag", dragged)			
-         		)
-         		
-                 .attr("transform", function(d) {
-                     return "translate(" + [d.x + 12, d.y + 3] + ")rotate(" + d.rotate + ")";
-                 })
-                 .text(function(d) { return d.text; });
-    	 		
-    	 		// animation effect for tag cloud
-    	 		 $(element).bind('inview', function (event, visible) {
-            	  if (visible == true) {
-            		  svg.selectAll("text").transition()
-                      .delay(200)
-                      .duration(1000)
-                      .style("font-size", function(d) { return d.size * 1.10 + "px"; })
-            	  } else {
-            		  svg.selectAll("text")
-                      .style("font-size", 0)
-            	  }
-            	});
-    	 		
-    	 		d3.selectAll('.zoombutton').on("click",zoomClick);
-    	 		
-    	 		var zoom = d3.behavior.zoom().scaleExtent([1, 20]).on("zoom", zoomed);
-    	 		
-    	 		function zoomed() {
-    	 			var g = svg.selectAll("g"); 
-                   g.attr("transform",
-    	 		        "translate(" + (width/2-10) + ",180)" +
-    	 		        "scale(" + zoom.scale() + ")"
-    	 		    );
-    	 		}
-    	 		
-    	 	// trasnlate and scale the zoom	
-    	 	function interpolateZoom (translate, scale) {
-    	 	    var self = this;
-    	 	    return d3.transition().duration(350).tween("zoom", function () {
-    	 	        var iTranslate = d3.interpolate(zoom.translate(), translate),
-    	 	            iScale = d3.interpolate(zoom.scale(), scale);
-    	 	        return function (t) {
-    	 	            zoom
-    	 	                .scale(iScale(t))
-    	 	                .translate(iTranslate(t));
-    	 	            zoomed();
-    	 	        };
-    	 	    });
-    	 	}
-    	 	
-    	 	// respond to click efffect on the zoom
-    	 	function zoomClick() {
-    	 	    var clicked = d3.event.target,
-    	 	        direction = 1,
-    	 	        factor = 0.2,
-    	 	        target_zoom = 1,
-    	 	        center = [width / 2-10, "180"],
-    	 	        extent = zoom.scaleExtent(),
-    	 	        translate = zoom.translate(),
-    	 	        translate0 = [],
-    	 	        l = [],
-    	 	        view = {x: translate[0], y: translate[1], k: zoom.scale()};
-    	 	    d3.event.preventDefault();
-    	 	    direction = (this.id === 'zoom_in') ? 1 : -1;
-    	 	    target_zoom = zoom.scale() * (1 + factor * direction);
-    	 	    if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
-    	 	    translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
-    	 	    view.k = target_zoom;
-    	 	    l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
-    	 	    view.x += center[0] - l[0];
-    	 	    view.y += center[1] - l[1];
-    	 	    interpolateZoom([view.x, view.y], view.k);
-    	 	}
-    	 		
-    	 		
-    	 		
-                	function dragged(d) {
-                	 var movetext = svg.select("g").selectAll("text");
-                	 movetext.attr("dx",d3.event.x)
-                	 .attr("dy",d3.event.y)
-                	 .style("cursor","move"); 
-                	 /* g.attr("transform","translateX("+d3.event.x+")")
-                	 .attr("transform","translateY("+d3.event.y+")")
-                	 .attr("width", width)
-                     .attr("height", height); */
-                	} 
-                	function dragstarted(d){
-        				d3.event.sourceEvent.stopPropagation();
-        			}
-    	 	
-                
-                 
-     }
-     // Resize chart
-     // ------------------------------
-     // Call function on window resize
-     $(window).on('resize', resize);
-     // Call function on sidebar width change
-     $('.sidebar-control').on('click', resize);
-     // Resize function
-     //
-     // Since D3 doesn't support SVG resize by default,
-     // we need to manually specify parts of the graph that need to
-     // be updated on window resize
-     function resize() {
-       // Layout variables
-       width = d3Container.node().getBoundingClientRect().width - margin.left - margin.right;
-       //
-       //
-       // // Layout
-       // // -------------------------
-       //
-       // // Main svg width
-       container.attr("width", width + margin.left + margin.right);
-       //
-       // // Width of appended group
-       svg.attr("width", width + margin.left + margin.right);
-       //
-       //
-       // // Axes
-       // // -------------------------
-       //
-       // // Horizontal range
-       //x.rangeRoundBands([0, width]);
-       //
-       // // Horizontal axis
-      // svg.selectAll('.d3-axis-horizontal').call(xAxis);
-       //
-       //
-       // // Chart elements
-       // // -------------------------
-       //
-       // // Line path
-      
-       //
-       // // Crosshair
-       // svg.selectAll('.d3-crosshair-overlay').attr("width", width);
-     }
-	}
+
 	
  </script>
-<!-- End of Tag Cloud  -->
+
+	<!-- End of Tag Cloud  -->
 	<!-- Blogger Bubble Chart -->
 	<script>
 $(function () {
@@ -3334,20 +2754,19 @@ $(function () {
 data = {
  //"name":"flare",
  "bloggers":[
-	 <%if (authorpostingfreqarr.length() > 0) {	
-			int k = 0;
-		 for(int m=0; m<authorpostingfreqarr.length(); m++){
-				String key = authorpostingfreqarr.get(m).toString();			
-				String[] splitter = key.split("___");
-				if(splitter.length>1){
-				String au = splitter[1];
-				int size =  new Double(splitter[0].toString()).intValue();
-		
-			if (size > 0 && k < 15) {
-					k++;%>
-{"label":"<%=au.toLowerCase()%>","name":"<%=au.toLowerCase()%>", "size":<%=size%>},
-<% }			}}
-		}%>
+	 
+	 
+	 <%if (bloggerPostFrequency.size() > 0) {
+						int k = 0;
+						for (int m = 0; m < bloggerPostFrequency.size(); m++) {
+							ArrayList<?> bloggerFreq = (ArrayList<?>) bloggerPostFrequency.get(m);
+							String bloggerName = bloggerFreq.get(0).toString();
+							String bloggerPostFreq = bloggerFreq.get(1).toString();
+							%>
+							{"label":"<%=bloggerName.trim( )%>","name":"<%=bloggerName.trim()%>", "size":<%=Integer.parseInt(bloggerPostFreq)%>},
+<%}
+							
+					}%>
  /* {"label":"Blogger 2","name":"Obadimu Adewale", "size":2500},
  {"label":"Blogger 3","name":"Oluwaseun Walter", "size":2800},
  {"label":"Blogger 4","name":"Kiran Bandeli", "size":900},
@@ -3544,20 +2963,17 @@ $(function () {
 data = {
  //"name":"flare",
  "bloggers":[
-	 <%if (blogpostingfreqarr.length() > 0) {
-		 int k=0;
-					 for(int m=0; m<blogpostingfreqarr.length(); m++){
-							String key = blogpostingfreqarr.get(m).toString();							
-							String[] splitter = key.split("___");
-							if(splitter.length>1){
-							String blg = splitter[1];
-							int size =  new Double(splitter[0].toString()).intValue();
-				if (size > 0 && k < 15) {
-					k++;%>
-					{"label":"<%=blg.toLowerCase()%>","name":"<%=blg.toLowerCase()%>", "size":<%=size%>},
-	<% }
-							}}
-		}%>
+	 <%
+		if (blogPostFrequency.size() > 0) {
+					for (int m = 0; m < blogPostFrequency.size() ; m++) {
+						ArrayList<?> blogFreq = (ArrayList<?>) blogPostFrequency.get(m);
+						String blogName = blogFreq.get(0).toString();
+						String blogPostFreq = blogFreq.get(1).toString();
+	%>{label:"<%=blogName%>", "size":<%=Integer.parseInt(blogPostFreq)%>, name:"<%=blogName%>", type:"blog"},
+		 <%
+		}
+						
+				}%>
  ]
 }  
       
@@ -3671,7 +3087,7 @@ data = {
     }
 });
 </script>
-<script>
+	<script>
 $(".option-only").on("change",function(e){
 	console.log("only changed ");
 	var valu =  $(this).val();
@@ -3754,12 +3170,14 @@ $(".option-lable").on("click",function(e){
          // [{"date":"Jan","close":10},{"date":"Feb","close":20},{"date":"Mar","close":30},{"date": "Apr","close": 40},{"date": "May","close": 50},{"date": "Jun","close": 60},{"date": "Jul","close": 70},{"date": "Aug","close": 80},{"date": "Sep","close": 90},{"date": "Oct","close": 100},{"date": "Nov","close": 120},{"date": "Dec","close": 140}],
          // ];
          data = [	
-        	[<% for(int q=0; q<sortedyearsarray.length(); q++){ 
-     		  		String yer=sortedyearsarray.get(q).toString(); 
-     		  		int vlue = new Double(graphyears.get(yer).toString()).intValue();
-     		  %>
-     		  			{"date":"<%=yer%>","close":<%=vlue%>},
-     		<% } %>
+        	[<%
+        	 if (postingTrend.size() > 0) {
+					for (int key: postingTrend.keySet()) {
+						/* String postYear = postingTrend.get(key).toString(); */
+						int postCount = Integer.parseInt(postingTrend.get(key).toString());
+						%>
+     		  			{"date":"<%=key%>","close":<%=postCount%>},
+     		<%}}%>
      		]
      	  
         	 /*
@@ -3828,7 +3246,7 @@ $(".option-lable").on("click",function(e){
              .x(function(d) { return x(d.date); })
              .y(function(d) { return y(d.close); });
          
-              // .x(function(d){d.forEach(function(e){return x(d.date);})})
+	        // .x(function(d){d.forEach(function(e){return x(d.date);})})
              // .y(function(d){d.forEach(function(e){return y(d.close);})});
   			
          // Create tooltip
@@ -4219,7 +3637,7 @@ $(".option-lable").on("click",function(e){
              .domain([0,1,2,3,4,5,6,10,15,20,80])
              .range(["#17394C", "#F5CC0E", "#CE0202", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
  </script>
- <script>
+	<script>
 	
  $(document).ready(function() {
 		$('#top-sorttype').on("change",function(e){	
@@ -4339,9 +3757,12 @@ $(".option-lable").on("click",function(e){
 		});
 	}
  </script>
- <!-- <script src="pagedependencies/dashboard.js?v=09"></script> -->
- 
+	<!-- <script src="pagedependencies/dashboard.js?v=09"></script> -->
+
 </body>
 </html>
 
-<% }} %>
+<%
+	}
+	}
+%>
