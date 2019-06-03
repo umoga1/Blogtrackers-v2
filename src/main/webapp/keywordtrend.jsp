@@ -749,6 +749,7 @@
 													String dselected = "";
 													if(i==0){
 														dselected = "abloggerselected";
+														mostactiveterm = tm;
 													}
 																			
 											%><a class="btn btn-primary form-control select-term bloggerinactive mb20 <%=dselected%> size-<%=size%>" id="<%=tm.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=tm%></b></a>
@@ -883,7 +884,7 @@
 												
 										        String str = tobj.get("post").toString()+" "+ tobj.get("post").toString();
 												str = str.toLowerCase();
-												mostactiveterm = mostactiveterm.toLowerCase();
+												//mostactiveterm = mostactiveterm.toLowerCase();
 										        String findStr = mostactiveterm;
 												int lastIndex = 0;
 												//int count = 0;
