@@ -28,7 +28,7 @@
 	Object date_end = (null == request.getParameter("date_end")) ? "" : request.getParameter("date_end");
 	Object single = (null == request.getParameter("single_date")) ? "" : request.getParameter("single_date");
 	String sort =  (null == request.getParameter("sortby")) ? "blog" : request.getParameter("sortby").toString().replaceAll("[^a-zA-Z]", " ");
-
+	int selectedkeycount  = 0;
 
 	if (user == null || user == "") {
 		response.sendRedirect("index.jsp");
@@ -750,6 +750,7 @@
 													if(i==0){
 														dselected = "abloggerselected";
 														mostactiveterm = tm;
+														selectedkeycount = term.getTermOcuurence(tm, dt, dte);;
 													}
 																			
 											%><a class="btn btn-primary form-control select-term bloggerinactive mb20 <%=dselected%> size-<%=size%>" id="<%=tm.replaceAll(" ","_")%>***<%=terms_id%>"><b><%=tm%></b></a>
@@ -797,7 +798,7 @@
 
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Keyword Count</h6>
-								<h2 class="mb0 bold-text blogger-mentioned"><%=NumberFormat.getNumberInstance(Locale.US).format(topterms.length())%></h2>
+								<h2 class="mb0 bold-text blogger-mentioned"><%=NumberFormat.getNumberInstance(Locale.US).format(selectedkeycount)%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 							

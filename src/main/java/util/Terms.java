@@ -637,8 +637,7 @@ public Integer getTermOcuurence(String term,String start_date,String end_date) {
 		tresu = tresp.get("_source").toString();
 		tobj = new JSONObject(tresu);
 		
-				int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);
-				
+				int bodyoccurencece = 0;//ut.countMatches(tobj3.get("post").toString(), mostactiveterm);			
 		        String str = tobj.get("post").toString()+" "+ tobj.get("post").toString();
 		        str = str.toLowerCase();
 		        term = term.toLowerCase();
