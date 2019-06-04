@@ -1816,19 +1816,36 @@ authoryears.put(mostactiveblogger,postyear);
          // ------------------------------
          //
          data = [[
-         <% if (influenceBlogger.size() > 0) {
+         <% 
+         
+         if (influenceBlogger.size() > 0) {
 				for (int y = 0; y < influenceBlogger.size(); y++) {
 					if(y<10){
 				ArrayList<?> bloggerInfluence = (ArrayList<?>) influenceBlogger.get(y);
 				String au = bloggerInfluence.get(0).toString();
 				
 				JSONObject jxy = new JSONObject(influecechart.get(au).toString());
-   			  		int xaxis = new Double(jxy.get("x").toString()).intValue();		
-   			  		int yaxis = new Double(jxy.get("y").toString()).intValue(); %>{"x":<%= xaxis%>,"y":<%=yaxis%>},<% }}} %>]   		
+   			  	int xaxis = new Double(jxy.get("x").toString()).intValue();		
+   			  	int yaxis = new Double(jxy.get("y").toString()).intValue();
+   			  
+   			  	%>{"x":<%= xaxis%>,"y":<%=yaxis%>},<% }}} %>]   		
          ];
 
-         // data = [];
-		
+        var labels = [];
+        <% 
+        if (influenceBlogger.size() > 0) {
+				for (int y = 0; y < influenceBlogger.size(); y++) {
+					if(y<10){
+				ArrayList<?> bloggerInfluence = (ArrayList<?>) influenceBlogger.get(y);
+				String au = bloggerInfluence.get(0).toString();
+				
+				JSONObject jxy = new JSONObject(influecechart.get(au).toString());
+  			  	int xaxis = new Double(jxy.get("x").toString()).intValue();		
+  			  	int yaxis = new Double(jxy.get("y").toString()).intValue();
+  			  	String key = xaxis+""+yaxis;
+  			  	%>
+  			 labels[<%=key%>] = "<%=au%>";
+  			<% }}} %>
          /*
 	           [{"x":12,"y":40},{"x":15,"y":30},{"x":18,"y":12.5},{"x":11,"y":22},{"x":5,"y":19}],
 	           [{"x":8,"y":35},{"x":14,"y":22},{"x":27,"y":33},{"x":11.5,"y":-16},{"x":-12,"y":-11}],
@@ -1854,8 +1871,10 @@ authoryears.put(mostactiveblogger,postyear);
                   return "No Information Available";
                 }
                 else if(d !== null) {
-                 return " ( Influence="+d.x+", Activity="+d.y+")<br/> Click for more information";
-                  }
+                	var ky = d.x+""+d.y;
+                	console.log(ky);
+                 return " ( Influence="+d.x+", Activity="+d.y+".Blogger:"+labels[ky]+" )<br/> Click for more information";
+                }
 
                 });
 
