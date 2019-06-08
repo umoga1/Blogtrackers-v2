@@ -1005,7 +1005,7 @@
 										<th>Frequency</th>
 										<th>Post Count</th>
 										<th>Blog Count</th>
-										<th>Keyword Count</th>
+										<!-- <th>Keyword Count</th> -->
 										<!-- <th>Leading Blogger</th>
 										<th>Language</th>
 										<th>Location</th> -->
@@ -1029,7 +1029,7 @@
 								%>
 									<tr>
 										<td><%=terms%></td>
-										<td><%=NumberFormat.getNumberInstance(Locale.US).format(size)%></td>
+										<%-- <td><%=NumberFormat.getNumberInstance(Locale.US).format(size)%></td> --%>
 										<td><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(postcount))%> <%-- <sub>of <%=postcount%></sub> --%></td>
 										<td><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(blogcount))%> <%-- <sub>of <%=blogcount%></sub> --%></td>
 										<td><%=NumberFormat.getNumberInstance(Locale.US).format(keycount)%> <%-- <sub>of <%=bloggercount%></sub> --%></td>
