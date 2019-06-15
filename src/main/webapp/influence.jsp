@@ -42,6 +42,7 @@ Blogpost_entitysentiment blogpostsentiment  = new Blogpost_entitysentiment();
 ArrayList allterms = new ArrayList(); 
 ArrayList allentitysentiments = new ArrayList(); 
 Comment comment = new Comment();
+Blogger blg = new Blogger();
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
 if (userinfo.size()<1) {
@@ -255,6 +256,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	float totalinfluence = 0;
 	
 	String mostactiveblogger="";
+	String mostactivebloggerId ="";
 
 	String mostusedkeyword = "";
 	String fsid = "";
@@ -498,6 +500,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 									-->
 							    
 							<%
+							System.out.println("0-1");
 								JSONObject influecechart = new JSONObject();
 								JSONObject authors = new JSONObject();
 								JSONObject authoryears = new JSONObject();
@@ -513,22 +516,27 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 							
 							    if (influenceBlogger.size() > 0) {
 									int k = 0;
-									for (int y = 0; y < influenceBlogger.size(); y++) {
+									for (int y = 0; y < 10; y++) {
 									ArrayList<?> bloggerInfluence = (ArrayList<?>) influenceBlogger.get(y);
 									String bloggerInf = bloggerInfluence.get(0).toString();
 									String bloggerInfFreq = bloggerInfluence.get(1).toString();
 									String blogsiteid = bloggerInfluence.get(2).toString();
+								
 									
 									String dselected = "";
 								
 									String postids = "";					
 										if (k < 10) {
 												
-												String postcount = post._searchRangeTotalByBlogger("date", dt, dte, bloggerInf);				    	
+												//String postcount = post._searchRangeTotalByBlogger("date", dt, dte, bloggerInf);		
+												String postcount = blg._getpostByBlogger(bloggerInf);
+												
+												String freq = "";
+												
 												JSONObject xy = new JSONObject();
 										    	
 										    	String xaxis =  postcount;//post._searchRangeTotal("date", dt, dte, blogid);
-										    	int val = new Double(post._searchRangeMaxTotalByBloggers(bloggerInf)).intValue(); 
+										    	int val = new Double(blg._getInfluenceByBlogger(bloggerInf)).intValue(); 
 										    	
 										    	String yaxis = val+"";
 										    	xy.put("x",yaxis);
@@ -539,7 +547,9 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										    	
 											if(k==0){
 												dselected = "abloggerselected";
-												mostactiveblogger = bloggerInf;								
+												mostactiveblogger = bloggerInf;	
+												mostactivebloggerId = blogsiteid;
+												
 												allposts =  post._getBloggerByBloggerName("date",dt, dte,bloggerInf,"influence_score","DESC");
 											}
 											%>
@@ -551,7 +561,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 														
 										}
 									}
-							    }			
+							    }	
 							%>
 
 						</div>
@@ -576,6 +586,7 @@ int comb = new Double(possentiment2).intValue() + new Double(negsentiment2).intV
 //String totalcomment = tcomment+"";// post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
 
 String totalcomment =  comment._getCommentByBlogger(mostactiveblogger);
+
 String formattedtotalcomment = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment));
 
 totalinfluence  = Float.parseFloat(post._searchRangeMaxTotalByBloggers(mostactiveblogger));
@@ -584,14 +595,15 @@ String formatedtotalinfluence = NumberFormat.getNumberInstance(Locale.US).format
 
 totalpost = post._searchRangeTotalByBlogger("date",dt, dte, mostactiveblogger);
 String formattedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
-
+System.out.println("6");
 String totalsenti  = comb+"";
 
 //allterms = term._searchByRange("blogpostid", dt, dte,postidss);
-allterms = term.getTermsByBlogger(mostactiveblogger, dt, dte);
+//allterms = term.getTermsByBlogger(mostactiveblogger, dt, dte);
+allterms = term._getBloggerTermById("blogsiteid", dt, dte, mostactivebloggerId);
 
 int highestfrequency = 0;
-
+System.out.println("7");
 Map<String, Integer> topterms = new HashMap<String, Integer>();
 if (allterms.size() > 0) {
 	for (int p = 0; p < allterms.size(); p++) {
@@ -618,7 +630,6 @@ if (allterms.size() > 0) {
 		
 	}
 }
-
 
 
 
@@ -888,6 +899,7 @@ authoryears.put(mostactiveblogger,postyear);
 		<input type="hidden" name="tid" id="alltid" value="<%=tid%>" />
 		<input type="hidden" name="blogid" id="blogid" value="<%=selectedid%>" />
 		<input type="hidden" name="author" id="author" value="<%=mostactiveblogger%>" /> 
+		<input type="hidden" name="bloggerId" id="bloggerId" value="<%=mostactivebloggerId%>" /> 
 		<input type="hidden" name="single_date" id="single_date" value="" />
 		
 		<input type="hidden" name="date_start" id="date_start" value="<%=dt%>" /> 

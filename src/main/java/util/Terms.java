@@ -139,6 +139,64 @@ public ArrayList _searchByRange(String field,String greater, String less, ArrayL
   
 }
 
+public ArrayList _getBloggerTermById(String field,String greater, String less, String blog_ids) throws Exception {
+	blog_ids = blog_ids.replaceAll(",$", "");
+	blog_ids = blog_ids.replaceAll(", $", "");
+ 
+	
+	String[] args = blog_ids.split(","); 
+
+	
+	 JSONArray pars = new JSONArray(); 
+	 ArrayList<String> ar = new ArrayList<String>();	
+	 for(int i=0; i<args.length; i++){
+		 pars.put(args[i].replaceAll(" ", ""));
+	 }
+	 String arg2 = pars.toString();
+		JSONObject jsonObj  = new JSONObject("{\r\n" + 
+		 		"	\"size\":2000,\r\n" +
+				"       \"query\": {\r\n" + 
+				"          \"bool\": { \r\n" + 
+				"               \"must\": {\r\n" + 
+		 		"						  \"constant_score\":{ \r\n" + 
+		 		"									\"filter\":{ \r\n" + 
+		 		"											\"terms\":{ \r\n" + 
+		 		"											\""+field+"\":"+arg2+"\r\n"+
+		 		"													}\r\n" + 
+		 		"											}\r\n" + 
+		 		"										} \r\n" + 
+				"                },\r\n" + 
+				"                \"filter\": {\r\n" + 
+				"                    \"range\" : {\r\n" + 
+				"                        \"date\" : {\r\n" + 
+				"                            \"gte\": \""+greater+"\",\r\n" + 
+				"                            \"lte\": \""+less+"\"\r\n" + 
+				"                        }\r\n" + 
+				"                    }\r\n" + 
+				"                }\r\n" + 
+				"            }\r\n" + 
+				"        },\r\n" +  
+		 		"   	\"sort\":{\r\n" + 
+		 		"		\"frequency\":{\r\n" + 
+		 		"			\"order\":\"DESC\"\r\n" + 
+		 		"			}\r\n" + 
+		 		"		}\r\n" + /*
+				"    	\"aggregations\": {\r\n" + 
+		 		"        	\"term\": {\r\n" + 
+		 		"            \"terms\": {\r\n" + 
+		 		"                \"field\": \"term\"\r\n" +
+		 		"            }\r\n" + 
+		 		"        	}\r\n" + 
+		 		"    	}\r\n"+ */
+				"    }");
+		
+		
+	//jsonObj = new JSONObject(que3);
+    String url = base_url+"_search";
+    return this._getResult(url,jsonObj);
+  
+}
+
 public ArrayList _searchByRange(String field,String greater, String less, String blog_ids) throws Exception {
 	blog_ids = blog_ids.replaceAll(",$", "");
 	blog_ids = blog_ids.replaceAll(", $", "");
@@ -255,7 +313,7 @@ public ArrayList getTermsByBlogger(String blogger,String date_start, String date
 	
 	try {
 		//response = db.queryJSON("SELECT * FROM terms WHERE blogpostid IN "+blog_ids+" ");
-		response = db.queryJSON("SELECT (select blogpost_id from blogposts bp where bp.blogpost_id = tm.blogpostid AND bp.blogger='"+blogger+"' ) as blogpostid, tm.blogsiteid as blogsiteid, tm.blogpostid as blogpostid, tm.term as term, tm.frequency as frequency   FROM terms tm ORDER BY tm.frequency DESC LIMIT 50 ");
+		response = db.queryJSON("SELECT (select blogpost_id from blogposts bp where bp.blogpost_id = tm.blogpostid AND bp.blogger='"+blogger+"' ) as blogpostid, tm.blogsiteid as blogsiteid, tm.blogpostid as blogpostid, tm.term as term, tm.frequency as frequency FROM terms tm ORDER BY tm.frequency DESC LIMIT 50 ");
 	}catch(Exception e){
 		return response;
 	}

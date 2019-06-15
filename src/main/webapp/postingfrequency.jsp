@@ -41,8 +41,7 @@ Blogpost_entitysentiment blogpostsentiment  = new Blogpost_entitysentiment();
 ArrayList allterms = new ArrayList(); 
 ArrayList allentitysentiments = new ArrayList(); 
 
-String posi = "";
-String neg = "";
+
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
 if (userinfo.size()<1) {
 	response.sendRedirect("login.jsp");
@@ -52,7 +51,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	username = (null==userinfo.get(0))?"":userinfo.get(0).toString();
 	
 	name = (null==userinfo.get(4))?"":(userinfo.get(4).toString());
-		
+	
+	
 	email = (null==userinfo.get(2))?"":userinfo.get(2).toString();
 	phone = (null==userinfo.get(6))?"":userinfo.get(6).toString();
 	//date_modified = userinfo.get(11).toString();
@@ -68,6 +68,8 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	if(userpic.indexOf("http")>-1){
 		profileimage = userpic;
 	}
+	
+	
 	
 	File f = new File(filename);
 	if(f.exists() && !f.isDirectory()) { 
@@ -276,8 +278,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 			fsid = mostactiveblogid+","+secondactiveid;
 		}
 	}
-	System.out.println("post ids "+ids);
-	System.out.println("most" +mostactiveblogid);
+	
 
 	toplocation = blog._getTopLocation(mostactiveblogid);
 
@@ -286,27 +287,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 	JSONObject authoryears = new JSONObject();
 	JSONObject years = new JSONObject();
 	JSONArray yearsarray = new JSONArray();
-	Liwc liwc = new Liwc();
-	ArrayList getPositiveEmotion = liwc._getPosEmotion(mostactiveblogid);
-	// slow
-
-	ArrayList getNegativeEmotion = liwc._getNegEmotion(mostactiveblogid);
-	
-
-
-		for (int i = 0; i <getPositiveEmotion.size(); i++){
-			ArrayList<?> posit = (ArrayList<?>) getPositiveEmotion.get(i);
-			posi = posit.get(0).toString();
-		} 
-    	for (int i = 0; i <getNegativeEmotion.size(); i++){
-			ArrayList<?> nega = (ArrayList<?>) getNegativeEmotion.get(i);
-			neg = nega.get(0).toString();
-		} 
-
-	// slow
-
-
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -496,8 +476,6 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 					<%
 					String dselected = "";
 					String selectedid="";
-					String pids ="";
-					ArrayList postid = new ArrayList();
 					if (bloggerPostFrequency.size() > 0) {
 						int p = 0;
 						for (int m = 0; m < bloggerPostFrequency.size(); m++) {
@@ -510,14 +488,12 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 										if(m==0){
 												dselected = "abloggerselected";
 												mostactiveblogger = bloggerName;
-
-												pids = post._getPostIdsByBloggerName("date",dt, dte,bloggerName,"date","DESC");
-												allterms = term._searchByRange("blogpostid", dt, dte, pids);//_searchByRange("blogpostid",dt, dte,postids);
+												//String pids = post._getPostIdsByBloggerName("date",dt, dte,bloggerName,"date","DESC");
+												allterms = term._searchByRange("blogsiteid", dt, dte, blogsiteId);//_searchByRange("blogpostid",dt, dte,postids);
 												
-												System.out.println("Post ids "+pids); 
 												System.out.println("Top terms "+allterms);
-											/* 	allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, pids);
-												 selectedid=blogsiteId; */
+												allentitysentiments = blogpostsentiment._searchByRange("date", dt, dte, blogsite_id);
+												 selectedid=blogsiteId; 
 												allposts = post._getBloggerByBloggerName("date",dt, dte,bloggerName,"date","DESC");							
 										}else{
 												dselected = "";
@@ -640,17 +616,15 @@ if (bloggerPostFrequency.size() > 0) {
 }
 
 
-String sentimentval = "";
+String sentimentval = "Positive";
 String sentimentcolor = "";
-if(Integer.parseInt(posi) > Integer.parseInt(neg))
+if(sentimentval.equalsIgnoreCase("negative"))
 {
-	sentimentval = "Positive";
 	sentimentcolor = "#FF7D7D";
 }
-else
+else if(sentimentval.equalsIgnoreCase("positive"))
 {
-	sentimentval = "Negative"; 
-	sentimentcolor = "#FF0000";
+	sentimentcolor = "#72C28E";
 }
 
 totalpost =  post._searchRangeTotalByBlogger("date", dt, dte, mostactiveblogger);

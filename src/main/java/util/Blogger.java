@@ -63,6 +63,43 @@ public class Blogger {
 
 	}
 	
+	public String _getpostByBlogger(String bloggerName) throws Exception {
+		ArrayList result = new ArrayList();
+		String count = "";
+
+		DbConnection db = new DbConnection();
+	
+		try {
+
+			result = db.query("SELECT sum(blogpost_count) FROM blogger where blogger_name = '"+bloggerName+"'");		
+			if(result.size()>0){
+			 	ArrayList hd = (ArrayList)result.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+		}
+		return count;
+
+	}
+	
+	public String _getInfluenceByBlogger(String bloggerName) throws Exception {
+		ArrayList result = new ArrayList();
+		String count = "";
+
+		DbConnection db = new DbConnection();
+	
+		try {
+
+			result = db.query("SELECT sum(influence_score) FROM blogtrackers.blogger where blogger_name = '"+bloggerName+"'");		
+			if(result.size()>0){
+			 	ArrayList hd = (ArrayList)result.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+		}
+		return count;
+
+	}
 	
 	
 }

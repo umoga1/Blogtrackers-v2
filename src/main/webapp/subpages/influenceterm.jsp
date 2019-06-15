@@ -18,12 +18,16 @@ Object date_end = (null == request.getParameter("date_end")) ? "" : request.getP
 //Object post_ids = (null == request.getParameter("post_ids")) ? "" : request.getParameter("post_ids");
 Object blogger = (null == request.getParameter("blogger")) ? "" : request.getParameter("blogger");
 
+Object bloggerId = (null == request.getParameter("bloggerId")) ? "" : request.getParameter("bloggerId");
+System.out.println(bloggerId);
+
 Object action = (null == request.getParameter("action")) ? "" : request.getParameter("action");
 
 String dt = date_start.toString();
 String dte = date_end.toString();
 //ArrayList allterms = new Terms()._searchByRange("blogsiteid", dt, dte, post_ids.toString());
 int highestfrequency = 0;
+
 ArrayList allterms = new Terms().getTermsByBlogger(blogger.toString(), dt.toString(), dte.toString());
 
 String mostusedkeyword="";

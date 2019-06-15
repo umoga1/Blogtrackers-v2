@@ -77,7 +77,7 @@ Blogs blog  = new Blogs();
 						for(int y=ystint; y<=yendint; y++){ 
 								   String v1 = postyear.get(y+"").toString();
 								  
-								   postyear.put(y+"",(Integer.parseInt(v1)+base));
+								   postyear.put(y+"",(new Double(v1).intValue())+base);
 						}					
 				}
 				authoryears.put(bloggerstr,postyear);

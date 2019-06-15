@@ -78,7 +78,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 
 	 String arg2 = pars.toString();
 	 String que ="{\r\n" + 
-		 		"	\"size\":20,\r\n" + 
+		 		"	\"size\":1000,\r\n" + 
 		 		"	\r\n" + 
 		 		"	\"query\": { \r\n" + 
 		 		"			 \"bool\": {\r\n" + 

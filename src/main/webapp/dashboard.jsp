@@ -368,7 +368,6 @@
 	}catch(Exception e){
 		System.err.println(e);
 	}
-	 		System.out.println("Outlinks -:"+outlinks);
 			
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
