@@ -160,6 +160,11 @@ $(document).ready(function(){
     			    $.getScript("assets/js/toastr.js", function(data, textStatus, jqxhr) {
 	        			 loadCSS("assets/css/toastr.css");
 	        			 toastr.success("Tracker created","Success");
+	        			 
+	        			 setTimeout(function(){
+	     					location.href = "trackerlist.jsp";	
+	     				}, 2000);
+	        			 
 	        		  });
     			    
 	        }else{

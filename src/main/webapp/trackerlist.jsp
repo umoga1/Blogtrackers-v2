@@ -309,7 +309,7 @@
 								String dtt =resut.get(3).toString();
 								totalpost = 0;
 								String dt = "";
-								String bloggerCount = "";
+								String bloggerCount = "0";
 								if (!dtt.equals("null")){
 									String[] ddt = dtt.split(" ");
 									dt = ddt[0];
@@ -347,6 +347,7 @@
 									String tot = post._searchRangeTotal("date", dst, dend, query);
 									totalpost = Integer.parseInt(tot);
 									*/
+									System.out.println("quer"+query);
 									totalpost = Integer.parseInt(post._getBlogPostById(query));
 								}
 			%>
