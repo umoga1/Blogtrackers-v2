@@ -1057,18 +1057,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 <form action="" name="customform" id="customform" method="post">
 <input type="hidden" id="term" value="<%=mostactiveterm%>" />
 <input type="hidden" id="date_start" value="<%=dt%>" />
