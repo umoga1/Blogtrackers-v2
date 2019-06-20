@@ -1093,7 +1093,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 		
 		return response;
 		*/
-		
+		/*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"  \"query\": {\r\n" + 
 				"        \"query_string\" : {\r\n" + 
@@ -1107,13 +1107,13 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 				"			}\r\n" + 
 				"	}\r\n" + 
 				"}");
-		/*
+		*/
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
 				"               \"must\": {\r\n" + 
 				"                    \"query_string\" : {\r\n" + 
-				"            			\"fields\" : [\"post\",\"post\"],\r\n" + 
+				"            			\"fields\" : [\"title\",\"post\"],\r\n" + 
 				"            			\"query\" : \""+term+"\"\r\n" + 
 				"                    }\r\n" + 
 				"                },\r\n" + 
@@ -1128,7 +1128,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 				"            }\r\n" + 
 				"        }\r\n" + 
 				"    }");
-	   */
+	   
 		String url = base_url+"_search?size="+size; 
 		//System.out.println(url);
 		return this._getResult(url, jsonObj);

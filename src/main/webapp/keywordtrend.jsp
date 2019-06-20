@@ -128,6 +128,7 @@
 			String stdate = post._getDate(ids,"first");
 			String endate = post._getDate(ids,"last");
 			
+			
 			Date dstart = new Date();//SimpleDateFormat("yyyy-MM-dd").parse(stdate);
 			Date today = new Date();//SimpleDateFormat("yyyy-MM-dd").parse(endate);
 

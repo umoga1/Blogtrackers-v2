@@ -105,7 +105,7 @@ if(action.toString().equals("getstats")){
 %>
 <%=result.toString()%>
 <% }else if(action.toString().equals("gettable")){
-	//System.out.println("start:"+dt+",End:"+dte); 
+	System.out.println("start:"+dt+",End:"+dte); 
 %>
 
           <%  
