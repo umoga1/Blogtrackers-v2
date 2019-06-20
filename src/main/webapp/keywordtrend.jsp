@@ -128,6 +128,7 @@
 			String stdate = post._getDate(ids,"first");
 			String endate = post._getDate(ids,"last");
 			
+			
 			Date dstart = new Date();//SimpleDateFormat("yyyy-MM-dd").parse(stdate);
 			Date today = new Date();//SimpleDateFormat("yyyy-MM-dd").parse(endate);
 
@@ -962,12 +963,11 @@
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=title%></h5>
 										<div class="text-center mb20 mt20">
-											<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid.toString()%>&blogger=<%=tobj.get("blogger")%>">
-											<button class="btn stylebuttonblue">
+											
+											<button class="btn stylebuttonblue" onclick="window.location.href = '<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid%>&blogger=<%=tobj.get("blogger")%>'">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											</a>
 											<button class="btn stylebuttonnocolor nocursor"><%=date %></button>
 											<button class="btn stylebuttonnocolor nocursor">
 												<b class="float-left ultra-bold-text"><%=tobj.get("num_comments")%> comments</b><i
@@ -1085,8 +1085,7 @@
 	<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>
 	<script src="assets/bootstrap/js/bootstrap.js">
  </script>
-	<script src="assets/js/generic.js">
- </script>
+	<!--  <script src="assets/js/generic.js"></script> -->
 	<script src="assets/vendors/bootstrap-daterangepicker/moment.js"></script>
 	<script
 		src="assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>

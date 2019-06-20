@@ -280,6 +280,7 @@ function loadSinglePost(blogger,blog_id,start_date,end_date){
 			action:"getchart",
 			blogger:blogger,
 			blog_id:blog_id,
+			tid:$("#alltid").val(),
 			sort:"date",
 			date_start:start_date,
 			date_end:end_date,

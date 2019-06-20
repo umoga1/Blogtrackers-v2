@@ -825,12 +825,12 @@ String formatedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Inte
 									%>                                    
                                     <h5 class="text-primary p20 pt0 pb0"><%=tobj.get("title")%></h5>
 										<div class="text-center mb20 mt20">
-											<a href="<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid%>&blogger=<%=tobj.get("blogger")%>">
-											<button class="btn stylebuttonblue">
+											
+											<button onclick="window.location.href = '<%=request.getContextPath()%>/bloggerportfolio.jsp?tid=<%=tid%>&blogger=<%=tobj.get("blogger")%>'"  class="btn stylebuttonblue">
 												<b class="float-left ultra-bold-text"><%=tobj.get("blogger")%></b> <i
 													class="far fa-user float-right blogcontenticon"></i>
 											</button>
-											</a>
+											
 											<button class="btn stylebuttonnocolor nocursor"><%=date %></button>
 									
 											<button class="btn stylebuttonnocolor nocursor">
@@ -1765,7 +1765,7 @@ console.log("here");
 <script src="pagedependencies/baseurl.js?v=93"></script>
 
  <script src="assets/js/generic.js"></script>
-<script src="pagedependencies/postingfrequency.js?v=89166990"></script>
+<script src="pagedependencies/postingfrequency.js?v=789166990"></script>
 
 </body>
 </html>
