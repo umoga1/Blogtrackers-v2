@@ -92,7 +92,7 @@ public class Blogposts {
 		String arg2 = pars.toString();
 		//String que = "{\"query\": {\"constant_score\":{\"filter\":{\"terms\":{\"blogsite_id\":"+arg2+"}}}},\"sort\":{\"date\":{\"order\":\"ASC\"}}}";
 		String que="{\r\n" + 
-				"	\"size\":20,\r\n" + 
+				"	\"size\":50,\r\n" + 
 				"		\"sort\":{ \r\n" + 
 				"			\"date\":{\r\n" + 
 				"				\"order\":\"asc\"\r\n" + 
@@ -161,7 +161,7 @@ public class Blogposts {
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers) throws Exception {
 		
-		int size =20;
+		int size =50;
 		DbConnection db = new DbConnection();
 		String count = "0";
 		System.out.println("SELECT *  FROM blogposts WHERE blogger = '"+bloggers+"' AND "+field+">='"+greater+"' AND "+field+"<='"+less+"' ORDER BY date ASC LIMIT "+size+"");	
@@ -245,7 +245,7 @@ public class Blogposts {
 	
 	
 	public String _getPostIdsByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
-		int size =20;
+		int size =50;
 		DbConnection db = new DbConnection();
 		String ids = "";
 		ArrayList result = new ArrayList();
@@ -273,7 +273,7 @@ public class Blogposts {
 	
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers, String sort, String order) throws Exception {
-		int size =20;
+		int size =50;
 		DbConnection db = new DbConnection();
 		String count = "0";
 		ArrayList result = new ArrayList();
@@ -909,7 +909,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 	
 	
 	public ArrayList _getBloggerByBlogId(String field,String greater, String less,String blog_ids,String sort,String order) throws Exception {
-		int size= 20;
+		int size= 50;
 		/*
 		blog_ids = blog_ids.replaceAll(",$", "");
 		blog_ids = blog_ids.replaceAll(", $", "");
@@ -932,7 +932,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 		return response;
 		*/
 		
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=50";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -1386,7 +1386,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 	
 	
 	public ArrayList _getPostByBlogger(String blogger)throws Exception {
-		int size = 20;
+		int size = 50;
 		DbConnection db = new DbConnection();
 		ArrayList response = new ArrayList();
 		try {
@@ -1503,7 +1503,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 
 	/* Fetch posts by blog ids*/
 	public ArrayList _getPostByBlogId(String blog_ids,String from) throws Exception {
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=50";
 		String[] args = blog_ids.split(","); 
 		JSONArray pars = new JSONArray(); 
 		ArrayList<String> ar = new ArrayList<String>();	
@@ -1834,7 +1834,7 @@ public ArrayList _searchPostTotal(String field, int greater, int less, String bl
 				"}");
 
 
-		String url = base_url+"_search?size=20";
+		String url = base_url+"_search?size=50";
 		return this._getResult(url, jsonObj);
 
 	}
