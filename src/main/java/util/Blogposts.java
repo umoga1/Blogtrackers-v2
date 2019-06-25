@@ -1933,6 +1933,7 @@ public ArrayList _searchPostTotal(String field, int greater, int less, String bl
 	
 	
 	public String NormalizedOutput(String value) {
+		System.out.println("Output:"+value);
 		switch(value) {
 			case("-2"): return "Very Low";
 			case("-1"): return "Low";
