@@ -89,8 +89,9 @@ if(action.toString().equals("gettotal")){
 
 	int comb = Integer.parseInt(possentiment)+Integer.parseInt(negsentiment);
 	
-	Float highestinfluence = Float.parseFloat(post._searchLowMaxInfluence("DESC"));
-	Float lowestinfluence = Float.parseFloat(post._searchLowMaxInfluence("ASC"));
+	Float highestinfluence = Float.parseFloat(post._searchMaxInfluence());
+	Float lowestinfluence = Float.parseFloat(post._searchMinInfluence());
+
 
 
 	Float highestsentiment = Float.parseFloat(liwc._getHighestPosSentiment());
