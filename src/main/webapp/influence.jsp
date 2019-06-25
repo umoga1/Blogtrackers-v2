@@ -597,8 +597,8 @@ Float highestsentiment = Float.parseFloat(liwc._getHighestPosSentiment());
 Float lowestsentiment = Float.parseFloat(liwc._getLowestNegSentiment());
 Float totalsentiment = Float.parseFloat(comb+"");
 
-Float normalizedinfluence =  (2-(-2))*((totalinfluence-lowestinfluence)/(highestinfluence-lowestinfluence))+(-2);
-Float normalizedsentiment =  (2-(-2))*((totalsentiment-lowestsentiment)/(highestinfluence-lowestsentiment))+(-2);
+int normalizedinfluence =  Math.round((2-(-2))*((totalinfluence-lowestinfluence)/(highestinfluence-lowestinfluence))+(-2));
+int normalizedsentiment =  Math.round((2-(-2))*((totalsentiment-lowestsentiment)/(highestinfluence-lowestsentiment))+(-2));
 
 String formatedtotalinfluence = NumberFormat.getNumberInstance(Locale.US).format(totalinfluence);
 

@@ -1940,7 +1940,7 @@ public ArrayList _searchPostTotal(String field, int greater, int less, String bl
 			case("0"): return "Medium";
 			case("1"): return "High";
 			case("2"): return "Very High";
-			default :return "Non";
+			default :return "Very High";
 		}
 	}
 	
