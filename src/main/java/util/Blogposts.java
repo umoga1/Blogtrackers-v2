@@ -1942,6 +1942,8 @@ public ArrayList _searchPostTotal(String field, int greater, int less, String bl
 			default :return "Non";
 		}
 	}
+	
+	
 	public String _getTotalTest(String url, JSONObject jsonObj) throws Exception {
 		String total = "0";
 		try {

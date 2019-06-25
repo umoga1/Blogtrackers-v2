@@ -20,14 +20,14 @@ import util.Trackers;
 /**
  * Servlet implementation class CreateTracker
  */
-@WebServlet("/api/createtracker")
-public class CreateTracker extends HttpServlet {
+@WebServlet("/api/deletetracker")
+public class DeleteTracker extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateTracker() {
+    public DeleteTracker() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,11 +43,9 @@ public class CreateTracker extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 * @ params
+	 *  * @ params
 	 * 
-	 String trackerName
-	 String description 
-	 String blogs //blog ids
+	 String tracker_id
 	 String userid 
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -56,7 +54,7 @@ public class CreateTracker extends HttpServlet {
 		String key= (null == session.getAttribute("key")) ? "" : session.getAttribute("key").toString();
 		
 		PrintWriter pww = response.getWriter();
-		pww.write("In create tracker endpoint \n");
+		pww.write("In delete tracker endpoint \n");
 		String data = "";   
 	    StringBuilder builder = new StringBuilder();
 	    BufferedReader reader = request.getReader();
@@ -86,7 +84,7 @@ public class CreateTracker extends HttpServlet {
 	    try {
 	    	object = new JSONObject(data);	
 	    	Trackers t = new Trackers();
-	    	t._add(userid,object);
+	    	t._delete(object.getString("tracker_id"));
 	    	pww.write("success");
 	    }catch (Exception e) {
 	    	pww.write("error");
@@ -94,6 +92,9 @@ public class CreateTracker extends HttpServlet {
     	
 	    //ArrayList prev = new DbConnection().query("SELECT * FROM trackers WHERE tracker_name='"+trackerName+"' AND userid= '"+userid+"'");
 		
+	  
+	    
+		// TODO Auto-generated method stub
 	}
 
 }
