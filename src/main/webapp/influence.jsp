@@ -2247,7 +2247,10 @@ authoryears.put(mostactiveblogger,postyear);
 							int size = topterms.get(terms);%>
 						 word_count2["<%=terms.toString()%>"] = <%=size%> 
 	 <%}
-					}%> 
+					}else if(topterms.size() == 0){%>
+					word_count2["NoKeywords"] = 5
+					word_count2["No Terms Available"] = 2
+					<%}%>
 	
 wordtagcloud("#tagcloudcontainer",450,word_count2);
 	

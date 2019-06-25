@@ -88,13 +88,27 @@ if(action.toString().equals("gettotal")){
 	String negsentiment  = liwc._getNegEmotionByBlogger(blogger.toString());
 
 	int comb = Integer.parseInt(possentiment)+Integer.parseInt(negsentiment);
+	
+	Float highestinfluence = Float.parseFloat(post._searchLowMaxInfluence("DESC"));
+	Float lowestinfluence = Float.parseFloat(post._searchLowMaxInfluence("ASC"));
+
+
+	Float highestsentiment = Float.parseFloat(liwc._getHighestPosSentiment());
+	Float lowestsentiment = Float.parseFloat(liwc._getLowestNegSentiment());
+	Float totalsentiment = Float.parseFloat(comb+"");
+
+	Float normalizedinfluence =  (2-(-2))*((totalinfluence-lowestinfluence)/(highestinfluence-lowestsentiment))+-2;
+	Float normalizedsentiment =  (2-(-2))*((totalsentiment-lowestsentiment)/(highestinfluence-lowestinfluence))+-2;
 
 	String totalsenti  = comb+"";
 	
 	JSONObject result = new JSONObject();
 	result.put("totalpost",totalpost);
-	result.put("totalinfluence",totalinfluence);
+	//result.put("totalinfluence",totalinfluence);
+
+	result.put("totalinfluence",post.NormalizedOutput(normalizedinfluence+""));
 	result.put("totalsentiment",totalsenti);
+	result.put("totalsentiment",post.NormalizedOutput(normalizedsentiment+""));
 	result.put("totalcomment",formattedtotalcomment);
 %>
 <%=result.toString()%>

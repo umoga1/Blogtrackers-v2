@@ -69,10 +69,10 @@ public class CreateTracker extends HttpServlet {
 	    if(usession.equals(key) && !key.equals("")){ //check if supplied session key is valid
 			pww.write("\n Validated the user session \n");
 	    }
-	    /*String trackerName= object.getString("name");
+	    
 	    String userid = object.getString("userid");
 	    
-	    pww.write(trackerName+ " "+userid);*/
+	    pww.write("The userid is "+userid);
 	    //ArrayList prev = new DbConnection().query("SELECT * FROM trackers WHERE tracker_name='"+trackerName+"' AND userid= '"+userid+"'");
 		
 	  

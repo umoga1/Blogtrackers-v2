@@ -59,7 +59,7 @@ public ArrayList _list(String order, String from) throws Exception {
 	 }
 	 
 	 
-     String url = base_url+"_search?size=20";
+     String url = base_url+"_search?size=1000";
      return this._getResult(url, jsonObj);   
     }
 
@@ -96,7 +96,7 @@ public ArrayList _searchByRange(String field,String greater, String less, ArrayL
 	
 	 //System.out.println("post wale id "+blog_ids);
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
-		 		"	\"size\":20,\r\n" +
+		 		"	\"size\":1000,\r\n" +
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
 				"               \"must\": {\r\n" + 
@@ -235,7 +235,7 @@ public ArrayList _searchByRange(String field,String greater, String less, String
 	 }
 	 String arg2 = pars.toString();
 		JSONObject jsonObj  = new JSONObject("{\r\n" + 
-		 		"	\"size\":20,\r\n" +
+		 		"	\"size\":300,\r\n" +
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
 				"               \"must\": {\r\n" + 

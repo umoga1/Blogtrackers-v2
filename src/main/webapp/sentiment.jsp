@@ -937,7 +937,7 @@
 							<div class="carousel-item active">
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Personal
+									<h5 class="text-primary p20 pt20 pb0 text-center">Personal
 										Content - Post #1</h5>
 									<div class="personalcontent"></div>
 								</div>
@@ -945,7 +945,7 @@
 							<div class="carousel-item">
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Time
+									<h5 class="text-primary p20 pt20 pb0 text-center">Time
 										Orientation - Post #1</h5>
 									<div class="timeorientation"></div>
 								</div>
@@ -953,7 +953,7 @@
 							<div class="carousel-item">
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Core
+									<h5 class="text-primary p20 pt20 pb0 text-center">Core
 										Drive and Need - Post #1</h5>
 									<div class="coredriveandneed"></div>
 								</div>
@@ -961,7 +961,7 @@
 							<div class="carousel-item">
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Cognitive
+									<h5 class="text-primary p20 pt20 pb0 text-center">Cognitive
 										Process - Post #1</h5>
 									<div class="cognitiveprocess"></div>
 								</div>
@@ -969,7 +969,7 @@
 							<div class="carousel-item">
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Summary
+									<h5 class="text-primary p20 pt20 pb0 text-center">Summary
 										Variable - Post #1</h5>
 									<div class="summaryvariable"></div>
 								</div>
@@ -977,11 +977,21 @@
 							<div class="carousel-item">
 								<div class="p20 pt0 pb20 text-blog-content text-primary"
 									style="height: 586px;">
-									<h5 class="text-primary p20 pt0 pb0 text-center">Sentiment/Emotion
+									<h5 class="text-primary p20 pt20 pb0 text-center">Sentiment/Emotion
 										- Post #1</h5>
 									<div class="sentimentemotion"></div>
 								</div>
 							</div>
+							
+							<div class="carousel-item">
+								<div class="p20 pt0 pb20 text-blog-content text-primary"
+									style="height: 586px;">
+									<h5 class="text-primary p20 pt20 pb0 text-center">Toxicity
+										- Post #1</h5>
+									<div class="toxicity"></div>
+								</div>
+							</div>
+							
 						</div>
 						<a class="carousel-control-prev" href="#carouselExampleIndicators"
 							role="button" data-slide="prev"> <span
@@ -1108,7 +1118,7 @@
 
 	 
      $('#DataTables_Table_0_wrapper').DataTable( {
-         "scrollY": 320,
+         "scrollY": 370,
          "order": [[ 0, "asc" ]],
          "pagingType": "simple",
          "ordering": false
@@ -1349,6 +1359,16 @@ $(function () {
                               {axis:"Anxiety",value:<%=anx%>}
                               ]
                             ];
+                        
+                        var toxicity = [
+                            [//iPhone
+                            {axis:"Sexually Explicit",value:<%=posemo%>},
+                            {axis:"Identity Attack",value:<%=sad%>},
+                            {axis:"Profanity",value:<%=anger%>},
+                            {axis:"Insult",value:<%=anger%>},
+                            {axis:"Threat",value:<%=anx%>}
+                            ]
+                          ];
     //////////////////////////////////////////////////////////////
     //////////////////// Draw the Chart //////////////////////////
     //////////////////////////////////////////////////////////////
@@ -1401,15 +1421,27 @@ $(function () {
       roundStrokes: true,
       color: color
     };
+    
     var radarChartOptions6 = {
-      w: width,
-      h: height,
-      margin: margin,
-      maxValue: 0.5,
-      levels: 5,
-      roundStrokes: true,
-      color: color
-    };
+    	      w: width,
+    	      h: height,
+    	      margin: margin,
+    	      maxValue: 0.5,
+    	      levels: 5,
+    	      roundStrokes: true,
+    	      color: color
+    	    };
+    
+    var radarChartOptions7 = {
+  	      w: width,
+  	      h: height,
+  	      margin: margin,
+  	      maxValue: 0.5,
+  	      levels: 5,
+  	      roundStrokes: true,
+  	      color: color
+  	    };
+ 
     //Call function to draw the Radar chart
 
       RadarChart(".personalcontent", personalcontent, radarChartOptions1);
@@ -1418,6 +1450,7 @@ $(function () {
       RadarChart(".cognitiveprocess", cognitiveprocess, radarChartOptions4);
       RadarChart(".summaryvariable", summaryvariable, radarChartOptions5);
       RadarChart(".sentimentemotion", sentimentemotion, radarChartOptions6);
+      RadarChart(".toxicity", toxicity, radarChartOptions7);
 
 });
   </script>

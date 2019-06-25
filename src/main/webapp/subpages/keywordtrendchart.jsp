@@ -277,7 +277,8 @@ if(action.toString().equals("getstats")){
 		        "scrollY": 480,
 		        "scrollX": true,
 		         "pagingType": "simple",
-		        	 "bLengthChange": false
+		        	 "bLengthChange": false,
+		             "order": [[ 1, "desc" ]]
 		      /*    ,
 		         dom: 'Bfrtip',
 		         "columnDefs": [

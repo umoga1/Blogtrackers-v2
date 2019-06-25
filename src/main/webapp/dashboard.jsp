@@ -1326,7 +1326,7 @@ $(document).ready(function() {
 	
   // datatable setup
     $('#DataTables_Table_1_wrapper').DataTable( {
-        "scrollY": 350,
+        "scrollY": 380,
         "scrollX": true,
          "pagingType": "simple",
         	 "bLengthChange": false,
@@ -1523,7 +1523,7 @@ $(document).ready(function() {
 $(function () {
 	
     // Initialize chart
-    languageusage('#languageusage', 455);
+    languageusage('#languageusage', 430);
     // Chart setup
     function languageusage(element, height) {
       // Basic setup
@@ -2694,6 +2694,8 @@ var mymarker = [
 					}
 				}
 		%>
+		
+		console.log(word_count2)
 				
 	wordtagcloud("#tagcloudcontainer",450,word_count2);
 	
