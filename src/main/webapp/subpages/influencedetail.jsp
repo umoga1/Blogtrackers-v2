@@ -97,8 +97,9 @@ if(action.toString().equals("gettotal")){
 	Float lowestsentiment = Float.parseFloat(liwc._getLowestNegSentiment());
 	Float totalsentiment = Float.parseFloat(comb+"");
 
-	Float normalizedinfluence =  (2-(-2))*((totalinfluence-lowestinfluence)/(highestinfluence-lowestsentiment))+-2;
-	Float normalizedsentiment =  (2-(-2))*((totalsentiment-lowestsentiment)/(highestinfluence-lowestinfluence))+-2;
+	
+	Float normalizedinfluence =  (2-(-2))*((totalinfluence-lowestinfluence)/(highestinfluence-lowestinfluence))+-2;
+	Float normalizedsentiment =  (2-(-2))*((totalsentiment-lowestsentiment)/(highestinfluence-lowestsentiment))+-2;
 
 	String totalsenti  = comb+"";
 	
