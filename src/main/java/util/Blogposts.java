@@ -614,8 +614,26 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 		
 		return count;
 }
+
+
+public String _searchLowMaxInfluence(String order) throws Exception {
 	
-	public String _searchRangeMaxByBloggers(String field,String greater, String less, String bloggers) throws Exception {
+	String count = "0";
+	
+	try {
+		ArrayList response = DbConnection.query("SELECT max(influence_score) as total, blogger,date FROM blogposts  ORDER BY influence_score "+order+" LIMIT 1");				
+		if(response.size()>0){
+		 	ArrayList hd = (ArrayList)response.get(0);
+			count = hd.get(0).toString();
+		}
+	}catch(Exception e){
+		return count;
+	}
+	
+	return count;
+}
+	
+public String _searchRangeMaxByBloggers(String field,String greater, String less, String bloggers) throws Exception {
 		
 		String count = "0";
 		try {
@@ -1914,6 +1932,16 @@ public ArrayList _searchPostTotal(String field, int greater, int less, String bl
 	}
 	
 	
+	public String NormalizedOutput(String value) {
+		switch(value) {
+			case("-2"): return "Very Low";
+			case("-1"): return "Low";
+			case("0"): return "Medium";
+			case("1"): return "High";
+			case("2"): return "Very High";
+			default :return "Non";
+		}
+	}
 	public String _getTotalTest(String url, JSONObject jsonObj) throws Exception {
 		String total = "0";
 		try {

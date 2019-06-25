@@ -286,6 +286,46 @@ public class Liwc {
 		return count;
 
 	}
+	
+	
+	public String _getHighestPosSentiment() throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		
+		try {
+		result = db.query("SELECT max(posemo) FROM blogtrackers.liwc");		
+			if(result.size()>0){
+			 	ArrayList hd = (ArrayList)result.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+		}
+		return count;
+
+	}
+	
+	
+	public String _getLowestNegSentiment() throws Exception {
+		ArrayList result = new ArrayList();
+
+		DbConnection db = new DbConnection();
+		String count = "0";
+		
+		try {
+		result = db.query("SELECT min(negemo) FROM blogtrackers.liwc");		
+			if(result.size()>0){
+			 	ArrayList hd = (ArrayList)result.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+		}
+		return count;
+
+	}
+
+	
 	public ArrayList _fetch(String ids) throws Exception {
 		ArrayList result = new ArrayList();
 		String[] args = ids.split(",");

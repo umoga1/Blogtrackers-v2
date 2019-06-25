@@ -583,19 +583,28 @@ String negsentiment2  = liwc._getNegEmotionByBlogger(mostactiveblogger);
 
 
 int comb = new Double(possentiment2).intValue() + new Double(negsentiment2).intValue();
-//String totalcomment = tcomment+"";// post._searchRangeAggregate("date", dt, dte,ids,"num_comments");
-
 String totalcomment =  comment._getCommentByBlogger(mostactiveblogger);
 
 String formattedtotalcomment = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment));
 
 totalinfluence  = Float.parseFloat(post._searchRangeMaxTotalByBloggers(mostactiveblogger));
 
+Float highestinfluence = Float.parseFloat(post._searchLowMaxInfluence("DESC"));
+Float lowestinfluence = Float.parseFloat(post._searchLowMaxInfluence("ASC"));
+
+
+Float highestsentiment = Float.parseFloat(liwc._getHighestPosSentiment());
+Float lowestsentiment = Float.parseFloat(liwc._getLowestNegSentiment());
+Float totalsentiment = Float.parseFloat(comb+"");
+
+Float normalizedinfluence =  (2-(-2))*((totalinfluence-lowestinfluence)/(highestinfluence-lowestsentiment))+-2;
+Float normalizedsentiment =  (2-(-2))*((totalsentiment-lowestsentiment)/(highestinfluence-lowestinfluence))+-2;
+
 String formatedtotalinfluence = NumberFormat.getNumberInstance(Locale.US).format(totalinfluence);
 
 totalpost = post._searchRangeTotalByBlogger("date",dt, dte, mostactiveblogger);
 String formattedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
-System.out.println("6");
+
 String totalsenti  = comb+"";
 
 //allterms = term._searchByRange("blogpostid", dt, dte,postidss);
@@ -708,7 +717,7 @@ authoryears.put(mostactiveblogger,postyear);
 						<div class="row">
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Influence Score</h6>
-								<h2 class="mb0 bold-text total-influence"><%=formatedtotalinfluence%></h2>
+								<h2 class="mb0 bold-text total-influence"><%=post.NormalizedOutput(normalizedinfluence+"")%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div>
 
@@ -726,7 +735,7 @@ authoryears.put(mostactiveblogger,postyear);
 							
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Overall Sentiment</h6>
-								<h2 class="mb0 bold-text total-sentiment"><%= NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalsenti)) %></h2>
+								<h2 class="mb0 bold-text total-sentiment"><%=post.NormalizedOutput(normalizedsentiment+"")%></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
