@@ -98,7 +98,7 @@ if(action.toString().equals("gettotal")){
 	Float totalsentiment = Float.parseFloat(comb+"");
 
 	int normalizedinfluence =  Math.round((2-(-2))*((totalinfluence-lowestinfluence)/(highestinfluence-lowestinfluence))+(-2));
-	int normalizedsentiment =  Math.round((2-(-2))*((totalsentiment-lowestsentiment)/(highestinfluence-lowestsentiment))+(-2));
+	int normalizedsentiment =  Math.round((2-(-2))*((totalsentiment-lowestsentiment)/(highestsentiment-lowestsentiment))+(-2));
 
 	String totalsenti  = comb+"";
 	
