@@ -589,16 +589,20 @@ String formattedtotalcomment = NumberFormat.getNumberInstance(Locale.US).format(
 
 totalinfluence  = Float.parseFloat(post._searchRangeMaxTotalByBloggers(mostactiveblogger));
 
-Float highestinfluence = Float.parseFloat(post._searchLowMaxInfluence("DESC"));
-Float lowestinfluence = Float.parseFloat(post._searchLowMaxInfluence("ASC"));
+Float highestinfluence = Float.parseFloat(post._searchMaxInfluence());
+Float lowestinfluence = Float.parseFloat(post._searchMinInfluence());
 
 
 Float highestsentiment = Float.parseFloat(liwc._getHighestPosSentiment());
 Float lowestsentiment = Float.parseFloat(liwc._getLowestNegSentiment());
 Float totalsentiment = Float.parseFloat(comb+"");
 
-Float normalizedinfluence =  (2-(-2))*((totalinfluence-lowestinfluence)/(highestinfluence-lowestinfluence))+-2;
-Float normalizedsentiment =  (2-(-2))*((totalsentiment-lowestsentiment)/(highestinfluence-lowestsentiment))+-2;
+System.out.println("highest:"+highestsentiment);
+System.out.println("lowest:"+lowestsentiment);
+System.out.println("real:"+totalsentiment);
+
+int normalizedinfluence =  Math.round((2-(-2))*((totalinfluence-lowestinfluence)/(highestinfluence-lowestinfluence))+(-2));
+int normalizedsentiment =  Math.round((2-(-2))*((totalsentiment-lowestsentiment)/(highestsentiment-lowestsentiment))+(-2));
 
 String formatedtotalinfluence = NumberFormat.getNumberInstance(Locale.US).format(totalinfluence);
 
