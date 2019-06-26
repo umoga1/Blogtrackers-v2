@@ -78,7 +78,7 @@ public class AddTracker extends HttpServlet {
 		    //System.out.println("The site is " + object.get("site"));
 		    pww.write("The input JSON Object is "+ object+"\n");
 		    
-		if(usession.equals(key) && !key.equals("")){ //check if supplied session key is valid
+		if(usession.equals(key) && !key.equals("")){ //chk if supplied session key is valid
 			pww.write("\n Validated the user session \n");
 			try {
 			
