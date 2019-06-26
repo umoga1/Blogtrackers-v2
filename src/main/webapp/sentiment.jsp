@@ -931,7 +931,9 @@
 							<li data-target="#carouselExampleIndicators" data-slide-to="5"
 								data-toggle="tooltip" data-placement="top"
 								title="Sentiment/Emotion"></li>
-
+								<li data-target="#carouselExampleIndicators" data-slide-to="6"
+								data-toggle="tooltip" data-placement="top"
+								title="Toxicity"></li>
 						</ol>
 						<div class="carousel-inner" id="carouseller">
 							<div class="carousel-item active">
