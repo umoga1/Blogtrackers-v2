@@ -295,7 +295,7 @@ public class Liwc {
 		String count = "0";
 		
 		try {
-		result = db.query("SELECT max(posemo) FROM blogtrackers.liwc");		
+		result = db.query("SELECT max(posemo) FROM blogger");		
 			if(result.size()>0){
 			 	ArrayList hd = (ArrayList)result.get(0);
 				count = hd.get(0).toString();
@@ -314,7 +314,7 @@ public class Liwc {
 		String count = "0";
 		
 		try {
-		result = db.query("SELECT min(posemo) FROM blogtrackers.liwc");		
+		result = db.query("SELECT min(posemo) FROM blogger");		
 			if(result.size()>0){
 			 	ArrayList hd = (ArrayList)result.get(0);
 				count = hd.get(0).toString();
@@ -332,7 +332,7 @@ public class Liwc {
 		String count = "0";
 		
 		try {
-		result = db.query("SELECT min(negemo) FROM blogtrackers.liwc");		
+		result = db.query("SELECT min(negemo) FROM blogger");		
 			if(result.size()>0){
 			 	ArrayList hd = (ArrayList)result.get(0);
 				count = hd.get(0).toString();
@@ -350,7 +350,7 @@ public class Liwc {
 		String count = "0";
 		
 		try {
-		result = db.query("SELECT max(negemo) FROM blogtrackers.liwc");		
+		result = db.query("SELECT max(negemo) FROM blogger");		
 			if(result.size()>0){
 			 	ArrayList hd = (ArrayList)result.get(0);
 				count = hd.get(0).toString();

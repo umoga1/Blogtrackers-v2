@@ -603,7 +603,7 @@ public String _searchRangeMaxTotalByBloggers(String bloggers) throws Exception {
 		String count = "0";
 		
 		try {
-			ArrayList response = DbConnection.query("SELECT max(influence_score) as total, blogger,date FROM blogposts WHERE blogger = '"+bloggers+"'  ORDER BY influence_score DESC LIMIT 1");				
+			ArrayList response = DbConnection.query("SELECT max(influence_score) as total, blogger,date FROM blogger WHERE blogger = '"+bloggers+"'  ORDER BY influence_score DESC LIMIT 1");				
 			if(response.size()>0){
 			 	ArrayList hd = (ArrayList)response.get(0);
 				count = hd.get(0).toString();
@@ -621,7 +621,7 @@ public String _searchMaxInfluence() throws Exception {
 	String count = "0";
 	
 	try {
-		ArrayList response = DbConnection.query("SELECT max(influence_score) as total, blogger,date FROM blogposts ");				
+		ArrayList response = DbConnection.query("SELECT max(influence_score) as total, blogger,date FROM blogger ");				
 		if(response.size()>0){
 		 	ArrayList hd = (ArrayList)response.get(0);
 			count = hd.get(0).toString();
@@ -638,7 +638,7 @@ public String _searchMinInfluence() throws Exception {
 	String count = "0";
 	
 	try {
-		ArrayList response = DbConnection.query("SELECT min(influence_score) as total, blogger,date FROM blogposts ");				
+		ArrayList response = DbConnection.query("SELECT min(influence_score) as total, blogger,date FROM blogger ");				
 		if(response.size()>0){
 		 	ArrayList hd = (ArrayList)response.get(0);
 			count = hd.get(0).toString();
@@ -1961,6 +1961,17 @@ public ArrayList _searchPostTotal(String field, int greater, int less, String bl
 		}
 	}
 	
+	public String NormalizedOutputSentiment(String value) {
+		System.out.println("Output:"+value);
+		switch(value) {
+			case("-2"): return "Very Negative";
+			case("-1"): return "Negative";
+			case("0"): return "Neutral";
+			case("1"): return "Positive";
+			case("2"): return "Very Positive";
+			default :return "Unknown";
+		}
+	}
 	
 	public String _getTotalTest(String url, JSONObject jsonObj) throws Exception {
 		String total = "0";

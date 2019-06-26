@@ -551,6 +551,7 @@ userinfo = (ArrayList<?>)userinfo.get(0);
 												mostactivebloggerId = blogsiteid;
 												
 												allposts =  post._getBloggerByBloggerName("date",dt, dte,bloggerInf,"influence_score","DESC");
+												
 											}
 											%>
 											<input type="hidden" id="postby<%=bloggerInf.replaceAll(" ","__")%>" value="<%=postids%>" />
@@ -586,17 +587,17 @@ int comb = new Double(possentiment2).intValue() + new Double(negsentiment2).intV
 String totalcomment =  comment._getCommentByBlogger(mostactiveblogger);
 
 String formattedtotalcomment = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalcomment));
-
+System.out.println("hi 20");
 totalinfluence  = Float.parseFloat(post._searchRangeMaxTotalByBloggers(mostactiveblogger));
 
 Float highestinfluence = Float.parseFloat(post._searchMaxInfluence());
 Float lowestinfluence = Float.parseFloat(post._searchMinInfluence());
-
+System.out.println("hi 10");
 
 Float highestsentiment = Float.parseFloat(liwc._getHighestPosSentiment());
 Float lowestsentiment = Float.parseFloat(liwc._getLowestNegSentiment());
 Float totalsentiment = Float.parseFloat(comb+"");
-
+System.out.println("hi 11");
 System.out.println("highest:"+highestsentiment);
 System.out.println("lowest:"+lowestsentiment);
 System.out.println("real:"+totalsentiment);
@@ -605,16 +606,18 @@ int normalizedinfluence =  Math.round((2-(-2))*((totalinfluence-lowestinfluence)
 int normalizedsentiment =  Math.round((2-(-2))*((totalsentiment-lowestsentiment)/(highestsentiment-lowestsentiment))+(-2));
 
 String formatedtotalinfluence = NumberFormat.getNumberInstance(Locale.US).format(totalinfluence);
-
+System.out.println("hi 1");
 totalpost = post._searchRangeTotalByBlogger("date",dt, dte, mostactiveblogger);
+System.out.println("hi 2");
 String formattedtotalpost = NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(totalpost));
-
+System.out.println("hi 3");
 String totalsenti  = comb+"";
 
 //allterms = term._searchByRange("blogpostid", dt, dte,postidss);
 //allterms = term.getTermsByBlogger(mostactiveblogger, dt, dte);
+System.out.println("Starting terms stuff");
 allterms = term._getBloggerTermById("blogsiteid", dt, dte, mostactivebloggerId);
-
+System.out.println("Ending terms stuff");
 int highestfrequency = 0;
 System.out.println("7");
 Map<String, Integer> topterms = new HashMap<String, Integer>();
@@ -739,7 +742,7 @@ authoryears.put(mostactiveblogger,postyear);
 							
 							<div class="col-md-3 mt5 mb5">
 								<h6 class="card-title mb0">Overall Sentiment</h6>
-								<h2 class="mb0 bold-text total-sentiment"><%=post.NormalizedOutput(normalizedsentiment+"")%></h2>
+								<h2 class="mb0 bold-text total-sentiment"><%=post.NormalizedOutputSentiment(normalizedsentiment+"") %></h2>
 								<!-- <small class="text-success">+5% from <b>Last Week</b></small> -->
 							</div> 
 
@@ -2252,8 +2255,8 @@ authoryears.put(mostactiveblogger,postyear);
 						 word_count2["<%=terms.toString()%>"] = <%=size%> 
 	 <%}
 					}else if(topterms.size() == 0){%>
-					word_count2["NoKeywords"] = 5
-					word_count2["No Terms Available"] = 2
+						word_count2["NoKeywords"] = 5/* 
+						word_count2["No Terms Available"] = 2 */
 					<%}%>
 	
 wordtagcloud("#tagcloudcontainer",450,word_count2);

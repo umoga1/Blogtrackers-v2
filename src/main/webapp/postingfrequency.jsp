@@ -1753,8 +1753,8 @@ console.log("here");
 		 word_count2["<%=jsonObj.getString("key")%>"] = <%=size%> 
 <%}
 	}else if(topterms.length() == 0){%>
-	word_count2["NoKeywords"] = 5
-	word_count2["No Terms Available"] = 2
+	word_count2["NoKeywords"] = 5/* 
+	word_count2["No Terms Available"] = 2 */
 	<%}%>
 	
 	console.log(word_count2);
