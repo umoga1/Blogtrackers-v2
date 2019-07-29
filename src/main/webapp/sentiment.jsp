@@ -1035,7 +1035,7 @@
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
 	<script src="pagedependencies/baseurl.js?v=3"></script>
-	<script src="pagedependencies/sentiment.js?v=17840"></script>
+	<script src="pagedependencies/sentiment.js?v=140"></script>
 
 	<script>
  $(document).ready(function() {

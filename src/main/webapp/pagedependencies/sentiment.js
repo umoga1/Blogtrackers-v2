@@ -2,8 +2,8 @@
 $(window).on("load",function(){
 	$('.blogpost_link:eq(0)').addClass("activeselectedblog");	
 });
-$('.blogpost_link').on("click", function(){
 
+$('.blogpost_link').on("click", function(){
 	var post_id = $(this).attr("id");
 	$('.blogpost_link').removeClass("activeselectedblog");
 	$(".viewpost").addClass("makeinvisible");
@@ -12,7 +12,6 @@ $('.blogpost_link').on("click", function(){
 	color = "#0080CC";
 	//alert(post_id);
 	loadChart(post_id,color);
-
 });
 
 function loadChart(postid,color){
@@ -86,7 +85,12 @@ function loadPost(date){
 			$('.blogpost_link:eq(0)').addClass("activeselectedblog");	
 			color = "#0080CC";
 			var post_id = $(first).attr("id");
+			console.log(post_id);
+			try{
 			loadChart(post_id,color);
+			}catch(e){
+				loadChart("",color);
+			}
 
 		}
 	});

@@ -26,10 +26,8 @@
 	 String date_end = year + "-12-31";
 	JSONArray postlist = new JSONArray(postids);
 	//ArrayList allauthors =new Blogposts()._getBloggerByBlogId("date",date_start, date_end,postids);
-	 System.out.println("All posts:"+postlist);
-		
+	
 	 ArrayList allauthors = new Blogposts()._getPostByBlogpostId("date",date_start, date_end,postlist);
-	 System.out.println("All posts:"+allauthors);
 			
 %>
 <link rel="stylesheet" href="assets/css/table.css" />
