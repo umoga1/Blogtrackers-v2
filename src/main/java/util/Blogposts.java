@@ -123,7 +123,7 @@ public class Blogposts {
 				"	 		      ] \r\n" + 
 				"	 		    } \r\n" + 
 				"	 		  \r\n" + 
-				"                 }\r\n" + 
+				"            }\r\n" + 
 				"	 	\r\n" + 
 				"}";
 		
@@ -158,6 +158,67 @@ public class Blogposts {
 
 		return this._getResult(url, jsonObj);
 	}
+	
+	
+	
+	
+	public ArrayList _getPostByBlogpostId(String field,String greater, String less,JSONArray post_ids) throws Exception {
+
+		String url = base_url+"_search";
+		
+		/*
+		String[] args = post_ids.split(","); 
+		JSONArray pars = new JSONArray(); 
+		ArrayList<String> ar = new ArrayList<String>();	
+		for(int i=0; i<args.length; i++){
+			pars.put(args[i].replaceAll(" ", ""));
+		}
+		*/
+
+		String arg2 = post_ids.toString();
+		String que="{\r\n" + 
+				"	\"size\":50,\r\n" + 
+				"		\"sort\":{ \r\n" + 
+				"			\"date\":{\r\n" + 
+				"				\"order\":\"asc\"\r\n" + 
+				"				}\r\n" + 
+				"	},\r\n" + 
+				"	\"query\": { \r\n" + 
+				"			 \"bool\": {\r\n" + 
+				"				      \"must\": [\r\n" + 
+				"				      	{\r\n" + 
+				"						  \"constant_score\":{ \r\n" + 
+				"									\"filter\":{ \r\n" + 
+				"											\"terms\":{ \r\n" + 
+				"												\r\n" + 
+				"											\"blogpost_id\":"+arg2+"\r\n"+ 
+				"													}\r\n" + 
+				"											}\r\n" + 
+				"										} \r\n" + 
+				"						}, \r\n" + 
+				"						\r\n" + 
+				"	 		        { \r\n" + 
+				"	 				  \"range\" : { \r\n" + 
+				"	 		            \"date\" : { \r\n" + 
+				"	 		                \"gte\" : "+greater+",\r\n" +
+				"	 		                \"lte\" : "+less+",\r\n"+ 
+				"	 						}\r\n" + 
+				"	 					} \r\n" + 
+				"	 				} \r\n" + 
+				"	 		      ] \r\n" + 
+				"	 		    } \r\n" + 
+				"	 		  \r\n" + 
+				"            }\r\n" + 
+				"	 	\r\n" + 
+				"}";
+		
+
+		JSONObject jsonObj = new JSONObject(que);
+		ArrayList result =  this._getResult(url, jsonObj);
+
+		return this._getResult(url, jsonObj);
+	}
+
 	
 	public ArrayList _getBloggerByBloggerName(String field,String greater, String less,String bloggers) throws Exception {
 		

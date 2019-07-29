@@ -238,15 +238,15 @@
 			
 			totalpost = post._searchRangeTotal("date", dt, dte, ids);
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
+			
 			allauthors = post._getBloggerByBlogId("date", dt, dte, ids, "influence_score", "DESC");
+			//allauthors = post._getPostByBlogpostId("date",dt, dte,sentimentpost);
+			
 			outlinks = outl._searchByRange("date", dst, dend, ids);
-
-			//System.out.println("Terms here:"+termss);
 
 			ArrayList blogs = blog._fetch(ids);
 			int totalblog = blogs.size();
 
-			//System.out.println("grapgh yeres"+yearsarray);
 			JSONObject authors = new JSONObject();
 			JSONArray sentimentpost = new JSONArray();
 			JSONArray sentimentpost2 = new JSONArray();
@@ -272,7 +272,8 @@
 				}
 			}
 
-			//System.out.println("sentiment posts here:"+sentimentpost);
+			ArrayList posttodisplay = post._getPostByBlogpostId("date",dt, dte,sentimentpost);
+			
 			JSONObject graphyearspos = new JSONObject();
 			JSONObject graphyearsneg = new JSONObject();
 			JSONArray yearsarray = new JSONArray();
@@ -299,10 +300,7 @@
 			
 			int b = 0;
 			for (int y = ystint; y <= yendint; y++) {
-				/*
-				   String dtu = post.addMonth(DATE_FORMAT2.parse(dt), b).toString();
-				   String dtue = post.addMonth(DATE_FORMAT2.parse(dte), b+1).toString();
-				*/
+				
 				String dtu = y + "-01-01";
 				String dtue = y + "-12-31";
 				
@@ -312,51 +310,19 @@
 					dtue = dte;
 				}
 				
-				//System.out.println(dtu);
-				//String totu = post._searchRangeAggregateTotal("date", dtu, dtue, ids);
-				//System.out.println(totu);
-
-				//ArrayList sentimentor = new Liwc()._searchByRange("date", dtu, dtue, sentimentpost);
-				//System.out.print(sentimentor);
-				/*
-				int allposemo = 0;
-				int allnegemo = 0;
-				if (sentimentor.size() > 0) {
-					for (int v = 0; v < sentimentor.size(); v++) {
-						//if(v<1){
-						String bstr = sentimentor.get(v).toString();
-						
-						JSONObject bj = new JSONObject(bstr);
-						bstr = bj.get("_source").toString();
-						bj = new JSONObject(bstr);
-						//System.out.println("result eree"+bj);
-						int posemo = Integer.parseInt(bj.get("posemo").toString());
-						int negemo = Integer.parseInt(bj.get("negemo").toString());
-						allposemo += posemo;
-						allnegemo += negemo;
-						//}
-
-					}
-				}
-				*/
 				possentiment=new Liwc()._searchRangeAggregate("date", dtu, dtue, sentimentpost,"posemo");
 				negsentiment=new Liwc()._searchRangeAggregate("date", dtu, dtue, sentimentpost,"negemo");
 				
-				//possentiment = allposemo + "";
-				//negsentiment = allnegemo + "";
-
 				graphyearspos.put(y + "", Integer.parseInt(possentiment));
 				graphyearsneg.put(y + "", Integer.parseInt(negsentiment));
 				yearsarray.put(b, y);
 				b++;
 			}
 
-			//JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
-
 			JSONArray topterms = new JSONArray();
-
 			JSONObject outerlinks = new JSONObject();
 			ArrayList outlinklooper = new ArrayList();
+			
 			if (outlinks.size() > 0) {
 				int mm = 0;
 				for (int p = 0; p < outlinks.size(); p++) {
@@ -841,7 +807,7 @@
 
 							<%
 								int y = 0;
-										if (allauthors.size() > 0) {
+									if (posttodisplay.size() > 0) {
 											String tres = null;
 											JSONObject tresp = null;
 											String tresu = null;
@@ -849,9 +815,9 @@
 											int j = 0;
 											int k = 0;
 											int n = 0;
-											for (int i = 0; i < allauthors.size(); i++) {
+											for (int i = 0; i < posttodisplay.size(); i++) {
 
-												tres = allauthors.get(i).toString();
+												tres = posttodisplay.get(i).toString();
 												tresp = new JSONObject(tres);
 												tresu = tresp.get("_source").toString();
 												tobj = new JSONObject(tresu);
@@ -1029,6 +995,10 @@
 				type="hidden" value="<%=dte%>" id="date_to" /> <input type="hidden"
 				value="<%=ids%>" id="blog_ids" />
 		</form>
+		
+		<form name="date-form" action="">
+			<input type="hidden" value='<%=sentimentpost.toString()%>' id="post_ids" />
+		</form>
 
 	</div>
 
@@ -1065,7 +1035,7 @@
 		src="assets/vendors/DataTables/Buttons-1.5.1/js/buttons.print.min.js"></script>
 
 	<script src="pagedependencies/baseurl.js?v=3"></script>
-	<script src="pagedependencies/sentiment.js?v=7840"></script>
+	<script src="pagedependencies/sentiment.js?v=17840"></script>
 
 	<script>
  $(document).ready(function() {

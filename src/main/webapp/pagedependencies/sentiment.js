@@ -65,7 +65,7 @@ function loadPost(date){
 			value:date,
 			source:"sentiment",
 			section:"influential_blogpost",
-			blog_ids:$("#blog_ids").val(),
+			post_ids:$("#post_ids").val(),
 		},
 		error: function(response)
 		{						

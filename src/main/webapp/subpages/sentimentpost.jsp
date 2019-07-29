@@ -7,8 +7,7 @@
 <%@page import="java.net.URI"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	
 <%
 	Object email = (null == session.getAttribute("email")) ? "" : session.getAttribute("email");
@@ -21,14 +20,17 @@
 	String source = request.getParameter("source").replaceAll("\\<.*?\\>", "");
 	String section = request.getParameter("section").replaceAll("\\<.*?\\>", "");
 	String year = value;//request.getParameter("date").replaceAll("\\<.*?\\>", "");
-	String blogids = request.getParameter("blog_ids");
+	String postids = request.getParameter("post_ids");
 	
 	 String date_start = year + "-01-01";
 	 String date_end = year + "-12-31";
-	
-	 ArrayList allauthors =new Blogposts()._getBloggerByBlogId("date",date_start, date_end,blogids);
+	JSONArray postlist = new JSONArray(postids);
+	//ArrayList allauthors =new Blogposts()._getBloggerByBlogId("date",date_start, date_end,postids);
+	 System.out.println("All posts:"+postlist);
 		
-	
+	 ArrayList allauthors = new Blogposts()._getPostByBlogpostId("date",date_start, date_end,postlist);
+	 System.out.println("All posts:"+allauthors);
+			
 %>
 <link rel="stylesheet" href="assets/css/table.css" />
 <link rel="stylesheet" href="assets/css/style.css" />
