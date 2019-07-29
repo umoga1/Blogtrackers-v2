@@ -73,9 +73,7 @@ public class AddTracker extends HttpServlet {
 				// TODO: handle exception
 			}
 		    
-		    
-		   // System.out.println("The id is " + object.get("id"));
-		    //System.out.println("The site is " + object.get("site"));
+	
 		    pww.write("The input JSON Object is "+ object+"\n");
 		    
 		if(usession.equals(key) && !key.equals("")){ //chk if supplied session key is valid

@@ -47,15 +47,14 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {           
-
 		
 	}
-
 
 	//User Login
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 
@@ -80,12 +79,15 @@ public class Login extends HttpServlet {
 				
 				session.setAttribute("key",sessionkey);
 				pww.write("The session attribute key contains " + session.getAttribute("key") +"\n");
+				session.setAttribute("userid",user);
 				session.setAttribute(sessionkey,user);
 				//pww.write("The parameter sessionkey is "+ sessionkey + "\n");
 				JSONObject resp = new JSONObject();
 				resp.put("key",sessionkey);
+				resp.put("userid",user);
 				response.setStatus(200);
-				pww.write(resp.toString());		
+				pww.write(resp.toString());
+				
 			}else {
 				pww.write("invalid credentials");	
 			}

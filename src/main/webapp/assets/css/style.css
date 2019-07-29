@@ -640,7 +640,7 @@ color:#003F62 !important;
   outline: black;
   background-size: 100%, 100%;
   border-radius: 50%;
-  border: 2px solid #17394C;
+  /* border: 2px solid #17394C; */
   background-image: none;
 }
 .searchhome
@@ -740,10 +740,10 @@ cursor: move;
 }
 .carousel-control-next-icon:after
 {
-  content: '>';
-  font-size: 22px;
+  content: '';
+  font-size: 32px;
   font-weight: bolder;
-  color: red;
+  color: #0e87ce;
 }
 .icontrackersize
 {
@@ -984,10 +984,10 @@ border: none;
 color:#17384B;
 }
 .carousel-control-prev-icon:before {
-  content: '<';
-  font-size: 22px;
+  content: '';
+  font-size: 32px;
   font-weight: bolder;
-  color: red;
+  color: #0e87ce;
 }
 
 .links line {
