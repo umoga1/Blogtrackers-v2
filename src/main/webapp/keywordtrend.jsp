@@ -191,7 +191,7 @@
 			termss = term._searchByRange("blogsiteid", dt, dte, ids);
 			
 			//System.out.println("start date"+date_start+"end date "+date_end);
-				if (!date_start.equals("") && !date_end.equals("")) {
+		if (!date_start.equals("") && !date_end.equals("")) {
 			
 			possentiment = post._searchRangeTotal("sentiment", "0", "10", ids);
 			negsentiment = post._searchRangeTotal("sentiment", "-10", "-1", ids);
@@ -232,7 +232,11 @@
 			
 		}  
 		
-
+		
+		
+		String test =  post._searchTotalByTitleAndBody("war","date", "2009-01-01","2009-12-31");//term._searchByRange("date",dt,dte, tm,"term","10");
+		System.out.println("Size="+test);	
+	
 				String[] yst = dt.split("-");
 				String[] yend = dte.split("-");
 				year_start = yst[0];
@@ -299,6 +303,21 @@
 		}
 		
 		
+		JSONArray sortedterms = term._sortJson2(unsortedterms);
+		
+		if (sortedterms.length() > 0) {																	
+				for (int i=0; i<sortedterms.length(); i++) {
+					String[] vals = sortedterms.get(i).toString().split("___");
+					String size = vals[0];
+					String tm = vals[1];
+					String terms_id = vals[2];
+					if(i==0){
+							mostactiveterm = tm;
+							mostactiveterm_id = terms_id;
+						}
+					
+				}
+		}
 		
 		JSONObject termsyears = new JSONObject();
 
@@ -382,8 +401,8 @@
 				if(p==0){
 					allposts =  post._searchByTitleAndBody(tm,"date", dt,dte);//term._searchByRange("date",dt,dte, tm,"term","10");
 					toplocation = location;
-					mostactiveterm = tm;
-					mostactiveterm_id = tmid;
+					//mostactiveterm = tm;
+					//mostactiveterm_id = tmid;
 					
 					postc = post._searchTotalAndUnique(tm,"date", dt,dte,"blogpost_id");//post._searchTotalByTitleAndBody(tm,"date", dt,dte);
 					
@@ -457,7 +476,9 @@
 								dtue = dte;
 							}
 						   
-						   String totu = post._searchTotalByTitleAndBody(mostactiveterm,"date", dtu,dtue);//term._searchRangeTotal("date",dtu, dtue,termscount.get(n).toString());
+						   String totu = post._searchTotalByTitleAndBody(mostactiveterm,"date", dtu,dtue);//term._searchRangeTotal("date",dtu, dtue,termscount.get(n).toString());						   
+						   
+						   System.out.println(mostactiveterm+":TM:"+dtu+","+dtue+"="+totu);
 						   
 						   if(!years.has(y+"")){
 					    		years.put(y+"",y);
@@ -471,6 +492,7 @@
 			}
 		}
 
+		
 		
 %>
 	
@@ -734,8 +756,7 @@
 							
 							
 									<%
-									JSONArray sortedterms = term._sortJson2(unsortedterms);
-									System.out.println("TM:"+sortedterms);
+									
 									if (sortedterms.length() > 0) {																	
 											for (int i=0; i<sortedterms.length(); i++) {
 												String[] vals = sortedterms.get(i).toString().split("___");
@@ -749,7 +770,7 @@
 													String dselected = "";
 													if(i==0){
 														dselected = "abloggerselected";
-														mostactiveterm = tm;
+														//mostactiveterm = tm;
 														selectedkeycount = term.getTermOcuurence(tm, dt, dte);;
 													}
 																			

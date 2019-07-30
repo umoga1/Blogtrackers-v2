@@ -55,7 +55,7 @@ if(action.toString().equals("getstats")){
 	String bloggerc = post._searchTotalAndUniqueBlogger(mostactiveterm,"date", dt,dte,"blogger");
 	String toplocation = "";
 	
-    ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);
+    ArrayList allposts =  post._searchByBody(mostactiveterm, dt,dte);
     JSONObject firstpost = new JSONObject();
     JSONObject locations = new JSONObject();
     
@@ -108,9 +108,9 @@ if(action.toString().equals("getstats")){
 	System.out.println("start:"+dt+",End:"+dte); 
 %>
 
-          <%  
-          ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);
-          %>
+<% 
+   ArrayList allposts =  post._searchByTitleAndBody(mostactiveterm,"date", dt,dte);//term._searchByRange("date",dt,dte, tm,"term","10");		
+%>
           
           
  <div class="row m0 mt20 mb0 d-flex align-items-stretch">
@@ -319,7 +319,7 @@ if(action.toString().equals("getstats")){
 							dtue = dte;
 						}
 					   
-					   String totu = post._searchTotalByTitleAndBody(mostactiveterm,"date", dtu,dtue);//term._searchRangeTotal("date",dtu, dtue,termscount.get(n).toString());
+					   String totu = post._searchTotalByBody(mostactiveterm,dtu,dtue);//term._searchRangeTotal("date",dtu, dtue,termscount.get(n).toString());
 					   
 					   if(!years.has(y+"")){
 				    		years.put(y+"",y);

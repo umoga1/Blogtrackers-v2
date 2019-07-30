@@ -1204,6 +1204,7 @@ public String _searchRangeMaxByBloggers(String field,String greater, String less
 				"	}\r\n" + 
 				"}");
 		*/
+		
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
@@ -1225,13 +1226,32 @@ public String _searchRangeMaxByBloggers(String field,String greater, String less
 				"        }\r\n" + 
 				"    }");
 	   
+		
+		
 		String url = base_url+"_search?size="+size; 
 		//System.out.println(url);
 		return this._getResult(url, jsonObj);
 		
 	}
 
-
+public ArrayList _searchByBody(String term, String start, String end) throws Exception {
+		
+		ArrayList response =new ArrayList();
+		String count = "0";
+		try {
+			response = DbConnection.query("SELECT count(*) FROM blogposts WHERE post LIKE '%"+term+"%' AND date>='"+start+"' AND date <='"+end+"' ");
+			 
+			if(response.size()>0){
+			 	ArrayList hd = (ArrayList)response.get(0);
+				count = hd.get(0).toString();
+			}
+		}catch(Exception e){
+			return response;
+		}
+		
+		
+		return response;
+}	
 	
 	public String _searchTotalByBody(String term, String start, String end) throws Exception {
 		
@@ -1305,7 +1325,7 @@ public String _searchRangeMaxByBloggers(String field,String greater, String less
 		
 		return count;
 		
-		*/
+		*//*
 		JSONObject jsonObj = new JSONObject("{\r\n" + 
 				"       \"query\": {\r\n" + 
 				"          \"bool\": { \r\n" + 
@@ -1326,9 +1346,32 @@ public String _searchRangeMaxByBloggers(String field,String greater, String less
 				"            }\r\n" + 
 				"        },\r\n" + 
 				"  }  }");
-	
-	
+		 */
+		JSONObject jsonObj = new JSONObject("{\r\n" + 
+				"       \"query\": {\r\n" + 
+				"          \"bool\": { \r\n" + 
+				"               \"must\": {\r\n" + 
+				"                    \"query_string\" : {\r\n" + 
+				"            			\"fields\" : [\"title\",\"post\"],\r\n" + 
+				"            			\"query\" : \""+term+"\"\r\n" + 
+				"                    }\r\n" + 
+				"                },\r\n" + 
+				"                \"filter\": {\r\n" + 
+				"                    \"range\" : {\r\n" + 
+				"                        \"date\" : {\r\n" + 
+				"                            \"gte\": \""+start+"\",\r\n" + 
+				"                            \"lte\": \""+end+"\"\r\n" + 
+				"                        }\r\n" + 
+				"                    }\r\n" + 
+				"                }\r\n" + 
+				"            }\r\n" + 
+				"        }\r\n" + 
+				"    }");
+	   
 		String url = base_url+"_search?size=1"; 
+		if(term.equals("war")){
+			System.out.println(jsonObj);
+		}
 		return this._getTotal(url, jsonObj);
 		
 	}
