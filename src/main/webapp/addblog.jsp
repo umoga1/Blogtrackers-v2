@@ -27,7 +27,6 @@ Weblog new_blog = new Weblog();
 ArrayList results_blogadded = null;
 
 userinfo = new DbConnection().query("SELECT * FROM usercredentials where Email = '"+email+"'");
- //System.out.println(userinfo);
 if (userinfo.size()<1) {
 	response.sendRedirect("login.jsp");
 }else{
@@ -57,9 +56,9 @@ if(userpic.indexOf("http")>-1){
 
 
 File f = new File(filename);
-if(f.exists() && !f.isDirectory()) { 
-	profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
-}
+	if(f.exists() && !f.isDirectory()) { 
+		profileimage = "images/profile_images/"+userinfo.get(2).toString()+".jpg";
+	}
 }catch(Exception e){}
 
 String term =  (null == request.getParameter("term")) ? "" : request.getParameter("term").toString();//.replaceAll("[^a-zA-Z]", " ");
@@ -470,7 +469,7 @@ $(document).ready(function() {
 <script type="text/javascript" src="pagedependencies/baseurl.js"></script>
 <script src="assets/js/generic.js">
 </script>
-<script src="pagedependencies/addblog.js?v=79078906"> </script>
+<script src="pagedependencies/addblog.js?v=148906"> </script>
 
 </body>
 </html>

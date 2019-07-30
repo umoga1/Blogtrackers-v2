@@ -78,7 +78,8 @@ $('.createbtn').on("click",function(e){
 
 	$('.deletebtn').on("click",function(e){
 		e.preventDefault();
-		id = $(this).id();
+		console.log(this);
+		id = $(this).attr('id');
 			$.ajax({
 				url:app_url+"blogsite",
 				method:"POST",

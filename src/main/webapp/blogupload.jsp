@@ -13,8 +13,6 @@
 <%@page import="java.util.regex.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-
-
 <%
 //
 String username = (null == session.getAttribute("username")) ? "" : session.getAttribute("username").toString();
@@ -97,8 +95,7 @@ if(username.equals("")){
       }catch(Exception ex) {
     	  response.sendRedirect("addblog.jsp");
       }
-   }else{
-     
+   }else{  
        response.sendRedirect("index.jsp"); 
    }
 }
