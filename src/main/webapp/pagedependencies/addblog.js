@@ -96,7 +96,7 @@ $('.createbtn').on("click",function(e){
 						toastr.success("Blog successfully deleted");
 						location.reload();
 					}else{
-						toastr.error("Blog could not be deleted added","Error");	
+						toastr.error("Blog could not be deleted","Error");	
 					}
 				}
 			});

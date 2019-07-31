@@ -53,7 +53,7 @@ public class Weblog {
 	}
 	
 	public ArrayList _fetchBlog(String username) {
-		System.out.println(username);
+		//System.out.println(username);
 		ArrayList bloggers = new DbConnection().query("SELECT * FROM user_blog WHERE userid='"+username+"'");
 		System.out.println(bloggers.size());
 		
@@ -61,10 +61,12 @@ public class Weblog {
 	}
 	
 	public boolean _deleteBlog(String username, String id) {
-		ArrayList bloggers = new DbConnection().query("delete FROM user_blog WHERE userid='"+username+"' and id = '"+id+"'");
-		if(bloggers.size()>0) {
+		boolean deleted = new DbConnection().updateTable("delete FROM user_blog WHERE userid='"+username+"' AND id = '"+id+"'");
+		
+		if(deleted) {
 			return true;
 		}
+		
 		return false;
 	}
 }

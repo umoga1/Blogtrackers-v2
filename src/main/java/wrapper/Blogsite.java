@@ -71,7 +71,7 @@ public class Blogsite extends HttpServlet {
         String action = (null==request.getParameter("action"))?"":request.getParameter("action");
         String blogsite_id = (null==request.getParameter("blogsite_id"))?"":request.getParameter("blogsite_id");
         
-        
+        System.out.println(username+"="+userid);
 		if(action.equals("create"))
 		{	
 			
@@ -93,8 +93,8 @@ public class Blogsite extends HttpServlet {
 		{	
 					 
 			try {
-				Weblog wblog =new Weblog();
-				boolean done = wblog._deleteBlog(userid,blogsite_id);
+				Weblog wblog = new Weblog();
+				boolean done = wblog._deleteBlog(username,blogsite_id);
 				if(done) {
 					pww.write("true");
 				}else {
