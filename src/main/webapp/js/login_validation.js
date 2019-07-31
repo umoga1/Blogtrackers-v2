@@ -191,12 +191,13 @@ $(function() {
 						toastr.error('Email is in use','Error');
 					}else if(login_status == "success"){
 						toastr.success('Registration successfull!','Success');
-//						window.location.href = baseurl+"login.jsp";
+//						
 						$("#error_message-box").html("");
 						$("input#email").val("");
 						$("input#name").val("");
 						$("input#password").val("");
 						$("input#password2").val("");
+						window.location.href = baseurl+"login.jsp";
 					}else{
 						//$("#error_message-box").html('Registration Error Please try again later');
 						toastr.error('Registration Error Please try again later','Error');

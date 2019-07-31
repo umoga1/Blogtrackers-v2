@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import util.Mailing;
 import authentication.DbConnection;
 
 /**
@@ -105,6 +106,12 @@ public class Register extends HttpServlet {
 		                  session.setAttribute("email",email);
 		              }
 		              
+					 String[] receivers = {email};
+					 try {
+						 Mailing.postMail(receivers, "Blogtrackers - Registration Successful", "Hello "+name+", <br/><br/> You have been successfully registered on Blogtrackers. Kidly find your login details below:<br/><br/> <b>Username/Email"+email+"</b>. <br/>Password:"+password+". <br/><br/>Kindly login at <a href='http://blogtrackers.host.ualr.edu/Blogtrackers/login.jsp'> Blogtrackers </a><br/><br/> Thanks for using Blogtrackers"); 
+					 }catch(Exception e) {
+						 
+					 }
 					 response.setContentType("text/html");
 		             pww.write("success"); 
 				 }

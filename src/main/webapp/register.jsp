@@ -39,7 +39,7 @@
   <script src="pagedependencies/baseurl.js">
   </script>
   
-<script type="text/javascript" src="js/login_validation.js"></script>
+<script type="text/javascript" src="js/login_validation.js?v=89"></script>
 
   <link rel="stylesheet" href="assets/css/style.css" />
 
