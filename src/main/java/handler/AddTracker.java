@@ -54,7 +54,8 @@ public class AddTracker extends HttpServlet {
 		String usession = (null==request.getHeader("session"))?"":request.getHeader("session").trim();
 		String key= (null == session.getAttribute("key")) ? "" : session.getAttribute("key").toString();
 		//String data = (null == request.getParameter("data"))? "" : request.getParameter("data").trim();
-	
+		String userid= (null == session.getAttribute("userid")) ? "" : session.getAttribute("userid").toString();
+		
 		PrintWriter pww = response.getWriter();
 		
 		pww.write("In add tracker endpoint \n");
@@ -92,7 +93,7 @@ public class AddTracker extends HttpServlet {
 				if(ids.length()>0) {
 					for(int k=0; k<ids.length(); k++) {
 					String selectedid = ids.get(k).toString();
-					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+selectedid+"' ");
+					 tracker = db.query("SELECT * FROM trackers WHERE tid='"+selectedid+"' AND userid= '"+userid+"'");
 					 if(tracker.size()>0){
 						 	
 						 	 ArrayList hd = (ArrayList)tracker.get(0);
@@ -102,7 +103,7 @@ public class AddTracker extends HttpServlet {
 							 que = que.replaceAll("blogsite_id in ", "");
 							 que = que.replaceAll("\\(", "");			 
 							 que = que.replaceAll("\\)", "");
-							 
+							 System.out.println(que+"at this point is " );
 							 String[] blogs = que.replaceAll(", $", "").split(",");
 						
 							 String site = object.get("site").toString();
@@ -123,11 +124,19 @@ public class AddTracker extends HttpServlet {
 							 blogsite = db.query("SELECT * FROM blogsites WHERE blogsite_url='"+site+"'");
 							 ArrayList blog_result = (ArrayList)blogsite.get(0);
 							 String blog_id = blog_result.get(0).toString();
-							 if(!que.contains(blog_id)) {
-								
-							 	que+=","+blog_id;
-							 	db.updateTable("UPDATE trackers SET query='"+ que +"', date_modified='"+now+"' WHERE tid='"+tracker_id+"'");
+							 
+							 
+							 
+							 if(!que.contains(blog_id) && que.length() > 1) {
+								que+=","+blog_id;
+							 }else {
+								que = blog_id; 
 							 }
+							 	que = "blogsite_id in ("+que+")";
+							 	db.updateTable("UPDATE trackers SET query='"+ que +"', date_modified='"+now+"' WHERE tid='"+tracker_id+"'");
+							 
+							 
+						
 					 }else {
 						 pww.write("Invalid tracker id \n");
 					 }

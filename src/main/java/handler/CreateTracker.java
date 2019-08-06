@@ -69,60 +69,51 @@ public class CreateTracker extends HttpServlet {
 	    }
 	    data = builder.toString();
 	    JSONObject object = null;
-/*
-	    pww.write(userid);*/
-	    try {
-	    	object = new JSONObject(data);	
-	    	 tracker_names = object.getJSONArray("tracker_name");
-	    	
-	    	for(int i =0; i < tracker_names.length(); i++) {
-	    		pww.write(tracker_names.getString(i));
-	    	}
-	    	
-	    }catch (Exception e) {
-			// TODO: handle exception
-	    	e.printStackTrace();
-		}
+
+	    pww.write(userid);
+
 	    
 	    if(usession.equals(key) && !key.equals("")){ //check if supplied session key is valid
 			pww.write("\n Validated the user session \n");
 
-	    pww.write("The userid is "+userid);
+	    pww.write("");
 	    
 	    try {
 	    	object = new JSONObject(data);
-
+	    	tracker_names = object.getJSONArray("tracker_name");
 	    	for(int i =0; i < tracker_names.length(); i++) {
 	    		
-	    		insertToDB(userid, tracker_names.getString(i));
-	    
+	    		insertToDB(userid, tracker_names.getString(i));	   
+	    		pww.write(tracker_names.getString(i) + " tracker has been created");
 	    	}
 	    }catch (Exception e) {
 	    	pww.write("error");
 		}
 
 	    //ArrayList prev = new DbConnection().query("SELECT * FROM trackers WHERE tracker_name='"+trackerName+"' AND userid= '"+userid+"'");
+	    }else {
+	    	pww.write("Error creating tracker");
 	    }
 	}
 	public void insertToDB(String userid, String tracker_names) {
-		ArrayList prev = DbConnection.query("SELECT * FROM trackers WHERE tracker_name='"+tracker_names+"'");
+		ArrayList prev = DbConnection.query("SELECT * FROM trackers WHERE tracker_name='"+tracker_names+"' AND userid= '"+userid+"'");
+		
 		String output = "false";
 		String blogsites = "blogsite_id in ()";
 		LocalDateTime now = LocalDateTime.now();
-		if(prev!=null && prev.size()>0) {
+		System.out.println(prev.size());
+		if(prev.size()>0) {
 			output = "Tracker name already exists";
+			System.out.println(output);
 		}else {	
 			String query="INSERT INTO trackers(userid,tracker_name,date_created,date_modified,query,description,blogsites_num) VALUES('"+userid+"', '"+tracker_names+"', '"+now+"', '"+now+"', '"+blogsites+"', '"+null+"', 0)";
 			boolean done = new DbConnection().updateTable(query);
 			if(done) {
 			  	output = "Tracker successfully created";
-			  	System.out.println(output);
 			}else {
 				output = "Tracker creation failed";
-				System.out.println(output);
 			}
 		}
-		System.out.println(userid+" "+tracker_names);
 	}
 
 }

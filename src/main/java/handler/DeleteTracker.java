@@ -67,33 +67,20 @@ public class DeleteTracker extends HttpServlet {
 	    }
 	    data = builder.toString();
 	    JSONObject object = null;
-/*
-	    pww.write(userid);*/
-	    try {
-	    	object = new JSONObject(data);	
-	    	 tracker_names = object.getJSONArray("tracker_name");
-	    	
-	    	for(int i =0; i < tracker_names.length(); i++) {
-	    		pww.write(tracker_names.getString(i));
-	    	}
-	    	
-	    }catch (Exception e) {
-			// TODO: handle exception
-	    	e.printStackTrace();
-		}
+
+	   
 	    
 	    if(usession.equals(key) && !key.equals("")){ //check if supplied session key is valid
 			pww.write("\n Validated the user session \n");
 
-	    pww.write("The userid is "+userid);
 	    
 	    try {
 	    	object = new JSONObject(data);
-
+	    	 tracker_names = object.getJSONArray("tracker_name");
 	    	for(int i =0; i < tracker_names.length(); i++) {
 	    		
 	    		insertToDB(userid, tracker_names.getString(i));
-	    
+	    		pww.write("Tracker "+tracker_names.getString(i)+" has been deleted" );
 	    	}
 	    }catch (Exception e) {
 	    	pww.write("error");
@@ -108,10 +95,10 @@ public class DeleteTracker extends HttpServlet {
 			boolean done = new DbConnection().updateTable(query);
 			if(done) {
 			  	output = "Tracker successfully deleted";
-			  	System.out.println(output);
+			  	
 			}else {
 				output = "Tracker deletion failed";
-				System.out.println(output);
+				
 			}
 		}
 	}
