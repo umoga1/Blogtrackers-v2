@@ -112,6 +112,10 @@ try{
   <%-- <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
   --%> <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
+  <a
+						class="cursor-pointer profilemenulink"
+						href="https://addons.mozilla.org/en-US/firefox/addon/blogtrackers/"><h6
+							class="text-primary">Plugin</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   </div>
   </div>
@@ -300,16 +304,20 @@ try{
 <p class="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to track and analyze blogs of particular interests by designing and integrating unique features. </p>
 </div>
 <div class="row">
-<div class="col-md-4"><p class="text-center"><i class="navbar-brand text-primary icontrackersize researchbased pt10"></i></p>
+<div class="col-md-3"><p class="text-center"><i class="navbar-brand text-primary icontrackersize researchbased pt10"></i></p>
 <p class="text-center text-primary textwhy mb10">Research Based</p>
 <p class="text-center text-primary p20 pt0 pb0">Built to review user behavior in the blogosphere.</p>
 </div>
-<div class="col-md-4"><p class="text-center"><i class="navbar-brand text-primary icontrackersize userfriendly pt10"></i></p>
+<div class="col-md-3"><p class="text-center"><i class="navbar-brand text-primary icontrackersize userfriendly pt10"></i></p>
 <p class="text-center text-primary textwhy mb10">User Friendly</p>
 <p class="text-center text-primary p20 pt0 pb0">Easy-to-use interface for the user.</p></div>
-<div class="col-md-4"><p class="text-center"><i class="navbar-brand text-primary icontrackersize insights pt10"></i></p>
+<div class="col-md-3"><p class="text-center"><i class="navbar-brand text-primary icontrackersize insights pt10"></i></p>
 <p class="text-center text-primary textwhy mb10">Actionable Insights</p>
 <p class="text-center text-primary p20 pt0 pb0">Track Blogs at your tips.</p></div>
+
+<div class="col-md-3"><p class="text-center"><i class="navbar-brand text-primary icontrackersize insights pt10"></i></p>
+<p class="text-center text-primary textwhy mb10">Blogtrackers plugin</p>
+<p class="text-center text-primary p20 pt0 pb0">Sign up to download.</p></div>
 
 </div>
 <div class="col-md-12 text-center"><button type="submit" class="btn btn-success homebutton mt0 p40 pt10 pb10 mb60 mt40 starttracking2">Start Tracking</button></div>

@@ -492,8 +492,14 @@
 							class="text-primary">Add Blog</h6></a> <a
 						class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
-							class="text-primary">Profile</h6></a> <a
+							class="text-primary">Profile</h6></a> 
+							
+						<a
 						class="cursor-pointer profilemenulink"
+						href="https://addons.mozilla.org/en-US/firefox/addon/blogtrackers/"><h6
+							class="text-primary">Plugin</h6></a>
+								
+							<a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/logout"><h6
 							class="text-primary">Log Out</h6></a>
 				</div>
@@ -774,7 +780,8 @@
 																	ArrayList<?> langu = (ArrayList<?>) languages.get(y);
 																	String languag = langu.get(0).toString();
 																	
-																	String languag_freq = langu.get(1).toString();
+																	String languag_freq = NumberFormat.getNumberInstance(Locale.US).format(new Double(langu.get(1).toString()).intValue()) ;
+																	
 																	if (y<10){
 																	%>
 																		<tr>
@@ -1611,8 +1618,11 @@ $(function () {
                .attr('class', 'd3-tip')
                .offset([-10, 0])
                .html(function(d) {
-                   return d.letter+" ("+d.frequency+")";
+                   return d.letter+" ("+formatNumber(d.frequency)+")";
                });
+function formatNumber(num) {
+	  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+	}
            // Initialize tooltip
            svg.call(tip);
       //

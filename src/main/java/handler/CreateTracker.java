@@ -83,8 +83,9 @@ public class CreateTracker extends HttpServlet {
 	    	tracker_names = object.getJSONArray("tracker_name");
 	    	for(int i =0; i < tracker_names.length(); i++) {
 	    		
-	    		insertToDB(userid, tracker_names.getString(i));	   
-	    		pww.write(tracker_names.getString(i) + " tracker has been created");
+	    		String tracker_insertion = insertToDB(userid, tracker_names.getString(i));
+	    		pww.write(tracker_names.getString(i) + " tracker with tracker id ="+tracker_insertion+" has been created");
+	    		pww.write("");
 	    	}
 	    }catch (Exception e) {
 	    	pww.write("error");
@@ -95,13 +96,13 @@ public class CreateTracker extends HttpServlet {
 	    	pww.write("Error creating tracker");
 	    }
 	}
-	public void insertToDB(String userid, String tracker_names) {
+	public String insertToDB(String userid, String tracker_names) {
 		ArrayList prev = DbConnection.query("SELECT * FROM trackers WHERE tracker_name='"+tracker_names+"' AND userid= '"+userid+"'");
 		
 		String output = "false";
 		String blogsites = "blogsite_id in ()";
 		LocalDateTime now = LocalDateTime.now();
-		System.out.println(prev.size());
+		
 		if(prev.size()>0) {
 			output = "Tracker name already exists";
 			System.out.println(output);
@@ -110,10 +111,19 @@ public class CreateTracker extends HttpServlet {
 			boolean done = new DbConnection().updateTable(query);
 			if(done) {
 			  	output = "Tracker successfully created";
+			  	ArrayList tracker = new DbConnection().query("SELECT * FROM trackers WHERE tracker_name='"+tracker_names+"' AND userid= '"+userid+"'");
+			  	if(tracker.size()>0){
+				 	
+				 	 ArrayList hd = (ArrayList)tracker.get(0);
+				 	 String que = hd.get(5).toString();
+				 	 String tracker_id = hd.get(0).toString();
+				 	 return tracker_id;
+			  	}
 			}else {
 				output = "Tracker creation failed";
 			}
 		}
+		return "";
 	}
 
 }

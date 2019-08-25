@@ -27,16 +27,47 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class Blogposts {
+public class ToxicityBlogposts {
 
 	HashMap<String, String> hm = DbConnection.loadConstant();		
 
 	
-	String base_url = hm.get("elasticIndex")+"blogposts/"; // - For testing server 
+	String base_url = hm.get("elasticIndex")+"toxicity/"; // - For testing server 
 	
 	String totalpost;
 	String date;
 
+public ArrayList _searchByRange(String field,String greater, String less, JSONArray post_ids) throws Exception {
+		
+		String que="{\r\n" + 
+				"  \"query\": {\r\n" + 
+				"    \"bool\": {\r\n" + 
+				"      \"must\": [\r\n" + 
+				"        {\r\n" + 
+				"		  \"constant_score\":{\r\n" + 
+				"					\"filter\":{\r\n" + 
+				"							\"terms\":{\r\n" + 
+				"							\"blogpostid\":"+post_ids+"\r\n" + 
+				"									}\r\n" + 
+				"							}\r\n" + 
+				"						}\r\n" + 
+				"		},\r\n" + 
+				"        {\r\n" + 
+				"		  \"range\" : {\r\n" + 
+				"            \""+field+"\" : {\r\n" + 
+				"                \"gte\" : "+greater+",\r\n" + 
+				"                \"lte\" : "+less+",\r\n" + 
+				"				},\r\n" +
+				"			}\r\n" + 
+				"		}\r\n" + 
+				"      ]\r\n" + 
+				"    }\r\n" + 
+				"  }\r\n" + 
+				"}";
+		JSONObject jsonObj = new JSONObject(que);
+		String url = base_url+"_search";
+		return this._getResult(url,jsonObj);
+	}
 	public ArrayList _list(String order, String from, String sortby) throws Exception {
 		int size = 20;
 		int fr = 0;
@@ -1393,7 +1424,6 @@ public ArrayList _searchByBody(String term, String start, String end) throws Exc
 		}
 		return null;
 	}
-	
 	
 	public String _searchTotalAndUnique(String term,String sortby, String start, String end, String filter ) throws Exception {
 		

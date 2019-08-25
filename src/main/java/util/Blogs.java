@@ -152,6 +152,24 @@ public class Blogs extends DbConnection{
 		return response;
 	}
 	
+
+	public ArrayList _getPost(String blog_ids) {
+		DbConnection db = new DbConnection();
+		ArrayList response = new ArrayList<>();
+		String result ="";
+		blog_ids = blog_ids.replaceAll(",$", "");
+		blog_ids = blog_ids.replaceAll(", $", "");
+		blog_ids = "("+blog_ids+")";
+		try {
+			 response = db.query("select blogsite_id, blogsite_name, totalposts, last_crawled from blogsites where blogsite_id in "+blog_ids);
+			if(response.size()>0) {
+				return response;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 
 	/* Fetch posts by blog ids*/

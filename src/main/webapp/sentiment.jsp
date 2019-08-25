@@ -463,6 +463,7 @@
 			int sad = 0;
 
 			//System.out.println(sentimentpost2);
+			ArrayList toxicity = new ToxicityBlogposts()._searchByRange("", "2018-03-30", "2015-01-30", sentimentpost2);
 
 			ArrayList sentimentor2 = new Liwc()._searchByRange("date", dt, dte, sentimentpost2);
 
@@ -583,7 +584,14 @@
 						</h6> </a> --%>  <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
 						<a class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/profile.jsp"><h6
-							class="text-primary">Profile</h6></a> <a
+							class="text-primary">Profile</h6></a> 
+							
+							<a
+						class="cursor-pointer profilemenulink"
+						href="https://addons.mozilla.org/en-US/firefox/addon/blogtrackers/"><h6
+							class="text-primary">Plugin</h6></a>
+							
+							<a
 						class="cursor-pointer profilemenulink"
 						href="<%=request.getContextPath()%>/logout"><h6
 							class="text-primary">Log Out</h6></a>
@@ -796,7 +804,7 @@
 						style="width: 100%">
 						<thead>
 							<tr>
-								<th class="bold-text">SN</th>
+								<th class="bold-text"></th>
 								<th class="bold-text">Post title</th>
 								<th class="bold-text">Blogger</th>
 

@@ -15,6 +15,11 @@ String userid = (null == session.getAttribute("username")) ? "" : session.getAtt
 //if (email == null || email == "") {
 	//response.sendRedirect("login.jsp");
 //}else{
+	
+	
+	
+AutomatedCrawlerConnect automatedCrawler = new AutomatedCrawlerConnect();
+
 
 ArrayList<?> userinfo = new ArrayList();//null;
 String profileimage= "";

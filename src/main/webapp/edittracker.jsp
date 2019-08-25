@@ -27,7 +27,7 @@ ArrayList detail = new ArrayList();
 Trackers tracker = new Trackers();
 ArrayList allblogs = new ArrayList();
 Blogs blg = new Blogs();
-
+ArrayList new_results = new ArrayList();
 userinfo = DbConnection.query("SELECT * FROM usercredentials where Email = '"+email+"'");
 detail = tracker._fetch(tid.toString());
  //System.out.println(userinfo);
@@ -90,10 +90,12 @@ if (detail.size() > 0) {
 		ids = query;
 	}
 }
+boolean status = false;
 if(ids.length()>0 && post._getBlogPostById(ids) !=""){
 	total_post = Integer.parseInt(post._getBlogPostById(ids));
 }else{
 	total_post=0;
+	status = true;
 }
 
 %>
@@ -153,6 +155,10 @@ if(ids.length()>0 && post._getBlogPostById(ids) !=""){
   <%-- <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/notifications.jsp"><h6 class="text-primary">Notifications <b id="notificationcount" class="cursor-pointer">12</b></h6> </a>
    --%> <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/addblog.jsp"><h6 class="text-primary">Add Blog</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/profile.jsp"><h6 class="text-primary">Profile</h6></a>
+  <a
+						class="cursor-pointer profilemenulink"
+						href="https://addons.mozilla.org/en-US/firefox/addon/blogtrackers/"><h6
+							class="text-primary">Plugin</h6></a>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/logout"><h6 class="text-primary">Log Out</h6></a>
   <%}else{ %>
   <a class="cursor-pointer profilemenulink" href="<%=request.getContextPath()%>/login"><h6 class="text-primary">Login</h6></a>
@@ -284,8 +290,9 @@ if(ids.length()>0 && post._getBlogPostById(ids) !=""){
 
 								if (!query.equals("")) {
 									blogs = blg._fetch(query);
+
+									new_results = blg._getPost(query);
 									
-									System.out.println(blogs);
 									if (blogs.size() > 0) {
 										totalblog = blogs.size();	
 									
@@ -415,31 +422,40 @@ if(ids.length()>0 && post._getBlogPostById(ids) !=""){
 		</thead>
 		<tbody>		
 		<!-- <div id="bloglist"> -->
-		<% if (allblogs.size() > 0) {
-			for (int k = 0; k < blogs.size(); k++) {				
-				bobj = new JSONObject(bresu);			
-				String v1 = allblogs.get(k).toString();
-				JSONObject ob = new JSONObject(v1);
+		<% if (new_results.size() > 0) {
+			String blogsite_name ="";
+			String totalposts ="";
+
+			String date = "";
+			for (int k = 0; k < new_results.size(); k++) {				
+				ArrayList v1 = (ArrayList<?>)new_results.get(k);
 				
-				String dtc =ob.get("last_crawled").toString();
+			/* 	blogsite_name = v1.get(1).toString();
+				System.out.println("blogsite_name "+blogsite_name);
+				totalposts = v1.get(2).toString();
+				System.out.println("total post"+totalposts);
+				String dtc =v1.get(3).toString();
+				System.out.println(dtc);
 				String dc ="";
-				String date = "";
 				if (!dtc.equals("null")){
 					String[] ddt2 = dtc.split("T");
 					dc = ddt2[0];
 					LocalDate datee = LocalDate.parse(dc);
 					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 				    date = dtf.format(datee);
-				}
+				} */
 				
 		%>							
 		
 			
 			<tr>
-			<td><%=ob.get("blogsite_name").toString()%></td>
-			<td class="text-center"><%=NumberFormat.getNumberInstance(Locale.US).format(Integer.parseInt(ob.get("totalposts").toString())) %></td>
-			<td class="text-center"><%=date %></td>
-			<td><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" id="<%=ob.get("blogsite_id").toString()%>_select" data-placement="top" title="Delete Blog"></i></td>
+			<td><%=v1.get(1).toString()%></td>
+			<td class="text-center"><%if (v1.get(2).toString() !=""  && Integer.parseInt(v1.get(2).toString()) != 0){%>
+								<%=NumberFormat.getNumberInstance(Locale.US).format(new Double(v1.get(2).toString()).intValue())%>
+								<%}else{%><%="In crawling pipeline"%> <%} %> </td>
+			
+			<td class="text-center"><%=v1.get(3) %></td>
+			<td><i class="text-primary icontrackersize cursor-pointer deleteblog text-center" data-toggle="tooltip" id="<%=v1.get(0)%>_select" data-placement="top" title="Delete Blog"></i></td>
 			</tr>
 		<% }} %>
 		</tbody>
