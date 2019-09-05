@@ -384,9 +384,9 @@
 							dtue = dte;
 						}
 					   
-					   
+					   System.out.println("here 1");
 					   String totu = post._searchRangeTotal("date",dtu, dtue,selectedblogid);
-					    
+					   System.out.println("here 2");
 					   jan += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-01-01", y + "-01-31",mostactiveblogger));
 					    feb += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-02-01", y + "-02-29",mostactiveblogger));
 					    march += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-03-01", y + "-03-31",mostactiveblogger));
@@ -399,23 +399,23 @@
 					   oct += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-10-01", y + "-10-31",mostactiveblogger));
 					   nov += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-11-01", y + "-11-30",mostactiveblogger));
 					   dec += Integer.parseInt(post._searchRangeTotalByBlogger("date",y + "-12-01", y + "-12-31",mostactiveblogger));
-					   
+					   System.out.println("here 3");
 					   graphyears.put(y+"",totu);
 			    	   yearsarray.put(b,y);	
 			    	   b++;
 			}
-			
-
+			System.out.println("here 2 out");
 			
 			possentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"posemo");
+			System.out.println("here 3 out ");
 			negsentiment=new Liwc()._searchRangeAggregate("date", yst[0]+"-01-01", yend[0]+"-12-31", sentimentpost,"negemo");
 			
 			JSONArray sortedyearsarray = yearsarray;//post._sortJson(yearsarray);
 			int highestfrequency = 0;
 			 String blogids = "";
-
+			 System.out.println("here 4 out");
 outlinks = outl._searchByRange("date", dt, dte, selectedblogid);
-
+System.out.println("here 5 out");
 JSONObject outerlinks = new JSONObject();
 ArrayList outlinklooper = new ArrayList();
 if (outlinks.size() > 0) {

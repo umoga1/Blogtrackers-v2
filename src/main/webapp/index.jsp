@@ -78,6 +78,13 @@ try{
 <link rel="stylesheet" href="assets/css/daterangepicker.css" />
 
   <link rel="stylesheet" href="assets/css/style.css" />
+  
+  <link rel="stylesheet" href="assets/css/custom.css" />
+  
+  <link rel="stylesheet" href="assets/css/hover.css" />
+  
+  
+  
   <!--end of bootstrap -->
   <script src="assets/js/jquery-3.2.1.slim.min.js"></script>
 <script src="assets/js/popper.min.js" ></script>
@@ -315,7 +322,7 @@ try{
 <p class="text-center text-primary textwhy mb10">Actionable Insights</p>
 <p class="text-center text-primary p20 pt0 pb0">Track Blogs at your tips.</p></div>
 
-<div class="col-md-3"><p class="text-center"><i class="navbar-brand text-primary icontrackersize insights pt10"></i></p>
+<div class="col-md-3"><p class="text-center"><i class="navbar-brand text-primary icontrackersize plugin-icon pt10"></i></p>
 <p class="text-center text-primary textwhy mb10">Blogtrackers plugin</p>
 <p class="text-center text-primary p20 pt0 pb0">Sign up to download.</p></div>
 
@@ -330,7 +337,8 @@ try{
 ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to track and analyze blogs of particular interests by designing and integrating unique features. </p> -->
 </div>
 
-<div id="featuresslides" class="carousel slide" data-ride="carousel">
+<!-- START OLD -->
+<!-- <div id="featuresslides" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
      <div class="offset-md-2 col-md-8 offset-md-2">
@@ -380,7 +388,53 @@ ass="text-center text-primary p40 pt10 pb10">Blogtrackers helps sociologists to 
     <span class="carousel-control-next-icon nextfeatures" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
+</div> -->
+
+<!-- END OLD-->
+
+
+<!-- START NEW -->
+
+
+
+
+<div class="row" style="padding-bottom: 30px; padding-top: 30px;">
+
+    <div class="hover-desc col-md-2 hvr-bob"><p class="text-center"><i class="navbar-brand text-primary icontrackersize sentiment-analysis pt10"></i></p>
+    <p class="text-center text-primary textwhy mb10">Sentiments Analysis</p>
+    <p class="text-center text-primary p20 pt0 pb0">Analyze General Perception</p>
+    </div>
+
+    <div class="hover-desc col-md-2 hvr-bob"><p class="text-center"><i class="navbar-brand text-primary icontrackersize network-analysis pt10"></i></p>
+    <p class="text-center text-primary textwhy mb10">Network Analysis Trend</p>
+    <p class="text-center text-primary p20 pt0 pb0">Analyze Trends on Graphs</p></div>
+
+    <div class="hover-desc col-md-2 hvr-bob"><p class="text-center"><i class="navbar-brand text-primary icontrackersize cross-analysis pt10"></i></p>
+    <p class="text-center text-primary textwhy mb10">Cross Media Analysis</p>
+    <p class="text-center text-primary p20 pt0 pb0">Analyze Social Media.</p></div>
+
+    <div class="hover-desc col-md-2 hvr-bob"><p class="text-center"><i class="navbar-brand text-primary icontrackersize data pt10"></i></p>
+    <p class="text-center text-primary textwhy mb10">Posting Frequency</p>
+    <p class="text-center text-primary p20 pt0 pb0">Analyze Traffic Pattern</p></div>
+
+    <div class="hover-desc col-md-2 hvr-bob"><p class="text-center"><i class="navbar-brand text-primary icontrackersize data-analytics pt10"></i></p>
+    <p class="text-center text-primary textwhy mb10">Keyword Trends</p>
+    <p class="text-center text-primary p20 pt0 pb0">Search Top Keywords</p></div>
+
+    <div class="hover-desc col-md-2 hvr-bob"><p class="text-center"><i class="navbar-brand text-primary icontrackersize planning pt10"></i></p>
+    <p class="text-center text-primary textwhy mb10">Influence Analysis</p>
+    <p class="text-center text-primary p20 pt0 pb0">Check Influence of Blogs, Posts and Bloggers</p></div>
+
 </div>
+
+
+
+
+
+
+
+
+<!-- END NEW -->
 
 
 <!-- <div class="row mt100 mb100">
