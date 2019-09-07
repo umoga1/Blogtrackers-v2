@@ -77,7 +77,9 @@ function loadPost(date){
 			/* $.getScript("assets/js/toastr.js", function(data, textStatus, jqxhr) {
 				 loadCSS("assets/css/toastr.css");
 				 toastr.error("Tracker Creation Canceled","Action Succesful");
-			  });*/
+			  });
+			  comment
+			  */
 		$("#postConainer").delay(3000).html("<img style='position: absolute;top: 50%;left: 50%;' src='images/loading.gif' />").delay(2000).html(response);
 			
 			var first = $('.blogpost_link')[0];
